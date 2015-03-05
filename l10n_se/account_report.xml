@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            auto="False"
+            id="account_invoicesII"
+            model="account.invoice"
+            name="account.invoice"
+            rml="l10n_se/report/account_print_invoice.rml"
+            string="Invoices"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+            usage="default"
+            multi="True"/>
+
+        <report
+            auto="False"
+            id="account_vat_declarationII"
+            menu="True"
+            model="account.tax.code"
+            name="account.vat.declarationII"
+            rml="l10n_se/report/account_tax_report.rml"
+            string="Taxes Report II"/>
+
+        <menuitem
+            id="menu_tax_report"
+            name="Taxes II"
+            groups="account.group_account_user,account.group_account_manager"
+            parent="account.menu_finance_generic_reporting" sequence="3"/>
+
+
+    </data>
+</openerp>

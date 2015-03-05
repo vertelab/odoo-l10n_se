@@ -1,0 +1,73 @@
+id,name,code,parent_id:id,notprintable,sign
+a0,SE Standardmoms,a0,,,1
+aG,G. Moms att betala eller få tillbaka.,aG,a0,false,1
+a49,49. Moms att betala ut eller få tillbaka,aR1,aG,false,1
+aA,A. Momspliktig försäljning eller uttag exklusive moms.,aA,a0,false,0
+a5, 5. Momspliktig försäljning som inte ingår i annan ruta nedan,aMP1,aA,false,0
+a6, 6. Momspliktiga uttag,aMU1,aA,false,0
+a7, 7. Beskattningsunderlag vid vinstmarginalbeskattning,aMBBU,aA,false,0
+a8, 8. Hyresinkomster vid frivillig skattskyldighet,aMPFF,aA,false,0
+aB,B. Utgående moms på försäljning eller uttag i ruta 5-8.,aB,a49,false,-1
+a10,10. Utgående moms 25%,aU1,aB,false,1
+a11,11. Utgående moms 12%,aU2,aB,false,1
+a12,12. Utgående moms 6%,aU3,aB,false,1
+aC,C. Momspliktiga inköp där köparen är skattskyldig.,aC,a0,false,0
+a20,20. Inköp av varor från annat EG-land,aVFEU,aC,false,0
+a21,21. Inköp av tjänster från annat EG-land,aTFEU,aC,false,0
+a22,22. Inköp av tjänster från land utanför EG,aTFFU,aC,false,0
+a23,23. Inköp av varor i Sverige,aIVIS,aC,false,0
+a24,24. Inköp av tjänster i Sverige,aITIS,aC,false,0
+aD,D. Utgående moms på inköp i ruta 20 - 24.,aD,a49,false,-1
+a30,30. Utgående moms 25%,aU1MI,aD,false,1
+a31,31. Utgående moms 12%,aU2MI,aD,false,1
+a32,32. Utgående moms 6%,aU3MI,aD,false,1
+aE,E. Försäljning m.m. som är undantagen från moms.,aE1,a0,false,0
+a35,35. Försäljning av varor till annat EG-land,aVTEU,aE,false,0
+a36,36. Försäljning av varor utanför EG,aE,aE,false,0
+a37,37. Mellanmans inköp av varor vid trepartshandel,a3VEU,aE,false,0
+a38,38. Mellanmans försäljning av varor vid trepartshandel,a3FEU,aE,false,0
+a39,39. Försäjning av tjänster när köparen är skatteskyldig i EG,aFTEU,aE,false,0
+a40,40. Övrig försäljning av tjänster omsatta i utlandet,aOTTU,aE,false,0
+a41,41. Försäljning när köparen är skatteskyldig i Sverige,aOMSS,aE,false,0
+a42,42. Övrig försäljning m.m,aMF,aE,false,0
+aF,F. Ingående moms.,aF,a49,false,1
+a48,48. Ingående moms att dra av,aI,aF,false,1
+aMPI,nn. Ingående moms bas 25 %,aMPI,a0,false,0
+aMPI12,nn. Ingående moms bas 12 %,aMPI,a0,false,0
+aMPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
+b0,SE Standardmoms,b0,,,1
+bG,G. Moms att betala eller få tillbaka.,bG,b0,false,1
+b49,49. Moms att betala ut eller få tillbaka,bR1,bG,false,1
+bA,A. Momspliktig försäljning eller uttag exklusive moms.,bA,b0,false,0
+b5, 5. Momspliktig försäljning som inte ingår i annan ruta nedan,bMP1,bA,false,0
+b6, 6. Momspliktiga uttag,bMU1,bA,false,0
+b7, 7. Beskattningsunderlag vid vinstmarginalbeskattning,bMBBU,bA,false,0
+b8, 8. Hyresinkomster vid frivillig skattskyldighet,bMPFF,bA,false,0
+bB,B. Utgående moms på försäljning eller uttag i ruta 5-8.,bB,b49,false,-1
+b10,10. Utgående moms 25%,bU1,bB,false,1
+b11,11. Utgående moms 12%,bU2,bB,false,1
+b12,12. Utgående moms 6%,bU3,bB,false,1
+bC,C. Momspliktiga inköp där köparen är skattskyldig.,bC,b0,false,0
+b20,20. Inköp av varor från annat EG-land,bVFEU,bC,false,0
+b21,21. Inköp av tjänster från annat EG-land,bTFEU,bC,false,0
+b22,22. Inköp av tjänster från land utanför EG,bTFFU,bC,false,0
+b23,23. Inköp av varor i Sverige,bIVIS,bC,false,0
+b24,24. Inköp av tjänster i Sverige,bITIS,bC,false,0
+bD,D. Utgående moms på inköp i ruta 20 - 24.,bD,b49,false,-1
+b30,30. Utgående moms 25%,bU1MI,bD,false,1
+b31,31. Utgående moms 12%,bU2MI,bD,false,1
+b32,32. Utgående moms 6%,bU3MI,bD,false,1
+bE,E. Försäljning m.m. som är undantagen från moms.,bE1,b0,false,0
+b35,35. Försäljning av varor till annat EG-land,bVTEU,bE,false,0
+b36,36. Försäljning av varor utanför EG,bE,bE,false,0
+b37,37. Mellanmans inköp av varor vid trepartshandel,b3VEU,bE,false,0
+b38,38. Mellanmans försäljning av varor vid trepartshandel,b3FEU,bE,false,0
+b39,39. Försäjning av tjänster när köparen är skatteskyldig i EG,bFTEU,bE,false,0
+b40,40. Övrig försäljning av tjänster omsatta i utlandet,bOTTU,bE,false,0
+b41,41. Försäljning när köparen är skatteskyldig i Sverige,bOMSS,bE,false,0
+b42,42. Övrig försäljning m.m,bMF,bE,false,0
+bF,F. Ingående moms.,bF,b49,false,1
+b48,48. Ingående moms att dra av,bI,bF,false,1
+bMPI,nn. Ingående moms bas 25 %,bMPI,b0,false,0
+bMPI12,nn. Ingående moms bas 12 %,bMPI,b0,false,0
+bMPI6,nn. Ingående moms bas 6 %,bMPI,b0,false,0

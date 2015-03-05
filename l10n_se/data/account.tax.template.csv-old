@@ -1,0 +1,50 @@
+"id","description","chart_template_id:id","type_tax_use","name","type","amount","account_collected_id:id","account_paid_id:id","base_code_id:id","tax_code_id:id","ref_base_code_id:id","ref_tax_code_id:id","tax_sign","base_sign","ref_base_sign","ref_tax_sign","parent_id:id"
+"ST6","ST6","l10n_se","sale","Försäljning 6%","percent","0.06","chart_2630","chart_2630",5,1,5,1,1,1,-1,-1,
+"ST12","ST12","l10n_se","sale","Försäljning 12%","percent","0.12","chart_2620","chart_2620",5,1,5,1,1,1,-1,-1,
+"ST25","ST25","l10n_se","sale","Försäljning 25%","percent","0.25","chart_2610","chart_2610",5,1,5,1,1,1,-1,-1,
+"IT6","IT6","l10n_se","purchase","Inköp 6%","percent",0.06,"chart_2641","chart_2641",6,3,6,3,1,1,-1,-1,
+"IT12","IT12","l10n_se","purchase","Inköp 12%","percent","0.12","chart_2641","chart_2641",6,3,6,3,1,1,-1,-1,
+"IT25","IT25","l10n_se","purchase","Inköp 25%","percent",0.25,"chart_2641","chart_2641",6,3,6,3,1,1,-1,-1,
+"PT8","PT8","l10n_se","purchase","Inköp std moms EU","percent","0.25","chart_2641","chart_2641",8,2,8,2,1,1,-1,-1,
+"PT8R","PT8R","l10n_se","purchase","Omvänd EU inköpsmoms","percent",-1,"chart_2641","chart_2641",,3,3,,-1,-1,1,1,"PT8"
+"ST4","ST4","l10n_se","sale","Försäljning inom EU","percent",0,"chart_2615","chart_2615",7,,7,,1,1,-1,-1,
+"PT7","PT7","l10n_se","purchase","Momsfria inköp EU","percent",0,"chart_2615","chart_2615",8,,8,,1,1,-1,-1,
+
+
+A,A,l10n_se,"sale","Öresutjämning","percent",0,"chart_3740",5,1,5,1,1,1,-1,-1,
+I,I,l10n_se,"sale","Inköp",0,"chart_2641",5,1,5,1,1,1,-1,-1,
+R1,R1,l10n_se,"sale","Moms att betala ut","0","chart_1650",5,1,5,1,1,1,-1,-1,
+R2,R2,l10n_se,"sale","Moms att få","0","chart_2650",5,1,5,1,1,1,-1,-1,
+MP1,MP1,l10n_se,"sale","Försäljning 25%","0","chart_3051",5,1,5,1,1,1,-1,-1,
+MP2,MP2,l10n_se,"sale","Försäljning 12%","0","chart_3052",5,1,5,1,1,1,-1,-1,
+MP3,MP3,l10n_se,"sale","Försäljning 6%","0","chart_3053",5,1,5,1,1,1,-1,-1,
+U1,U1,l10n_se,"sale","Utgående moms 25%","0","chart_2611",5,1,5,1,1,1,-1,-1,
+U2,U2,l10n_se,"sale","Utgående moms 12%","0","chart_2621",5,1,5,1,1,1,-1,-1,
+U3,U3,l10n_se,"sale","Utgående moms 6%","0","chart_2631",5,1,5,1,1,1,-1,-1,
+MF,MF,l10n_se,"sale","Momsfri försäljning","0","chart_3054",5,1,5,1,1,1,-1,-1,
+IVL,IVL,l10n_se,"sale","Uthyrning ingående moms","0","chart_2646",5,1,5,1,1,1,-1,-1,
+UVL,UVL,l10n_se,"sale","Uthyrning utgående moms","0","chart_2613",5,1,5,1,1,1,-1,-1,
+MBVT,MBVT,l10n_se,"sale","Uthyrning utgående moms","0","chart_2613",5,1,5,1,1,1,-1,-1,
+MBBU,MBBU,l10n_se,"sale","Begagnade varor (rad 15)","0","chart_3030",5,1,5,1,1,1,-1,-1,
+MBBU,MBBU,l10n_se,"sale","Begagnade varor (rad 15)","0","chart_3030",5,1,5,1,1,1,-1,-1,
+MU1,MU1,l10n_se,"sale","Momspliktiga uttag 25%","0","chart_3011",5,1,5,1,1,1,-1,-1,
+MU2,MU2,l10n_se,"sale","Momspliktiga uttag 12%","0","chart_3021",5,1,5,1,1,1,-1,-1,
+MU3,MU3,l10n_se,"sale","Momspliktiga uttag 6%","0","chart_3031",5,1,5,1,1,1,-1,-1,
+MPFF,MPFF,l10n_se,"sale","Hyresinkomster vid frivillig skattskyldighet","0","chart_3059",5,1,5,1,1,1,-1,-1,
+VFEU,VFEU,l10n_se,"sale","Inköp av varor från annat EG-land
+","0","chart_4010",5,1,5,1,1,1,-1,-1,
+TFEU,TFEU,l10n_se,"sale","Inköp av tjänster från annat EG-land
+","0","chart_4010",5,1,5,1,1,1,-1,-1,
+TFFU,TFFU,l10n_se,"sale","Inköp av tjänster från land utanför EG
+","0","chart_4015",5,1,5,1,1,1,-1,-1,
+IVIS,IVIS,l10n_se,"sale","Inköp av varor","0","chart_4010",5,1,5,1,1,1,-1,-1,
+ITIS,ITIS,l10n_se,"sale","Inköp av tjänster","0","chart_4010",5,1,5,1,1,1,-1,-1,
+U1MI,U1MI,l10n_se,"sale","Utgående moms 25% (omvänd)","0","chart_2611",5,1,5,1,1,1,-1,-1,
+U2MI,U2MI,l10n_se,"sale","Utgående moms 12% (omvänd)","0","chart_2621",5,1,5,1,1,1,-1,-1,
+U3MI,U3MI,l10n_se,"sale","Utgående moms 6% (omvänd)","0","chart_2631",5,1,5,1,1,1,-1,-1,
+VTEU,VTEU,l10n_se,"sale","Försäljning av varor till annat EG-land","0","chart_3058",5,1,5,1,1,1,-1,-1,
+VTEU,VTEU,l10n_se,"sale","Försäljning av varor till annat EG-land","0","chart_3058",5,1,5,1,1,1,-1,-1,
+E,E,l10n_se,"sale","Försäljning av varor utanför EG","0","chart_3058",5,1,5,1,1,1,-1,-1,
+
+
+
