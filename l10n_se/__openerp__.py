@@ -62,8 +62,8 @@
         scanning of purchase invoices, basic accounting and numbering of account vouches attached
         to the module, static/doc-directory.
         
-        You find the workplace for this module here https://launchpad.net/openerp-vertel
-        Use Bugs or Answers funtions or contact anders.wallenquist@vertel.se directly if
+        You find the workplace for this module here https://github.com/vertelab/odoo-l10n_se
+        Use Issue funtion or contact anders.wallenquist@vertel.se directly if
         you have any questions or ideas.
     
      """,
