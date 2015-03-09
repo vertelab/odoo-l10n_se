@@ -1,0 +1,67 @@
+id,type_tax_use,type,amount,account_collected_id:id,account_paid_id:id,base_code_id/id,tax_code_id/id,chart_template_id:id,name
+aI,purchase,percent,0.25,k1_2640,,aMPI,a48,a,Inköp 25%
+aI12,purchase,percent,0.12,k1_2640,,aMPI12,a48,a,Inköp 12%
+aI6,purchase,percent,0.06,k1_2640,,aMPI6,a48,a,Inköp 6%
+aMP1,sale,percent,0.25,k1_2610,,a5,a10,a,Försäljning 25%
+aMP2,sale,percent,0.12,k1_2620,,a5,a11,a,Försäljning 12%
+aMP3,sale,percent,0.06,k1_2630,,a5,a12,a,Försäljning 6%
+aU1,sale,percent,0.25,,,,,a,Utgående moms 25%
+aU2,sale,percent,0.12,,,,,a,Utgående moms 12%
+aU3,sale,percent,0.06,,,,,a,Utgående moms 6%
+aMF,sale,percent,0,k1_3100,k1_3100,,,a,Momsfri försäljning
+aIVL,purchase,percent,0.06,k1_2646,k1_2646,,,a,Uthyrning ingående moms
+aUVL,sale,percent,0.06,k1_2613,k1_2613,,,a,Uthyrning utgående moms
+aMBVT,sale,percent,0,k1_3000,k1_3000,,,a,Begagnade varor (försäljningssumma)
+aMBBU,sale,percent,0.25,k1_3000,k1_3000,,,a,Begagnade varor (rad 15 beskattningsunderlag)
+aMU1,sale,percent,0.25,k1_3000,k1_3000,,,a,Momspliktiga uttag 25%
+aMU2,sale,percent,0.12,k1_3000,k1_3000,,,a,Momspliktiga uttag 12%
+aMU3,sale,percent,0.06,k1_3000,k1_3000,,,a,Momspliktiga uttag 6%
+aMPFF,sale,percent,0.06,k1_3000,k1_3000,,,a,Hyresinkomster vid frivillig skattskyldighet
+aVFEU,purchase,percent,0.06,k1_4000,k1_4000,,,a,Inköp av varor från annat EG-land
+aTFEU,purchase,percent,0.06,k1_4000,k1_4000,,,a,Inköp av tjänster från annat EG-land
+aTFFU,purchase,percent,0.06,k1_4000,k1_4000,,,a,Inköp av tjänster från land utanför EG
+aIVIS,purchase,percent,0.25,k1_4000,k1_4000,,,a,Inköp av varor
+aITIS,purchase,percent,0.25,k1_4000,k1_4000,,,a,Inköp av tjänster
+aU1MI,purchase,percent,0.25,k1_2611,k1_2611,,a48,a,Utgående moms 25% (omvänd)
+aU2MI,purchase,percent,0.12,k1_2621,k1_2621,,a48,a,Utgående moms 12% (omvänd)
+aU3MI,purchase,percent,0.06,k1_2631,k1_2631,,a48,a,Utgående moms 6% (omvänd)
+aVTEU,sale,percent,0.06,k1_3000,k1_3000,,,a,Försäljning av varor till annat EG-land
+a3VEU,purchase,percent,0,k1_4000,k1_4000,,,a,Mellanmans inköp av varor vid trepartshandel
+a3FEU,sale,percent,0,k1_3000,k1_3000,,,a,Mellanmans försäljning av varor vid trepartshandel
+a3FTEU,sale,percent,0,k1_3000,k1_3000,,,a,Mellanmans försäljning av tjänster vid trepartshandel
+aOTTU,sale,percent,0,k1_3000,k1_3000,,,a,Övrig försäljning av tjänster omsatta i utlandet
+aOMSS,sale,percent,0,k1_3000,k1_3000,,,a,Försäljning när köparen är skatteskyldig i Sverige
+aFTEU,sale,percent,0,k1_3000,k1_3000,,,a,Försäljning när köparen är skatteskyldig i EU
+bI,purchase,percent,0.25,k2_2640,,bMPI,b48,b,Inköp 25%
+bI12,purchase,percent,0.12,k2_2640,,bMPI12,b48,b,Inköp 12%
+bI6,purchase,percent,0.06,k2_2640,,bMPI6,b48,b,Inköp 6%
+bMP1,sale,percent,0.25,k2_2610,,b5,b10,b,Försäljning 25%
+bMP2,sale,percent,0.12,k2_2620,,b5,b11,b,Försäljning 12%
+bMP3,sale,percent,0.06,k2_2630,,b5,b12,b,Försäljning 6%
+bU1,sale,percent,0.25,,,,,b,Utgående moms 25%
+bU2,sale,percent,0.12,,,,,b,Utgående moms 12%
+bU3,sale,percent,0.06,,,,,b,Utgående moms 6%
+bMF,sale,percent,0,k2_3004,k2_3004,,,b,Momsfri försäljning
+bIVL,purchase,percent,0.06,k2_2646,k2_2646,,,b,Uthyrning ingående moms
+bUVL,sale,percent,0.06,k2_2613,k2_2613,,,b,Uthyrning utgående moms
+bMBVT,sale,percent,0,k2_3000,k2_3000,,,b,Begagnade varor (försäljningssumma)
+bMBBU,sale,percent,0.25,k2_3000,k2_3000,,,b,Begagnade varor (rad 15 beskattningsunderlag)
+bMU1,sale,percent,0.25,k2_3000,k2_3000,,,b,Momspliktiga uttag 25%
+bMU2,sale,percent,0.12,k2_3000,k2_3000,,,b,Momspliktiga uttag 12%
+bMU3,sale,percent,0.06,k2_3000,k2_3000,,,b,Momspliktiga uttag 6%
+bMPFF,sale,percent,0.06,k2_3000,k2_3000,,,b,Hyresinkomster vid frivillig skattskyldighet
+bVFEU,purchase,percent,0.06,k2_4000,k2_4000,,,b,Inköp av varor från annat EG-land
+bTFEU,purchase,percent,0.06,k2_4000,k2_4000,,,b,Inköp av tjänster från annat EG-land
+bTFFU,purchase,percent,0.06,k2_4000,k2_4000,,,b,Inköp av tjänster från land utanför EG
+bIVIS,purchase,percent,0.25,k2_4000,k2_4000,,,b,Inköp av varor
+bITIS,purchase,percent,0.25,k2_4000,k2_4000,,,b,Inköp av tjänster
+bU1MI,purchase,percent,0.25,k2_2611,k2_2611,,b48,b,Utgående moms 25% (omvänd)
+bU2MI,purchase,percent,0.12,k2_2621,k2_2621,,b48,b,Utgående moms 12% (omvänd)
+bU3MI,purchase,percent,0.06,k2_2631,k2_2631,,b48,b,Utgående moms 6% (omvänd)
+bVTEU,sale,percent,0.06,k2_3000,k2_3000,,,b,Försäljning av varor till annat EG-land
+b3VEU,purchase,percent,0,k2_4000,k2_4000,,,b,Mellanmans inköp av varor vid trepartshandel
+b3FEU,sale,percent,0,k2_3000,k2_3000,,,b,Mellanmans försäljning av varor vid trepartshandel
+b3FTEU,sale,percent,0,k2_3000,k2_3000,,,b,Mellanmans försäljning av tjänster vid trepartshandel
+bOTTU,sale,percent,0,k2_3000,k2_3000,,,b,Övrig försäljning av tjänster omsatta i utlandet
+bOMSS,sale,percent,0,k2_3000,k2_3000,,,b,Försäljning när köparen är skatteskyldig i Sverige
+bFTEU,sale,percent,0,k2_3000,k2_3000,,,b,Försäljning när köparen är skatteskyldig i EU

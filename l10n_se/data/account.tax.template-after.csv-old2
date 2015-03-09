@@ -1,0 +1,34 @@
+id,type_tax_use,type,amount,account_collected_id:id,account_paid_id:id,base_code_id/id,tax_code_id/id,chart_template_id:id,name
+I,purchase,percent,0.25,k1_2640,,,48,a,Inköp 25%
+I12,purchase,percent,0.12,k1_2640,,,48,a,Inköp 12%
+I6,purchase,percent,0.06,k1_2640,,,48,a,Inköp 6%
+MP1,sale,percent,0.25,k1_2610,,5,10,a,Försäljning 25%
+MP2,sale,percent,0.12,k1_2620,,5,11,a,Försäljning 12%
+MP3,sale,percent,0.06,k1_2630,,5,12,a,Försäljning 6%
+U1,sale,percent,0.25,,,,,a,Utgående moms 25%
+U2,sale,percent,0.12,,,,,a,Utgående moms 12%
+U3,sale,percent,0.06,,,,,a,Utgående moms 6%
+MF,sale,percent,0,k1_3100,k1_3100,,,a,Momsfri försäljning
+IVL,purchase,percent,0.06,k1_2646,k1_2646,,,a,Uthyrning ingående moms
+UVL,sale,percent,0.06,k1_2613,k1_2613,,,a,Uthyrning utgående moms
+MBVT,sale,percent,0,k1_3000,k1_3000,,,a,Begagnade varor (försäljningssumma)
+MBBU,sale,percent,0.25,k1_3000,k1_3000,,,a,Begagnade varor (rad 15 beskattningsunderlag)
+MU1,sale,percent,0.25,k1_3000,k1_3000,,,a,Momspliktiga uttag 25%
+MU2,sale,percent,0.12,k1_3000,k1_3000,,,a,Momspliktiga uttag 12%
+MU3,sale,percent,0.06,k1_3000,k1_3000,,,a,Momspliktiga uttag 6%
+MPFF,sale,percent,0.06,k1_3000,k1_3000,,,a,Hyresinkomster vid frivillig skattskyldighet
+VFEU,purchase,percent,0.06,k1_4000,k1_4000,,,a,Inköp av varor från annat EG-land
+TFEU,purchase,percent,0.06,k1_4000,k1_4000,,,a,Inköp av tjänster från annat EG-land
+TFFU,purchase,percent,0.06,k1_4000,k1_4000,,,a,Inköp av tjänster från land utanför EG
+IVIS,purchase,percent,0.25,k1_4000,k1_4000,,,a,Inköp av varor
+ITIS,purchase,percent,0.25,k1_4000,k1_4000,,,a,Inköp av tjänster
+U1MI,purchase,percent,0.25,k1_2611,k1_2611,,48,a,Utgående moms 25% (omvänd)
+U2MI,purchase,percent,0.12,k1_2621,k1_2621,,48,a,Utgående moms 12% (omvänd)
+U3MI,purchase,percent,0.06,k1_2631,k1_2631,,48,a,Utgående moms 6% (omvänd)
+VTEU,sale,percent,0.06,k1_3000,k1_3000,,,a,Försäljning av varor till annat EG-land
+3VEU,purchase,percent,0,k1_4000,k1_4000,,,a,Mellanmans inköp av varor vid trepartshandel
+3FEU,sale,percent,0,k1_3000,k1_3000,,,a,Mellanmans försäljning av varor vid trepartshandel
+3FTEU,sale,percent,0,k1_3000,k1_3000,,,a,Mellanmans försäljning av tjänster vid trepartshandel
+OTTU,sale,percent,0,k1_3000,k1_3000,,,a,Övrig försäljning av tjänster omsatta i utlandet
+OMSS,sale,percent,0,k1_3000,k1_3000,,,a,Försäljning när köparen är skatteskyldig i Sverige
+FTEU,sale,percent,0,k1_3000,k1_3000,,,a,Försäljning när köparen är skatteskyldig i EU

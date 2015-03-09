@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_partners_form_se1" model="ir.ui.view">
+                <field name="name">view.res.partner.form.se1</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.view_partner_form"/>
+                <field name="arch" type="xml">
+                    <field name="email" position="after">
+                        <field name="company_registry" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    </field>
+                </field>
+        </record>
+
+    </data>
+</openerp>

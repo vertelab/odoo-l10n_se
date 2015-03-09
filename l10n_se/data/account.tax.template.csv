@@ -1,0 +1,67 @@
+id,description,chart_template_id:id,name,sequence
+aI,I,a,Inköp 25%,5
+aI12,I12,a,Inköp 12%,10
+aI6,I6,a,Inköp 6%,10
+aMP1,MP1,a,Försäljning 25%,5
+aMP2,MP2,a,Försäljning 12%,10
+aMP3,MP3,a,Försäljning 6%,10
+aU1,U1,a,Utgående moms 25%,10
+aU2,U2,a,Utgående moms 12%,10
+aU3,U3,a,Utgående moms 6%,10
+aMF,MF,a,Momsfri försäljning,10
+aIVL,IVL,a,Uthyrning ingående moms,10
+aUVL,UVL,a,Uthyrning utgående moms,10
+aMBVT,MBVT,a,Begagnade varor (försäljningssumma),10
+aMBBU,MBBU,a,Begagnade varor (rad 15 beskattningsunderlag),10
+aMU1,MU1,a,Momspliktiga uttag 25%,10
+aMU2,MU2,a,Momspliktiga uttag 12%,10
+aMU3,MU3,a,Momspliktiga uttag 6%,10
+aMPFF,MPFF,a,Hyresinkomster vid frivillig skattskyldighet,10
+aVFEU,VFEU,a,Inköp av varor från annat EG-land,10
+aTFEU,TFEU,a,Inköp av tjänster från annat EG-land,10
+aTFFU,TFFU,a,Inköp av tjänster från land utanför EG,10
+aIVIS,IVIS,a,Inköp av varor,10
+aITIS,ITIS,a,Inköp av tjänster,10
+aU1MI,U1MI,a,Utgående moms 25% (omvänd),10
+aU2MI,U2MI,a,Utgående moms 12% (omvänd),10
+aU3MI,U3MI,a,Utgående moms 6% (omvänd),10
+aVTEU,VTEU,a,Försäljning av varor till annat EG-land,10
+a3VEU,3VEU,a,Mellanmans inköp av varor vid trepartshandel,10
+a3FEU,3FEU,a,Mellanmans försäljning av varor vid trepartshandel,10
+a3FTEU,3FTEU,a,Mellanmans försäljning av tjänster vid trepartshandel,10
+aOTTU,OTTU,a,Övrig försäljning av tjänster omsatta i utlandet,10
+aOMSS,OMSS,a,Försäljning när köparen är skatteskyldig i Sverige,10
+aFTEU,FTEU,a,Försäljning när köparen är skatteskyldig i EU,10
+bI,I,b,Inköp 25%,5
+bI12,I12,b,Inköp 12%,10
+bI6,I6,b,Inköp 6%,10
+bMP1,MP1,b,Försäljning 25%,5
+bMP2,MP2,b,Försäljning 12%,10
+bMP3,MP3,b,Försäljning 6%,10
+bU1,U1,b,Utgående moms 25%,10
+bU2,U2,b,Utgående moms 12%,10
+bU3,U3,b,Utgående moms 6%,10
+bMF,MF,b,Momsfri försäljning,10
+bIVL,IVL,b,Uthyrning ingående moms,10
+bUVL,UVL,b,Uthyrning utgående moms,10
+bMBVT,MBVT,b,Begagnade varor (försäljningssumma),10
+bMBBU,MBBU,b,Begagnade varor (rad 15 beskattningsunderlag),10
+bMU1,MU1,b,Momspliktiga uttag 25%,10
+bMU2,MU2,b,Momspliktiga uttag 12%,10
+bMU3,MU3,b,Momspliktiga uttag 6%,10
+bMPFF,MPFF,b,Hyresinkomster vid frivillig skattskyldighet,10
+bVFEU,VFEU,b,Inköp av varor från annat EG-land,10
+bTFEU,TFEU,b,Inköp av tjänster från annat EG-land,10
+bTFFU,TFFU,b,Inköp av tjänster från land utanför EG,10
+bIVIS,IVIS,b,Inköp av varor,10
+bITIS,ITIS,b,Inköp av tjänster,10
+bU1MI,U1MI,b,Utgående moms 25% (omvänd),10
+bU2MI,U2MI,b,Utgående moms 12% (omvänd),10
+bU3MI,U3MI,b,Utgående moms 6% (omvänd),10
+bVTEU,VTEU,b,Försäljning av varor till annat EG-land,10
+b3VEU,3VEU,b,Mellanmans inköp av varor vid trepartshandel,10
+b3FEU,3FEU,b,Mellanmans försäljning av varor vid trepartshandel,10
+b3FTEU,3FTEU,b,Mellanmans försäljning av tjänster vid trepartshandel,10
+bOTTU,OTTU,b,Övrig försäljning av tjänster omsatta i utlandet,10
+bOMSS,OMSS,b,Försäljning när köparen är skatteskyldig i Sverige,10
+bFTEU,FTEU,b,Försäljning när köparen är skatteskyldig i EU,10
