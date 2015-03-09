@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2012 Vertel (<http://www.vertel.se>).
+#    Copyright (C) 2015 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -25,11 +25,11 @@
     'category': 'Localization/Account Charts',
     'description': """Sweden - Chart of accounts
 
-        * BAS 2012 K1 (Minimal chart of account, rules from SKV-283 v16)
-        * BAS 2012 (K2-K4, follows INK2R-form and rules in SKV-294 v11)
+        * BAS 2015 K1 (Minimal chart of account, rules from SKV-283 v16)
+        * BAS 2015 (K2-K4, follows INK2R-form and rules in SKV-294 v11)
         * Tax-codes from SKV-4700 r1-49  SKV-409
 
-        BAS 2012 K1 and BAS 2012 in original can be found at www.bas.se.
+        BAS 2015 K1 and BAS 2015 in original can be found at www.bas.se.
         When you creats your companies, don't forget to change currency to SEK. 
         Usually you want tax-code MP1 and I for standard sales and purchases, 
         MP2, MP3 and I12/I6 are for products and services with 12 % and 6 % tax.
@@ -49,10 +49,10 @@
         * K4 are an enlisted public company.
         
         K1 and K2 are not obliged to use an external auditor (turn over under 80 MSEK), using 
-        BAS 2012 K1 its possible to follow K1 rules "kontantmetoden" or "fakturametoden" 
+        BAS 2015 K1 its possible to follow K1 rules "kontantmetoden" or "fakturametoden" 
         and choose between simplified or usual year end. However, using the sales-module also
         implements accounts receivable and a sales ledger that implies "fakturametoden". 
-        BAS 2012 K1 whould be sufficient for most K2 companies too. K2-sized companies can 
+        BAS 2015 K1 whould be sufficient for most K2 companies too. K2-sized companies can 
         still use traditional rules or choose to strictly follow K2-rules for the time being.
         
         Partners have an additional Company Registry (Organisationsnummer) derived from 
