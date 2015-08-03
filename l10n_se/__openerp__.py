@@ -71,7 +71,7 @@
     'website': 'http://www.vertel.se',
     'depends': ['account', 'base_vat', 'account_chart', 'l10n_multilang'],
     'init_xml': [],
-    'update_xml': [
+    'data': [
 #        'data/account.account.type.csv',
         'data/account.chart.template.csv',
         'data/account.tax.template.csv',
@@ -82,6 +82,7 @@
         'data/account.tax.template-after.csv',
         'data/account.chart.template-after.csv',
         'data/res.partner.bank.type.csv',
+        'data/res_country_data.xml',
 #        'data/archive.faq.csv',
 #        'l10n_se_wizard.xml',
         'account_report.xml',
