@@ -40,7 +40,7 @@ class res_partner(osv.osv):
         return res
     
     _columns = {    
-        'company_registry': fields.function(_company_registry,  type='char', string='Company Registry', size=10),
+        'company_registry': fields.function(_company_registry,  type='char', string='Company Registry', size=11),
     }
 
 res_partner()
