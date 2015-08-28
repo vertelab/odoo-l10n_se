@@ -28,6 +28,8 @@ import werkzeug
 import pytz
 import re
 import base64
+from fnmatch import fnmatch,fnmatchcase
+from lxml import etree
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -52,11 +54,11 @@ class account_export(models.Model):
         readonly=True, states={'draft': [('readonly', False)]})
         
     @api.one
-    def _perdiod_ids(self):
+    def _period_ids(self):
         self.period_ids = self.env['account.period']
-        self.period_ids = self.move_id.line_id.filtered(lambda p: p.date_start >= self.period_start.date_start and p.date_stop <= self.period_end.date_stop)
+        self.period_ids = self.env['account.period'].search([('date_start', '>=', self.period_start.date_start), ('date_stop', '<=', self.period_end.date_stop)])
 
-    #period_ids = fields.Many2many('account.period',compute='_period_ids',readonly=True)
+    period_ids = fields.Many2many('account.period',compute='_period_ids',readonly=True)
     description = fields.Text('Note', help="This will be included in the message")
 
     @api.model
@@ -87,11 +89,11 @@ class account_export(models.Model):
     @api.one
     def invoices_xml(self,):
         self.env['ir.attachment'].create({
-            'name':  'Ag%s.xml' % self.name,
-            'datas_fname': 'Ag%s.xml' % self.name,
+            'name':  'Invoice_%s.xml' % self.name,
+            'datas_fname': 'Invoice_%s.xml' % self.name,
             'res_model': self._name,
             'res_id': self.id,
-            'datas':  base64.b64encode(self.pool.get('ir.ui.view').render(self._cr,self._uid,'l10n_se_esdk.esdk_period_ag',values={'doc': self})),
+            'datas':  base64.b64encode(self._export_xml(self.env['account.invoice'].search([('period_id','in',[p.id for p in self.period_ids])]),0)),
         })
 
     @api.one
@@ -168,4 +170,7 @@ class account_export(models.Model):
                     objects.add(model)
             return list(objects)
 
-        return etree.tostring(export_xml(get_related(models,0)),pretty_print=True,encoding="utf-8")
+        if maxdepth == 0:
+            return etree.tostring(export_xml(models),pretty_print=True,encoding="utf-8")
+        else:
+            return etree.tostring(export_xml(get_related(models,maxdepth)),pretty_print=True,encoding="utf-8")
