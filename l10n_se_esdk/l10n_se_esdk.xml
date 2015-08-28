@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-            <!-- Fiscal Year -->
+          
         <record id="view_account_tax_esdk_form" model="ir.ui.view">
             <field name="name">account.tax.esdk.form</field>
             <field name="model">account.tax.esdk</field>
             <field name="arch" type="xml">
                 <form string="ESDK">
                 <header>
-                    <button name="create_period" states="draft" string="Create Monthly Periods" type="object" class="oe_highlight"/>
-                    <button name="create_period3" states="draft" string="Create 3 Months Periods" type="object" class="oe_highlight"/>
+                    <button name="create_tax_sum_attachement" states="draft" string="Moms XML-file" type="object" class="oe_highlight"/>
+                    <button name="create_ag_sum_attachement" states="draft" string="Ag XML-file" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" nolabel="1" />
                 </header>
                     <group>
                         <group>
                             <field name="name"/>
-
-                            <field name="company_id" groups="base.group_multi_company"/>
-       
-                            <field name="period_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>       
                         </group>
                         <group>
-                            <field name="date_start"/>
-                            <field name="date_stop"/>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Note">
+                            <field name="description" cols="4" nolabel="1"/>
+                        </page>
+                    </notebook>
 
                 </form>
             </field>
@@ -36,6 +38,8 @@
                 <tree colors="blue:state == 'draft';gray:state == 'done' " string="Esdk">
                     <field name="name"/>
                     <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="period_start"/>
+                    <field name="period_end"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -78,29 +82,12 @@
         <menuitem id="menu_action_account_tax_esdk" action="action_account_tax_esdk" parent="next_id_23"/>
         
 
-<report 
-            id="l10n_se_esdk.esdk"
-            model="account.tax.esdk"
-            string="Esdk"
-            report_type="qweb-html"
-            name="l10n_se_esdk.esdk_period_view"
-            file="l10n_se_esdk.esdk_period"
-            attachment_use="True"
-/>
-
-
-<template id="l10n_se_esdk.esdk_period">
-        <t t-foreach="doc_ids" t-as="doc_id">
-            <t t-raw="translate_doc(doc_id, doc_model, 'lang', 'l10n_se_esdk.esdk_period_document')"/>
-        </t>
-</template>
-
-<template id="l10n_se_esdk.esdk_period_view">
-    <t t-foreach="docs" t-as="doc">
+<template id="l10n_se_esdk.esdk_period_moms">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd"&gt;
 <eSKDUpload Version="6.0">
-  <OrgNr><t t-raw="doc.company_id.company_registry"/></OrgNr>
+  <OrgNr t-raw="doc.company_id.company_registry"/>
   <Moms>
-    <Period><t t-raw="doc.name"/></Period>
+    <Period             t-raw="doc.name"/>
     <ForsMomsEjAnnan    t-raw="doc.get_tax_sum('MP1')"/>
     <UttagMoms          t-raw="doc.get_tax_sum('MU1')"/>
     <UlagMargbesk       t-raw="doc.get_tax_sum('MBBU')"/>
@@ -132,14 +119,11 @@
     <MomsBetala         t-raw="doc.get_tax_sum('R1')"/>
     <TextUpplysningMoms t-raw="doc.description"/>
   </Moms>
-</eSKDUpload>
-    </t>
-</template>
+</eSKDUpload></template>
 
 
 
 <template id="l10n_se_esdk.esdk_period_ag">
-    <t t-foreach="docs" t-as="doc">
 <eSKDUpload Version="6.0">
   <OrgNr><t t-raw="doc.company_id.company_registry"/></OrgNr>
   <Moms>
@@ -178,7 +162,7 @@
   
   
 </eSKDUpload>
-    </t>
+
     
 <!--    
     <?xml version="1.0" encoding="ISO-8859-1"?>
