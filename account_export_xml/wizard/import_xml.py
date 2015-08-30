@@ -18,29 +18,35 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api, _
+from lxml import etree
+import openerp.tools as tools
+import openerp.tools.misc as misc
+from tempfile import TemporaryFile
+import base64
 
-{
-    'name': 'Account export XML',
-    'version': '0.2',
-    'category': 'account',
-    'summary': 'Exports components from Accouting to XML',
-    'description': """
-Exports from accouting to XML
 
-* Customers
-* Invoices
-* Moves
 
-""",
-    'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
-    'depends': ['l10n_se',],
-    'data': [ 'account_export_xml.xml',
-              'wizard/import_xml.xml',
-    ],
-    'application': False,
-    'installable': True,
-    'auto_install': True,
-    
-}
-# vim:expandtab:smartindent:tabstop=4s:softtabstop=4:shiftwidth=4:
+import logging
+_logger = logging.getLogger(__name__)
+
+
+class Wizard(models.TransientModel):
+    _name = 'account.export.import'
+
+    data = fields.Binary('File', required=True)
+
+    @api.one
+    def load_xml(self,):
+
+        fileobj = TemporaryFile('w+')
+        fileobj.write(base64.decodestring(self.data))
+        fileobj.seek(0)
+
+        try:
+            tools.convert_xml_import(self._cr, 'account_export', fileobj, None, 'init', False, None)
+
+        finally:
+            fileobj.close()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
