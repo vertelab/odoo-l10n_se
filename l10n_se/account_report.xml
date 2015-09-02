@@ -3,17 +3,6 @@
     <data>
         <report
             auto="False"
-            id="account_invoicesII"
-            model="account.invoice"
-            name="account.invoice"
-            rml="l10n_se/report/account_print_invoice.rml"
-            string="Invoices"
-            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
-            usage="default"
-            multi="True"/>
-
-        <report
-            auto="False"
             id="account_vat_declarationII"
             menu="True"
             model="account.tax.code"

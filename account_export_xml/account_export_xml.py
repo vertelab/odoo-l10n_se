@@ -30,6 +30,8 @@ import re
 import base64
 from fnmatch import fnmatch,fnmatchcase
 from lxml import etree
+import openerp.tools as tools
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -79,11 +81,11 @@ class account_export(models.Model):
     @api.one
     def customers_xml(self,):
         self.env['ir.attachment'].create({
-            'name':  'Moms%s.xml' % self.name,
-            'datas_fname': 'Moms%s.xml' % self.name,
+            'name':  'Customers_%s.xml' % self.name,
+            'datas_fname': 'Customers_%s.xml' % self.name,
             'res_model': self._name,
             'res_id': self.id,
-            'datas':  base64.b64encode(self.pool.get('ir.ui.view').render(self._cr,self._uid,'l10n_se_esdk.esdk_period_moms',values={'doc': self})),
+            'datas':  base64.b64encode(self._export_xml(self.env['res.partner'].search([]),0)),
         })
 
     @api.one
@@ -99,11 +101,12 @@ class account_export(models.Model):
     @api.one
     def moves_xml(self,):
         self.env['ir.attachment'].create({
-            'name':  'Ag%s.xml' % self.name,
-            'datas_fname': 'Ag%s.xml' % self.name,
+            'name':  'Move_%s.xml' % self.name,
+            'datas_fname': 'Move_%s.xml' % self.name,
             'res_model': self._name,
             'res_id': self.id,
-            'datas':  base64.b64encode(self.pool.get('ir.ui.view').render(self._cr,self._uid,'l10n_se_esdk.esdk_period_ag',values={'doc': self})),
+            'datas':  base64.b64encode(self._export_xml(self.env['account.move'].search([('period_id','in',[p.id for p in self.period_ids])]),0)),
+
         })
 
     @api.model
@@ -114,14 +117,29 @@ class account_export(models.Model):
    
             returns an xml-document as binary (string)
         """
+        def _external_id(record):
+            ext_id = record.get_external_id()[record.id]
+            if not ext_id:
+                ext_id = '%s-%s-%s' % (record._name.replace('.','_'),self.env['ir.config_parameter'].get_param('database.uuid'),record.id)
+                module = record._original_module
+                _logger.debug("%s: Generating new external ID `%s.%s` for %r.", self._name, module, ext_id, record)
+                self.env['ir.model.data'].sudo().create({'name': ext_id,
+                                                        'model': record._name,
+                                                        'module': module,
+                                                        'res_id': record.id})
+            else:
+                module, ext_id = ext_id.split('.')
+            return '%s.%s' % (module, ext_id)
+
+
         def export_xml(lines):
             document = etree.Element('openerp')
             data = etree.SubElement(document,'data')
             for line in lines:
                 if line.id:
-                    k,id = line.get_external_id().items()[0] if line.get_external_id() else 0,"%s-%s" % (line._name,line.id)
-                    _logger.info("Reporting Block id = %s" % id)          
-                    record = etree.SubElement(data,'record',id=id,model=line._name)
+                    ext_id = _external_id(line)
+                    _logger.info("Reporting Block id = %s" % ext_id)          
+                    record = etree.SubElement(data,'record',id=ext_id,model=line._name)
                     names = [name for name in line.fields_get().keys() if fnmatch(name,'in_group*')] + [name for name in line.fields_get().keys() if fnmatch(name,'sel_groups*')]
                     for field,values in line.fields_get().items():
                         if not field in ['create_date','nessage_ids','id','write_date','create_uid','__last_update','write_uid',] + names:
@@ -134,20 +152,16 @@ class account_export(models.Model):
                                     pass
                             elif values.get('type') in ['many2one']:
                                 if eval('line.%s' % field):                                     
-                                    k,id = eval('line.%s.get_external_id().items()[0]' % field) if eval('line.%s.get_external_id()' % field) else (0,"%s-%s" % (eval('line.%s._name' % field),eval('line.%s.id' % field)))
-                                    if id == "":
-                                        id = "%s-%s" % (eval('line.%s._name' % field),eval('line.%s.id' % field))
-                                    etree.SubElement(record,'field',name=field,ref="%s" % id)
+                                    etree.SubElement(record,'field',name=field,ref="%s" % eval('_external_id(line.%s)' % field))
                             elif values.get('type') in ['one2many']:  # Update from the other end
                                 pass
                             elif values.get('type') in ['many2many']: # TODO
                                     # <field name="member_ids" eval="[(4, ref('base.user_root')),(4, ref('base.user_demo'))]"/>
                                 m2mvalues = []
                                 for val in line:
-                                    id,external_id = 0,'' if not val.get_external_id() else val.get_external_id().items()[0]
-                                    _logger.info("External id %s -> %s" % (id,external_id[1]))
-                                    if len(external_id)>0:
-                                        m2mvalues.append("(4, ref('%s'))" % external_id[1])
+                                    external_id = _external_id(val)
+                                    _logger.info("External id %s -> %s" % (id,external_id))
+                                    m2mvalues.append("(4, ref('%s'))" % external_id)
         #                            m2mvalues.append("(4, ref('%s'))" % val.get_external_id().items()[0] or '')
                                 if len(m2mvalues)>0:
                                     etree.SubElement(record,'field',name=field,eval="[%s]" % (','.join(m2mvalues)))                 
@@ -174,3 +188,6 @@ class account_export(models.Model):
             return etree.tostring(export_xml(models),pretty_print=True,encoding="utf-8")
         else:
             return etree.tostring(export_xml(get_related(models,maxdepth)),pretty_print=True,encoding="utf-8")
+            
+
+    
