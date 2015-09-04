@@ -55,15 +55,14 @@ class account_export(models.TransientModel):
     name = fields.Char('File Name', readonly=True)
     model = fields.Selection([('res.partner','Customers'),('account.invoice','Invoices'),('account.move','Moves')],string="Model")
     #model = fields.Many2one(comodel_name='res.model',string="Model")
+    #models_ids 
 
     has_period = fields.Boolean('Has Period')
    
-   
-   
-    #~ @api.onchange('model')
-    #~ def _onchange_model(self):
-        #~ #self.has_period = self.model and 'period_id' in self.env[self.model].fields_get()
-        #~ 
+    @api.onchange('model')
+    def _onchange_model(self):
+        self.has_period = self.model and 'period_id' in self.env[self.model].fields_get()
+        #self.model_ids  all related models with this depth
    
     @api.multi
     def send_form(self,):
@@ -156,6 +155,7 @@ class account_export(models.TransientModel):
             objects = set()
             if depth < maxdepth:
                 for model in models:
+                    # get_related within choosen model_ids
                     _logger.info('Get related model %s id %s' % (model._name,model.id))
                     for field,values in model.fields_get().items(): 
                         if not field in ['create_date','nessage_ids','id','write_date','create_uid','__last_update','write_uid']:

@@ -21,7 +21,7 @@
 
 {
     'name': 'Account export XML',
-    'version': '0.2',
+    'version': '0.3',
     'category': 'account',
     'summary': 'Exports components from Accouting to XML',
     'description': """
@@ -36,7 +36,6 @@ Exports from accouting to XML
     'website': 'http://www.vertel.se',
     'depends': ['account',],
     'data': [ 'account_export_xml.xml',
-              'wizard/import_xml.xml',
     ],
     'application': False,
     'installable': True,
