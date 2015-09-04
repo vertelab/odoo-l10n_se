@@ -31,83 +31,67 @@ import base64
 from fnmatch import fnmatch,fnmatchcase
 from lxml import etree
 import openerp.tools as tools
+import openerp.tools.misc as misc
+from tempfile import TemporaryFile
 
 
 import logging
 _logger = logging.getLogger(__name__)
 
-class account_export(models.Model):
+class account_export(models.TransientModel):
     _name = 'account.export'
     _description = 'Records for exports'
     _order = 'name'
 
-    name = fields.Char('Export',required=True,help="")
-    company_id = fields.Many2one('res.company', string='Company', change_default=True,
-        required=True, readonly=True, states={'draft': [('readonly', False)]},
-        default=lambda self: self.env['res.company']._company_default_get('account.tax.esdk'))
-    state = fields.Selection([('draft','Open'), ('done','Closed')], 'Status', default='draft',readonly=False, copy=False)
-    period_start = fields.Many2one('account.period', string='Start Period',
-        domain=[('state', '!=', 'done')], copy=False,
-        help="Starting period for the file",
-        readonly=True, states={'draft': [('readonly', False)]})
-    period_end = fields.Many2one('account.period', string='End Period',
-        domain=[('state', '!=', 'done')], copy=False,
-        help="Ending pediod for the file, can be same as start period",
-        readonly=True, states={'draft': [('readonly', False)]})
-        
+    data = fields.Binary('File')
     @api.one
-    def _period_ids(self):
-        self.period_ids = self.env['account.period']
-        self.period_ids = self.env['account.period'].search([('date_start', '>=', self.period_start.date_start), ('date_stop', '<=', self.period_end.date_stop)])
-
-    period_ids = fields.Many2many('account.period',compute='_period_ids',readonly=True)
+    def _data(self):
+        self.xml_file = self.data
+    xml_file = fields.Binary(compute='_data')
+    period_ids = fields.Many2many('account.period',)
     description = fields.Text('Note', help="This will be included in the message")
+    state =  fields.Selection([('choose', 'choose'), ('get', 'get')],default="choose") 
+    depth =  fields.Selection([('0', 'none'), ('1', '1 level'), ('2', '2 levels'), ('3', '3 levels'), ('4', '4 levels')],default="0") 
+    name = fields.Char('File Name', readonly=True)
+    model = fields.Selection([('res.partner','Customers'),('account.invoice','Invoices'),('account.move','Moves')],string="Model")
+    #model = fields.Many2one(comodel_name='res.model',string="Model")
 
-    @api.model
-    def get_tax_sum(self,code):
-        account_tax = self.env['account.tax'].search([('description','=',code)])
-        if not account_tax or len(account_tax) == 0:
-            return _("Error in code %s" % code)
-        #_logger.warning("This is tax  %s / %s" % (self.env['account.tax.code'].browse(account_tax.tax_code_id.id).name,code))
-        #~ return self.env['account.tax.code'].with_context(
-                    #~ {'period_id': self.period_start.id,
-                     #~ 'state': 'all'}
-                #~ ).browse(account_tax.tax_code_id.id).sum_period or 0
-        return self.env['account.tax.code'].with_context(
-                    {'period_ids': [p.id for p in self.env['account.period'].search([('date_start', '>=', self.period_start.date_start), ('date_stop', '<=', self.period_end.date_stop)])],
-                     'state': 'all'}
-                ).browse(account_tax.tax_code_id.id).sum_periods or 0
-
-    @api.one
-    def customers_xml(self,):
-        self.env['ir.attachment'].create({
-            'name':  'Customers_%s.xml' % self.name,
-            'datas_fname': 'Customers_%s.xml' % self.name,
-            'res_model': self._name,
-            'res_id': self.id,
-            'datas':  base64.b64encode(self._export_xml(self.env['res.partner'].search([]),0)),
-        })
-
-    @api.one
-    def invoices_xml(self,):
-        self.env['ir.attachment'].create({
-            'name':  'Invoice_%s.xml' % self.name,
-            'datas_fname': 'Invoice_%s.xml' % self.name,
-            'res_model': self._name,
-            'res_id': self.id,
-            'datas':  base64.b64encode(self._export_xml(self.env['account.invoice'].search([('period_id','in',[p.id for p in self.period_ids])]),0)),
-        })
-
-    @api.one
-    def moves_xml(self,):
-        self.env['ir.attachment'].create({
-            'name':  'Move_%s.xml' % self.name,
-            'datas_fname': 'Move_%s.xml' % self.name,
-            'res_model': self._name,
-            'res_id': self.id,
-            'datas':  base64.b64encode(self._export_xml(self.env['account.move'].search([('period_id','in',[p.id for p in self.period_ids])]),0)),
-
-        })
+    has_period = fields.Boolean('Has Period')
+   
+   
+   
+    #~ @api.onchange('model')
+    #~ def _onchange_model(self):
+        #~ #self.has_period = self.model and 'period_id' in self.env[self.model].fields_get()
+        #~ 
+   
+    @api.multi
+    def send_form(self,):
+        account = self[0]
+        #_logger.warning('data %s b64 %s ' % (account.data,base64.decodestring(account.data)))
+        if not account.data == None:
+            fileobj = TemporaryFile('w+')
+            fileobj.write(base64.decodestring(account.data))
+            fileobj.seek(0)
+            try:
+                tools.convert_xml_import(account._cr, 'account_export', fileobj, None, 'init', False, None)
+            finally:
+                fileobj.close()
+            return True
+        if len(account.period_ids)>0 and 'period_id' in self.env[account.model].fields_get():
+            data = base64.b64encode(account._export_xml(self.env[account.model].search([('period_id','in',[p.id for p in self.period_ids])]),int(account.depth)))
+        else:
+            data = base64.b64encode(self._export_xml(self.env[account.model].search([]),int(account.depth)))
+        account.write({'state': 'get', 'name': '%s.xml' % account.model.replace('.','_'),'data': data })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.export',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': account.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 
     @api.model
     def _export_xml(self,models,maxdepth):
@@ -184,6 +168,7 @@ class account_export(models.Model):
                     objects.add(model)
             return list(objects)
 
+        #_logger.info("models %s depth %s" % (models,maxdepth))   
         if maxdepth == 0:
             return etree.tostring(export_xml(models),pretty_print=True,encoding="utf-8")
         else:

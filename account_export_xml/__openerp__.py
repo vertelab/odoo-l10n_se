@@ -34,13 +34,13 @@ Exports from accouting to XML
 """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
-    'depends': ['l10n_se',],
+    'depends': ['account',],
     'data': [ 'account_export_xml.xml',
               'wizard/import_xml.xml',
     ],
     'application': False,
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
     
 }
 # vim:expandtab:smartindent:tabstop=4s:softtabstop=4:shiftwidth=4:
