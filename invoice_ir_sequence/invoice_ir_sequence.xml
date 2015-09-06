@@ -37,7 +37,7 @@
     <template id="report_invoice_document" inherit_id="account.report_invoice_document">
       <xpath expr="//span[@t-field='l.name']" position='after'>
         &amp;nbsp;&amp;nbsp;
-        <span t-field="l.serial_number" />
+        <span t-field="l.serial_number_ids" />
       </xpath>
     </template>
 <!--

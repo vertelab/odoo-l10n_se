@@ -36,7 +36,7 @@ class account_invoice_line_serial(models.Model):
 
     def _serial_number(self):
         if self.product_id:
-            self.name = self.product_id.serial_type._next()
+            return self.product_id.serial_type._next()
 
     name = fields.Char('Serial Number',default=_serial_number)
     line_id = fields.Many2one('account.invoice.line',)
@@ -60,7 +60,7 @@ class account_invoice(models.Model):
         for invoice in self:
             for line in invoice.invoice_line:
                 if not line.id in [l.id for l in invoice.serial_number_ids]:
-                    for i in range(1,int(line.quantity)):
+                    for i in range(0,int(line.quantity)):
                         self.env['account.invoice.line.serial'].create({'product_id': line.product_id.id, 'line_id': line.id, 'invoice_id': line.invoice_id.id})
 
     serial_number_ids = fields.One2many(comodel_name='account.invoice.line.serial', inverse_name='invoice_id', string='Serial numbers', readonly=True, copy=False)
