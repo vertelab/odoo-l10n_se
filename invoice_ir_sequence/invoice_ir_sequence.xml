@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="invoice_form" model="ir.ui.view">
+      <field name="name">account.invoice.form</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//tree/field[@name='name']" position="after">
+          <field name="serial_number" />
+        </xpath>
+      </field>
+    </record>
+    <record id="product_normal_form_view" model="ir.ui.view">
+      <field name="name">product.product.form</field>
+      <field name="model">product.product</field>
+      <field name="mode">primary</field>
+      <field eval="6" name="priority" />
+      <field name="inherit_id" ref="product.product_template_form_view" />
+      <field name="arch" type="xml">
+        <group name="sale_condition" position="after">
+          <group name="sale_serial" colspan="3">
+            <label for="serial_type" />
+            <div>
+              <field name="serial_type" class="oe_inline" />
+            </div>
+          </group>
+        </group>
+      </field>
+    </record>
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+      <xpath expr="//span[@t-field='l.name']" position='after'>
+        &amp;nbsp;&amp;nbsp;
+        <span t-field="l.serial_number" />
+      </xpath>
+    </template>
+<!--
+    <record id="wkf_invoice" model="workflow">
+            <field name="name">account.invoice</field>
+            <field name="osv">account.invoice</field>
+            <field name="on_create">True</field>
+    </record>
+    
+    <record id="act_assign_serial" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_invoice"/>
+            <field name="name">serial numbers</field>
+            <field name="kind">subflow</field>
+            <field name="flow_start">True</field>
+            <field name="subflow_id" search="[('name','=','account.invoice.basic')]"/>
+            <field name="action">assign_serial_numbers()</field>
+    </record>
+-->
+        <record id="account.act_open" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">open</field>
+            <field name="action">action_date_assign()
+action_move_create()
+action_number()
+invoice_validate()
+assign_serial_numbers()</field>
+            <field name="kind">function</field>
+        </record>
+
+  </data>
+</openerp>
