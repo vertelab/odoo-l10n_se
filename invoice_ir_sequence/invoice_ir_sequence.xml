@@ -7,7 +7,7 @@
       <field name="inherit_id" ref="account.invoice_form" />
       <field name="arch" type="xml">
         <xpath expr="//tree/field[@name='name']" position="after">
-          <field name="serial_number" />
+          <field name="serial_number_ids" widget="many2many_tags" />
         </xpath>
       </field>
     </record>
@@ -23,6 +23,12 @@
             <label for="serial_type" />
             <div>
               <field name="serial_type" class="oe_inline" />
+              <field name="serial_number_ids" >
+                  <tree>
+                    <field name="name"/>
+                    <field name="partner_id" />
+                  </tree>
+             </field>
             </div>
           </group>
         </group>
