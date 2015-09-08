@@ -7,26 +7,102 @@
       <field name="inherit_id" ref="account.invoice_form" />
       <field name="arch" type="xml">
         <xpath expr="//tree/field[@name='name']" position="after">
-          <field name="serial_number_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True }" />
+          <field name="serial_numbers"  />
         </xpath>
       </field>
     </record>
-            <record id="view_account_invoice_filter" model="ir.ui.view">
-            <field name="name">account.invoice.select</field>
-            <field name="model">account.invoice</field>
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+      <field name="name">account.invoice.select</field>
+      <field name="model">account.invoice</field>
       <field name="inherit_id" ref="account.view_account_invoice_filter" />
-            <field name="arch" type="xml">
+      <field name="arch" type="xml">
+        <field name="period_id" position="after">
+          <field name="serial_number_ids" />
+        </field>
+      </field>
+    </record>
+    <record id="view_res_partner_filter" model="ir.ui.view">
+      <field name="name">res.partner.select.serial</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_res_partner_filter" />
+      <field name="arch" type="xml">
+        <field name="user_id" position="after">
+          <field name="serial_number_ids" filter_domain="[('name','ilike', self)]"/>
+        </field>
+      </field>
+    </record>
 
-                    <field name="period_id" position="after">
-                        <field name="serial_number_ids"/>
-                    </field>
+
+            <record id="view_invoice_line_serial_tree" model="ir.ui.view">
+            <field name="name">account.invoice.line.serial.tree</field>
+            <field name="model">account.invoice.line</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Line">
+                    <field name="name"/>
+                    <field name="account_id" groups="account.group_account_user"/>
+                    <field name="serial_numbers"/>
+                    <field name="quantity"/>
+                    <field name="uos_id" groups="product.group_uom"/>
+                    <field name="price_unit"/>
+                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                    <field name="price_subtotal"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_invoice_lines_serial" model="ir.actions.act_window">
+            <field name="name">Invoice lines</field>
+            <field name="res_model">account.invoice.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_invoice_line_serial_tree"/>
+            <field name="domain">[('state', 'not in', ['draft', 'cancel'])]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        </record>
+
+        <record id="action_invoice_serial_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_invoice_lines_serial"/>
+        </record>
+
+
+
+
+
+            <record model="ir.ui.view" id="partner_view_buttons">
+            <field name="name">partner.view.serial.button</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="99"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="inside">
+                    <button type="action" 
+                        class="oe_stat_button"
+                        id="serial_number_button"
+                        icon="fa-pencil-square-o"
+                        name="%(invoice_ir_sequence.action_invoice_serial_tree)d"
+                        attrs="{'invisible': [('customer', '=', False)]}" 
+                        context="{'search_default_partner_id': active_id,'default_partner_id': active_id}">
+                        <div><strong><field name="num_serial_numbers" /></strong><br/>Serial Numbers</div>
+                    </button>
+                </xpath>
             </field>
         </record>
 
     
-    
-    
-    
+    <record id="product_search_form_view" model="ir.ui.view">
+      <field name="name">product.product.search.serial</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_search_form_view" />
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="serial_number_ids" />
+        </field>
+      </field>
+    </record>
     
     <record id="product_normal_form_view" model="ir.ui.view">
       <field name="name">product.product.form</field>
@@ -37,15 +113,15 @@
       <field name="arch" type="xml">
         <group name="sale_condition" position="after">
           <group name="sale_serial" colspan="3">
-            <label for="serial_type" />
+            <label for="serial_type_ids" />
             <div>
-              <field name="serial_type" class="oe_inline" />
+              <field name="serial_type_ids" widget="many2many_tags" />
               <field name="serial_number_ids">
-                  <tree>
-                    <field name="name"/>
-                    <field name="partner_id" />
-                  </tree>
-             </field>
+                <tree>
+                  <field name="name" />
+                  <field name="partner_id" />
+                </tree>
+              </field>
             </div>
           </group>
         </group>
@@ -54,35 +130,58 @@
     <template id="report_invoice_document" inherit_id="account.report_invoice_document">
       <xpath expr="//span[@t-field='l.name']" position='after'>
         &amp;nbsp;&amp;nbsp;
-        <span t-field="l.serial_number_ids" />
+        <span t-esc="', '.join([s.name for s in l.serial_number_ids])" />
       </xpath>
+      <!--
+           <xpath expr="//div[@t-if='o.tax_line']" position='after'>
+           <div class="row" t-if="o.serial_number_ids">
+           <div class="col-xs-6">
+           <table class="table table-condensed">
+           <thead>
+           <tr>
+           <th>Serial Numbers</th>
+           </tr>
+           </thead>
+           <tbody>
+           <tr t-foreach="o.serial_number_ids" t-as="s">
+           <td><span t-field="s.name"/></td>
+           </tr>
+           </tbody>
+           </table>
+           </div>
+           </div>
+           </xpath>      
+      -->
     </template>
-<!--
-    <record id="wkf_invoice" model="workflow">
-            <field name="name">account.invoice</field>
-            <field name="osv">account.invoice</field>
-            <field name="on_create">True</field>
+    <!--
+         <record id="wkf_invoice" model="workflow">
+         <field name="name">account.invoice</field>
+         <field name="osv">account.invoice</field>
+         <field name="on_create">True</field>
+         </record>
+         
+         <record id="act_assign_serial" model="workflow.activity">
+         <field name="wkf_id" ref="wkf_invoice"/>
+         <field name="name">serial numbers</field>
+         <field name="kind">subflow</field>
+         <field name="flow_start">True</field>
+         <field name="subflow_id" search="[('name','=','account.invoice.basic')]"/>
+         <field name="action">assign_serial_numbers()</field>
+         </record>
+    -->
+    <record id="account.act_open" model="workflow.activity">
+      <field name="wkf_id" ref="account.wkf" />
+      <field name="name">open</field>
+      <field name="action">
+        action_date_assign()
+        action_move_create()
+        action_number()
+        invoice_validate()
+        assign_serial_numbers()
+      </field>
+      <field name="kind">function</field>
     </record>
     
-    <record id="act_assign_serial" model="workflow.activity">
-            <field name="wkf_id" ref="wkf_invoice"/>
-            <field name="name">serial numbers</field>
-            <field name="kind">subflow</field>
-            <field name="flow_start">True</field>
-            <field name="subflow_id" search="[('name','=','account.invoice.basic')]"/>
-            <field name="action">assign_serial_numbers()</field>
-    </record>
--->
-        <record id="account.act_open" model="workflow.activity">
-            <field name="wkf_id" ref="account.wkf"/>
-            <field name="name">open</field>
-            <field name="action">action_date_assign()
-action_move_create()
-action_number()
-invoice_validate()
-assign_serial_numbers()</field>
-            <field name="kind">function</field>
-        </record>
-
+    
   </data>
 </openerp>
