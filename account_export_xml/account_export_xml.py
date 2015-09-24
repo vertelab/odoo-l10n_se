@@ -53,16 +53,54 @@ class account_export(models.TransientModel):
     state =  fields.Selection([('choose', 'choose'), ('get', 'get')],default="choose") 
     depth =  fields.Selection([('0', 'none'), ('1', '1 level'), ('2', '2 levels'), ('3', '3 levels'), ('4', '4 levels')],default="0") 
     name = fields.Char('File Name', readonly=True)
-    model = fields.Selection([('res.partner','Customers'),('account.invoice','Invoices'),('account.move','Moves')],string="Model")
-    #model = fields.Many2one(comodel_name='res.model',string="Model")
-    #models_ids 
+    #model = fields.Selection([('res.partner','Customers'),('account.invoice','Invoices'),('account.move','Moves')],string="Model")
+    model = fields.Many2one(comodel_name='ir.model',string="Model")
+    model_ids = fields.Many2many(comodel_name="ir.model")
 
     has_period = fields.Boolean('Has Period')
+
+    @api.returns('ir.model')
+    def _get_models(self,model,depth,maxdepth=4):
+        models = set()        
+        if depth < maxdepth:
+            #_logger.info('Get related model  %s ' % (model.fields_get()))
+            _logger.info('Get related model items %s ' % (self.env[model.model].fields_get().items()))
+            #_logger.info('Get related model iteritems %s ' % (model.fields_get().iteritems()))
+            
+            for field,values in self.env[model.model].fields_get().items():
+                _logger.info('field %s values %s ' % (field,values.get('relation')))
+                if values.get('relation',False) != False:
+                    _logger.info('field %s type %s relation %s före' % (field,values['type'],values.get('relation')))                    
+                    if field not in ['create_date','id','write_date','create_uid','__last_update','write_uid','inherited_model_ids','view_ids','field_id','access_ids']:
+                        _logger.info('field %s type %s relation %s' % (field,values['type'],values.get('relation')))
+                        models.add(self.env['ir.model'].search([('model','=',values.get('relation'))]))
+                        depth += 1
+                        _logger.warning('Depth %s Max %s' % (depth,maxdepth))
+                        if depth < maxdepth:
+                            self._get_models(self.env['ir.model'].search([('model','=',values.get('relation'))]),depth,maxdepth)
+                        #~ if not field in ['create_date','message_ids','id','write_date','create_uid','__last_update','write_uid','inherited_model_ids']:
+                            #~ if values.get('type') in ['many2one']:
+                                #~ _logger.info('Get related model related %s %s %r' % (field,values['relation'],self.env[values['relation']]))
+                                #~ #for related in self._get_models(eval("model.%s" % field),depth+1):
+                                #~ #    models.add(related)
+                            #~ if values.get('type') in ['many2many']:
+                                #~ _logger.info('Get related model relatd %s %s %r' % (field,values['relation'],self.env[values['relation']]))
+                                #~ #for related in self._get_models(eval("moel.%s" % field),depth+1):
+                                #~ #    models.add(related)
+                    #models.add(model)
+            _logger.info('models %s' % (list(models)))
+        #raise Exception("The record has been deleted or not %s" % models)        
+        return list(models)
+
    
-    @api.onchange('model')
+    @api.onchange('model','depth')
     def _onchange_model(self):
-        self.has_period = self.model and 'period_id' in self.env[self.model].fields_get()
+        self.has_period = self.model and 'period_id' in self.env[self.model.model].fields_get()
+        self.model_ids = [m.id for m in self._get_models(self.model,1,maxdepth=self.depth)] 
+ 
         #self.model_ids  all related models with this depth
+
+   
    
     @api.multi
     def send_form(self,):
@@ -77,11 +115,11 @@ class account_export(models.TransientModel):
             finally:
                 fileobj.close()
             return True
-        if len(account.period_ids)>0 and 'period_id' in self.env[account.model].fields_get():
-            data = base64.b64encode(account._export_xml(self.env[account.model].search([('period_id','in',[p.id for p in self.period_ids])]),int(account.depth)))
+        if len(account.period_ids)>0 and 'period_id' in self.env[account.model.model].fields_get():
+            data = base64.b64encode(account._export_xml(self.env[account.model.model].search([('period_id','in',[p.id for p in self.period_ids])]),int(account.depth)))
         else:
-            data = base64.b64encode(self._export_xml(self.env[account.model].search([]),int(account.depth)))
-        account.write({'state': 'get', 'name': '%s.xml' % account.model.replace('.','_'),'data': data })
+            data = base64.b64encode(self._export_xml(self.env[account.model.model].search([]),int(account.depth)))
+        account.write({'state': 'get', 'name': '%s.xml' % account.model.model.replace('.','_'),'data': data })
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.export',
