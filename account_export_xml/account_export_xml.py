@@ -63,7 +63,7 @@ class account_export(models.TransientModel):
 
     @api.returns('ir.model')
     def _get_models(self,model,depth,maxdepth=4):
-        models = set(model)        
+        models = set()        
         #_logger.info('Get related model  %s ' % (model.fields_get()))
         _logger.info('Get related model items %s ' % (self.env[model.model].fields_get().items()))
         #_logger.info('Get related model iteritems %s ' % (model.fields_get().iteritems()))
@@ -135,16 +135,25 @@ class account_export(models.TransientModel):
         def _external_id(record):
             ext_id = record.get_external_id()[record.id]
             if not ext_id:
-                ext_id = '%s-%s-%s' % (record._name.replace('.','_'),self.env['ir.config_parameter'].get_param('database.uuid'),record.id)
+                #ext_id = '%s-%s-%s' % (record._name.replace('.','_'),self.env['ir.config_parameter'].get_param('database.uuid'),record.id)
+                if 'code' in record.fields_get().keys():
+                    ext_id =  '%s' % record.code
+                elif 'number' in record.fields_get().keys():
+                    ext_id =  '%s' % record.number
+                elif 'internal_number' in record.fields_get().keys():
+                    ext_id = '%s' %  record.internal_number
+                elif 'record_name' in record.fields_get().keys():
+                    ext_id = '%s' %  record.record_name
+                else:
+                    ext_id = '%s' % record.name
                 module = record._original_module
                 _logger.debug("%s: Generating new external ID `%s.%s` for %r.", self._name, module, ext_id, record)
                 self.env['ir.model.data'].sudo().create({'name': ext_id,
                                                         'model': record._name,
                                                         'module': module,
                                                         'res_id': record.id})
-            else:
-                module, ext_id = ext_id.split('.')
-            return '%s.%s' % (module, ext_id)
+                ext_id = "%s.%s" % (module,ext_id)
+            return ext_id
 
             
 
@@ -196,8 +205,7 @@ class account_export(models.TransientModel):
                 if a.get('relation') and a.get('relation') in [m.model for m in self.model_ids]:
                     if eval('r.%s' % f):
                         supporting_records.add(eval('r.%s' % f))
-                    _logger.warning("Supporting record = %r" % r)  
-                    
+                
         _logger.warning("Supporting = %s" % supporting_records)  
         
         return etree.tostring(export_xml(list(supporting_records) + list(records)),pretty_print=True,encoding="utf-8")
