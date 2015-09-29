@@ -182,7 +182,22 @@ class account_export(models.TransientModel):
             #                            m2mvalues.append("(4, ref('%s'))" % val.get_external_id().items()[0] or '')
                                     if len(m2mvalues)>0:
                                         etree.SubElement(record,'field',name=field,eval="[%s]" % (','.join(m2mvalues)))                 
-                 
+
             return document
 
-        return etree.tostring(export_xml([self.get_records(m) for m in self.model_ids]),pretty_print=True,encoding="utf-8")
+        if 'period_id' in self.env[self.model.model].fields_get().keys():
+            records = self.env[self.model.model].search(['period_id','in',[p.id for p in self.period_ids]])
+        else:
+            records = self.env[self.model.model].search([])
+
+        supporting_records = set()
+        for r in records:
+            for f,a in r.fields_get().items():
+                if a.get('relation') and a.get('relation') in [m.model for m in self.model_ids]:
+                    if eval('r.%s' % f):
+                        supporting_records.add(eval('r.%s' % f))
+                    _logger.warning("Supporting record = %r" % r)  
+                    
+        _logger.warning("Supporting = %s" % supporting_records)  
+        
+        return etree.tostring(export_xml(list(supporting_records) + list(records)),pretty_print=True,encoding="utf-8")

@@ -25,11 +25,19 @@
     'category': 'account',
     'summary': 'Exports components from Accouting to XML',
     'description': """
-Exports from accouting to XML
+Exports from accouting or other models to XML
 
+For example:
 * Customers
 * Invoices
 * Moves
+
+Choose what model you want to export. Depth gives you how many levels of 
+related models you want to export, it just gives you a list of models and
+you can still choose what models you want. If your main model has periods
+connected you can choose what periods you want to export data from.
+
+
 
 """,
     'author': 'Vertel AB',
