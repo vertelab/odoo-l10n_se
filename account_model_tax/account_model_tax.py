@@ -29,6 +29,8 @@ from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 import time
 
+from openerp.tools.safe_eval import safe_eval as eval
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -40,6 +42,49 @@ _logger = logging.getLogger(__name__)
 
 class account_model(models.Model):
     _inherit = "account.model"
+
+    python_code = fields.Text('Python Code',default="""# Available variables:
+#----------------------
+# model: object containing the model
+# move: account.move object
+# user: object current user
+# context: current context
+#""")
+    python_legend = fields.Text(readonly=True, size=100,default=_("""
+Python Code:
+# Available variables (model):
+#----------------------
+# model: object containing the model
+# move: account.move object
+# user: object current user
+# context: current context
+# 
+# example: move.write({'field': data})
+#
+# Available variables (line):
+#----------------------
+# model: object containing the model
+# move:  object containing the move
+# user: object current user
+# move_line: dict for creating account.move.line (to be returned)
+# 'name','quantity','debit','credit','account_id','account_tax_id','move_id','partner_id','date','date_maturity'
+# context: current context
+#
+# example:  move_line['field'] = data
+
+"""))
+
+    @api.v7
+    def _eval(self,cr,uid,ids,model,move_id,context=None):   # runs python code
+        try: 
+            eval(model.python_code,{
+                'model': model,
+                'move': self.pool.get('account.move').browse(cr,uid,move_id),
+                'user': self.pool.get('res.users').browse(cr,uid,uid),
+                'context': context,
+            }, mode='exec', nocopy=True)
+        except:
+            raise Warning(_('Wrong python code defined for model %s (%s).')% (model.name, model.python_code)) 
 
     @api.v7
     def generate(self, cr, uid, ids, data=None, context=None):
@@ -79,6 +124,7 @@ class account_model(models.Model):
                 'date': context.get('date', time.strftime('%Y-%m-%d'))  # changed
             })
             move_ids.append(move_id)
+            self._eval(cr,uid,ids,model,move_id,context=context)
             for line in model.lines_id:
                 analytic_account_id = False
                 if line.analytic_account_id:
@@ -122,8 +168,10 @@ class account_model(models.Model):
                     'date': context.get('date', time.strftime('%Y-%m-%d')),  # changed
                     'date_maturity': date_maturity
                 })
+                val = self.pool.get('account.model.line')._eval(cr,uid,line.id,model,move_id,val,context=ctx)
                 self.pool.get('account.move.line').create(cr, uid, val, context=ctx)
         _logger.warning('generate stop %s' % move_ids)
+        
         return move_ids
 
 
@@ -134,7 +182,23 @@ class account_model_line(models.Model):
     line_tax_id = fields.Many2many('account.tax',
         'account_model_line_tax', 'model_line_id', 'tax_id',
         string='Taxes', )
+    python_code = fields.Text('Python Code',default='')
 
+    @api.v7
+    def _eval(self, cr, uid,id, model,move_id,move_line,context=None):   # runs python code
+        line = self.pool.get('account.model.line').browse(cr,uid,id)
+        try:
+            eval(line.python_code, {
+                'model': model,
+                'move': self.pool.get('account.move').browse(cr,uid,move_id),
+                'move_line': move_line,
+                'context': context,
+                'user': self.pool.get('res.users').browse(cr,uid,uid),
+                'line': line,
+                }, mode='exec', nocopy=True)
+            return move_line
+        except:
+            raise Warning(_('Wrong python code defined for model %s line %s %s (%s).')% (model.name, line.sequence, line.name, line.python_code)) 
 
     #
     # Set the tax field according to the account and the fiscal position
