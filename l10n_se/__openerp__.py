@@ -88,6 +88,7 @@
         'account_report.xml',
         'account_vat_view.xml',
         'res_partner_view.xml',
+        'data/account_tax_code_template_hr_data.xml',
 #        'setup_view.xml',
     ],
 #    'demo_xml' : [

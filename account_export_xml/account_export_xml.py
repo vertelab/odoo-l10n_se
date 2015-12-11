@@ -135,17 +135,17 @@ class account_export(models.TransientModel):
         def _external_id(record):
             ext_id = record.get_external_id()[record.id]
             if not ext_id:
-                #ext_id = '%s-%s-%s' % (record._name.replace('.','_'),self.env['ir.config_parameter'].get_param('database.uuid'),record.id)
-                if 'code' in record.fields_get().keys():
-                    ext_id =  '%s' % record.code
-                elif 'number' in record.fields_get().keys():
-                    ext_id =  '%s' % record.number
-                elif 'internal_number' in record.fields_get().keys():
-                    ext_id = '%s' %  record.internal_number
-                elif 'record_name' in record.fields_get().keys():
-                    ext_id = '%s' %  record.record_name
-                else:
-                    ext_id = '%s' % record.name
+                ext_id = '%s-%s-%s' % (record._name.replace('.','_'),self.env['ir.config_parameter'].get_param('database.uuid'),record.id)
+                #~ if 'code' in record.fields_get().keys():
+                    #~ ext_id =  '%s' % record.code
+                #~ elif 'number' in record.fields_get().keys():
+                    #~ ext_id =  '%s' % record.number
+                #~ elif 'internal_number' in record.fields_get().keys():
+                    #~ ext_id = '%s' %  record.internal_number
+                #~ elif 'record_name' in record.fields_get().keys():
+                    #~ ext_id = '%s' %  record.record_name
+                #~ else:
+                    #~ ext_id = '%s' % record.name
                 module = record._original_module
                 _logger.debug("%s: Generating new external ID `%s.%s` for %r.", self._name, module, ext_id, record)
                 self.env['ir.model.data'].sudo().create({'name': ext_id,
@@ -173,6 +173,7 @@ class account_export(models.TransientModel):
                                     _logger.info("Simple field %s field %s values %s" % (values.get('type'),field,values))
                                     try:
                                     #if eval('line.%s' % field):
+                                        #~ etree.SubElement(record,'field',name = field).text = "%s" % eval('line.%s' % field) or ""
                                         etree.SubElement(record,'field',name = field).text = "%s" % eval('line.%s' % field)
                                     except:
                                         pass
