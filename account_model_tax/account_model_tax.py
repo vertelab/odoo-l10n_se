@@ -187,6 +187,8 @@ class account_model_line(models.Model):
     @api.v7
     def _eval(self, cr, uid,id, model,move_id,move_line,context=None):   # runs python code
         line = self.pool.get('account.model.line').browse(cr,uid,id)
+        if not line.python_code:
+            return move_line
         try:
             eval(line.python_code, {
                 'model': model,
