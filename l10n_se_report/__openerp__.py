@@ -15,7 +15,8 @@
     'website': 'http://www.vertel.se',
     'depends': ['base'],
     'data': [ 'l10n_se_report_view.xml',
-              'daily_ledger.xml'],
+              'daily_ledger.xml',
+              'basic_r_and_b_view.xml'],
 
     'installable': True,
     'application': False,

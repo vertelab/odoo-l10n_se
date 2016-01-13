@@ -414,7 +414,7 @@
       <field name="tax_ids" eval="[(6, 0, [ref('account_tax_template-AvgHel')])]" />
 -->
     </record>
-    </record>
+  
     <record id="l10n_se.k2_7511" model="account.account.template">
       <field name="type">payable</field>
       <field name="user_type" search="[('code', '=', 'payable')]" />

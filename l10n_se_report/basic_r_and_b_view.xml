@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    <record id="basic_r_and_b_view" model="ir.ui.view">
+      <field name="name">l10n_se_report.basic_r_and_b.form</field>
+      <field name="model">l10n_se_report.basic_r_and_b.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Basic Profit &amp; loss and balance report">
+          <group>
+            <field name="chart_account_id" />
+            <field name="fiscalyear_id" />
+            <field name="target_move" />
+          </group>
+          <footer>
+            <button type="object" name="print_basic_r_and_b" string="Print" class="oe_highlight" />
+            <button special="cancel" string="Cancel" />
+          </footer>
+        </form>
+      </field>
+    </record>
+    <!--
+         <act_window id="action_user_mail_sync"
+         multi="True"
+         key2="client_action_multi" name="Synchronize Settings"
+         res_model="user.mail.sync.wizard" src_model="res.users"
+         view_mode="form" target="new"/>   
+         
+         
+    -->
+    <record id="basic_r_and_b_report_action" model="ir.actions.act_window">
+      <field name="name">Basic Profit &amp; Loss and Balance</field>
+      <field name="res_model">l10n_se_report.basic_r_and_b.wizard</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="basic_r_and_b_view" />
+      <field name="target">new</field>
+    </record>
+    <menuitem icon="STOCK_PRINT" name="P&amp;L and Balance" action="basic_r_and_b_report_action" id="menu_basic_r_and_b_report" parent="account.final_accounting_reports" />
+  
+    <report id="basic_r_and_b_report" model="l10n_se_report.basic_r_and_b.wizard" string="Basic P&amp;L and Balance" report_type="qweb-pdf" name="l10n_se_report.basic_r_and_b" file="l10n_se_report.basic_r_and_b" />
+    <!--attachment_use="False" attachment="('daily_ledger'+(object.name or ''))+'.pdf'" /> -->
+    <template id="basic_r_and_b">
+      <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+          <t t-raw="translate_doc(doc_id, doc_model, 'company_id.partner_id.lang', 'l10n_se_report.basic_r_and_b_document')" />
+        </t>
+      </t>
+    </template>
+    <template id="l10n_se_report.basic_r_and_b_document">
+      <t t-call="report.external_layout">
+        <div class="page">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 mb16 mt16">
+                <h2>Resultaträkning</h2>
+                <table>
+                  <tr>
+                    <th />
+                    2013-14
+                    <th />
+                    <th>2014-15</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>Rörelsens intäkter</h3>
+                    </td>
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>Nettoomsättning</span>
+                    </td>
+                    <td>
+                      <span t-esc="o.get_prev_balance('3.1')" />
+                    </td>
+                    <td>
+                      <span t-esc="o.get_balance('3.1')" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>Rörelsens kostnader</h3>
+                    </td>
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>Rörelsens intäkter</h3>
+                    </td>
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>Rörelsens intäkter</h3>
+                    </td>
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>Rörelsens intäkter</h3>
+                    </td>
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>Rörelsens intäkter</h3>
+                    </td>
+                    <td />
+                    <td />
+                  </tr>
+                </table>
+                <h2>Balance</h2>
+                <table>
+                  <tr>
+                    <th />
+                  </tr>
+                  <tr>
+                    <td />
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <!-- row -->
+          </div>
+          <!-- container -->
+        </div>
+        <!-- page -->
+      </t>
+    </template>
+  </data>
+</openerp>
