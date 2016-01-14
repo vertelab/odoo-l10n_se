@@ -38,7 +38,7 @@ https://www1.skatteverket.se/es/demoeskd/loggedIn.do
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'depends': ['l10n_se',],
-    'data': [ 'l10n_se_esdk.xml',
+    'data': [ 'l10n_se_esdk.xml','l10n_se_esdk_data.xml'
     ],
     'application': False,
     'installable': True,
