@@ -40,26 +40,36 @@
   
     <report id="basic_r_and_b_report" model="l10n_se_report.basic_r_and_b.wizard" string="Basic P&amp;L and Balance" report_type="qweb-pdf" name="l10n_se_report.basic_r_and_b" file="l10n_se_report.basic_r_and_b" />
     <!--attachment_use="False" attachment="('daily_ledger'+(object.name or ''))+'.pdf'" /> -->
+<!--
     <template id="basic_r_and_b">
       <t t-call="report.html_container">
-        <t t-foreach="doc_ids" t-as="doc_id">
-          <t t-raw="translate_doc(doc_id, doc_model, 'company_id.partner_id.lang', 'l10n_se_report.basic_r_and_b_document')" />
+        <t t-foreach="docs" t-as="doc">
+          <t t-raw="translate_doc(doc.id, doc_model, 'company_id.partner_id.lang', 'l10n_se_report.basic_r_and_b_document')" />
         </t>
       </t>
     </template>
+-->
+
+    <template id="basic_r_and_b">
+      <t t-call="report.html_container">
+        <t t-call="l10n_se_report.basic_r_and_b_document"/>
+      </t>
+    </template>
+
     <template id="l10n_se_report.basic_r_and_b_document">
       <t t-call="report.external_layout">
         <div class="page">
           <div class="container">
             <div class="row">
               <div class="col-md-12 mb16 mt16">
-                <h2>Resultaträkning</h2>
+                
                 <table>
                   <tr>
-                    <th />
-                    2013-14
-                    <th />
-                    <th>2014-15</th>
+                    <th><h2>Resultaträkning</h2></th>
+                    <th>
+                        <span t-raw="docs.get_fiscalyear(prev=True) and docs.get_fiscalyear(prev=True).name" />
+                    </th>
+                    <th><span t-raw="docs.get_fiscalyear() and docs.get_fiscalyear().name" /></th>
                   </tr>
                   <tr>
                     <td>
@@ -68,52 +78,26 @@
                     <td />
                     <td />
                   </tr>
+
+                  <t t-foreach="['3.%s' % code for code in range(1,28)]" t-as="code">
+                        <t t-call="l10n_se_report.basic_r_and_b_row" />
+                  </t>
+
                   <tr>
                     <td>
-                      <span>Nettoomsättning</span>
-                    </td>
-                    <td>
-                      <span t-esc="o.get_prev_balance('3.1')" />
-                    </td>
-                    <td>
-                      <span t-esc="o.get_balance('3.1')" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h3>Rörelsens kostnader</h3>
+                      <h3>Balance sheet</h3>
                     </td>
                     <td />
                     <td />
                   </tr>
-                  <tr>
-                    <td>
-                      <h3>Rörelsens intäkter</h3>
-                    </td>
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <td>
-                      <h3>Rörelsens intäkter</h3>
-                    </td>
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <td>
-                      <h3>Rörelsens intäkter</h3>
-                    </td>
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <td>
-                      <h3>Rörelsens intäkter</h3>
-                    </td>
-                    <td />
-                    <td />
-                  </tr>
+                  <t t-foreach="['2.%s' % code for code in range(1,51)]" t-as="code">
+                        <t t-call="l10n_se_report.basic_r_and_b_row" />
+                  </t>
+
+
+
+                  <t t-call="l10n_se_report.basic_r_and_b_row"><t t-set="code" t-value="3.2"/></t>
+
                 </table>
                 <h2>Balance</h2>
                 <table>
@@ -133,5 +117,22 @@
         <!-- page -->
       </t>
     </template>
+    <template id="basic_r_and_b_row" >
+    <tr t-if="docs.get_balance(code,prev=True) or docs.get_balance(code)">
+                    <td>
+                      <span t-esc="docs.get_label(code)" />
+                    </td>
+                    <td>
+                      <span t-esc="docs.get_account(code,prev=True).balance" t-if="docs.get_account(code,prev=True)"/>
+                    </td>
+                    <td>
+<!--
+                      <span t-esc="docs.get_account(code).balance" t-if="docs.get_account(code)" />
+-->
+                      <span t-esc="docs.get_balance(code)" style="text-align: right;"/>
+                    </td>
+    </tr>
+    </template>
+    
   </data>
 </openerp>
