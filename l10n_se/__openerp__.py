@@ -69,7 +69,7 @@
      """,
     'author': 'Vertel',
     'website': 'http://www.vertel.se',
-    'depends': ['account', 'base_vat', 'account_chart', 'l10n_multilang'],
+    'depends': ['account', 'base_vat', 'account_chart'],
     'init_xml': [],
     'data': [
 #        'data/account.account.type.csv',
