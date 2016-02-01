@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <record id="wizard_account_sie" model="ir.ui.view">
+      <field name="name">Export SIE-files</field>
+      <field name="model">account.sie</field>
+      <field name="arch" type="xml">
+        <form string="Export SIE-files">
+          <field name="state" invisible="1" />
+          <notebook states="choose">
+            <page string="Export">
+              <group>
+                <field name="date_start" />
+                <field name="date_stop" />
+                <field name="start_period" />
+                <field name="stop_period" />
+                <field name="fiscal_year" />
+                <field name="journal" widget="many2many_tags" />
+                <field name="account" />
+              </group>
+            </page>
+            <page string="Import">
+              <group rowspan="4" string="Filebox">
+                <field name="data" />
+                <newline />
+                <div>
+                  <p>File to upload</p>
+                </div>
+              </group>
+            </page>
+          </notebook>
+          <header>
+            <button string="Skapa SIE-fil" name="make_sie" type="object" />
+          </header>
+          <footer states="choose">
+            <button string="Send" name="make_sie" type="object" class="oe_highlight" />
+            <button string="Magnus" name="make_magnus" type="object" class="oe_highlight" />            
+            or
+            <button string="Cancel" special="cancel" class="oe_link" />
+          </footer>
+<!--
+          <footer states="get">
+            <button string="Close" special="cancel" type="object" />
+          </footer>
+-->
+        </form>
+      </field>
+    </record>
+    <record id="action_wizard_account_sie" model="ir.actions.act_window">
+      <field name="name">Export/import SIE-files</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.sie</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+    <menuitem action="action_wizard_account_sie" id="menu_wizard_account_sie" parent="account.menu_finance_periodical_processing" />
+  </data>
+</openerp>
