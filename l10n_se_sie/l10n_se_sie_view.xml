@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
   <data>
+    <record id="wizard_account_sie_2" model="ir.ui.view">
+      <field name="name">Export SIE-files 2</field>
+      <field name="model">account.sie</field>
+      <field name="priority" eval="1"/>
+      <field name="arch" type="xml">
+        <form string="Export SIE-files 2">
+              <group>
+                <field name="state" invisible="1" />
+                <field name="date_start" />
+                <field name="date_stop" /> 
+                <group states="choose">
+                    <field name="data" />
+                </group>  
+                <div states="get">
+                         <h2>Export Complete</h2>
+                         <p>Here is the exported xml-file: <field name="sie_file" readonly="1" filename="name"/></p>
+                </div>
+                            
+                <group states="get">
+                    <field name="data" readonly="1" filename="name" />
+                </group>              
+
+<!--
+                <field name="start_period" />
+                <field name="stop_period" />
+                <field name="fiscal_year" />
+                <field name="journal" widget="many2many_tags" />
+                <field name="account" />
+-->
+              </group>
+          <footer states="choose">
+            <button string="Send" name="send_form" type="object" class="oe_highlight" />
+            or
+            <button string="Cancel" special="cancel" class="oe_link" />
+          </footer>
+          <footer states="get">
+            <button string="Magnus" name="make_magnus" type="object" class="oe_highlight" />            
+            or
+            <button string="Cancel" special="cancel" class="oe_link" />
+          </footer>
+        </form>
+      </field>
+    </record>  
+      
+      
+<!--
     <record id="wizard_account_sie" model="ir.ui.view">
       <field name="name">Export SIE-files</field>
       <field name="model">account.sie</field>
@@ -38,14 +84,11 @@
             or
             <button string="Cancel" special="cancel" class="oe_link" />
           </footer>
-<!--
-          <footer states="get">
-            <button string="Close" special="cancel" type="object" />
-          </footer>
--->
+
         </form>
       </field>
     </record>
+-->
     <record id="action_wizard_account_sie" model="ir.actions.act_window">
       <field name="name">Export/import SIE-files</field>
       <field name="type">ir.actions.act_window</field>
