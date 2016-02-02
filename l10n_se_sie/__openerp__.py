@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Vertel (<http://www.vertel.se>).
+#    Copyright (C) 2015-2016 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -26,12 +26,12 @@
     'description': """ Sweden - Chart of accounts  """,
     'author': 'Vertel',
     'website': 'http://www.vertel.se',
-    'depends': ['account'],
+
+    'depends': ['account','l10n_se'],
     'data': ['l10n_se_sie_view.xml'],
     'demo': ['l10n_se_sie_demo.xml'],
 
-   
     'installable': 'True',
-    'application': 'True',
+    'application': 'False',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

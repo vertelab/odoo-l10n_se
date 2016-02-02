@@ -22,11 +22,6 @@ class account_sie(models.TransientModel):
     state =  fields.Selection([('choose', 'choose'), ('get', 'get')],default="choose") 
     data = fields.Binary('File')
     
-    #~ @api.one
-    #~ def _data(self):
-        #~ self.sie_file = self.data
-    #~ sie_file = fields.Binary(compute='_data')
-
     @api.multi
     def send_form(self):
         sie_form = self[0]
@@ -35,7 +30,7 @@ class account_sie(models.TransientModel):
             fileobj.write(base64.decodestring(sie_form.data))
             fileobj.seek(0)
             try:
-                passsie_form
+                pass 
                 #~ tools.convert_xml_import(account._cr, 'account_export', fileobj, None, 'init', False, None)
             finally:
                 fileobj.close()
@@ -61,4 +56,3 @@ class account_sie(models.TransientModel):
         for code in account_list:
             str += '#KONTO %s\n' % code    
         return str
-        
