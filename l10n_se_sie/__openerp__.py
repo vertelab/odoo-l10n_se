@@ -27,7 +27,9 @@
     'author': 'Vertel',
     'website': 'http://www.vertel.se',
     'depends': ['account'],
-    'init_xml': ['l10n_se_sie_view.xml'],
+    'data': ['l10n_se_sie_view.xml'],
+    'demo': ['l10n_se_sie_demo.xml'],
+
    
     'installable': 'True',
     'application': 'True',

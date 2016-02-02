@@ -29,20 +29,21 @@
               </group>
             </page>
           </notebook>
-          <header>
-            <button string="Skapa SIE-fil" name="make_sie" type="object" />
-          </header>
+          <div states="get">
+            <h2>Export Complete</h2>
+            <p>
+              Here is the exported xml-file:
+              <field name="data" readonly="1" filename="name" />
+            </p>
+          </div>
           <footer states="choose">
-            <button string="Send" name="make_sie" type="object" class="oe_highlight" />
-            <button string="Magnus" name="make_magnus" type="object" class="oe_highlight" />            
+            <button string="Skapa SIE-fil" name="send_form" type="object" class="oe_highlight" />
             or
             <button string="Cancel" special="cancel" class="oe_link" />
           </footer>
-<!--
           <footer states="get">
             <button string="Close" special="cancel" type="object" />
           </footer>
--->
         </form>
       </field>
     </record>
