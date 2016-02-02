@@ -42,7 +42,7 @@ https://www1.skatteverket.se/es/demoeskd/loggedIn.do
     ],
     'application': False,
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
     
 }
 # vim:expandtab:smartindent:tabstop=4s:softtabstop=4:shiftwidth=4:
