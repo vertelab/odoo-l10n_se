@@ -47,12 +47,20 @@ class account_sie(models.TransientModel):
         }
     
     @api.multi
-    def make_sie(self):
+    def make_sie(self,search=[]):
         sie_form = self[0]
         account_list = set()
-        for line in self.env['account.move.line'].search([]):
+        for line in self.env['account.move.line'].search(search):
             account_list.add(line.account_id.code)
         str = ''
         for code in account_list:
             str += '#KONTO %s\n' % code    
         return str
+
+
+class account_period(models.Model):
+    _inherit = 'account.period'
+
+    def get_account_sie(self,ids):
+        return self.env['account.sie'].make_sie([('period_id','in',ids)])
+        
