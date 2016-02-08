@@ -48,26 +48,31 @@ class account_sie(models.TransientModel):
     
     @api.multi
     def make_sie(self,search=[]):
-        sie_form = self[0]
+        #raise Warning("make_sie: %s %s" %(self,search))
+        #  make_sie: account.sie() [('period_id', 'in', [3])] 
+        if len(self) > 0:
+            sie_form = self[0]
         account_list = set()
         for line in self.env['account.move.line'].search(search):
             account_list.add(line.account_id.code)
         str = ''
         for code in account_list:
-            str += '#KONTO %s\n' % code    
+            str += '#KONTO %s\n' % code  
+        raise Warning("str: %s" % str)  
         return str
     
-    
-    
-    
-    
-    class account_period(models.Model):
+    #~ @api.one
+    #~ def make_sie(self,search=[]):
+        #~ return self.env['account.move.line'].search(search).account_id.code
+        #~ 
+        
+class account_period(models.Model):
     _inherit = 'account.period'
     #~ _name = 'account.period'
 
     @api.multi
-    def get_account_period(self,ids):
-        return self.env['account.period'].make_sie([('period_id','in',ids)])
+    def make_sie(self,ids):
+        return self[0].env['account.sie'].make_sie([('period_id','in',ids)])
         
 
 
