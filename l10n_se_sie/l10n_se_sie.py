@@ -56,6 +56,20 @@ class account_sie(models.TransientModel):
         for code in account_list:
             str += '#KONTO %s\n' % code    
         return str
+    
+    
+    
+    
+    
+    class account_period(models.Model):
+    _inherit = 'account.period'
+    #~ _name = 'account.period'
+
+    @api.multi
+    def get_account_period(self,ids):
+        return self.env['account.period'].make_sie([('period_id','in',ids)])
+        
+
 
 
 
