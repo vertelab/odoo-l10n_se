@@ -28,7 +28,6 @@
                 </div>
               </group>
             </page>
-            
           </notebook>
           <div states="get">
             <h2>Export Complete</h2>
@@ -57,15 +56,5 @@
       <field name="target">new</field>
     </record>
     <menuitem action="action_wizard_account_sie" id="menu_wizard_account_sie" parent="account.menu_finance_periodical_processing" />
-    
-<!--
-    <record model="ir.values" id="export_sie_period_action_menu">
-            <field name="name">Export SIE</field>
-            <field name="model">account.period</field>
-            <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.server,%d' % export_sie_period"/>
-     </record>
-     <menuitem action="action_wizard_account_period" id ="export_sie_period_action_menu" parent="acount.menu_finance_periodical_processing"/>
--->
   </data>
 </openerp>

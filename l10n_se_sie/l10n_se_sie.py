@@ -58,21 +58,4 @@ class account_sie(models.TransientModel):
         return str
 
 
-class account_period(models.Model):
-    _inherit = 'account.period'
-    #_name = 'export_sie_period'
 
-    @api.multi
-    def export_sie_period(self,search=[]):
-        sie_form = self[0]
-        account_list=set()
-        for move in self.env['account.move'].search(search):
-            account_list.add(move.account_id.code)
-        str =''
-        for code in account_list:
-            str += '#KONTO %s\n' % code
-        return str
-
-    def get_account_sie(self,ids):
-        return self.env['account.sie'].export_sie_period[('period_id','in',ids)])
-        
