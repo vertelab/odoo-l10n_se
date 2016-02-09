@@ -58,13 +58,24 @@ class account_sie(models.TransientModel):
         str = ''
         for code in account_list:
             str += '#KONTO %s\n' % code  
-        raise Warning("str: %s" % str)  
+        #~ raise Warning("str: %s" % str)  
+        
+        for ver in self.env['account.move'].search(search):
+            str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
+            
+            for trans in ver.line_id:
+                str += '#TRANS %s {} %f %s "%s" %s %s \n' % (trans.account_id.code, trans.balance, trans.date, trans.narration, trans.quantity, trans.create_uid.login)
+            str += '}\n'    
+        
+        #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
+        #VER    serie vernr verdatum vertext regdatum sign
+        
         return str
     
     #~ @api.one
     #~ def make_sie(self,search=[]):
         #~ return self.env['account.move.line'].search(search).account_id.code
-        #~ 
+        
         
 class account_period(models.Model):
     _inherit = 'account.period'
