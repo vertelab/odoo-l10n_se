@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
   <data>
+      <!--account_period-->
     <record model="ir.actions.server" id="dropdown_export_period">
       <field name="name">Export SIE</field>
       <field name="model_id" ref="account.model_account_period" />
       <field name="state">code</field>
       <field name="condition" eval="True" />
       <field name="code">
-obj.make_sie(context.get('active_ids',[]))
+obj.do_it(context.get('active_ids',[]))
 
       </field>
     </record>
@@ -17,6 +18,24 @@ obj.make_sie(context.get('active_ids',[]))
       <field name="key2">client_action_multi</field>
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_period" />
     </record>
+    <!--account_account-->
+    <record model="ir.actions.server" id="dropdown_export_account">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account.model_account_account" />
+      <field name="state">code</field>
+      <field name="condition" eval="True" />
+      <field name="code">
+obj.get_account(context.get('active_ids',[]))
+
+      </field>
+    </record>
+    <record model="ir.values" id="export_sie_account">
+      <field name="name">Export SIE</field>
+      <field name="model">account.account</field>
+      <field name="key2">client_action_multi</field>
+      <field name="value" eval="'ir.actions.server,%d' % dropdown_export_account" />
+    </record>
+    <!-- export sie -->
     <record id="wizard_account_sie" model="ir.ui.view">
       <field name="name">Export SIE-files</field>
       <field name="model">account.sie</field>
