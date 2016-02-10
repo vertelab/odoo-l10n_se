@@ -4,6 +4,9 @@ from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 from openerp import http
 import base64
+import tempfile
+from werkzeug.datastructures import Headers
+from werkzeug.wrappers import Response
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -57,6 +60,7 @@ class account_sie(models.TransientModel):
             'target': 'new',
         }
     
+    
     @api.multi
     def make_sie(self,search=[]):
         #raise Warning("make_sie: %s %s" %(self,search))
@@ -83,10 +87,42 @@ class account_sie(models.TransientModel):
             str += '}\n'
         return str
     
-    #~ @api.one
-    #~ def make_sie(self,search=[]):
-        #~ return self.env['account.move.line'].search(search).account_id.code
+    @api.multi
+    def get_accounts(self,ver_ids):
+        account_list = set()
+        for ver in ver_ids:
+            for line in ver.line_id:
+            #for l in ver.line_id for ver in ver_ids]]:
+                account_list.add(line.account_id)
+        return account_list
         
+    @api.multi
+    def make_sie2(self, ver_ids):
+        #raise Warning("make_sie: %s %s" %(self,search))
+        #  make_sie: account.sie() [('period_id', 'in', [3])] 
+    
+        
+        if len(self) > 0:
+            sie_form = self[0]
+        
+        str = ''
+        for account in self.get_accounts(ver_ids):
+            str += '#KONTO %s\n' % account.code
+        #raise Warning("str: %s %s search:%s" % (str, self.env['account.move.line'].search(search),search))  
+        
+        #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
+        #VER    serie vernr verdatum vertext regdatum sign
+    
+        for ver in ver_ids:
+            str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, self.fix_narration(ver.narration), ver.create_date, ver.create_uid.login)
+            #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
+            
+            for trans in ver.line_id:
+                str += '#TRANS %s {} %f %s "%s" %s %s \n' % (trans.account_id.code, trans.balance, trans.date, self.fix_narration(trans.name), trans.quantity, trans.create_uid.login)
+            str += '}\n'
+        _logger.warning('%s' %str)
+        return str
+    
     # if narration is null, return empty string instead of parsing to False
     @api.multi
     def fix_narration(self, narration):
@@ -99,28 +135,38 @@ class account_period(models.Model):
     _inherit = 'account.period'
     
     @api.multi
-    def do_it(self,ids):
-        periods = self.get_period(ids)
-        #raise Warning(periods)
-        _logger.warning('do_it sie %s' %base64.encodestring(periods.encode('utf-8')))
-        http.send_file(StringIO(periods.encode('utf-8')),filename='period.sie')
-        #>>> base64.b64encode(u'\xfc\xf1\xf4'.encode('utf-8'))
-        #~ return http.send_file(StringIO(self.run(self.data_to_img(getattr(o, field))).make_blob(format='jpg')), filename=field, mtime=self.get_mtime(o))
+    def export_sie(self,ids):
+        ver_ids = self.env['account.move'].search([('period_id','in',ids)])
+        _logger.warning('\nver_ids:\n%s' % ver_ids)
+        return self.env['account.sie'].make_sie2(ver_ids)
         
-        #self.write_to_file(periods)
     
-    def get_period(self,ids):
-        return self.env['account.sie'].make_sie([('period_id','in',ids)])
-        
-      
-        
-
+       
 class account_account(models.Model):
     _inherit = 'account.account'
     
     @api.multi
-    def get_account(self,ids):
-        if(len(self) > 0):
-            return self[0].env['account.sie'].make_sie([('id','in',ids)])
-        else:
-            return self.env['account.sie'].make_sie([('id','in',ids)])
+    def export_sie(self,ids):
+        account_ids = self.env['account.account'].browse(ids)
+        ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.line_id.filtered(lambda r: r.account_id.code in [a.code for a in account_ids]))
+    
+        str = self.env['account.sie'].make_sie2(ver_ids)
+        return werkzeug.wrappers.Response(str, mimetype='text/plain')
+        
+
+class account_fiscalyear(models.Model):
+    _inherit = 'account.fiscalyear'
+    
+    def export_sie(self,ids):
+        #fiscal_year_ids = self.env['account.fiscalyear'].browse(ids)
+        ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.period_id.fiscalyear_id.id in ids)
+        
+
+class account_journal(models.Model):
+    _inherit = 'account.journal'
+    # FIX FORM ON CLICK
+    def export_sie(self,ids):
+        ver_ids = self.env['account.move'].search([('journal_id','in',ids)])
+        _logger.warning('\n%s'%ver_ids)
+        self.env['account.sie'].make_sie2(ver_ids)
+        
