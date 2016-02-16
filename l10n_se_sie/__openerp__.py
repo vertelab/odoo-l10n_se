@@ -28,7 +28,7 @@
     'website': 'http://www.vertel.se',
 
     'depends': ['account','l10n_se'],
-    'data': ['l10n_se_sie_view.xml','account_view.xml'],
+    'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
   
     'demo': ['l10n_se_sie_demo.xml'],
 

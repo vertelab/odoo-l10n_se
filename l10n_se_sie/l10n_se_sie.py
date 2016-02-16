@@ -105,7 +105,10 @@ class account_sie(models.TransientModel):
         if len(self) > 0:
             sie_form = self[0]
         
+        company = ver_ids[0].company_id
+        
         str = ''
+        str += '#KPTYP %s\n' % company.kptyp
         for account in self.get_accounts(ver_ids):
             str += '#KONTO %s\n' % account.code
         #raise Warning("str: %s %s search:%s" % (str, self.env['account.move.line'].search(search),search))  
