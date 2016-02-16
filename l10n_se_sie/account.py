@@ -50,20 +50,7 @@ class account_account(models.Model):
         ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.line_id.filtered(lambda r: r.account_id.code in [a.code for a in account_ids]))
     
         str = self.env['account.sie'].make_sie2(ver_ids)
-        _logger.warning(Response(str,headers=[
-                    ('Content-Disposition', 'attachment; filename="l10n_se_sie.sie"'),
-                    ('Content-Type', 'text/calendar'),
-                    ('Content-Length', len(str)),
-                ]))
-        return Response(str, headers=[
-                    ('Content-Disposition', 'attachment; filename="l10n_se_sie.sie"'),
-                    ('Content-Type', 'text/calendar'),
-                    ('Content-Length', len(str)),
-                ])
         
-        
-        
-
 class account_fiscalyear(models.Model):
     _inherit = 'account.fiscalyear'
     
