@@ -68,6 +68,6 @@ class account_journal(models.Model):
 class account_move(models.Model):
     _inherit = 'account.move'
     def export_sie(self,ids):
-        ver_ids = self.env['account.move'].search([])
+        ver_ids = self.env['account.move'].search([('id','in',ids)])
         self.env['account.sie'].make_sie2(ver_ids)
         

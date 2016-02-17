@@ -106,11 +106,25 @@ class account_sie(models.TransientModel):
             sie_form = self[0]
         
         company = ver_ids[0].company_id
-        
         str = ''
+        str += '#FLAGGA 0\n' 
+        str += '#FORMAT PC8\n'
+        str += '#SIETYP %s\n' %'Fixa funktionen langst ner'
+        str += '#PROGRAM Odoo v%s\n' %'HAMTA FRAN NAGAONSTANS'
+        str += '#GEN %s\n'%fields.Date.today().replace('-','')
+        str += '#FNAMN res.company.name) %s\n' %company.name
+        str += '#FNR "TestAB" (res.company.???) %s\n' %company.rml_header1
+        str += '#ORGNR 222222-2222 (res.company.orgnr) %s\n' %company.company_registry
+        str += '#ADRESS "" "%s" "%s %s" "%s"\n' %(company.street, company.zip, company.city, company.phone)
+        #str += '#ADRESS "" "Gatan 1" "123 45 Staden" +4618123456  (res.company.partner_id.stree/city etc)\n'
+
+        #company.company_registry
+        
+        #str += '#ORGNR  %s\n' % company.orgnr
         str += '#KPTYP %s\n' % company.kptyp
         for account in self.get_accounts(ver_ids):
-            str += '#KONTO %s\n' % account.code
+            str += '#KONTO %s\n' % account.code # LISTA KUNDFODRINGAR
+            
         #raise Warning("str: %s %s search:%s" % (str, self.env['account.move.line'].search(search),search))  
         
         #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
@@ -129,8 +143,17 @@ class account_sie(models.TransientModel):
     # if narration is null, return empty string instead of parsing to False
     @api.multi
     def fix_narration(self, narration):
-        if(narration):
-            return narration
-        else:
-            return ''
+       # if(narration):
+        return narration
+        #else:
+         #   return ''
         
+        ''' 
+    def sietyp(self):
+        return correct type. some if cases.
+        Typ 1 Årssaldon. Innehåller årets ingående och utgående saldon för samtliga konton i kontoplanen
+        Typ 2 Periodsaldon. Innehåller all information från typ 1 samt månadsvisa saldoförändringar för samtliga konton.
+        Typ 3 Objektsaldon. Identisk med typ 2, men saldon finns även på objektnivå, t ex kostnadsställen och projekt.
+        Typ 4 Transaktioner. Identisk med typ 3, men innehåller även samtliga verifikationer för räkenskapsåret. Detta filformat kan användas för export av årets grundboksnoteringar till ett program för transaktionsanalys
+        Typ 4i Transaktioner. Innehåller endast verifikationer. Filformatet används när ett försystem, t ex ett löneprogram eller ett faktureringsprogram ska generera bokföringsorder för inläsning i bokföringssystemet.
+        '''
