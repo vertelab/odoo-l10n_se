@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+import datetime
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -22,7 +23,7 @@ class account_period(models.Model):
     @api.multi
     def export_sie(self,ids):
         ver_ids = self.env['account.move'].search([('period_id','in',ids)])
-        _logger.warning('\nver_ids:\n%s' % ver_ids)
+        #_logger.warning('\nver_ids:\n%s' % ver_ids)
         return self.env['account.sie'].make_sie2(ver_ids)
         
 class account_chart_template(models.Model):
@@ -50,6 +51,22 @@ class account_fiscalyear(models.Model):
         ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.period_id.fiscalyear_id.id in ids)
         #_logger.warning('\n\nfiscal_year\n%s'%ver_ids)
         self.env['account.sie'].make_sie2(ver_ids)
+    
+    @api.multi
+    def get_rar_code(self):
+        d = datetime.date.today()
+        rar = 0
+        fiscalyear = self[0]
+        while True:            
+            if rar < -10 or rar > 10:
+                break
+            if d.strftime('%Y-%m-%s') >= fiscalyear.date_start and d.strftime('%Y-%m-%s') <= fiscalyear.date_stop:
+                break
+            
+            d -= datetime.timedelta(days=365)
+            rar-=1
+        return rar
+
 
 class account_journal(models.Model):
     _inherit = 'account.journal'
@@ -60,9 +77,7 @@ class account_journal(models.Model):
             sie_form = self[0]
   
     def export_sie(self,ids):
-#        _logger.warning('self: %s\nids: %s' %(self,ids))
         ver_ids = self.env['account.move'].search([('journal_id','in',ids)])
- #       _logger.warning('\n%s'%ver_ids)
         self.env['account.sie'].make_sie2(ver_ids)
         
 class account_move(models.Model):
