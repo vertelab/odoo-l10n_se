@@ -24,7 +24,7 @@ class account_period(models.Model):
     def export_sie(self,ids):
         ver_ids = self.env['account.move'].search([('period_id','in',ids)])
         #_logger.warning('\nver_ids:\n%s' % ver_ids)
-        return self.env['account.sie'].make_sie2(ver_ids)
+        return self.env['account.sie'].export_sie(ver_ids)
         
 class account_chart_template(models.Model):
     _inherit = 'account.chart.template'
@@ -41,7 +41,7 @@ class account_account(models.Model):
     def export_sie(self,ids):
         account_ids = self.env['account.account'].browse(ids)
         ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.line_id.filtered(lambda r: r.account_id.code in [a.code for a in account_ids]))
-        str = self.env['account.sie'].make_sie2(ver_ids)
+        return self.env['account.sie'].export_sie(ver_ids)
         
 class account_fiscalyear(models.Model):
     _inherit = 'account.fiscalyear'
@@ -50,8 +50,8 @@ class account_fiscalyear(models.Model):
         #fiscal_year_ids = self.env['account.fiscalyear'].browse(ids)
         ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.period_id.fiscalyear_id.id in ids)
         #_logger.warning('\n\nfiscal_year\n%s'%ver_ids)
-        self.env['account.sie'].make_sie2(ver_ids)
-    
+        return self.env['account.sie'].export_sie(ver_ids)
+
     @api.multi
     def get_rar_code(self):
         d = datetime.date.today()
@@ -78,11 +78,11 @@ class account_journal(models.Model):
   
     def export_sie(self,ids):
         ver_ids = self.env['account.move'].search([('journal_id','in',ids)])
-        self.env['account.sie'].make_sie2(ver_ids)
+        return self.env['account.sie'].export_sie(ver_ids)
         
 class account_move(models.Model):
     _inherit = 'account.move'
     def export_sie(self,ids):
         ver_ids = self.env['account.move'].search([('id','in',ids)])
-        self.env['account.sie'].make_sie2(ver_ids)
+        return self.env['account.sie'].export_sie(ver_ids)
         

@@ -142,8 +142,26 @@ class account_sie(models.TransientModel):
             str += '}\n'
         
         _logger.warning('\n%s\n' % str)
+        
         return str
     
+    @api.multi
+    def export_sie(self,ver_ids):
+        if len(self) < 1:
+            sie_form = self.create({})
+        else:
+            sie_form=self[0]
+        sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie2(ver_ids).encode('utf8')) })
+        #~ sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie()) })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.sie',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': sie_form.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
     # if narration is null, return empty string instead of parsing to False
     @api.multi
     def fix_empty(self, narration):
@@ -161,3 +179,15 @@ class account_sie(models.TransientModel):
         Typ 4 Transaktioner. Identisk med typ 3, men innehåller även samtliga verifikationer för räkenskapsåret. Detta filformat kan användas för export av årets grundboksnoteringar till ett program för transaktionsanalys
         Typ 4i Transaktioner. Innehåller endast verifikationer. Filformatet används när ett försystem, t ex ett löneprogram eller ett faktureringsprogram ska generera bokföringsorder för inläsning i bokföringssystemet.
         '''
+    @api.multi
+    def import_sie(self):
+        sie_form = self[0]
+        raise Warning(sie_form.data)
+        #~ result = {}
+        #~ for product_data in self.browse(cr, uid, ids, context=context):
+                #~ result[product_data.id] = product_data['file_path']
+                #~ return result
+        #~ return result
+
+        #_logger.warning('\n%s' % base64.encodestring(args.get('data').read()))
+        
