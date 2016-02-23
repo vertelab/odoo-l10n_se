@@ -43,6 +43,14 @@ class account_account(models.Model):
         ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.line_id.filtered(lambda r: r.account_id.code in [a.code for a in account_ids]))
         return self.env['account.sie'].export_sie(ver_ids)
         
+    def check__missing_accounts(self,accounts):
+        missing = []
+        for account in accounts:
+            if len(self.env['account.account'].search([('code','=',account[0])])) == 0:
+                missing.append(account)
+        return missing
+        
+        
 class account_fiscalyear(models.Model):
     _inherit = 'account.fiscalyear'
     

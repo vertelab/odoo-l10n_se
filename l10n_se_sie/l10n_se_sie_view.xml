@@ -114,6 +114,7 @@
               </group>
             </page>
           </notebook>
+<!--
           <div states="get">
             <h2>Export Complete</h2>
             <p>
@@ -121,14 +122,17 @@
               <field name="data" readonly="1" filename="name" />
             </p>
           </div>
+-->
           <footer states="choose">
             <button string="Skapa SIE-fil" name="send_form" type="object" class="oe_highlight" />
             or
             <button string="Cancel" special="cancel" class="oe_link" />
           </footer>
+<!--
           <footer states="get">
             <button string="Close" special="cancel" type="object" />
           </footer>
+-->
         </form>
       </field>
     </record>

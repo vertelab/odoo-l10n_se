@@ -7,6 +7,7 @@ import base64
 import tempfile
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
+import re
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -26,20 +27,103 @@ class account_sie(models.TransientModel):
     state =  fields.Selection([('choose', 'choose'), ('get', 'get')],default="choose") 
     data = fields.Binary('File')
     
+    def _stringSplit(self, string):
+        tempString = ""
+        splitList = []
+        quote = False
+        for s in range(0, len(string)):
+            if (not quote and string[s] == '"'):
+                quote = True
+                tempString += string[s]
+            elif (quote and string[s] == '"'):
+                quote = False
+                tempString += string[s]
+                if (len(tempString) > 0):
+                    splitList.append(tempString)
+                tempString = ""
+            elif (quote and string[s] == ' '):
+                tempString += string[s]
+            elif (not quote and string[s] == ' '):
+                if (len(tempString) > 0):
+                    splitList.append(tempString)
+                tempString = ""
+            elif (not quote and s == len(string)-1 and not string[s] == ' '):
+                tempString += string[s]
+                splitList.append(tempString)
+            else:
+                tempString += string[s]
+        return splitList
+    
+    def _import_accounts(self, string):
+        list_of_accounts = []
+        accounts = []
+        for account in re.finditer(re.compile(r'(#KONTO .+)+', re.MULTILINE),string):
+            list_of_accounts.append(account.group())
+        for x in (list_of_accounts):
+            tmpvar = self._stringSplit(x)
+            accounts.append((tmpvar[1],tmpvar[2]))
+        return accounts
+    
+    def _import_ver(self,string):
+        for ver in re.finditer(re.compile(r'(?u)#VER .+\n{\n(#TRANS .+\n)+}\n', re.MULTILINE),string):
+            verString = '' + (re.search(re.compile(r'#VER .+'),ver.group()).group())
+            verList = self._stringSplit(verString)
+            
+            
+            # 3 är datumet
+            # 5 är signatur
+            
+            
+            
+            # FYLL I FRÅN INPUT AV FILEN: LÄS SAKER
+            
+            #~ #self.env['account.period'].find(dt=FIXA DATUMET FRÅN FIL STRÄNG)
+            #~ #self._uid self._cr eventuellt skicka med
+            ver_date = (self.env['account.period'].find(dt=verList[3]))
+            raise Warning(('ver_date:%s\ndatumet:%s') %(ver_date,verList[3]))
+            #~ ver_id = self.env['account.move'].create({
+                #~ 'period_id': self.env['account.period'].find(dt=ver_date).id, # SÖK rätt period utifrån datum
+                #~ 'journal_id': self.env.ref('account.miscellaneous_journal').id,
+                #~ })
+            
+            #<record id="miscellaneous_journal" model="account.journal">
+
+            #~ for trans in re.finditer(re.compile(r'(?u)(#TRANS .+)'),ver.group()):
+                #~ translist = self._stringSplit(trans.group())
+                #~ self.env['account.move.line'].create(trans_record)
+                #~ code = translist[1]
+
+        
+        
     @api.multi
     def send_form(self):
         sie_form = self[0]
-        if not sie_form.data == None:
-            fileobj = TemporaryFile('w+')
-            fileobj.write(base64.decodestring(sie_form.data))
-            fileobj.seek(0)
-            try:
-                pass 
-                #~ tools.convert_xml_import(account._cr, 'account_export', fileobj, None, 'init', False, None)
-            finally:
-                fileobj.close()
-            return True
-            # select * from account_period where accunt_period.period_id >= p1 and accunt_period.period_id <= p2
+        if not sie_form.data == None: # IMPORT TRIGGERED
+            #~ fileobj = TemporaryFile('w+')
+            #~ fileobj.write(base64.decodestring(sie_form.data))
+            #~ fileobj.seek(0)
+            #~ try:
+                #~ pass
+            #    #~ tools.convert_xml_import(account._cr, 'account_export', fileobj, None, 'init', False, None)
+            #~ finally:
+                #~ fileobj.close()
+            #return True
+            #~ # select * from account_period where accunt_period.period_id >= p1 and accunt_period.period_id <= p2
+            tempString = '' + base64.decodestring(sie_form.data)
+            
+            missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(tempString))
+                        
+            if len(missing_accounts) > 0:
+                raise Warning(_('Accounts missing, add before import\n%s') % '\n '.join(['%s %s' %(a[0],_(a[1])) for a in missing_accounts]))
+            
+            
+            for ver in self._import_ver(tempString):
+                _logger.warning('QWERTY\n%s'%ver)
+                #~ 
+            #self.env['l10n_se_sie_importfile'].get_ver_trans(tempString)
+            # vill hja en lista med konton och verifikat
+            # 
+            
             
         ## TODO: plenty of if cases to know what's selected. id is integer
         if(sie_form.start_period.id and sie_form.stop_period.id):
@@ -134,7 +218,7 @@ class account_sie(models.TransientModel):
         #VER    serie vernr verdatum vertext regdatum sign
     
         for ver in ver_ids:
-            str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_date.replace('-',''), ver.create_uid.login)
+            str += '#VER "" %s %s "%s" %s\n{\n' % (ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_uid.login)
             #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
             
             for trans in ver.line_id:
