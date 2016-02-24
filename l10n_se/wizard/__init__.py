@@ -18,12 +18,6 @@
 #
 ##############################################################################
 
-import account
-import res_company
-import res_partner
-import report
-import account_vat
-import wizard
-#import setup
+import import_chart_of_account
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
