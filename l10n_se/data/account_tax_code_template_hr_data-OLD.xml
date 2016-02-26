@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!--
+         <record id="account.account_tax_code_template-7f6fa9c4-7e24-11e5-a6a2-52540087a7b7-24" model="account.tax.code.template">
+         <field name="info">False</field>
+         <field name="code">a0</field>
+         <field name="display_name">a0 - SE Standardmoms</field>
+         <field name="name">SE Standardmoms</field>
+         <field name="sequence">0</field>
+         <field name="sign">1.0</field>
+         <field name="notprintable">False</field>
+         </record>
+    -->
+    <record id="account_tax_code-eSKDUpload" model="account.tax.code">
+      <field name="code">eSKDUpload</field>
+      <field name="name">Skattedeklaration</field>
+      <field name="sign">1.0</field>
+    </record>
+    <record id="account_tax_code-Ag" model="account.tax.code">
+      <field name="code">Ag</field>
+      <field name="name">Arbetsgivaravgifter och avdragen skatt</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-eSKDUpload" />
+    </record>
+    <!--
+         ======= Blankett del 1
+    -->
+    <record id="account_tax_code-AgBrutU" model="account.tax.code">
+      <field name="code">AgBrutU</field>
+      <field name="name">Bruttolön, förmåner och avdrag för utgifter</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-Ag" />
+    </record>
+    <record id="account_tax_code-SumUlagAvg" model="account.tax.code">
+      <field name="code">SumUlagAvg</field>
+      <field name="name">53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgBrutU" />
+    </record>
+    <record id="account_tax_code-LonBrutto" model="account.tax.code">
+      <field name="code">LonBrutto</field>
+      <field name="name">50: Avgiftspliktig bruttolön</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-SumUlagAvg" />
+    </record>
+    <record id="account_tax_code-Forman" model="account.tax.code">
+      <field name="code">Forman</field>
+      <field name="name">51: Avgiftspliktiga förmåner</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-SumUlagAvg" />
+    </record>
+    <record id="account_tax_code-AvdrKostn" model="account.tax.code">
+      <field name="code">AvdrKostn</field>
+      <field name="name">52: Avdrag för utgifter</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-SumUlagAvg" />
+    </record>
+    <!--
+         ======= Blankett del 2
+    -->
+    <record id="account_tax_code-AgAvgU" model="account.tax.code">
+      <field name="code">AgAvgU</field>
+      <field name="name">Underlag för arbetsgivaravgifter</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-Ag" />
+    </record>
+    <record id="account_tax_code-UlagAvgHel" model="account.tax.code">
+      <field name="code">UlagAvgHel</field>
+      <field name="name">55: Full arbetsgivaravgift för födda 1950-1989</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgU" />
+    </record>
+    <record id="account_tax_code-UlagAvgAldersp" model="account.tax.code">
+      <field name="code">UlagAvgAldersp</field>
+      <field name="name">57: Arbetsgivaravgift för födda 1990 eller senare</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgU" />
+    </record>
+    <record id="account_tax_code-UlagAlderspSkLon" model="account.tax.code">
+      <field name="code">UlagAlderspSkLon</field>
+      <field name="name">59: Arbetsgivaravgift för födda 1938 - 1949</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgU" />
+    </record>
+    <record id="account_tax_code-UlagAvgAmbassad" model="account.tax.code">
+      <field name="code">UlagAvgAmbassad</field>
+      <field name="name">65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgU" />
+    </record>
+    <record id="account_tax_code-UlagAvgAmerika" model="account.tax.code">
+      <field name="code">UlagAvgAmerika</field>
+      <field name="name">69: Arbetsgivaravgift för utsänd personal</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgU" />
+    </record>
+    <!--
+         ======= Blankett del 3
+    -->
+    <record id="account_tax_code-AgAvgAv" model="account.tax.code">
+      <field name="code">AgAvgAv</field>
+      <field name="name">Underlag för avdrag från arbetsgivaravgifter</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-Ag" />
+    </record>
+    <record id="account_tax_code-UlagStodForetag" model="account.tax.code">
+      <field name="code">UlagStodForetag</field>
+      <field name="name">73: Forskning och utveckling</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgAv" />
+    </record>
+    <record id="account_tax_code-UlagStodUtvidgat" model="account.tax.code">
+      <field name="code">UlagStodUtvidgat</field>
+      <field name="name">75: Regionalt stöd för vissa branscher i stödområde</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgAv" />
+    </record>
+    <!--
+         ======= Blankett del 4
+    -->
+    <record id="account_tax_code-AgAvgPreS" model="account.tax.code">
+      <!--
+           Finns som summa efter ruta 88 på blanketten.
+      -->
+      <field name="code">AgAvgPreS</field>
+      <field name="name">Summa arbetsgivaravgifter och avdragen skatt att betala</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-Ag" />
+    </record>
+    <!--
+         ======= Blankett del 4a
+    -->
+    <record id="account_tax_code-SumAvgBetala" model="account.tax.code">
+      <field name="code">SumAvgBetala</field>
+      <field name="name">78: Summa arbetsgivaravgift att betala</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgPreS" />
+    </record>
+    <record id="account_tax_code-AgAvg" model="account.tax.code">
+      <field name="code">AgAvg</field>
+      <field name="name">Arbetsgivaravgifter</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-SumAvgBetala" />
+    </record>
+    <record id="account_tax_code-AvgHel" model="account.tax.code">
+      <field name="code">AvgHel</field>
+      <field name="name">56: Arbetsgivaravgift 31,42%</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvg" />
+    </record>
+    <record id="account_tax_code-AvgAldersp" model="account.tax.code">
+      <field name="code">AvgAldersp</field>
+      <field name="name">58: Arbetsgivaravgift 25,46%</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvg" />
+    </record>
+    <record id="account_tax_code-AvgAlderspSkLon" model="account.tax.code">
+      <field name="code">AvgAlderspSkLon</field>
+      <field name="name">60: Arbetsgivaravgift 10,21%</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvg" />
+    </record>
+    <record id="account_tax_code-AvgAmbassad" model="account.tax.code">
+      <field name="code">AvgAmbassad</field>
+      <field name="name">66: (beräknas från ruta 65) HANTERAS MANUELLT</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvg" />
+    </record>
+    <record id="account_tax_code-AvgAmerika" model="account.tax.code">
+      <field name="code">AvgAmerika</field>
+      <field name="name">70: (beräknas från ruta 69) HANTERAS MANUELLT</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvg" />
+    </record>
+    <!--
+         ======= Blankett del 4b
+    -->
+    <record id="account_tax_code-AgAvd" model="account.tax.code">
+      <field name="code">AgAvd</field>
+      <field name="name">Avdrag</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgPreS" />
+    </record>
+    <record id="account_tax_code-AvdrStodForetag" model="account.tax.code">
+      <field name="code">AvdrStodForetag</field>
+      <field name="name">74: Forskning och utveckling</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvd" />
+    </record>
+    <record id="account_tax_code-AvdrStodUtvidgat" model="account.tax.code">
+      <field name="code">AvdrStodUtvidgat</field>
+      <field name="name">76: Regionalt stöd</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvd" />
+    </record>
+    <!--
+         ======= Blankett del 5
+    -->
+    <record id="account_tax_code-AgAvdU" model="account.tax.code">
+      <field name="code">AgAvdU</field>
+      <field name="name">Underlag för skatteavdrad</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-Ag" />
+    </record>
+    <record id="account_tax_code-UlagSumSkAvdr" model="account.tax.code">
+      <field name="code">UlagSumSkAvdr</field>
+      <field name="name">87: Summa underlag för skatteavdrag</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvdU" />
+    </record>
+    <record id="account_tax_code-UlagSkAvdrLon" model="account.tax.code">
+      <field name="code">UlagSkAvdrLon</field>
+      <field name="name">81: Lön och förmåner ink. SINK</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-UlagSumSkAvdr" />
+    </record>
+    <record id="account_tax_code-UlagSkAvdrPension" model="account.tax.code">
+      <field name="code">UlagSkAvdrPension</field>
+      <field name="name">83: Pension, livränta, försäkringsersättning ink SINK</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-UlagSumSkAvdr" />
+    </record>
+    <record id="account_tax_code-UlagSkAvdrRanta" model="account.tax.code">
+      <field name="code">UlagSkAvdrRanta</field>
+      <field name="name">85: Ränta och utdelning</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-UlagSumSkAvdr" />
+    </record>
+    <!--
+         ======= Blankett del 6
+    -->
+    <record id="account_tax_code-SumSkAvdr" model="account.tax.code">
+      <field name="code">SumSkAvdr</field>
+      <field name="name">88: Summa avdragen skatt att betala</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgAvgPreS" />
+    </record>
+    <record id="account_tax_code-AgPre" model="account.tax.code">
+      <field name="code">AgPre</field>
+      <field name="name">Avdragen skatt</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-SumSkAvdr" />
+    </record>
+    <record id="account_tax_code-SkAvdrLon" model="account.tax.code">
+      <field name="code">SkAvdrLon</field>
+      <field name="name">82: Avdragen skatt lön</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgPre" />
+    </record>
+    <record id="account_tax_code-SkAvdrPension" model="account.tax.code">
+      <field name="code">SkAvdrPension</field>
+      <field name="name">84: Från pension m.m.</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgPre" />
+    </record>
+    <record id="account_tax_code-SkAvdrRanta" model="account.tax.code">
+      <field name="code">SkAvdrRanta</field>
+      <field name="name">86: Från ränta och utdelning</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-AgPre" />
+    </record>
+    <!--
+         ======= Blankett del 7
+    -->
+    <record id="account_tax_code-SjukLonKostnEhs" model="account.tax.code">
+      <field name="code">SjukLonKostnEhs</field>
+      <field name="name">99: Total sjuklönekostnad</field>
+      <field name="sign">1.0</field>
+      <field name="parent_id" ref="account_tax_code-Ag" />
+    </record>
+  </data>
+</openerp>

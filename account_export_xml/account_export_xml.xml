@@ -14,9 +14,10 @@
                         <page string="Export">
                             <group>
                             <field name="model"/>
-                            <field name="period_ids" widget="many2many_tags" attrs="{'invisible': [('has_period','=',False)] }"/>                        
                             <field name="depth" />
-                            <field name="description" />
+                            <field name="model_ids" widget="many2many_tags"/>
+                            <field name="period_ids" widget="many2many_tags" attrs="{'invisible': [('has_period','=',False)] }"/>                        
+                           <!-- <field name="description" /> -->
                             </group>
                         </page>
                         <page string="Import">

@@ -1,0 +1,107 @@
+<openerp>
+  <data>
+    <report id="l10n_report" model="account.move" string="Daily Ledger" report_type="qweb-pdf" name="l10n_se_report.daily_ledger" file="l10n_se_report.daily_ledger" />
+    <!--attachment_use="False" attachment="('daily_ledger'+(object.name or ''))+'.pdf'" /> -->
+
+    <template id="daily_ledger">
+      <t t-call="report.html_container">
+        <t t-set="report_name" t-value="'Daily Ledger'" />
+        <t t-set="last_account_move" t-value="docs[-1].name" />
+        <t t-call="l10n_se_report.compact_layout">
+          <div class="page">
+            <table class="table table-condensed">
+              <t t-foreach="docs" t-as="doc">
+                <t t-raw="translate_doc(doc.id, doc_model, 'company_id.partner_id.lang', 'l10n_se_report.daily_ledger_document')" />
+              </t>
+            </table>
+          </div>
+        </t>
+      </t>
+    </template>
+
+    <template id="daily_ledger_document">
+                <div style="page-break-before: avoid">
+                  <thead>
+                    <th>
+                      <span t-field="o.name" />
+                    </th>
+                    <th>
+                      <span t-field="o.date" />
+                    </th>
+                    <th>
+                      <span t-if="o.ref">ref: </span>
+                      <span t-field="o.ref" />
+                    </th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                  </thead>
+                  <tbody>
+                    <t t-foreach="o.line_id" t-as="line">
+                      <tr>
+                        <td>
+                          <span t-field="line.account_id.code" />
+                        </td>
+                        <td colspan="2">
+                          <span t-esc="line.name[:50 if len(line.name) &gt; 50 else len(line.name)]" />
+                        </td>
+                        <td align="right">
+                          <span t-field="line.debit" />
+                        </td>
+                        <td align="right">
+                          <span t-field="line.credit" />
+                        </td>
+                      </tr>
+                    </t>
+                  </tbody>
+                </div>
+    </template>
+    
+     <template id="compact_layout_header">
+      <div class="header">
+        <div class="row" style="max-height: 50px;">
+          <div class="col-xs-3">
+            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;" />
+          </div>
+          <div class="col-xs-9 text-right" style="margin-top:20px;" t-raw="report_name" />
+        </div>
+      </div>
+    </template>
+    
+    <template id="compact_layout_footer">
+      <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+          <ul class="list-inline">
+            <li>
+               <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>            
+            </li>
+            <li>
+              <span t-raw="last_account_move" />
+            </li>
+            <li>Page:</li>
+            <li>
+              <span class="page" />
+            </li>
+            <li>/</li>
+            <li>
+              <span class="topage" />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>
+    
+    <template id="compact_layout">
+      <!-- Multicompany -->
+      <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id" />
+      </t>
+      <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company" />
+      </t>
+      <t t-call="l10n_se_report.compact_layout_header" />
+      <t t-raw="0" />
+      <t t-call="l10n_se_report.compact_layout_footer" />
+    </template>
+    
+  </data>
+</openerp>

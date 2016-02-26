@@ -48,21 +48,50 @@ class account_export(models.TransientModel):
     def _data(self):
         self.xml_file = self.data
     xml_file = fields.Binary(compute='_data')
-    period_ids = fields.Many2many('account.period',)
+    def _periods(self):
+        return [p.id for p in self.env['account.period'].search([])]
+    period_ids = fields.Many2many('account.period',default=_periods)
     description = fields.Text('Note', help="This will be included in the message")
     state =  fields.Selection([('choose', 'choose'), ('get', 'get')],default="choose") 
     depth =  fields.Selection([('0', 'none'), ('1', '1 level'), ('2', '2 levels'), ('3', '3 levels'), ('4', '4 levels')],default="0") 
     name = fields.Char('File Name', readonly=True)
-    model = fields.Selection([('res.partner','Customers'),('account.invoice','Invoices'),('account.move','Moves')],string="Model")
-    #model = fields.Many2one(comodel_name='res.model',string="Model")
-    #models_ids 
+    #model = fields.Selection([('res.partner','Customers'),('account.invoice','Invoices'),('account.move','Moves')],string="Model")
+    model = fields.Many2one(comodel_name='ir.model',string="Model")
+    model_ids = fields.Many2many(comodel_name="ir.model")
 
     has_period = fields.Boolean('Has Period')
+
+    @api.returns('ir.model')
+    def _get_models(self,model,depth,maxdepth=4):
+        models = set()        
+        #_logger.info('Get related model  %s ' % (model.fields_get()))
+        _logger.info('Get related model items %s ' % (self.env[model.model].fields_get().items()))
+        #_logger.info('Get related model iteritems %s ' % (model.fields_get().iteritems()))
+        if depth <= maxdepth:
+            for field,values in self.env[model.model].fields_get().items():
+                _logger.info('field %s values %s ' % (field,values.get('relation')))
+                if values.get('relation',False) != False:
+                    _logger.info('field %s type %s relation %s före' % (field,values['type'],values.get('relation')))                    
+                    if field not in ['create_date','id','write_date','create_uid','__last_update','write_uid','inherited_model_ids','view_ids','field_id','access_ids']:
+                        _logger.info('field %s type %s relation %s' % (field,values['type'],values.get('relation')))
+                        models.add(self.env['ir.model'].search([('model','=',values.get('relation'))]))
+                        depth += 1
+                        _logger.warning('Depth %s Max %s' % (depth,maxdepth))
+                        self._get_models(self.env['ir.model'].search([('model','=',values.get('relation'))]),depth,maxdepth)
+                _logger.info('models %s' % (list(models)))
+            #raise Exception("The record has been deleted or not %s" % models)
+        return list(models)
+
    
-    @api.onchange('model')
+    @api.onchange('model','depth')
     def _onchange_model(self):
-        self.has_period = self.model and 'period_id' in self.env[self.model].fields_get()
+        self.has_period = self.model and 'period_id' in self.env[self.model.model].fields_get()
+        if self.model and self.model.model:
+            self.model_ids = [m.id for m in self._get_models(self.model,1,maxdepth=int(self.depth))] 
+ 
         #self.model_ids  all related models with this depth
+
+   
    
     @api.multi
     def send_form(self,):
@@ -77,11 +106,7 @@ class account_export(models.TransientModel):
             finally:
                 fileobj.close()
             return True
-        if len(account.period_ids)>0 and 'period_id' in self.env[account.model].fields_get():
-            data = base64.b64encode(account._export_xml(self.env[account.model].search([('period_id','in',[p.id for p in self.period_ids])]),int(account.depth)))
-        else:
-            data = base64.b64encode(self._export_xml(self.env[account.model].search([]),int(account.depth)))
-        account.write({'state': 'get', 'name': '%s.xml' % account.model.replace('.','_'),'data': data })
+        account.write({'state': 'get', 'name': '%s.xml' % account.model.model.replace('.','_'),'data': base64.b64encode(account._export_xml()) })
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.export',
@@ -92,11 +117,18 @@ class account_export(models.TransientModel):
             'target': 'new',
         }
 
+
+    def get_records(self,model):
+        if 'period_id' in self.env[self.model.model].fields_get():
+            return self.env[self.model.model].search(['period_id','in',self.period_ids])
+        else:
+            return self.env[self.model.model].search([])
+
+
     @api.model
-    def _export_xml(self,models,maxdepth):
+    def _export_xml(self):
         """
             models : a list of recordsets to export
-            maxdepth : how extensive the search for related records shall bee
    
             returns an xml-document as binary (string)
         """
@@ -104,75 +136,77 @@ class account_export(models.TransientModel):
             ext_id = record.get_external_id()[record.id]
             if not ext_id:
                 ext_id = '%s-%s-%s' % (record._name.replace('.','_'),self.env['ir.config_parameter'].get_param('database.uuid'),record.id)
+                #~ if 'code' in record.fields_get().keys():
+                    #~ ext_id =  '%s' % record.code
+                #~ elif 'number' in record.fields_get().keys():
+                    #~ ext_id =  '%s' % record.number
+                #~ elif 'internal_number' in record.fields_get().keys():
+                    #~ ext_id = '%s' %  record.internal_number
+                #~ elif 'record_name' in record.fields_get().keys():
+                    #~ ext_id = '%s' %  record.record_name
+                #~ else:
+                    #~ ext_id = '%s' % record.name
                 module = record._original_module
                 _logger.debug("%s: Generating new external ID `%s.%s` for %r.", self._name, module, ext_id, record)
                 self.env['ir.model.data'].sudo().create({'name': ext_id,
                                                         'model': record._name,
                                                         'module': module,
                                                         'res_id': record.id})
-            else:
-                module, ext_id = ext_id.split('.')
-            return '%s.%s' % (module, ext_id)
+                ext_id = "%s.%s" % (module,ext_id)
+            return ext_id
 
-
-        def export_xml(lines):
-            document = etree.Element('openerp')
-            data = etree.SubElement(document,'data')
-            for line in lines:
-                if line.id:
-                    ext_id = _external_id(line)
-                    _logger.info("Reporting Block id = %s" % ext_id)          
-                    record = etree.SubElement(data,'record',id=ext_id,model=line._name)
-                    names = [name for name in line.fields_get().keys() if fnmatch(name,'in_group*')] + [name for name in line.fields_get().keys() if fnmatch(name,'sel_groups*')]
-                    for field,values in line.fields_get().items():
-                        if not field in ['create_date','nessage_ids','id','write_date','create_uid','__last_update','write_uid',] + names:
-                            if values.get('type') in ['boolean','char','text','float','integer','selection','date','datetime']:
-                                _logger.info("Simple field %s field %s values %s" % (values.get('type'),field,values))
-                                try:
-                                #if eval('line.%s' % field):
-                                    etree.SubElement(record,'field',name = field).text = "%s" % eval('line.%s' % field)
-                                except:
-                                    pass
-                            elif values.get('type') in ['many2one']:
-                                if eval('line.%s' % field):                                     
-                                    etree.SubElement(record,'field',name=field,ref="%s" % eval('_external_id(line.%s)' % field))
-                            elif values.get('type') in ['one2many']:  # Update from the other end
-                                pass
-                            elif values.get('type') in ['many2many']: # TODO
-                                    # <field name="member_ids" eval="[(4, ref('base.user_root')),(4, ref('base.user_demo'))]"/>
-                                m2mvalues = []
-                                for val in line:
-                                    external_id = _external_id(val)
-                                    _logger.info("External id %s -> %s" % (id,external_id))
-                                    m2mvalues.append("(4, ref('%s'))" % external_id)
-        #                            m2mvalues.append("(4, ref('%s'))" % val.get_external_id().items()[0] or '')
-                                if len(m2mvalues)>0:
-                                    etree.SubElement(record,'field',name=field,eval="[%s]" % (','.join(m2mvalues)))                 
-                 
-            return document
-
-        def get_related(models,depth,maxdepth=4):
-            objects = set()
-            if depth < maxdepth:
-                for model in models:
-                    # get_related within choosen model_ids
-                    _logger.info('Get related model %s id %s' % (model._name,model.id))
-                    for field,values in model.fields_get().items(): 
-                        if not field in ['create_date','nessage_ids','id','write_date','create_uid','__last_update','write_uid']:
-                            if values.get('type') in ['many2one']:
-                                for related in get_related(eval("model.%s" % field),depth+1):
-                                    objects.add(related)
-                            if values.get('type') in ['many2many']:
-                                for related in get_related(eval("model.%s" % field),depth+1):
-                                    objects.add(related)
-                    objects.add(model)
-            return list(objects)
-
-        #_logger.info("models %s depth %s" % (models,maxdepth))   
-        if maxdepth == 0:
-            return etree.tostring(export_xml(models),pretty_print=True,encoding="utf-8")
-        else:
-            return etree.tostring(export_xml(get_related(models,maxdepth)),pretty_print=True,encoding="utf-8")
             
 
-    
+        def export_xml(recordsets):
+            document = etree.Element('openerp')
+            data = etree.SubElement(document,'data')
+            for lines in recordsets:
+                for line in lines:
+                    if line.id:
+                        ext_id = _external_id(line)
+                        _logger.info("Reporting Block id = %s" % ext_id)          
+                        record = etree.SubElement(data,'record',id=ext_id,model=line._name)
+                        names = [name for name in line.fields_get().keys() if fnmatch(name,'in_group*')] + [name for name in line.fields_get().keys() if fnmatch(name,'sel_groups*')]
+                        for field,values in line.fields_get().items():
+                            if not field in ['create_date','nessage_ids','id','write_date','create_uid','__last_update','write_uid',] + names:
+                                if values.get('type') in ['boolean','char','text','float','integer','selection','date','datetime']:
+                                    _logger.info("Simple field %s field %s values %s" % (values.get('type'),field,values))
+                                    try:
+                                    #if eval('line.%s' % field):
+                                        #~ etree.SubElement(record,'field',name = field).text = "%s" % eval('line.%s' % field) or ""
+                                        etree.SubElement(record,'field',name = field).text = "%s" % eval('line.%s' % field)
+                                    except:
+                                        pass
+                                elif values.get('type') in ['many2one']:
+                                    if eval('line.%s' % field):                                     
+                                        etree.SubElement(record,'field',name=field,ref="%s" % eval('_external_id(line.%s)' % field))
+                                elif values.get('type') in ['one2many']:  # Update from the other end
+                                    pass
+                                elif values.get('type') in ['many2many']: # TODO
+                                        # <field name="member_ids" eval="[(4, ref('base.user_root')),(4, ref('base.user_demo'))]"/>
+                                    m2mvalues = []
+                                    for val in line:
+                                        external_id = _external_id(val)
+                                        _logger.info("External id %s -> %s" % (id,external_id))
+                                        m2mvalues.append("(4, ref('%s'))" % external_id)
+            #                            m2mvalues.append("(4, ref('%s'))" % val.get_external_id().items()[0] or '')
+                                    if len(m2mvalues)>0:
+                                        etree.SubElement(record,'field',name=field,eval="[%s]" % (','.join(m2mvalues)))                 
+
+            return document
+
+        if 'period_id' in self.env[self.model.model].fields_get().keys():
+            records = self.env[self.model.model].search(['period_id','in',[p.id for p in self.period_ids]])
+        else:
+            records = self.env[self.model.model].search([])
+
+        supporting_records = set()
+        for r in records:
+            for f,a in r.fields_get().items():
+                if a.get('relation') and a.get('relation') in [m.model for m in self.model_ids]:
+                    if eval('r.%s' % f):
+                        supporting_records.add(eval('r.%s' % f))
+                
+        _logger.warning("Supporting = %s" % supporting_records)  
+        
+        return etree.tostring(export_xml(list(supporting_records) + list(records)),pretty_print=True,encoding="utf-8")

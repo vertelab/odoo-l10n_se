@@ -211,6 +211,88 @@
         
         
         
+            <record id="view_account_esdk_form_form" model="ir.ui.view">
+            <field name="name">account.esdk.form.form</field>
+            <field name="model">account.esdk.form</field>
+            <field name="arch" type="xml">
+                <form string="ESDK Form">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="chart_account_id"/>
+                            <field name="fiscalyear_id"/>
+                            <field name="target_move"/>
+                            <field name="initial_bal"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        
+                        
+                        <page string="Fields">
+                            <field name="field_ids" cols="4"  widget="one2many_list" nolabel="1"  >
+                                <tree editable="bottom">
+                                <field name="name" />
+                                <field name="reference" />
+                                <field name="field_name" />
+                                <field name="value" />
+                                <field name="mandatory" />                                
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </form>
+            </field>
+        </record>
+        <record id="view_account_esdk_form_tree" model="ir.ui.view">
+            <field name="name">account.esdk.form.tree</field>
+            <field name="model">account.esdk.form</field>
+            <field name="arch" type="xml">
+                <tree  string="Esdk Form">
+                            <field name="name"/>
+                            <field name="chart_account_id"/>
+                            <field name="fiscalyear_id"/>
+                            <field name="target_move"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="view_account_esdk_form_search" model="ir.ui.view">
+            <field name="name">account.esdk.form.search</field>
+            <field name="model">account.esdk.form</field>
+            <field name="arch" type="xml">
+                <search string="Search Fiscalyear">
+                    <field name="name" filter_domain="['|', ('name','ilike',self),]" string="eSDK"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Fiscalyear" context="{'group_by': 'fiscalyear_id'}" icon="terp-stock_effects-object-colorize"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_account_esdk_form" model="ir.actions.act_window">
+            <field name="name">Esdk Forms</field>
+            <field name="res_model">account.esdk.form</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an eSDK form.
+              </p><p>
+                Define your company's financial year according to your needs. A
+                financial year is a period at the end of which a company's
+                accounts are made up (usually 12 months). The financial year is
+                usually referred to by the date in which it ends. For example,
+                if a company's financial year ends November 30, 2011, then
+                everything between December 1, 2010 and November 30, 2011
+                would be referred to as FY 2011.
+              </p>
+            </field>
+        </record>
+         <menuitem id="menu_action_account_esdk_form" action="action_account_esdk_form" parent="next_id_23"/>
+
+        
+        
     
   </data>
 </openerp>

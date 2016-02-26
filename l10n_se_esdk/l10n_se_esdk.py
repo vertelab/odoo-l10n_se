@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp import http
@@ -111,5 +112,56 @@ class account_tax_code(models.Model):
         self.sum_periods = amount[self.id]
     sum_periods = fields.Float('Periods Sum',compute='_sum_periods')
     
-    
+#----------------------------------------------------------
+# Field names
+#----------------------------------------------------------
 
+class account_esdk_code(models.Model):
+    _name = 'account.esdk.code'
+    _description = "Fields for eSDK forms"
+    
+    name = fields.Char(string="Code")
+    form_id = fields.Many2one('account.esdk.form')
+    mandatory = fields.Boolean(string="Mandatory",default=False)
+    field_name = fields.Char(string="Field")
+    @api.one
+    def _value(self):
+        if self.reference and self.field_name:
+            v = self.reference.read()[0].get(self.field_name,'None')
+            if isinstance( v, (int,long,float )) and v < 0:
+                v *= -1
+            self.value = v
+    value = fields.Char(string="Value",compute="_value")
+    reference = fields.Reference(string='Related Document', selection='_reference_models')
+
+    @api.model
+    def _reference_models(self):
+        models = self.env['ir.model'].search([('state', '!=', 'manual')])
+        return [(model.model, model.name)
+                for model in models
+                if not model.model.startswith('ir.')]
+    
+#----------------------------------------------------------
+# Forms
+#----------------------------------------------------------
+
+class account_esdk_form(models.Model):
+    _name = 'account.esdk.form'
+    _description = 'Forms and fields'
+    _order = 'name'
+
+    name = fields.Char('Form name',required=True,help="Skattemyndighetens meddelande / blankett. eg INK2S_2014P2")
+    chart_account_id = fields.Many2one('account.account', string='Chart of Account', help='Select Charts of Accounts', required=True, domain = [('parent_id','=',False)])
+    fiscalyear_id = fields.Many2one('account.fiscalyear', string='Fiscal Year', required=True)
+    target_move =   fields.Selection([('posted', 'All Posted Entries'),
+                                     ('all', 'All Entries'),
+                                ], string='Target Moves', required=True)
+    initial_bal = fields.Boolean(string="With initial balance")
+    field_ids = fields.Many2many(comodel_name='account.esdk.code',)
+    
+    
+    #~ comodel_name='res.users',
+                            #~ relation='table_name',
+                            #~ column1='col_name',
+                            #~ column2='other_col_name'
+    
