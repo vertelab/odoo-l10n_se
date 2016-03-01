@@ -57,7 +57,7 @@ class account_sie(models.TransientModel):
     def _import_accounts(self, string):
         list_of_accounts = []
         accounts = []
-        for account in re.finditer(re.compile(r'(#KONTO .+)+', re.MULTILINE),string):
+        for account in re.finditer(re.compile(r'(#KONTO .+)+', re.MULTILINE), string):
             list_of_accounts.append(account.group())
         for x in (list_of_accounts):
             tmpvar = self._stringSplit(x)
@@ -65,34 +65,88 @@ class account_sie(models.TransientModel):
         return accounts
     
     def _import_ver(self,string):
-        for ver in re.finditer(re.compile(r'(?u)#VER .+\n{\n(#TRANS .+\n)+}\n', re.MULTILINE),string):
+        for ver in re.finditer(re.compile(r'#VER .+\n{\n(#TRANS .+\n)+}\n', re.MULTILINE), string):
             verString = '' + (re.search(re.compile(r'#VER .+'),ver.group()).group())
             verList = self._stringSplit(verString)
+            list_date = verList[3]  # date
+            list_ref = verList[2]   # reference
+            list_sign = verList[5]  # sign
             
-            
-            # 3 är datumet
-            # 5 är signatur
-            
-            
-            
-            # FYLL I FRÅN INPUT AV FILEN: LÄS SAKER
+
+                
             
             #~ #self.env['account.period'].find(dt=FIXA DATUMET FRÅN FIL STRÄNG)
             #~ #self._uid self._cr eventuellt skicka med
-            ver_date = (self.env['account.period'].find(dt=verList[3]))
-            raise Warning(('ver_date:%s\ndatumet:%s') %(ver_date,verList[3]))
-            #~ ver_id = self.env['account.move'].create({
-                #~ 'period_id': self.env['account.period'].find(dt=ver_date).id, # SÖK rätt period utifrån datum
-                #~ 'journal_id': self.env.ref('account.miscellaneous_journal').id,
-                #~ })
             
-            #<record id="miscellaneous_journal" model="account.journal">
+            ver_date = (self.env['account.period'].find(dt=list_date))
+            # ver_date ger ett id.
+            
+            #atm always GENERAL journal
+            journal = self.env['account.journal'].search([('type','=','general')])
+            if journal:
+                journal = journal[0].id
+            
 
-            #~ for trans in re.finditer(re.compile(r'(?u)(#TRANS .+)'),ver.group()):
-                #~ translist = self._stringSplit(trans.group())
-                #~ self.env['account.move.line'].create(trans_record)
-                #~ code = translist[1]
+#VER "" BNK2/2016/0001 20160216 "" admin
+            if len(ver_date)>0:
+                ver_id = self.env['account.move'].create({
+                    'period_id': self.env['account.period'].find(dt=list_date).id,
+            #~ '''            #~ 'period_id': , # SÖK rätt period utifrån datum '''
+                    'journal_id': journal,
+                    })
+                _logger.warning('VER %s' %ver_id)
+                
 
+#~ #VER "" SAJ/2016/0002 20150205 "" admin
+#~ {
+#~ #TRANS kontonr   {objektlista}   belopp transdat transtext   kvantitet   sign
+#~ #TRANS 1510      {}              -100.0 20150205 "/"         1.0         admin
+#~ #TRANS 2610 {} 0.0 20150205 "Försäljning 25%" 1.0 admin
+#~ #TRANS 3000 {} 0.0 20150205 "Skor" 1.0 admin
+#~ }
+            
+            
+            for trans in re.findall(re.compile('#TRANS .+'),ver.group()):
+                transList = self._stringSplit(trans)
+                args = len(transList)
+                # these should always be set args <= 4
+                trans_code = transList[1]
+                trans_object = transList[2]
+                trans_balance = transList[3]
+                if args >=5:
+                    trans_date = transList[4]
+                if args >= 6:
+                    trans_name = transList[5]
+                if args >= 7:
+                    trans_quantity = transList[6]
+                
+                trans_sign = transList[len(transList)-1]
+                user = self.env['res.users'].search([('login','=',trans_sign)])
+                if user:
+                    user = user[0].id
+                
+                code = self.env['account.account'].search([('code','=',trans_code)])
+                #~ raise Warning('%s\n%s' %(code, code[0].code))
+                if code:
+                    code = code[0].code
+                
+                #~ raise Warning(self.env['account.move.line'].search([])[0].date)
+                _logger.warning('\naccount_id :%s\nbalance: %s\njournal_id: %s\nperiod_id: %s' %(code,trans_balance,journal,self.env['account.period'].find(dt=list_date).id))
+
+                period_id = self.env['account.period'].find(dt=list_date).id                
+                
+                trans_id = self.env['account.move.line'].create({
+                    'account_id': code,
+                    'credit': float(trans_balance) < 0 and float(trans_balance) or 0.0,
+                    'debit': float(trans_balance) > 0 and float(trans_balance) or 0.0,
+                  #  'journal_id': journal,
+                    'period_id': period_id,
+                    'date': '' + trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:],
+                    #'quantity': trans_quantity,
+                    #'name': trans_name,
+                    #'create_uid': user,
+                    })
+    
         
         
     @api.multi
@@ -116,9 +170,9 @@ class account_sie(models.TransientModel):
             if len(missing_accounts) > 0:
                 raise Warning(_('Accounts missing, add before import\n%s') % '\n '.join(['%s %s' %(a[0],_(a[1])) for a in missing_accounts]))
             
-            
-            for ver in self._import_ver(tempString):
-                _logger.warning('QWERTY\n%s'%ver)
+            self._import_ver(tempString)
+
+
                 #~ 
             #self.env['l10n_se_sie_importfile'].get_ver_trans(tempString)
             # vill hja en lista med konton och verifikat
@@ -222,7 +276,7 @@ class account_sie(models.TransientModel):
             #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
             
             for trans in ver.line_id:
-                str += '#TRANS %s {} %s %s "%s" %s %s "%s" %s\n' % (trans.account_id.code, trans.balance, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.id, trans.partner_id.name, trans.create_uid.login)
+                str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.balance, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
             str += '}\n'
         
         _logger.warning('\n%s\n' % str)
