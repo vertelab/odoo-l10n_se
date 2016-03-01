@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Vertel (<http://www.vertel.se>).
+#    Copyright (C) 2012-2016 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -89,6 +89,7 @@
         'account_vat_view.xml',
         'res_partner_view.xml',
         'data/account_tax_code_template_hr_data.xml',
+        'wizard/import_chart_of_account.xml',
 #        'setup_view.xml',
     ],
 #    'demo_xml' : [

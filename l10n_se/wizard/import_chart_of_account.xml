@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="wizard_import_chart_template" model="ir.ui.view">
+            <field name="name">Import BAS Exel File</field>
+            <field name="model">import.chart.template</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+                    <field invisible="1" name="state"/>
+                            <group rowspan="4" string="Filebox">
+                                <field name="data"/><newline/>
+                                <div>
+                                    <p>File to upload</p>
+                                </div>
+                            </group>
+                    <footer>
+                                <button name="send_form" string="Import" type="object" class="oe_highlight"/>
+                                or
+                                <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_import_chart_template" model="ir.actions.act_window">
+            <field name="name">Export/import XML-files</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.chart.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+<!--
+        <menuitem action="action_wizard_account_export" id="menu_wizard_account_export" parent="account.menu_finance_periodical_processing"/>
+-->
+<!--
+        
+    <record model="ir.actions.server" id="update_accounts">
+        <field name="name">Update accounts</field>
+        <field name="state">code</field>
+        <field name="condition" eval="True"/>
+        <field name="model_id" ref="account.model_account_chart_template"/>
+        <field name="code">
+obj = object.browse(context.get('active_ids', []))
+for o in obj:
+    self.pool["crm.claim"].create(cr,uid,{'name': o.name,'user_id': o.user_id.id, 'partner_id': o.partner_id.id, 
+                                          'partner_phone': o.partner_id.phone, 'email_from': o.email_from,
+                                          'priority': o.priority})
+        </field>
+    </record>
+    
+-->
+    <record model="ir.values" id="import_chart_action_menu">
+        <field name="name" >Import Excel BAS</field>
+        <field name="model">account.chart.template</field>
+        <field name="model_id" ref="account.model_account_chart_template"/>
+        <field name="key2">client_action_multi</field>
+        <field name="value" eval="'ir.actions.act_window,%d' % action_wizard_import_chart_template"/>
+    </record>
+
+<!--
+    <record model="ir.actions.server" id="issue_claim">
+        <field name="menu_ir_values_id" ref="issue_claim_action_menu"/>
+    </record>
+-->
+        
+  </data>
+</openerp>

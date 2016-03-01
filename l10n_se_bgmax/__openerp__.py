@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2012-2016 Vertel (<http://www.vertel.se>).
+#    Copyright (C) 2015-2016 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,12 +18,21 @@
 #
 ##############################################################################
 
-import account
-import res_company
-import res_partner
-import report
-import account_vat
-import wizard
-#import setup
 
+{
+    'name': 'BgMax Format Bank Statements Import',
+    'version': '8.0.0.1.0',
+    'license': 'AGPL-3',
+    'author': ' Vertel AB',
+    'website': 'http://vertel.se',
+    'category': 'Banking addons',
+
+    'depends': ['account_bank_statement_import'],
+    #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
+  
+    #'demo': ['l10n_se_sie_demo.xml'],
+
+    'installable': 'True',
+    'application': 'False',
+}
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
