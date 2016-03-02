@@ -20,223 +20,195 @@
 ##############################################################################
 import re
 from datetime import datetime
-from lxml import etree
 from openerp.addons.account_bank_statement_import.parserlib import (
     BankStatement)
+
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class BgMaxParser(object):
     """Parser for BgMax bank statement import files."""
 
-    def parse_amount(self, ns, node):
-        """Parse element that contains Amount and CreditDebitIndicator."""
-        if node is None:
-            return 0.0
-        sign = 1
-        amount = 0.0
-        sign_node = node.xpath('ns:CdtDbtInd', namespaces={'ns': ns})
-        if sign_node and sign_node[0].text == 'DBIT':
-            sign = -1
-        amount_node = node.xpath('ns:Amt', namespaces={'ns': ns})
-        if amount_node:
-            amount = sign * float(amount_node[0].text)
-        return amount
+    def __init__(self):
+        """Initialize parser - override at least header_regex.
+        This in fact uses the ING syntax, override in others."""
+        self.bgmax_type = 'General'
+        self.header_lines = 3  # Number of lines to skip
+        self.header_regex = '^01BGMAX'  # Start of header
+        self.footer_regex = '^70'  # Stop processing on seeing this
+        self.tag_regex = '^([0-7][0-9])(.*)'  # Start of new tag
+        self.current_statement = None
+        self.current_transaction = None
+        self.statements = []
 
-    def add_value_from_node(
-            self, ns, node, xpath_str, obj, attr_name, join_str=None):
-        """Add value to object from first or all nodes found with xpath.
 
-        If xpath_str is a list (or iterable), it will be seen as a series
-        of search path's in order of preference. The first item that results
-        in a found node will be used to set a value."""
-        if not isinstance(xpath_str, (list, tuple)):
-            xpath_str = [xpath_str]
-        for search_str in xpath_str:
-            found_node = node.xpath(search_str, namespaces={'ns': ns})
-            if found_node:
-                if join_str is None:
-                    attr_value = found_node[0].text
-                else:
-                    attr_value = join_str.join([x.text for x in found_node])
-                setattr(obj, attr_name, attr_value)
-                break
-
-    def parse_transaction_details(self, ns, node, transaction):
-        """Parse transaction details (message, party, account...)."""
-        # message
-        self.add_value_from_node(
-            ns, node, [
-                './ns:RmtInf/ns:Ustrd',
-                './ns:AddtlTxInf',
-                './ns:AddtlNtryInf',
-            ], transaction, 'message')
-        # eref
-        self.add_value_from_node(
-            ns, node, [
-                './ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref',
-                './ns:Refs/ns:EndToEndId',
-            ],
-            transaction, 'eref'
-        )
-        # remote party values
-        party_type = 'Dbtr'
-        party_type_node = node.xpath(
-            '../../ns:CdtDbtInd', namespaces={'ns': ns})
-        if party_type_node and party_type_node[0].text != 'CRDT':
-            party_type = 'Cdtr'
-        party_node = node.xpath(
-            './ns:RltdPties/ns:%s' % party_type, namespaces={'ns': ns})
-        if party_node:
-            self.add_value_from_node(
-                ns, party_node[0], './ns:Nm', transaction, 'remote_owner')
-            self.add_value_from_node(
-                ns, party_node[0], './ns:PstlAdr/ns:Ctry', transaction,
-                'remote_owner_country'
+    def is_bgmax(self, line):
+        """determine if a line is the header of a statement"""
+        if not bool(re.match(self.header_regex, line)):
+            raise ValueError(
+                'File starting with %s does not seem to be a'
+                ' valid %s format bank statement.' %
+                (line[:12], 'BgMax')
             )
-            address_node = party_node[0].xpath(
-                './ns:PstlAdr/ns:AdrLine', namespaces={'ns': ns})
-            if address_node:
-                transaction.remote_owner_address = [address_node[0].text]
-        # Get remote_account from iban or from domestic account:
-        account_node = node.xpath(
-            './ns:RltdPties/ns:%sAcct/ns:Id' % party_type,
-            namespaces={'ns': ns}
-        )
-        if account_node:
-            iban_node = account_node[0].xpath(
-                './ns:IBAN', namespaces={'ns': ns})
-            if iban_node:
-                transaction.remote_account = iban_node[0].text
-                bic_node = node.xpath(
-                    './ns:RltdAgts/ns:%sAgt/ns:FinInstnId/ns:BIC' % party_type,
-                    namespaces={'ns': ns}
-                )
-                if bic_node:
-                    transaction.remote_bank_bic = bic_node[0].text
-            else:
-                self.add_value_from_node(
-                    ns, account_node[0], './ns:Othr/ns:Id', transaction,
-                    'remote_account'
-                )
-
-    def parse_transaction(self, ns, node, transaction):
-        """Parse transaction (entry) node."""
-        self.add_value_from_node(
-            ns, node, './ns:BkTxCd/ns:Prtry/ns:Cd', transaction,
-            'transfer_type'
-        )
-        self.add_value_from_node(
-            ns, node, './ns:BookgDt/ns:Dt', transaction, 'execution_date')
-        self.add_value_from_node(
-            ns, node, './ns:ValDt/ns:Dt', transaction, 'value_date')
-        transaction.transferred_amount = self.parse_amount(ns, node)
-        details_node = node.xpath(
-            './ns:NtryDtls/ns:TxDtls', namespaces={'ns': ns})
-        if details_node:
-            self.parse_transaction_details(ns, details_node[0], transaction)
-        if not transaction.message:
-            self.add_value_from_node(
-                ns, node, './ns:AddtlNtryInf', transaction, 'message')
-        transaction.data = etree.tostring(node)
-        return transaction
-
-    def get_balance_amounts(self, ns, node):
-        """Return opening and closing balance.
-
-        Depending on kind of balance and statement, the balance might be in a
-        different kind of node:
-        OPBD = OpeningBalance
-        PRCD = PreviousClosingBalance
-        ITBD = InterimBalance (first ITBD is start-, second is end-balance)
-        CLBD = ClosingBalance
-        """
-        start_balance_node = None
-        end_balance_node = None
-        for node_name in ['OPBD', 'PRCD', 'CLBD', 'ITBD']:
-            code_expr = (
-                './ns:Bal/ns:Tp/ns:CdOrPrtry/ns:Cd[text()="%s"]/../../..' %
-                node_name
-            )
-            balance_node = node.xpath(code_expr, namespaces={'ns': ns})
-            if balance_node:
-                if node_name in ['OPBD', 'PRCD']:
-                    start_balance_node = balance_node[0]
-                elif node_name == 'CLBD':
-                    end_balance_node = balance_node[0]
-                else:
-                    if not start_balance_node:
-                        start_balance_node = balance_node[0]
-                    if not end_balance_node:
-                        end_balance_node = balance_node[-1]
-        return (
-            self.parse_amount(ns, start_balance_node),
-            self.parse_amount(ns, end_balance_node)
-        )
-
-    def parse_statement(self, ns, node):
-        """Parse a single Stmt node."""
-        statement = BankStatement()
-        self.add_value_from_node(
-            ns, node, [
-                './ns:Acct/ns:Id/ns:IBAN',
-                './ns:Acct/ns:Id/ns:Othr/ns:Id',
-            ], statement, 'local_account'
-        )
-        self.add_value_from_node(
-            ns, node, './ns:Id', statement, 'statement_id')
-        self.add_value_from_node(
-            ns, node, './ns:Acct/ns:Ccy', statement, 'local_currency')
-        (statement.start_balance, statement.end_balance) = (
-            self.get_balance_amounts(ns, node))
-        transaction_nodes = node.xpath('./ns:Ntry', namespaces={'ns': ns})
-        for entry_node in transaction_nodes:
-            transaction = statement.create_transaction()
-            self.parse_transaction(ns, entry_node, transaction)
-        if statement['transactions']:
-            statement.date = datetime.strptime(
-                statement['transactions'][0].execution_date, "%Y-%m-%d")
-        return statement
-
-    def check_version(self, ns, root):
-        """Validate validity of camt file."""
-        # Check wether it is camt at all:
-        re_camt = re.compile(
-            r'(^urn:iso:std:iso:20022:tech:xsd:camt.'
-            r'|^ISO:camt.)'
-        )
-        if not re_camt.search(ns):
-            raise ValueError('no camt: ' + ns)
-        # Check wether version 052 or 053:
-        re_camt_version = re.compile(
-            r'(^urn:iso:std:iso:20022:tech:xsd:camt.053.'
-            r'|^urn:iso:std:iso:20022:tech:xsd:camt.052.'
-            r'|^ISO:camt.053.'
-            r'|^ISO:camt.052.)'
-        )
-        if not re_camt_version.search(ns):
-            raise ValueError('no camt 052 or 053: ' + ns)
-        # Check GrpHdr element:
-        root_0_0 = root[0][0].tag[len(ns) + 2:]  # strip namespace
-        if root_0_0 != 'GrpHdr':
-            raise ValueError('expected GrpHdr, got: ' + root_0_0)
 
     def parse(self, data):
-        """Parse a camt.052 or camt.053 file."""
+        """Parse bgmax bank statement file contents."""
+        self.is_bgmax(data)
+        iterator = data.replace('\r\n', '\n').split('\n').__iter__()
+        line = None
+        record_line = ''
         try:
-            root = etree.fromstring(
-                data, parser=etree.XMLParser(recover=True))
-        except etree.XMLSyntaxError:
-            # ABNAmro is known to mix up encodings
-            root = etree.fromstring(
-                data.decode('iso-8859-15').encode('utf-8'))
-        if root is None:
-            raise ValueError(
-                'Not a valid xml file, or not an xml file at all.')
-        ns = root.tag[1:root.tag.index("}")]
-        self.check_version(ns, root)
-        statements = []
-        for node in root[0][1:]:
-            statement = self.parse_statement(ns, node)
-            if len(statement['transactions']):
-                statements.append(statement)
-        return statements
+            while True:
+                if not self.current_statement:
+                    self.handle_header(line, iterator)
+                line = iterator.next()
+                if not self.is_tag(line) and not self.is_footer(line):
+                    record_line += line
+                    continue
+                if record_line:
+                    self.handle_record(record_line)
+                if self.is_footer(line):
+                    self.handle_footer(line, iterator)
+                    record_line = ''
+                    continue
+                record_line = line
+        except StopIteration:
+            pass
+        if self.current_statement:
+            if record_line:
+                self.handle_record(record_line)
+                record_line = ''
+            self.statements.append(self.current_statement)
+            self.current_statement = None
+        return self.statements
+
+    def is_footer(self, line):
+        """determine if a line is the footer of a statement"""
+        return line and bool(re.match(self.footer_regex, line))
+
+    def is_tag(self, line):
+        """determine if a line has a tag"""
+        return line and bool(re.match(self.tag_regex, line))
+
+    def handle_header(self, dummy_line, iterator):
+        """skip header lines, create current statement"""
+        for dummy_i in range(self.header_lines):
+            iterator.next()
+        self.current_statement = BankStatement()
+
+    def handle_footer(self, dummy_line, dummy_iterator):
+        """add current statement to list, reset state"""
+        self.statements.append(self.current_statement)
+        self.current_statement = None
+
+    def handle_record(self, line):
+        """find a function to handle the record represented by line"""
+        tag_match = re.match(self.tag_regex, line)
+        tag = tag_match.group(0)
+        raise Warning(tag)
+        _logger.error('git this tag %s' % tag)
+        if not hasattr(self, 'handle_tk%s' % re.match(self.tag_regex, line).group(0)):
+            _logger.error('Unknown tag %s', re.match(self.tag_regex, line).group(0))
+            _logger.error(line)
+            return
+        handler = getattr(self, 'handle_tag_%s' % re.match(self.tag_regex, line).group(0))
+        handler(line)
+
+    def handle_tag_20(self, data):
+        """Contains unique ? message ID"""
+        pass
+
+    def handle_tag_25(self, data):
+        """Handle tag 25: local bank account information."""
+        data = data.replace('EUR', '').replace('.', '').strip()
+        self.current_statement.local_account = data
+
+    def handle_tag_28C(self, data):
+        """Sequence number within batch - normally only zeroes."""
+        pass
+
+    def handle_tag_60F(self, data):
+        """get start balance and currency"""
+        # For the moment only first 60F record
+        # The alternative would be to split the file and start a new
+        # statement for each 20: tag encountered.
+        stmt = self.current_statement
+        if not stmt.local_currency:
+            stmt.local_currency = data[7:10]
+            stmt.start_balance = str2amount(data[0], data[10:])
+
+    def handle_tag_61(self, data):
+        """get transaction values"""
+        transaction = self.current_statement.create_transaction()
+        self.current_transaction = transaction
+        transaction.execution_date = datetime.strptime(data[:6], '%y%m%d')
+        transaction.value_date = datetime.strptime(data[:6], '%y%m%d')
+        #  ...and the rest already is highly bank dependent
+
+    def handle_tag_62F(self, data):
+        """Get ending balance, statement date and id.
+
+        We use the date on the last 62F tag as statement date, as the date
+        on the 60F record (previous end balance) might contain a date in
+        a previous period.
+
+        We generate the statement.id from the local_account and the end-date,
+        this should normally be unique, provided there is a maximum of
+        one statement per day.
+
+        Depending on the bank, there might be multiple 62F tags in the import
+        file. The last one counts.
+        """
+        stmt = self.current_statement
+        stmt.end_balance = str2amount(data[0], data[10:])
+        stmt.date = datetime.strptime(data[1:7], '%y%m%d')
+        # Only replace logically empty (only whitespace or zeroes) id's:
+        # But do replace statement_id's added before (therefore starting
+        # with local_account), because we need the date on the last 62F
+        # record.
+        test_empty_id = re.sub(r'[\s0]', '', stmt.statement_id)
+        if ((not test_empty_id) or
+                (stmt.statement_id.startswith(stmt.local_account))):
+            stmt.statement_id = '%s-%s' % (
+                stmt.local_account,
+                stmt.date.strftime('%Y-%m-%d'),
+            )
+
+    def handle_tk05(self, data):
+        """öppningspost"""
+        pass
+    def handle_tk15(self, data):
+        """insättning"""
+        pass
+    def handle_tk20(self, data):
+        """betalning/avdragspost"""
+        pass
+    def handle_tk21(self, data):
+        """betalning/avdragspost"""
+        pass
+    def handle_tk22(self, data):
+        """extra referensnummer"""
+        pass
+    def handle_tk23(self, data):
+        """extra referensnummer"""
+        pass
+    def handle_tk25(self, data):
+        """informationspost"""
+        pass
+    def handle_tk26(self, data):
+        """namnpost"""
+        pass
+    def handle_tk27(self, data):
+        """adresspost 1"""
+        pass
+    def handle_tk28(self, data):
+        """adresspost 2"""
+        pass
+    def handle_tk29(self, data):
+        """organisationsnummer"""
+        pass
+    def handle_tk70(self, data):
+        """slutpost"""
+        pass
+
