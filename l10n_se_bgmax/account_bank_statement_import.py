@@ -33,7 +33,7 @@ class AccountBankStatementImport(models.TransientModel):
         """Parse a BgMax  file."""
         parser = Parser()
         try:
-            _logger.debug("Try parsing with camt.")
+            _logger.debug("Try parsing with bgmax.")
             return parser.parse(data_file)
         except ValueError:
             # Not a BgMax file, returning super will call next candidate:
