@@ -37,7 +37,7 @@ from tempfile import TemporaryFile
 try:
     import openpyxl
 except ImportError:
-    raise Warning('excel library missing, pip install oenpyxl')
+    raise Warning('excel library missing, pip install openpyxl')
 
 
 import logging

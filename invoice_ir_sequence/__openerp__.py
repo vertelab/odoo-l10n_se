@@ -34,11 +34,12 @@
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'depends': ['account','product'],
-    'data': [ 'invoice_ir_sequence.xml'
+    'data': [ 'invoice_ir_sequence.xml',
+              'security/ir.model.access.csv',
     ],
+    'licence': 'AGPL3.0',
     'application': False,
     'installable': True,
     'auto_install': False,
-    
 }
 # vim:expandtab:smartindent:tabstop=4s:softtabstop=4:shiftwidth=4:
