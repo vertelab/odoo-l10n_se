@@ -18,6 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+# git clone -b 8.0 https://github.com/OCA/bank-statement-import.git
+
+
 import re
 from datetime import datetime
 from openerp.addons.account_bank_statement_import.parserlib import (
