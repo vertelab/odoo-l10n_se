@@ -34,13 +34,15 @@ class BgMaxParser(object):
         """Initialize parser - override at least header_regex.
         This in fact uses the ING syntax, override in others."""
         self.bgmax_type = 'General'
-        self.header_lines = 3  # Number of lines to skip
+        self.header_lines = 0  # Number of lines to skip
         self.header_regex = '^01BGMAX'  # Start of header
         self.footer_regex = '^70'  # Stop processing on seeing this
         self.tag_regex = '^([0-7][0-9])(.*)'  # Start of new tag
         self.current_statement = None
         self.current_transaction = None
         self.statements = []
+        self.currency = ''
+        self.header_balance = 0.0
 
 
     def is_bgmax(self, line):
@@ -105,14 +107,14 @@ class BgMaxParser(object):
     def handle_record(self, line):
         """find a function to handle the record represented by line"""
         tag_match = re.match(self.tag_regex, line)
-        tag = tag_match.group(0)
-        raise Warning(tag)
-        _logger.error('git this tag %s' % tag)
-        if not hasattr(self, 'handle_tk%s' % re.match(self.tag_regex, line).group(0)):
-            _logger.error('Unknown tag %s', re.match(self.tag_regex, line).group(0))
+        tag = tag_match.group(1)
+        #raise Warning(tag)
+        _logger.error('got this tk%s' % tag)
+        if not hasattr(self, 'handle_tk%s' % re.match(self.tag_regex, line).group(1)):
+            _logger.error('Unknown tk%s', re.match(self.tag_regex, line).group(1))
             _logger.error(line)
             return
-        handler = getattr(self, 'handle_tag_%s' % re.match(self.tag_regex, line).group(0))
+        handler = getattr(self, 'handle_tk%s' % re.match(self.tag_regex, line).group(1))
         handler(line)
 
     def handle_tag_20(self, data):
@@ -174,16 +176,35 @@ class BgMaxParser(object):
                 stmt.local_account,
                 stmt.date.strftime('%Y-%m-%d'),
             )
-
+    def handle_tk01(self, data):
+        """header"""
+        self.current_statement = BankStatement()
+        
     def handle_tk05(self, data):
         """öppningspost"""
+        self.currency = data[22:25]
+        self.header_balance = float(data[3:20])
+        _logger.error('balance %s currency %s' % (self.header_balance,self.currency))
+        
         pass
     def handle_tk15(self, data):
         """insättning"""
-        pass
+        stmt = self.current_statement
+        stmt.end_balance = str2amount(data[0], data[10:])
+        stmt.date = datetime.strptime(data[1:7], '%y%m%d')
+        
     def handle_tk20(self, data):
         """betalning/avdragspost"""
-        pass
+        _logger.error('betalning %s ' % self.current_statement)
+        transaction = self.current_statement.create_transaction()
+        _logger.error('transaction I %s ' % transaction)
+        #{'unique_import_id': '0001', 'name': False, 'partner_name': False, 'amount': 0.0, 'account_number': False, 'date': False, 'ref': False}
+        self.current_transaction = transaction
+        
+        transaction.execution_date = datetime.strptime(data[:6], '%y%m%d')
+        transaction.value_date = datetime.strptime(data[:6], '%y%m%d')
+        transaction.name = data[12:32]
+        _logger.error('transaction %s ' % transaction)
     def handle_tk21(self, data):
         """betalning/avdragspost"""
         pass
