@@ -92,7 +92,10 @@
       <field name="arch" type="xml">
         <form string="Export SIE-files">
           <field name="state" invisible="1" />
+<!--
           <notebook states="choose">
+-->
+        <notebook>
             <page string="Export">
               <group>
                 <field name="date_start" />
@@ -123,7 +126,7 @@
             </p>
           </div>
 -->
-          <footer states="choose">
+          <footer states="get,done">
             <button string="Skapa SIE-fil" name="send_form" type="object" class="oe_highlight" />
             or
             <button string="Cancel" special="cancel" class="oe_link" />

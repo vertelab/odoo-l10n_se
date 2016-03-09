@@ -178,16 +178,16 @@ class account_sie(models.TransientModel):
             # vill hja en lista med konton och verifikat
             # 
             
-            
-        ## TODO: plenty of if cases to know what's selected. id is integer
-        if(sie_form.start_period.id and sie_form.stop_period.id):
-            period_ids = [p.id for p in sie_form.env['account.period'].search(['&',('id','>=',sie_form.start_period.id),('id','>=',sie_form.stop_period.id)])]
-            s = [('period_id','in',period_ids)]
-        else:
-            s = [('period_id','in',[])]
-        #raise Warning(s)
-        sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie(search=s)) })
-        #~ sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie()) })
+        else:    
+            ## TODO: plenty of if cases to know what's selected. id is integer
+            if(sie_form.start_period.id and sie_form.stop_period.id):
+                period_ids = [p.id for p in sie_form.env['account.period'].search(['&',('id','>=',sie_form.start_period.id),('id','>=',sie_form.stop_period.id)])]
+                s = [('period_id','in',period_ids)]
+            else:
+                s = [('period_id','in',[])]
+            #raise Warning(s)
+            sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie(self.env['account.move'].search(s))) })
+            #~ sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie()) })
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.sie',
@@ -197,33 +197,6 @@ class account_sie(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
         }
-    
-    
-    @api.multi
-    def make_sie(self,search=[]):
-        #raise Warning("make_sie: %s %s" %(self,search))
-        #  make_sie: account.sie() [('period_id', 'in', [3])] 
-        if len(self) > 0:
-            sie_form = self[0]
-        account_list = set()
-        for line in self.env['account.move.line'].search(search):
-            account_list.add(line.account_id.code)
-        str = ''
-        for code in account_list:
-            str += '#KONTO %s\n' % code  
-        #raise Warning("str: %s %s search:%s" % (str, self.env['account.move.line'].search(search),search))  
-        
-        #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
-        #VER    serie vernr verdatum vertext regdatum sign
-    
-        for ver in self.env['account.move'].search(search):
-            str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, self.fix_narration(ver.narration), ver.create_date, ver.create_uid.login)
-            #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
-            
-            for trans in ver.line_id:
-                str += '#TRANS %s {} %f %s "%s" %s %s \n' % (trans.account_id.code, trans.balance, trans.date, self.fix_narration(trans.name), trans.quantity, trans.create_uid.login)
-            str += '}\n'
-        return str
     
     @api.multi
     def get_accounts(self,ver_ids):
@@ -244,7 +217,7 @@ class account_sie(models.TransientModel):
         
     
     @api.multi
-    def make_sie2(self, ver_ids):
+    def make_sie(self, ver_ids):
         if len(self) > 0:
             sie_form = self[0]
         
@@ -283,21 +256,26 @@ class account_sie(models.TransientModel):
         
         return str
     
-    @api.multi
+    @api.model
     def export_sie(self,ver_ids):
         if len(self) < 1:
             sie_form = self.create({})
         else:
             sie_form=self[0]
-        sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie2(ver_ids).encode('utf8')) })
+        _logger.info('export: %s' % ver_ids)
+        sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie(ver_ids).encode('utf8')) })
+        view = self.env.ref('l10n_se_sie.wizard_account_sie', False)
+        _logger.info('view %s sie_form %s' % (view,sie_form))
         #~ sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie()) })
         return {
+            'name': _('SIE-export'),
             'type': 'ir.actions.act_window',
             'res_model': 'account.sie',
             'view_mode': 'form',
             'view_type': 'form',
             'res_id': sie_form.id,
-            'views': [(False, 'form')],
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
             'target': 'new',
         }
     # if narration is null, return empty string instead of parsing to False

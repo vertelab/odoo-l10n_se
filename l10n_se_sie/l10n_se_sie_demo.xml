@@ -10,7 +10,7 @@
     <record id="ver_01_01" model="account.move.line">
       <field name="move_id" ref="ver_01" />
       <field name="name">/</field>
-      <field name="account_id" search="[('code', '=', '1500')]" />
+      <field name="account_id" search="[('code', 'in', ('1500','1510','1102'))]"/>
       <field name="debit" eval="2248.75" />
     </record>
     <record id="ver_01_02" model="account.move.line">
@@ -34,7 +34,7 @@
     <record id="ver_02_01" model="account.move.line">
       <field name="move_id" ref="ver_02" />
       <field name="name">/</field>
-      <field name="account_id" search="[('code', '=', '1500')]" />
+      <field name="account_id" search="[('code', 'in', ('1500','1510','1102'))]" />
       <field name="debit" eval="0.00" />
     </record>
     <record id="ver_02_02" model="account.move.line">
