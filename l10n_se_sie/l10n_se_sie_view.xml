@@ -61,7 +61,7 @@
       <field name="key2">client_action_multi</field>
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_journal" />
     </record>
-     <record id="action_wizard_account_journal_sie" model="ir.actions.act_window">
+    <record id="action_wizard_account_journal_sie" model="ir.actions.act_window">
       <field name="name">Export journal SIE</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.sie</field>
@@ -70,7 +70,6 @@
       <field name="target">new</field>
     </record>
     <menuitem action="action_wizard_account_journal_sie" id="menu_wizard_account_journal_sie" parent="account.menu_journals" />
-
     <!--account_account-->
     <record model="ir.actions.server" id="dropdown_export_account">
       <field name="name">Export SIE</field>
@@ -92,22 +91,21 @@
       <field name="arch" type="xml">
         <form string="Export SIE-files">
           <field name="state" invisible="1" />
-<!--
           <notebook states="choose">
--->
-        <notebook>
-            <page string="Export">
-              <group>
+            <page string="Export" states="choose">
+              <group col="3">
                 <field name="date_start" />
-                <field name="date_stop" />
-                <field name="start_period" />
-                <field name="stop_period" />
-                <field name="fiscal_year" />
-                <field name="journal" widget="many2many_tags" />
-                <field name="account" />
+                <field name="date_stop" nolabel="1" />
+              </group>
+              <group>
+                <field name="fiscalyear_ids" />
+                <field name="period_ids" widget="many2many_tags" />
+                <field name="journal_ids" widget="many2many_tags" />
+                <field name="partner_ids" widget="many2many_tags" />
+                <field name="account_ids" widget="many2many_tags" />
               </group>
             </page>
-            <page string="Import">
+            <page string="Import" states="choose">
               <group rowspan="4" string="Filebox">
                 <field name="data" />
                 <newline />
@@ -117,25 +115,21 @@
               </group>
             </page>
           </notebook>
-<!--
           <div states="get">
             <h2>Export Complete</h2>
             <p>
-              Here is the exported xml-file:
-              <field name="data" readonly="1" filename="name" />
+              Here is the exported sie-file:
+              <field name="data" readonly="1" filename="sie_export.sie" />
             </p>
           </div>
--->
-          <footer states="get,done">
-            <button string="Skapa SIE-fil" name="send_form" type="object" class="oe_highlight" />
+          <footer states="choose">
+            <button string="Send" name="send_form" type="object" class="oe_highlight" />
             or
             <button string="Cancel" special="cancel" class="oe_link" />
           </footer>
-<!--
           <footer states="get">
-            <button string="Close" special="cancel" type="object" />
+            <button special="cancel" string="Close" type="object" />
           </footer>
--->
         </form>
       </field>
     </record>
