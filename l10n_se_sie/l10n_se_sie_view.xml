@@ -108,6 +108,7 @@
             <page string="Import" states="choose">
               <group rowspan="4" string="Filebox">
                 <field name="data" />
+               
                 <newline />
                 <div>
                   <p>File to upload</p>
@@ -119,7 +120,8 @@
             <h2>Export Complete</h2>
             <p>
               Here is the exported sie-file:
-              <field name="data" readonly="1" filename="sie_export.sie" />
+              <field name="sie_file" readonly="1" filename="filename" />
+               <field name="filename" readonly="1" invisible="1"/>
             </p>
           </div>
           <footer states="choose">

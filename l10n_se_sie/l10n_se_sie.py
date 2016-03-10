@@ -20,20 +20,26 @@ class account_sie(models.TransientModel):
        
     date_start = fields.Date(string = "Date interval")
     date_stop = fields.Date(string = "Stop Date")
-    period_ids = fields.Many2many(comodel_name = "account.period", string="Periods" )
-    fiscalyear_ids = fields.Many2one(comodel_name = "account.fiscalyear", string = "Fiscal Year",help="Moves in this fiscal years")
-    journal_ids = fields.Many2many(comodel_name = "account.journal", string = "Journal",help="Moves with this type of journals")
-    partner_ids = fields.Many2many(comodel_name = "res.partner", string="Partner",help="Moves tied to these partners")
-    account_ids = fields.Many2many(comodel_name = "account.account", string = "Account")
+    period_ids = fields.Many2many(comodel_name = "account.period", string="Periods" ,) # domain="[('company_id','=',self.env.ref('base.main_company').id)]"
+    fiscalyear_ids = fields.Many2one(comodel_name = "account.fiscalyear", string = "Fiscal Year",help="Moves in this fiscal years",)
+    journal_ids = fields.Many2many(comodel_name = "account.journal", string = "Journal",help="Moves with this type of journals",)
+    partner_ids = fields.Many2many(comodel_name = "res.partner", string="Partner",help="Moves tied to these partners",)
+    account_ids = fields.Many2many(comodel_name = "account.account", string = "Account",)
     
     state =  fields.Selection([('choose', 'choose'), ('get', 'get'),],default="choose") 
     data = fields.Binary('File')
-    
+    filename = fields.Char(string='Filename')
+    @api.one
+    def _data(self):
+        self.sie_file = self.data
+    sie_file = fields.Binary(compute='_data')
+
         
     @api.multi
     def send_form(self,):
         sie_form = self[0]
         #raise Warning('Hello %s %s %s' % (base64.decodestring(sie_form.data or ''),self,self.state))
+        _logger.warning('Hello %s %s %s' % (base64.decodestring(sie_form.data or ''),self,self.filename))
         if not sie_form.data == None: # IMPORT TRIGGERED
             sie_file = base64.decodestring(sie_form.data)            
             missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(sie_file))
@@ -65,7 +71,8 @@ class account_sie(models.TransientModel):
             if sie_form.account_ids:
                 accounts = [l.move_id.id for l in self.env['account.move.line'].search([('account_id','in',[a.id for a in sie_form.account_ids])])]
                 move_ids = move_ids.filtered(lambda r: r.id in accounts)
-            sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie(move_ids)) })
+            sie_form.write({'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids)),'filename': 'filename.sie4' })
+        
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.sie',
@@ -129,7 +136,7 @@ class account_sie(models.TransientModel):
         
         _logger.warning('\n%s\n' % str)
         
-        return str.encode('cp1252')
+        return str.encode('ascii','xmlcharrefreplace') # ignore
     
     @api.model
     def export_sie(self,ver_ids):
@@ -138,9 +145,9 @@ class account_sie(models.TransientModel):
         else:
             sie_form=self[0]
         _logger.info('export: %s' % ver_ids)
-        sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie(ver_ids).encode('utf8')) })
+        sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie(ver_ids)) ,'filename': 'filename.sie4' })
         view = self.env.ref('l10n_se_sie.wizard_account_sie', False)
-        _logger.info('view %s sie_form %s' % (view,sie_form))
+        _logger.info('view %s sie_form %s %s %s' % (view,sie_form,sie_form.sie_file,base64.b64encode(sie_form.make_sie(ver_ids))))
         #~ sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie()) })
         return {
             'name': _('SIE-export'),
@@ -220,7 +227,7 @@ class account_sie(models.TransientModel):
         return accounts
     
     def _import_ver(self,string):
-        for ver in re.finditer(re.compile(r'#VER .+\n{\n(#TRANS .+\n)+}\n', re.MULTILINE), string):
+        for ver in re.finditer(re.compile(r'#VER .+\n{\n(#TRANS .+\n)+}\n', re.MULTILINE), string.decode('utf-8','xmlcharrefreplace')):
             verString = '' + (re.search(re.compile(r'#VER .+'),ver.group()).group())
             verList = self._stringSplit(verString)
             list_date = verList[3]  # date
@@ -233,6 +240,7 @@ class account_sie(models.TransientModel):
 #VER "" BNK2/2016/0001 20160216 "" admin
             ver_id = self.env['account.move'].create({
                 'period_id': self.env['account.period'].find(dt=list_date).id,
+                'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
                 })
             _logger.warning('VER %s' %ver_id)
                 
@@ -253,6 +261,7 @@ class account_sie(models.TransientModel):
                 trans_code = transList[1]
                 trans_object = transList[2]
                 trans_balance = transList[3]
+                trans_name = '#'
                 if args >=5:
                     trans_date = transList[4]
                 if args >= 6:
@@ -267,7 +276,7 @@ class account_sie(models.TransientModel):
                 else:
                     user = None
                 
-                code = self.env['account.account'].search([('code','=',trans_code)],limit=1)
+                code = self.env['account.account'].search([('code','=',trans_code),('company_id','=',self.env.ref('base.main_company').id)],limit=1)
                 
             
                 #~ 3000 regular  report_type income  balance > 0 -> sale balance < 0 -> sale_refund  ( user_type data_account_type_income + balance > 0)
@@ -279,34 +288,34 @@ class account_sie(models.TransientModel):
                 #~ 1932 Liquidity -> user_type  = ref('account.data_account_type_cash')  -> cash
 
                 if code.user_type.report_type == 'income':
-                    journal_type.append('sale' and int(trans_balance) > 0 or 'sale_refund')
-                elif code.user_type.id == self.ref('account.data_account_type_bank').id:
+                    journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
+                elif code.user_type.id == self.env.ref('account.data_account_type_bank').id:
                     journal_types.append('bank')
-                elif code.user_type.id == self.ref('account.data_account_type_cash').id:
+                elif code.user_type.id == self.env.ref('account.data_account_type_cash').id:
                     journal_types.append('cash')
                 elif code.user_type.report_type in ['asset','expense']:
-                    journal_types.append('purchase' and int(trans_balance) > 0 or 'purchase_refund')
+                    journal_types.append('purchase' and float(trans_balance) > 0.0 or 'purchase_refund')
                                 
                 #~ raise Warning(self.env['account.move.line'].search([])[0].date)
-                _logger.warning('\naccount_id :%s\nbalance: %s\njournal_id: %s\nperiod_id: %s' %(code,trans_balance,journal,self.env['account.period'].find(dt=list_date).id))
+                _logger.warning('\naccount_id :%s\nbalance: %s\nperiod_id: %s' %(code,trans_balance,self.env['account.period'].find(dt=list_date).id))
 
                 trans_id = self.env['account.move.line'].create({
                     'account_id': code.id,
-                    'credit': float(trans_balance) < 0 and float(trans_balance) or 0.0,
+                    'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
                     'debit': float(trans_balance) > 0 and float(trans_balance) or 0.0,
                     'period_id': self.env['account.period'].find(dt=list_date).id,
                     'date': '' + trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:],
                     #'quantity': trans_quantity,
-                    #'name': trans_name,
-                    'move_id': ver_id,
+                    'name': trans_name,
+                    'move_id': ver_id.id,
                     })
         
-            if self.env['account.journal'].search([('type','=',ver_list[1])]):  # Serial are a journal
-                journal_type = ver_list[1]
+            if self.env['account.journal'].search([('type','=',verList[1]),('company_id','=',self.env.ref('base.main_company').id)]):  # Serial are a journal
+                journal_type = verList[1]
             elif [j for j in ['sale','sale_refund','purchase','purchase_refund'] if j in journal_types]:
                 journal_type = [j for j in ['sale','sale_refund','purchase','purchase_refund'] if j in journal_types][0]
             elif [j for j in ['bank','cash'] if j in journal_types]:
                 journal_type = [j for j in ['bank','cash'] if j in journal_types][0]
             else:
                 journal_type = 'general'
-            self.env['account.move'].write(ver_id,{'journal_id': self.env['account.journal'].search([('type','=',journal_type)])[0].id})
+            ver_id.write({'journal_id': self.env['account.journal'].search([('type','=',journal_type),('company_id','=',self.env.ref('base.main_company').id)])[0].id})
