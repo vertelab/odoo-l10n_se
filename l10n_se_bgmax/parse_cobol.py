@@ -245,8 +245,14 @@ class bg_iterator:
         if rec['type'] == '70':
             self.footer = rec
             raise StopIteration()
-        if rec['type'] == '20':
-            bet = self.bet.append(rec)
+            
+        if rec['type'] in ['20','25','26','27','28','29']:
+            if rec['type'] == '20':
+                self.bet.append(rec)
+            else:
+                for r,d in rec:
+                    self.bet[-1][r] = d
+            
             while True:
                 self.row += 1
                 rec = c.parse_row(self.row)
