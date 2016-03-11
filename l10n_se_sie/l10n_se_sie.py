@@ -227,6 +227,7 @@ class account_sie(models.TransientModel):
         return accounts
     
     def _import_ver(self,string):
+        # ^#(.+?)\s+(.+?)\s+(.+?)\s+(.+?)\s+\"(.+?)\"(.+?)\s+\"(.+?)\"
         for ver in re.finditer(re.compile(r'#VER .+\n{\n(#TRANS .+\n)+}\n', re.MULTILINE), string.decode('utf-8','xmlcharrefreplace')):
             verString = '' + (re.search(re.compile(r'#VER .+'),ver.group()).group())
             verList = self._stringSplit(verString)
