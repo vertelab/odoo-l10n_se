@@ -129,22 +129,21 @@ record = """01BGMAX               0120160223133624677439P
 
 class CobolParser(object):
     """Parser for BgMax bank statement import files."""
-
-    def __init__(self):
-      self.layout = {
-            '01': [ 
+    
+    layout = {
+            '01': [ # Start post
                 ('layoutnamn',3,22),
                 ('version',23,24),
                 ('skrivdag',25,44),
                 ('testmarkering',45,45),
                 ('reserv',46,80),
             ],
-            '05': [ 
+            '05': [ # Record start
                 ('mottagarbankgiro',3,12),
                 ('mottagarplusgiro',13,22),
                 ('valuta',46,50),
             ],
-            '15': [ 
+            '15': [ # Record end / insättning
                 ('mottagarbankkonto',3,37),
                 ('betalningsdag',38,45),
                 ('inslopnummer',46,50),
@@ -153,7 +152,7 @@ class CobolParser(object):
                 ('antal_bet',72,79),
                 ('typ_av_ins',80,80),
             ],
-            '20': [ 
+            '20': [ # betalning
                 ('bankgiro',3,12),
                 ('referens',13,37),
                 ('betbelopp',38,55),
@@ -163,7 +162,7 @@ class CobolParser(object):
                 ('avibildmarkering',70,70),
                 ('reserv',71,80),
             ],
-            '21': [ 
+            '21': [ # avdrag
                 ('bankgiro',3,12),
                 ('referens',13,37),
                 ('betbelopp',38,55),
@@ -172,6 +171,26 @@ class CobolParser(object):
                 ('BGC-nummer',58,69),
                 ('avibildmarkering',70,70),
                 ('avdragskod',71,71),
+            ],
+            '22': [ 
+                ('22bankgiro',3,12),
+                ('22referens',13,37),
+                ('22betbelopp',38,55),
+                ('22referenskod',56,56),
+                ('22betalningskanalkod',57,57),
+                ('22BGC-nummer',58,69),
+                ('22avibildmarkering',70,70),
+                ('22reserv',71,80),
+            ],
+            '23': [ 
+                ('23bankgiro',3,12),
+                ('23referens',13,37),
+                ('23betbelopp',38,55),
+                ('23referenskod',56,56),
+                ('23betalningskanalkod',57,57),
+                ('23BGC-nummer',58,69),
+                ('23avibildmarkering',70,70),
+                ('reserv',71,80),
             ],
             '25': [ 
                 ('informationstext',3,52),
@@ -216,55 +235,187 @@ class CobolParser(object):
     def parse(self,data):
         pass
         
-
 c = CobolParser()
 
-print c.parse("20005630293853827                    000000000000819100324906302272720")
-print c.parse("15000000000000000000081050090427838532016022300071000000000005108035SEK00000007")
-
-
-
-class bg_iterator:
+class bg_iterator(CobolParser):
     def __init__(self, data):
         self.row = 0
         self.data = data.splitlines()
+        self.rows = len(self.data)
         self.bet = []
-        self.avdrag = []
+        self.avsnitt = []
         self.ref = []
         self.ins = []
         self.header = {}
         self.footer = {}
+        super(CobolParser,self).__init__()
 
     def __iter__(self):
         return self
 
     def next(self):
+        self.row += 1
+        rec = self.parse_row(self.data[self.row])
+        return rec
+        
+    def Xnext(self):
         rec = c.parse_row(self.data[self.row])
+        print "%s # %s" % (self.row,rec)
+        if rec['type'] == '01':
+            self.header = rec
+            self.row += 1
+        if rec['type'] == '70':
+            self.footer = rec
+            raise StopIteration()
+        print rec['type'],'outer'
+        if rec['type'] == '05':
+            while True:
+                avsnitt = rec
+                self.row += 1
+                rec = c.parse_row(self.data[self.row])
+                print "%s ## %s %s" % (self.row,rec['type'],rec)
+                if rec['type'] in ['20','21']:
+                    bet = rec
+                    while True:
+                        self.row += 1
+                        rec = c.parse_row(self.data[self.row])
+                        if rec['type'] in ['22','23','25','26','27','28','29']:
+                            print "%s ### %s %s" % (self.row,rec['type'],rec)
+                            #print bet,rec
+                            for r in rec.keys():
+                                bet[r] = rec[r]
+                        elif rec['type'] in ['15','20','21']:
+                            self.row -= 1
+                            break
+                        else:
+                            print "Fel type %s rec %s" % (rec['type'],rec)
+                            break
+                    self.bet.append(bet)
+                    if rec['type'] == '15':
+                        for r in rec.keys():
+                            avsnitt[r] = rec[r]
+                        print "Hejsan"
+                        exit()
+                        break                    
+                
+                elif rec['type'] == '70':
+                    self.footer = rec
+                    break
+                elif rec['type'] == '15':
+                    print "1515151515151"
+                    exit()
+                self.avsnitt.append(avsnitt)
+                    
+        return self.avsnitt
+            
+
+                        
+class avsnitt(CobolParser):
+    def __init__(self, data):
+        self.row = 0
+        self.data = data.splitlines()
+        self.rows = len(self.data)
+        self.bet = []
+        self.ins = []
+        self.ref = []
+        self.ins = []
+        self.header = {}
+        self.footer = {}
+    
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.row >= self.rows:
+            raise StopIteration
+        rec = self.parse_row(self.data[self.row])
+        self.row += 1
         if rec['type'] == '01':
             self.header = rec
         if rec['type'] == '70':
             self.footer = rec
             raise StopIteration()
-            
-        if rec['type'] in ['20','25','26','27','28','29']:
-            if rec['type'] == '20':
-                self.bet.append(rec)
-            else:
-                for r,d in rec:
-                    self.bet[-1][r] = d
-            
+        if rec['type'] == '05':
+            self.ins.append(rec)
             while True:
                 self.row += 1
-                rec = c.parse_row(self.row)
-                break
-            return bet
+                rec = self.parse_row(self.data[self.row])
+                if rec['type'] == '15':
+                    break
+                for r in rec.keys():
+                    self.ins[-1][r] = rec[r]
+            return self.ins[-1]
+        return rec
+        
+    
+    def Xnext(self):
+        rec = c.parse_row(self.data[self.row])
+        print "%s # %s" % (self.row,rec)
+        if rec['type'] == '01':
+            self.header = rec
+            self.row += 1
+        if rec['type'] == '70':
+            self.footer = rec
+            raise StopIteration()
+        print rec['type'],'outer'
+        if rec['type'] == '05':
+            while True:
+                avsnitt = rec
+                self.row += 1
+                rec = c.parse_row(self.data[self.row])
+                print "%s ## %s %s" % (self.row,rec['type'],rec)
+                if rec['type'] in ['20','21']:
+                    bet = rec
+                    while True:
+                        self.row += 1
+                        rec = c.parse_row(self.data[self.row])
+                        if rec['type'] in ['22','23','25','26','27','28','29']:
+                            print "%s ### %s %s" % (self.row,rec['type'],rec)
+                            #print bet,rec
+                            for r in rec.keys():
+                                bet[r] = rec[r]
+                        elif rec['type'] in ['15','20','21']:
+                            self.row -= 1
+                            break
+                        else:
+                            print "Fel type %s rec %s" % (rec['type'],rec)
+                            break
+                    self.bet.append(bet)
+                    if rec['type'] == '15':
+                        for r in rec.keys():
+                            avsnitt[r] = rec[r]
+                        print "Hejsan"
+                        exit()
+                        break                    
+                
+                elif rec['type'] == '70':
+                    self.footer = rec
+                    break
+                elif rec['type'] == '15':
+                    print "1515151515151"
+                    exit()
+                self.avsnitt.append(avsnitt)
+                    
+        return self.avsnitt
 
-            
+
+    pass
+    
+
 y = bg_iterator(record)
-print y.next()
-print y.next()
+a = avsnitt(record)
+
+for x in a:
+    print a.row,x['type'],x
+print a.footer,len(a.record)
+#print "start"
+#print "01",y.next()
+#print "02",y.next()
+#print "03",y.next()
+#print "04",y.next()
 
 
-print y.bet
+
+#print y.bet
 
             
