@@ -308,7 +308,18 @@ class bg_iterator(CobolParser):
                     
         return self.avsnitt
             
-
+class avs():
+    def __init__(self):
+        self.record = []
+        self.header = {}
+        self.footer = {}
+        
+    def add(self,rec):
+        self.record.append(rec)
+        
+    def check_insbelopp(self):
+        pass
+    
                         
 class avsnitt(CobolParser):
     def __init__(self, data):
@@ -322,6 +333,7 @@ class avsnitt(CobolParser):
         self.header = {}
         self.footer = {}
         self.avsnitt = []
+        self.avs = avs()
     
     def __iter__(self):
         return self
@@ -338,6 +350,7 @@ class avsnitt(CobolParser):
             raise StopIteration()
         if rec['type'] == '05':
             self.avsnitt.append(rec)
+            self.avs.add(rec)
             self.avsnitt[-1]['ins'] = []
             self.avsnitt[-1]['bet'] = []
             while True:
@@ -346,6 +359,7 @@ class avsnitt(CobolParser):
                 if rec['type'] == '15':
                     for r in rec.keys():
                         self.avsnitt[-1][r] = rec[r]
+                        print r,rec[r]
                     break
                 if rec['type'] == '20':
                     self.get_ins(rec)
@@ -436,8 +450,13 @@ y = bg_iterator(record)
 a = avsnitt(record)
 
 for x in a:
-    print a.row,x['type'],x
-print a.footer,a.avsnitt[0]['ins'][0]
+    #print a.row,x['type'],x
+    pass
+#print a.avsnitt[0]['ins']
+
+for ins in a.avsnitt[0]['ins']:
+    print float(int(ins['betbelopp']))/ 100
+print a.avsnitt[0]['antal_bet'],len(a.avsnitt[0]['ins']),sum([float(b['betbelopp'])/100 for b in a.avsnitt[0]['ins']]),a.avsnitt[0]['insbelopp']
 #print "start"
 #print "01",y.next()
 #print "02",y.next()
