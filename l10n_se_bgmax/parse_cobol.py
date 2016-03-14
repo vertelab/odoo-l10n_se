@@ -309,16 +309,34 @@ class bg_iterator(CobolParser):
         return self.avsnitt
             
 class avs():
-    def __init__(self):
+    def __init__(self,rec):
         self.record = []
-        self.header = {}
+        self.header = rec
         self.footer = {}
-        
+        self.ins = []
+        self.bet = []
+        self.type = ''
+
     def add(self,rec):
-        self.record.append(rec)
-        
+        self.type = rec['type']
+        if rec['type'] == '20':
+            self.type = '20'
+            self.ins.append(rec)
+        elif rec['type'] == '21':
+            self.type = '21'
+            self.bet.append(rec)
+        elif self.type == '20':
+            for r in rec.keys():
+                self.bet[-1][r] = rec[r]
+        elif self.type == '21':
+            for r in rec.keys():
+                self.ins[-1][r] = rec[r]
+            
     def check_insbelopp(self):
-        pass
+        print 'record',self.record
+        sum([float(b['betbelopp'])/100 for b in self.record['ins']])
+        self.footer['insbelopp']
+        return False
     
                         
 class avsnitt(CobolParser):
@@ -333,7 +351,6 @@ class avsnitt(CobolParser):
         self.header = {}
         self.footer = {}
         self.avsnitt = []
-        self.avs = avs()
     
     def __iter__(self):
         return self
@@ -349,24 +366,19 @@ class avsnitt(CobolParser):
             self.footer = rec
             raise StopIteration()
         if rec['type'] == '05':
-            self.avsnitt.append(rec)
-            self.avs.add(rec)
-            self.avsnitt[-1]['ins'] = []
-            self.avsnitt[-1]['bet'] = []
-            while True:
+            self.avsnitt.append(avs(rec))
+            
+            while rec['type'] in ['22','23','25','26','27','28','29']:
                 self.row += 1
                 rec = self.parse_row(self.data[self.row])
-                if rec['type'] == '15':
-                    for r in rec.keys():
-                        self.avsnitt[-1][r] = rec[r]
-                        print r,rec[r]
-                    break
-                if rec['type'] == '20':
-                    self.get_ins(rec)
-                    continue
-                if rec['type'] == '21':
-                    self.get_bet(rec)
-                    continue
+            if rec['type'] == '15':
+                self.avsnitt[-1].footer = rec
+                print rec
+                break
+            if rec['type'] in ['20','21']:
+                #self.row -= 1
+                break
+            self.avsnitt[-1].add(rec)
             return self.avsnitt[-1]
         return rec
         
@@ -454,9 +466,17 @@ for x in a:
     pass
 #print a.avsnitt[0]['ins']
 
-for ins in a.avsnitt[0]['ins']:
+for ins in a.avsnitt[0].ins:
     print float(int(ins['betbelopp']))/ 100
-print a.avsnitt[0]['antal_bet'],len(a.avsnitt[0]['ins']),sum([float(b['betbelopp'])/100 for b in a.avsnitt[0]['ins']]),a.avsnitt[0]['insbelopp']
+print a.avsnitt[0].header['mottagarbankgiro']
+print len(a.avsnitt[0].ins)
+print sum([float(b['betbelopp'])/100 for b in a.avsnitt[0].ins])
+print a.avsnitt[0].footer['insbelopp']
+
+for i in a.avsnitt[0].ins:
+    print i
+print a.avsnitt[0].ins[13]
+
 #print "start"
 #print "01",y.next()
 #print "02",y.next()
