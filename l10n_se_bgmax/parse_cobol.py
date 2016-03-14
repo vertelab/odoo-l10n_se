@@ -321,6 +321,7 @@ class avsnitt(CobolParser):
         self.ins = []
         self.header = {}
         self.footer = {}
+        self.avsnitt = []
     
     def __iter__(self):
         return self
@@ -336,17 +337,46 @@ class avsnitt(CobolParser):
             self.footer = rec
             raise StopIteration()
         if rec['type'] == '05':
-            self.ins.append(rec)
+            self.avsnitt.append(rec)
+            self.avsnitt[-1]['ins'] = []
+            self.avsnitt[-1]['bet'] = []
             while True:
                 self.row += 1
                 rec = self.parse_row(self.data[self.row])
                 if rec['type'] == '15':
+                    for r in rec.keys():
+                        self.avsnitt[-1][r] = rec[r]
                     break
-                for r in rec.keys():
-                    self.ins[-1][r] = rec[r]
-            return self.ins[-1]
+                if rec['type'] == '20':
+                    self.get_ins(rec)
+                    continue
+                if rec['type'] == '21':
+                    self.get_bet(rec)
+                    continue
+            return self.avsnitt[-1]
         return rec
         
+    def get_bet(self,rec):
+        self.avsnitt[-1]['bet'].append(rec)
+        while True:
+            self.row += 1
+            rec = self.parse_row(self.data[self.row])
+            if rec['type'] in ['15','20','21']:
+                self.row -= 1
+                return rec
+            for r in rec.keys():
+                self.avsnitt[-1]['bet'][-1][r] = rec[r]
+    def get_ins(self,rec):
+        self.avsnitt[-1]['ins'].append(rec)
+        while True:
+            self.row += 1
+            rec = self.parse_row(self.data[self.row])
+            if rec['type'] in ['15','20','21']:
+                self.row -= 1
+                return rec
+            for r in rec.keys():
+                self.avsnitt[-1]['ins'][-1][r] = rec[r]
+            
     
     def Xnext(self):
         rec = c.parse_row(self.data[self.row])
@@ -407,7 +437,7 @@ a = avsnitt(record)
 
 for x in a:
     print a.row,x['type'],x
-print a.footer,len(a.record)
+print a.footer,a.avsnitt[0]['ins'][0]
 #print "start"
 #print "01",y.next()
 #print "02",y.next()
