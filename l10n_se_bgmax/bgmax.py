@@ -62,7 +62,14 @@ class avsnitt(object):
         #print "antal",len(self.ins)
         #print "antal_bet",int(self.footer['antal_bet'])
         return len(self.ins) == int(self.footer['antal_bet'])
-
+    def __str__(self):
+        return str({
+            'type': self.type,
+            'header': self.header,
+            'footer': self.footer,
+            'ins': self.ins,
+            'bet': self.bet,
+        })
 
 class BgMaxRowParser(object):
     """Parser for BgMax bank statement import files lines."""
@@ -170,7 +177,7 @@ class BgMaxRowParser(object):
         return record
 
 
-class bgMaxIterator(BgMaxRowParser):
+class BgMaxIterator(BgMaxRowParser):
     def __init__(self, data):
         self.row = 0
         self.data = data.splitlines()
@@ -193,7 +200,7 @@ class bgMaxIterator(BgMaxRowParser):
             self.footer = rec
             raise StopIteration()
         if rec['type'] == '05':
-            self.avsnitt.append(avs(rec))
+            self.avsnitt.append(avsnitt(rec))
             rec = self.next_rec()
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
                 self.avsnitt[-1].add(rec)
@@ -269,9 +276,30 @@ class BgMaxParser(object):
         iterator = BgMaxIterator(data)
         
         for avsnitt in iterator:
-            self.current_statement = BankStatement()
-            self.statements.append(self.current_statement)
+            _logger.warn("header: %s" % avsnitt.header)
+            _logger.warn("footer: %s" % avsnitt.footer)
+            _logger.warn("ins: %s" % avsnitt.ins)
+            _logger.warn("bet: %s" % avsnitt.bet)
+            _logger.warn("type: %s" % avsnitt.type)
             
+            self.current_statement = BankStatement()
+            for ins in avsnitt.ins:
+                transaction = self.current_statement.create_transaction()
+                if int(ins.get('bankgiro', 0)):
+                    transaction.remote_account = str(int(ins.get('bankgiro', 0)))
+                transaction.amount = float(ins.get('betbelopp', 0)) / 1000
+                transaction.eref = ins['referens']
+                #ins['BGC-nummer'] #Bankgirocentralnummer
+                #~ transaction.message
+                #~ transaction.remote_owner
+                #~ transaction.name
+                #~ transaction.note
+                #~ transaction.value_date
+            #self.current_statement.end_balance = 
+            self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+            self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+            self.statements.append(self.current_statement)
+        
         return self.statements
 
 

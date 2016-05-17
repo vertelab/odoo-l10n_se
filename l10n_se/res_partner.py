@@ -21,6 +21,7 @@
 
 import os
 
+import re
 import openerp
 from openerp import SUPERUSER_ID, tools
 from openerp.osv import fields, osv
@@ -28,6 +29,8 @@ from openerp.tools.translate import _
 from openerp.tools.safe_eval import safe_eval as eval
 from openerp.tools import image_resize_image
 
+import logging
+_logger= logging.getLogger(__name__)
 
 class res_partner(osv.osv):
     _inherit = "res.partner"
@@ -35,8 +38,10 @@ class res_partner(osv.osv):
     def _company_registry(self, cr, uid, ids, name, args, context=None):
         res = {}
         for partner in self.browse(cr, uid, ids, context=context):
-            if partner.vat:
+            if partner.vat and re.match('SE[0-9]{10}01', partner.vat):
                 res[partner.id] = "%s-%s" % (partner.vat[2:8],partner.vat[8:-2])
+            else:
+                res[partner.id] = ''
         return res
     
     _columns = {    
