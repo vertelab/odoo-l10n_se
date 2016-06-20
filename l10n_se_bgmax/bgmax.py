@@ -283,12 +283,19 @@ class BgMaxParser(object):
             _logger.warn("type: %s" % avsnitt.type)
             
             self.current_statement = BankStatement()
+            self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+            self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+            date = avsnitt.footer.get('betalningsdag') or ''
+            if date:
+                date = date[:4] + '-' + date[4:6] + '-' + date[6:]
+                self.current_statement.date = date
             for ins in avsnitt.ins:
                 transaction = self.current_statement.create_transaction()
                 if int(ins.get('bankgiro', 0)):
                     transaction.remote_account = str(int(ins.get('bankgiro', 0)))
-                transaction.amount = float(ins.get('betbelopp', 0)) / 1000
-                transaction.eref = ins['referens']
+                transaction.amount = float(ins.get('betbelopp', 0)) / 100
+                transaction.eref = ins.get('BGC-nummer') or ins.get('referens')
+                transaction.value_date = date
                 #ins['BGC-nummer'] #Bankgirocentralnummer
                 #~ transaction.message
                 #~ transaction.remote_owner
@@ -296,8 +303,7 @@ class BgMaxParser(object):
                 #~ transaction.note
                 #~ transaction.value_date
             #self.current_statement.end_balance = 
-            self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
-            self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+
             self.statements.append(self.current_statement)
         
         return self.statements
