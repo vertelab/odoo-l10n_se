@@ -20,7 +20,7 @@
 
 
 {
-    'name': 'BgMax Format Bank Statements Import',
+    'name': 'Swedbank Format Bank Statements Import',
     'version': '8.0.0.1.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
@@ -30,9 +30,9 @@
     #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
   
     #'demo': ['l10n_se_sie_demo.xml'],
-    #~ 'external_dependencies': {
-        #~ 'python': ['ofxparse'],
-    #~ },
+    'external_dependencies': {
+        'python': ['xlrd'],
+    },
 
     'installable': 'True',
     'application': 'False',
