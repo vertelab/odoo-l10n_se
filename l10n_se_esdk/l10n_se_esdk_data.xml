@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-
+<!--
             <record id="ink2r_form" model="account.esdk.form">
                 <field name="name">INK2R</field>
                 <field name="chart_account_id" search="[]"/>
@@ -40,6 +40,7 @@
                 <field name="form_id" ref="ink2r_form"/>
                 <field name="name">7012</field>
             </record>
+-->
 <!--
             <record id="ink2r_2_1" model="account.esdk.code">
                 <field name="form_id" ref="ink2r_form"/>
