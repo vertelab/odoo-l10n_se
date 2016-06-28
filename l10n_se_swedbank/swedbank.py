@@ -32,17 +32,18 @@ from xlrd.sheet import Sheet
 class SwedbankTransaktionsrapport(object):
     """Parser for Swedbank Transaktionsrapport import files."""
     
-    def __init__(self, data):
+    def __init__(self, data_file):
         self.row = 0
-        self.data = data
-        self.rows = data.nrows - 3
-        self.header = [c.value.lower() for c in data.row(2)]
+        self.data = open_workbook(file_contents=data_file).sheet_by_name('Transaktionsrapport')
+        self.rows = self.data.nrows - 3
+        _logger.error('Row 2 %s' % self.data.row(1))
+        self.header = [c.value.lower() for c in self.data.row(1)]
         self.balance_start = 0.0
         self.balance_end_real = 0.0
         self.balance_end = 0.0
         
 
-    def parse(self, data):
+    def parse(self):
         """Parse swedbank transaktionsrapport bank statement file contents."""
         if not self.data.cell(0,0).value[:21] == '* Transaktionsrapport':
             raise ValueError('This is not a Swedbank Transaktionsrapport')
@@ -57,8 +58,14 @@ class SwedbankTransaktionsrapport(object):
             'belopp': 'amount',
             }
              
-        return {header.get(n,n): t[n] for n in t.keys() for t in SwedbankIterator(data)}
+        #_logger.error('t: %s' % [t.keys() for t in SwedbankIterator(self.data)])
+        #raise Warning([n for n in [t.keys() for t in SwedbankIterator(self.data)]])
+        #return {header.get(n,n): t[n] for n in [t.keys() for t in SwedbankIterator(self.data)]}
+        return SwedbankIterator(self.data)
         
+        
+class account(object):
+    pass
 
 class SwedbankIterator(object):
     def __init__(self, data):
@@ -66,6 +73,12 @@ class SwedbankIterator(object):
         self.data = data
         self.rows = data.nrows - 3
         self.header = [c.value.lower() for c in data.row(1)]
+        self.account = account()
+        self.account.routing_number = self.data.row(3)[2].value
+        self.account.balance_start = self.data.row(3)[11].value
+        self.account.balance_end = self.data.row(data.nrows-1)[11].value
+        self.account.currency = self.data.row(3)[4].value
+        self.account.number = self.data.row(3)[2].value
     
     def __iter__(self):
         return self
@@ -77,6 +90,40 @@ class SwedbankIterator(object):
         self.row += 1
         return {self.header[n]: r[n].value for n in range(len(self.header))}
 
+
+class SwedbankSwish(object):
+    """Parser for Swedbank Swish import files."""
+    
+    def __init__(self, data_file):
+        self.row = 0
+        self.data = open_workbook(file_contents=data_file).sheet_by_name('Swish-rapport')
+        self.rows = self.data.nrows - 3
+        _logger.error('Row 2 %s' % self.data.row(1))
+        self.header = [c.value.lower() for c in self.data.row(1)]
+        self.balance_start = 0.0
+        self.balance_end_real = 0.0
+        self.balance_end = 0.0
+        
+
+    def parse(self):
+        """Parse swedbank transaktionsrapport bank statement file contents."""
+        if not self.data.cell(0,0).value[:15] == '* Swish-rapport':
+            raise ValueError('This is not a Swedbank Swish-rapport')
+            
+        self.balance_start = float(self.data.cell(3,11).value)
+        self.balance_end_real = float(self.data.cell(self.rows,11).value)
+        
+        header = {
+            'valutadag': 'date',
+            'referens': 'payee',
+            'text': 'memo',
+            'belopp': 'amount',
+            }
+             
+        #_logger.error('t: %s' % [t.keys() for t in SwedbankIterator(self.data)])
+        #raise Warning([n for n in [t.keys() for t in SwedbankIterator(self.data)]])
+        #return {header.get(n,n): t[n] for n in [t.keys() for t in SwedbankIterator(self.data)]}
+        return SwedbankIterator(self.data)
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

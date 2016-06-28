@@ -19,8 +19,9 @@
 #
 ##############################################################################
 import logging
-from openerp import models
+from openerp import models, _
 from .swedbank import SwedbankTransaktionsrapport as Parser
+import cStringIO
 
 _logger = logging.getLogger(__name__)
 
@@ -31,10 +32,10 @@ class AccountBankStatementImport(models.TransientModel):
 
     def _parse_file(self, cr, uid, data_file, context=None):
         """Parse a Swedbank transaktionsrapport  file."""
-        parser = Parser()
+        parser = Parser(data_file)
         try:
             _logger.debug("Try parsing with swedbank_transaktioner.")
-            swedbank = Parser.parse(data_file)
+            swedbank = parser.parse()
         except ValueError:
             # Not a Swedbank file, returning super will call next candidate:
             _logger.debug("Statement file was not a Swedbank Transaktionsrapport file.",
@@ -43,44 +44,38 @@ class AccountBankStatementImport(models.TransientModel):
                 cr, uid, data_file, context=context)
 
 
+#        bankstatement = BankStatement()
+#        bankstatement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+#        bankstatement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
         transactions = []
         total_amt = 0.00
         try:
-            for transaction in swedbank.transactions:
+            for transaction in swedbank:
                 bank_account_id = partner_id = False
-                if transaction.payee:
-                    banks = self.env['res.partner.bank'].search(
-                        [('owner_name', '=', transaction.payee)], limit=1)
+                
+                if transaction['referens']:
+                    banks = self.pool['res.partner.bank'].search(cr,uid,
+                        [('owner_name', '=', transaction['referens'])], limit=1)
                     if banks:
-                        bank_account = banks[0]
+                        bank_account = self.browse(cr,uid,banks[0])
                         bank_account_id = bank_account.id
                         partner_id = bank_account.partner_id.id
                 vals_line = {
-                    'date': transaction.date,
-                    'name': transaction.payee + (
-                        transaction.memo and ': ' + transaction.memo or ''),
-                    'ref': transaction.id,
-                    'amount': transaction.amount,
-                    'unique_import_id': transaction.id,
-                    'bank_account_id': bank_account_id,
-                    'partner_id': partner_id,
+                    'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
+                    'name': transaction['referens'] + (
+                        transaction['text'] and ': ' + transaction['text'] or ''),
+                    'ref': transaction['radnr'],
+                    'amount': transaction['belopp'],
+                    'unique_import_id': transaction['radnr'],
+                    'bank_account_id': bank_account_id or None,
+                    'partner_id': partner_id or None,
                 }
-                # Memo (<NAME>) and payee (<PAYEE>) are not required
-                # field in OFX statement, cf section 11.4.3 Statement
-                # Transaction <STMTTRN> of the OFX specs: the required
-                # elements are in bold, cf 1.5 Conventions and these 2
-                # fields are not in bold.
-                # But the 'name' field of account.bank.statement.line is
-                # required=True, so we must always have a value !
-                # The field TRNTYPE is a required field in OFX
                 if not vals_line['name']:
-                    vals_line['name'] = transaction.type.capitalize()
-                    if transaction.checknum:
-                        vals_line['name'] += ' %s' % transaction.checknum
-                total_amt += float(transaction.amount)
+                    vals_line['name'] = transaction['produkt'].capitalize()
+                total_amt += float(transaction['belopp'])
                 transactions.append(vals_line)
         except Exception, e:
-            raise UserError(_(
+            raise Warning(_(
                 "The following problem occurred during import. "
                 "The file might not be valid.\n\n %s" % e.message
             ))
@@ -88,12 +83,76 @@ class AccountBankStatementImport(models.TransientModel):
         vals_bank_statement = {
             'name': swedbank.account.routing_number,
             'transactions': transactions,
-            'balance_start': swedbank.account.statement.balance,
+            'balance_start': swedbank.account.balance_start,
             'balance_end_real':
-                float(swedbank.account.statement.balance) + total_amt,
+                float(swedbank.account.balance_start) + total_amt,
         }
-        return swedbank.account.statement.currency, swedbank.account.number, [
+        return swedbank.account.currency, swedbank.account.number, [
             vals_bank_statement]
 
+
+class AccountBankSwishImport(models.TransientModel):
+    """Add process_bgmax method to account.bank.statement.import."""
+    _inherit = 'account.bank.statement.import'
+
+    def _parse_file(self, cr, uid, data_file, context=None):
+        """Parse a Swedbank swish  file."""
+        parser = Parser(data_file)
+        try:
+            _logger.debug("Try parsing with swedbank_swish.")
+            swedbank = parser.parse()
+        except ValueError:
+            # Not a Swedbank file, returning super will call next candidate:
+            _logger.debug("Statement file was not a Swedbank Swish file.",
+                          exc_info=True)
+            return super(AccountBankStatementImport, self)._parse_file(
+                cr, uid, data_file, context=context)
+
+
+#        bankstatement = BankStatement()
+#        bankstatement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+#        bankstatement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+        transactions = []
+        total_amt = 0.00
+        try:
+            for transaction in swedbank:
+                bank_account_id = partner_id = False
+                
+                if transaction['referens']:
+                    banks = self.pool['res.partner.bank'].search(cr,uid,
+                        [('owner_name', '=', transaction['referens'])], limit=1)
+                    if banks:
+                        bank_account = self.browse(cr,uid,banks[0])
+                        bank_account_id = bank_account.id
+                        partner_id = bank_account.partner_id.id
+                vals_line = {
+                    'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
+                    'name': transaction['referens'] + (
+                        transaction['text'] and ': ' + transaction['text'] or ''),
+                    'ref': transaction['radnr'],
+                    'amount': transaction['belopp'],
+                    'unique_import_id': transaction['radnr'],
+                    'bank_account_id': bank_account_id or None,
+                    'partner_id': partner_id or None,
+                }
+                if not vals_line['name']:
+                    vals_line['name'] = transaction['produkt'].capitalize()
+                total_amt += float(transaction['belopp'])
+                transactions.append(vals_line)
+        except Exception, e:
+            raise Warning(_(
+                "The following problem occurred during import. "
+                "The file might not be valid.\n\n %s" % e.message
+            ))
+
+        vals_bank_statement = {
+            'name': swedbank.account.routing_number,
+            'transactions': transactions,
+            'balance_start': swedbank.account.balance_start,
+            'balance_end_real':
+                float(swedbank.account.balance_start) + total_amt,
+        }
+        return swedbank.account.currency, swedbank.account.number, [
+            vals_bank_statement]
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
