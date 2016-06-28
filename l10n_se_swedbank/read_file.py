@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
@@ -18,28 +19,54 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import re
 
-import logging
-_logger = logging.getLogger(__name__)
 
-class res_partner(models.Model):
-    _inherit = 'res.partner'
 
-    @api.depends('vat')
-    def _company_registry(self):
-        for partner in self:
-            if partner.vat and re.match('SE[0-9]{10}01', partner.vat):
-                partner.company_registry = "%s-%s" % (partner.vat[2:8],partner.vat[8:-2])
-    @api.depends('company_registry')
-    def _set_company_registry(self):
-        for partner in self:
-            if not partner.company_registry: continue
-            if not partner.company_registry[6] == '-': continue
-            partner.vat = 'SE' + partner.company_registry[:6] + partner.company_registry[7:] + '01'
 
-    company_registry = fields.Char(compute="_company_registry",inverse='_set_company_registry',string='Company Registry', size=11,readonly=False)
+from xlrd import open_workbook
+from xlrd.book import Book
+from xlrd.sheet import Sheet
+
+import os
+
+wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Transaktionsrapport.xls'))
+
+
+print wb.nsheets
+
+ws = wb.sheet_by_name('Transaktionsrapport')
+#ws = wb.sheet(1)
+
+
+#~ print ws.cell(0,0),ws.ncols,ws.nrows,ws.cell(3,10).value
+
+#~ for r in range(ws.nrows):
+    #~ if r > 3:
+        #~ for c in ws.row(r):
+            #~ print c.value
+
+
+
+class Iterator(object):
+    def __init__(self, data):
+        self.row = 0
+        self.data = data
+        self.rows = data.nrows - 3
+        self.header = [c.value.lower() for c in data.row(1)]
+    
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.row >= self.rows:
+            raise StopIteration
+        r = self.data.row(self.row + 3)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+
+
+
+for r in Iterator(ws):
+    print r
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
