@@ -53,7 +53,9 @@ class avsnitt(object):
         elif self.type == '21':
             for r in rec.keys():
                 self.ins[-1][r] = rec[r]
-            
+        elif self.type == '26':
+            self.ins[-1]['betalarens_namn'] = rec['betalarens_namn']
+    
     def check_insbelopp(self):
         #print "summa",sum([float(b['betbelopp'])/100 for b in self.ins])
         #print "insbel",float(self.footer['insbelopp']) / 100
@@ -203,6 +205,7 @@ class BgMaxIterator(BgMaxRowParser):
             self.avsnitt.append(avsnitt(rec))
             rec = self.next_rec()
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
+                _logger.warn("rec: %s" % rec)
                 self.avsnitt[-1].add(rec)
                 rec = self.next_rec()                
             if rec['type'] == '15':
@@ -285,6 +288,8 @@ class BgMaxParser(object):
             self.current_statement = BankStatement()
             self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
             self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+            if len(self.current_statement.local_account) == 8:
+                self.current_statement.local_account = self.current_statement.local_account[:4] + '-' + self.current_statement.local_account[4:]
             date = avsnitt.footer.get('betalningsdag') or ''
             if date:
                 date = date[:4] + '-' + date[4:6] + '-' + date[6:]
@@ -293,9 +298,10 @@ class BgMaxParser(object):
                 transaction = self.current_statement.create_transaction()
                 if int(ins.get('bankgiro', 0)):
                     transaction.remote_account = str(int(ins.get('bankgiro', 0)))
-                transaction.amount = float(ins.get('betbelopp', 0)) / 100
-                transaction.eref = ins.get('BGC-nummer') or ins.get('referens')
+                transaction.transferred_amount = float(ins.get('betbelopp', 0)) / 100
+                transaction.eref = ins.get('referens') or ins.get('BGC-nummer')
                 transaction.value_date = date
+                transaction.name = ins.get('betalarens_namn', '').strip()
                 #ins['BGC-nummer'] #Bankgirocentralnummer
                 #~ transaction.message
                 #~ transaction.remote_owner
