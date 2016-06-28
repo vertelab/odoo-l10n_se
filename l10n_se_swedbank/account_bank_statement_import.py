@@ -81,7 +81,7 @@ class AccountBankStatementImport(models.TransientModel):
             ))
 
         vals_bank_statement = {
-            'name': swedbank.account.routing_number,
+            'name': swedbank.account.name,
             'transactions': transactions,
             'balance_start': swedbank.account.balance_start,
             'balance_end_real':

@@ -79,6 +79,8 @@ class SwedbankIterator(object):
         self.account.balance_end = self.data.row(data.nrows-1)[11].value
         self.account.currency = self.data.row(3)[4].value
         self.account.number = self.data.row(3)[2].value
+        self.account.name = self.data.cell(0,0).value
+        
     
     def __iter__(self):
         return self
