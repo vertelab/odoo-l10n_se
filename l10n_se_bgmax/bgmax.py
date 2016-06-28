@@ -296,12 +296,12 @@ class BgMaxParser(object):
                 self.current_statement.date = date
             for ins in avsnitt.ins:
                 transaction = self.current_statement.create_transaction()
-                if int(ins.get('bankgiro', 0)):
-                    transaction.remote_account = str(int(ins.get('bankgiro', 0)))
+                #~ if int(ins.get('bankgiro', 0)):
+                    #~ transaction.remote_account = str(int(ins.get('bankgiro', 0)))
                 transaction.transferred_amount = float(ins.get('betbelopp', 0)) / 100
                 transaction.eref = ins.get('referens') or ins.get('BGC-nummer')
                 transaction.value_date = date
-                transaction.name = ins.get('betalarens_namn', '').strip()
+                transaction.remote_owner = ins.get('betalarens_namn', '').strip()
                 #ins['BGC-nummer'] #Bankgirocentralnummer
                 #~ transaction.message
                 #~ transaction.remote_owner
