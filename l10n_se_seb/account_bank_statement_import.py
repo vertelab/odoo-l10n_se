@@ -21,7 +21,7 @@
 import logging
 from openerp import models, _
 from .seb import SEBTransaktionsrapport as Parser
-import cStringIO
+import magic
 
 _logger = logging.getLogger(__name__)
 
@@ -32,14 +32,15 @@ class AccountBankStatementImport(models.TransientModel):
 
     def _parse_file(self, cr, uid, data_file, context=None):
         """Parse a Swedbank transaktionsrapport  file."""
+        _logger.info("Magic: %s" % magic.from_buffer(data_file))
+        
         try:
-            _logger.debug("Try parsing with seb_transaktioner.")
+            _logger.info("Try parsing with seb_transaktioner.")
             parser = Parser(data_file)
             seb = parser.parse()
         except ValueError:
             # Not a SEB file, returning super will call next candidate:
-            _logger.debug("Statement file was not a SEB Kontohändelse file.",
-                          exc_info=True)
+            _logger.info(u"Statement file was not a SEB Kontohändelse file.")
             return super(AccountBankStatementImport, self)._parse_file(
                 cr, uid, data_file, context=context)
 

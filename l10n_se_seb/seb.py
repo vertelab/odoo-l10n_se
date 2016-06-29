@@ -29,6 +29,8 @@ from xlrd import open_workbook, XLRDError
 from xlrd.book import Book
 from xlrd.sheet import Sheet
 
+import sys
+
 class SEBTransaktionsrapport(object):
     """Parser for Swedbank Transaktionsrapport import files."""
     
@@ -36,7 +38,7 @@ class SEBTransaktionsrapport(object):
         self.row = 0
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
-            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
+            self.data = open_workbook(file_contents=data_file,filename="k.xlsx",logfile='/tmp/xlrd.log',verbosity=1).sheet_by_index(0)
         except XLRDError, e:
             _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
             raise ValueError(e)  
