@@ -19,7 +19,7 @@
 #
 ##############################################################################
 import logging
-from openerp import models, _
+from openerp import api,models, _
 from .swedbank import SwedbankTransaktionsrapport as Parser
 import cStringIO
 
@@ -94,7 +94,8 @@ class AccountBankSwishImport(models.TransientModel):
     """Add process_bgmax method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
-    def _parse_file(self, cr, uid, data_file, context=None):
+    @api.multi
+    def _parse_file(self,data_file):
         """Parse a Swedbank swish  file."""
         try:
             parser = Parser(data_file)
@@ -104,8 +105,7 @@ class AccountBankSwishImport(models.TransientModel):
             # Not a Swedbank file, returning super will call next candidate:
             _logger.debug("Statement file was not a Swedbank Swish file.",
                           exc_info=True)
-            return super(AccountBankStatementImport, self)._parse_file(
-                cr, uid, data_file, context=context)
+            return super(AccountBankStatementImport, self)._parse_file(data_file)
 
 
 #        bankstatement = BankStatement()
