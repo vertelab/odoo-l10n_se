@@ -21,7 +21,7 @@
 
 # git clone -b 8.0 https://github.com/OCA/bank-statement-import.git
 
-
+import unicodedata
 import re
 from datetime import datetime
 from openerp.addons.account_bank_statement_import.parserlib import (
@@ -37,6 +37,7 @@ class avsnitt(object):
         self.footer = {}
         self.ins = []
         self.bet = []
+        self.message = []
         self.type = ''
 
     def add(self,rec):
@@ -53,8 +54,14 @@ class avsnitt(object):
         elif self.type == '21':
             for r in rec.keys():
                 self.ins[-1][r] = rec[r]
+        elif self.type == '25':
+            if not self.ins[-1].get('informationstext'):
+                self.ins[-1]['informationstext'] = []
+            self.ins[-1]['informationstext'].append(rec['informationstext'].strip())
         elif self.type == '26':
-            self.ins[-1]['betalarens_namn'] = rec['betalarens_namn']
+            self.ins[-1]['betalarens_namn'] = rec['betalarens_namn']            
+        elif self.type == '29':
+            self.ins[-1]['organisationsnummer'] = rec['organisationsnummer']
     
     def check_insbelopp(self):
         #print "summa",sum([float(b['betbelopp'])/100 for b in self.ins])
@@ -277,31 +284,46 @@ class BgMaxParser(object):
         
         self.is_bgmax(data)
         iterator = BgMaxIterator(data)
-        
+
+        self.current_statement = BankStatement()
+        self.current_statement.local_currency = 'SEK'
+
         for avsnitt in iterator:
             _logger.warn("header: %s" % avsnitt.header)
             _logger.warn("footer: %s" % avsnitt.footer)
             _logger.warn("ins: %s" % avsnitt.ins)
             _logger.warn("bet: %s" % avsnitt.bet)
             _logger.warn("type: %s" % avsnitt.type)
-            
-            self.current_statement = BankStatement()
-            self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
-            self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
-            if len(self.current_statement.local_account) == 8:
-                self.current_statement.local_account = self.current_statement.local_account[:4] + '-' + self.current_statement.local_account[4:]
-            date = avsnitt.footer.get('betalningsdag') or ''
-            if date:
-                date = date[:4] + '-' + date[4:6] + '-' + date[6:]
-                self.current_statement.date = date
+            #raise Warning(avsnitt)
+
+            if not self.current_statement.local_account:
+                self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+                if len(self.current_statement.local_account) == 8:
+                    self.current_statement.local_account = self.current_statement.local_account[:4] + '-' + self.current_statement.local_account[4:]
+            if not self.current_statement.local_currency:
+                self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+            if not self.current_statement.statement_id:
+                self.current_statement.statement_id = '%s' % avsnitt.header
+                
             for ins in avsnitt.ins:
                 transaction = self.current_statement.create_transaction()
                 #~ if int(ins.get('bankgiro', 0)):
                     #~ transaction.remote_account = str(int(ins.get('bankgiro', 0)))
                 transaction.transferred_amount = float(ins.get('betbelopp', 0)) / 100
                 transaction.eref = ins.get('referens') or ins.get('BGC-nummer')
-                transaction.value_date = date
-                transaction.remote_owner = ins.get('betalarens_namn', '').strip()
+                date = avsnitt.footer.get('betalningsdag') or ''
+                if date:
+                    date = date[:4] + '-' + date[4:6] + '-' + date[6:]
+                    self.current_statement.date = date
+                    transaction.value_date = date
+                
+                transaction.remote_account = ins.get('bankgiro', '').strip()
+                if len(transaction.remote_account) == 8:
+                    transaction.remote_account = transaction.remote_account[:4] + '-' + transaction.remote_account[4:]
+                if ins.get('organisationsnummer'):
+                    transaction.remote_owner = ins.get('organisationsnummer').strip()
+                else:
+                    transaction.remote_owner = ins.get('betalarens_namn', '').strip()
                 #ins['BGC-nummer'] #Bankgirocentralnummer
                 #~ transaction.message
                 #~ transaction.remote_owner
@@ -309,7 +331,9 @@ class BgMaxParser(object):
                 #~ transaction.note
                 #~ transaction.value_date
             #self.current_statement.end_balance = 
-
+                transaction.note = '\n'.join(ins.get('informationstext',[])).decode('ascii','ignore')
+#                transaction.note = '\n'.join(ins.get('informationstext'))
             self.statements.append(self.current_statement)
         
+        #raise Warning(self.statements)
         return self.statements
