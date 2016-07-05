@@ -22,6 +22,7 @@ import logging
 from openerp import api,models, _
 from .seb import SEBTransaktionsrapport as Parser
 import base64
+import re
 
     
 from StringIO import StringIO
@@ -61,94 +62,38 @@ class AccountBankStatementImport(models.TransientModel):
     @api.model
     def _parse_all_files(self, data_file):
         """Parse one file or multiple files from zip-file.
-
         Return array of statements for further processing.
-        
         xlsx-files are a Zip-file, have to override
         """
         statements = []
         files = [data_file]
         
         try:
-            _logger.info("Try parsing with seb_transaktioner.")
+            _logger.info(u"Try parsing with SEB Kontohändelser.")
             parser = Parser(base64.b64decode(self.data_file))
         except ValueError:
             # Not a SEB file, returning super will call next candidate:
             _logger.info(u"Statement file was not a SEB Kontohändelse file.")
             return super(AccountBankStatementImport, self)._parse_all_files(data_file)
 
+        fakt = re.compile('\d+')  # Pattern to find invoice numbers
         seb = parser.parse()
-        _logger.info(u"Statement file %s." % seb)
-        
+        for s in seb.statements:
+            for t in s['transactions']:
+                #raise Warning(t)
+                partner_id = self.env['res.partner'].search([('name','ilike',t['partner_name'])])
+                if partner_id:
+                    t['account_number'] = partner_id[0].bank_ids and partner_id[0].bank_ids[0].acc_number or ''
+                    t['partner_id'] = partner_id[0].id
+                fnr = '-'.join(fakt.findall(t['name']))
+                if fnr:
+                    invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
+                    if invoice:
+                        t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
+                        t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
         #~ res = parser.parse(data_file)
-        _logger.debug("res: %s" % seb)
+        #_logger.debug("res: %s" % seb.statements)
+        #raise Warning(seb.statements)
         return seb.statements
-
-
-
-    #~ @api.multi
-    #~ def _parse_file(self,data_file):
-        #~ """Parse a SEB Kontohändelser file."""
-        #~ try:
-            #~ _logger.info("Try parsing with seb_transaktioner.")
-            #~ parser = Parser(base64.b64decode(self.data_file))
-        #~ except ValueError:
-            #~ # Not a SEB file, returning super will call next candidate:
-            #~ _logger.info(u"Statement file was not a SEB Kontohändelse file.")
-            #~ return super(AccountBankStatementImport, self)._parse_file(data_file)
-
-        #~ seb = parser.parse()
-        #~ _logger.info(u"Statement file %s." % seb)
-        
-        res = parser.parse(data_file)
-        #~ _logger.debug("res: %s" % seb)
-        #~ return seb.account_currency, seb.account_number, [seb.statements]
-#        bankstatement = BankStatement()
-#        bankstatement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
-#        bankstatement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
-        #~ transactions = []
-        #~ total_amt = 0.00
-        #~ try:
-            #~ for transaction in seb:
-                #~ _logger.info(u"Statement file %s." % transaction)
-                #~ bank_account_id = partner_id = False
-                
-                #~ if transaction['referens']:
-                    #~ banks = self.pool['res.partner.bank'].search(cr,uid,
-                        #~ [('owner_name', '=', transaction['referens'])], limit=1)
-                    #~ if banks:
-                        #~ bank_account = self.browse(cr,uid,banks[0])
-                        #~ bank_account_id = bank_account.id
-                        #~ partner_id = bank_account.partner_id.id
-                #~ vals_line = {
-                    #~ 'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
-                    #~ 'name': transaction['referens'] + (
-                        #~ transaction['text'] and ': ' + transaction['text'] or ''),
-                    #~ 'ref': transaction['radnr'],
-                    #~ 'amount': transaction['belopp'],
-                    #~ 'unique_import_id': transaction['radnr'],
-                    #~ 'bank_account_id': bank_account_id or None,
-                    #~ 'partner_id': partner_id or None,
-                #~ }
-                #~ if not vals_line['name']:
-                    #~ vals_line['name'] = transaction['produkt'].capitalize()
-                #~ total_amt += float(transaction['belopp'])
-                #~ transactions.append(vals_line)
-        #~ except Exception, e:
-            #~ raise Warning(_(
-                #~ "The following problem occurred during import. "
-                #~ "The file might not be valid.\n\n %s" % e.message
-            #~ ))
-
-        vals_bank_statement = {
-            'name': seb.account.name,
-            'transactions': transactions,
-            'balance_start': seb.account.balance_start,
-            'balance_end_real':
-                float(seb.account.balance_start) + total_amt,
-        }
-        return seb.account.currency, seb.account.number, [
-            vals_bank_statement]
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
