@@ -35,11 +35,11 @@ class AccountBankStatementImport(models.TransientModel):
     def _parse_file(self, data_file):
         """Parse a BgMax  file."""
         parser = Parser()
-        statements = parser.parse(data_file)
+        #~ statements = parser.parse(data_file)
         try:
             _logger.debug("Try parsing with bgmax.")
             statements = parser.parse(data_file)
-            _logger.debug("statemenst: %s" % statements)
+            #_logger.debug("statemenst: %s" % statements)
         except Exception,e:
             # Not a BgMax file, returning super will call next candidate:
             _logger.info("Statement file was not a BgMax file. (%s)", e)
