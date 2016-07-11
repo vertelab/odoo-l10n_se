@@ -75,13 +75,15 @@ class avsnitt(object):
         #print "summa",sum([float(b['betbelopp'])/100 for b in self.ins])
         #print "insbel",float(self.footer['insbelopp']) / 100
         if not (int(self.footer['insbelopp'])) == sum([int(b['betbelopp']) for b in self.ins]):
-            _logger.error('BgMax check_insbelopp %s != %s' % (int(self.footer['insbelopp']),sum([int(b['betbelopp']) for b in self.ins])))
+            #_logger.error('BgMax check_insbelopp %s != %s' % (int(self.footer['insbelopp']),sum([int(b['betbelopp']) for b in self.ins])))
+            raise ValueError('BgMax check_insbelopp %s != %s' % (int(self.footer['insbelopp']),sum([int(b['betbelopp']) for b in self.ins])))
         return (int(self.footer['insbelopp']) == sum([int(b['betbelopp']) for b in self.ins]))
     def check_antal_bet(self):
         #print "antal",len(self.ins)
         #print "antal_bet",int(self.footer['antal_bet'])
         if not len(self.ins) == int(self.footer['antal_bet']):
-            _logger.error('BgMax check_antal_bet %s != %s' % (len(self.ins),int(self.footer['antal_bet'])))
+            #~ _logger.error('BgMax check_antal_bet %s != %s' % (len(self.ins),int(self.footer['antal_bet'])))
+            raise ValueError('BgMax check_antal_bet %s != %s' % (len(self.ins),int(self.footer['antal_bet'])))
         return len(self.ins) == int(self.footer['antal_bet'])
     def __str__(self):
         return str({

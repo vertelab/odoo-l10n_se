@@ -22,6 +22,7 @@ import logging
 from openerp import api,models, _
 from .bgmax import BgMaxParser as Parser
 import re
+from openerp.exceptions import Warning
 
 _logger = logging.getLogger(__name__)
 
@@ -40,6 +41,9 @@ class AccountBankStatementImport(models.TransientModel):
             _logger.debug("Try parsing with bgmax.")
             statements = parser.parse(data_file)
             #_logger.debug("statemenst: %s" % statements)
+        except ValueError, e:
+            _logger.error("Error in BgMax file. (%s)", e)
+            raise Warning("Error in BgMax file. (%s)" % e)
         except Exception,e:
             # Not a BgMax file, returning super will call next candidate:
             _logger.info("Statement file was not a BgMax file. (%s)", e)
