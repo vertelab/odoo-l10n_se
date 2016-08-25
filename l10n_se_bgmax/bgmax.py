@@ -325,8 +325,8 @@ class BgMaxParser(object):
                 self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
                 if len(self.current_statement.local_account) == 8:
                     self.current_statement.local_account = self.current_statement.local_account[:4] + '-' + self.current_statement.local_account[4:]
-            if not self.current_statement.local_currency:
-                self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+            #if not self.current_statement.local_currency:
+            #    self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
             if not self.current_statement.statement_id:
                 self.current_statement.statement_id = 'BgMax %s %s' % (self.current_statement.local_account,iterator.header['skrivdag'][:10])
                 
@@ -368,6 +368,7 @@ class BgMaxParser(object):
                     transaction.note += ' bg %s ' % transaction.remote_account
                     
             self.statements.append(self.current_statement)
+            
         if not iterator.check():
             _logger.error('BgMax-file error')
         #raise Warning(self.statements)
