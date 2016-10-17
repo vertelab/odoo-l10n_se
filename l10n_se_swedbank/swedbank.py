@@ -24,10 +24,12 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 import logging
 _logger = logging.getLogger(__name__)
-
-from xlrd import open_workbook, XLRDError
-from xlrd.book import Book
-from xlrd.sheet import Sheet
+try:
+    from xlrd import open_workbook, XLRDError
+    from xlrd.book import Book
+    from xlrd.sheet import Sheet
+except:
+    _logger.info('xlrd not installed.')
 
 class SwedbankTransaktionsrapport(object):
     """Parser for Swedbank Transaktionsrapport import files."""
