@@ -31,6 +31,7 @@ class account_invoice_serial(models.Model):
     _order = 'name'
 
     @api.one
+    @api.depends('line_id','line_id.invoice_id','line_id.invoice_id.partner_id')
     def _partner(self):
         self.partner_id = self.line_id.invoice_id.partner_id
 
@@ -44,6 +45,7 @@ class account_invoice_serial(models.Model):
     invoice_id = fields.Many2one('account.invoice',)
     product_id = fields.Many2one('product.product', string='Product',)
     partner_id = fields.Many2one('res.partner',compute='_partner',store=True)
+    serial_type = fields.Many2one(comodel_name='ir.sequence',string="Serial Type")
 
     
     
@@ -58,7 +60,7 @@ class account_invoice(models.Model):
                 if not line.id in [l.id for l in invoice.serial_number_ids]:
                     for i in range(0,int(line.quantity)):
                         for serial_type in line.product_id.serial_type_ids:
-                            serial = self.env['account.invoice.serial'].create({'line_id': line.id, 'invoice_id': line.invoice_id.id, 'product_id': line.product_id.id})
+                            serial = self.env['account.invoice.serial'].create({'serial_type': serial_type.id, 'line_id': line.id, 'invoice_id': line.invoice_id.id, 'product_id': line.product_id.id})
                             serial.name = serial_type._next()
 
     serial_number_ids = fields.One2many(comodel_name='account.invoice.serial', inverse_name='invoice_id', string='Serial numbers', track_visibility="always",readonly=True, copy=False)
@@ -79,13 +81,13 @@ class account_invoice_line(models.Model):
 class ir_sequence(models.Model):
     _inherit="ir.sequence"
     
-    product_id = fields.Many2one(comodel_name="product.product",string="Product")
+    #~ product_id = fields.Many2many(comodel_name="product.product",string="Product")
 
 
 class product_product(models.Model):
     _inherit = "product.product"
 
-    serial_type_ids = fields.One2many(comodel_name='ir.sequence',inverse_name="product_id",string="Serial number",help="Sequence from new serial numbers are taken")
+    serial_type_ids = fields.Many2many(comodel_name='ir.sequence',string="Serial number",help="Sequence from new serial numbers are taken")
     serial_number_ids = fields.One2many(comodel_name='account.invoice.serial', inverse_name='product_id', string='Serial numbers', readonly=True, copy=False)
 
 class res_partner(models.Model):
@@ -93,8 +95,9 @@ class res_partner(models.Model):
 
     serial_number_ids = fields.One2many(comodel_name='account.invoice.serial', inverse_name='partner_id', string='Serial numbers', readonly=True, copy=False)
     @api.one
+    @api.depends('serial_number_ids')
     def _num_serial_number(self):
-        return len(self.serial_number_ids)
-    num_serial_numbers = fields.Integer(compute=_num_serial_number) 
+        self.num_serial_numbers = len(self.serial_number_ids)
+    num_serial_numbers = fields.Integer(compute="_num_serial_number") 
 
     
