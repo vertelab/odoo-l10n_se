@@ -83,4 +83,50 @@ class import_chart_of_account(models.TransientModel):
         }
 
 
+class import_sru_of_account(models.TransientModel):
+    _name = 'import.sru.template'
+
+    data = fields.Binary('File')
+    @api.one
+    def _data(self):
+        self.xml_file = self.data
+    xml_file = fields.Binary(compute='_data')
+    state =  fields.Selection([('choose', 'choose'), ('get', 'get')],default="choose")
+    result = fields.Text(string="Result",default='')
+
+
+   
+    @api.multi
+    def send_form(self,):
+        chart = self[0]
+        raise Warning(chart)
+        #_logger.warning('data %s b64 %s ' % (account.data,base64.decodestring(account.data)))
+        #~ raise Warning(base64.decodestring(chart.data))
+        #~ raise Warning('data %s b64 %s ' % (chart.data.encode('utf-8'),base64.decodestring(chart.data.encode('utf-8'))))
+        
+        if not chart.data == None:
+            fileobj = TemporaryFile('w+')
+            fileobj.write(base64.decodestring(chart.data))
+            fileobj.seek(0)
+            
+            wb = load_workbook(fileobj)
+            ws = wb.sheet_index(0)
+            
+            raise Warning(ws['A13'])
+            
+            #~ try:
+                #~ tools.convert_xml_import(account._cr, 'account_export', fileobj, None, 'init', False, None)
+            #~ finally:
+            fileobj.close()
+            return True
+        chart.write({'state': 'get','result': 'All well'})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'import.chart.template',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': chart.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 

@@ -64,6 +64,39 @@ for o in obj:
         <field name="menu_ir_values_id" ref="issue_claim_action_menu"/>
     </record>
 -->
-        
+
+
+    <record id="wizard_import_sru_template" model="ir.ui.view">
+            <field name="name">Import BAS SRU Exel File</field>
+            <field name="model">import.sru.template</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+                    <field invisible="1" name="state"/>
+                            <group rowspan="4" string="Filebox">
+                                <field name="data"/><newline/>
+                                <div>
+                                    <p>File to upload</p>
+                                </div>
+                            </group>
+                    <footer>
+                                <button name="send_form" string="Import" type="object" class="oe_highlight"/>
+                                or
+                                <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_import_SRU_template" model="ir.actions.act_window">
+            <field name="name">Import SRU-template</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.sru.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem action="action_wizard_import_SRU_template" id="menu_wizard_sru_import" parent="account.menu_finance_periodical_processing"/>
   </data>
 </openerp>
