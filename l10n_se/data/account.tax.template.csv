@@ -51,6 +51,12 @@ bMU2,MU2,b,Momspliktiga uttag 12%,10
 bMU3,MU3,b,Momspliktiga uttag 6%,10
 bMPFF,MPFF,b,Hyresinkomster vid frivillig skattskyldighet,10
 bVFEU,VFEU,b,Inköp av varor från annat EG-land,10
+bVFEU25,VFEU25,b,"Beräknad utgående moms på varuförvärv från annat EU-land, 25%",10
+bVFEU12,VFEU12,b,"Beräknad utgående moms på varuförvärv från annat EU-land, 12%",10
+bVFEU6,VFEU6,b,"Beräknad utgående moms på varuförvärv från annat EU-land, 6%",10
+bIFU25,VFEU25,b,"Beräknad ingående moms på förvärv från utlandet, 25%",10
+bIFU12,VFEU12,b,"Beräknad ingående moms på förvärv från utlandet, 12%",10
+bIFU6,VFEU6,b,"Beräknad ingående moms på förvärv från utlandet, 6%",10
 bTFEU,TFEU,b,Inköp av tjänster från annat EG-land,10
 bTFFU,TFFU,b,Inköp av tjänster från land utanför EG,10
 bIVIS,IVIS,b,Inköp av varor,10

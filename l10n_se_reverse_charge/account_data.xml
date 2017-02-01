@@ -1,0 +1,108 @@
+<openerp>
+    <data>
+        
+        <!-- Reverse Charge -->
+        <record model="account.fiscal.position" id="fiscal_pos_reverse_charge">
+            <field name="name">Trade within EU, VAT registered</field>
+            <field name="note">Reverse Charge</field>
+        </record>
+        
+        <!-- Reverse Charge, taxes -->
+        <record model="account.fiscal.position.tax" id="fiscal_pos_reverse_charge_tax_1">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="tax_src_id" search="[('description', '=', 'MP1')]"/>
+            <field name="tax_dest_id" search="[('description', '=', 'FTEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_reverse_charge_tax_2">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="tax_src_id" search="[('description', '=', 'MP2')]"/>
+            <field name="tax_dest_id" search="[('description', '=', 'FTEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_reverse_charge_tax_3">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="tax_src_id" search="[('description', '=', 'MP3')]"/>
+            <field name="tax_dest_id" search="[('description', '=', 'FTEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_reverse_charge_tax_4">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="tax_src_id" search="[('description', '=', 'I')]"/>
+            <field name="tax_dest_id" search="[('description', '=', 'VFEU25')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_reverse_charge_tax_5">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="tax_src_id" search="[('description', '=', 'I12')]"/>
+            <field name="tax_dest_id" search="[('description', '=', 'VFEU12')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_reverse_charge_tax_6">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="tax_src_id" search="[('description', '=', 'I6')]"/>
+            <field name="tax_dest_id" search="[('description', '=', 'VFEU6')]"/>
+        </record>
+        
+        <!-- Reverse Charge, accounts -->
+        <record model="account.fiscal.position.account" id="fiscal_pos_reverse_charge_account_1">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="account_src_id" search="[('code', '=', '3000')]"/>
+            <field name="account_dest_id" search="[('code', '=', '3108')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.account" id="fiscal_pos_reverse_charge_account_2">
+            <field name="position_id" ref="fiscal_pos_reverse_charge"/>
+            <field name="account_src_id" search="[('code', '=', '4000')]"/>
+            <field name="account_dest_id" search="[('code', '=', '4500')]"/>
+        </record>
+        
+        <!-- Triangulation -->
+<!--
+        <record model="account.fiscal.position" id="fiscal_pos_triangulation">
+            <field name="name">Trade within EU, Triangulation</field>
+            <field name="note">Triangulation</field>
+        </record>
+-->
+        
+        <!-- Triangulation, taxes -->
+<!--
+        <record model="account.fiscal.position.tax" id="fiscal_pos_triangulation_tax_1">
+            <field name="position_id" ref="fiscal_pos_triangulation"/>
+            <field name="tax_src_id" search="[('description', '=', 'MP1')]"/>
+            <field name="tax_dest_id" search="[('description', '=', '3FEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_triangulation_tax_2">
+            <field name="position_id" ref="fiscal_pos_triangulation"/>
+            <field name="tax_src_id" search="[('description', '=', 'MP2')]"/>
+            <field name="tax_dest_id" search="[('description', '=', '3FEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_triangulation_tax_3">
+            <field name="position_id" ref="fiscal_pos_triangulation"/>
+            <field name="tax_src_id" search="[('description', '=', 'MP3')]"/>
+            <field name="tax_dest_id" search="[('description', '=', '3FEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_triangulation_tax_4">
+            <field name="position_id" ref="fiscal_pos_triangulation"/>
+            <field name="tax_src_id" search="[('description', '=', 'I')]"/>
+            <field name="tax_dest_id" search="[('description', '=', '3VEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_triangulation_tax_5">
+            <field name="position_id" ref="fiscal_pos_triangulation"/>
+            <field name="tax_src_id" search="[('description', '=', 'I12')]"/>
+            <field name="tax_dest_id" search="[('description', '=', '3VEU')]"/>
+        </record>
+        
+        <record model="account.fiscal.position.tax" id="fiscal_pos_triangulation_tax_6">
+            <field name="position_id" ref="fiscal_pos_triangulation"/>
+            <field name="tax_src_id" search="[('description', '=', 'I6')]"/>
+            <field name="tax_dest_id" search="[('description', '=', '3VEU')]"/>
+        </record>
+-->
+        
+    </data>
+</openerp>
