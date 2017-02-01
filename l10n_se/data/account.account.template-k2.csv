@@ -437,8 +437,8 @@ k2_2610,2610,"Utgående moms, 25 % ","249k2","other","account.data_account_type_
 k2_2611,2611,"Utgående moms på försäljning inom Sverige, 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2612,2612,"Utgående moms på egna uttag, 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2613,2613,"Utgående moms för uthyrning, 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
-k2_2614,2614,"Beräknad utgående moms på tjänsteförvärv från utlandet, 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
-k2_2615,2615,"Beräknad utgående moms på varuförvärv från annat EU-land, 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
+k2_2614,2614,"Utgående moms omvänd skattskyldighet, 25 %","249k2","other","account.data_account_type_liability","false",,l10n_se.b
+k2_2615,2615,"Utgående moms import av varor, 25 %","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2616,2616,"Utgående moms VMB 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2617,2617,"Utgående moms omvänd skattskyldighet varor och tjänster i Sverige, 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2618,2618,"Vilande utgående moms, 25 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
@@ -446,7 +446,7 @@ k2_2620,2620,"Utgående moms, 12 % ","249k2","other","account.data_account_type_
 k2_2621,2621,"Utgående moms på försäljning inom Sverige, 12 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2622,2622,"Utgående moms på egna uttag, 12 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2623,2623,"Utgående moms för uthyrning, 12 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
-k2_2624,2624,"Beräknad utgående moms på tjänsteförvärv från utlandet, 12 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
+k2_2624,2624,"Utgående moms omvänd skattskyldighet, 12 %","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2625,2625,"Beräknad utgående moms på varuförvärv från annat EU-land, 12 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2626,2626,"Utgående moms VMB 12 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2627,2627,"Utgående moms omvänd skattskyldighet varor och tjänster i Sverige, 12 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
@@ -455,7 +455,7 @@ k2_2630,2630,"Utgående moms, 6 % ","249k2","other","account.data_account_type_l
 k2_2631,2631,"Utgående moms på försäljning inom Sverige, 6 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2632,2632,"Utgående moms på egna uttag, 6 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2633,2633,"Utgående moms för uthyrning, 6 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
-k2_2634,2634,"Beräknad utgående moms på tjänsteförvärv från utlandet, 6 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
+k2_2634,2634,"Utgående moms omvänd skattskyldighet, 6 %","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2635,2635,"Beräknad utgående moms på varuförvärv från annat EU-land, 6 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2636,2636,"Utgående moms VMB 6 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b
 k2_2637,2637,"Utgående moms omvänd skattskyldighet varor och tjänster i Sverige, 6 % ","249k2","other","account.data_account_type_liability","false",,l10n_se.b

@@ -51,6 +51,12 @@ bMU2,sale,percent,0.12,k2_3000,k2_3000,,,b,Momspliktiga uttag 12%
 bMU3,sale,percent,0.06,k2_3000,k2_3000,,,b,Momspliktiga uttag 6%
 bMPFF,sale,percent,0.06,k2_3000,k2_3000,,,b,Hyresinkomster vid frivillig skattskyldighet
 bVFEU,purchase,percent,0.06,k2_4000,k2_4000,,,b,Inköp av varor från annat EG-land
+bVFEU25,purchase,percent,0.25,k2_2614,k2_2614,b20,b30,b,"Beräknad utgående moms på varuförvärv från annat EU-land, 25%"
+bVFEU12,purchase,percent,0.12,k2_2624,k2_2624,b20,b31,b,"Beräknad utgående moms på varuförvärv från annat EU-land, 12%"
+bVFEU6,purchase,percent,0.06,k2_2634,k2_2634,b20,b32,b,"Beräknad utgående moms på varuförvärv från annat EU-land, 6%"
+bIFU25,purchase,percent,0.25,k2_2645,k2_2645,b20,b30,b,"Beräknad ingående moms på förvärv från utlandet, 25%"
+bIFU12,purchase,percent,0.12,k2_2645,k2_2645,b20,b31,b,"Beräknad ingående moms på förvärv från utlandet, 12%"
+bIFU6,purchase,percent,0.06,k2_2645,k2_2645,b20,b32,b,"Beräknad ingående moms på förvärv från utlandet, 6%"
 bTFEU,purchase,percent,0.06,k2_4000,k2_4000,,,b,Inköp av tjänster från annat EG-land
 bTFFU,purchase,percent,0.06,k2_4000,k2_4000,,,b,Inköp av tjänster från land utanför EG
 bIVIS,purchase,percent,0.25,k2_4000,k2_4000,,,b,Inköp av varor
@@ -64,4 +70,4 @@ b3FEU,sale,percent,0,k2_3000,k2_3000,,,b,Mellanmans försäljning av varor vid t
 b3FTEU,sale,percent,0,k2_3000,k2_3000,,,b,Mellanmans försäljning av tjänster vid trepartshandel
 bOTTU,sale,percent,0,k2_3000,k2_3000,,,b,Övrig försäljning av tjänster omsatta i utlandet
 bOMSS,sale,percent,0,k2_3000,k2_3000,,,b,Försäljning när köparen är skatteskyldig i Sverige
-bFTEU,sale,percent,0,k2_3000,k2_3000,,,b,Försäljning när köparen är skatteskyldig i EU
+bFTEU,sale,percent,0,k2_3108,k2_3108,b35,,b,Försäljning när köparen är skatteskyldig i EU
