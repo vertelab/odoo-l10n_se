@@ -17,7 +17,7 @@ _logger = logging.getLogger(__name__)
 class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'Odoo'
-       
+
     date_start = fields.Date(string = "Date interval")
     date_stop = fields.Date(string = "Stop Date")
     period_ids = fields.Many2many(comodel_name = "account.period", string="Periods" ,) # domain="[('company_id','=',self.env.ref('base.main_company').id)]"
@@ -25,8 +25,8 @@ class account_sie(models.TransientModel):
     journal_ids = fields.Many2many(comodel_name = "account.journal", string = "Journal",help="Moves with this type of journals",)
     partner_ids = fields.Many2many(comodel_name = "res.partner", string="Partner",help="Moves tied to these partners",)
     account_ids = fields.Many2many(comodel_name = "account.account", string = "Account",)
-    
-    state =  fields.Selection([('choose', 'choose'), ('get', 'get'),],default="choose") 
+
+    state =  fields.Selection([('choose', 'choose'), ('get', 'get'),],default="choose")
     data = fields.Binary('File')
     filename = fields.Char(string='Filename')
     @api.one
@@ -34,14 +34,14 @@ class account_sie(models.TransientModel):
         self.sie_file = self.data
     sie_file = fields.Binary(compute='_data')
 
-        
+
     @api.multi
     def send_form(self,):
         sie_form = self[0]
         #raise Warning('Hello %s %s %s' % (base64.decodestring(sie_form.data or ''),self,self.state))
         _logger.warning('Hello %s %s %s' % (base64.decodestring(sie_form.data or ''),self,self.filename))
         if not sie_form.data == None: # IMPORT TRIGGERED
-            sie_file = base64.decodestring(sie_form.data)            
+            sie_file = base64.decodestring(sie_form.data)
             missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(sie_file))
             if len(missing_accounts) > 0:
                 raise Warning(_('Accounts missing, add before import\n%s') % '\n '.join(['%s %s' %(a[0],_(a[1])) for a in missing_accounts]))
@@ -54,7 +54,7 @@ class account_sie(models.TransientModel):
                 #~ 'res_id': sie_form.id,
                 'views': [(False, 'tree')],
             }
-        else:    
+        else:
             search = []
             if sie_form.date_start:
                 search.append(('date','>=',sie_form.date_start))
@@ -72,7 +72,7 @@ class account_sie(models.TransientModel):
                 accounts = [l.move_id.id for l in self.env['account.move.line'].search([('account_id','in',[a.id for a in sie_form.account_ids])])]
                 move_ids = move_ids.filtered(lambda r: r.id in accounts)
             sie_form.write({'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids)),'filename': 'filename.sie4' })
-        
+
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.sie',
@@ -82,11 +82,11 @@ class account_sie(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
         }
-    
-    
+
+
     @api.multi
     def make_sie(self, ver_ids):
-    
+
         def get_fiscalyears(ver_ids):
             year_list = set()
             for ver in ver_ids:
@@ -98,46 +98,48 @@ class account_sie(models.TransientModel):
                 for line in ver.line_id:
                 #for l in ver.line_id for ver in ver_ids]]:
                     account_list.add(line.account_id)
-            return account_list        
-                
+            return account_list
+
         if len(self) > 0:
             sie_form = self[0]
-        
+
         company = ver_ids[0].company_id
         fiscalyear = ver_ids[0].period_id.fiscalyear_id
         user = self.env['res.users'].browse(self._context['uid'])
 
+        if not company.company_registry:
+            raise Warning("Please configure company registry!")
+
         str = ''
-        str += '#FLAGGA 0\n' 
+        str += '#FLAGGA 0\n'
         str += '#PROGRAM "Odoo" %s\n' % openerp.service.common.exp_version()['server_serie']
         str += '#FORMAT PC8\n' # ,Anger vilken teckenuppsattning som anvants
         str += '#GEN %s\n'% fields.Date.today().replace('-','')
         str += '#SIETYP 4i\n'
         for fiscalyear in get_fiscalyears(ver_ids):
             str += '#RAR %s %s %s\n' %(fiscalyear.get_rar_code(), fiscalyear.date_start.replace('-',''), fiscalyear.date_stop.replace('-',''))
+        str += '#FNAMN %s\n' %company.name
         str += '#ORGNR %s\n' %company.company_registry
         str += '#ADRESS "%s" "%s" "%s %s" "%s"\n' %(user.display_name, company.street, company.zip, company.city, company.phone)
-        str += '#KPTYP %s\n' % company.kptyp or 'BAS2015'
+        str += '#KPTYP %s\n' %(company.kptyp if company.kptyp else 'BAS2015')
         for account in get_accounts(ver_ids):
             str += '#KONTO %s "%s"\n' % (account.code, account.name)
-            
-        #raise Warning("str: %s %s search:%s" % (str, self.env['account.move.line'].search(search),search))  
-        
+
+        #raise Warning("str: %s %s search:%s" % (str, self.env['account.move.line'].search(search),search))
+
         #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
         #VER    serie vernr verdatum vertext regdatum sign
-    
+
         for ver in ver_ids:
             str += '#VER %s %s %s "%s" %s\n{\n' % (ver.journal_id.type,ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_uid.login)
             #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
-            
+
             for trans in ver.line_id:
-                str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.balance, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
+                str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.debit - trans.credit, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
             str += '}\n'
-        
-        _logger.warning('\n%s\n' % str)
-        
+
         return str.encode('ascii','xmlcharrefreplace') # ignore
-    
+
     @api.model
     def export_sie(self,ver_ids):
         if len(self) < 1:
@@ -167,8 +169,8 @@ class account_sie(models.TransientModel):
             return narration
         else:
             return ''
-        
-        ''' 
+
+        '''
     def sietyp(self):
         return correct type. some if cases.
         Typ 1 Årssaldon. Innehåller årets ingående och utgående saldon för samtliga konton i kontoplanen
@@ -188,7 +190,7 @@ class account_sie(models.TransientModel):
         #~ return result
 
         #_logger.warning('\n%s' % base64.encodestring(args.get('data').read()))
-        
+
     def _stringSplit(self, string):
         tempString = ""
         splitList = []
@@ -215,7 +217,7 @@ class account_sie(models.TransientModel):
             else:
                 tempString += string[s]
         return splitList
-    
+
     def _import_accounts(self, string):
         list_of_accounts = []
         accounts = []
@@ -225,7 +227,7 @@ class account_sie(models.TransientModel):
             tmpvar = self._stringSplit(x)
             accounts.append((tmpvar[1],tmpvar[2]))
         return accounts
-    
+
     def _import_ver(self,string):
         # ^#(.+?)\s+(.+?)\s+(.+?)\s+(.+?)\s+\"(.+?)\"(.+?)\s+\"(.+?)\"
         for ver in re.finditer(re.compile(r'#VER .+\n{\n(#TRANS .+\n)+}\n', re.MULTILINE), string.decode('utf-8','xmlcharrefreplace')):
@@ -236,7 +238,7 @@ class account_sie(models.TransientModel):
             list_sign = verList[5]  # sign
             if not self.env['account.period'].find(dt=list_date):
                 raise Warning("Missing period/fiscal year for %s " % list_date)
-            
+
 #VER A 1 20091101 "" 20091202 "2 Christer Bengtsson"
 #VER "" BNK2/2016/0001 20160216 "" admin
             ver_id = self.env['account.move'].create({
@@ -244,7 +246,7 @@ class account_sie(models.TransientModel):
                 'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
                 })
             _logger.warning('VER %s' %ver_id)
-                
+
 
 #~ #VER "" SAJ/2016/0002 20150205 "" admin
 #~ {
@@ -269,17 +271,17 @@ class account_sie(models.TransientModel):
                     trans_name = transList[5]
                 if args >= 7:
                     trans_quantity = transList[6]
-                
+
                 trans_sign = transList[len(transList)-1]
                 user = self.env['res.users'].search([('login','=',trans_sign)])
                 if user:
                     user = user[0].id
                 else:
                     user = None
-                
+
                 code = self.env['account.account'].search([('code','=',trans_code),('company_id','=',self.env.ref('base.main_company').id)],limit=1)
-                
-            
+
+
                 #~ 3000 regular  report_type income  balance > 0 -> sale balance < 0 -> sale_refund  ( user_type data_account_type_income + balance > 0)
                 #~ 1210  report_type = asset
                 #~ 5400  report_type = expense  purchase / purchase_refund
@@ -296,7 +298,7 @@ class account_sie(models.TransientModel):
                     journal_types.append('cash')
                 elif code.user_type.report_type in ['asset','expense']:
                     journal_types.append('purchase' and float(trans_balance) > 0.0 or 'purchase_refund')
-                                
+
                 #~ raise Warning(self.env['account.move.line'].search([])[0].date)
                 _logger.warning('\naccount_id :%s\nbalance: %s\nperiod_id: %s' %(code,trans_balance,self.env['account.period'].find(dt=list_date).id))
 
@@ -310,7 +312,7 @@ class account_sie(models.TransientModel):
                     'name': trans_name,
                     'move_id': ver_id.id,
                     })
-        
+
             if self.env['account.journal'].search([('type','=',verList[1]),('company_id','=',self.env.ref('base.main_company').id)]):  # Serial are a journal
                 journal_type = verList[1]
             elif [j for j in ['sale','sale_refund','purchase','purchase_refund'] if j in journal_types]:
