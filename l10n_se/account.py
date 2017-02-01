@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2015 Vertel (<http://vertel.se>).
+#    Copyright (C) 2004-2017 Vertel (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,44 +19,37 @@
 #
 ##############################################################################
 
-import time
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from operator import itemgetter
+#~ import time
+#~ from datetime import datetime
+#~ from dateutil.relativedelta import relativedelta
+#~ from operator import itemgetter
 
-from openerp import pooler
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+#~ from openerp import pooler
+#~ from openerp.osv import fields, osv
+#~ from openerp.tools.translate import _
+
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 
-class account_bank_accounts_wizard(osv.osv_memory):
-    _name='account.bank.accounts.wizard'
+
+
+class account_bank_accounts_wizard(models.TransientModel):
     _inherit='account.bank.accounts.wizard'
 
-    _columns = {
-        'account_type': fields.selection([('cash','Cash'), ('bank','Bankkonto'),('bg','Bankgiro'),('pg','Plusgiro'),], 'Account Type', size=12),
-    }
-
-account_bank_accounts_wizard()
+    account_type = fields.Selection(selection_add=[('bg','Bankgiro'),('pg','Plusgiro')])
 
 
-
-
-class wizard_multi_charts_accounts(osv.osv_memory):
+class wizard_multi_charts_accounts(models.TransientModel):
     """
         defaults for 4 digits in chart of accounts
      """
-    _name='wizard.multi.charts.accounts'
     _inherit='wizard.multi.charts.accounts'
 
-    _columns = {
-        'bank_accounts_id': fields.one2many('account.bank.accounts.wizard', 'bank_account_id', 'Cash and Banks', help="Bank (och kontant) som även har journal",required=True),
-    }
+    code_digits = fields.Integer(default=4)
+    bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
-    _defaults = {
-        'code_digits': 4,
-    }
-
+    
     def _create_bank_journals_from_o2m(self, cr, uid, obj_wizard, company_id, acc_template_ref, context=None):
         '''
         This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
@@ -118,19 +111,15 @@ class wizard_multi_charts_accounts(osv.osv_memory):
                 res.update({'bank_account_id': ba_list})
         return res
 
-
-wizard_multi_charts_accounts()
-
-class account_chart_template(osv.osv):
+class account_chart_template(models.Model):
+    """
+        defaults for 4 digits in chart of accounts
+     """
     _inherit='account.chart.template'
-    _name="account.chart.template"
-    _description= "Templates for Account Chart"
 
-    _defaults = {
-        'code_digits': 4,
-    }
-
-account_chart_template()
+    code_digits = fields.Integer(default=4)
+    bas_sru = fields.Binary(string="BAS SRU")
+    bas_chart = fields.Binary(string="BAS Chart of Account")
 
 
 
