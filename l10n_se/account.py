@@ -30,8 +30,17 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
+import base64
+
+try:
+    from xlrd import open_workbook
+except ImportError:
+    raise Warning('excel library missing, pip install xlrd')
 
 
+
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class account_bank_accounts_wizard(models.TransientModel):
@@ -120,8 +129,31 @@ class account_chart_template(models.Model):
     code_digits = fields.Integer(default=4)
     bas_sru = fields.Binary(string="BAS SRU")
     bas_chart = fields.Binary(string="BAS Chart of Account")
+    bas_k2 = fields.Boolean(string='Ej K2',default=True)
+    bas_basic = fields.Boolean(string='Endast grundläggande konton',default=True)
 
-
-
+    @api.onchange('bas_chart')
+    def update_bas_chart(self):
+        if not self.bas_chart:
+            return
+                  
+        wb = open_workbook(file_contents=base64.decodestring(self.bas_chart))
+        ws = wb.sheet_by_index(0)
+        basic_code = u' \u25a0'
+            
+        nbr_lines = ws.nrows
+            
+        for l in range(0,ws.nrows):
+            if ws.cell_value(l,1) == basic_code:
+                _logger.warn("%s %s" % (ws.cell_value(l,2),ws.cell_value(l,3)))
+                for account_l in range(l,ws.nrows):
+                    if ws.cell_value(l,4) == basic_code:
+                        _logger.warn("%s %s" % (ws.cell_value(l,5),ws.cell_value(l,6)))
+                    if ws.cell_value(l,2) > 0:
+                        break
+                        
+            
+     
+        #~ account.account.template
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

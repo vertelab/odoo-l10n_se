@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+        <!-- Chart of Accounts Templates -->
+        <record id="view_account_chart_template_form" model="ir.ui.view">
+            <field name="name">account.chart.template.form</field>
+            <field name="model">account.chart.template</field>
+             <field name="inherit_id" ref="account.view_account_chart_template_form"/>
+            <field name="arch" type="xml">
+                <field name="complete_tax_set" position="before">
+                    <field name="bas_sru" />
+                    <field name="bas_chart" />
+                    
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
