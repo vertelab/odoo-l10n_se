@@ -140,19 +140,81 @@ class account_chart_template(models.Model):
         wb = open_workbook(file_contents=base64.decodestring(self.bas_chart))
         ws = wb.sheet_by_index(0)
         basic_code = u' \u25a0'
+        not_k2 = u'[Ej K2]'
             
         nbr_lines = ws.nrows
             
         for l in range(0,ws.nrows):
-            if ws.cell_value(l,1) == basic_code:
-                _logger.warn("%s %s" % (ws.cell_value(l,2),ws.cell_value(l,3)))
-                for account_l in range(l,ws.nrows):
-                    if ws.cell_value(l,4) == basic_code:
-                        _logger.warn("%s %s" % (ws.cell_value(l,5),ws.cell_value(l,6)))
-                    if ws.cell_value(l,2) > 0:
-                        break
-                        
+            if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass
+                last_account_class = self.create({'code': '%s' % ws.cell_value(l,2), 'name': ws.cell_value(l,3), 'type': 'view'})
+            if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in ['30-34','40-45']: # kontogrupp
+                last_account_group = self.create({'code': '%s' % ws.cell_value(l,2), 'name': ws.cell_value(l,3), 'type': 'view', 'parent_id':last_account_class.id })
             
+            if ws.cell_value(l,2) in range(1000,9999):
+                last_account = self.create({
+                    'code': '%s' % ws.cell_value(l,2), 
+                    'name': ws.cell_value(l,3), 
+                    'type': 'other', 
+                    'parent_id':last_account_group.id,
+                    'bas_k34' True if  ws.cell_value(l,1) == not_k2 else False,
+                    'bas_basic': True if ws.cell_value(l,1) == basic_code,
+                    })
+                if ws.cell_value(l,5) in range(1000,9999):
+                    last_account = self.create({
+                        'code': '%s' % ws.cell_value(l,5), 
+                        'name': ws.cell_value(l,6), 
+                        'type': 'other', 
+                        'parent_id':last_account_group.id,
+                        'bas_k34' True if  ws.cell_value(l,4) == not_k2 else False,
+                        'bas_basic': True if ws.cell_value(l,4) == basic_code,
+                        })
+            
+            #~ if ws.cell_value(l,1) == basic_code and self.bas_basic:
+                #~ _logger.warn("%s %s" % (ws.cell_value(l,2),ws.cell_value(l,3)))
+                #~ for account_l in range(l,ws.nrows):
+                    #~ if ws.cell_value(l,4) == basic_code:
+                        #~ _logger.warn("%s %s" % (ws.cell_value(l,5),ws.cell_value(l,6)))
+                    #~ if ws.cell_value(l,2) > 0:
+                        #~ break
+
+
+class account_account_template(models.Model):
+    _inherit = "account.account.template"
+
+    
+    bas_k34 = fields.Boolean(string='K3/K4',default=False)
+    bas_basic = fields.Boolean(string='Endast grundläggande konton',default=True)
+    
+    
+     #~ _columns = {
+        #~ 'name': fields.char('Name', required=True, select=True),
+        #~ 'currency_id': fields.many2one('res.currency', 'Secondary Currency', help="Forces all moves for this account to have this secondary currency."),
+        #~ 'code': fields.char('Code', size=64, required=True, select=1),
+        #~ 'type': fields.selection([
+            #~ ('receivable','Receivable'),
+            #~ ('payable','Payable'),
+            #~ ('view','View'),
+            #~ ('consolidation','Consolidation'),
+            #~ ('liquidity','Liquidity'),
+            #~ ('other','Regular'),
+            #~ ('closed','Closed'),
+            #~ ], 'Internal Type', required=True,help="This type is used to differentiate types with "\
+            #~ "special effects in Odoo: view can not have entries, consolidation are accounts that "\
+            #~ "can have children accounts for multi-company consolidations, payable/receivable are for "\
+            #~ "partners accounts (for debit/credit computations), closed for depreciated accounts."),
+        #~ 'user_type': fields.many2one('account.account.type', 'Account Type', required=True,
+            #~ help="These types are defined according to your country. The type contains more information "\
+            #~ "about the account and its specificities."),
+        #~ 'financial_report_ids': fields.many2many('account.financial.report', 'account_template_financial_report', 'account_template_id', 'report_line_id', 'Financial Reports'),
+        #~ 'reconcile': fields.boolean('Allow Reconciliation', help="Check this option if you want the user to reconcile entries in this account."),
+        #~ 'shortcut': fields.char('Shortcut', size=12),
+        #~ 'note': fields.text('Note'),
+        #~ 'parent_id': fields.many2one('account.account.template', 'Parent Account Template', ondelete='cascade', domain=[('type','=','view')]),
+        #~ 'child_parent_ids':fields.one2many('account.account.template', 'parent_id', 'Children'),
+        #~ 'tax_ids': fields.many2many('account.tax.template', 'account_account_template_tax_rel', 'account_id', 'tax_id', 'Default Taxes'),
+        #~ 'nocreate': fields.boolean('Optional create', help="If checked, the new chart of accounts will not contain this by default."),
+        #~ 'chart_template_id': fields.many2one('account.chart.template', 'Chart Template', help="This optional field allow you to link an account template to a specific chart template that may differ from the one its root parent belongs to. This allow you to define chart templates that extend another and complete it with few new accounts (You don't need to define the whole structure that is common to both several times)."),
+    #~ }    
      
         #~ account.account.template
 
