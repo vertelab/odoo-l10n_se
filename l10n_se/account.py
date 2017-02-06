@@ -156,8 +156,8 @@ class account_chart_template(models.Model):
                     'name': ws.cell_value(l,3), 
                     'type': 'other', 
                     'parent_id':last_account_group.id,
-                    'bas_k34' True if  ws.cell_value(l,1) == not_k2 else False,
-                    'bas_basic': True if ws.cell_value(l,1) == basic_code,
+                    'bas_k34': True if  ws.cell_value(l,1) == not_k2 else False,
+                    'bas_basic': True if ws.cell_value(l,1) == basic_code else False,
                     })
                 if ws.cell_value(l,5) in range(1000,9999):
                     last_account = self.create({
@@ -165,8 +165,8 @@ class account_chart_template(models.Model):
                         'name': ws.cell_value(l,6), 
                         'type': 'other', 
                         'parent_id':last_account_group.id,
-                        'bas_k34' True if  ws.cell_value(l,4) == not_k2 else False,
-                        'bas_basic': True if ws.cell_value(l,4) == basic_code,
+                        'bas_k34': True if  ws.cell_value(l,4) == not_k2 else False,
+                        'bas_basic': True if ws.cell_value(l,4) == basic_code else False,
                         })
             
             #~ if ws.cell_value(l,1) == basic_code and self.bas_basic:
