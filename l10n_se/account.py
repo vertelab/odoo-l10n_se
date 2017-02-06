@@ -143,30 +143,94 @@ class account_chart_template(models.Model):
         not_k2 = u'[Ej K2]'
             
         nbr_lines = ws.nrows
-            
+        user_type = 'account.data_account_type_asset'
+
+        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','1000'),('code','<','9999')]).unlink()
+        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','10'),('code','<','99')]).unlink()
+        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','1'),('code','<','9')]).unlink()
+        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id)]).unlink()
+        _logger.warn('Accounts %s' % self.env['account.account.template'].search([('code','like','%.0')]))
+        self.env['account.account.template'].search([('code','like','%.0')]).unlink()
+        #~ self.env['account.account.template'].search([('code','>','10'),('code','<','99')]).unlink()
+        #~ self.env['account.account.template'].search([('code','>','1'),('code','<','9')]).unlink()
+        #~ self.env['account.account.template'].search([]).unlink()
+        
+        return 
         for l in range(0,ws.nrows):
-            if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass
-                last_account_class = self.create({'code': '%s' % ws.cell_value(l,2), 'name': ws.cell_value(l,3), 'type': 'view'})
+            if ws.cell_value(l,2) == 1 or ws.cell_value(l,2) in range(10,20) or ws.cell_value(l,2) in range(1000,1999) :
+                user_type = 'account.data_account_type_asset'
+            if ws.cell_value(l,2) in range(15,26) or ws.cell_value(l,2) in range(1500,1599) :
+                user_type = 'account.data_account_type_receivable'
+            if ws.cell_value(l,2) in range(1900,1999):
+                user_type = 'account.data_account_type_bank'
+            if ws.cell_value(l,2) == 1910:
+                user_type = 'account.data_account_type_cash'
+
+            if ws.cell_value(l,2) == 2 or ws.cell_value(l,2) in range(20,30) or ws.cell_value(l,2) in range(2000,2999) :
+                    user_type = 'account.data_account_type_liability'
+            if ws.cell_value(l,2) == 20 or ws.cell_value(l,2) in range(2000,2050):
+                    user_type = 'account.conf_account_type_equity'
+            if ws.cell_value(l,2) in [23,24] or ws.cell_value(l,2) in range(2300,2700):
+                    user_type = 'account.data_account_type_payable'
+            if ws.cell_value(l,2) in [26,27] or ws.cell_value(l,2) in range(2600,2800):
+                    user_type = 'account.conf_account_type_tax'
+            
+            if ws.cell_value(l,2) == 3 or ws.cell_value(l,2) == '30-34'  or ws.cell_value(l,2) in range(30,40) or ws.cell_value(l,2) in range(3000,4000):
+                    user_type = 'account.data_account_type_income'
+            if ws.cell_value(l,2) in [4,5,6,7] or ws.cell_value(l,2) in ['5-6'] or  ws.cell_value(l,2) in range(30,80) or ws.cell_value(l,2) in ['40-45'] or ws.cell_value(l,2) in range(4000,8000):
+                    user_type = 'account.data_account_type_expense'
+            
+                    
+            if ws.cell_value(l,2) == 8 or ws.cell_value(l,2) in [80,81,82,83] or ws.cell_value(l,2) in range(8000,8400):
+                    user_type = 'account.data_account_type_income'
+            if ws.cell_value(l,2) in [84,88] or ws.cell_value(l,2) in range(8400,8500) or ws.cell_value(l,2) in range(8800,8900):
+                    user_type = 'account.data_account_type_expense'
+            if ws.cell_value(l,2) in [89] or ws.cell_value(l,2) in range(8900,9000):
+                    user_type = 'account.data_account_type_expense'
+                    
+
+
+
+            if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass              
+                last_account_class = self.env['account.account.template'].create({
+                    'code': ws.cell_value(l,2), 
+                    'name': ws.cell_value(l,3), 
+                    'user_type': self.env.ref(user_type).id,
+                    'type': 'view',
+                    'chart_template_id': self.id,
+                  })
             if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in ['30-34','40-45']: # kontogrupp
-                last_account_group = self.create({'code': '%s' % ws.cell_value(l,2), 'name': ws.cell_value(l,3), 'type': 'view', 'parent_id':last_account_class.id })
+                last_account_group = self.env['account.account.template'].create(
+                    {
+                        'code': ws.cell_value(l,2), 
+                        'name': ws.cell_value(l,3), 
+                        'type': 'view',
+                        'user_type': self.env.ref(user_type).id, 
+                        'parent_id':last_account_class.id,
+                        'chart_template_id': self.id,
+                        })
             
             if ws.cell_value(l,2) in range(1000,9999):
-                last_account = self.create({
-                    'code': '%s' % ws.cell_value(l,2), 
+                last_account = self.env['account.account.template'].create({
+                    'code': ws.cell_value(l,2), 
                     'name': ws.cell_value(l,3), 
                     'type': 'other', 
                     'parent_id':last_account_group.id,
-                    'bas_k34' True if  ws.cell_value(l,1) == not_k2 else False,
-                    'bas_basic': True if ws.cell_value(l,1) == basic_code,
+                    'user_type': self.env.ref(user_type).id,
+                    'chart_template_id': self.id,
+                    'bas_k34': True if  ws.cell_value(l,1) == not_k2 else False,
+                    'bas_basic': True if ws.cell_value(l,1) == basic_code else False,
                     })
                 if ws.cell_value(l,5) in range(1000,9999):
-                    last_account = self.create({
-                        'code': '%s' % ws.cell_value(l,5), 
+                    last_account = self.env['account.account.template'].create({
+                        'code': ws.cell_value(l,5), 
                         'name': ws.cell_value(l,6), 
                         'type': 'other', 
                         'parent_id':last_account_group.id,
-                        'bas_k34' True if  ws.cell_value(l,4) == not_k2 else False,
-                        'bas_basic': True if ws.cell_value(l,4) == basic_code,
+                        'user_type': self.env.ref(user_type).id,
+                        'chart_template_id': self.id,
+                        'bas_k34': True if  ws.cell_value(l,4) == not_k2 else False,
+                        'bas_basic': True if ws.cell_value(l,4) == basic_code else False,
                         })
             
             #~ if ws.cell_value(l,1) == basic_code and self.bas_basic:
