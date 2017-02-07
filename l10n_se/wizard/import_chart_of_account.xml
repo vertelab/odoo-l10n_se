@@ -24,16 +24,14 @@
         </record>
 
         <record id="action_wizard_import_chart_template" model="ir.actions.act_window">
-            <field name="name">Export/import XML-files</field>
+            <field name="name">Import Excel BAS</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">import.chart.template</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-<!--
-        <menuitem action="action_wizard_account_export" id="menu_wizard_account_export" parent="account.menu_finance_periodical_processing"/>
--->
+        <menuitem action="action_wizard_import_chart_template" id="menu_wizard_import_chart_template" parent="account.menu_finance_periodical_processing"/>
 <!--
         
     <record model="ir.actions.server" id="update_accounts">
@@ -59,6 +57,7 @@ for o in obj:
         <field name="value" eval="'ir.actions.act_window,%d' % action_wizard_import_chart_template"/>
     </record>
 
+    
 <!--
     <record model="ir.actions.server" id="issue_claim">
         <field name="menu_ir_values_id" ref="issue_claim_action_menu"/>
