@@ -89,7 +89,7 @@ class import_chart_of_account(models.TransientModel):
             #~ self.env['account.account.template'].search([('code','>','1'),('code','<','9')]).unlink()
             #~ self.env['account.account.template'].search([]).unlink()
             
-            template = self.env['account.account.template'].search([])[-1]
+            template = self.env['account.chart.template'].search([])[-1]
             
             chart_template_titles = template.copy({'name': 'Title'})
             chart_template_basic = template.copy({'name': 'Basic'})
@@ -97,6 +97,8 @@ class import_chart_of_account(models.TransientModel):
             chart_template_k34 = template.copy({'name': 'K34'})
             
             for l in range(0,ws.nrows):
+                
+                # user type
                 if ws.cell_value(l,2) == 1 or ws.cell_value(l,2) in range(10,20) or ws.cell_value(l,2) in range(1000,1999) :
                     user_type = 'account.data_account_type_asset'
                 if ws.cell_value(l,2) in range(15,26) or ws.cell_value(l,2) in range(1500,1599) :
@@ -129,6 +131,7 @@ class import_chart_of_account(models.TransientModel):
                         user_type = 'account.data_account_type_expense'
                         
 
+                
 
 
                 if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass              
@@ -157,8 +160,15 @@ class import_chart_of_account(models.TransientModel):
                         chart = chart_template_basic.id
                     else:
                         chart = chart_template_k2.id
+               
+                    # tax
+                    tax_ids = []
+                    if user_type == 'account.data_account_type_income':
+                        if  ws.cell_value(l,2) in range(0,0) or ws.cell_value(l,5) in range(0,0):
+                            tax_ids = []
+                    
                     last_account = self.env['account.account.template'].create({
-                        'code': ws.cell_value(l,2), 
+                        'code': int(ws.cell_value(l,2)) if isinstance( ws.cell_value(l,2), int ) else ws.cell_value(l,2),
                         'name': ws.cell_value(l,3), 
                         'type': 'other', 
                         'parent_id':last_account_group.id,
@@ -169,7 +179,7 @@ class import_chart_of_account(models.TransientModel):
                         })
                     if ws.cell_value(l,5) in range(1000,9999):
                         last_sub_account = self.env['account.account.template'].create({
-                            'code': ws.cell_value(l,5), 
+                            'code':  int(ws.cell_value(l,5)) if isinstance( ws.cell_value(l,5), int ) else ws.cell_value(l,5),
                             'name': ws.cell_value(l,6), 
                             'type': 'other', 
                             'parent_id':last_account.id,
