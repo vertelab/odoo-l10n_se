@@ -59,7 +59,7 @@ class wizard_multi_charts_accounts(models.TransientModel):
     bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
     
-    def _create_bank_journals_from_o2m(self, cr, uid, obj_wizard, company_id, acc_template_ref, context=None):
+    def X_create_bank_journals_from_o2m(self, cr, uid, obj_wizard, company_id, acc_template_ref, context=None):
         '''
         This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
         wizard.
