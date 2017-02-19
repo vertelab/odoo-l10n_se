@@ -7,9 +7,9 @@
             <field name="model">import.chart.template</field>
             <field name="arch" type="xml">
                 <form string="Import">
-                    <field invisible="1" name="state"/>
                             <group rowspan="4" string="Filebox">
-                                <field name="data"/><newline/>
+                                <field name="data_normal"/><newline/>
+                                <field name="data_simplified"/><newline/>
                                 <div>
                                     <p>File to upload</p>
                                 </div>
@@ -31,7 +31,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-        <menuitem action="action_wizard_import_chart_template" id="menu_wizard_import_chart_template" parent="account.menu_finance_periodical_processing"/>
+        <menuitem action="action_wizard_import_chart_template" id="menu_wizard_import_chart_template" parent="account.account_template_folder"/>
 <!--
         
     <record model="ir.actions.server" id="update_accounts">

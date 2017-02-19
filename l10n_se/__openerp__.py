@@ -90,6 +90,7 @@
         'account_view.xml',
         'res_partner_view.xml',
         'data/account_tax_code_template_hr_data.xml',
+        'data/account_chart_template.xml',
         'wizard/import_chart_of_account.xml',
 #        'setup_view.xml',
     ],

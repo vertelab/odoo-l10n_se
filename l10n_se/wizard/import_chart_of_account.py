@@ -52,15 +52,8 @@ _logger = logging.getLogger(__name__)
 class import_chart_of_account(models.TransientModel):
     _name = 'import.chart.template'
 
-    data = fields.Binary('File')
-    @api.one
-    def _data(self):
-        self.xml_file = self.data
-    xml_file = fields.Binary(compute='_data')
-    state =  fields.Selection([('choose', 'choose'), ('get', 'get')],default="choose")
-    result = fields.Text(string="Result",default='')
-
-
+    data_normal = fields.Binary('BAS Normal')
+    data_simplified = fields.Binary('BAS K1 simplified')
    
     @api.multi
     def send_form(self,):
@@ -68,9 +61,9 @@ class import_chart_of_account(models.TransientModel):
         #_logger.warning('data %s b64 %s ' % (account.data,base64.decodestring(account.data)))
         #~ raise Warning('data %s b64 %s ' % (chart.data.encode('utf-8'),base64.decodestring(chart.data.encode('utf-8'))))
         
-        if not chart.data == None:
+        if not chart.data_normal == None:
             
-            wb = open_workbook(file_contents=base64.decodestring(chart.data))
+            wb = open_workbook(file_contents=base64.decodestring(chart.data_normal))
             #~ wb = open_workbook(file_contents=chart.data)
             ws = wb.sheet_by_index(0)
             basic_code = u' \u25a0'
@@ -78,226 +71,121 @@ class import_chart_of_account(models.TransientModel):
                 
             #raise Warning(ws.row_len(4),len(ws.cell_value(0,1)),ws.cell_value(0,1))
             if  ws.cell_value(0,1)[:41] == u"BAS Förenklat årsbokslut (K1) – Kontoplan":
-                for l in range(0,ws.nrows):
-                
-                    # user type
-                    if ws.cell_value(l,2) == 1 or ws.cell_value(l,2) in range(10,20) or ws.cell_value(l,2) in range(1000,1999) :
-                        user_type = 'account.data_account_type_asset'
-                    if ws.cell_value(l,2) in range(15,26) or ws.cell_value(l,2) in range(1500,1599) :
-                        user_type = 'account.data_account_type_receivable'
-                    if ws.cell_value(l,2) in range(1900,1999):
-                        user_type = 'account.data_account_type_bank'
-                    if ws.cell_value(l,2) == 1910:
-                        user_type = 'account.data_account_type_cash'
-
-                    if ws.cell_value(l,2) == 2 or ws.cell_value(l,2) in range(20,30) or ws.cell_value(l,2) in range(2000,2999) :
-                            user_type = 'account.data_account_type_liability'
-                    if ws.cell_value(l,2) == 20 or ws.cell_value(l,2) in range(2000,2050):
-                            user_type = 'account.conf_account_type_equity'
-                    if ws.cell_value(l,2) in [23,24] or ws.cell_value(l,2) in range(2300,2700):
-                            user_type = 'account.data_account_type_payable'
-                    if ws.cell_value(l,2) in [26,27] or ws.cell_value(l,2) in range(2600,2800):
-                            user_type = 'account.conf_account_type_tax'
-                    
-                    if ws.cell_value(l,2) == 3 or ws.cell_value(l,2) == '30-34'  or ws.cell_value(l,2) in range(30,40) or ws.cell_value(l,2) in range(3000,4000):
-                            user_type = 'account.data_account_type_income'
-                    if ws.cell_value(l,2) in [4,5,6,7] or ws.cell_value(l,2) in ['5-6'] or  ws.cell_value(l,2) in range(30,80) or ws.cell_value(l,2) in ['40-45'] or ws.cell_value(l,2) in range(4000,8000):
-                            user_type = 'account.data_account_type_expense'
-                    
-                            
-                    if ws.cell_value(l,2) == 8 or ws.cell_value(l,2) in [80,81,82,83] or ws.cell_value(l,2) in range(8000,8400):
-                            user_type = 'account.data_account_type_income'
-                    if ws.cell_value(l,2) in [84,88] or ws.cell_value(l,2) in range(8400,8500) or ws.cell_value(l,2) in range(8800,8900):
-                            user_type = 'account.data_account_type_expense'
-                    if ws.cell_value(l,2) in [89] or ws.cell_value(l,2) in range(8900,9000):
-                            user_type = 'account.data_account_type_expense'
-                    # user type
-                    
-                    if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass              
-                        last_account_class = self.env['account.account.template'].create({
-                            'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
-                            'name': ws.cell_value(l,3), 
-                            'user_type': self.env.ref(user_type).id,
-                            'type': 'view',
-                            'chart_template_id': chart_template_titles.id,
-                            'parent_id':root_account.id,
-                          })
-                    if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in [u'30–34 Huvudintäkter',u"""40–
-        45 """]: # kontogrupp
-                        last_account_group = self.env['account.account.template'].create(
-                            {
-                                'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
-                                'name': ws.cell_value(l,3), 
-                                'type': 'view',
-                                'user_type': self.env.ref(user_type).id, 
-                                'parent_id':last_account_class.id,
-                                'chart_template_id': chart_template_titles.id,
-                                })
-                    
-                    if ws.cell_value(l,2) in range(1000,9999):
-                        
-                        reconcile = ws.cell_value(l,2) in range(1900,2000) or ws.cell_value(l,2) in [1630] or ws.cell_value(l,5) in range(1900,2000) or ws.cell_value(l,5) in [1630]
-                        
-                        if ws.cell_value(l,1) == not_k2 or ws.cell_value(l,4) == not_k2:
-                            chart = chart_template_k34.id
-                        elif ws.cell_value(l,1) == basic_code or ws.cell_value(l,4) == basic_code:
-                            chart = chart_template_basic.id
-                        else:
-                            chart = chart_template_k2.id
-                   
-                        # tax
-                        tax_ids = []
-                        if user_type == 'account.data_account_type_income':
-                            if  ws.cell_value(l,2) in range(3000,3670) or ws.cell_value(l,5) in range(3000,3670):
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP1')])[0].id])]
-                            if  ws.cell_value(l,2) in [3002,3402] or ws.cell_value(l,5) in [3002,3402]:
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP2')])[0].id])]
-                            if  ws.cell_value(l,2) in [3003,3403] or ws.cell_value(l,5) in [3003,3403]:
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP3')])[0].id])]
-                            if  ws.cell_value(l,2) in [3004,3100,3105,3108,3404] or ws.cell_value(l,5) in [3004,3100,3105,3108,3404]:
-                                tax_ids = []
-                        if user_type == 'account.data_account_type_expense':
-                            if  ws.cell_value(l,2) in range(4000,4600) or ws.cell_value(l,5) in range(4000,4600):
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
-                            if  ws.cell_value(l,2) in [4516,4532,4536,4546] or ws.cell_value(l,5) in [4516,4532,4536,4546]:
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I12')])[0].id])]
-                            if  ws.cell_value(l,2) in [4517,4533,4537,4547] or ws.cell_value(l,5) in [4517,4533,4537,4547]:
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
-                            if  ws.cell_value(l,2) in [4518,4538] or ws.cell_value(l,5) in [4518,4538]:
-                                tax_ids = []
-
-                            if  ws.cell_value(l,2) in range(5000,6600) or ws.cell_value(l,5) in range(5000,6600):
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
-                            if  ws.cell_value(l,2) in [5810] or ws.cell_value(l,5) in [5810]:
-                                tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
-                        # Tax
-                        
-                        
-                        last_account = self.env['account.account.template'].create({
-                            'code': int(ws.cell_value(l,2)) if isinstance( ws.cell_value(l,2), int ) else str(int(ws.cell_value(l,2))),
-                            'name': ws.cell_value(l,3), 
-                            'type': 'other', 
-                            'parent_id':last_account_group.id,
-                            'user_type': self.env.ref(user_type).id,
-                            'chart_template_id': chart,
-                            'bas_k34': True if  ws.cell_value(l,1) == not_k2 else False,
-                            'bas_basic': True if ws.cell_value(l,1) == basic_code else False,
-                            'tax_ids': tax_ids,
-                            'reconcile': reconcile,
-                            })
-                        if ws.cell_value(l,5) in range(1000,9999):
-                            last_sub_account = self.env['account.account.template'].create({
-                                'code':  int(ws.cell_value(l,5)) if isinstance( ws.cell_value(l,5), int ) else str(int(ws.cell_value(l,5))),
-                                'name': ws.cell_value(l,6), 
-                                'type': 'other', 
-                                'parent_id':last_account.id,
-                                'user_type': self.env.ref(user_type).id,
-                                'chart_template_id': chart,
-                                'bas_k34': True if  ws.cell_value(l,4) == not_k2 else False,
-                                'bas_basic': True if ws.cell_value(l,4) == basic_code else False,
-                                'tax_ids': tax_ids,
-                                'reconcile': reconcile,
-                                })
-                    
-                raise Warning('K1 kontoplan')
-                pass
+                self.chart_simplified(ws)
+                #~ raise Warning('K1 kontoplan')
             elif ws.cell_value(0,1)[:47] == u'BAS Förenklat årsbokslut (K1) – Minimikontoplan':
+                self.chart_mini(ws)
                 raise Warning('K1 mini')
-                pass
             elif ws.row_len(4) > 3 and ws.cell_value(3,3) == u'Huvudkonton ':
                 chart.chart_normal(ws) # raise Warning('Normalplan K2-K4')
             else:
                 raise Warning('Unknown format')
+
+        if not chart.data_simplified == None:
+            
+            wb = open_workbook(file_contents=base64.decodestring(chart.data_simplified))
+            #~ wb = open_workbook(file_contents=chart.data)
+            ws = wb.sheet_by_index(0)
+            basic_code = u' \u25a0'
+            not_k2 = u'[Ej K2]'
                 
-    @api.one
+            #raise Warning(ws.row_len(4),len(ws.cell_value(0,1)),ws.cell_value(0,1))
+            if  ws.cell_value(0,1)[:41] == u"BAS Förenklat årsbokslut (K1) – Kontoplan":
+                self.chart_simplified(ws)
+                #~ raise Warning('K1 kontoplan')
+            elif ws.cell_value(0,1)[:47] == u'BAS Förenklat årsbokslut (K1) – Minimikontoplan':
+                self.chart_mini(ws)
+                raise Warning('K1 mini')
+            elif ws.row_len(4) > 3 and ws.cell_value(3,3) == u'Huvudkonton ':
+                chart.chart_normal(ws) # raise Warning('Normalplan K2-K4')
+            else:
+                raise Warning('Unknown format')
+
+
+    def chart_title(self,code,name,last_account_class):
+            last_account_group = None
+            chart_template_titles = self.env['account.chart.template'].search([('name','=','Title')])
+            if not chart_template_titles:
+                chart_template_titles = self.env['account.chart.template'].search([])[-1].copy({'name': 'Title'})
+            else:
+                chart_template_titles = chart_template_titles[-1]
+    
+            root_account = self.env['account.account.template'].search([('name','=','root normal')])
+            if not root_account:
+                root_account = self.env['account.account.template'].create({
+                        'code': 'root normal',
+                        'name': 'root normal', 
+                        'user_type': self.env.ref('account.data_account_type_asset').id,
+                        'type': 'view',
+                        'chart_template_id': chart_template_titles.id,
+                      })    
+    
+            #~ (c,t) = code.split() if isinstance(code, basestring) else (None,None)
+            _logger.warn('>>>>>>>>>>%s  | %s' % (code.split() if isinstance(code, basestring) else None,type(code)))
+            if isinstance(code, basestring) and len(code) > 0 and ord(code[0]) in range(ord('0'),ord('9')):
+                name = ' '.join(code.split()[1:])
+                code = code if code.split()[0] in ['5-6','30-34','40-45',u'30\u201334',u'40\u2013',u'5\u20136'] else int(code.split()[0]) 
+            #~ if isinstance(c, float) and int(c) in range(10,100):
+                #~ raise Warning(c,t)
+            if code in range(1,9) or code in [u'5–6']: # kontoklass              
+                last_account_class = self.env['account.account.template'].create({
+                    'code': str(int(code)) if isinstance(code, float ) else code, 
+                    'name': name, 
+                    'user_type': self.env['account.account.type'].account2user_type(code).id,
+                    'type': 'view',
+                    'chart_template_id': chart_template_titles.id,
+                    'parent_id':root_account.id,
+                  })
+            if code in range(10,99) or code in [u'30–34 Huvudintäkter',u"""40–
+45 """]: # kontogrupp
+                last_account_group = self.env['account.account.template'].create({
+                        'code': str(int(code)) if isinstance( code, float ) else code, 
+                        'name': name, 
+                        'type': 'view',
+                        'user_type': self.env['account.account.type'].account2user_type(code).id, 
+                        'parent_id':last_account_class.id,
+                        'chart_template_id': chart_template_titles.id,
+                    })
+            return (last_account_class,last_account_group,root_account)            
+            
     def chart_normal(self,ws):
 
         basic_code = u' \u25a0'
         not_k2 = u'[Ej K2]'
     
         nbr_lines = ws.nrows
-        user_type = 'account.data_account_type_asset'
-
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','1000'),('code','<','9999')]).unlink()
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','10'),('code','<','99')]).unlink()
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','1'),('code','<','9')]).unlink()
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id)]).unlink()
-        _logger.warn('Accounts %s' % self.env['account.account.template'].search([('code','like','%.0')]))
-        self.env['account.account.template'].search([('code','like','%.0')]).unlink()
-        #~ self.env['account.account.template'].search([('code','>','10'),('code','<','99')]).unlink()
-        #~ self.env['account.account.template'].search([('code','>','1'),('code','<','9')]).unlink()
-        #~ self.env['account.account.template'].search([]).unlink()
+                
+        chart_template_titles = self.env.ref('l10n_se.chart_title')
+        chart_template_simplified = self.env.ref('l10n_se.chart_simplified')
+        chart_template_basic = self.env.ref('l10n_se.chart_basic')
+        chart_template_k2 = self.env.ref('l10n_se.chart_k2')
+        chart_template_k34 = self.env.ref('l10n_se.chart_k34')
         
-        template = self.env['account.chart.template'].search([])[-1]
-        
-        chart_template_titles = template.copy({'name': 'Title'})
-        chart_template_basic = template.copy({'name': 'Basic'})
-        chart_template_k2 = template.copy({'name': 'K2'})
-        chart_template_k34 = template.copy({'name': 'K34'})
-        
-        root_account = self.env['account.account.template'].create({
-                    'code': 'root normal',
-                    'name': 'root normal', 
-                    'user_type': self.env.ref('account.data_account_type_asset').id,
-                    'type': 'view',
-                    'chart_template_id': chart_template_titles.id,
-                  })
+        last_account_class = None
         
         for l in range(0,ws.nrows):
-            
-            # user type
-            if ws.cell_value(l,2) == 1 or ws.cell_value(l,2) in range(10,20) or ws.cell_value(l,2) in range(1000,1999) :
-                user_type = 'account.data_account_type_asset'
-            if ws.cell_value(l,2) in range(15,26) or ws.cell_value(l,2) in range(1500,1599) :
-                user_type = 'account.data_account_type_receivable'
-            if ws.cell_value(l,2) in range(1900,1999):
-                user_type = 'account.data_account_type_bank'
-            if ws.cell_value(l,2) == 1910:
-                user_type = 'account.data_account_type_cash'
-
-            if ws.cell_value(l,2) == 2 or ws.cell_value(l,2) in range(20,30) or ws.cell_value(l,2) in range(2000,2999) :
-                    user_type = 'account.data_account_type_liability'
-            if ws.cell_value(l,2) == 20 or ws.cell_value(l,2) in range(2000,2050):
-                    user_type = 'account.conf_account_type_equity'
-            if ws.cell_value(l,2) in [23,24] or ws.cell_value(l,2) in range(2300,2700):
-                    user_type = 'account.data_account_type_payable'
-            if ws.cell_value(l,2) in [26,27] or ws.cell_value(l,2) in range(2600,2800):
-                    user_type = 'account.conf_account_type_tax'
-            
-            if ws.cell_value(l,2) == 3 or ws.cell_value(l,2) == '30-34'  or ws.cell_value(l,2) in range(30,40) or ws.cell_value(l,2) in range(3000,4000):
-                    user_type = 'account.data_account_type_income'
-            if ws.cell_value(l,2) in [4,5,6,7] or ws.cell_value(l,2) in ['5-6'] or  ws.cell_value(l,2) in range(30,80) or ws.cell_value(l,2) in ['40-45'] or ws.cell_value(l,2) in range(4000,8000):
-                    user_type = 'account.data_account_type_expense'
-            
-                    
-            if ws.cell_value(l,2) == 8 or ws.cell_value(l,2) in [80,81,82,83] or ws.cell_value(l,2) in range(8000,8400):
-                    user_type = 'account.data_account_type_income'
-            if ws.cell_value(l,2) in [84,88] or ws.cell_value(l,2) in range(8400,8500) or ws.cell_value(l,2) in range(8800,8900):
-                    user_type = 'account.data_account_type_expense'
-            if ws.cell_value(l,2) in [89] or ws.cell_value(l,2) in range(8900,9000):
-                    user_type = 'account.data_account_type_expense'
-            # user type
-            
-            if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass              
-                last_account_class = self.env['account.account.template'].create({
-                    'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
-                    'name': ws.cell_value(l,3), 
-                    'user_type': self.env.ref(user_type).id,
-                    'type': 'view',
-                    'chart_template_id': chart_template_titles.id,
-                    'parent_id':root_account.id,
-                  })
-            if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in [u'30–34 Huvudintäkter',u"""40–
-45 """]: # kontogrupp
-                last_account_group = self.env['account.account.template'].create(
-                    {
-                        'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
-                        'name': ws.cell_value(l,3), 
-                        'type': 'view',
-                        'user_type': self.env.ref(user_type).id, 
-                        'parent_id':last_account_class.id,
-                        'chart_template_id': chart_template_titles.id,
-                        })
+        
+            (last_account_class,last_account_group,root_account)  =  self.chart_title(ws.cell_value(l,2),ws.cell_value(l,3),last_account_class)
+        
+            #~ if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass              
+                #~ last_account_class = self.env['account.account.template'].create({
+                    #~ 'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
+                    #~ 'name': ws.cell_value(l,3), 
+                    #~ 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
+                    #~ 'type': 'view',
+                    #~ 'chart_template_id': chart_template_titles.id,
+                    #~ 'parent_id':root_account.id,
+                  #~ })
+            #~ if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in [u'30–34 Huvudintäkter',u"""40–
+#~ 45 """]: # kontogrupp
+                #~ last_account_group = self.env['account.account.template'].create({
+                        #~ 'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
+                        #~ 'name': ws.cell_value(l,3), 
+                        #~ 'type': 'view',
+                        #~ 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id, 
+                        #~ 'parent_id':last_account_class.id,
+                        #~ 'chart_template_id': chart_template_titles.id,
+                    #~ })
             
             if ws.cell_value(l,2) in range(1000,9999):
                 
@@ -310,61 +198,93 @@ class import_chart_of_account(models.TransientModel):
                 else:
                     chart = chart_template_k2.id
            
-                # tax
-                tax_ids = []
-                if user_type == 'account.data_account_type_income':
-                    if  ws.cell_value(l,2) in range(3000,3670) or ws.cell_value(l,5) in range(3000,3670):
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP1')])[0].id])]
-                    if  ws.cell_value(l,2) in [3002,3402] or ws.cell_value(l,5) in [3002,3402]:
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP2')])[0].id])]
-                    if  ws.cell_value(l,2) in [3003,3403] or ws.cell_value(l,5) in [3003,3403]:
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP3')])[0].id])]
-                    if  ws.cell_value(l,2) in [3004,3100,3105,3108,3404] or ws.cell_value(l,5) in [3004,3100,3105,3108,3404]:
-                        tax_ids = []
-                if user_type == 'account.data_account_type_expense':
-                    if  ws.cell_value(l,2) in range(4000,4600) or ws.cell_value(l,5) in range(4000,4600):
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
-                    if  ws.cell_value(l,2) in [4516,4532,4536,4546] or ws.cell_value(l,5) in [4516,4532,4536,4546]:
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I12')])[0].id])]
-                    if  ws.cell_value(l,2) in [4517,4533,4537,4547] or ws.cell_value(l,5) in [4517,4533,4537,4547]:
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
-                    if  ws.cell_value(l,2) in [4518,4538] or ws.cell_value(l,5) in [4518,4538]:
-                        tax_ids = []
-
-                    if  ws.cell_value(l,2) in range(5000,6600) or ws.cell_value(l,5) in range(5000,6600):
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
-                    if  ws.cell_value(l,2) in [5810] or ws.cell_value(l,5) in [5810]:
-                        tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
-                # Tax
-                
-                
-                last_account = self.env['account.account.template'].create({
-                    'code': int(ws.cell_value(l,2)) if isinstance( ws.cell_value(l,2), int ) else str(int(ws.cell_value(l,2))),
-                    'name': ws.cell_value(l,3), 
-                    'type': 'other', 
-                    'parent_id':last_account_group.id,
-                    'user_type': self.env.ref(user_type).id,
-                    'chart_template_id': chart,
-                    'bas_k34': True if  ws.cell_value(l,1) == not_k2 else False,
-                    'bas_basic': True if ws.cell_value(l,1) == basic_code else False,
-                    'tax_ids': tax_ids,
-                    'reconcile': reconcile,
-                    })
+                last_account = self.create_account(ws.cell_value(l,2),ws.cell_value(l,3),None,chart)           
+                #~ last_account = self.env['account.account.template'].create({
+                    #~ 'code': int(ws.cell_value(l,2)) if isinstance( ws.cell_value(l,2), int ) else str(int(ws.cell_value(l,2))),
+                    #~ 'name': ws.cell_value(l,3), 
+                    #~ 'type': 'other', 
+                    #~ 'parent_id':last_account_group.id if last_account_group else None,
+                    #~ 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
+                    #~ 'chart_template_id': chart,
+                    #~ 'bas_k34': True if  ws.cell_value(l,1) == not_k2 else False,
+                    #~ 'bas_basic': True if ws.cell_value(l,1) == basic_code else False,
+                    #~ 'tax_ids': self.env['account.tax.template'].account2tax_ids(ws.cell_value(l,2)),
+                    #~ 'reconcile': reconcile,
+                    #~ })
                 if ws.cell_value(l,5) in range(1000,9999):
-                    last_sub_account = self.env['account.account.template'].create({
-                        'code':  int(ws.cell_value(l,5)) if isinstance( ws.cell_value(l,5), int ) else str(int(ws.cell_value(l,5))),
-                        'name': ws.cell_value(l,6), 
-                        'type': 'other', 
-                        'parent_id':last_account.id,
-                        'user_type': self.env.ref(user_type).id,
-                        'chart_template_id': chart,
-                        'bas_k34': True if  ws.cell_value(l,4) == not_k2 else False,
-                        'bas_basic': True if ws.cell_value(l,4) == basic_code else False,
-                        'tax_ids': tax_ids,
-                        'reconcile': reconcile,
-                        })
+                    last_sub_account = self.create_account(ws.cell_value(l,5),ws.cell_value(l,6),last_account,chart)
+                    #~ last_sub_account = self.env['account.account.template'].create({
+                        #~ 'code':  int(ws.cell_value(l,5)) if isinstance( ws.cell_value(l,5), int ) else str(int(ws.cell_value(l,5))),
+                        #~ 'name': ws.cell_value(l,6), 
+                        #~ 'type': 'other', 
+                        #~ 'parent_id':last_account.id,
+                        #~ 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,5)).id,
+                        #~ 'chart_template_id': chart,
+                        #~ 'bas_k34': True if  ws.cell_value(l,4) == not_k2 else False,
+                        #~ 'bas_basic': True if ws.cell_value(l,4) == basic_code else False,
+                        #~ 'tax_ids': self.env['account.tax.template'].account2tax_ids(ws.cell_value(l,5)),
+                        #~ 'reconcile': reconcile,
+                        #~ })
         
         return True
+
+    def create_account(self,code,name,parent_id,chart,overwrite=False):
+        account = self.env['account.account.template'].search([('code','=',code)])
+        if len(account)>0:
+            account = account[0]
+        if account and overwrite and parent_id == None:
+            account.chart_template_id = chart
+            return account
+        else:
+            return self.env['account.account.template'].create({
+                'code': int(code) if isinstance( code, int ) else str(int(code)),
+                'name': name, 
+                'type': 'other', 
+                'parent_id':parent_id,
+                'user_type': self.env['account.account.type'].account2user_type(code).id,
+                'chart_template_id': chart,
+                'tax_ids': self.env['account.tax.template'].account2tax_ids(code),
+                #~ 'reconcile': True if code in range(1900,2000) + [1630] else False,
+                'reconcile': False,
+                })
+
+    def chart_simplified(self,ws):
+        chart = self.env.ref('l10n_se.chart_simplified')
+        last_account_class = None
+        for l in range(0,ws.nrows):
+            _logger.warn(ws.cell_value(l,1))
+            
+            (last_account_class,last_account_group,root_account)  =  self.chart_title(ws.cell_value(l,1),ws.cell_value(l,2),last_account_class)
+
+            if ws.cell_value(l,1) in range(1000,9999):
+
+                last_account = self.create_account(ws.cell_value(l,1),ws.cell_value(l,2),None,chart.id,owerwrite=True)
+
+                #~ last_account = self.env['account.account.template'].create({
+                    #~ 'code': int(ws.cell_value(l,1)) if isinstance( ws.cell_value(l,1), int ) else str(int(ws.cell_value(l,1))),
+                    #~ 'name': ws.cell_value(l,2), 
+                    #~ 'type': 'other', 
+                    #~ 'parent_id':None,
+                    #~ 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,1)).id,
+                    #~ 'chart_template_id': chart.id,
+                    #~ 'tax_ids': self.env['account.tax.template'].account2tax_ids(ws.cell_value(l,1)),
+                    #~ 'reconcile': False,
+                    #~ })
+                if ws.cell_value(l,4) in range(1000,9999):
+                    last_sub_account = self.create_account(ws.cell_value(l,4),ws.cell_value(l,5),last_account.id,chart.id,owerwrite=True)
+
+                    #~ last_sub_account = self.env['account.account.template'].create({
+                        #~ 'code':  int(ws.cell_value(l,4)) if isinstance( ws.cell_value(l,4), int ) else str(int(ws.cell_value(l,4))),
+                        #~ 'name': ws.cell_value(l,5), 
+                        #~ 'type': 'other', 
+                        #~ 'parent_id':last_account.id,
+                        #~ 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,4)).id,
+                        #~ 'chart_template_id': chart.id,
+                        #~ 'tax_ids': self.env['account.tax.template'].account2tax_ids(ws.cell_value(l,4)),
+                        #~ 'reconcile': False,
+                        #~ })
+        return True
+
         chart.write({'state': 'get','result': 'All well'})
         return {
             'type': 'ir.actions.act_window',
@@ -376,7 +296,7 @@ class import_chart_of_account(models.TransientModel):
             'target': 'new',
         }
 
-
+                
 class import_sru_of_account(models.TransientModel):
     _name = 'import.sru.template'
 

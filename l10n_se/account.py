@@ -249,37 +249,93 @@ class account_account_template(models.Model):
     bas_k34 = fields.Boolean(string='K3/K4',default=False)
     bas_basic = fields.Boolean(string='Endast grundläggande konton',default=True)
     
-    
-     #~ _columns = {
-        #~ 'name': fields.char('Name', required=True, select=True),
-        #~ 'currency_id': fields.many2one('res.currency', 'Secondary Currency', help="Forces all moves for this account to have this secondary currency."),
-        #~ 'code': fields.char('Code', size=64, required=True, select=1),
-        #~ 'type': fields.selection([
-            #~ ('receivable','Receivable'),
-            #~ ('payable','Payable'),
-            #~ ('view','View'),
-            #~ ('consolidation','Consolidation'),
-            #~ ('liquidity','Liquidity'),
-            #~ ('other','Regular'),
-            #~ ('closed','Closed'),
-            #~ ], 'Internal Type', required=True,help="This type is used to differentiate types with "\
-            #~ "special effects in Odoo: view can not have entries, consolidation are accounts that "\
-            #~ "can have children accounts for multi-company consolidations, payable/receivable are for "\
-            #~ "partners accounts (for debit/credit computations), closed for depreciated accounts."),
-        #~ 'user_type': fields.many2one('account.account.type', 'Account Type', required=True,
-            #~ help="These types are defined according to your country. The type contains more information "\
-            #~ "about the account and its specificities."),
-        #~ 'financial_report_ids': fields.many2many('account.financial.report', 'account_template_financial_report', 'account_template_id', 'report_line_id', 'Financial Reports'),
-        #~ 'reconcile': fields.boolean('Allow Reconciliation', help="Check this option if you want the user to reconcile entries in this account."),
-        #~ 'shortcut': fields.char('Shortcut', size=12),
-        #~ 'note': fields.text('Note'),
-        #~ 'parent_id': fields.many2one('account.account.template', 'Parent Account Template', ondelete='cascade', domain=[('type','=','view')]),
-        #~ 'child_parent_ids':fields.one2many('account.account.template', 'parent_id', 'Children'),
-        #~ 'tax_ids': fields.many2many('account.tax.template', 'account_account_template_tax_rel', 'account_id', 'tax_id', 'Default Taxes'),
-        #~ 'nocreate': fields.boolean('Optional create', help="If checked, the new chart of accounts will not contain this by default."),
-        #~ 'chart_template_id': fields.many2one('account.chart.template', 'Chart Template', help="This optional field allow you to link an account template to a specific chart template that may differ from the one its root parent belongs to. This allow you to define chart templates that extend another and complete it with few new accounts (You don't need to define the whole structure that is common to both several times)."),
-    #~ }    
-     
-        #~ account.account.template
+    def account2group(self,account_code):
+        if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass              
+            last_account_class = self.env['account.account.template'].create({
+                'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
+                'name': ws.cell_value(l,3), 
+                'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
+                'type': 'view',
+                'chart_template_id': chart_template_titles.id,
+                'parent_id':root_account.id,
+              })
+        if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in [u'30–34 Huvudintäkter',u"""40–
+45 """]: # kontogrupp
+            last_account_group = self.env['account.account.template'].create({
+                    'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
+                    'name': ws.cell_value(l,3), 
+                    'type': 'view',
+                    'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id, 
+                    'parent_id':last_account_class.id,
+                    'chart_template_id': chart_template_titles.id,
+                })
+            
+        return self.env.ref(user_type) if user_type else None
 
+class account_tax_template(models.Model):
+    _inherit = 'account.tax.template'
+
+    def account2tax_ids(self,account_code):
+        tax_ids = []
+#        if user_type == 'account.data_account_type_income':
+        if  account_code in range(3000,3670):
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP1')])[0].id])]
+        if  account_code in [3002,3402]:
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP2')])[0].id])]
+        if  account_code in [3003,3403]:
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP3')])[0].id])]
+        if  account_code in [3004,3100,3105,3108,3404]:
+            tax_ids = []
+#        if user_type == 'account.data_account_type_expense':
+        if  account_code in range(4000,4600):
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
+        if  account_code in [4516,4532,4536,4546]:
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I12')])[0].id])]
+        if  account_code in [4517,4533,4537,4547]:
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
+        if  account_code in [4518,4538]:
+            tax_ids = []
+        if  account_code in range(5000,6600):
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
+        if  account_code in [5810]:
+            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
+        return tax_ids
+
+class account_account_type(models.Model):
+    _inherit = 'account.account.type'
+
+    def account2user_type(self,account_code):
+        user_type = 'account.data_account_type_asset'
+        if account_code == 1 or account_code in range(10,20) or account_code in range(1000,1999) :
+            user_type = 'account.data_account_type_asset'
+        if account_code in range(15,26) or account_code in range(1500,1599) :
+            user_type = 'account.data_account_type_receivable'
+        if account_code in range(1900,1999):
+            user_type = 'account.data_account_type_bank'
+        if account_code == 1910:
+            user_type = 'account.data_account_type_cash'
+
+        if account_code == 2 or account_code in range(20,30) or account_code in range(2000,2999) :
+                user_type = 'account.data_account_type_liability'
+        if account_code == 20 or account_code in range(2000,2050):
+                user_type = 'account.conf_account_type_equity'
+        if account_code in [23,24] or account_code in range(2300,2700):
+                user_type = 'account.data_account_type_payable'
+        if account_code in [26,27] or account_code in range(2600,2800):
+                user_type = 'account.conf_account_type_tax'
+        
+        if account_code == 3 or account_code == '30-34'  or account_code in range(30,40) or account_code in range(3000,4000):
+                user_type = 'account.data_account_type_income'
+        if account_code in [4,5,6,7] or account_code in ['5-6'] or  account_code in range(30,80) or account_code in ['40-45'] or account_code in range(4000,8000):
+                user_type = 'account.data_account_type_expense'
+        
+                
+        if account_code == 8 or account_code in [80,81,82,83] or account_code in range(8000,8400):
+                user_type = 'account.data_account_type_income'
+        if account_code in [84,88] or account_code in range(8400,8500) or account_code in range(8800,8900):
+                user_type = 'account.data_account_type_expense'
+        if account_code in [89] or account_code in range(8900,9000):
+                user_type = 'account.data_account_type_expense'
+        return self.env.ref(user_type) if user_type else None
+            
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
