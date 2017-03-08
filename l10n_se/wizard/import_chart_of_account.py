@@ -296,7 +296,11 @@ class import_chart_of_account(models.TransientModel):
             'target': 'new',
         }
 
-                
+class AccountSRUCode(models.Model):
+    _name = 'account.sru.code'
+    
+    name = fields.Char(string='Name')
+    field_code = fields.Char('Field Code')
 class import_sru_of_account(models.TransientModel):
     _name = 'import.sru.template'
 
