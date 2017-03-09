@@ -15,7 +15,7 @@ import openerp
 import logging
 _logger = logging.getLogger(__name__)
 
-class account_sie(models.TransientModel):
+class account_sie_account(models.TransientModel):
     _name = 'account.sie.account'
     _description = 'SIE Import New Account Line'
     
