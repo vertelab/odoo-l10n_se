@@ -290,6 +290,8 @@ class account_sie(models.TransientModel):
         if len(self) > 0:
             sie_form = self[0]
 
+        if len(ver_ids) == 0:
+            raise Warning('There are no entries for this selection, please do antoher')
         company = ver_ids[0].company_id
         fiscalyear = ver_ids[0].period_id.fiscalyear_id
         user = self.env['res.users'].browse(self._context['uid'])
@@ -330,7 +332,7 @@ class account_sie(models.TransientModel):
 
             else:  #IB
                 for trans in ver.line_id:
-                    str += '#IB %s %s %s' % (fiscalyear.get_rar_code(),trans.account_id.code,trans.debit - trans.credit)
+                    str += '#IB %s %s %s\n' % (fiscalyear.get_rar_code(),trans.account_id.code,trans.debit - trans.credit)
                 
         return str.encode('ascii','xmlcharrefreplace') # ignore
 
