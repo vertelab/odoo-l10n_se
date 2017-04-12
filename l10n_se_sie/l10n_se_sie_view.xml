@@ -106,14 +106,28 @@
               </group>
             </page>
             <page string="Import" states="choose">
-              <group rowspan="4" string="Filebox">
+              <group rowspan="4" string="File to upload">
                 <field name="data" />
-               
-                <newline />
-                <div>
-                  <p>File to upload</p>
-                </div>
               </group>
+              <field name="show_account_lines" invisible="1"/>
+              <div>
+                <group string="Import Accounts">
+                  <field name="accounts_type"/>
+                  <field name="accounts_user_type"/>
+                  <field name="accounts_parent_id"/>
+                </group>
+                <field name="account_line_ids">
+                  <tree editable="bottom">
+                    <field name="checked"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="user_type"/>
+                    <field name="parent_id"/>
+                  </tree>
+                </field>
+                <button string="Create Accounts" name="create_accounts" type="object" class="oe_highlight"/>
+              </div>
             </page>
           </notebook>
           <div states="get">
