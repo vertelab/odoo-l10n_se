@@ -131,13 +131,20 @@ class account_sie(models.TransientModel):
         #VER    serie vernr verdatum vertext regdatum sign
 
         for ver in ver_ids:
-            str += '#VER %s %s %s "%s" %s\n{\n' % (ver.journal_id.type,ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_uid.login)
-            #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
+            
+            if ver.period_id.special == False:
+            
+                str += '#VER %s %s %s "%s" %s\n{\n' % (ver.journal_id.type,ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_uid.login)
+                #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
 
-            for trans in ver.line_id:
-                str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.debit - trans.credit, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
-            str += '}\n'
+                for trans in ver.line_id:
+                    str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.debit - trans.credit, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
+                str += '}\n'
 
+            else:  #IB
+                for trans in ver.line_id:
+                    str += '#IB %s %s %s' % (fiscalyear.get_rar_code(),trans.account_id.code,trans.debit - trans.credit)
+                
         return str.encode('ascii','xmlcharrefreplace') # ignore
 
     @api.model
