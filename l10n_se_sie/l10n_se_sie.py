@@ -290,8 +290,6 @@ class account_sie(models.TransientModel):
         if len(self) > 0:
             sie_form = self[0]
 
-        if len(ver_ids) == 0:
-            raise Warning('There are no entries for this selection, please do antoher')
         company = ver_ids[0].company_id
         fiscalyear = ver_ids[0].period_id.fiscalyear_id
         user = self.env['res.users'].browse(self._context['uid'])
@@ -320,22 +318,14 @@ class account_sie(models.TransientModel):
         #VER    serie vernr verdatum vertext regdatum sign
 
         for ver in ver_ids:
-            
-            if ver.period_id.special == False:
-            
-                str += '#VER %s %s %s "%s" %s\n{\n' % (ver.journal_id.type,ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_uid.login)
-                #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
+            str += '#VER %s %s %s "%s" %s\n{\n' % (ver.journal_id.type,ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_uid.login)
+            #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
 
-                for trans in ver.line_id:
-                    str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.debit - trans.credit, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
-                str += '}\n'
+            for trans in ver.line_id:
+                str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.debit - trans.credit, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
+            str += '}\n'
 
-            else:  #IB
-                for trans in ver.line_id:
-                    str += '#IB %s %s %s\n' % (fiscalyear.get_rar_code(),trans.account_id.code,trans.debit - trans.credit)
-                
-        return str.encode('ascii','xmlcharrefreplace') # ignore
-
+        return str.encode('cp437','xmlcharrefreplace') # ignore
 
     @api.model
     def export_sie(self,ver_ids):
