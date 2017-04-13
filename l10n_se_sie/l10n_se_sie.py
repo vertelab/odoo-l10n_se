@@ -78,6 +78,17 @@ class account_sie(models.TransientModel):
               "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
     accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent', domain=[('type','=','view')])
     
+    @api.multi
+    def _get_rar_code(self, fy):
+        self.ensure_one()
+        i = 0
+        for year in self.fiscalyear_ids.sorted(lambda r: r.date_start, reverse=False):
+            if fy == year:
+                return i
+            i += 1
+        raise Warning("Couldn't get RAR code.")
+            
+    
     @api.one
     def _data(self):
         self.sie_file = self.data
@@ -289,23 +300,26 @@ class account_sie(models.TransientModel):
 
         if len(self) > 0:
             sie_form = self[0]
+        
+        if len(ver_ids) == 0:
+            raise Warning('There are no entries for this selection, please do antoher')
 
         company = ver_ids[0].company_id
         fiscalyear = ver_ids[0].period_id.fiscalyear_id
         user = self.env['res.users'].browse(self._context['uid'])
 
-        if not company.company_registry:
-            raise Warning("Please configure company registry!")
+        #if not company.company_registry:
+        #    raise Warning("Please configure company registry!")
 
         str = ''
         str += '#FLAGGA 0\n'
         str += '#PROGRAM "Odoo" %s\n' % openerp.service.common.exp_version()['server_serie']
         str += '#FORMAT PC8\n' # ,Anger vilken teckenuppsattning som anvants
         str += '#GEN %s\n'% fields.Date.today().replace('-','')
-        str += '#SIETYP 4i\n'
+        str += '#SIETYP 4\n'
         for fiscalyear in get_fiscalyears(ver_ids):
-            str += '#RAR %s %s %s\n' %(fiscalyear.get_rar_code(), fiscalyear.date_start.replace('-',''), fiscalyear.date_stop.replace('-',''))
-        str += '#FNAMN %s\n' %company.name
+            str += '#RAR %s %s %s\n' %(self._get_rar_code(fiscalyear), fiscalyear.date_start.replace('-',''), fiscalyear.date_stop.replace('-',''))
+        str += '#FNAMN "%s"\n' %company.name
         str += '#ORGNR %s\n' %company.company_registry
         str += '#ADRESS "%s" "%s" "%s %s" "%s"\n' %(user.display_name, company.street, company.zip, company.city, company.phone)
         str += '#KPTYP %s\n' %(company.kptyp if company.kptyp else 'BAS2015')
@@ -316,17 +330,38 @@ class account_sie(models.TransientModel):
 
         #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
         #VER    serie vernr verdatum vertext regdatum sign
-
+        ub = {}
+        ub_accounts = []
         for ver in ver_ids:
-            str += '#VER %s %s %s "%s" %s\n{\n' % (ver.journal_id.type,ver.name, ver.date.replace('-',''), self.fix_empty(ver.narration), ver.create_uid.login)
-            #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
-
-            for trans in ver.line_id:
-                str += '#TRANS %s {} %s %s "%s" %s %s\n' % (trans.account_id.code, trans.debit - trans.credit, trans.date.replace('-',''), self.fix_empty(trans.name), trans.quantity, trans.create_uid.login)
-            str += '}\n'
+            if ver.period_id.special == False:
+                str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.replace('-','')), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_uid.login))
+                #~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), self.escape_sie_string('' if ver.name == '/' else ver.name), self.escape_sie_string(ver.date.replace('-','')), self.escape_sie_string(self.fix_empty(ver.narration)), self.escape_sie_string(ver.create_uid.login))
+                #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
+                for trans in ver.line_id:
+                    str += '#TRANS %s {} %s %s "%s" %s %s\n' % (self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit, self.escape_sie_string(trans.date.replace('-','')), self.escape_sie_string(self.fix_empty(trans.name)), trans.quantity, self.escape_sie_string(trans.create_uid.login))
+                    if trans.account_id.code not in ub:
+                        ub[trans.account_id.code] = 0.0
+                    ub[trans.account_id.code] += trans.debit - trans.credit
+                str += '}\n'
+            else:  #IB
+                
+                for trans in ver.line_id:
+                    str += '#IB %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit)
+                    ub_accounts.append(trans.account_id.code)
+        for account in ub:
+            if account in ub_accounts:
+                str += '#UB %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(account), ub.get(account, 0.0))
+            else:
+                #account.user_type.report_type in ('income', 'expense') => resultatkonto
+                #account.user_type.report_type in ('assets', 'liability') => balanskonto
+                str += '#RES %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(account), ub.get(account, 0.0))
 
         return str.encode('cp437','xmlcharrefreplace') # ignore
-
+    
+    @api.model
+    def escape_sie_string(self, s):
+        return s.replace('\n', ' ').replace('\\', '\\\\').replace('"', '\\"')
+    
     @api.model
     def export_sie(self,ver_ids):
         if len(self) < 1:
