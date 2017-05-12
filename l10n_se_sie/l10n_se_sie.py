@@ -352,6 +352,7 @@ class account_sie(models.TransientModel):
             if account in ub_accounts:
                 str += '#UB %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(account), ub.get(account, 0.0))
             else:
+                #TODO: account.code can contain whitespace and should be handled as such here and elsewhere.
                 #account.user_type.report_type in ('income', 'expense') => resultatkonto
                 #account.user_type.report_type in ('assets', 'liability') => balanskonto
                 str += '#RES %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(account), ub.get(account, 0.0))
