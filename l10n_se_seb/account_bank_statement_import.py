@@ -36,29 +36,6 @@ class AccountBankStatementImport(models.TransientModel):
     """Add process_bgmax method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
-    #~ def import_file(self):
-        #~ """Process the file chosen in the wizard, create bank statement(s) and
-        #~ go to reconciliation."""
-        #~ self.ensure_one()
-        #~ data_file = base64.b64decode(self.data_file)
-        #~ # pylint: disable=protected-access
-        #~ statement_ids, notifications = self.with_context(
-            #~ active_id=self.id  # pylint: disable=no-member
-        #~ )._import_file(data_file)
-        #~ # dispatch to reconciliation interface
-        #~ action = self.env.ref(
-            #~ 'account.action_bank_reconcile_bank_statements')
-        #~ return {
-            #~ 'name': action.name,
-            #~ 'tag': action.tag,
-            #~ 'context': {
-                #~ 'statement_ids': statement_ids,
-                #~ 'notifications': notifications
-            #~ },
-            #~ 'type': 'ir.actions.client',
-        #~ }
-
-
     @api.model
     def _parse_all_files(self, data_file):
         """Parse one file or multiple files from zip-file.

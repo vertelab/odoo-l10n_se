@@ -27,13 +27,9 @@
     'website': 'http://vertel.se',
     'category': 'Banking addons',
     'depends': ['account_bank_statement_import'],
-    #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
-  
-    #'demo': ['l10n_se_sie_demo.xml'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
-
     'installable': 'True',
     'application': 'False',
 }

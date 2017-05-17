@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution, third party addon
-#    Copyright (C) 2004-2016 Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2004-2017 Vertel AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -49,7 +49,7 @@ class SEBTransaktionsrapport(object):
         self.statements = []
         
     def parse(self):
-        """Parse swedbank transaktionsrapport bank statement file contents."""
+        """Parse SEB transaktionsrapport bank statement file contents."""
         if not (self.data.cell(0,0).value[:13] == u'Företagsnamn:' and self.data.cell(3,0).value[:11] == u'Sökbegrepp:'):
             _logger.error(u'Row 0 %s (was looking for Företagsnamn) %s %s' % (self.data.cell(0,0).value[:13],self.data.cell(3,0).value[:11],self.data.row(3)))
             raise ValueError(u'This is not a SEB Kontohändelser')
