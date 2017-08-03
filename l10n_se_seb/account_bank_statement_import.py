@@ -20,7 +20,8 @@
 ##############################################################################
 import logging
 from openerp import api,models, _
-from .seb import SEBTransaktionsrapport as Parser
+from .seb import SEBTransaktionsrapportType1 as Parser
+from .seb import SEBTransaktionsrapportType2 as Parser2
 import base64
 import re
 
@@ -33,7 +34,7 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountBankStatementImport(models.TransientModel):
-    """Add process_bgmax method to account.bank.statement.import."""
+    """Add seb method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
     @api.model
@@ -46,12 +47,17 @@ class AccountBankStatementImport(models.TransientModel):
         files = [data_file]
         
         try:
-            _logger.info(u"Try parsing with SEB Kontohändelser.")
+            _logger.info(u"Try parsing with SEB Typ 1 Kontohändelser.")
             parser = Parser(base64.b64decode(self.data_file))
         except ValueError:
-            # Not a SEB file, returning super will call next candidate:
-            _logger.info(u"Statement file was not a SEB Kontohändelse file.")
-            return super(AccountBankStatementImport, self)._parse_all_files(data_file)
+            # Not a SEB Type 1 file, returning super will call next candidate:
+            _logger.info(u"Statement file was not a SEB Type 1 Kontohändelse file.")
+            try:
+               parser = Parser2(base64.b64decode(self.data_file)) 
+            except ValueError:
+                # Not a SEB Type 2 file, returning super will call next candidate:
+                _logger.info(u"Statement file was not a SEB Type 2 Kontohändelse file.")
+                return super(AccountBankStatementImport, self)._parse_all_files(data_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
         seb = parser.parse()
@@ -72,5 +78,6 @@ class AccountBankStatementImport(models.TransientModel):
         #_logger.debug("res: %s" % seb.statements)
         #raise Warning(seb.statements)
         return seb.statements
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

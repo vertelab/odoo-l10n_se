@@ -7,7 +7,8 @@ from xlrd.sheet import Sheet
 
 import os
 
-wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'Kontohändelser.xlsx'))
+#wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'Kontohändelser.xlsx'))
+wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'Kontohandelser.xlsx'))
 
 
 print wb.nsheets
@@ -30,7 +31,7 @@ class Iterator(object):
         self.row = 0
         self.data = data
         self.rows = data.nrows - 3
-        self.header = [c.value.lower() for c in data.row(1)]
+        self.header = [c.value.lower() for c in data.row(8)]
     
     def __iter__(self):
         return self
@@ -42,7 +43,7 @@ class Iterator(object):
         self.row += 1
         return {self.header[n]: r[n].value for n in range(len(self.header))}
 
-
+print Iterator(ws).header
 
 for r in Iterator(ws):
     print r

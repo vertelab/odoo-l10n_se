@@ -34,7 +34,60 @@ from xlrd.sheet import Sheet
 
 import sys
 
-class SEBTransaktionsrapport(object):
+class SEBTransaktionsrapportType1(object):
+    """Parser for SEB Kontohändelser import files."""
+    
+    def __init__(self, data_file):
+        try:
+            #~ self.data_file = open_workbook(file_contents=data_file)
+            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
+        except XLRDError, e:
+            _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
+            raise ValueError(e)  
+        if not (self.data.cell(0,0).value[:13] == u'Företagsnamn:' and self.data.cell(3,0).value[:11] == u'Sökbegrepp:'):
+            _logger.error(u'Row 0 %s (was looking for Företagsnamn) %s %s' % (self.data.cell(0,0).value[:13],self.data.cell(3,0).value[:11],self.data.row(3)))
+            raise ValueError(u'This is not a SEB Kontohändelser')
+
+        self.nrows = self.data.nrows - 1
+        self.header = []
+        self.statements = []
+
+
+
+        
+    def parse(self):
+        """Parse SEB transaktionsrapport bank statement file contents type 1."""
+
+        self.account_currency = 'SEK' 
+        self.header = [c.value.lower() for c in self.data.row(8)]
+        self.account_number = self.data.cell(6,0).value
+        self.name = self.data.cell(0,0).value[15:30]
+
+        self.current_statement = BankStatement()
+        self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+        self.current_statement.local_currency = self.account_currency or 'SEK'
+        self.current_statement.local_account =  self.account_number
+        self.current_statement.statement_id = '%s %s' % (self.data.cell(0,0).value[14:],self.data.cell(2,0).value[6:])
+        self.current_statement.start_balance = float(self.data.cell(self.nrows,5).value - self.data.cell(self.nrows,4).value)
+        self.current_statement.end_balance = float(self.data.cell(9,5).value)
+        for t in SEBIterator(self.data,header_row=8):
+            transaction = self.current_statement.create_transaction()
+            transaction.transferred_amount = float(t['belopp'])
+            transaction.eref = t['verifikationsnummer'].strip()
+            transaction.name = t['text/mottagare'].strip()
+            transaction.note = t['text/mottagare'].strip()
+            transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+            transaction.unique_import_id = t['verifikationsnummer'].strip()
+            transaction.remote_owner = t['text/mottagare'].strip()
+            #~ transaction.message
+            #self.current_statement.end_balance = 
+        
+        self.statements.append(self.current_statement)
+#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
+        return self
+        
+        
+class SEBTransaktionsrapportType2(object):
     """Parser for SEB Kontohändelser import files."""
     
     def __init__(self, data_file):
@@ -45,35 +98,37 @@ class SEBTransaktionsrapport(object):
             _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
             raise ValueError(e)  
         self.nrows = self.data.nrows - 1
-        self.header = [c.value.lower() for c in self.data.row(8)]
+        self.header = []
         self.statements = []
+        if not (self.data.cell(2,0).value[:7] == u'Datum: ' and self.data.cell(4,0).value[:15] == u'Bokföringsdatum'):
+            _logger.error(u'Row 0 %s (was looking for Datum / Bokföringsdatum) %s %s' % (self.data.cell(2,0).value[:7],self.data.cell(4,0).value[:15],self.data.row(0)))
+            raise ValueError(u'This is not a SEB Kontohändelser')
+
         
     def parse(self):
-        """Parse SEB transaktionsrapport bank statement file contents."""
-        if not (self.data.cell(0,0).value[:13] == u'Företagsnamn:' and self.data.cell(3,0).value[:11] == u'Sökbegrepp:'):
-            _logger.error(u'Row 0 %s (was looking for Företagsnamn) %s %s' % (self.data.cell(0,0).value[:13],self.data.cell(3,0).value[:11],self.data.row(3)))
-            raise ValueError(u'This is not a SEB Kontohändelser')
-            
+        """Parse SEB transaktionsrapport bank statement file contents type 1."""
+
         self.account_currency = 'SEK' 
-        self.account_number = self.data.cell(6,0).value
+        self.header = []
+        self.account_number = self.data.cell(1,0).value.strip()
         self.name = self.data.cell(0,0).value[15:30]
 
         self.current_statement = BankStatement()
         self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account =  self.account_number
-        self.current_statement.statement_id = '%s %s' % (self.data.cell(0,0).value[14:],self.data.cell(2,0).value[6:])
+        self.current_statement.statement_id = '%s %s' % (self.data.cell(0,0).value,self.data.cell(2,0).value[6:])
         self.current_statement.start_balance = float(self.data.cell(self.nrows,5).value - self.data.cell(self.nrows,4).value)
-        self.current_statement.end_balance = float(self.data.cell(6,1).value)
-        for t in SEBIterator(self.data,header_row=8):
+        self.current_statement.end_balance = float(self.data.cell(5,5).value)
+        for t in SEBIterator(self.data,header_row=4):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['belopp'])
             transaction.eref = t['verifikationsnummer'].strip()
-            transaction.name = t['text/mottagare'].strip()
-            transaction.note = t['text/mottagare'].strip()
+            transaction.name = t['text / mottagare'].strip()
+            transaction.note = t['text / mottagare'].strip()
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
-            transaction.remote_owner = t['text/mottagare'].strip()
+            transaction.remote_owner = t['text / mottagare'].strip()
             #~ transaction.message
             #self.current_statement.end_balance = 
         

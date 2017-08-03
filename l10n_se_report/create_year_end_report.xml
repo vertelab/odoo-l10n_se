@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="wizard_create_year_end_report" model="ir.ui.view">
+            <field name="name">Create Year End Report</field>
+            <field name="model">year_end.report</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+                            <group rowspan="4" string="Filebox">
+                                <field name="data_normal"/><newline/>
+                                <field name="data_simplified"/><newline/>
+                                <div>
+                                    <p>File to upload</p>
+                                </div>
+                            </group>
+                    <footer>
+                                <button name="send_form" string="Import" type="object" class="oe_highlight"/>
+                                or
+                                <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_create_year_end_report" model="ir.actions.act_window">
+            <field name="name">Create Year End Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">year_end.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem action="action_wizard_create_year_end_report" id="menu_wizard_create_year_end_report" parent="account.account_template_folder"/>
+
+  </data>
+</openerp>

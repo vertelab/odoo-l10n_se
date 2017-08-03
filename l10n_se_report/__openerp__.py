@@ -16,7 +16,8 @@
     'depends': ['base'],
     'data': [ 'l10n_se_report_view.xml',
               'daily_ledger.xml',
-              'basic_r_and_b_view.xml'],
+              'basic_r_and_b_view.xml',
+              'create_year_end_report.xml'],
 
     'installable': True,
     'application': False,
