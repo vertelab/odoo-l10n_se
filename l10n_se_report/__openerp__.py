@@ -13,7 +13,7 @@
     'summary': 'Reports for l10n_se project',
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
-    'depends': ['base'],
+    'depends': ['account'],
     'data': [ 'l10n_se_report_view.xml',
               'daily_ledger.xml',
               'basic_r_and_b_view.xml',
