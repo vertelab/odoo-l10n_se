@@ -301,6 +301,7 @@ class AccountSRUCode(models.Model):
     
     name = fields.Char(string='Name')
     field_code = fields.Char('Field Code')
+
 class import_sru_of_account(models.TransientModel):
     _name = 'import.sru.template'
 
@@ -321,108 +322,163 @@ class import_sru_of_account(models.TransientModel):
         #_logger.warning('data %s b64 %s ' % (account.data,base64.decodestring(account.data)))
         #~ raise Warning(base64.decodestring(chart.data))
         #~ raise Warning('data %s b64 %s ' % (chart.data.encode('utf-8'),base64.decodestring(chart.data.encode('utf-8'))))
-        
-#~ def split_domain(txt, c):
-    #~ res = []
-    #~ for w in txt.split(c):
-        #~ res.append(w)
-        #~ res.append(c)
-    #~ return res[:-1]
-    
-#~ def get_domain(txt):
-    #~ if isinstance(txt, float):
-        #~ return None, str(int(txt))
-    #~ if txt[0] in ('+', '-'):
-        #~ sign = txt[0]
-        #~ txt = txt[1:]
-    #~ else:
-        #~ sign = None
-    #~ return sign, txt
-    #~ txt = txt.replace(' ', '')
-    #~ domain = 
 
-#~ def join_domain(d1, d2):
-    #~ return d1 + d2
-    #~ for t in d2:
-        #~ if t not in d1:
-            #~ d1.append(t)
+        def join_domain(d1, d2):
+            """Join two domains."""
+            return d1 + d2
+            for t in d2:
+                if t not in d1:
+                    d1.append(t)
 
-#~ def get_last_heading(l):
-    #~ if not l[1] or isinstance(l[1][0], dict):
-        #~ return l
-    #~ return get_last_heading(l[1][-1])
+        def parse_domain(dl):
+            """Parse a list representing a BAS string."""
+            #~ print '0 %s' % dl
+            if not dl:
+                return []
+            changed = True
+            while changed:
+                changed = False
+                for i in range(0, len(dl)):
+                    if dl[i] == '(':
+                        for j in range(i + 1, len(dl)):
+                            if dl[j] == ')':
+                                dl = dl[:i] + [parse_domain(dl[i + 1 : j])] + dl[j + 1:]
+                                changed = True
+                                break
+                        break
+            #~ print '1 %s' % dl
+            #Handle spans (189x - 1930). Can contain wildcards for some mysterious reason.
+            changed = True
+            while changed:
+                changed = False
+                for i in range(0, len(dl)):
+                    if dl[i] == '-':
+                        dl = dl[:i - 1] [[str(x) for x in range(int(dl[i - 1].replace('x', '0')), int(dl[i + 1].replace('x', '9')) + 1)]] + dl[i + 2:]
+                        changed = True
+                        break
+            #~ print '2 %s' % dl
+            # Handle numbers, wildcards and commas
+            for i in range(0, len(dl)):
+                if isinstance(dl[i], list) or dl[i] == '!':
+                    pass
+                    #~ print '2.0 %s' % dl
+                elif dl[i] == ',':
+                    dl[i] = []
+                    #~ print '2.1 %s' % dl
+                elif dl[i].isdigit():
+                    dl[i] = [dl[i]]
+                    #~ print '2.2 %s' % dl
+                else:
+                    dl[i] = [str(x) for x in range(int(dl[i].replace('x', '0')), int(dl[i].replace('x', '9')) + 1)]
+                    #~ print '2.3 %s' % dl
+            #~ print '3 %s' % dl
+            # Handle not
+            ignore_ids = []
+            changed = True
+            while changed:
+                changed = False
+                for i in range(0, len(dl)):
+                    if dl[i] == '!':
+                        ignore_ids += dl.pop(i + 1)
+                        dl.pop(i)
+                        changed = True
+                        break
+            #~ print '4 %s' % dl
+            # Build id list
+            ids = []
+            for e in dl:
+                for id in e:
+                    if id not in ignore_ids:
+                        ids.append(id)
+            return ids
             
-        if not chart.data == None:
+        def get_domain(txt):
+            """Get a domain from a BAS string."""
+            if isinstance(txt, float):
+                return None, [('code', '=', str(int(txt)))]
+            txt = txt.replace(' ', '')  
+            if txt[0] in ('+', '-'):
+                sign = txt[0]
+                txt = txt[1:]
+            else:
+                sign = None
+            txt = txt.replace('exkl.', '!')
+            separators = ',-()!'
+            for sep in separators:
+                txt = txt.replace(sep, ' %s ' % sep)
+            return sign, [('code', 'in', parse_domain(txt.split()))]
+
+            res = []
             with TemporaryFile('w+') as fileobj:
-                fileobj.write(base64.decodestring(chart.data))
+                fileobj.write(base64.decodestring(self.data))
                 fileobj.seek(0)
-                
-                wb = open_workbook(file_contents=fileobj.read())
+                wb = open_workbook(file_contents=fileobj.read(), formatting_info=True)
                 ws = wb.sheet_by_index(0)
+                heading = None
+                account = None
+                state = 0
+                for row in ws.get_rows():
+                    #~ print row
+                    if state == 0:
+                        #Looking for start of accounts list
+                        if row and row[0].value == u'Fält-kod':
+                            state = 1
+                    elif state == 1:
+                        # Looking for new heading or account to process
+                        if len(row) > 3 and row[0].value:
+                            #Found an account row.
+                            if row[1].value:
+                                #This row has an SRU code.
+                                sign, domain = get_domain(row[3].value)
+                                account = {
+                                    'code': row[1].value,
+                                    'name': row[2].value,
+                                    'domain': domain,
+                                    'field_codes': [{
+                                        'code': int(row[0].value),
+                                        'sign': sign,
+                                        'domain': domain,
+                                    }]
+                                }
+                            else:
+                                #No SRU code on this row. Shares SRU with previous row.
+                                sign, domain = get_domain(row[3].value)
+                                account['field_codes'].append({
+                                    'code': int(row[0].value),
+                                    'sign': sign,
+                                    'domain': domain,
+                                })
+                                join_domain(account['domain'], domain)
+                            heading['accounts'].append(account)
+                        elif len(row) > 2 and row[2].value and row[2].value.isupper():
+                            #Top level heading
+                            heading = {
+                                'name': row[2].value,
+                                'accounts': [],
+                                'children': [],
+                                'height': wb.font_list[wb.xf_list[row[2].xf_index].font_index].height,
+                                'parent': None,
+                            }
+                            res.append(heading)
+                        elif len(row) > 2 and row[2].value:
+                            #Subheading
+                            h = heading
+                            height = wb.font_list[wb.xf_list[row[2].xf_index].font_index].height
+                            #~ print height
+                            while True:
+                                #~ print 'h: %s' % h['name']
+                                if not h['parent']:
+                                    break
+                                if h['height'] > height:
+                                    break
+                                h = h['parent']
+                            heading = {
+                                'name': row[2].value,
+                                'accounts': [],
+                                'children': [],
+                                'height': height,
+                                'parent': h,
+                            }
+                            h['children'].append(heading)
 
-#~ wb = open_workbook('/home/robin/Hämtningar/INK2_16_ver2.xls', formatting_info=True)
-#~ ws = wb.sheet_by_index(0)
-                
-#~ res = []
-#~ heading = None
-#~ account = None
-#~ state = 0
-
-#~ for row in ws.get_rows():
-    #~ if state == 0:
-        #~ # Looking for start of accounts list
-        #~ if row and row[0].value == u'Fält-kod':
-            #~ state = 1
-    #~ elif state == 1:
-        #~ # Looking for new heading or account to process
-        #~ if len(row) > 3 and row[0].value:
-            #~ print row[0].value
-            #~ #Found an account line
-            #~ if row[1].value:
-                #~ sign, domain = get_domain(row[3].value)
-                #~ account = {
-                    #~ 'code': row[1].value,
-                    #~ 'name': row[2].value,
-                    #~ 'domain': domain,
-                    #~ 'field_codes': [{
-                        #~ 'code': row[0].value,
-                        #~ 'sign': sign,
-                        #~ 'domain': domain,
-                    #~ }]
-                #~ }
-            #~ else:
-                #~ sign, domain = get_domain(row[3].value)
-                #~ account['field_codes'].append({
-                    #~ 'code': row[0].value,
-                    #~ 'sign': sign,
-                    #~ 'domain': domain,
-                #~ })
-                #~ join_domain(account['domain'], domain)
-            #~ heading[1].append(account)
-        #~ elif len(row) > 2 and row[2].value and row[2].value.upper() == row[2].value:
-            #~ #Top level account
-            #~ heading = [row[2].value, []]
-            #~ res.append(heading)
-        #~ elif len(row) > 2 and row[2].value:
-            #~ heading = [row[2].value, []]
-            #~ get_last_heading(res[-1])[1].append(heading)
-                        
-                        
-                
-            #~ raise Warning(ws.cell_value(0,12))
-            
-            #~ try:
-                #~ tools.convert_xml_import(account._cr, 'account_export', fileobj, None, 'init', False, None)
-            #~ finally:
-            #~ return True
-        #~ chart.write({'state': 'get','result': 'All well'})
-        #~ return {
-            #~ 'type': 'ir.actions.act_window',
-            #~ 'res_model': 'import.chart.template',
-            #~ 'view_mode': 'form',
-            #~ 'view_type': 'form',
-            #~ 'res_id': chart.id,
-            #~ 'views': [(False, 'form')],
-            #~ 'target': 'new',
-        #~ }
 

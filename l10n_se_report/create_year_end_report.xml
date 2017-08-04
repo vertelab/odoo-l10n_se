@@ -31,7 +31,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-        <menuitem action="action_wizard_create_year_end_report" id="menu_wizard_create_year_end_report" parent="account.account_template_folder"/>
+        <menuitem action="action_wizard_create_year_end_report" id="menu_wizard_create_year_end_report" parent="account.menu_account_reports"/>
 
   </data>
 </openerp>
