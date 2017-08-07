@@ -46,8 +46,9 @@ def domain(konto):
             r1 = range(int(ke[1][0]),int(ke[1][1])+1)
             r2 = range(int(ke[2][0]),int(ke[2][1])+1)
             r3 = range(int(ke[3][0]),int(ke[3][1])+1)
-            raise Warning(konto.decode('utf-8'))
-            return []
+            dom = r0 + r1 + r2 + r3
+            dom.remove(int(k.findall(konto)[2]))
+            return [('code','in', '[%s]' % ','.join([str(i) for i in dom]))]
             
         if len(kl.findall(konto)) == 4:
             ke = kl.findall(konto)
