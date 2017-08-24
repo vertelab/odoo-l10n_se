@@ -35,25 +35,42 @@ class agd_declaration_wizard(models.TransientModel):
 
     chart_tax_id = fields.Many2one(comodel_name='account.tax.code', string='Chart of Tax', help='Select Charts of Taxes', default=_get_tax, required=True, domain = [('parent_id','=', False)])
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year')
-    period = fields.Many2one(comodel_name='account.period', string='Period')
+    period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
+    
+    def _build_comparison_context(self, cr, uid, ids, data, context=None):
+        if context is None:
+            context = {}
+        result = {}
+        result['fiscalyear'] = 'fiscalyear_id_cmp' in data['form'] and data['form']['fiscalyear_id_cmp'] or False
+        result['journal_ids'] = 'journal_ids' in data['form'] and data['form']['journal_ids'] or False
+        result['chart_account_id'] = 'chart_account_id' in data['form'] and data['form']['chart_account_id'] or False
+        result['state'] = 'target_move' in data['form'] and data['form']['target_move'] or ''
+        if data['form']['filter_cmp'] == 'filter_date':
+            result['date_from'] = data['form']['date_from_cmp']
+            result['date_to'] = data['form']['date_to_cmp']
+        elif data['form']['filter_cmp'] == 'filter_period':
+            if not data['form']['period_from_cmp'] or not data['form']['period_to_cmp']:
+                raise osv.except_osv(_('Error!'),_('Select a starting and an ending period'))
+            result['period_from'] = data['form']['period_from_cmp']
+            result['period_to'] = data['form']['period_to_cmp']
+        return result
     
     @api.one
     @api.onchange('period')
     def read_account(self):
-        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', 27)]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
-        moves = self.env['account.move'].search([('period_id', '=', self.period.id), ('state', '=', 'draft')]).mapped('id')
-        tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
-        if len(moves) > 0:
-            self.skattekonto = sum(self.env['account.move.line'].search([('move_id', 'in', moves), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid')]).mapped('credit'))
+        tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        tax_account = self.env['account.tax.code'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('code', '=', 'AgAvgPreS')])
+        self.skattekonto = sum(tax_accounts.mapped('credit'))
         if tax_account:
-            self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
+            #~ self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
+            self.agavgpres = tax_account.sum_period
     
     @api.one
     def create_vat(self):
-        kontoskatte = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', 27)]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
-        skattekonto = self.env['account.account'].search([('code', '=', 1630)])
+        kontoskatte = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        skattekonto = self.env['account.account'].search([('code', '=', '1630')])
         if len(kontoskatte) > 0 and skattekonto:
             total = 0.0
             vat = self.env['account.move'].create({
@@ -90,4 +107,17 @@ class agd_declaration_wizard(models.TransientModel):
                     'target': 'current',
                     'context': {}
                 }
-
+                
+    @api.multi
+    def show_account_moves(self):
+        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move.line',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
+            'target': 'current',
+            'domain': [('account_id', 'in', tax_accounts.mapped('id'))],
+            'context': {'search_default_period_id': self.period.id}
+        }
