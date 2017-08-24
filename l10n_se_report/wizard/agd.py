@@ -27,27 +27,44 @@ _logger = logging.getLogger(__name__)
 
 class agd_declaration_wizard(models.TransientModel):
     _name = 'agd.declaration.wizard'
+    
+    def _get_tax(self):
+        user = self.env.user
+        taxes = self.env['account.tax.code'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
+        return taxes and taxes[0] or False
 
-    chart_tax_id = fields.Many2one(comodel_name='account.tax.code', string='Chart of Tax', help='Select Charts of Taxes', required=True, domain = [('parent_id','=', False)])
+    chart_tax_id = fields.Many2one(comodel_name='account.tax.code', string='Chart of Tax', help='Select Charts of Taxes', default=_get_tax, required=True, domain = [('parent_id','=', False)])
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year')
-    period_from = fields.Many2one(comodel_name='account.period', string='Start Period')
-    period_to = fields.Many2one(comodel_name='account.period', string='End Period')
+    period = fields.Many2one(comodel_name='account.period', string='Period')
+    skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
+    agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
+    
+    @api.one
+    @api.onchange('period')
+    def read_account(self):
+        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', 27)]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        moves = self.env['account.move'].search([('period_id', '=', self.period.id), ('state', '=', 'draft')]).mapped('id')
+        tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
+        if len(moves) > 0:
+            self.skattekonto = sum(self.env['account.move.line'].search([('move_id', 'in', moves), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid')]).mapped('credit'))
+        if tax_account:
+            self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
     
     @api.one
     def create_vat(self):
-        kontoskatte = self.env['account.account'].with_context({'get_start_period': self.period_from, 'get_end_period': self.period_to}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', 27)]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        kontoskatte = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', 27)]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
         skattekonto = self.env['account.account'].search([('code', '=', 1630)])
         if len(kontoskatte) > 0 and skattekonto:
             total = 0.0
             vat = self.env['account.move'].create({
                 'journal_id': self.env.ref('l10n_se.lonjournal').id,
-                'period_id': self.period_from.id,
+                'period_id': self.period.id,
                 'date': fields.Date.today(),
             })
             if vat:
                 for k in kontoskatte:
                     if k.credit != 0.0:
-                        self.env['account.move.line'].create({
+                        self.env['account.move.line'].with_context({'get_start_period': self.period}).create({
                             'name': k.name,
                             'account_id': k.id,
                             'debit': k.credit,
