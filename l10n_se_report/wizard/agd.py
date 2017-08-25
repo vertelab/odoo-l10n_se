@@ -61,7 +61,7 @@ class agd_declaration_wizard(models.TransientModel):
     @api.onchange('period')
     def read_account(self):
         tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
-        tax_account = self.env['account.tax.code'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('code', '=', 'AgAvgPreS')])
+        tax_account = self.env['account.tax.code'].with_context({'period_id': self.period.id, 'state': 'all'}).search([('code', '=', 'AgAvgPreS')])
         self.skattekonto = sum(tax_accounts.mapped('credit'))
         if tax_account:
             #~ self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
@@ -81,7 +81,7 @@ class agd_declaration_wizard(models.TransientModel):
             if vat:
                 for k in kontoskatte:
                     if k.credit != 0.0:
-                        self.env['account.move.line'].with_context({'get_start_period': self.period}).create({
+                        self.env['account.move.line'].create({
                             'name': k.name,
                             'account_id': k.id,
                             'debit': k.credit,
@@ -119,5 +119,19 @@ class agd_declaration_wizard(models.TransientModel):
             'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
             'target': 'current',
             'domain': [('account_id', 'in', tax_accounts.mapped('id'))],
+            'context': {'search_default_period_id': self.period.id}
+        }
+        
+    @api.multi
+    def show_journal_items(self):
+        tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move.line',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
+            'target': 'current',
+            'domain': [('tax_code_id', 'child_of', tax_account.id), ('state', '<>', 'draft')],
             'context': {'search_default_period_id': self.period.id}
         }

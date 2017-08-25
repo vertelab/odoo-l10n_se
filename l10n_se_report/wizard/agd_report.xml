@@ -12,9 +12,11 @@
                         <field name="fiscalyear_id"/>
                         <field name="period"  domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
                     </group>
-                    <group>
-                        <field name="skattekonto"/><button icon="terp-gtk-jump-to-ltr" help="blablabla" type="object" name="show_account_moves"/>
+                    <group col="3">
+                        <field name="skattekonto"/>
+                        <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_account_moves"/>
                         <field name="agavgpres"/>
+                        <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_journal_items"/>
                     </group>
                     <footer>
                         <button name="create_vat" string="Skapa verifikat" type="object" class="oe_highlight"/>
