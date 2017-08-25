@@ -135,3 +135,12 @@ class agd_declaration_wizard(models.TransientModel):
             'domain': [('tax_code_id', 'child_of', tax_account.id), ('state', '<>', 'draft')],
             'context': {'search_default_period_id': self.period.id}
         }
+        
+    @api.multi
+    def print_report(self):
+        account_tax_codes = self.env['account.tax.code'].search([])
+        data = {}
+        data['ids'] = account_tax_codes.mapped('id')
+        data['model'] = 'account.tax.code'
+        
+        return self.env['report'].with_context({'period_id': self.period.id, 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.ag_report_glabel').name, data=data)

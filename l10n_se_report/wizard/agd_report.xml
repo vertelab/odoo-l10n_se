@@ -19,6 +19,7 @@
                         <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_journal_items"/>
                     </group>
                     <footer>
+						<button name="print_report" string="Skriv ut rapporten" type="object" class="oe_highlight"/>
                         <button name="create_vat" string="Skapa verifikat" type="object" class="oe_highlight"/>
                         or
                         <button string="Avbryt" class="oe_link" special="cancel"/>
@@ -42,6 +43,6 @@
             action="action_account_agd_declaration"
             id="menu_account_agd_declaration"
             groups="account.group_account_user,account.group_account_manager"/>
-
+            
     </data>
 </openerp>
