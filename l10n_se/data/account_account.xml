@@ -1,0 +1,13 @@
+<openerp>
+  <data>
+
+    <record id="lonjournal" model="account.journal">
+      <field name="name">Lönejournal</field>
+      <field name="code">LÖN</field>
+      <field name="type">general</field>
+      <field name="default_debit_account_id" search="[('code', '=', '7210')]" model="account.account"/>
+      <field name="default_crebit_account_id" search="[('code', '=', '7210')]" model="account.account"/>
+    </record>
+
+  </data>
+</openerp>
