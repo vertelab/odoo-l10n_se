@@ -215,10 +215,16 @@ class BankingExportPain(models.AbstractModel):
         payment_method_2_2.text = gen_args['payment_method']
         nb_of_transactions_2_4 = False
         control_sum_2_5 = False
+        if gen_args.get('pain_flavor') != 'pain.001.001.02':
+            batch_booking_2_3 = etree.SubElement(payment_info_2_0, 'BtchBookg')
+            batch_booking_2_3.text = unicode(self.batch_booking).lower()
         # The "SEPA Customer-to-bank
         # Implementation guidelines" for SCT and SDD says that control sum
         # and nb_of_transactions should be present
         # at both "group header" level and "payment info" level
+            nb_of_transactions_2_4 = etree.SubElement(
+                payment_info_2_0, 'NbOfTxs')
+            control_sum_2_5 = etree.SubElement(payment_info_2_0, 'CtrlSum')
         payment_type_info_2_6 = etree.SubElement(
             payment_info_2_0, 'PmtTpInf')
         if priority and gen_args['payment_method'] != 'DD':
