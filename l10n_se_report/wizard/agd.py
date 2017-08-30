@@ -27,18 +27,21 @@ _logger = logging.getLogger(__name__)
 
 class agd_declaration_wizard(models.TransientModel):
     _name = 'agd.declaration.wizard'
-    
+
     def _get_tax(self):
         user = self.env.user
         taxes = self.env['account.tax.code'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
         return taxes and taxes[0] or False
 
+    def _get_year(self):
+        return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
+
     chart_tax_id = fields.Many2one(comodel_name='account.tax.code', string='Chart of Tax', help='Select Charts of Taxes', default=_get_tax, required=True, domain = [('parent_id','=', False)])
-    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year')
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year', default=_get_year)
     period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
-    
+
     def _build_comparison_context(self, cr, uid, ids, data, context=None):
         if context is None:
             context = {}
@@ -56,7 +59,7 @@ class agd_declaration_wizard(models.TransientModel):
             result['period_from'] = data['form']['period_from_cmp']
             result['period_to'] = data['form']['period_to_cmp']
         return result
-    
+
     @api.one
     @api.onchange('period')
     def read_account(self):
@@ -66,7 +69,7 @@ class agd_declaration_wizard(models.TransientModel):
         if tax_account:
             #~ self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
             self.agavgpres = tax_account.sum_period
-    
+
     @api.one
     def create_vat(self):
         kontoskatte = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
@@ -107,7 +110,7 @@ class agd_declaration_wizard(models.TransientModel):
                     'target': 'current',
                     'context': {}
                 }
-                
+
     @api.multi
     def show_account_moves(self):
         tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
@@ -121,7 +124,7 @@ class agd_declaration_wizard(models.TransientModel):
             'domain': [('account_id', 'in', tax_accounts.mapped('id'))],
             'context': {'search_default_period_id': self.period.id}
         }
-        
+
     @api.multi
     def show_journal_items(self):
         tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
@@ -135,12 +138,12 @@ class agd_declaration_wizard(models.TransientModel):
             'domain': [('tax_code_id', 'child_of', tax_account.id), ('state', '<>', 'draft')],
             'context': {'search_default_period_id': self.period.id}
         }
-        
+
     @api.multi
     def print_report(self):
         account_tax_codes = self.env['account.tax.code'].search([])
         data = {}
         data['ids'] = account_tax_codes.mapped('id')
         data['model'] = 'account.tax.code'
-        
+
         return self.env['report'].with_context({'period_id': self.period.id, 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.ag_report_glabel').name, data=data)
