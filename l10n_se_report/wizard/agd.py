@@ -71,9 +71,9 @@ class agd_declaration_wizard(models.TransientModel):
                 #~ self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
                 self.agavgpres = tax_account.sum_period
 
-    @api.one
+    @api.multi
     def create_vat(self):
-        kontoskatte = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
         if len(kontoskatte) > 0 and skattekonto:
             total = 0.0
@@ -96,6 +96,7 @@ class agd_declaration_wizard(models.TransientModel):
                 self.env['account.move.line'].create({
                     'name': skattekonto.name,
                     'account_id': skattekonto.id,
+                    'partner_id': self.env.ref('base.res_partner-SKV').id,
                     'debit': 0.0,
                     'credit': total,
                     'move_id': vat.id,
