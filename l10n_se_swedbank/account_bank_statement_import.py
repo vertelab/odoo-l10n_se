@@ -21,7 +21,9 @@
 import logging
 from openerp import api,models, _
 from .swedbank import SwedbankTransaktionsrapport as Parser
+from .swedbank import SwedbankTransaktionsrapport as Parser
 import cStringIO
+import uuid
 
 _logger = logging.getLogger(__name__)
 
@@ -63,9 +65,9 @@ class AccountBankStatementImport(models.TransientModel):
                     'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
                     'name': transaction['referens'] + (
                         transaction['text'] and ': ' + transaction['text'] or ''),
-                    'ref': transaction['radnr'],
+                    'ref': transaction['referens'],
                     'amount': transaction['belopp'],
-                    'unique_import_id': transaction['radnr'],
+                    'unique_import_id': 'swedbank %s %s' % (swedbank.account.name[29:52], transaction['radnr']),
                     'bank_account_id': bank_account_id or None,
                     'partner_id': partner_id or None,
                 }
@@ -90,68 +92,68 @@ class AccountBankStatementImport(models.TransientModel):
             vals_bank_statement]
 
 
-class AccountBankSwishImport(models.TransientModel):
-    """Add process_bgmax method to account.bank.statement.import."""
-    _inherit = 'account.bank.statement.import'
+#~ class AccountBankSwishImport(models.TransientModel):
+    #~ """Add process_bgmax method to account.bank.statement.import."""
+    #~ _inherit = 'account.bank.statement.import'
 
-    @api.multi
-    def _parse_file(self,data_file):
-        """Parse a Swedbank swish  file."""
-        try:
-            parser = Parser(data_file)
-            _logger.debug("Try parsing with swedbank_swish.")
-            swedbank = parser.parse()
-        except ValueError:
-            # Not a Swedbank file, returning super will call next candidate:
-            _logger.debug("Statement file was not a Swedbank Swish file.",
-                          exc_info=True)
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
+    #~ @api.multi
+    #~ def _parse_file(self,data_file):
+        #~ """Parse a Swedbank swish  file."""
+        #~ try:
+            #~ parser = Parser(data_file)
+            #~ _logger.debug("Try parsing with swedbank_swish.")
+            #~ swedbank = parser.parse()
+        #~ except ValueError:
+            #~ # Not a Swedbank file, returning super will call next candidate:
+            #~ _logger.debug("Statement file was not a Swedbank Swish file.",
+                          #~ exc_info=True)
+            #~ return super(AccountBankSwishImport, self)._parse_file(data_file)
 
 
-#        bankstatement = BankStatement()
-#        bankstatement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
-#        bankstatement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
-        transactions = []
-        total_amt = 0.00
-        try:
-            for transaction in swedbank:
-                bank_account_id = partner_id = False
+#~ #        bankstatement = BankStatement()
+#~ #        bankstatement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
+#~ #        bankstatement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+        #~ transactions = []
+        #~ total_amt = 0.00
+        #~ try:
+            #~ for transaction in swedbank:
+                #~ bank_account_id = partner_id = False
                 
-                if transaction['referens']:
-                    banks = self.pool['res.partner.bank'].search(cr,uid,
-                        [('owner_name', '=', transaction['referens'])], limit=1)
-                    if banks:
-                        bank_account = self.browse(cr,uid,banks[0])
-                        bank_account_id = bank_account.id
-                        partner_id = bank_account.partner_id.id
-                vals_line = {
-                    'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
-                    'name': transaction['referens'] + (
-                        transaction['text'] and ': ' + transaction['text'] or ''),
-                    'ref': transaction['radnr'],
-                    'amount': transaction['belopp'],
-                    'unique_import_id': transaction['radnr'],
-                    'bank_account_id': bank_account_id or None,
-                    'partner_id': partner_id or None,
-                }
-                if not vals_line['name']:
-                    vals_line['name'] = transaction['produkt'].capitalize()
-                total_amt += float(transaction['belopp'])
-                transactions.append(vals_line)
-        except Exception, e:
-            raise Warning(_(
-                "The following problem occurred during import. "
-                "The file might not be valid.\n\n %s" % e.message
-            ))
+                #~ if transaction['referens']:
+                    #~ banks = self.pool['res.partner.bank'].search(self.env.cr, self.env.uid,
+                        #~ [('owner_name', '=', transaction['referens'])], limit=1)
+                    #~ if banks:
+                        #~ bank_account = self.browse(self.env.cr, self.env.uid,banks[0])
+                        #~ bank_account_id = bank_account.id
+                        #~ partner_id = bank_account.partner_id.id
+                #~ vals_line = {
+                    #~ 'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
+                    #~ 'name': transaction['referens'] + (
+                        #~ transaction['text'] and ': ' + transaction['text'] or ''),
+                    #~ 'ref': transaction['radnr'],
+                    #~ 'amount': transaction['belopp'],
+                    #~ 'unique_import_id': transaction['radnr'],
+                    #~ 'bank_account_id': bank_account_id or None,
+                    #~ 'partner_id': partner_id or None,
+                #~ }
+                #~ if not vals_line['name']:
+                    #~ vals_line['name'] = transaction['produkt'].capitalize()
+                #~ total_amt += float(transaction['belopp'])
+                #~ transactions.append(vals_line)
+        #~ except Exception, e:
+            #~ raise Warning(_(
+                #~ "The following problem occurred during import. "
+                #~ "The file might not be valid.\n\n %s" % e.message
+            #~ ))
 
-        vals_bank_statement = {
-            'name': swedbank.account.routing_number,
-            'transactions': transactions,
-            'balance_start': swedbank.account.balance_start,
-            'balance_end_real':
-                float(swedbank.account.balance_start) + total_amt,
-        }
-        return swedbank.account.currency, swedbank.account.number, [
-            vals_bank_statement]
+        #~ vals_bank_statement = {
+            #~ 'name': swedbank.account.routing_number,
+            #~ 'transactions': transactions,
+            #~ 'balance_start': swedbank.account.balance_start,
+            #~ 'balance_end_real':
+                #~ float(swedbank.account.balance_start) + total_amt,
+        #~ }
+        #~ return swedbank.account.currency, swedbank.account.number, [
+            #~ vals_bank_statement]
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
