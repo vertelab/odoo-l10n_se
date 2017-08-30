@@ -63,12 +63,13 @@ class agd_declaration_wizard(models.TransientModel):
     @api.one
     @api.onchange('period')
     def read_account(self):
-        tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
-        tax_account = self.env['account.tax.code'].with_context({'period_id': self.period.id, 'state': 'all'}).search([('code', '=', 'AgAvgPreS')])
-        self.skattekonto = sum(tax_accounts.mapped('credit'))
-        if tax_account:
-            #~ self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
-            self.agavgpres = tax_account.sum_period
+        if self.period:
+            tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+            tax_account = self.env['account.tax.code'].with_context({'period_id': self.period.id, 'state': 'all'}).search([('code', '=', 'AgAvgPreS')])
+            self.skattekonto = sum(tax_accounts.mapped('credit'))
+            if tax_account:
+                #~ self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
+                self.agavgpres = tax_account.sum_period
 
     @api.one
     def create_vat(self):
