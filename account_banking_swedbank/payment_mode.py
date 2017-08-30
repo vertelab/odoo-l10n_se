@@ -29,5 +29,5 @@ _logger = logging.getLogger(__name__)
 class PaymentMode(models.Model):
     _inherit = 'payment.mode'
 
-    is_seb_payment = fields.Boolean(string='SEB Payment', help="Will generate a payment file using pain.001.001.03 in the flavor that SEB wants.")
+    is_swedbank_payment = fields.Boolean(string='Swedbank Payment', help="Will generate a payment file using pain.001.001.03 in the flavor that Swedbank wants.")
 

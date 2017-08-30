@@ -2,13 +2,13 @@
 <openerp>
 <data>
 
-<record id="view_payment_mode_form_inherit_seb" model="ir.ui.view">
-    <field name="name">add.seb.in.payment.mode.form</field>
+<record id="view_payment_mode_form_inherit_swedbank" model="ir.ui.view">
+    <field name="name">add.swedbank.in.payment.mode.form</field>
     <field name="model">payment.mode</field>
     <field name="inherit_id" ref="account_banking_payment_export.view_payment_mode_form_inherit"/>
     <field name="arch" type="xml">
         <field name="type" position="after">
-            <field name="is_seb_payment"/>
+            <field name="is_swedbank_payment"/>
         </field>
     </field>
 </record>

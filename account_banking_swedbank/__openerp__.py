@@ -20,8 +20,8 @@
 
 
 {
-    'name': 'Account Banking SEB',
-    'summary': 'Adaptations for creating pain.001.001.03 files for SEB.',
+    'name': 'Account Banking Swedbank',
+    'summary': 'Adaptations for creating pain.001.001.03 files for Swedbank.',
     'version': '8.0.0.1.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',

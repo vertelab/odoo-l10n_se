@@ -32,7 +32,7 @@ class BankingExportPain(models.AbstractModel):
     @api.model
     def generate_initiating_party_block(self, parent_node, gen_args):
         payment = self.payment_order_ids[0]
-        if not payment.mode.is_seb_payment:
+        if not payment.mode.is_swedbank_payment:
             return super(BankingExportPain, self).generate_initiating_party_block(parent_node, gen_args)
         my_company_name = self._prepare_field(
             'Company Name',
@@ -70,7 +70,7 @@ class BankingExportPain(models.AbstractModel):
         return True
     
     @api.model
-    def _validate_bban_seb(self, bban):
+    def _validate_bban_swedbank(self, bban):
         """
         When clearing number begins with “8”
         8CCCCznnnnnnnnn (always 15 digits)
@@ -94,7 +94,7 @@ class BankingExportPain(models.AbstractModel):
         return bban
     
     @api.model
-    def _validate_bgnr_seb(self, bgnr):
+    def _validate_bgnr_swedbank(self, bgnr):
         """
         Bankgiro number nnnnnnnn
         (7 or 8 digit number)
@@ -121,7 +121,7 @@ class BankingExportPain(models.AbstractModel):
             eval_ctx, gen_args):
         payment = self.payment_order_ids[0]
         #~ _logger.warn('generate_party_block eval_ctx: %s' % eval_ctx)
-        if not payment.mode.is_seb_payment:
+        if not payment.mode.is_swedbank_payment:
             return super(BankingExportPain, self).generate_party_block(
             parent_node, party_type, order, name, iban, bic, eval_ctx, gen_args)
         assert order in ('B', 'C'), "Order can be 'B' or 'C'"
@@ -145,15 +145,15 @@ class BankingExportPain(models.AbstractModel):
         elif bank_state == 'bg':
             piban = self._prepare_field(
                 '%s Bankgiro' % party_type_label, "''.join([c if c.isdigit() else '' for c in " + iban + '])', eval_ctx, gen_args=gen_args)
-            viban = self._validate_bgnr_seb(piban)
+            viban = self._validate_bgnr_swedbank(piban)
         elif bank_state == 'pg':
             piban = self._prepare_field(
                 '%s Postgiro' % party_type_label, "''.join([c if c.isdigit() else '' for c in " + iban + '])', eval_ctx, gen_args=gen_args)
-            viban = self._validate_bban_seb(piban)
+            viban = self._validate_bban_swedbank(piban)
         elif bank_state == 'bank':
             piban = self._prepare_field(
                 '%s Bank account' % party_type_label, "''.join([c if c.isdigit() else '' for c in " + iban + '])', eval_ctx, gen_args=gen_args)
-            viban = self._validate_bban_seb(piban)
+            viban = self._validate_bban_swedbank(piban)
         else:
             raise Warning(_("Unknown bank account type: %s") % bank_state)
         # At C level, the order is : BIC, Name, IBAN
@@ -201,7 +201,7 @@ class BankingExportPain(models.AbstractModel):
         return True
 
     @api.model
-    def generate_start_payment_info_block_seb(
+    def generate_start_payment_info_block_swedbank(
             self, parent_node, payment_info_ident,
             priority, local_instrument, sequence_type, requested_date,
             eval_ctx, gen_args):
@@ -258,7 +258,7 @@ class BankingExportPain(models.AbstractModel):
     @api.multi
     def create_sepa(self):
         """Creates the SEPA Credit Transfer file. That's the important code!"""
-        if not self.payment_order_ids[0].mode.is_seb_payment:
+        if not self.payment_order_ids[0].mode.is_swedbank_payment:
             return super(BankingExportPain, self).create_sepa()
         pain_flavor = self.payment_order_ids[0].mode.type.code
         convert_to_ascii = \
@@ -323,7 +323,7 @@ class BankingExportPain(models.AbstractModel):
                 # taking into account the 'date_prefered' setting
                 # cf account_banking_payment_export/models/account_payment.py
                 # in the inherit of action_open()
-                key = (line.date, priority, self.seb_svclvl_cd(line))
+                key = (line.date, priority, self.swedbank_svclvl_cd(line))
                 if key in lines_per_group:
                     lines_per_group[key].append(line)
                 else:
@@ -331,7 +331,7 @@ class BankingExportPain(models.AbstractModel):
         for (requested_date, priority, svclvl_cd), lines in lines_per_group.items():
             # B. Payment info
             payment_info_2_0, nb_of_transactions_2_4, control_sum_2_5 = \
-                self.generate_start_payment_info_block_seb(
+                self.generate_start_payment_info_block_swedbank(
                     pain_root,
                     "self.payment_order_ids[0].reference + '-' "
                     "+ requested_date.replace('-', '')  + '-' + priority + '-' + svclvl_cd",
@@ -401,7 +401,7 @@ class BankingExportPain(models.AbstractModel):
         return self.finalize_sepa_file_creation(
             xml_root, total_amount, transactions_count_1_6, gen_args)
     
-    def seb_svclvl_cd(self, line):
+    def swedbank_svclvl_cd(self, line):
         """Check if this is a domestic or international (SEPA) payment."""
         if self.payment_order_ids[0].mode.bank_id.partner_id.country_id == line.partner_id.country_id:
             return 'NURG'
