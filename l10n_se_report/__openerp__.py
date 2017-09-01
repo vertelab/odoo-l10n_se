@@ -19,6 +19,7 @@
               'basic_r_and_b_view.xml',
               'create_year_end_report.xml',
               'wizard/agd_report.xml',
+              'wizard/moms_report.xml',
               'wizard/glabel_report.xml',
             ],
 
