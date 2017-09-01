@@ -66,12 +66,12 @@ class moms_declaration_wizard(models.TransientModel):
         if period_stop.code[:2] < period_start.code[:2]:
             raise Warning('Stop period must be after start period')
         if period_stop.code == period_start.code:
-            period_ids.append(period_start)
+            period_ids.append(period_start.id)
             return period_ids
         else:
             prev_mon = int(period_stop.code[:2])-1
             while True:
-                period_ids.append(self.env['account.period'].search([('code', '=', '%s/%s' %((str(0) if prev_mon<10 else '')+str(prev_mon), period_stop.code[-4:]))]))
+                period_ids.append(self.env['account.period'].search([('code', '=', '%s/%s' %((str(0) if prev_mon<10 else '')+str(prev_mon), period_stop.code[-4:]))]).id)
                 if prev_mon == int(period_start.code[:2]):
                     break
                 else:
@@ -86,7 +86,7 @@ class moms_declaration_wizard(models.TransientModel):
             self.skattekonto = sum(tax_accounts.mapped('balance'))
             tax_account = 0.0
             for p in self.get_period_ids(self.period_start, self.period_stop):
-                tax_account += self.env['account.tax.code'].with_context({'period_id': p.id, 'state': 'all'}).search([('code', '=', 'bR1')]).sum_period
+                tax_account += self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', '=', 'bR1')]).sum_period
             self.br1 = tax_account
 
     @api.multi
@@ -119,7 +119,6 @@ class moms_declaration_wizard(models.TransientModel):
                     'credit': total,
                     'move_id': vat.id,
                 })
-                #~ return self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_journal_period_tree')
                 return {
                     'type': 'ir.actions.act_window',
                     'res_model': 'account.move',
@@ -166,4 +165,20 @@ class moms_declaration_wizard(models.TransientModel):
         data['ids'] = account_tax_codes.mapped('id')
         data['model'] = 'account.tax.code'
 
-        return self.env['report'].with_context({'period_id': self.period_start.id, 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.ag_report_glabel').name, data=data)
+        return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
+
+
+class account_tax_code(models.Model):
+    _inherit = 'account.tax.code'
+
+    @api.multi
+    def _sum_period(self, name, args):
+        if context.get('period_ids', False):
+            move_state = ('posted', )
+            if context.get('state', False) == 'all':
+                move_state = ('draft', 'posted', )
+            period_ids = context['period_ids']
+            return self._sum(cr, uid, ids, name, args, context,
+                where=' AND line.period_id IN (%s) AND move.state IN %s', where_params=(period_ids, move_state))
+        else:
+            return super(account_tax_code, self)._sum_period(name, args)
