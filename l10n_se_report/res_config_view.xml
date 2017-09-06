@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_config_settings" model="ir.ui.view">
+            <field name="name">account settings.inherited.l10n_se_report</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings" />
+            <field name="arch" type="xml">
+                <separator string="eInvoicing &amp; Payments" position="before">
+                    <group>
+                        <field name="agd_journal" />
+                        <field name="moms_journal" />
+                    </group>
+                </separator>
+            </field>
+        </record>
+    </data>
+</openerp>

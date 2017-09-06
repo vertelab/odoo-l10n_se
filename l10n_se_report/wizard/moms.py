@@ -104,40 +104,44 @@ class moms_declaration_wizard(models.TransientModel):
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
         if len(kontoskatte) > 0 and skattekonto:
             total = 0.0
-            vat = self.env['account.move'].create({
-                'journal_id': self.env.ref('l10n_se.lonjournal').id,
-                'period_id': self.period_start.id,
-                'date': fields.Date.today(),
-            })
-            if vat:
-                for k in kontoskatte:
-                    if k.credit != 0.0:
-                        self.env['account.move.line'].create({
-                            'name': k.name,
-                            'account_id': k.id,
-                            'debit': k.credit,
-                            'credit': 0.0,
-                            'move_id': vat.id,
-                        })
-                        total += k.credit
-                self.env['account.move.line'].create({
-                    'name': skattekonto.name,
-                    'account_id': skattekonto.id,
-                    'partner_id': self.env.ref('base.res_partner-SKV').id,
-                    'debit': 0.0,
-                    'credit': total,
-                    'move_id': vat.id,
+            moms_journal_id = self.env['ir.config_parameter'].get_param('account.moms_journal')
+            if not moms_journal_id:
+                raise Warning('Konfigurera din momsdeklaration journal!')
+            else:
+                vat = self.env['account.move'].create({
+                    'journal_id': self.env['account.journal'].browse(int(moms_journal_id)),
+                    'period_id': self.period_start.id,
+                    'date': fields.Date.today(),
                 })
-                return {
-                    'type': 'ir.actions.act_window',
-                    'res_model': 'account.move',
-                    'view_type': 'form',
-                    'view_mode': 'form',
-                    'view_id': self.env.ref('account.view_move_form').id,
-                    'res_id': vat.id,
-                    'target': 'current',
-                    'context': {}
-                }
+                if vat:
+                    for k in kontoskatte:
+                        if k.credit != 0.0:
+                            self.env['account.move.line'].create({
+                                'name': k.name,
+                                'account_id': k.id,
+                                'debit': k.credit,
+                                'credit': 0.0,
+                                'move_id': vat.id,
+                            })
+                            total += k.credit
+                    self.env['account.move.line'].create({
+                        'name': skattekonto.name,
+                        'account_id': skattekonto.id,
+                        'partner_id': self.env.ref('base.res_partner-SKV').id,
+                        'debit': 0.0,
+                        'credit': total,
+                        'move_id': vat.id,
+                    })
+                    return {
+                        'type': 'ir.actions.act_window',
+                        'res_model': 'account.move',
+                        'view_type': 'form',
+                        'view_mode': 'form',
+                        'view_id': self.env.ref('account.view_move_form').id,
+                        'res_id': vat.id,
+                        'target': 'current',
+                        'context': {}
+                    }
 
     @api.multi
     def show_account_moves(self):
