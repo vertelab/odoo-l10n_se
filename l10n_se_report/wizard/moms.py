@@ -175,4 +175,3 @@ class moms_declaration_wizard(models.TransientModel):
         data['model'] = 'account.tax.code'
 
         return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
-        #~ return self.env['report'].with_context({'period_id': self.period_start.id, 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
