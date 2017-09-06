@@ -80,21 +80,12 @@ class moms_declaration_wizard(models.TransientModel):
         return result
 
     def get_period_ids(self, period_start, period_stop):
-        period_ids = []
-        if period_stop.code[:2] < period_start.code[:2]:
+        if period_stop.date_start < period_start.date_start:
             raise Warning('Stop period must be after start period')
-        if period_stop.code == period_start.code:
-            period_ids.append(period_start.id)
-            return period_ids
+        if period_stop.date_start == period_start.date_start:
+            return [period_start.id]
         else:
-            prev_mon = int(period_stop.code[:2])-1
-            while True:
-                period_ids.append(self.env['account.period'].search([('code', '=', '%s/%s' %((str(0) if prev_mon<10 else '')+str(prev_mon), period_stop.code[-4:]))]).id)
-                if prev_mon == int(period_start.code[:2]):
-                    break
-                else:
-                    prev_mon = prev_mon-1
-            return period_ids
+            return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop)])]
 
     @api.one
     @api.onchange('period_start', 'period_stop')
@@ -158,8 +149,8 @@ class moms_declaration_wizard(models.TransientModel):
             'view_mode': 'tree',
             'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
             'target': 'current',
-            'domain': [('account_id', 'in', tax_accounts.mapped('id'))],
-            'context': {'search_default_period_id': self.period_start.id}
+            'domain': [('account_id', 'in', tax_accounts.mapped('id')), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))],
+            'context': {}
         }
 
     @api.multi
@@ -172,8 +163,8 @@ class moms_declaration_wizard(models.TransientModel):
             'view_mode': 'tree',
             'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
             'target': 'current',
-            'domain': [('tax_code_id', 'child_of', tax_account.id), ('state', '<>', 'draft')],
-            'context': {'search_default_period_id': self.period_start.id}
+            'domain': [('tax_code_id', 'child_of', tax_account.id), ('state', '<>', 'draft'), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))],
+            'context': {}
         }
 
     @api.multi
