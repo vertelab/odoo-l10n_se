@@ -25,6 +25,24 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class account_tax_code(models.Model):
+    _inherit = 'account.tax.code'
+
+    sum_period = fields.Float(string='Period Sum', compute='_sum_periods')
+
+    @api.one
+    def _sum_periods(self):
+        if self._context.get('period_ids', False):
+            move_state = ('posted', )
+            if self._context.get('state', False) == 'all':
+                move_state = ('draft', 'posted', )
+            period_ids = tuple(self._context['period_ids'])
+            self.sum_period = self._sum(None, None,
+                where=' AND line.period_id IN %s AND move.state IN %s', where_params=(period_ids, move_state))[self.id]
+        else:
+            self.sum_period = super(account_tax_code, self)._sum_period(None, None)[self.id]
+
+
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
 
@@ -166,19 +184,4 @@ class moms_declaration_wizard(models.TransientModel):
         data['model'] = 'account.tax.code'
 
         return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
-
-
-class account_tax_code(models.Model):
-    _inherit = 'account.tax.code'
-
-    @api.multi
-    def _sum_period(self, name, args):
-        if context.get('period_ids', False):
-            move_state = ('posted', )
-            if context.get('state', False) == 'all':
-                move_state = ('draft', 'posted', )
-            period_ids = context['period_ids']
-            return self._sum(cr, uid, ids, name, args, context,
-                where=' AND line.period_id IN (%s) AND move.state IN %s', where_params=(period_ids, move_state))
-        else:
-            return super(account_tax_code, self)._sum_period(name, args)
+        #~ return self.env['report'].with_context({'period_id': self.period_start.id, 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
