@@ -90,6 +90,7 @@ class moms_declaration_wizard(models.TransientModel):
     @api.one
     @api.onchange('period_start', 'period_stop')
     def read_account(self):
+        # kollar ej boförd
         if self.period_start and self.period_stop:
             tax_accounts = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '26')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
             self.skattekonto = sum(tax_accounts.mapped('balance'))
@@ -100,38 +101,92 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def create_vat(self):
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '26')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        kontomoms = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '26')]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        momsskuld = self.env['account.account'].search([('code', '=', '2650')])
+        momsfordran = self.env['account.account'].search([('code', '=', '1650')])
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-        if len(kontoskatte) > 0 and skattekonto:
+        if len(kontomoms) > 0 and momsskuld and momsfordran and skattekonto:
             total = 0.0
-            moms_journal_id = self.env['ir.config_parameter'].get_param('account.moms_journal')
-            if not moms_journal_id:
+            #~ moms_journal_id = self.env['ir.config_parameter'].get_param('account.moms_journal')
+            moms_journal = self.env['account.journal'].browse(5)
+            if not moms_journal:
                 raise Warning('Konfigurera din momsdeklaration journal!')
             else:
                 vat = self.env['account.move'].create({
-                    'journal_id': self.env['account.journal'].browse(int(moms_journal_id)),
+                    'journal_id': moms_journal.id,
                     'period_id': self.period_start.id,
                     'date': fields.Date.today(),
                 })
                 if vat:
-                    for k in kontoskatte:
-                        if k.credit != 0.0:
+                    for k in kontomoms: # kollar på 26xx konton
+                        if k.balance > 0.0: # ingående moms
                             self.env['account.move.line'].create({
                                 'name': k.name,
                                 'account_id': k.id,
-                                'debit': k.credit,
+                                'credit': k.balance,
+                                'debit': 0.0,
+                                'move_id': vat.id,
+                            })
+                        if k.balance < 0.0: # utgående moms
+                            self.env['account.move.line'].create({
+                                'name': k.name,
+                                'account_id': k.id,
+                                'debit': abs(k.balance),
                                 'credit': 0.0,
                                 'move_id': vat.id,
                             })
-                            total += k.credit
-                    self.env['account.move.line'].create({
-                        'name': skattekonto.name,
-                        'account_id': skattekonto.id,
-                        'partner_id': self.env.ref('base.res_partner-SKV').id,
-                        'debit': 0.0,
-                        'credit': total,
-                        'move_id': vat.id,
-                    })
+                        total += k.balance
+                    if total < 0.0: # moms redovisning
+                        self.env['account.move.line'].create({
+                            'name': momsskuld.name,
+                            'account_id': momsskuld.id,
+                            'partner_id': '',
+                            'debit': 0.0,
+                            'credit': abs(total),
+                            'move_id': vat.id,
+                        })
+                        self.env['account.move.line'].create({
+                            'name': momsskuld.name,
+                            'account_id': momsskuld.id,
+                            'partner_id': '',
+                            'debit': abs(total),
+                            'credit': 0.0,
+                            'move_id': vat.id,
+                        })
+                        self.env['account.move.line'].create({
+                            'name': skattekonto.name,
+                            'account_id': skattekonto.id,
+                            'partner_id': self.env.ref('base.res_partner-SKV').id,
+                            'debit': 0.0,
+                            'credit': abs(total),
+                            'move_id': vat.id,
+                        })
+                    if total > 0.0: # momsfordran
+                        self.env['account.move.line'].create({
+                            'name': momsfordran.name,
+                            'account_id': momsfordran.id,
+                            'partner_id': '',
+                            'debit': total,
+                            'credit': 0.0,
+                            'move_id': vat.id,
+                        })
+                        self.env['account.move.line'].create({
+                            'name': momsfordran.name,
+                            'account_id': momsfordran.id,
+                            'partner_id': '',
+                            'debit': 0.0,
+                            'credit': total,
+                            'move_id': vat.id,
+                        })
+                        self.env['account.move.line'].create({
+                            'name': skattekonto.name,
+                            'account_id': skattekonto.id,
+                            'partner_id': self.env.ref('base.res_partner-SKV').id,
+                            'debit': total,
+                            'credit': 0.0,
+                            'move_id': vat.id,
+                        })
+
                     return {
                         'type': 'ir.actions.act_window',
                         'res_model': 'account.move',
