@@ -97,7 +97,7 @@ class moms_declaration_wizard(models.TransientModel):
             tax_account = 0.0
             for p in self.get_period_ids(self.period_start, self.period_stop):
                 tax_account += self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', '=', 'bR1')]).sum_period
-            self.br1 = -tax_account
+            self.br1 = tax_account
 
     @api.multi
     def create_vat(self):
