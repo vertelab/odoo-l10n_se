@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-		<record id="view_account_agd_declaration" model="ir.ui.view">
+        <record id="view_account_agd_declaration" model="ir.ui.view">
             <field name="name">arbetsgivardeklaration.form</field>
             <field name="model">agd.declaration.wizard</field>
             <field name="arch" type="xml">
@@ -10,7 +10,8 @@
                     <group string="Arbetsgivardeklaration" col="4">
                         <field name="chart_tax_id" widget="selection"/>
                         <field name="fiscalyear_id"/>
-                        <field name="period"  domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                        <field name="period" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                        <field name="ej_bokforda"/>
                     </group>
                     <group col="3">
                         <field name="skattekonto"/>
@@ -19,7 +20,7 @@
                         <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_journal_items"/>
                     </group>
                     <footer>
-						<button name="print_report" string="Skriv ut rapporten" type="object" class="oe_highlight"/>
+                        <button name="print_report" string="Skriv ut rapporten" type="object" class="oe_highlight"/>
                         <button name="create_vat" string="Skapa verifikat" type="object" class="oe_highlight"/>
                         or
                         <button string="Avbryt" class="oe_link" special="cancel"/>
@@ -43,6 +44,6 @@
             action="action_account_agd_declaration"
             id="menu_account_agd_declaration"
             groups="account.group_account_user,account.group_account_manager"/>
-            
+
     </data>
 </openerp>

@@ -10,8 +10,9 @@
                     <group string="Momsdeklaration" col="4">
                         <field name="chart_tax_id" widget="selection"/>
                         <field name="fiscalyear_id"/>
-                        <field name="period_start"  domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
-                        <field name="period_stop"  domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                        <field name="period_start" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                        <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                        <field name="ej_bokforda"/>
                     </group>
                     <group col="3">
                         <field name="skattekonto"/>

@@ -41,6 +41,7 @@ class agd_declaration_wizard(models.TransientModel):
     period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
+    ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
 
     def _build_comparison_context(self, cr, uid, ids, data, context=None):
         if context is None:
@@ -76,46 +77,53 @@ class agd_declaration_wizard(models.TransientModel):
         kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
         if len(kontoskatte) > 0 and skattekonto:
-            total = 0.0
-            vat = self.env['account.move'].create({
-                'journal_id': self.env.ref('l10n_se.lonjournal').id,
-                'period_id': self.period.id,
-                'date': fields.Date.today(),
-            })
-            if vat:
-                for k in kontoskatte:
-                    if k.credit != 0.0:
-                        self.env['account.move.line'].create({
-                            'name': k.name,
-                            'account_id': k.id,
-                            'debit': k.credit,
-                            'credit': 0.0,
-                            'move_id': vat.id,
-                        })
-                        total += k.credit
-                self.env['account.move.line'].create({
-                    'name': skattekonto.name,
-                    'account_id': skattekonto.id,
-                    'partner_id': self.env.ref('base.res_partner-SKV').id,
-                    'debit': 0.0,
-                    'credit': total,
-                    'move_id': vat.id,
+            agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_report.agd_journal')
+            if not agd_journal_id:
+                raise Warning('Konfigurera din arbetsgivardeklaration journal!')
+            else:
+                total = 0.0
+                vat = self.env['account.move'].create({
+                    'journal_id': self.env.ref('l10n_se.lonjournal').id,
+                    'period_id': self.period.id,
+                    'date': fields.Date.today(),
                 })
-                #~ return self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_journal_period_tree')
-                return {
-                    'type': 'ir.actions.act_window',
-                    'res_model': 'account.move',
-                    'view_type': 'form',
-                    'view_mode': 'form',
-                    'view_id': self.env.ref('account.view_move_form').id,
-                    'res_id': vat.id,
-                    'target': 'current',
-                    'context': {}
-                }
+                if vat:
+                    for k in kontoskatte:
+                        if k.credit != 0.0:
+                            self.env['account.move.line'].create({
+                                'name': k.name,
+                                'account_id': k.id,
+                                'debit': k.credit,
+                                'credit': 0.0,
+                                'move_id': vat.id,
+                            })
+                            total += k.credit
+                    self.env['account.move.line'].create({
+                        'name': skattekonto.name,
+                        'account_id': skattekonto.id,
+                        'partner_id': self.env.ref('base.res_partner-SKV').id,
+                        'debit': 0.0,
+                        'credit': total,
+                        'move_id': vat.id,
+                    })
+                    #~ return self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_journal_period_tree')
+                    return {
+                        'type': 'ir.actions.act_window',
+                        'res_model': 'account.move',
+                        'view_type': 'form',
+                        'view_mode': 'form',
+                        'view_id': self.env.ref('account.view_move_form').id,
+                        'res_id': vat.id,
+                        'target': 'current',
+                        'context': {}
+                    }
 
     @api.multi
     def show_account_moves(self):
         tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        domain = [('account_id', 'in', tax_accounts.mapped('id'))]
+        if self.ej_bokforda:
+            domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -123,13 +131,16 @@ class agd_declaration_wizard(models.TransientModel):
             'view_mode': 'tree',
             'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
             'target': 'current',
-            'domain': [('account_id', 'in', tax_accounts.mapped('id'))],
+            'domain': domain,
             'context': {'search_default_period_id': self.period.id}
         }
 
     @api.multi
     def show_journal_items(self):
         tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
+        domain = [('tax_code_id', 'child_of', tax_account.id)]
+        if self.ej_bokforda:
+            domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -137,7 +148,7 @@ class agd_declaration_wizard(models.TransientModel):
             'view_mode': 'tree',
             'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
             'target': 'current',
-            'domain': [('tax_code_id', 'child_of', tax_account.id), ('state', '<>', 'draft')],
+            'domain': domain,
             'context': {'search_default_period_id': self.period.id}
         }
 

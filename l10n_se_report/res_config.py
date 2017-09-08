@@ -20,23 +20,30 @@
 ##############################################################################
 
 from openerp import fields, api, models, _
+import logging
+_logger = logging.getLogger(__name__)
 
-class account_config_settings(models.Model):
+class account_config_settings(models.TransientModel):
     _inherit = 'account.config.settings'
 
     agd_journal = fields.Many2one(comodel_name='account.journal', string='Arbetsgivardeklaration journal')
     moms_journal = fields.Many2one(comodel_name='account.journal', string='Momsdeklaration journal')
 
     @api.multi
-    def get_default_agd_journal(self):
+    def set_custom_parameters(self):
+        config_parameters = self.env['ir.config_parameter']
+        if self.agd_journal:
+            config_parameters.set_param(key="l10n_se_report.agd_journal", value=str(self.agd_journal.id))
+        if self.moms_journal:
+            config_parameters.set_param(key="l10n_se_report.moms_journal", value=str(self.moms_journal.id))
+
+    @api.model
+    def get_default_custom_parameters(self, fields=None):
+        icp = self.env['ir.config_parameter']
         return {
-            'agd_journal': int(self.env['ir.config_parameter'].get_param('account.agd_journal') or 0),
-            'moms_journal': int(self.env['ir.config_parameter'].get_param('account.moms_journal') or 0),
+            'agd_journal': int(icp.get_param(key='l10n_se_report.agd_journal', default='0')) or False,
+            'moms_journal': int(icp.get_param(key='l10n_se_report.moms_journal', default='0')) or False,
         }
 
-    @api.one
-    def set_default_agd_journal(self):
-        self.env['ir.config_parameter'].set_param('account.agd_journal', str(self.agd_journal.id))
-        self.env['ir.config_parameter'].set_param('account.moms_journal', str(self.moms_journal.id))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
