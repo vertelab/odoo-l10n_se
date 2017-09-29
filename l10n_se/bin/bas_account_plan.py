@@ -24,8 +24,11 @@ import sys
 import traceback
 from lxml import etree
 
+import click
 from xlrd import open_workbook
 
+# TODO: Remove placeholders and import real functions.
+# ==================
 def code2reconcile(code):
     return 'reconcile'
 
@@ -40,9 +43,10 @@ def code2note(code):
 
 def code2tag_ids(code):
     return 'tag_ids'
+# ==================
 
 def record(parent, id, model):
-    r = etree.SubElement(data, 'record')
+    r = etree.SubElement(parent, 'record')
     r.set('id', id)
     r.set('model', model)
     return r
@@ -56,10 +60,13 @@ def field(parent, name, value='', attrs=None):
         f.set(attr, attrs[attr])
     return f
 
-year = sys.argv[1]
 
-with open(sys.argv[2]) as fileobj:
-    wb = open_workbook(file_contents=fileobj.read(), formatting_info=True)
+@click.command()
+@click.argument('year')
+@click.argument('input', type=click.File('rb'))
+@click.argument('output', type=click.File('wb'))
+def import_excel(year, input, output):
+    wb = open_workbook(file_contents=input.read(), formatting_info=True)
     ws = wb.sheet_by_index(0)
     
     not_k2 = u'[Ej K2]'
@@ -103,7 +110,7 @@ with open(sys.argv[2]) as fileobj:
         account['note'] = code2user_type_id(account['code'])
         account['tag_ids'] = code2tag_ids(account['code'])
 
-    root = etree.Element('openerp')
+    root = etree.Element('odoo')
     data = etree.SubElement(root, 'data')
     
     # K2
@@ -147,5 +154,9 @@ with open(sys.argv[2]) as fileobj:
             field(r, 'tag_ids', '', {'eval': account['tag_ids']})
         if account['reconcile']:
             field(r, 'reconcile', '', {'eval': 'True'})
-with open(sys.argv[3], 'w') as f_out:
-    f_out.write(etree.tostring(root, xml_declaration=True, encoding="utf-8", pretty_print=True))
+
+    # Write file.
+    output.write(etree.tostring(root, xml_declaration=True, encoding="utf-8", pretty_print=True))
+
+if __name__ == '__main__':
+    import_excel()
