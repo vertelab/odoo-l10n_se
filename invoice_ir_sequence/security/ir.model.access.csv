@@ -1,4 +1,0 @@
-id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_account_invoice_serial_manager,account.invoice.serial,model_account_invoice_serial,base.group_erp_manager,1,1,1,1
-access_account_invoice_serial_invoice,account.invoice.serial,model_account_invoice_serial,account.group_account_invoice,1,1,1,1
-access_account_invoice_serial_user,account.invoice.serial.user,model_account_invoice_serial,base.group_user,1,0,0,0

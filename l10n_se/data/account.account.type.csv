@@ -1,8 +1,0 @@
-"id","name","code"
-"account.account_type_asset_view1","Asset View",asset
-"account.account_type_expense_view1","Expense View",expense
-"account.account_type_income_view1","Income View",view
-"account.account_type_liability_view1","Liability View",liability
-"account.conf_account_type_chk","Check",check
-"account.conf_account_type_equity","Equity",equity
-"account.conf_account_type_tax","Tax",tax
