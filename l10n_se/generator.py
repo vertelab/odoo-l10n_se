@@ -12,14 +12,14 @@ ln = [
     {'t':'R','f':u"Övriga externa kostnader",'b':"Normala kostnader som inte passar någon annan stans, t.ex. lokalhyra, konsultarvoden, telefon, porto, reklam och nedskrivning av kortfristiga fordringar.",'k':['&', ('code', '>=', '5000'), ('code', '<=', '6999')]},
     {'t':'R','f':u"Personalkostnader",'b':"",'k':['&', ('code', '>=', '7000'), ('code', '<=', '7699')]},
     {'t':'R','f':u"Av- och nedskrivningar av materiella och immateriella anläggningstillgångar",'b':"",'k':[('code', '>=', u'7700'), ('code', '<=', u'7899'), ('code', 'not in', ' [7740,7741,7742,7743,7744,7745,7746,7747,7748,7749,7790,7791,7792,7793,7794,7795,7796,7797,7798,7799]')]},
-    {'t':'R','f':u"Nedskrivningar av omsättningstillgångar utöver normala nedskrivningar",'b':"Används mycket sällan. Ett exempel är om man gör ovanligt stora nedskrivningar av kundfordringar.",'k':[('code', 'in', '[7740,7741,7742,7743,7744,7745,7746,7747,7748,7749,7790,7791,7792,7793,7794,7795,7796,7797,7798,7799]')]},
+    {'t':'R','f':u"Nedskrivningar av omsättningstillgångar utöver normala nedskrivningar",'b':u"Används mycket sällan. Ett exempel är om man gör ovanligt stora nedskrivningar av kundfordringar.",'k':[('code', 'in', '[7740,7741,7742,7743,7744,7745,7746,7747,7748,7749,7790,7791,7792,7793,7794,7795,7796,7797,7798,7799]')]},
     {'t':'R','f':u"Övriga rörelsekostnader",'b':"Kostnader som ligger utanför företagets normala verksamhet, t.ex. valutakursförluster och realisationsförlust vid försäljning av icke- finansiella anläggningstillgångar.",'k':['&', ('code', '>=', '7900'), ('code', '<=', '7999')]},
     {'t':'R','f':u"Resultat från andelar i koncernföretag",'b':"Nettot av företagets finansiella intäkter och kostnader från koncernföretag med undantag av räntor, koncernbidrag och nedskrivningar, t.ex. erhållna utdelningar, andel i handelsbolags resultat och realisationsresultat.",'k':[('code', '>=', u'8000'), ('code', '<=', u'8099'), ('code', 'not in', ' [8070,8071,8072,8073,8074,8075,8076,8077,8078,8079,8080,8081,8082,8083,8084,8085,8086,8087,8088,8089]')]},
     {'t':'R','f':u"Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar",'b':"Nedskrivningar av och återföring av nedskrivningar på finansiella anläggningstillgångar och kortfristiga placeringar",'k':[('code', 'in', ' [8070,8071,8072,8073,8074,8075,8076,8077,8078,8079,8080,8081,8082,8083,8084,8085,8086,8087,8088,8089,8170,8171,8172,8173,8174,8175,8176,8177,8178,8179,8180,8181,8182,8183,8184,8185,8186,8187,8188,8189,8270,8271,8272,8273,8274,8275,8276,8277,8278,8279,8280,8281,8282,8283,8284,8285,8286,8287,8288,8289,8370,8371,8372,8373,8374,8375,8376,8377,8378,8379,8380,8381,8382,8383,8384,8385,8386,8387,8388,8389]')]},
     {'t':'R','f':u"Resultat från andelar i intresseföretag och gemensamt styrda företag",'b':"Nettot av företagets finansiella intäkter och kostnader från intresseföretag och gemensamt styrda företag med undantag av räntor och nedskrivningar, t.ex. erhållna utdelningar, andel i handelsbolags resultat och realisationsresultat.",'k':[('code', '>=', u'8100'), ('code', '<=', u'8199'), ('code', 'not in', ' [8170,8171,8172,8173,8174,8175,8176,8177,8178,8179,8180,8181,8182,8183,8184,8185,8186,8187,8188,8189]')]},
     {'t':'R','f':u"Resultat från övriga företag som det finns ett ägarintresse i",'b':"Nettot av företagets finansiella intäkter och kostnader från övriga företag som det finns ett ägarintresse i med undantag av räntor och nedskrivningar, t.ex. vissa erhållna vinstutdelningar, andel i handelsbolags resultat och realisationsresultat.",'k':['|', '|', '|', ('code', '=', '8113'), ('code', '=', '8118'), ('code', '=', '8123'), ('code', '=', '8133')]},
     {'t':'R','f':u"Resultat från övriga finansiella anläggningstillgångar",'b':"Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.",'k':[('code', '>=', u'8200'), ('code', '<=', u'8299'), ('code', 'not in', ' [8270,8271,8272,8273,8274,8275,8276,8277,8278,8279,8280,8281,8282,8283,8284,8285,8286,8287,8288,8289]')]},
-    {'t':'R','f':u"Övriga ränteintäkter och liknande resultatposter",'b':"Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.",'k':[('code', '>=', u'8300'), ('code', '<=', u'8399'), ('code', 'not in', ' [8370,8371,8372,8373,8374,8375,8376,8377,8378,8379,8380,8381,8382,8383,8384,8385,8386,8387,8388,8389]')]},
+    {'t':'R','f':u"Övriga ränteintäkter och liknande resultatposter",'b':u"Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.",'k':[('code', '>=', u'8300'), ('code', '<=', u'8399'), ('code', 'not in', ' [8370,8371,8372,8373,8374,8375,8376,8377,8378,8379,8380,8381,8382,8383,8384,8385,8386,8387,8388,8389]')]},
     {'t':'R','f':u"Räntekostnader och liknande resultatposter",'b':"Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.",'k':['&', ('code', '>=', '8400'), ('code', '<=', '8499')]},
     {'t':'R','f':u"Extraordinära intäkter",'b':"Används mycket sällan. Får inte användas för räkenskapsår som börjar 2016-01-01 eller senare.",'k':[('code', '=', '8710')]},
     {'t':'R','f':u"Extraordinära kostnader",'b':"Används mycket sällan. Får inte användas för räkenskapsår som börjar 2016-01-01 eller senare.",'k':[('code', '=', '8750')]},
@@ -41,14 +41,14 @@ ln = [
     {'t':'B','f':u"Inventarier, verktyg och installationer",'b':"Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.",'k':['&', ('code', '>=', '1220'), ('code', '<=', '1279')]},
     {'t':'B','f':u"Övriga materiella anläggningstillgångar",'b':"T.ex. djur som klassificerats som anläggningstillgång.",'k':['&', ('code', '>=', '1290'), ('code', '<=', '1299')]},
     {'t':'B','f':u"Andelar i koncernföretag",'b':"Aktier och andelar i koncernföretag.",'k':['&', ('code', '>=', '1310'), ('code', '<=', '1319')]},
-    {'t':'B','f':u"Fordringar hos koncernföretag",'b':"Fordringar på koncernföretag som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1320'), ('code', '<=', '1329')]},
+    {'t':'B','f':u"Fordringar hos koncernföretag",'b':u"Fordringar på koncernföretag som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1320'), ('code', '<=', '1329')]},
     {'t':'B','f':u"Andelar i intresseföretag och gemensamt styrda företag",'b':"Aktier och andelar i intresseföretag.",'k':[('code', '>=', u'1330'), ('code', '<=', u'1339'), ('code', 'not in', ' [1336,1337]')]},
     {'t':'B','f':u"Ägarintressen i övriga företag",'b':"Aktier och andelar i övriga företag som det redovisningskyldiga företaget har ett ägarintresse i.",'k':['&', ('code', '>=', '1336'), ('code', '<=', '1337')]},
-    {'t':'B','f':u"Fordringar hos intresseföretag och gemensamt styrda företag",'b':"Fordringar på intresseföretag och gemensamt styrda företag, som förfaller till betalning senare än 12 månader från balansdagen.",'k':[('code', '>=', u'1340'), ('code', '<=', u'1349'), ('code', 'not in', ' [1346,1347]')]},
-    {'t':'B','f':u"Fordringar hos övriga företag som det finns ett ägarintresse i",'b':"Fordringar på övriga företag som det finns ett ägarintresse i och som ska betalas senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1346'), ('code', '<=', '1347')]},
-    {'t':'B','f':u"Andra långfristiga värdepappersinnehav",'b':"Långsiktigt innehav av värdepapper som inte avser koncern- eller intresseföretag.",'k':['&', ('code', '>=', '1350'), ('code', '<=', '1359')]},
-    {'t':'B','f':u"Lån till delägare eller närstående",'b':"Fordringar på delägare, och andra som står delägare nära, som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1360'), ('code', '<=', '1369')]},
-    {'t':'B','f':u"Andra långfristiga fordringar",'b':"Fordringar som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1380'), ('code', '<=', '1389')]},
+    {'t':'B','f':u"Fordringar hos intresseföretag och gemensamt styrda företag",'b':u"Fordringar på intresseföretag och gemensamt styrda företag, som förfaller till betalning senare än 12 månader från balansdagen.",'k':[('code', '>=', u'1340'), ('code', '<=', u'1349'), ('code', 'not in', ' [1346,1347]')]},
+    {'t':'B','f':u"Fordringar hos övriga företag som det finns ett ägarintresse i",'b':u"Fordringar på övriga företag som det finns ett ägarintresse i och som ska betalas senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1346'), ('code', '<=', '1347')]},
+    {'t':'B','f':u"Andra långfristiga värdepappersinnehav",'b':u"Långsiktigt innehav av värdepapper som inte avser koncern- eller intresseföretag.",'k':['&', ('code', '>=', '1350'), ('code', '<=', '1359')]},
+    {'t':'B','f':u"Lån till delägare eller närstående",'b':u"Fordringar på delägare, och andra som står delägare nära, som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1360'), ('code', '<=', '1369')]},
+    {'t':'B','f':u"Andra långfristiga fordringar",'b':u"Fordringar som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=', '1380'), ('code', '<=', '1389')]},
     {'t':'B','f':u"Råvaror och förnödenheter",'b':"Lager av råvaror eller förnödenheter som har köpts för att bearbetas eller för att vara komponenter i den egna tillverkgningen.",'k':['&', ('code', '>=', '1410'), ('code', '<=', '1429')]},
     {'t':'B','f':u"Varor under tillverkning",'b':"Lager av varor där tillverkning har påbörjats.",'k':[('code', '>=', u'1432'), ('code', '<=', u'1449'), ('code', 'not in', '[1438]')]},
     {'t':'B','f':u"Färdiga varor och handelsvaror",'b':"Lager av färdiga egentillverkade varor eller varor som har köpts för vidareförsäljning (handelsvaror).",'k':['&', ('code', '>=', '1450'), ('code', '<=', '1469')]},
@@ -56,15 +56,15 @@ ln = [
     {'t':'B','f':u"Förskott till leverantörer",'b':"Betalningar och obetalda fakturor för varor och tjänster som redovisas som lager men där prestationen ännu inte erhållits.",'k':['&', ('code', '>=', '1480'), ('code', '<=', '1489')]},
     {'t':'B','f':u"Övriga lagertillgångar",'b':"Lager av värdepapper (t.ex. lageraktier), lagerfastigheter och djur som klassificerats som omsättningstillgång.",'k':['&', ('code', '>=', '1490'), ('code', '<=', '1499')]},
     {'t':'B','f':u"Kundfordringar",'b':"",'k':['|', '|', '|', ('code', '=', '1500'), ('code', '=', '1559'), ('code', '=', '1580'), ('code', '=', '1589')]},
-    {'t':'B','f':u"Fordringar hos koncernföretag",'b':"Fordringar på koncernföretag, inklusive kundfordringar.",'k':['|', '|', '|', ('code', '=', '1560'), ('code', '=', '1569'), ('code', '=', '1660'), ('code', '=', '1669')]},
-    {'t':'B','f':u"Fordringar hos intresseföretag och gemensamt styrda företag",'b':"Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.",'k':[('code', '>=', u'1570'), ('code', '<=', u'1579'), ('code', 'not in', ' [1670,1671,1672,1673,1674,1675,1676,1677,1678,1679]')]},
-    {'t':'B','f':u"Fordringar hos övriga företag som det finns ett ägarintresse i",'b':"Fordringar på övriga företag som det finns ett ägarintresse i, inklusive kundfordringar.",'k':['|', ('code', '=', '1573'), ('code', '=', '1673')]},
-    {'t':'B','f':u"Övriga fordringar",'b':"T.ex. aktuella skattefordringar.",'k':[('code', 'in', '[1590,1591,1592,1593,1594,1595,1596,1597,1598,1599,1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1614,1615,1616,1617,1618,1619,1620,1621,1622,1623,1624,1625,1626,1627,1628,1629,1630]')]},
+    {'t':'B','f':u"Fordringar hos koncernföretag",'b':u"Fordringar på koncernföretag, inklusive kundfordringar.",'k':['|', '|', '|', ('code', '=', '1560'), ('code', '=', '1569'), ('code', '=', '1660'), ('code', '=', '1669')]},
+    {'t':'B','f':u"Fordringar hos intresseföretag och gemensamt styrda företag",'b':u"Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.",'k':[('code', '>=', u'1570'), ('code', '<=', u'1579'), ('code', 'not in', ' [1670,1671,1672,1673,1674,1675,1676,1677,1678,1679]')]},
+    {'t':'B','f':u"Fordringar hos övriga företag som det finns ett ägarintresse i",'b':u"Fordringar på övriga företag som det finns ett ägarintresse i, inklusive kundfordringar.",'k':['|', ('code', '=', '1573'), ('code', '=', '1673')]},
+    {'t':'B','f':u"Övriga fordringar",'b':u"T.ex. aktuella skattefordringar.",'k':[('code', 'in', '[1590,1591,1592,1593,1594,1595,1596,1597,1598,1599,1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1614,1615,1616,1617,1618,1619,1620,1621,1622,1623,1624,1625,1626,1627,1628,1629,1630]')]},
     {'t':'B','f':u"Upparbetad men ej fakturerad intäkt",'b':"Upparbetade men ej fakturerade intäkter från uppdrag på löpande räkning eller till fast pris enligt huvudregeln.",'k':['&', ('code', '>=', '1620'), ('code', '<=', '1629')]},
     {'t':'B','f':u"Tecknat men ej inbetalat kapital",'b':"Fordringar på aktieägare före tecknat men ej inbetalt kapital. Används vid nyemission.",'k':['&', ('code', '>=', '1690'), ('code', '<=', '1699')]},
     {'t':'B','f':u"Förutbetalda kostnader och upplupna intäkter",'b':"Förutbetalda kostnader (t.ex. förutbetalda hyror eller försäkringspremier) och upplupna intäkter (varor eller tjänster som är levererade men där kunden ännu inte betalat).",'k':['&', ('code', '>=', '1700'), ('code', '<=', '1799')]},
-    {'t':'B','f':u"Övriga kortfristiga placeringar",'b':"Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.",'k':[('code', '>=', u'1800'), ('code', '<=', u'1899'), ('code', 'not in', ' [1860,1861,1862,1863,1864,1865,1866,1867,1868,1869]')]},
-    {'t':'B','f':u"Andelar i koncernföretag",'b':"Här registrerar ni de andelar i koncernföretag som ni planerar att avyttra inom 12 månader från bokföringsårets slut.",'k':['&', ('code', '>=', '1860'), ('code', '<=', '1869')]},
+    {'t':'B','f':u"Övriga kortfristiga placeringar",'b':u"Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.",'k':[('code', '>=', u'1800'), ('code', '<=', u'1899'), ('code', 'not in', ' [1860,1861,1862,1863,1864,1865,1866,1867,1868,1869]')]},
+    {'t':'B','f':u"Andelar i koncernföretag",'b':u"Här registrerar ni de andelar i koncernföretag som ni planerar att avyttra inom 12 månader från bokföringsårets slut.",'k':['&', ('code', '>=', '1860'), ('code', '<=', '1869')]},
     {'t':'B','f':u"Kassa och bank",'b':"",'k':['&', ('code', '>=', '1900'), ('code', '<=', '1989')]},
     {'t':'B','f':u"Redovisningsmedel",'b':"",'k':['&', ('code', '>=', '1990'), ('code', '<=', '1999')]},
     {'t':'B','f':u"Aktiekapital",'b':"",'k':['|', '|', ('code', '=', '2081'), ('code', '=', '2083'), ('code', '=', '2084')]},
@@ -118,6 +118,43 @@ for l in ln:
     ut = ''
     if 'odring' in l.get('f'):
         ut = 'account.data_account_type_receivable'
+    if 'Kassa och bank' in l.get('f'):
+        ut = 'account.data_account_type_liquidity'
+    if u'Övriga kortfristiga placeringar' in l.get('f'):
+        ut = 'account.data_account_type_current_assets'
+    if u'Övriga lagertillgångar' in l.get('f') or u'Övriga materiella anläggningstillgångar' in l.get('f') or u'Färdiga varor och handelsvaror' in l.get('f'):
+        ut = 'account.data_account_type_non_current_assets'
+    if 'Inventarier' in l.get('f') or 'Maskiner' in l.get('f'):
+        ut = 'account.data_account_type_fixed_assets'
+    if u'ordringar' in l.get('f') or  u'Lån till delägare eller närstående' in l.get('f'):
+        if u"12 mån" in l.get('b'):
+            ut = 'account.data_account_type_non_current_liabilities'
+        else:
+            ut = 'account.data_account_type_current_liabilities'
+    if u'Skatteskulder' in l.get('f') or u'Leverantörsskulder' in l.get('f'):
+        ut = 'account.data_account_type_current_liabilities'
+    if u'Övriga skulder' in l.get('f') or u'Leverantörsskulder' in l.get('f'):
+        ut = 'account.data_account_type_payable'
+
+
+
+    if 'Aktiekapital' in l.get('f') or u'Övrigt bundet kapita' in l.get('f') or u'Övrigt bundet kapita' in l.get('f')  or u'Balanserat resultat' in l.get('f') or u'Övrigt fritt eget kapital' in l.get('f'):
+        ut = 'account.data_account_type_equity'
+    if u'Nettoomsättning' in l.get('f') or u'Övriga rörelseintäkter' in l.get('f'):
+        ut = 'account.data_account_type_revenue'
+    if u'Extraordinära intäkter' in l.get('f') or u'Erhållna koncernbidrag' in l.get('f'):
+        ut = 'account.data_account_type_other_income'
+    if u'Aktiverat arbete för egen räkning' in l.get('f') or u'Råvaror och förnödenheter' in l.get('f') or u'Handelsvaror' in l.get('f'):
+        ut = 'account.data_account_type_direct_costs'
+    if u'Övriga externa kostnader' in l.get('f') or u'Personalkostnader' in l.get('f'):
+        ut = 'account.data_account_type_expenses'
+        
+        
+
+    #~ "data_account_type_prepayments"
+    #~ "data_unaffected_earnings"
+    #~ "data_account_type_depreciation"
+
     if l.get('k')[0] == '&':
         li = []
         for i in range(int(l.get('k')[1][2]), int(l.get('k')[2][2])+1):
@@ -147,7 +184,7 @@ for l in ln:
             for i in range(int(l.get('k')[0][2]), int(l.get('k')[1][2])+1):
                 if str(i) not in lst:
                     li.append(str(i))
-        l['k'] = ('code', 'in', li)
         print_utf8({'t':l.get('t'),'f':l.get('f'),'b':l.get('b'),'k':li,'d':d,'ut':ut})
     else:
         print 'ERROR: ------ %s ------' %l.get('k')
+
