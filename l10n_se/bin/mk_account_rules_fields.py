@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import sys
+reload(sys)  
+sys.setdefaultencoding('utf8')
 
 ln = [
     {'t':'R','f':u"Nettoomsättning",'b':"Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.",'k':['&', ('code', '>=', '3000'), ('code', '<=', '3799')]},
@@ -30,7 +32,7 @@ ln = [
     {'t':'R','f':u"Förändring av överavskrivningar",'b':"",'k':['&', ('code', '>=', '8850'), ('code', '<=', '8859')]},
     {'t':'R','f':u"Skatt på årets resultat",'b':"<p>Beräknad skatt på årets resultat.</p><p> Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.</p>",'k':['&', ('code', '>=', '8900'), ('code', '<=', '8979')]},
     {'t':'R','f':u"Övriga skatter",'b':"Används sällan.",'k':['&', ('code', '>=', '8980'), ('code', '<=', '8989')]},
-    {'t':'B','f':u"Koncessioner, patent, licenser, varumärken samt liknande rättigheter",'b':"",'k':[('code', '>=', u'1020'), ('code', '<=', u'1059'), ('code', 'not in', ' [1080,1081,1082,1083,1084,1085,1086,1087,1088,1089]')]},
+    {'t':'B','f':u"Koncessioner, patent, licenser, varumärken samt liknande rättigheter",'b':"",'k':[('code', 'in', '[1080, 1081, 1082, 1083, 1084, 1085, 1086, 1087, 1089, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051, 1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059]')]},
     {'t':'B','f':u"Hyresrätter och liknande rättigheter",'b':"",'k':['&', ('code', '>=', '1060'), ('code', '<=', '1069')]},
     {'t':'B','f':u"Goodwill",'b':"",'k':['&', ('code', '>=', '1070'), ('code', '<=', '1079')]},
     {'t':'B','f':u"Förskott avseende immateriella anläggningstillgångar",'b':"Förskott i samband med förvärv, t.ex. handpenning och deposition.",'k':[('code', '=', '1088')]},
@@ -105,14 +107,14 @@ ln = [
 ]
 
 
-def print_utf8(d):
-    sys.stdout.write('{')
+def print_utf8(f,d):
+    f.write('{')
     for key in d:
-        sys.stdout.write('"%s":%s, ' %(key, ('u"%s"' % d[key]) if type(d[key]) in (unicode, str) else d[key]))
-    sys.stdout.write('},\n')
-    sys.stdout.flush()
+        f.write('"%s":%s, ' %(key, ('u"%s"' % d[key]) if type(d[key]) in (unicode, str) else d[key]))
+    f.write('},\n')
 
-
+f = open('../account_rules_fields.py', 'w')
+f.write('# -*- coding: utf-8 -*-\n\nfields = [')
 for l in ln:
     d = l.get('k')
     ut = ''
@@ -120,11 +122,11 @@ for l in ln:
         ut = 'account.data_account_type_receivable'
     if 'Kassa och bank' in l.get('f'):
         ut = 'account.data_account_type_liquidity'
-    if u'Övriga kortfristiga placeringar' in l.get('f'):
+    if u'Övriga kortfristiga placeringar' in l.get('f') or  u'Färdiga varor och handelsvaror' in l.get('f'):
         ut = 'account.data_account_type_current_assets'
-    if u'Övriga lagertillgångar' in l.get('f') or u'Övriga materiella anläggningstillgångar' in l.get('f') or u'Färdiga varor och handelsvaror' in l.get('f'):
+    if u'Övriga lagertillgångar' in l.get('f') or u'Koncessioner, patent, licenser, varumärken samt liknande rättigheter' in l.get('f') or u'Hyresrätter och liknande rättigheter' in l.get('f') or 'Goodwill' in l.get('f') or u"Andelar i koncernföretag" in l.get('f') :
         ut = 'account.data_account_type_non_current_assets'
-    if 'Inventarier' in l.get('f') or 'Maskiner' in l.get('f'):
+    if 'Inventarier' in l.get('f') or 'Maskiner' in l.get('f') or 'Byggnader och mark' in l.get('f') or u'Övriga materiella anläggningstillgångar' in l.get('f'):
         ut = 'account.data_account_type_fixed_assets'
     if u'ordringar' in l.get('f') or  u'Lån till delägare eller närstående' in l.get('f'):
         if u"12 mån" in l.get('b'):
@@ -136,6 +138,8 @@ for l in ln:
     if u'Övriga skulder' in l.get('f') or u'Leverantörsskulder' in l.get('f'):
         ut = 'account.data_account_type_payable'
 
+    if u'örskott' in l.get('f'):
+        ut = 'account.data_account_type_prepayments'
 
 
     if 'Aktiekapital' in l.get('f') or u'Övrigt bundet kapita' in l.get('f') or u'Övrigt bundet kapita' in l.get('f')  or u'Balanserat resultat' in l.get('f') or u'Övrigt fritt eget kapital' in l.get('f'):
@@ -160,14 +164,14 @@ for l in ln:
         for i in range(int(l.get('k')[1][2]), int(l.get('k')[2][2])+1):
             li.append(str(i))
         l['k'] = ('code', 'in', li)
-        print_utf8({'t':l.get('t'),'f':l.get('f'),'b':l.get('b'),'k':li,'d':d,'ut':ut})
+        print_utf8(f,{'t':l.get('t'),'f':l.get('f').encode('utf-8'),'b':l.get('b').encode('utf-8'),'k':li,'d':d,'ut':ut})
     elif l.get('k')[0] == '|':
         li = []
         for i in l.get('k'):
             if isinstance(i, tuple):
                 li.append(i[2])
         l['k'] = ('code', 'in', li)
-        print_utf8({'t':l.get('t'),'f':l.get('f'),'b':l.get('b'),'k':li,'d':d,'ut':ut})
+        print_utf8(f,{'t':l.get('t'),'f':l.get('f'),'b':l.get('b'),'k':li,'d':d,'ut':ut})
     elif isinstance(l.get('k')[-1], tuple) and (l.get('k')[0] != '&' or '|'):
         li = []
         if len(l.get('k')) == 1:
@@ -184,7 +188,8 @@ for l in ln:
             for i in range(int(l.get('k')[0][2]), int(l.get('k')[1][2])+1):
                 if str(i) not in lst:
                     li.append(str(i))
-        print_utf8({'t':l.get('t'),'f':l.get('f'),'b':l.get('b'),'k':li,'d':d,'ut':ut})
+        print_utf8(f,{'t':l.get('t'),'f':l.get('f'),'b':l.get('b'),'k':li,'d':d,'ut':ut})
     else:
         print 'ERROR: ------ %s ------' %l.get('k')
-
+f.write(']\n')
+f.close()

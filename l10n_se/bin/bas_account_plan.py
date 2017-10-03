@@ -21,29 +21,15 @@
 
 import base64
 import sys
+sys.path.append('./')
+sys.path.append('../')
 import traceback
 from lxml import etree
 
 import click
 from xlrd import open_workbook
+from account_rules import account_rules as Rule
 
-# TODO: Remove placeholders and import real functions.
-# ==================
-def code2reconcile(code):
-    return 'reconcile'
-
-def code2tax_ids(code):
-    return 'tax_ids'
-
-def code2user_type_id(code):
-    return 'user_type_id'
-
-def code2note(code):
-    return 'note'
-
-def code2tag_ids(code):
-    return 'tag_ids'
-# ==================
 
 def record(parent, id, model):
     r = etree.SubElement(parent, 'record')
@@ -57,14 +43,15 @@ def field(parent, name, value='', attrs=None):
     if value:
         f.text = value
     for attr in attrs or {}:
-        f.set(attr, attrs[attr])
+        f.set(attr, attrs[attr] or 'None')
     return f
 
 
 @click.command()
-@click.argument('year')
+@click.option('--year', default=2017, help='Year for the Chart of Account.')
 @click.argument('input', type=click.File('rb'))
 @click.argument('output', type=click.File('wb'))
+
 def import_excel(year, input, output):
     wb = open_workbook(file_contents=input.read(), formatting_info=True)
     ws = wb.sheet_by_index(0)
@@ -73,6 +60,7 @@ def import_excel(year, input, output):
     
     k2 = []
     k3 = []
+    rule = Rule()
     
     for row in ws.get_rows():
         if type(row[2].value) == float and 1000 <= row[2].value <= 9999:
@@ -97,18 +85,18 @@ def import_excel(year, input, output):
                 })
     
     for account in k2:
-        account['reconcile'] = code2reconcile(account['code'])
-        account['tax_ids'] = code2tax_ids(account['code'])
-        account['user_type_id'] = code2user_type_id(account['code'])
-        account['note'] = code2user_type_id(account['code'])
-        account['tag_ids'] = code2tag_ids(account['code'])
+        account['reconcile'] = rule.code2reconcile(account['code'])
+        account['tax_ids'] = rule.code2tax_ids(account['code'])
+        account['user_type_id'] = rule.code2user_type_id(account['code'])
+        account['note'] = rule.code2note(account['code'])
+        account['tag_ids'] = rule.code2tag_ids(account['code'])
 
     for account in k3:
-        account['reconcile'] = code2reconcile(account['code'])
-        account['tax_ids'] = code2tax_ids(account['code'])
-        account['user_type_id'] = code2user_type_id(account['code'])
-        account['note'] = code2user_type_id(account['code'])
-        account['tag_ids'] = code2tag_ids(account['code'])
+        account['reconcile'] = rule.code2reconcile(account['code'])
+        account['tax_ids'] = rule.code2tax_ids(account['code'])
+        account['user_type_id'] = rule.code2user_type_id(account['code'])
+        account['note'] = rule.code2note(account['code'])
+        account['tag_ids'] = rule.code2tag_ids(account['code'])
 
     root = etree.Element('odoo')
     data = etree.SubElement(root, 'data')
@@ -117,10 +105,10 @@ def import_excel(year, input, output):
     k2_exid = 'chart_template_k2_%s' % year
     k2e = record(data, k2_exid, 'account.chart.template')
     field(k2e, 'name', 'K2')
-    field(k2e, 'transfer_account_id', '', {'ref': 'TODO!!!'})
+    #~ field(k2e, 'transfer_account_id', '', {'ref': 'TODO!!!'})
     field(k2e, 'currency_id', '', {'ref': 'base.SEK'})
     for account in k2:
-        r = record(k2e, 'k2_%s_%s' % (account['code'], year), 'account.account.template')
+        r = record(data, 'k2_%s_%s' % (account['code'], year), 'account.account.template')
         field(r, 'name', account['name'])
         field(r, 'code', account['code'])
         field(r, 'user_type_id', '', {'ref': account['user_type_id']})
@@ -138,10 +126,10 @@ def import_excel(year, input, output):
     k3_exid = 'chart_template_k3_%s' % year
     k3e = record(data, k3_exid, 'account.chart.template')
     field(k3e, 'name', 'k3')
-    field(k3e, 'transfer_account_id', '', {'ref': 'TODO!!!'})
+    #~ field(k3e, 'transfer_account_id', '', {'ref': 'TODO!!!'})
     field(k3e, 'currency_id', '', {'ref': 'base.SEK'})
     for account in k3:
-        r = record(k3e, 'k3_%s_%s' % (account['code'], year), 'account.account.template')
+        r = record(data, 'k3_%s_%s' % (account['code'], year), 'account.account.template')
         field(r, 'name', account['name'])
         field(r, 'code', account['code'])
         field(r, 'user_type_id', '', {'ref': account['user_type_id']})
