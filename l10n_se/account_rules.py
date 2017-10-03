@@ -55,12 +55,13 @@ class account_rules(object):
         for l in self.fields:
             if code in l.get('k'):
                 return l.get('ut')
+            return False
 
     def code2tax_ids(self, code):
-        pass
+        return False
 
     def code2tag_ids(self, code):
-        pass
+        return False
 
     def code2reconcile(self, code):
         if int(code) in range(1500, 1600) or int(code) in range(2400, 2450) or int(code) == 1630:

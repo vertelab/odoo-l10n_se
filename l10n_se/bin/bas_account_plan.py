@@ -46,6 +46,29 @@ def field(parent, name, value='', attrs=None):
         f.set(attr, attrs[attr] or 'None')
     return f
 
+def mk_chart(data,type,year,accounts)
+    exid = 'chart_template_%s_%s' % (type,year)
+    ke = record(data, k2_exid, 'account.chart.template')
+    field(ke, 'name', 'K2')
+    field(ke, 'transfer_account_id', '', {'ref': 'chart1950'})
+    field(ke, 'currency_id', '', {'ref': 'base.SEK'})
+    field(ke, 'cash_account_code_prefix', '1910')
+    field(ke, 'bank_account_code_prefix', '1930')
+    field(ke, 'code_digits', '4')
+    for account in accounts:
+        r = record(data, 'k2_%s_%s' % (account['code'], year), 'account.account.template')
+        field(r, 'name', account['name'])
+        field(r, 'code', account['code'])
+        field(r, 'user_type_id', '', {'ref': account['user_type_id']})
+        field(r, 'chart_template_id', '', {'ref': k2_exid})
+        if account['note']:
+            field(r, 'note', account['note'])
+        if account['tax_ids']:
+            field(r, 'tax_ids', '', {'eval': account['tax_ids']})
+        if account['tag_ids']:
+            field(r, 'tag_ids', '', {'eval': account['tag_ids']})
+        if account['reconcile']:
+            field(r, 'reconcile', '', {'eval': 'True'})
 
 @click.command()
 @click.option('--year', default=2017, help='Year for the Chart of Account.')
@@ -101,12 +124,21 @@ def import_excel(year, input, output):
     root = etree.Element('odoo')
     data = etree.SubElement(root, 'data')
     
+    root_account = record(data, 'chart1950', 'account.account.template')
+    field(root_account,'name','Bank transfer')
+    field(root_account,'code','1950')
+    field(root_account,'user_type_id','',{'ref': 'account.data_account_type_current_assets'})
+    field(root_account,'reconsile', '', {'eval': 'True'})
+    
     # K2
     k2_exid = 'chart_template_k2_%s' % year
     k2e = record(data, k2_exid, 'account.chart.template')
     field(k2e, 'name', 'K2')
-    #~ field(k2e, 'transfer_account_id', '', {'ref': 'TODO!!!'})
+    field(k2e, 'transfer_account_id', '', {'ref': 'chart1950'})
     field(k2e, 'currency_id', '', {'ref': 'base.SEK'})
+    field(k2e, 'cash_account_code_prefix', '1910')
+    field(k2e, 'bank_account_code_prefix', '1930')
+    field(k2e, 'code_digits', '4')
     for account in k2:
         r = record(data, 'k2_%s_%s' % (account['code'], year), 'account.account.template')
         field(r, 'name', account['name'])
@@ -126,8 +158,12 @@ def import_excel(year, input, output):
     k3_exid = 'chart_template_k3_%s' % year
     k3e = record(data, k3_exid, 'account.chart.template')
     field(k3e, 'name', 'k3')
-    #~ field(k3e, 'transfer_account_id', '', {'ref': 'TODO!!!'})
+    field(k3e, 'transfer_account_id', '', {'ref': 'chart1950'})
     field(k3e, 'currency_id', '', {'ref': 'base.SEK'})
+    field(k3e, 'cash_account_code_prefix', '1910')
+    field(k3e, 'bank_account_code_prefix', '1930')
+    field(k3e, 'code_digits', '4')
+
     for account in k3:
         r = record(data, 'k3_%s_%s' % (account['code'], year), 'account.account.template')
         field(r, 'name', account['name'])
