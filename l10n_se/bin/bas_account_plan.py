@@ -46,28 +46,29 @@ def field(parent, name, value='', attrs=None):
         f.set(attr, attrs[attr] or 'None')
     return f
 
-def mk_chart(data,type,year,accounts)
+def mk_chart(data,type,year,accounts,rule):
     exid = 'chart_template_%s_%s' % (type,year)
-    ke = record(data, k2_exid, 'account.chart.template')
+    ke = record(data, exid, 'account.chart.template')
     field(ke, 'name', 'K2')
     field(ke, 'transfer_account_id', '', {'ref': 'chart1950'})
     field(ke, 'currency_id', '', {'ref': 'base.SEK'})
     field(ke, 'cash_account_code_prefix', '1910')
     field(ke, 'bank_account_code_prefix', '1930')
     field(ke, 'code_digits', '4')
+    
     for account in accounts:
-        r = record(data, 'k2_%s_%s' % (account['code'], year), 'account.account.template')
+        r = record(data, '%s_%s_%s' % (type,account['code'], year), 'account.account.template')
         field(r, 'name', account['name'])
         field(r, 'code', account['code'])
-        field(r, 'user_type_id', '', {'ref': account['user_type_id']})
-        field(r, 'chart_template_id', '', {'ref': k2_exid})
-        if account['note']:
-            field(r, 'note', account['note'])
-        if account['tax_ids']:
-            field(r, 'tax_ids', '', {'eval': account['tax_ids']})
-        if account['tag_ids']:
-            field(r, 'tag_ids', '', {'eval': account['tag_ids']})
-        if account['reconcile']:
+        field(r, 'user_type_id', '', {'ref': rule.code2user_type_id(account['code'])})
+        field(r, 'chart_template_id', '', {'ref': exid})
+        if rule.code2note(account['code']):
+            field(r, 'note', rule.code2note(account['code']))
+        if rule.code2tax_ids(account['code']):
+            field(r, 'tax_ids', '', {'eval': rule.code2tax_ids(account['code'])})
+        if rule.code2tag_ids(account['code']):
+            field(r, 'tag_ids', '', {'eval': rule.code2tag_ids(account['code'])})
+        if rule.code2reconcile(account['code']):
             field(r, 'reconcile', '', {'eval': 'True'})
 
 @click.command()
@@ -107,20 +108,6 @@ def import_excel(year, input, output):
                     'name': row[6].value,
                 })
     
-    for account in k2:
-        account['reconcile'] = rule.code2reconcile(account['code'])
-        account['tax_ids'] = rule.code2tax_ids(account['code'])
-        account['user_type_id'] = rule.code2user_type_id(account['code'])
-        account['note'] = rule.code2note(account['code'])
-        account['tag_ids'] = rule.code2tag_ids(account['code'])
-
-    for account in k3:
-        account['reconcile'] = rule.code2reconcile(account['code'])
-        account['tax_ids'] = rule.code2tax_ids(account['code'])
-        account['user_type_id'] = rule.code2user_type_id(account['code'])
-        account['note'] = rule.code2note(account['code'])
-        account['tag_ids'] = rule.code2tag_ids(account['code'])
-
     root = etree.Element('odoo')
     data = etree.SubElement(root, 'data')
     
@@ -129,55 +116,22 @@ def import_excel(year, input, output):
     field(root_account,'code','1950')
     field(root_account,'user_type_id','',{'ref': 'account.data_account_type_current_assets'})
     field(root_account,'reconsile', '', {'eval': 'True'})
-    
-    # K2
-    k2_exid = 'chart_template_k2_%s' % year
-    k2e = record(data, k2_exid, 'account.chart.template')
-    field(k2e, 'name', 'K2')
-    field(k2e, 'transfer_account_id', '', {'ref': 'chart1950'})
-    field(k2e, 'currency_id', '', {'ref': 'base.SEK'})
-    field(k2e, 'cash_account_code_prefix', '1910')
-    field(k2e, 'bank_account_code_prefix', '1930')
-    field(k2e, 'code_digits', '4')
-    for account in k2:
-        r = record(data, 'k2_%s_%s' % (account['code'], year), 'account.account.template')
-        field(r, 'name', account['name'])
-        field(r, 'code', account['code'])
-        field(r, 'user_type_id', '', {'ref': account['user_type_id']})
-        field(r, 'chart_template_id', '', {'ref': k2_exid})
-        if account['note']:
-            field(r, 'note', account['note'])
-        if account['tax_ids']:
-            field(r, 'tax_ids', '', {'eval': account['tax_ids']})
-        if account['tag_ids']:
-            field(r, 'tag_ids', '', {'eval': account['tag_ids']})
-        if account['reconcile']:
-            field(r, 'reconcile', '', {'eval': 'True'})
-    
-    # K3
-    k3_exid = 'chart_template_k3_%s' % year
-    k3e = record(data, k3_exid, 'account.chart.template')
-    field(k3e, 'name', 'k3')
-    field(k3e, 'transfer_account_id', '', {'ref': 'chart1950'})
-    field(k3e, 'currency_id', '', {'ref': 'base.SEK'})
-    field(k3e, 'cash_account_code_prefix', '1910')
-    field(k3e, 'bank_account_code_prefix', '1930')
-    field(k3e, 'code_digits', '4')
 
-    for account in k3:
-        r = record(data, 'k3_%s_%s' % (account['code'], year), 'account.account.template')
-        field(r, 'name', account['name'])
-        field(r, 'code', account['code'])
-        field(r, 'user_type_id', '', {'ref': account['user_type_id']})
-        field(r, 'chart_template_id', '', {'ref': k3_exid})
-        if account['note']:
-            field(r, 'note', account['note'])
-        if account['tax_ids']:
-            field(r, 'tax_ids', '', {'eval': account['tax_ids']})
-        if account['tag_ids']:
-            field(r, 'tag_ids', '', {'eval': account['tag_ids']})
-        if account['reconcile']:
-            field(r, 'reconcile', '', {'eval': 'True'})
+    trustee_type = record(data, 'trustee_assets', 'account.account.type')
+    field(trustee_type,'name','Trustee Asset')
+    field(trustee_type,'type','asset')
+    field(trustee_type,'include_initial_balance','',{'eval': 'True'})
+    untaxedreserve_type = record(data, 'untaxed_reserve', 'account.account.type')
+    field(untaxedreserve_type,'name','Untaxed reserve')
+    field(untaxedreserve_type,'type','asset')
+    field(untaxedreserve_type,'include_initial_balance','',{'eval': 'True'})
+    tax_type = record(data, 'tax', 'account.account.type')
+    field(tax_type,'name','Tax in Balance sheet')
+    field(tax_type,'type','asset')
+
+
+    mk_chart(data,'K2',year,k2,rule)
+    #~ mk_chart(data,'K3',year,k3,rule)
 
     # Write file.
     output.write(etree.tostring(root, xml_declaration=True, encoding="utf-8", pretty_print=True))

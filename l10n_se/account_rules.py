@@ -53,9 +53,9 @@ class account_rules(object):
 
     def code2user_type_id(self, code):
         for l in self.fields:
-            if code in l.get('k'):
+            if code in l['k']:
                 return l.get('ut')
-            return False
+        return 'Kalle'
 
     def code2tax_ids(self, code):
         return False
