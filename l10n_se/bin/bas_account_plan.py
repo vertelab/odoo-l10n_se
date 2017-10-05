@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
@@ -50,6 +51,7 @@ def mk_chart(data,type,year,accounts,rule):
     exid = 'chart_template_%s_%s' % (type,year)
     ke = record(data, exid, 'account.chart.template')
     field(ke, 'name', 'K2')
+    field(ke, 'parent_id', '', {'ref': 'chart_template_general'})
     field(ke, 'transfer_account_id', '', {'ref': 'chart1950'})
     field(ke, 'currency_id', '', {'ref': 'base.SEK'})
     field(ke, 'cash_account_code_prefix', '1910')
@@ -73,8 +75,8 @@ def mk_chart(data,type,year,accounts,rule):
 
 @click.command()
 @click.option('--year', default=2017, help='Year for the Chart of Account.')
-@click.argument('input', type=click.File('rb'))
-@click.argument('output', type=click.File('wb'))
+@click.argument('input', default='BAS-2017-kontotabell.xls',type=click.File('rb'))
+@click.argument('output',default='../data/account_chart_template_k23.xml' ,type=click.File('wb'))
 
 def import_excel(year, input, output):
     wb = open_workbook(file_contents=input.read(), formatting_info=True)
@@ -86,8 +88,15 @@ def import_excel(year, input, output):
     k3 = []
     rule = Rule()
     
+    general_accounts = [1410,1510,1630,1650,1910,1920,1930,2440,2610,2611,2612,
+                        2613,2614,2615,2616,2618,2620,2621,2622,2623,2624,2625,
+                        2626,2628,2631,2632,2634,2635,2636,2638,2640,2641,2642,
+                        2643,2644,2645,2646,2647,2648,2649,2650,2660,2710,2730,
+                        2730,2760,2850,3000,3001,3002,3003,3004,3740,4000,7000,
+                        7500,8990,8999]
+    
     for row in ws.get_rows():
-        if type(row[2].value) == float and 1000 <= row[2].value <= 9999:
+        if type(row[2].value) == float and 1000 <= row[2].value <= 9999 and not row[2].value in general_accounts:
             k3.append({
                 'code': str(int(row[2].value)),
                 'name': row[3].value,
@@ -97,7 +106,7 @@ def import_excel(year, input, output):
                     'code': str(int(row[2].value)),
                     'name': row[3].value,
                 })
-        if type(row[5].value) == float and 1000 <= row[5].value <= 9999:
+        if type(row[5].value) == float and 1000 <= row[5].value <= 9999 and not row[5].value in general_accounts:
             k3.append({
                 'code': str(int(row[5].value)),
                 'name': row[6].value,

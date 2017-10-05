@@ -72,8 +72,10 @@
     'depends': ['account', 'base_vat',],
     'init_xml': [],
     'data': [
-        'foo.xml',
-        #~ 'data/account.tax.template.csv',
+        'data/account_tax_data.xml',
+        'data/account_chart_template.xml',
+        'data/account_chart_template_k23.xml',
+        'data/account_chart_template_data.yml',
         #~ 'data/account.tax.code.template.csv',
         #~ 'data/account.tax.template-after.csv',
         #~ 'data/res.partner.bank.type.csv',
