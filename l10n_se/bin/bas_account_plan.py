@@ -119,19 +119,19 @@ def import_excel(year, input, output):
 
     trustee_type = record(data, 'trustee_assets', 'account.account.type')
     field(trustee_type,'name','Trustee Asset')
-    field(trustee_type,'type','asset')
+    field(trustee_type,'type','other')
     field(trustee_type,'include_initial_balance','',{'eval': 'True'})
     untaxedreserve_type = record(data, 'untaxed_reserve', 'account.account.type')
     field(untaxedreserve_type,'name','Untaxed reserve')
-    field(untaxedreserve_type,'type','asset')
+    field(untaxedreserve_type,'type','other')
     field(untaxedreserve_type,'include_initial_balance','',{'eval': 'True'})
     tax_type = record(data, 'tax', 'account.account.type')
     field(tax_type,'name','Tax in Balance sheet')
-    field(tax_type,'type','asset')
+    field(tax_type,'type','other')
 
 
     mk_chart(data,'K2',year,k2,rule)
-    #~ mk_chart(data,'K3',year,k3,rule)
+    mk_chart(data,'K3',year,k3,rule)
 
     # Write file.
     output.write(etree.tostring(root, xml_declaration=True, encoding="utf-8", pretty_print=True))
