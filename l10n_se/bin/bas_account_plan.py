@@ -47,16 +47,26 @@ def field(parent, name, value='', attrs=None):
         f.set(attr, attrs[attr] or 'None')
     return f
 
-def mk_chart(data,type,year,accounts,rule):
+def mk_chart(data,type,name,year,accounts,rule):
+
+    root_account = record(data, '%s_1955_%s' % (type,year), 'account.account.template')
+    field(root_account,'name','Bank transfer')
+    field(root_account,'code','1955')
+    field(root_account,'user_type_id','',{'ref': 'account.data_account_type_current_assets'})
+    field(root_account,'reconsile', '', {'eval': 'True'})
+
     exid = 'chart_template_%s_%s' % (type,year)
     ke = record(data, exid, 'account.chart.template')
-    field(ke, 'name', 'K2')
+    field(ke, 'name', name)
     field(ke, 'parent_id', '', {'ref': 'chart_template_general'})
-    field(ke, 'transfer_account_id', '', {'ref': 'chart1950'})
+    field(ke, 'transfer_account_id', '', {'ref': '%s_1955_%s' % (type,year)})
     field(ke, 'currency_id', '', {'ref': 'base.SEK'})
     field(ke, 'cash_account_code_prefix', '1910')
     field(ke, 'bank_account_code_prefix', '1930')
     field(ke, 'code_digits', '4')
+    
+    root_account2 = record(data, '%s_1955_%s' % (type,year), 'account.account.template')
+    field(root_account2, 'chart_template_id', '', {'ref': exid})
     
     for account in accounts:
         r = record(data, '%s_%s_%s' % (type,account['code'], year), 'account.account.template')
@@ -88,10 +98,10 @@ def import_excel(year, input, output):
     k3 = []
     rule = Rule()
     
-    general_accounts = [1410,1510,1630,1650,1910,1920,1930,2440,2610,2611,2612,
-                        2613,2614,2615,2616,2618,2620,2621,2622,2623,2624,2625,
-                        2626,2628,2631,2632,2634,2635,2636,2638,2640,2641,2642,
-                        2643,2644,2645,2646,2647,2648,2649,2650,2660,2710,2730,
+    general_accounts = [1410,1510,1630,1650,1910,1920,1930,1955,2440,2610,2611,
+                        2612,2613,2614,2615,2616,2618,2620,2621,2622,2623,2624,
+                        2625,2626,2628,2631,2632,2634,2635,2636,2638,2640,2641,
+                        2642,2643,2644,2645,2646,2647,2648,2649,2650,2660,2710,
                         2730,2760,2850,3000,3001,3002,3003,3004,3740,4000,7000,
                         7500,8990,8999]
     
@@ -120,27 +130,10 @@ def import_excel(year, input, output):
     root = etree.Element('odoo')
     data = etree.SubElement(root, 'data')
     
-    root_account = record(data, 'chart1950', 'account.account.template')
-    field(root_account,'name','Bank transfer')
-    field(root_account,'code','1950')
-    field(root_account,'user_type_id','',{'ref': 'account.data_account_type_current_assets'})
-    field(root_account,'reconsile', '', {'eval': 'True'})
-
-    trustee_type = record(data, 'trustee_assets', 'account.account.type')
-    field(trustee_type,'name','Trustee Asset')
-    field(trustee_type,'type','other')
-    field(trustee_type,'include_initial_balance','',{'eval': 'True'})
-    untaxedreserve_type = record(data, 'untaxed_reserve', 'account.account.type')
-    field(untaxedreserve_type,'name','Untaxed reserve')
-    field(untaxedreserve_type,'type','other')
-    field(untaxedreserve_type,'include_initial_balance','',{'eval': 'True'})
-    tax_type = record(data, 'tax', 'account.account.type')
-    field(tax_type,'name','Tax in Balance sheet')
-    field(tax_type,'type','other')
-
-
-    mk_chart(data,'K2',year,k2,rule)
-    mk_chart(data,'K3',year,k3,rule)
+    mk_chart(data,'K1',u'K1 - Mindre verksamheter',year,k2,rule)
+    mk_chart(data,'K2',u'K2 - Små till medelstora verksamheter',year,k2,rule)
+    mk_chart(data,'K3',u'K3 - Medelstora till större verksamheter',year,k3,rule)
+    mk_chart(data,'K4',u'K4 - större verksamheter / publika företag',year,k3,rule)
 
     # Write file.
     output.write(etree.tostring(root, xml_declaration=True, encoding="utf-8", pretty_print=True))

@@ -66,6 +66,8 @@ class account_rules(object):
     def code2reconcile(self, code):
         if int(code) in range(1500, 1600) or int(code) in range(2400, 2450) or int(code) == 1630:
             return True
+        elif self.code2user_type_id(code) in ['account.data_account_type_receivable','account.data_account_type_payable']:
+            return True
         else:
             return False
 

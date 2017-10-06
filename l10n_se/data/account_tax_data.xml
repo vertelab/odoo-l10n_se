@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <record id="chart1950" model="account.account.template">
+    <record id="chart1955" model="account.account.template">
       <field name="name">Bank transfer</field>
-      <field name="code">1950</field>
+      <field name="code">1955</field>
       <field name="user_type_id" ref="account.data_account_type_current_assets"/>
       <field name="reconsile" eval="True"/>
     </record>
     <!-- General chart_template -->
     <record id="chart_template_general" model="account.chart.template">
       <field name="name">General</field>
-      <field name="transfer_account_id" ref="chart1950"/>
+      <field name="transfer_account_id" ref="chart1955"/>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">1910</field>
       <field name="bank_account_code_prefix">1930</field>
@@ -18,7 +18,7 @@
       <field name="visible" eval="False"/>
     </record>
     
-    <record id="chart1950" model="account.account.template">
+    <record id="chart1955" model="account.account.template">
             <field name="chart_template_id" ref="chart_template_general"/>
     </record>
     <!-- Account Tags -->
