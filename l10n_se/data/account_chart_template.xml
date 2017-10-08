@@ -1,929 +1,630 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
   <data>
-
     <record id="trustee_assets" model="account.account.type">
       <field name="name">Trustee Asset</field>
       <field name="type">other</field>
-      <field name="include_initial_balance" eval="True"/>
+      <field name="include_initial_balance" eval="True" />
     </record>
     <record id="untaxed_reserve" model="account.account.type">
       <field name="name">Untaxed reserve</field>
       <field name="type">other</field>
-      <field name="include_initial_balance" eval="True"/>
+      <field name="include_initial_balance" eval="True" />
     </record>
     <record id="tax" model="account.account.type">
       <field name="name">Tax in Balance sheet</field>
       <field name="type">other</field>
     </record>
-    
-
-    
-    
-    
     <record id="chart1410" model="account.account.template">
-      <field name="name">Lager av råvaror </field>
+      <field name="name">Lager av råvaror</field>
       <field name="code">1410</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_direct_costs" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">Lager av råvaror eller förnödenheter som har köpts för att bearbetas eller för att vara komponenter i den egna tillverkgningen.</field>
     </record>
- 
     <record id="chart1510" model="account.account.template">
-      <field name="name">Kundfordringar </field>
+      <field name="name">Kundfordringar</field>
       <field name="code">1510</field>
-      <field name="user_type_id" ref="account.data_account_type_receivable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
+      <field name="user_type_id" ref="account.data_account_type_receivable" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="reconcile" eval="True" />
     </record>
-    
     <record id="chart1630" model="account.account.template">
-      <field name="name">Avräkning för skatter och avgifter (skattekonto) </field>
+      <field name="name">Avräkning för skatter och avgifter (skattekonto)</field>
       <field name="code">1630</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">T.ex. aktuella skattefordringar.</field>
-      <field name="reconcile" eval="True"/>
+      <field name="reconcile" eval="True" />
     </record>
-    
     <record id="chart1650" model="account.account.template">
-      <field name="name">Momsfordran </field>
+      <field name="name">Momsfordran</field>
       <field name="code">1650</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
-
-
-
     <record id="chart1910" model="account.account.template">
-      <field name="name">Kassa </field>
+      <field name="name">Kassa</field>
       <field name="code">1910</field>
-      <field name="user_type_id" ref="account.data_account_type_liquidity"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_liquidity" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
-
     <record id="chart1920" model="account.account.template">
-      <field name="name">PlusGiro </field>
+      <field name="name">PlusGiro</field>
       <field name="code">1920</field>
-      <field name="user_type_id" ref="account.data_account_type_liquidity"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_liquidity" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
-    
     <record id="chart1930" model="account.account.template">
       <field name="name">Företagskonto/checkkonto/affärskonto</field>
       <field name="code">1930</field>
-      <field name="user_type_id" ref="account.data_account_type_liquidity"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_liquidity" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
-    
-    
     <record id="chart2440" model="account.account.template">
-      <field name="name">Leverantörsskulder </field>
+      <field name="name">Leverantörsskulder</field>
       <field name="code">2440</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    
-
-    <record id="chart2610" model="account.account.template">
-      <field name="name">Utgående moms, 25 % </field>
-      <field name="code">2610</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-
-    </record>
-    
-    <record id="chart2611" model="account.account.template">
-      <field name="name">Utgående moms på försäljning inom Sverige, 25 % </field>
-      <field name="code">2611</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2612" model="account.account.template">
-      <field name="name">Utgående moms på egna uttag, 25 % </field>
-      <field name="code">2612</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2613" model="account.account.template">
-      <field name="name">Utgående moms för uthyrning, 25 % </field>
-      <field name="code">2613</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    
-    <record id="chart2614" model="account.account.template">
-      <field name="name">Utgående moms omvänd skattskyldighet, 25 %</field>
-      <field name="code">2614</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2615" model="account.account.template">
-      <field name="name">Utgående moms import av varor, 25 %</field>
-      <field name="code">2615</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2616" model="account.account.template">
-      <field name="name">Utgående moms VMB 25 % </field>
-      <field name="code">2616</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2618" model="account.account.template">
-      <field name="name">Vilande utgående moms, 25 % </field>
-      <field name="code">2618</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-          <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2620" model="account.account.template">
-      <field name="name">Utgående moms, 12 % </field>
-      <field name="code">2620</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2621" model="account.account.template">
-      <field name="name">Utgående moms på försäljning inom Sverige, 12 % </field>
-      <field name="code">2621</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2622" model="account.account.template">
-      <field name="name">Utgående moms på egna uttag, 12 % </field>
-      <field name="code">2622</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2623" model="account.account.template">
-      <field name="name">Utgående moms för uthyrning, 12 % </field>
-      <field name="code">2623</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2624" model="account.account.template">
-      <field name="name">Utgående moms omvänd skattskyldighet, 12 %</field>
-      <field name="code">2624</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2625" model="account.account.template">
-      <field name="name">Utgående moms import av varor, 12 %</field>
-      <field name="code">2625</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2626" model="account.account.template">
-      <field name="name">Utgående moms VMB 12 % </field>
-      <field name="code">2626</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2628" model="account.account.template">
-      <field name="name">Vilande utgående moms, 12 % </field>
-      <field name="code">2628</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2630" model="account.account.template">
-      <field name="name">Utgående moms, 6 % </field>
-      <field name="code">2630</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2631" model="account.account.template">
-      <field name="name">Utgående moms på försäljning inom Sverige, 6 % </field>
-      <field name="code">2631</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2632" model="account.account.template">
-      <field name="name">Utgående moms på egna uttag, 6 % </field>
-      <field name="code">2632</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2633" model="account.account.template">
-      <field name="name">Utgående moms för uthyrning, 6 % </field>
-      <field name="code">2633</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2634" model="account.account.template">
-      <field name="name">Utgående moms omvänd skattskyldighet, 6 %</field>
-      <field name="code">2634</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2635" model="account.account.template">
-      <field name="name">Utgående moms import av varor, 6 %</field>
-      <field name="code">2635</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2636" model="account.account.template">
-      <field name="name">Utgående moms VMB 6 % </field>
-      <field name="code">2636</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2638" model="account.account.template">
-      <field name="name">Vilande utgående moms, 6 % </field>
-      <field name="code">2638</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2640" model="account.account.template">
-      <field name="name">Ingående moms </field>
-      <field name="code">2640</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2641" model="account.account.template">
-      <field name="name">Debiterad ingående moms </field>
-      <field name="code">2641</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2642" model="account.account.template">
-      <field name="name">Debiterad ingående moms i anslutning till frivillig skattskyldighet </field>
-      <field name="code">2642</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2645" model="account.account.template">
-      <field name="name">Beräknad ingående moms på förvärv från utlandet </field>
-      <field name="code">2645</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2646" model="account.account.template">
-      <field name="name">Ingående moms på uthyrning </field>
-      <field name="code">2646</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2647" model="account.account.template">
-      <field name="name">Ingående moms omvänd skattskyldighet varor och tjänster i Sverige </field>
-      <field name="code">2647</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2648" model="account.account.template">
-      <field name="name">Vilande ingående moms </field>
-      <field name="code">2648</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2649" model="account.account.template">
-      <field name="name">Ingående moms, blandad verksamhet </field>
-      <field name="code">2649</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2650" model="account.account.template">
-      <field name="name">Redovisningskonto för moms </field>
-      <field name="code">2650</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-    <record id="chart2660" model="account.account.template">
-      <field name="name">Särskilda punktskatter </field>
-      <field name="code">2660</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
+      <field name="user_type_id" ref="account.data_account_type_payable" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="reconcile" eval="True" />
     </record>
 
-    <record id="chart2710" model="account.account.template">
-      <field name="name">Personalskatt </field>
-      <field name="code">2710</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-      
-    </record>
-    <record id="chart2730" model="account.account.template">
-      <field name="name">Lagstadgade sociala avgifter och särskild löneskatt</field>
-      <field name="code">2730</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-
-    <record id="chart2760" model="account.account.template">
-      <field name="name">Semestermedel </field>
-      <field name="code">2760</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
-
-    <record id="chart2850" model="account.account.template">
-      <field name="name">Avräkning för skatter och avgifter (skattekonto)</field>
-      <field name="code">2850</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
-    </record>
     <record id="chart3000" model="account.account.template">
       <field name="name">Försäljning inom Sverige</field>
       <field name="code">3000</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-            <field name="reconcile" eval="True"/>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="reconcile" eval="True" />
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
     <record id="chart3001" model="account.account.template">
       <field name="name">Försäljning inom Sverige, 25 % moms</field>
       <field name="code">3001</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
     <record id="chart3002" model="account.account.template">
       <field name="name">Försäljning inom Sverige, 12 % moms</field>
       <field name="code">3002</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
     <record id="chart3003" model="account.account.template">
       <field name="name">Försäljning inom Sverige, 6 % moms</field>
       <field name="code">3003</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
     <record id="chart3004" model="account.account.template">
       <field name="name">Försäljning inom Sverige, momsfri</field>
       <field name="code">3004</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
-<!--
-    <record id="K2_3100_2017" model="account.account.template">
-      <field name="name">Försäljning av varor utanför Sverige</field>
-      <field name="code">3100</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3105_2017" model="account.account.template">
-      <field name="name">Försäljning varor till land utanför EU</field>
-      <field name="code">3105</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3106_2017" model="account.account.template">
-      <field name="name">Försäljning varor till annat EU-land, momspliktig</field>
-      <field name="code">3106</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3108_2017" model="account.account.template">
-      <field name="name">Försäljning varor till annat EU-land, momsfri</field>
-      <field name="code">3108</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3200_2017" model="account.account.template">
-      <field name="name">Försäljning VMB och omvänd moms</field>
-      <field name="code">3200</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3211_2017" model="account.account.template">
-      <field name="name">Försäljning positiv VMB 25 %</field>
-      <field name="code">3211</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3212_2017" model="account.account.template">
-      <field name="name">Försäljning negativ VMB 25 %</field>
-      <field name="code">3212</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3231_2017" model="account.account.template">
-      <field name="name">Försäljning inom byggsektorn, omvänd skattskyldighet moms</field>
-      <field name="code">3231</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3300_2017" model="account.account.template">
-      <field name="name">Försäljning av tjänster utanför Sverige</field>
-      <field name="code">3300</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3305_2017" model="account.account.template">
-      <field name="name">Försäljning tjänster till land utanför EU</field>
-      <field name="code">3305</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    <record id="K2_3308_2017" model="account.account.template">
-      <field name="name">Försäljning tjänster till annat EU-land</field>
-      <field name="code">3308</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-    </record>
-    
--->
+    <!--
+         <record id="K2_3100_2017" model="account.account.template">
+         <field name="name">Försäljning av varor utanför Sverige</field>
+         <field name="code">3100</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3105_2017" model="account.account.template">
+         <field name="name">Försäljning varor till land utanför EU</field>
+         <field name="code">3105</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3106_2017" model="account.account.template">
+         <field name="name">Försäljning varor till annat EU-land, momspliktig</field>
+         <field name="code">3106</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3108_2017" model="account.account.template">
+         <field name="name">Försäljning varor till annat EU-land, momsfri</field>
+         <field name="code">3108</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3200_2017" model="account.account.template">
+         <field name="name">Försäljning VMB och omvänd moms</field>
+         <field name="code">3200</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3211_2017" model="account.account.template">
+         <field name="name">Försäljning positiv VMB 25 %</field>
+         <field name="code">3211</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3212_2017" model="account.account.template">
+         <field name="name">Försäljning negativ VMB 25 %</field>
+         <field name="code">3212</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3231_2017" model="account.account.template">
+         <field name="name">Försäljning inom byggsektorn, omvänd skattskyldighet moms</field>
+         <field name="code">3231</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3300_2017" model="account.account.template">
+         <field name="name">Försäljning av tjänster utanför Sverige</field>
+         <field name="code">3300</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3305_2017" model="account.account.template">
+         <field name="name">Försäljning tjänster till land utanför EU</field>
+         <field name="code">3305</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         <record id="K2_3308_2017" model="account.account.template">
+         <field name="name">Försäljning tjänster till annat EU-land</field>
+         <field name="code">3308</field>
+         <field name="user_type_id" ref="account.data_account_type_revenue"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+         </record>
+         
+    -->
     <record id="chart3740" model="account.account.template">
-      <field name="name">Öres- och kronutjämning </field>
+      <field name="name">Öres- och kronutjämning</field>
       <field name="code">3740</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
-
     <record id="chart4000" model="account.account.template">
       <field name="name">Inköp av varor från Sverige</field>
       <field name="code">4000</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_direct_costs" />
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
     </record>
-    
-    
-<!--
-    <record id="K2_4200_2017" model="account.account.template">
-      <field name="name">Sålda varor VMB</field>
-      <field name="code">4200</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4211_2017" model="account.account.template">
-      <field name="name">Sålda varor positiv VMB 25 %</field>
-      <field name="code">4211</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4212_2017" model="account.account.template">
-      <field name="name">Sålda varor negativ VMB 25 %</field>
-      <field name="code">4212</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4400_2017" model="account.account.template">
-      <field name="name">Momspliktiga inköp i Sverige</field>
-      <field name="code">4400</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4415_2017" model="account.account.template">
-      <field name="name">Inköpta varor i Sverige, omvänd skattskyldighet, 25 % moms</field>
-      <field name="code">4415</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4416_2017" model="account.account.template">
-      <field name="name">Inköpta varor i Sverige, omvänd skattskyldighet, 12 % moms</field>
-      <field name="code">4416</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4417_2017" model="account.account.template">
-      <field name="name">Inköpta varor i Sverige, omvänd skattskyldighet, 6 % moms</field>
-      <field name="code">4417</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4425_2017" model="account.account.template">
-      <field name="name">Inköpta tjänster i Sverige, omvänd
-skattskyldighet, 25 % moms</field>
-      <field name="code">4425</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4426_2017" model="account.account.template">
-      <field name="name">Inköpta tjänster i Sverige, omvänd skattskyldighet, 12 %</field>
-      <field name="code">4426</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4427_2017" model="account.account.template">
-      <field name="name">Inköpta tjänster i Sverige, omvänd skattskyldighet, 6 %</field>
-      <field name="code">4427</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4500_2017" model="account.account.template">
-      <field name="name">Övriga momspliktiga inköp</field>
-      <field name="code">4500</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4515_2017" model="account.account.template">
-      <field name="name">Inköp av varor från annat EU-land, 25 %</field>
-      <field name="code">4515</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4516_2017" model="account.account.template">
-      <field name="name">Inköp av varor från annat EU-land, 12 %</field>
-      <field name="code">4516</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4517_2017" model="account.account.template">
-      <field name="name">Inköp av varor från annat EU-land, 6 %</field>
-      <field name="code">4517</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4518_2017" model="account.account.template">
-      <field name="name">Inköp av varor från annat EU-land, momsfri</field>
-      <field name="code">4518</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4531_2017" model="account.account.template">
-      <field name="name">Inköp av tjänster från ett land utanför EU, 25 % moms</field>
-      <field name="code">4531</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4532_2017" model="account.account.template">
-      <field name="name">Inköp av tjänster från ett land utanför EU, 12 % moms</field>
-      <field name="code">4532</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4533_2017" model="account.account.template">
-      <field name="name">Inköp av tjänster från ett land utanför EU, 6 % moms</field>
-      <field name="code">4533</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4535_2017" model="account.account.template">
-      <field name="name">Inköp av tjänster från annat EU-land, 25 %</field>
-      <field name="code">4535</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4536_2017" model="account.account.template">
-      <field name="name">Inköp av tjänster från annat EU-land, 12 %</field>
-      <field name="code">4536</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4537_2017" model="account.account.template">
-      <field name="name">Inköp av tjänster från annat EU-land, 6 %</field>
-      <field name="code">4537</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4538_2017" model="account.account.template">
-      <field name="name">Inköp av tjänster från annat EU-land, momsfri</field>
-      <field name="code">4538</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4545_2017" model="account.account.template">
-      <field name="name">Import av varor, 25 % moms</field>
-      <field name="code">4545</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4546_2017" model="account.account.template">
-      <field name="name">Import av varor, 12 % moms</field>
-      <field name="code">4546</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4547_2017" model="account.account.template">
-      <field name="name">Import av varor, 6 % moms</field>
-      <field name="code">4547</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4600_2017" model="account.account.template">
-      <field name="name">Legoarbeten och underentreprenader (gruppkonto) </field>
-      <field name="code">4600</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4700_2017" model="account.account.template">
-      <field name="name">Reduktion av inköpspriser (gruppkonto) </field>
-      <field name="code">4700</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4730_2017" model="account.account.template">
-      <field name="name">Erhållna rabatter </field>
-      <field name="code">4730</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4731_2017" model="account.account.template">
-      <field name="name">Erhållna kassarabatter </field>
-      <field name="code">4731</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4732_2017" model="account.account.template">
-      <field name="name">Erhållna mängdrabatter (inkl. bonus) </field>
-      <field name="code">4732</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4733_2017" model="account.account.template">
-      <field name="name">Erhållet aktivitetsstöd </field>
-      <field name="code">4733</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
-    <record id="K2_4790_2017" model="account.account.template">
-      <field name="name">Övriga reduktioner av inköpspriser </field>
-      <field name="code">4790</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-      <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
-    </record>
--->
-
+    <!--
+         <record id="K2_4200_2017" model="account.account.template">
+         <field name="name">Sålda varor VMB</field>
+         <field name="code">4200</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4211_2017" model="account.account.template">
+         <field name="name">Sålda varor positiv VMB 25 %</field>
+         <field name="code">4211</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4212_2017" model="account.account.template">
+         <field name="name">Sålda varor negativ VMB 25 %</field>
+         <field name="code">4212</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4400_2017" model="account.account.template">
+         <field name="name">Momspliktiga inköp i Sverige</field>
+         <field name="code">4400</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4415_2017" model="account.account.template">
+         <field name="name">Inköpta varor i Sverige, omvänd skattskyldighet, 25 % moms</field>
+         <field name="code">4415</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4416_2017" model="account.account.template">
+         <field name="name">Inköpta varor i Sverige, omvänd skattskyldighet, 12 % moms</field>
+         <field name="code">4416</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4417_2017" model="account.account.template">
+         <field name="name">Inköpta varor i Sverige, omvänd skattskyldighet, 6 % moms</field>
+         <field name="code">4417</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4425_2017" model="account.account.template">
+         <field name="name">Inköpta tjänster i Sverige, omvänd
+         skattskyldighet, 25 % moms</field>
+         <field name="code">4425</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4426_2017" model="account.account.template">
+         <field name="name">Inköpta tjänster i Sverige, omvänd skattskyldighet, 12 %</field>
+         <field name="code">4426</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4427_2017" model="account.account.template">
+         <field name="name">Inköpta tjänster i Sverige, omvänd skattskyldighet, 6 %</field>
+         <field name="code">4427</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4500_2017" model="account.account.template">
+         <field name="name">Övriga momspliktiga inköp</field>
+         <field name="code">4500</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4515_2017" model="account.account.template">
+         <field name="name">Inköp av varor från annat EU-land, 25 %</field>
+         <field name="code">4515</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4516_2017" model="account.account.template">
+         <field name="name">Inköp av varor från annat EU-land, 12 %</field>
+         <field name="code">4516</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4517_2017" model="account.account.template">
+         <field name="name">Inköp av varor från annat EU-land, 6 %</field>
+         <field name="code">4517</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4518_2017" model="account.account.template">
+         <field name="name">Inköp av varor från annat EU-land, momsfri</field>
+         <field name="code">4518</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4531_2017" model="account.account.template">
+         <field name="name">Inköp av tjänster från ett land utanför EU, 25 % moms</field>
+         <field name="code">4531</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4532_2017" model="account.account.template">
+         <field name="name">Inköp av tjänster från ett land utanför EU, 12 % moms</field>
+         <field name="code">4532</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4533_2017" model="account.account.template">
+         <field name="name">Inköp av tjänster från ett land utanför EU, 6 % moms</field>
+         <field name="code">4533</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4535_2017" model="account.account.template">
+         <field name="name">Inköp av tjänster från annat EU-land, 25 %</field>
+         <field name="code">4535</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4536_2017" model="account.account.template">
+         <field name="name">Inköp av tjänster från annat EU-land, 12 %</field>
+         <field name="code">4536</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4537_2017" model="account.account.template">
+         <field name="name">Inköp av tjänster från annat EU-land, 6 %</field>
+         <field name="code">4537</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4538_2017" model="account.account.template">
+         <field name="name">Inköp av tjänster från annat EU-land, momsfri</field>
+         <field name="code">4538</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4545_2017" model="account.account.template">
+         <field name="name">Import av varor, 25 % moms</field>
+         <field name="code">4545</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4546_2017" model="account.account.template">
+         <field name="name">Import av varor, 12 % moms</field>
+         <field name="code">4546</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4547_2017" model="account.account.template">
+         <field name="name">Import av varor, 6 % moms</field>
+         <field name="code">4547</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4600_2017" model="account.account.template">
+         <field name="name">Legoarbeten och underentreprenader (gruppkonto) </field>
+         <field name="code">4600</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4700_2017" model="account.account.template">
+         <field name="name">Reduktion av inköpspriser (gruppkonto) </field>
+         <field name="code">4700</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4730_2017" model="account.account.template">
+         <field name="name">Erhållna rabatter </field>
+         <field name="code">4730</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4731_2017" model="account.account.template">
+         <field name="name">Erhållna kassarabatter </field>
+         <field name="code">4731</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4732_2017" model="account.account.template">
+         <field name="name">Erhållna mängdrabatter (inkl. bonus) </field>
+         <field name="code">4732</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4733_2017" model="account.account.template">
+         <field name="name">Erhållet aktivitetsstöd </field>
+         <field name="code">4733</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+         <record id="K2_4790_2017" model="account.account.template">
+         <field name="name">Övriga reduktioner av inköpspriser </field>
+         <field name="code">4790</field>
+         <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+         </record>
+    -->
     <record id="K2_7000_2017" model="account.account.template">
-      <field name="name">Löner till kollektivanställda (gruppkonto) </field>
+      <field name="name">Löner till kollektivanställda (gruppkonto)</field>
       <field name="code">7000</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_expenses" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
-
-
     <record id="K2_7500_2017" model="account.account.template">
-      <field name="name">Sociala och andra avgifter enligt lag och avtal (gruppkonto) </field>
+      <field name="name">Sociala och andra avgifter enligt lag och avtal (gruppkonto)</field>
       <field name="code">7500</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_expenses" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
-
-<!--
-    <record id="K2_7510_2017" model="account.account.template">
-      <field name="name">Arbetsgivaravgifter 31,42 %</field>
-      <field name="code">7510</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7511_2017" model="account.account.template">
-      <field name="name">Arbetsgivaravgifter för löner och ersättningar</field>
-      <field name="code">7511</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7512_2017" model="account.account.template">
-      <field name="name">Arbetsgivaravgifter för förmånsvärden</field>
-      <field name="code">7512</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7515_2017" model="account.account.template">
-      <field name="name">Arbetsgivaravgifter på skattepliktiga kostnadsersättningar</field>
-      <field name="code">7515</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7516_2017" model="account.account.template">
-      <field name="name">Arbetsgivaravgifter på arvoden</field>
-      <field name="code">7516</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7518_2017" model="account.account.template">
-      <field name="name">Arbetsgivaravgifter på bruttolöneavdrag m.m.</field>
-      <field name="code">7518</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7519_2017" model="account.account.template">
-      <field name="name">Arbetsgivaravgifter för semester- och löneskulder</field>
-      <field name="code">7519</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7520_2017" model="account.account.template">
-      <field name="name">Avgifter 16,36 %</field>
-      <field name="code">7520</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7521_2017" model="account.account.template">
-      <field name="name">Avgifter för löner och ersättningar</field>
-      <field name="code">7521</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7522_2017" model="account.account.template">
-      <field name="name">Avgifter för förmånsvärden</field>
-      <field name="code">7522</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7525_2017" model="account.account.template">
-      <field name="name">Avgifter på skattepliktiga kostnadsersättningar</field>
-      <field name="code">7525</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7526_2017" model="account.account.template">
-      <field name="name">Avgifter på arvoden</field>
-      <field name="code">7526</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7528_2017" model="account.account.template">
-      <field name="name">Avgifter på bruttolöneavdrag m.m.</field>
-      <field name="code">7528</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7529_2017" model="account.account.template">
-      <field name="name">Avgifter för semester- och löneskulder</field>
-      <field name="code">7529</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7530_2017" model="account.account.template">
-      <field name="name">Särskild löneskatt </field>
-      <field name="code">7530</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7531_2017" model="account.account.template">
-      <field name="name">Särskild löneskatt för vissa försäkringsersättningar m.m. </field>
-      <field name="code">7531</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7532_2017" model="account.account.template">
-      <field name="name">Särskild löneskatt pensionskostnader, deklarationspost</field>
-      <field name="code">7532</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7533_2017" model="account.account.template">
-      <field name="name">Särskild löneskatt för pensionskostnader </field>
-      <field name="code">7533</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7534_2017" model="account.account.template">
-      <field name="name">Särskild löneskatt förvärvsinkomster 6,15 %</field>
-      <field name="code">7534</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7550_2017" model="account.account.template">
-      <field name="name">Avkastningsskatt på pensionsmedel </field>
-      <field name="code">7550</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7570_2017" model="account.account.template">
-      <field name="name">Premier för arbetsmarknadsförsäkringar </field>
-      <field name="code">7570</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7571_2017" model="account.account.template">
-      <field name="name">Arbetsmarknadsförsäkringar</field>
-      <field name="code">7571</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7572_2017" model="account.account.template">
-      <field name="name">Arbetsmarknadsförsäkringar pensionsförsäkringspremier, deklarationspost</field>
-      <field name="code">7572</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7580_2017" model="account.account.template">
-      <field name="name">Gruppförsäkringspremier </field>
-      <field name="code">7580</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7581_2017" model="account.account.template">
-      <field name="name">Grupplivförsäkringspremier </field>
-      <field name="code">7581</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7582_2017" model="account.account.template">
-      <field name="name">Gruppsjukförsäkringspremier </field>
-      <field name="code">7582</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7583_2017" model="account.account.template">
-      <field name="name">Gruppolycksfallsförsäkringspremier </field>
-      <field name="code">7583</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7589_2017" model="account.account.template">
-      <field name="name">Övriga gruppförsäkringspremier </field>
-      <field name="code">7589</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
-    <record id="K2_7590_2017" model="account.account.template">
-      <field name="name">Övriga sociala och andra avgifter enligt lag och avtal </field>
-      <field name="code">7590</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
-    </record>
--->
-
-
+    <!--
+         <record id="K2_7510_2017" model="account.account.template">
+         <field name="name">Arbetsgivaravgifter 31,42 %</field>
+         <field name="code">7510</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7511_2017" model="account.account.template">
+         <field name="name">Arbetsgivaravgifter för löner och ersättningar</field>
+         <field name="code">7511</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7512_2017" model="account.account.template">
+         <field name="name">Arbetsgivaravgifter för förmånsvärden</field>
+         <field name="code">7512</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7515_2017" model="account.account.template">
+         <field name="name">Arbetsgivaravgifter på skattepliktiga kostnadsersättningar</field>
+         <field name="code">7515</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7516_2017" model="account.account.template">
+         <field name="name">Arbetsgivaravgifter på arvoden</field>
+         <field name="code">7516</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7518_2017" model="account.account.template">
+         <field name="name">Arbetsgivaravgifter på bruttolöneavdrag m.m.</field>
+         <field name="code">7518</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7519_2017" model="account.account.template">
+         <field name="name">Arbetsgivaravgifter för semester- och löneskulder</field>
+         <field name="code">7519</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7520_2017" model="account.account.template">
+         <field name="name">Avgifter 16,36 %</field>
+         <field name="code">7520</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7521_2017" model="account.account.template">
+         <field name="name">Avgifter för löner och ersättningar</field>
+         <field name="code">7521</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7522_2017" model="account.account.template">
+         <field name="name">Avgifter för förmånsvärden</field>
+         <field name="code">7522</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7525_2017" model="account.account.template">
+         <field name="name">Avgifter på skattepliktiga kostnadsersättningar</field>
+         <field name="code">7525</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7526_2017" model="account.account.template">
+         <field name="name">Avgifter på arvoden</field>
+         <field name="code">7526</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7528_2017" model="account.account.template">
+         <field name="name">Avgifter på bruttolöneavdrag m.m.</field>
+         <field name="code">7528</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7529_2017" model="account.account.template">
+         <field name="name">Avgifter för semester- och löneskulder</field>
+         <field name="code">7529</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7530_2017" model="account.account.template">
+         <field name="name">Särskild löneskatt </field>
+         <field name="code">7530</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7531_2017" model="account.account.template">
+         <field name="name">Särskild löneskatt för vissa försäkringsersättningar m.m. </field>
+         <field name="code">7531</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7532_2017" model="account.account.template">
+         <field name="name">Särskild löneskatt pensionskostnader, deklarationspost</field>
+         <field name="code">7532</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7533_2017" model="account.account.template">
+         <field name="name">Särskild löneskatt för pensionskostnader </field>
+         <field name="code">7533</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7534_2017" model="account.account.template">
+         <field name="name">Särskild löneskatt förvärvsinkomster 6,15 %</field>
+         <field name="code">7534</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7550_2017" model="account.account.template">
+         <field name="name">Avkastningsskatt på pensionsmedel </field>
+         <field name="code">7550</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7570_2017" model="account.account.template">
+         <field name="name">Premier för arbetsmarknadsförsäkringar </field>
+         <field name="code">7570</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7571_2017" model="account.account.template">
+         <field name="name">Arbetsmarknadsförsäkringar</field>
+         <field name="code">7571</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7572_2017" model="account.account.template">
+         <field name="name">Arbetsmarknadsförsäkringar pensionsförsäkringspremier, deklarationspost</field>
+         <field name="code">7572</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7580_2017" model="account.account.template">
+         <field name="name">Gruppförsäkringspremier </field>
+         <field name="code">7580</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7581_2017" model="account.account.template">
+         <field name="name">Grupplivförsäkringspremier </field>
+         <field name="code">7581</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7582_2017" model="account.account.template">
+         <field name="name">Gruppsjukförsäkringspremier </field>
+         <field name="code">7582</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7583_2017" model="account.account.template">
+         <field name="name">Gruppolycksfallsförsäkringspremier </field>
+         <field name="code">7583</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7589_2017" model="account.account.template">
+         <field name="name">Övriga gruppförsäkringspremier </field>
+         <field name="code">7589</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+         <record id="K2_7590_2017" model="account.account.template">
+         <field name="name">Övriga sociala och andra avgifter enligt lag och avtal </field>
+         <field name="code">7590</field>
+         <field name="user_type_id" ref="account.data_account_type_expenses"/>
+         <field name="chart_template_id" ref="chart_template_general"/>
+         </record>
+    -->
     <record id="chart8990" model="account.account.template">
-      <field name="name">Resultat </field>
+      <field name="name">Resultat</field>
       <field name="code">8990</field>
-      <field name="user_type_id" ref="account.data_account_type_equity"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_equity" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
     <record id="chart8999" model="account.account.template">
-      <field name="name">Årets resultat </field>
+      <field name="name">Årets resultat</field>
       <field name="code">8999</field>
-      <field name="user_type_id" ref="account.data_account_type_equity"/>
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="user_type_id" ref="account.data_account_type_equity" />
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
   </data>
 </odoo>

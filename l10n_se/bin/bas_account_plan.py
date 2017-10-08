@@ -53,16 +53,17 @@ def mk_chart(data,type,name,year,accounts,rule):
     field(root_account,'name','Bank transfer')
     field(root_account,'code','1955')
     field(root_account,'user_type_id','',{'ref': 'account.data_account_type_current_assets'})
-    field(root_account,'reconsile', '', {'eval': 'True'})
+    field(root_account,'reconcile', '', {'eval': 'True'})
 
     exid = 'chart_template_%s_%s' % (type,year)
     ke = record(data, exid, 'account.chart.template')
     field(ke, 'name', name)
     field(ke, 'parent_id', '', {'ref': 'chart_template_general'})
+    #~ field(ke, 'transfer_account_id', '', {'ref': 'chart1955'})
     field(ke, 'transfer_account_id', '', {'ref': '%s_1955_%s' % (type,year)})
     field(ke, 'currency_id', '', {'ref': 'base.SEK'})
-    field(ke, 'cash_account_code_prefix', '1910')
-    field(ke, 'bank_account_code_prefix', '1930')
+    field(ke, 'cash_account_code_prefix', '191')
+    field(ke, 'bank_account_code_prefix', '193')
     field(ke, 'code_digits', '4')
     
     root_account2 = record(data, '%s_1955_%s' % (type,year), 'account.account.template')
@@ -100,11 +101,10 @@ def import_excel(year, input, output):
     
     general_accounts = [1410,1510,1630,1650,1910,1920,1930,1955,2440,2610,2611,
                         2612,2613,2614,2615,2616,2618,2620,2621,2622,2623,2624,
-                        2625,2626,2628,2631,2632,2634,2635,2636,2638,2640,2641,
-                        2642,2643,2644,2645,2646,2647,2648,2649,2650,2660,2710,
-                        2730,2760,2850,3000,3001,3002,3003,3004,3740,4000,7000,
-                        7500,8990,8999]
-    
+                        2625,2626,2628,2630,2631,2632,2633,2634,2635,2636,2638,2640,
+                        2641,2642,2643,2644,2645,2646,2647,2648,2649,2650,2660,
+                        2710,2730,2760,2850,3000,3001,3002,3003,3004,3740,4000,
+                        7000,7500,8990,8999]
     for row in ws.get_rows():
         if type(row[2].value) == float and 1000 <= row[2].value <= 9999 and not row[2].value in general_accounts:
             k3.append({

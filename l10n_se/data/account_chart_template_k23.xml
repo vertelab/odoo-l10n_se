@@ -5,15 +5,15 @@
       <field name="name">Bank transfer</field>
       <field name="code">1955</field>
       <field name="user_type_id" ref="account.data_account_type_current_assets"/>
-      <field name="reconsile" eval="True"/>
+      <field name="reconcile" eval="True"/>
     </record>
     <record id="chart_template_K1_2017" model="account.chart.template">
       <field name="name">K1 - Mindre verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="K1_1955_2017"/>
       <field name="currency_id" ref="base.SEK"/>
-      <field name="cash_account_code_prefix">1910</field>
-      <field name="bank_account_code_prefix">1930</field>
+      <field name="cash_account_code_prefix">191</field>
+      <field name="bank_account_code_prefix">193</field>
       <field name="code_digits">4</field>
     </record>
     <record id="K1_1955_2017" model="account.account.template">
@@ -2726,20 +2726,6 @@
       <field name="code">2518</field>
       <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-    </record>
-    <record id="K1_2630_2017" model="account.account.template">
-      <field name="name">Utgående moms, 6 % </field>
-      <field name="code">2630</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="K1_2633_2017" model="account.account.template">
-      <field name="name">Utgående moms för uthyrning, 6 % </field>
-      <field name="code">2633</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
@@ -8047,15 +8033,15 @@ skattskyldighet, 25 % moms</field>
       <field name="name">Bank transfer</field>
       <field name="code">1955</field>
       <field name="user_type_id" ref="account.data_account_type_current_assets"/>
-      <field name="reconsile" eval="True"/>
+      <field name="reconcile" eval="True"/>
     </record>
     <record id="chart_template_K2_2017" model="account.chart.template">
       <field name="name">K2 - Små till medelstora verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="K2_1955_2017"/>
       <field name="currency_id" ref="base.SEK"/>
-      <field name="cash_account_code_prefix">1910</field>
-      <field name="bank_account_code_prefix">1930</field>
+      <field name="cash_account_code_prefix">191</field>
+      <field name="bank_account_code_prefix">193</field>
       <field name="code_digits">4</field>
     </record>
     <record id="K2_1955_2017" model="account.account.template">
@@ -10768,20 +10754,6 @@ skattskyldighet, 25 % moms</field>
       <field name="code">2518</field>
       <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-    </record>
-    <record id="K2_2630_2017" model="account.account.template">
-      <field name="name">Utgående moms, 6 % </field>
-      <field name="code">2630</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="K2_2633_2017" model="account.account.template">
-      <field name="name">Utgående moms för uthyrning, 6 % </field>
-      <field name="code">2633</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
@@ -16089,15 +16061,15 @@ skattskyldighet, 25 % moms</field>
       <field name="name">Bank transfer</field>
       <field name="code">1955</field>
       <field name="user_type_id" ref="account.data_account_type_current_assets"/>
-      <field name="reconsile" eval="True"/>
+      <field name="reconcile" eval="True"/>
     </record>
     <record id="chart_template_K3_2017" model="account.chart.template">
       <field name="name">K3 - Medelstora till större verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="K3_1955_2017"/>
       <field name="currency_id" ref="base.SEK"/>
-      <field name="cash_account_code_prefix">1910</field>
-      <field name="bank_account_code_prefix">1930</field>
+      <field name="cash_account_code_prefix">191</field>
+      <field name="bank_account_code_prefix">193</field>
       <field name="code_digits">4</field>
     </record>
     <record id="K3_1955_2017" model="account.account.template">
@@ -18810,20 +18782,6 @@ skattskyldighet, 25 % moms</field>
       <field name="code">2518</field>
       <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-    </record>
-    <record id="K3_2630_2017" model="account.account.template">
-      <field name="name">Utgående moms, 6 % </field>
-      <field name="code">2630</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="K3_2633_2017" model="account.account.template">
-      <field name="name">Utgående moms för uthyrning, 6 % </field>
-      <field name="code">2633</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
@@ -24131,15 +24089,15 @@ skattskyldighet, 25 % moms</field>
       <field name="name">Bank transfer</field>
       <field name="code">1955</field>
       <field name="user_type_id" ref="account.data_account_type_current_assets"/>
-      <field name="reconsile" eval="True"/>
+      <field name="reconcile" eval="True"/>
     </record>
     <record id="chart_template_K4_2017" model="account.chart.template">
       <field name="name">K4 - större verksamheter / publika företag</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="K4_1955_2017"/>
       <field name="currency_id" ref="base.SEK"/>
-      <field name="cash_account_code_prefix">1910</field>
-      <field name="bank_account_code_prefix">1930</field>
+      <field name="cash_account_code_prefix">191</field>
+      <field name="bank_account_code_prefix">193</field>
       <field name="code_digits">4</field>
     </record>
     <record id="K4_1955_2017" model="account.account.template">
@@ -26852,20 +26810,6 @@ skattskyldighet, 25 % moms</field>
       <field name="code">2518</field>
       <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-    </record>
-    <record id="K4_2630_2017" model="account.account.template">
-      <field name="name">Utgående moms, 6 % </field>
-      <field name="code">2630</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
-    </record>
-    <record id="K4_2633_2017" model="account.account.template">
-      <field name="name">Utgående moms för uthyrning, 6 % </field>
-      <field name="code">2633</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
-      <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
