@@ -1,0 +1,3 @@
+-
+  !python {model: account.chart.template, id: chart_template_general}: |
+    self[0].open_select_template_wizard()
