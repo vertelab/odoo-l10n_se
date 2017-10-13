@@ -30,7 +30,7 @@ Main contributors
 * Jan-Eric Lindh <jelindh@gmail.com>
 * Håkan Krevers <hakan.krevers@vertel.se>
 * Robin Chatfield <robin.chatfields@vertel.se>
-* Haojun Zou <hajoun.zous@vertel.se>
+* Haojun Zou <haojun.zou@vertel.se>
 
 
 
