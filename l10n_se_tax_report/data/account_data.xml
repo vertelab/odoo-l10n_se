@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--id,name,code,parent_id:id,notprintable,sign
+    tag G,G. Moms att betala eller få tillbaka.,G,0,false,1
+    tag 49,49. Moms att betala ut eller få tillbaka,R1,G,false,1
+    tag A,A. Momspliktig försäljning eller uttag exklusive moms.,A,a0,false,0
+    tag 5, 5. Momspliktig försäljning som inte ingår i annan ruta nedan,MP1,A,false,0
+    tag 6, 6. Momspliktiga uttag,aMU1,A,false,0
+    7, 7. Beskattningsunderlag vid vinstmarginalbeskattning,MBBU,A,false,0
+    8, 8. Hyresinkomster vid frivillig skattskyldighet,MPFF,A,false,0
+    tag B,B. Utgående moms på försäljning eller uttag i ruta 5-8.,aB,a49,false,-1
+    10,10. Utgående moms 25%,aU1,aB,false,1
+    11,11. Utgående moms 12%,aU2,aB,false,1
+    12,12. Utgående moms 6%,aU3,aB,false,1
+    tag C,C. Momspliktiga inköp där köparen är skattskyldig.,aC,a0,false,0
+    20,20. Inköp av varor från annat EG-land,aVFEU,aC,false,0
+    21,21. Inköp av tjänster från annat EG-land,aTFEU,aC,false,0
+    22,22. Inköp av tjänster från land utanför EG,aTFFU,aC,false,0
+    23,23. Inköp av varor i Sverige,aIVIS,aC,false,0
+    24,24. Inköp av tjänster i Sverige,aITIS,aC,false,0
+    tag D,D. Utgående moms på inköp i ruta 20 - 24.,aD,a49,false,-1
+    30,30. Utgående moms 25%,aU1MI,aD,false,1
+    31,31. Utgående moms 12%,aU2MI,aD,false,1
+    32,32. Utgående moms 6%,aU3MI,aD,false,1
+    E,E. Försäljning m.m. som är undantagen från moms.,E1,0,false,0
+    35,35. Försäljning av varor till annat EG-land,VTEU,E,false,0
+    36,36. Försäljning av varor utanför EG,E,E,false,0
+    37,37. Mellanmans inköp av varor vid trepartshandel,a3VEU,aE,false,0
+    38,38. Mellanmans försäljning av varor vid trepartshandel,a3FEU,aE,false,0
+    39,39. Försäjning av tjänster när köparen är skatteskyldig i EG,aFTEU,aE,false,0
+    40,40. Övrig försäljning av tjänster omsatta i utlandet,aOTTU,aE,false,0
+    41,41. Försäljning när köparen är skatteskyldig i Sverige,aOMSS,aE,false,0
+    42,42. Övrig försäljning m.m,aMF,aE,false,0
+    tag F,F. Ingående moms.,aF,a49,false,1
+    tag 48,48. Ingående moms att dra av,aI,aF,false,1
+    MPI,nn. Ingående moms bas 25 %,aMPI,a0,false,0
+    MPI12,nn. Ingående moms bas 12 %,aMPI,a0,false,0
+    MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
+-->
+
+    <data noupdate="0">
+        <record id="root" model="account.finacial.report">
+            <field name="name">Momsrapport</field>
+            <field name="sequence">0</field>
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">1</field>
+        </record>
+        <record id="g" model="account.finacial.report">
+            <field name="name">G. Moms att betala eller få tillbaka</field>
+            <field name="sequence">90</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">2</field>
+        </record>
+        <record id="49" model="account.finacial.report">
+            <field name="name">49. Moms att betala ut eller få tillbaka</field>
+            <field name="sequence">99</field>
+            <field name="parent_id" ref="l10n_se_tax_report.g">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+        </record>
+        <!-- column A -->
+        <record id="a" model="account.finacial.report">
+            <field name="name">A. Momspliktig försäljning eller uttag exklusive moms</field>
+            <field name="sequence">10</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">2</field>
+        </record>
+        <record id="5" model="account.finacial.report">
+            <field name="name">5. Momspliktig försäljning som inte ingår i annan ruta nedan</field>
+            <field name="sequence">11</field>
+            <field name="parent_id" ref="l10n_se_tax_report.a">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mp1')])]"/>
+        </record>
+        <record id="6" model="account.finacial.report">
+            <field name="name">6. Momspliktiga uttag</field>
+            <field name="sequence">12</field>
+            <field name="parent_id" ref="l10n_se_tax_report.a">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mu1')])]"/>
+        </record>
+        <record id="7" model="account.finacial.report">
+            <field name="name">7. Beskattningsunderlag vid vinstmarginalbeskattning</field>
+            <field name="sequence">13</field>
+            <field name="parent_id" ref="l10n_se_tax_report.a">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mbbu')])]"/>
+        </record>
+        <record id="8" model="account.finacial.report">
+            <field name="name">8. Hyresinkomster vid frivillig skattskyldighet</field>
+            <field name="sequence">14</field>
+            <field name="parent_id" ref="l10n_se_tax_report.a">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mpff')])]"/>
+        </record>
+        <!-- column B -->
+        <record id="b" model="account.finacial.report">
+            <field name="name">B. Utgående moms på försäljning eller uttag i ruta 5-8</field>
+            <field name="sequence">20</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root">
+            <field name="type">accounts</field>
+            <field name="sign">-1</field>
+            <field name="style_overwrite">2</field>
+        </record>
+        <record id="10" model="account.finacial.report">
+            <field name="name">10. Utgående moms 25%</field>
+            <field name="sequence">21</field>
+            <field name="parent_id" ref="l10n_se_tax_report.b">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u1')])]"/>
+        </record>
+        <record id="11" model="account.finacial.report">
+            <field name="name">11. Utgående moms 12%</field>
+            <field name="sequence">22</field>
+            <field name="parent_id" ref="l10n_se_tax_report.b">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u2')])]"/>
+        </record>
+        <record id="12" model="account.finacial.report">
+            <field name="name">12. Utgående moms 6%</field>
+            <field name="sequence">23</field>
+            <field name="parent_id" ref="l10n_se_tax_report.b">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u3')])]"/>
+        </record>
+        <!-- column C -->
+        <record id="c" model="account.finacial.report">
+            <field name="name">C. Momspliktiga inköp där köparen är skattskyldig</field>
+            <field name="sequence">30</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">2</field>
+        </record>
+        <record id="20" model="account.finacial.report">
+            <field name="name">20. Inköp av varor från annat EG-land</field>
+            <field name="sequence">31</field>
+            <field name="parent_id" ref="l10n_se_tax_report.c">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.vfeu')])]"/>
+        </record>
+        <record id="21" model="account.finacial.report">
+            <field name="name">21. Inköp av tjänster från annat EG-land</field>
+            <field name="sequence">32</field>
+            <field name="parent_id" ref="l10n_se_tax_report.c">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.tfeu')])]"/>
+        </record>
+        <record id="22" model="account.finacial.report">
+            <field name="name">22. Inköp av tjänster från land utanför EG</field>
+            <field name="sequence">33</field>
+            <field name="parent_id" ref="l10n_se_tax_report.c">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.tffu')])]"/>
+        </record>
+        <record id="23" model="account.finacial.report">
+            <field name="name">23. Inköp av varor i Sverige</field>
+            <field name="sequence">34</field>
+            <field name="parent_id" ref="l10n_se_tax_report.c">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.ivis')])]"/>
+        </record>
+        <record id="24" model="account.finacial.report">
+            <field name="name">24. Inköp av tjänster i Sverige</field>
+            <field name="sequence">35</field>
+            <field name="parent_id" ref="l10n_se_tax_report.c">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.itis')])]"/>
+        </record>
+        <!-- column D -->
+        <record id="d" model="account.finacial.report">
+            <field name="name">D. Utgående moms på inköp i ruta 20 - 24</field>
+            <field name="sequence">40</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root">
+            <field name="type">accounts</field>
+            <field name="sign">-1</field>
+            <field name="style_overwrite">2</field>
+        </record>
+        <record id="30" model="account.finacial.report">
+            <field name="name">30. Utgående moms 25%</field>
+            <field name="sequence">41</field>
+            <field name="parent_id" ref="l10n_se_tax_report.d">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u1mi')])]"/>
+        </record>
+        <record id="31" model="account.finacial.report">
+            <field name="name">31. Utgående moms 12%</field>
+            <field name="sequence">42</field>
+            <field name="parent_id" ref="l10n_se_tax_report.d">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u2mi')])]"/>
+        </record>
+        <record id="32" model="account.finacial.report">
+            <field name="name">32. Utgående moms 6%</field>
+            <field name="sequence">43</field>
+            <field name="parent_id" ref="l10n_se_tax_report.d">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u3mi')])]"/>
+        </record>
+        <!-- column E -->
+        <record id="e" model="account.finacial.report">
+            <field name="name">E. Försäljning m.m. som är undantagen från moms</field>
+            <field name="sequence">50</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">2</field>
+        </record>
+        <record id="35" model="account.finacial.report">
+            <field name="name">35. Försäljning av varor till annat EG-land</field>
+            <field name="sequence">51</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.vteu')])]"/>
+        </record>
+        <record id="36" model="account.finacial.report">
+            <field name="name">36. Försäljning av varor utanför EG</field>
+            <field name="sequence">52</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.e')])]"/>
+        </record>
+        <record id="37" model="account.finacial.report">
+            <field name="name">37. Mellanmans inköp av varor vid trepartshandel</field>
+            <field name="sequence">53</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.3veu')])]"/>
+        </record>
+        <record id="38" model="account.finacial.report">
+            <field name="name">38. Mellanmans försäljning av varor vid trepartshandel</field>
+            <field name="sequence">54</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.3feu')])]"/>
+        </record>
+        <record id="39" model="account.finacial.report">
+            <field name="name">39. Försäjning av tjänster när köparen är skatteskyldig i EG</field>
+            <field name="sequence">55</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.fteu')])]"/>
+        </record>
+        <record id="40" model="account.finacial.report">
+            <field name="name">40. Övrig försäljning av tjänster omsatta i utlandet</field>
+            <field name="sequence">56</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.ottu')])]"/>
+        </record>
+        <record id="41" model="account.finacial.report">
+            <field name="name">41. Försäljning när köparen är skatteskyldig i Sverige</field>
+            <field name="sequence">57</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.omss')])]"/>
+        </record>
+        <record id="42" model="account.finacial.report">
+            <field name="name">42. Övrig försäljning m.m</field>
+            <field name="sequence">58</field>
+            <field name="parent_id" ref="l10n_se_tax_report.e">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mf')])]"/>
+        </record>
+        <!-- column F -->
+        <record id="f" model="account.finacial.report">
+            <field name="name">F. Ingående moms</field>
+            <field name="sequence">60</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root">
+            <field name="type">accounts</field>
+            <field name="sign">-1</field>
+            <field name="style_overwrite">2</field>
+        </record>
+        <record id="48" model="account.finacial.report">
+            <field name="name">48. Ingående moms att dra av</field>
+            <field name="sequence">61</field>
+            <field name="parent_id" ref="l10n_se_tax_report.f">
+            <field name="type">accounts</field>
+            <field name="sign">1</field>
+            <field name="style_overwrite">4</field>
+            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.i')])]"/>
+        </record>
+
+    </data>
+
+</odoo>
