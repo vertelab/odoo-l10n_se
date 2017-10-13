@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api, _
 import re
 from lxml import html
 
@@ -29,7 +30,7 @@ class create_year_end_report(models.TransientModel):
 
     data_normal = fields.Binary('BAS Normal')
     data_simplified = fields.Binary('BAS K1 simplified')
-   
+
     @api.multi
     def send_form(self,):
 
@@ -138,7 +139,7 @@ class create_year_end_report(models.TransientModel):
         year_end = self.env['account.financial.report'].create({'name':u'Resultat och balansräkning (bokslut)','type': 'sum','sequence': 0})
         year_end_r = self.env['account.financial.report'].create({'name':u'Resultaträkning','parent_id': year_end.id,'style_overwrite': 1,'type': 'sum','sequence': 10})
         year_end_b = self.env['account.financial.report'].create({'name':u'Balansräkning','parent_id': year_end.id,'style_overwrite': 1,'type': 'sum','sequence': 20})
-        
+
         for s,line in enumerate(l):
             if line['t'] == 'B':
                 r = self.env['account.financial.report'].create({'name':line['f'],'parent_id': year_end_b.id,'style_overwrite': 3,'type': 'accounts','sequence': s})
@@ -146,7 +147,7 @@ class create_year_end_report(models.TransientModel):
             elif line['t'] == 'R':
                 r = self.env['account.financial.report'].create({'name':line['f'],'parent_id': year_end_r.id,'style_overwrite': 3,'type': 'accounts','sequence': s})
                 r.account_ids = self.env['account.account'].search(line['k'])
-            
+
 
 
 
@@ -166,7 +167,7 @@ def domain(konto):
     dom = []
     sign = ['>=','<=']
     if k.findall(konto):
-        
+
         for i,k in enumerate(k.findall(konto)):
            dom.append("('code','%s','%s')" % (sign[i % 2],k))
 
@@ -197,5 +198,5 @@ for i in range(0,len(konton)):
         besk = ''
     print "{'t':'%s','f':\"%s\",'b':\"%s\",'k':\"%s\"}," % (type,falt.strip(),besk,domain(konton[i]))
     t += 1
-    
+
 print "]"
