@@ -29,6 +29,12 @@ class account_financial_report(models.Model):
 
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Account Tax')
 
+    @api.model
+    def create(self, vals):
+        if 'tax_ids' in vals:
+            vals['account_ids'] = [(6, _, self.env['account.tax'].browse(vals['tax_ids'][0][2]).mapped('account_id').mapped('id'))]
+        return super(account_financial_report, self).create(vals)
+
     @api.multi
     def write(self, vals):
         if 'tax_ids' in vals:

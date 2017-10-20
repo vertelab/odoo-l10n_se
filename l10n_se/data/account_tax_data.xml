@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
+<!--
+      <record id="l10nbe_chart_template" model="account.chart.template">
+            <field name="name">Belgian PCMN</field>
+            <field name="bank_account_code_prefix">550</field>
+            <field name="cash_account_code_prefix">570</field>
+            <field name="code_digits">6</field>
+            <field name="transfer_account_id" ref="trans"/>
+            <field name="property_account_receivable_id" ref="a4000"/>
+            <field name="property_account_payable_id" ref="a440"/>
+            <field name="property_account_expense_categ_id" ref="a600"/>
+            <field name="property_account_income_categ_id" ref="a7010"/>
+            <field name="expense_currency_exchange_account_id" ref="a654"/>
+            <field name="income_currency_exchange_account_id" ref="a754"/>
+        </record>
+-->
+
     <record id="chart1955" model="account.account.template">
       <field name="name">Bank transfer</field>
       <field name="code">1955general</field>
@@ -355,10 +371,7 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">sale</field>
       <field name="account_id" ref="chart2610"/>
       <field name="refund_account_id" ref="chart2610"/>
-
 <!--
-      <field name="account_id" ref="chart2701"/>
-      <field name="refund_account_id" ref="chart2701"/>
       <field name="tag_ids" eval="[(6,0,[ref('tag_no_04'),ref('tag_no_14')])]"/>
 -->
     </record>
@@ -373,9 +386,7 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">sale</field>
       <field name="account_id" ref="chart2610"/>
       <field name="refund_account_id" ref="chart2610"/>
-
     </record>
-
 
     <record id="mp2" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
@@ -386,10 +397,7 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">sale</field>
       <field name="account_id" ref="chart2620"/>
       <field name="refund_account_id" ref="chart2620"/>
-
     </record>
-
-
 
     <record id="mp2i" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
@@ -401,9 +409,7 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">sale</field>
       <field name="account_id" ref="chart2620"/>
       <field name="refund_account_id" ref="chart2620"/>
-
     </record>
-
 
     <record id="mp3" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
@@ -414,7 +420,6 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">sale</field>
       <field name="account_id" ref="chart2630"/>
       <field name="refund_account_id" ref="chart2630"/>
-
     </record>
 
     <record id="mp3i" model="account.tax.template">
@@ -427,7 +432,6 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">sale</field>
             <field name="account_id" ref="chart2630"/>
       <field name="refund_account_id" ref="chart2630"/>
-
     </record>
 
     <record id="mf" model="account.tax.template">
@@ -438,6 +442,7 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="amount_type">percent</field>
       <field name="type_tax_use">sale</field>
     </record>
+
 <!-- purchase -->
     <record id="i" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
@@ -448,8 +453,6 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">purchase</field>
       <field name="account_id" ref="chart2640"/>
       <field name="refund_account_id" ref="chart2640"/>
-
-
     </record>
 
     <record id="ii" model="account.tax.template">
@@ -462,8 +465,8 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">purchase</field>
       <field name="account_id" ref="chart2640"/>
       <field name="refund_account_id" ref="chart2640"/>
-
     </record>
+
     <record id="i12" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
       <field name="name">I12</field>
@@ -473,8 +476,8 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">purchase</field>
       <field name="account_id" ref="chart2640"/>
       <field name="refund_account_id" ref="chart2640"/>
-
     </record>
+
     <record id="i12i" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
       <field name="name">I12i</field>
@@ -485,8 +488,8 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">purchase</field>
       <field name="account_id" ref="chart2640"/>
       <field name="refund_account_id" ref="chart2640"/>
-
     </record>
+
     <record id="i6" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
       <field name="name">I6</field>
@@ -496,8 +499,8 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">purchase</field>
       <field name="account_id" ref="chart2640"/>
       <field name="refund_account_id" ref="chart2640"/>
-
     </record>
+
     <record id="i6i" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
       <field name="name">I6i</field>
@@ -508,8 +511,8 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="type_tax_use">purchase</field>
       <field name="account_id" ref="chart2640"/>
       <field name="refund_account_id" ref="chart2640"/>
-
     </record>
+
     <record id="mu1" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general"/>
       <field name="name">MU1</field>
@@ -517,8 +520,10 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="amount">25</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">sale</field>
+<!--
       <field name="account_id" ref="chart3011"/>
       <field name="refund_account_id" ref="chart3011"/>
+-->
     </record>
 
 

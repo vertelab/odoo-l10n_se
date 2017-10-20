@@ -8029,6 +8029,10 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="note">Används sällan.</field>
     </record>
+    <record id="chart_template_K1_2017" model="account.chart.template">
+      <field name="property_account_receivable_id" ref="K1_1511_2017"/>
+      <field name="property_account_payable_id" ref="K1_2441_2017"/>
+    </record>
     <record id="K2_1955_2017" model="account.account.template">
       <field name="name">Bank transfer</field>
       <field name="code">1955</field>
@@ -16056,6 +16060,10 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="l10n_se.tax"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="note">Används sällan.</field>
+    </record>
+    <record id="chart_template_K2_2017" model="account.chart.template">
+      <field name="property_account_receivable_id" ref="K2_1511_2017"/>
+      <field name="property_account_payable_id" ref="K2_2441_2017"/>
     </record>
     <record id="K3_1955_2017" model="account.account.template">
       <field name="name">Bank transfer</field>
@@ -24085,6 +24093,10 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="note">Används sällan.</field>
     </record>
+    <record id="chart_template_K3_2017" model="account.chart.template">
+      <field name="property_account_receivable_id" ref="K3_1511_2017"/>
+      <field name="property_account_payable_id" ref="K3_2441_2017"/>
+    </record>
     <record id="K4_1955_2017" model="account.account.template">
       <field name="name">Bank transfer</field>
       <field name="code">1955</field>
@@ -32112,6 +32124,10 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="l10n_se.tax"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="note">Används sällan.</field>
+    </record>
+    <record id="chart_template_K4_2017" model="account.chart.template">
+      <field name="property_account_receivable_id" ref="K4_1511_2017"/>
+      <field name="property_account_payable_id" ref="K4_2441_2017"/>
     </record>
   </data>
 </odoo>

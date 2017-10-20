@@ -79,9 +79,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mp1')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'MP1')]"/>
         </record>
         <record id="6" model="account.financial.report">
             <field name="name">6. Momspliktiga uttag</field>
@@ -377,9 +375,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.i')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'I')]"/>
         </record>
 
     </data>
