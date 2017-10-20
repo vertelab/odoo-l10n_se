@@ -183,7 +183,7 @@
          <field name="chart_template_id" ref="chart_template_general"/>
          <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
          </record>
-         
+
     -->
     <record id="chart3740" model="account.account.template">
       <field name="name">Öres- och kronutjämning</field>
@@ -625,6 +625,16 @@
       <field name="code">8999</field>
       <field name="user_type_id" ref="account.data_account_type_equity" />
       <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="chart_template_general" model="account.chart.template">
+        <field name="property_account_receivable_id" ref="chart1510"/>
+        <field name="property_account_payable_id" ref="chart2440"/>
+        <field name="property_account_expense_categ_id" ref="chart3000"/>
+        <field name="property_account_income_categ_id" ref="chart4000"/>
+<!--
+        <field name="expense_currency_exchange_account_id" ref="a654"/>
+        <field name="income_currency_exchange_account_id" ref="a754"/>
+-->
     </record>
   </data>
 </odoo>
