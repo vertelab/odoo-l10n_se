@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.far.se/se/fr/ar/base/2017-09-30" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:se-ar-base="http://www.far.se/se/fr/ar/base/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrli="http://www.xbrl.org/2003/instance">
+  <xsd:annotation>
+    <xsd:appinfo>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-ar-base-2017-09-30-label-sv.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-ar-base-2017-09-30-label-doc-sv.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-ar-base-2017-09-30-label-ver-sv.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-ar-base-2017-09-30-ref-RevR.xml" xlink:role="http://www.xbrl.org/2003/role/referenceLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xsd:import namespace="http://www.xbrl.org/2006/ref" schemaLocation="http://www.xbrl.org/2006/ref-2006-02-27.xsd"/>
+  <xsd:element name="RevisionsberattelseAbstract" id="se-ar-base_RevisionsberattelseAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="Mottagare" id="se-ar-base_Mottagare" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="Firma" id="se-ar-base_Firma" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="Organisationsnummer" id="se-ar-base_Organisationsnummer" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="RapportArsredovisningAbstract" id="se-ar-base_RapportArsredovisningAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UttalandenTuple" id="se-ar-base_UttalandenTuple" substitutionGroup="xbrli:tuple">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="se-ar-base:UttalandeRubrik"/>
+        <xsd:element minOccurs="0" ref="se-ar-base:UttalandeText"/>
+      </xsd:sequence>
+      <xsd:attributeGroup ref="xbrli:tupleAttrs"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="UttalandeRubrik" id="se-ar-base_UttalandeRubrik" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UttalandeText" id="se-ar-base_UttalandeText" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="GrundUttalanden" id="se-ar-base_GrundUttalanden" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="LagstadgadUpplysning" id="se-ar-base_LagstadgadUpplysning" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" id="se-ar-base_VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UpplysningSarskildBetydelse" id="se-ar-base_UpplysningSarskildBetydelse" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="OvrigaUpplysningar" id="se-ar-base_OvrigaUpplysningar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AnnanInformationArsredovisningen" id="se-ar-base_AnnanInformationArsredovisningen" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AnsvarAbstract" id="se-ar-base_AnsvarAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="StyrelsenVerkstallandeDirektorAnsvar" id="se-ar-base_StyrelsenVerkstallandeDirektorAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="StyrelsenAnsvar" id="se-ar-base_StyrelsenAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="LikvidatorAnsvar" id="se-ar-base_LikvidatorAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="RevisorAnsvar" id="se-ar-base_RevisorAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="RapportAndraKravLagForfattningAbstract" id="se-ar-base_RapportAndraKravLagForfattningAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningUttalandenTuple" id="se-ar-base_AndraKravLagForfattningUttalandenTuple" substitutionGroup="xbrli:tuple">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="se-ar-base:AndraKravLagForfattningUttalandenRubrik"/>
+        <xsd:element minOccurs="0" ref="se-ar-base:AndraKravLagForfattningUttalandenText"/>
+      </xsd:sequence>
+      <xsd:attributeGroup ref="xbrli:tupleAttrs"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="AndraKravLagForfattningUttalandenRubrik" id="se-ar-base_AndraKravLagForfattningUttalandenRubrik" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningUttalandenText" id="se-ar-base_AndraKravLagForfattningUttalandenText" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningGrundUttalanden" id="se-ar-base_AndraKravLagForfattningGrundUttalanden" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningOvrigUpplysning" id="se-ar-base_AndraKravLagForfattningOvrigUpplysning" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningAnsvarAbstract" id="se-ar-base_AndraKravLagForfattningAnsvarAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningStyrelseVerkstallandeDirektorAnsvar" id="se-ar-base_AndraKravLagForfattningStyrelseVerkstallandeDirektorAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningStyrelseAnsvar" id="se-ar-base_AndraKravLagForfattningStyrelseAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningLikvidatorAnsvar" id="se-ar-base_AndraKravLagForfattningLikvidatorAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningRevisorAnsvar" id="se-ar-base_AndraKravLagForfattningRevisorAnsvar" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="AndraKravLagForfattningAnmarkning" id="se-ar-base_AndraKravLagForfattningAnmarkning" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="RevisionAvslutandeEtableringsort" id="se-ar-base_RevisionAvslutandeEtableringsort" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="RevisionAvslutandeDatum" id="se-ar-base_RevisionAvslutandeDatum" type="xbrli:dateTimeItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="ValtRevisionsbolagNamn" id="se-ar-base_ValtRevisionsbolagNamn" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UnderskriftRevisionsberattelseTuple" id="se-ar-base_UnderskriftRevisionsberattelseTuple" substitutionGroup="xbrli:tuple">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="se-ar-base:UnderskriftRevisionsberattelseRevisorTilltalsnamn"/>
+        <xsd:element ref="se-ar-base:UnderskriftRevisionsberattelseRevisorEfternamn"/>
+        <xsd:element minOccurs="0" ref="se-ar-base:UnderskriftRevisionsberattelseRevisorTitel"/>
+        <xsd:element minOccurs="0" ref="se-ar-base:UnderskriftRevisionsberattelseRevisorHuvudansvarig"/>
+      </xsd:sequence>
+      <xsd:attributeGroup ref="xbrli:tupleAttrs"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="UnderskriftRevisionsberattelseRevisorTilltalsnamn" id="se-ar-base_UnderskriftRevisionsberattelseRevisorTilltalsnamn" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UnderskriftRevisionsberattelseRevisorEfternamn" id="se-ar-base_UnderskriftRevisionsberattelseRevisorEfternamn" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UnderskriftRevisionsberattelseRevisorTitel" id="se-ar-base_UnderskriftRevisionsberattelseRevisorTitel" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UnderskriftRevisionsberattelseRevisorHuvudansvarig" id="se-ar-base_UnderskriftRevisionsberattelseRevisorHuvudansvarig" type="xbrli:booleanItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="OvrigInformationAbstract" id="se-ar-base_OvrigInformationAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="RevisionsbyraNamn" id="se-ar-base_RevisionsbyraNamn" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="duration"/>
+</xsd:schema>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2004/ref http://www.xbrl.org/2004/ref-2004-08-10.xsd http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:se-comp-base="http://www.bolagsverket.se/se/fr/comp-base/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:ref="http://www.xbrl.org/2004/ref" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrli="http://www.xbrl.org/2003/instance">
+  <link:referenceLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link" xlink:title="Companies registration base">
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_Faststallelseintyg" xlink:label="Faststallelseintyg" xlink:title="Faststallelseintyg"/>
+    <link:reference xlink:type="resource" xlink:label="reference_Faststallelseintyg" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_Faststallelseintyg" id="reference_Faststallelseintyg">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Faststallelseintyg" xlink:to="reference_Faststallelseintyg" xlink:title="reference: Faststallelseintyg to reference_Faststallelseintyg"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_Arsstamma" xlink:label="Arsstamma" xlink:title="Arsstamma"/>
+    <link:reference xlink:type="resource" xlink:label="reference_Arsstamma" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_Arsstamma" id="reference_Arsstamma">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Arsstamma" xlink:to="reference_Arsstamma" xlink:title="reference: Arsstamma to reference_Arsstamma"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaIntygande" xlink:label="Intygande" xlink:title="Intygande"/>
+    <link:reference xlink:type="resource" xlink:label="reference_Intygande" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_Intygande" id="reference_Intygande">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Intygande" xlink:to="reference_Intygande" xlink:title="reference: Intygande to reference_Intygande"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_FaststallelseResultatBalansrakning" xlink:label="Faststallelse" xlink:title="Faststallelse"/>
+    <link:reference xlink:type="resource" xlink:label="reference_Faststallelse" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_Faststallelse" id="reference_Faststallelse">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Faststallelse" xlink:to="reference_Faststallelse" xlink:title="reference: Faststallelse to reference_Faststallelse"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDisposition" xlink:label="ResultatDisposition" xlink:title="ResultatDisposition"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDisposition" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDisposition" id="reference_ResultatDisposition">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDisposition" xlink:to="reference_ResultatDisposition" xlink:title="reference: ResultatDisposition to reference_ResultatDisposition"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionGodkannaStyrelsensForslag" xlink:label="ResultatDispositionGodkannaStyrelsensForslag" xlink:title="ResultatDispositionGodkannaStyrelsensForslag"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionGodkannaStyrelsensForslag" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionGodkannaStyrelsensForslag" id="reference_ResultatDispositionGodkannaStyrelsensForslag">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionGodkannaStyrelsensForslag" xlink:to="reference_ResultatDispositionGodkannaStyrelsensForslag" xlink:title="reference: ResultatDispositionGodkannaStyrelsensForslag to reference_ResultatDispositionGodkannaStyrelsensForslag"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionInteGodkannaStyrelsensForslag" xlink:label="ResultatDispositionInteGodkannaStyrelsensForslag" xlink:title="ResultatDispositionInteGodkannaStyrelsensForslag"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionInteGodkannaStyrelsensForslag" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionInteGodkannaStyrelsensForslag" id="reference_ResultatDispositionInteGodkannaStyrelsensForslag">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionInteGodkannaStyrelsensForslag" xlink:to="reference_ResultatDispositionInteGodkannaStyrelsensForslag" xlink:title="reference: ResultatDispositionInteGodkannaStyrelsensForslag to reference_ResultatDispositionInteGodkannaStyrelsensForslag"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionBeslutstext" xlink:label="ResultatDispositionBeslutstext" xlink:title="ResultatDispositionBeslutstext"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionBeslutstext" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionBeslutstext" id="reference_ResultatDispositionBeslutstext">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionBeslutstext" xlink:to="reference_ResultatDispositionBeslutstext" xlink:title="reference: ResultatDispositionBeslutstext to reference_ResultatDispositionBeslutstext"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionAktieutdelning" xlink:label="ResultatDispositionAktieutdelning" xlink:title="ResultatDispositionAktieutdelning"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionAktieutdelning" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionAktieutdelning" id="reference_ResultatDispositionAktieutdelning">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionAktieutdelning" xlink:to="reference_ResultatDispositionAktieutdelning" xlink:title="reference: ResultatDispositionAktieutdelning to reference_ResultatDispositionAktieutdelning"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionBalanserasINyRakning" xlink:label="ResultatDispositionBalanserasINyRakning" xlink:title="ResultatDispositionBalanserasINyRakning"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionBalanserasINyRakning" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionBalanserasINyRakning" id="reference_ResultatDispositionBalanserasINyRakning">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionBalanserasINyRakning" xlink:to="reference_ResultatDispositionBalanserasINyRakning" xlink:title="reference: ResultatDispositionBalanserasINyRakning to reference_ResultatDispositionBalanserasINyRakning"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionIanspraktagandeReservfond" xlink:label="ResultatDispositionIanspraktagandeAvReservfond" xlink:title="ResultatDispositionIanspraktagandeAvReservfond"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionIanspraktagandeAvReservfond" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionIanspraktagandeAvReservfond" id="reference_ResultatDispositionIanspraktagandeAvReservfond">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionIanspraktagandeAvReservfond" xlink:to="reference_ResultatDispositionIanspraktagandeAvReservfond" xlink:title="reference: ResultatDispositionIanspraktagandeAvReservfond to reference_ResultatDispositionIanspraktagandeAvReservfond"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionFondemission" xlink:label="ResultatDispositionFondemission" xlink:title="ResultatDispositionFondemission"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionFondemission" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionFondemission" id="reference_ResultatDispositionFondemission">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionFondemission" xlink:to="reference_ResultatDispositionFondemission" xlink:title="reference: ResultatDispositionFondemission to reference_ResultatDispositionFondemission"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionIanspraktagandeUppskrivningsfond" xlink:label="ResultatDispositionIanspraktagandeAvUppskrivningsfond" xlink:title="ResultatDispositionIanspraktagandeAvUppskrivningsfond"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionIanspraktagandeAvUppskrivningsfond" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionIanspraktagandeAvUppskrivningsfond" id="reference_ResultatDispositionIanspraktagandeAvUppskrivningsfond">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionIanspraktagandeAvUppskrivningsfond" xlink:to="reference_ResultatDispositionIanspraktagandeAvUppskrivningsfond" xlink:title="reference: ResultatDispositionIanspraktagandeAvUppskrivningsfond to reference_ResultatDispositionIanspraktagandeAvUppskrivningsfond"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_ArsstammaResultatDispositionAvsattningReservfond" xlink:label="ResultatDispositionAvsattningReservfond" xlink:title="ResultatDispositionAvsattningReservfond"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ResultatDispositionAvsattningReservfond" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ResultatDispositionAvsattningReservfond" id="reference_ResultatDispositionAvsattningReservfond">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ResultatDispositionAvsattningReservfond" xlink:to="reference_ResultatDispositionAvsattningReservfond" xlink:title="reference: ResultatDispositionAvsattningReservfond to reference_ResultatDispositionAvsattningReservfond"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_IntygandeOriginalInnehall" xlink:label="IntygandeOriginalInnehall" xlink:title="IntygandeOriginalInnehall"/>
+    <link:reference xlink:type="resource" xlink:label="reference_IntygandeOriginalInnehall" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_IntygandeOriginalInnehall" id="reference_IntygandeOriginalInnehall">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="IntygandeOriginalInnehall" xlink:to="reference_IntygandeOriginalInnehall" xlink:title="reference: IntygandeOriginalInnehall to reference_IntygandeOriginalInnehall"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_UnderskriftFaststallseintygForetradare" xlink:label="UnderskriftFaststallseintygForetradare" xlink:title="UnderskriftFaststallseintygForetradare"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftFaststallseintygForetradare" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftFaststallseintygForetradare" id="reference_UnderskriftFaststallseintygForetradare">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftFaststallseintygForetradare" xlink:to="reference_UnderskriftFaststallseintygForetradare" xlink:title="reference: UnderskriftFaststallseintygForetradare to reference_UnderskriftFaststallseintygForetradare"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_UnderskriftFastallelseintygDatum" xlink:label="UndertecknandeFastallelseIntygDatum" xlink:title="UndertecknandeFastallelseIntygDatum"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UndertecknandeFastallelseIntygDatum" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UndertecknandeFastallelseIntygDatum" id="reference_UndertecknandeFastallelseIntygDatum">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UndertecknandeFastallelseIntygDatum" xlink:to="reference_UndertecknandeFastallelseIntygDatum" xlink:title="reference: UndertecknandeFastallelseIntygDatum to reference_UndertecknandeFastallelseIntygDatum"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_UnderskriftFaststallelseintygForetradareTilltalsnamn" xlink:label="UnderskriftFaststallelseintygForetradareTilltalsnamn" xlink:title="UnderskriftFaststallelseintygForetradareTilltalsnamn"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftFaststallelseintygForetradareTilltalsnamn" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftFaststallelseintygForetradareTilltalsnamn" id="reference_UnderskriftFaststallelseintygForetradareTilltalsnamn">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftFaststallelseintygForetradareTilltalsnamn" xlink:to="reference_UnderskriftFaststallelseintygForetradareTilltalsnamn" xlink:title="reference: UnderskriftFaststallelseintygForetradareTilltalsnamn to reference_UnderskriftFaststallelseintygForetradareTilltalsnamn"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_UnderskriftFaststallelseintygForetradareEfternamn" xlink:label="UnderskriftFaststallelseintygForetradareEfternamn" xlink:title="UnderskriftFaststallelseintygForetradareEfternamn"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftFaststallelseintygForetradareEfternamn" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftFaststallelseintygForetradareEfternamn" id="reference_UnderskriftFaststallelseintygForetradareEfternamn">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftFaststallelseintygForetradareEfternamn" xlink:to="reference_UnderskriftFaststallelseintygForetradareEfternamn" xlink:title="reference: UnderskriftFaststallelseintygForetradareEfternamn to reference_UnderskriftFaststallelseintygForetradareEfternamn"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_UnderskriftFaststallelseintygForetradareForetradarroll" xlink:label="UnderskriftFaststallelseintygForetradareForetradarroll" xlink:title="UnderskriftFaststallelseintygForetradareForetradarroll"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftFaststallelseintygForetradareForetradarroll" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftFaststallelseintygForetradareForetradarroll" id="reference_UnderskriftFaststallelseintygForetradareForetradarroll">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftFaststallelseintygForetradareForetradarroll" xlink:to="reference_UnderskriftFaststallelseintygForetradareForetradarroll" xlink:title="reference: UnderskriftFaststallelseintygForetradareForetradarroll to reference_UnderskriftFaststallelseintygForetradareForetradarroll"/>
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_UnderskriftFaststallelseintygElektroniskt" xlink:label="ElektroniskUnderskriftFaststallelseintyget" xlink:title="ElektroniskUnderskriftFaststallelseintyget"/>
+    <link:reference xlink:type="resource" xlink:label="reference_ElektroniskUnderskriftFaststallelseintyget" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_ElektroniskUnderskriftFaststallelseintyget" id="reference_ElektroniskUnderskriftFaststallelseintyget">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>8</ref:Chapter>
+      <ref:Paragraph>3</ref:Paragraph>
+      <ref:Subparagraph>1</ref:Subparagraph>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ElektroniskUnderskriftFaststallelseintyget" xlink:to="reference_ElektroniskUnderskriftFaststallelseintyget" xlink:title="reference: ElektroniskUnderskriftFaststallelseintyget to reference_ElektroniskUnderskriftFaststallelseintyget"/>
+  </link:referenceLink>
+</link:linkbase>

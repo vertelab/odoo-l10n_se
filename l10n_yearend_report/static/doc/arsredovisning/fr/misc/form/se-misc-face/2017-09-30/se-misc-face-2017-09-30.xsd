@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.taxonomier.se/se/fr/misc/face/2017-09-30" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:se-misc-face="http://www.taxonomier.se/se/fr/misc/face/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:se-misc-base="http://www.taxonomier.se/se/fr/misc-base/2017-09-30" xmlns:se-misc-ext="http://www.taxonomier.se/se/fr/misc/misc-ext/2017-09-30" xmlns:xl="http://www.xbrl.org/2003/XLink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xsd:annotation>
+    <xsd:appinfo>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-misc-face-2017-09-30-presentation.xml" xlink:role="http://www.xbrl.org/2003/role/presentationLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:roleType roleURI="http://www.taxonomier.se/se/fr/misc/role/AdditionalContentExtension" id="RT_1">
+        <link:definition>Additional Content Extension</link:definition>
+        <link:usedOn>link:presentationLink</link:usedOn>
+      </link:roleType>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xsd:import namespace="http://www.taxonomier.se/se/fr/misc/misc-ext/2017-09-30" schemaLocation="../../../../../common/domain/misc/se-misc-ext/2017-09-30/se-misc-ext-2017-09-30.xsd"/>
+</xsd:schema>

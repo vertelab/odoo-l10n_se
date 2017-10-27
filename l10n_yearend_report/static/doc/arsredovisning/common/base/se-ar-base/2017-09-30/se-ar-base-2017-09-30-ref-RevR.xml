@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2004/ref http://www.xbrl.org/2004/ref-2004-08-10.xsd http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:se-ar-base="http://www.far.se/se/fr/ar/base/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:ref="http://www.xbrl.org/2004/ref" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <link:referenceLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link">
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_OvrigaUpplysningar" xlink:label="OvrigaUpplysningar" xlink:title="OvrigaUpplysningar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_OvrigaUpplysningar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_OvrigaUpplysningar" id="reference_OvrigaUpplysningar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="OvrigaUpplysningar" xlink:to="reference_OvrigaUpplysningar" xlink:title="reference: OvrigaUpplysningar to reference_OvrigaUpplysningar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_RevisionAvslutandeEtableringsort" xlink:label="RevisionensAvslutandeEtableringsort" xlink:title="RevisionensAvslutandeEtableringsort"/>
+    <link:reference xlink:type="resource" xlink:label="reference_RevisionensAvslutandeEtableringsort" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_RevisionensAvslutandeEtableringsort" id="reference_RevisionensAvslutandeEtableringsort">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="RevisionensAvslutandeEtableringsort" xlink:to="reference_RevisionensAvslutandeEtableringsort" xlink:title="reference: RevisionensAvslutandeEtableringsort to reference_RevisionensAvslutandeEtableringsort"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_RevisionAvslutandeDatum" xlink:label="RevisionensAvslutandeDatum" xlink:title="RevisionensAvslutandeDatum"/>
+    <link:reference xlink:type="resource" xlink:label="reference_RevisionensAvslutandeDatum" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_RevisionensAvslutandeDatum" id="reference_RevisionensAvslutandeDatum">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="RevisionensAvslutandeDatum" xlink:to="reference_RevisionensAvslutandeDatum" xlink:title="reference: RevisionensAvslutandeDatum to reference_RevisionensAvslutandeDatum"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UnderskriftRevisionsberattelseRevisorTilltalsnamn" xlink:label="UnderskriftRevisionsberattelseRevisorTilltalsnamn" xlink:title="UnderskriftRevisionsberattelseRevisorTilltalsnamn"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftRevisionsberattelseRevisorTilltalsnamn" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftRevisionsberattelseRevisorTilltalsnamn" id="reference_UnderskriftRevisionsberattelseRevisorTilltalsnamn">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftRevisionsberattelseRevisorTilltalsnamn" xlink:to="reference_UnderskriftRevisionsberattelseRevisorTilltalsnamn" xlink:title="reference: UnderskriftRevisionsberattelseRevisorTilltalsnamn to reference_UnderskriftRevisionsberattelseRevisorTilltalsnamn"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UnderskriftRevisionsberattelseRevisorEfternamn" xlink:label="UnderskriftRevisionsberattelseRevisorEfternamn" xlink:title="UnderskriftRevisionsberattelseRevisorEfternamn"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftRevisionsberattelseRevisorEfternamn" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftRevisionsberattelseRevisorEfternamn" id="reference_UnderskriftRevisionsberattelseRevisorEfternamn">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftRevisionsberattelseRevisorEfternamn" xlink:to="reference_UnderskriftRevisionsberattelseRevisorEfternamn" xlink:title="reference: UnderskriftRevisionsberattelseRevisorEfternamn to reference_UnderskriftRevisionsberattelseRevisorEfternamn"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UnderskriftRevisionsberattelseRevisorTitel" xlink:label="UnderskriftRevisionsberattelseRevisorTitel" xlink:title="UnderskriftRevisionsberattelseRevisorTitel"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftRevisionsberattelseRevisorTitel" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftRevisionsberattelseRevisorTitel" id="reference_UnderskriftRevisionsberattelseRevisorTitel">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftRevisionsberattelseRevisorTitel" xlink:to="reference_UnderskriftRevisionsberattelseRevisorTitel" xlink:title="reference: UnderskriftRevisionsberattelseRevisorTitel to reference_UnderskriftRevisionsberattelseRevisorTitel"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UnderskriftRevisionsberattelseRevisorHuvudansvarig" xlink:label="UnderskriftRevisionsberattelseRevisorHuvudansvarig" xlink:title="UnderskriftRevisionsberattelseRevisorHuvudansvarig"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftRevisionsberattelseRevisorHuvudansvarig" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftRevisionsberattelseRevisorHuvudansvarig" id="reference_UnderskriftRevisionsberattelseRevisorHuvudansvarig">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftRevisionsberattelseRevisorHuvudansvarig" xlink:to="reference_UnderskriftRevisionsberattelseRevisorHuvudansvarig" xlink:title="reference: UnderskriftRevisionsberattelseRevisorHuvudansvarig to reference_UnderskriftRevisionsberattelseRevisorHuvudansvarig"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" xlink:label="VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" xlink:title="VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift"/>
+    <link:reference xlink:type="resource" xlink:label="reference_VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" id="reference_VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" xlink:to="reference_VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift" xlink:title="reference: VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift to reference_VasentligOsakerhetsfaktorAvseendeAntagandetFortsattDrift"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UpplysningSarskildBetydelse" xlink:label="UpplysningSarskildBetydelse" xlink:title="UpplysningSarskildBetydelse"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UpplysningSarskildBetydelse" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UpplysningSarskildBetydelse" id="reference_UpplysningSarskildBetydelse">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UpplysningSarskildBetydelse" xlink:to="reference_UpplysningSarskildBetydelse" xlink:title="reference: UpplysningSarskildBetydelse to reference_UpplysningSarskildBetydelse"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningOvrigUpplysning" xlink:label="AndraKravLagarForfattningarOvrigUpplysning" xlink:title="AndraKravLagarForfattningarOvrigUpplysning"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagarForfattningarOvrigUpplysning" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagarForfattningarOvrigUpplysning" id="reference_AndraKravLagarForfattningarOvrigUpplysning">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagarForfattningarOvrigUpplysning" xlink:to="reference_AndraKravLagarForfattningarOvrigUpplysning" xlink:title="reference: AndraKravLagarForfattningarOvrigUpplysning to reference_AndraKravLagarForfattningarOvrigUpplysning"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UnderskriftRevisionsberattelseTuple" xlink:label="UnderskriftRevisionsberattelseTuple" xlink:title="UnderskriftRevisionsberattelseTuple"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UnderskriftRevisionsberattelseTuple" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UnderskriftRevisionsberattelseTuple" id="reference_UnderskriftRevisionsberattelseTuple">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UnderskriftRevisionsberattelseTuple" xlink:to="reference_UnderskriftRevisionsberattelseTuple" xlink:title="reference: UnderskriftRevisionsberattelseTuple to reference_UnderskriftRevisionsberattelseTuple"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_GrundUttalanden" xlink:label="GrundUttalanden" xlink:title="GrundUttalanden"/>
+    <link:reference xlink:type="resource" xlink:label="reference_GrundUttalanden" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_GrundUttalanden" id="reference_GrundUttalanden">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="GrundUttalanden" xlink:to="reference_GrundUttalanden" xlink:title="reference: GrundUttalanden to reference_GrundUttalanden"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AnnanInformationArsredovisningen" xlink:label="AnnanInformationArsredovisningen" xlink:title="AnnanInformationArsredovisningen"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AnnanInformationArsredovisningen" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AnnanInformationArsredovisningen" id="reference_AnnanInformationArsredovisningen">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AnnanInformationArsredovisningen" xlink:to="reference_AnnanInformationArsredovisningen" xlink:title="reference: AnnanInformationArsredovisningen to reference_AnnanInformationArsredovisningen"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_StyrelsenVerkstallandeDirektorAnsvar" xlink:label="StyrelsensVerkstallandeDirektorensAnsvar" xlink:title="StyrelsensVerkstallandeDirektorensAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_StyrelsensVerkstallandeDirektorensAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_StyrelsensVerkstallandeDirektorensAnsvar" id="reference_StyrelsensVerkstallandeDirektorensAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="StyrelsensVerkstallandeDirektorensAnsvar" xlink:to="reference_StyrelsensVerkstallandeDirektorensAnsvar" xlink:title="reference: StyrelsensVerkstallandeDirektorensAnsvar to reference_StyrelsensVerkstallandeDirektorensAnsvar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_StyrelsenAnsvar" xlink:label="StyrelsensAnsvar" xlink:title="StyrelsensAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_StyrelsensAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_StyrelsensAnsvar" id="reference_StyrelsensAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="StyrelsensAnsvar" xlink:to="reference_StyrelsensAnsvar" xlink:title="reference: StyrelsensAnsvar to reference_StyrelsensAnsvar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_RevisorAnsvar" xlink:label="RevisornsAnsvar" xlink:title="RevisornsAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_RevisornsAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_RevisornsAnsvar" id="reference_RevisornsAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="RevisornsAnsvar" xlink:to="reference_RevisornsAnsvar" xlink:title="reference: RevisornsAnsvar to reference_RevisornsAnsvar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_RapportAndraKravLagForfattningAbstract" xlink:label="RapportAndraKravLagarForfattningarAbstract" xlink:title="RapportAndraKravLagarForfattningarAbstract"/>
+    <link:reference xlink:type="resource" xlink:label="reference_RapportAndraKravLagarForfattningarAbstract" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_RapportAndraKravLagarForfattningarAbstract" id="reference_RapportAndraKravLagarForfattningarAbstract">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="RapportAndraKravLagarForfattningarAbstract" xlink:to="reference_RapportAndraKravLagarForfattningarAbstract" xlink:title="reference: RapportAndraKravLagarForfattningarAbstract to reference_RapportAndraKravLagarForfattningarAbstract"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_RevisionsberattelseAbstract" xlink:label="RevisionsberattelseAbstract" xlink:title="RevisionsberattelseAbstract"/>
+    <link:reference xlink:type="resource" xlink:label="reference_RevisionsberattelseAbstract" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_RevisionsberattelseAbstract" id="reference_RevisionsberattelseAbstract">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="RevisionsberattelseAbstract" xlink:to="reference_RevisionsberattelseAbstract" xlink:title="reference: RevisionsberattelseAbstract to reference_RevisionsberattelseAbstract"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_Mottagare" xlink:label="Mottagare" xlink:title="Mottagare"/>
+    <link:reference xlink:type="resource" xlink:label="reference_Mottagare" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_Mottagare" id="reference_Mottagare">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Mottagare" xlink:to="reference_Mottagare" xlink:title="reference: Mottagare to reference_Mottagare"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_Firma" xlink:label="Firma" xlink:title="Firma"/>
+    <link:reference xlink:type="resource" xlink:label="reference_Firma" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_Firma" id="reference_Firma">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Firma" xlink:to="reference_Firma" xlink:title="reference: Firma to reference_Firma"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_Organisationsnummer" xlink:label="Organisationsnummer" xlink:title="Organisationsnummer"/>
+    <link:reference xlink:type="resource" xlink:label="reference_Organisationsnummer" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_Organisationsnummer" id="reference_Organisationsnummer">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Organisationsnummer" xlink:to="reference_Organisationsnummer" xlink:title="reference: Organisationsnummer to reference_Organisationsnummer"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_LagstadgadUpplysning" xlink:label="LagstadgadeUpplysning" xlink:title="LagstadgadeUpplysning"/>
+    <link:reference xlink:type="resource" xlink:label="reference_LagstadgadeUpplysning" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_LagstadgadeUpplysning" id="reference_LagstadgadeUpplysning">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="LagstadgadeUpplysning" xlink:to="reference_LagstadgadeUpplysning" xlink:title="reference: LagstadgadeUpplysning to reference_LagstadgadeUpplysning"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningAnmarkning" xlink:label="AndraKravLagarForfattningarAnmarkning" xlink:title="AndraKravLagarForfattningarAnmarkning"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagarForfattningarAnmarkning" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagarForfattningarAnmarkning" id="reference_AndraKravLagarForfattningarAnmarkning">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagarForfattningarAnmarkning" xlink:to="reference_AndraKravLagarForfattningarAnmarkning" xlink:title="reference: AndraKravLagarForfattningarAnmarkning to reference_AndraKravLagarForfattningarAnmarkning"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_RapportArsredovisningAbstract" xlink:label="RapportArsredovisningenAbstract" xlink:title="RapportArsredovisningenAbstract"/>
+    <link:reference xlink:type="resource" xlink:label="reference_RapportArsredovisningenAbstract" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_RapportArsredovisningenAbstract" id="reference_RapportArsredovisningenAbstract">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="RapportArsredovisningenAbstract" xlink:to="reference_RapportArsredovisningenAbstract" xlink:title="reference: RapportArsredovisningenAbstract to reference_RapportArsredovisningenAbstract"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningGrundUttalanden" xlink:label="AndraKravLagarForfattningarGrundUttalanden" xlink:title="AndraKravLagarForfattningarGrundUttalanden"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagarForfattningarGrundUttalanden" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagarForfattningarGrundUttalanden" id="reference_AndraKravLagarForfattningarGrundUttalanden">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagarForfattningarGrundUttalanden" xlink:to="reference_AndraKravLagarForfattningarGrundUttalanden" xlink:title="reference: AndraKravLagarForfattningarGrundUttalanden to reference_AndraKravLagarForfattningarGrundUttalanden"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningStyrelseVerkstallandeDirektorAnsvar" xlink:label="AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar" xlink:title="AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar" id="reference_AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar" xlink:to="reference_AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar" xlink:title="reference: AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar to reference_AndraKravLagarForfattningarStyrelsensVerkstallandeDirektorensAnsvar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningStyrelseAnsvar" xlink:label="AndraKravLagarForfattningarStyrelsensAnsvar" xlink:title="AndraKravLagarForfattningarStyrelsensAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagarForfattningarStyrelsensAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagarForfattningarStyrelsensAnsvar" id="reference_AndraKravLagarForfattningarStyrelsensAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagarForfattningarStyrelsensAnsvar" xlink:to="reference_AndraKravLagarForfattningarStyrelsensAnsvar" xlink:title="reference: AndraKravLagarForfattningarStyrelsensAnsvar to reference_AndraKravLagarForfattningarStyrelsensAnsvar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningRevisorAnsvar" xlink:label="AndraKravLagarForfattningarRevisornsAnsvar" xlink:title="AndraKravLagarForfattningarRevisornsAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagarForfattningarRevisornsAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagarForfattningarRevisornsAnsvar" id="reference_AndraKravLagarForfattningarRevisornsAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagarForfattningarRevisornsAnsvar" xlink:to="reference_AndraKravLagarForfattningarRevisornsAnsvar" xlink:title="reference: AndraKravLagarForfattningarRevisornsAnsvar to reference_AndraKravLagarForfattningarRevisornsAnsvar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UttalandenTuple" xlink:label="UttalandenTuple" xlink:title="UttalandenTuple"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UttalandenTuple" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UttalandenTuple" id="reference_UttalandenTuple">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UttalandenTuple" xlink:to="reference_UttalandenTuple" xlink:title="reference: UttalandenTuple to reference_UttalandenTuple"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UttalandenTuple_2" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UttalandenTuple" id="reference_UttalandenTuple_2">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UttalandenTuple" xlink:to="reference_UttalandenTuple_2" xlink:title="reference: UttalandenTuple to reference_UttalandenTuple"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UttalandeRubrik" xlink:label="UttalandeRubrik" xlink:title="UttalandeRubrik"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UttalandeRubrik" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UttalandeRubrik" id="reference_UttalandeRubrik">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UttalandeRubrik" xlink:to="reference_UttalandeRubrik" xlink:title="reference: UttalandeRubrik to reference_UttalandeRubrik"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UttalandeRubrik_2" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UttalandeRubrik" id="reference_UttalandeRubrik_2">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UttalandeRubrik" xlink:to="reference_UttalandeRubrik_2" xlink:title="reference: UttalandeRubrik to reference_UttalandeRubrik"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_UttalandeText" xlink:label="UttalandeText" xlink:title="UttalandeText"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UttalandeText" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UttalandeText" id="reference_UttalandeText">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UttalandeText" xlink:to="reference_UttalandeText" xlink:title="reference: UttalandeText to reference_UttalandeText"/>
+    <link:reference xlink:type="resource" xlink:label="reference_UttalandeText_2" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_UttalandeText" id="reference_UttalandeText_2">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="UttalandeText" xlink:to="reference_UttalandeText_2" xlink:title="reference: UttalandeText to reference_UttalandeText"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_LikvidatorAnsvar" xlink:label="LikvidatorAnsvar" xlink:title="LikvidatorAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_LikvidatorAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_LikvidatorAnsvar" id="reference_LikvidatorAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>2</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="LikvidatorAnsvar" xlink:to="reference_LikvidatorAnsvar" xlink:title="reference: LikvidatorAnsvar to reference_LikvidatorAnsvar"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningUttalandenTuple" xlink:label="AndraKravLagForfattningUttalandenTuple" xlink:title="AndraKravLagForfattningUttalandenTuple"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagForfattningUttalandenTuple" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagForfattningUttalandenTuple" id="reference_AndraKravLagForfattningUttalandenTuple">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagForfattningUttalandenTuple" xlink:to="reference_AndraKravLagForfattningUttalandenTuple" xlink:title="reference: AndraKravLagForfattningUttalandenTuple to reference_AndraKravLagForfattningUttalandenTuple"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagForfattningUttalandenTuple_2" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagForfattningUttalandenTuple" id="reference_AndraKravLagForfattningUttalandenTuple_2">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagForfattningUttalandenTuple" xlink:to="reference_AndraKravLagForfattningUttalandenTuple_2" xlink:title="reference: AndraKravLagForfattningUttalandenTuple to reference_AndraKravLagForfattningUttalandenTuple"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningUttalandenRubrik" xlink:label="AndraKravLagForfattningUttalandenRubrik" xlink:title="AndraKravLagForfattningUttalandenRubrik"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagForfattningUttalandenRubrik" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagForfattningUttalandenRubrik" id="reference_AndraKravLagForfattningUttalandenRubrik">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagForfattningUttalandenRubrik" xlink:to="reference_AndraKravLagForfattningUttalandenRubrik" xlink:title="reference: AndraKravLagForfattningUttalandenRubrik to reference_AndraKravLagForfattningUttalandenRubrik"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagForfattningUttalandenRubrik_2" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagForfattningUttalandenRubrik" id="reference_AndraKravLagForfattningUttalandenRubrik_2">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagForfattningUttalandenRubrik" xlink:to="reference_AndraKravLagForfattningUttalandenRubrik_2" xlink:title="reference: AndraKravLagForfattningUttalandenRubrik to reference_AndraKravLagForfattningUttalandenRubrik"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningUttalandenText" xlink:label="AndraKravLagForfattningUttalandenText" xlink:title="AndraKravLagForfattningUttalandenText"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagForfattningUttalandenText" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagForfattningUttalandenText" id="reference_AndraKravLagForfattningUttalandenText">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>700</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagForfattningUttalandenText" xlink:to="reference_AndraKravLagForfattningUttalandenText" xlink:title="reference: AndraKravLagForfattningUttalandenText to reference_AndraKravLagForfattningUttalandenText"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagForfattningUttalandenText_2" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagForfattningUttalandenText" id="reference_AndraKravLagForfattningUttalandenText_2">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>705</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagForfattningUttalandenText" xlink:to="reference_AndraKravLagForfattningUttalandenText_2" xlink:title="reference: AndraKravLagForfattningUttalandenText to reference_AndraKravLagForfattningUttalandenText"/>
+    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_AndraKravLagForfattningLikvidatorAnsvar" xlink:label="AndraKravLagForfattningLikvidatorAnsvar" xlink:title="AndraKravLagForfattningLikvidatorAnsvar"/>
+    <link:reference xlink:type="resource" xlink:label="reference_AndraKravLagForfattningLikvidatorAnsvar" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="reference_AndraKravLagForfattningLikvidatorAnsvar" id="reference_AndraKravLagForfattningLikvidatorAnsvar">
+      <ref:Name>RevR</ref:Name>
+      <ref:Number>2</ref:Number>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="AndraKravLagForfattningLikvidatorAnsvar" xlink:to="reference_AndraKravLagForfattningLikvidatorAnsvar" xlink:title="reference: AndraKravLagForfattningLikvidatorAnsvar to reference_AndraKravLagForfattningLikvidatorAnsvar"/>
+  </link:referenceLink>
+</link:linkbase>
