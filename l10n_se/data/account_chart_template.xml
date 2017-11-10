@@ -1,6 +1,13 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
+    <!--
+
+         # Account types (account.account.type)
+         # General accounts not tied to tax accounts (account.account.template)
+         # General Chart of Account (account.chart.template)
+
+    -->
     <record id="trustee_assets" model="account.account.type">
       <field name="name">Trustee Asset</field>
       <field name="type">other</field>
@@ -68,7 +75,6 @@
       <field name="chart_template_id" ref="chart_template_general" />
       <field name="reconcile" eval="True" />
     </record>
-
     <record id="chart3000" model="account.account.template">
       <field name="name">Försäljning inom Sverige</field>
       <field name="code">3000</field>
@@ -627,14 +633,14 @@
       <field name="chart_template_id" ref="chart_template_general" />
     </record>
     <record id="chart_template_general" model="account.chart.template">
-        <field name="property_account_receivable_id" ref="chart1510"/>
-        <field name="property_account_payable_id" ref="chart2440"/>
-        <field name="property_account_expense_categ_id" ref="chart3000"/>
-        <field name="property_account_income_categ_id" ref="chart4000"/>
-<!--
-        <field name="expense_currency_exchange_account_id" ref="a654"/>
-        <field name="income_currency_exchange_account_id" ref="a754"/>
--->
+      <field name="property_account_receivable_id" ref="chart1510" />
+      <field name="property_account_payable_id" ref="chart2440" />
+      <field name="property_account_expense_categ_id" ref="chart3000" />
+      <field name="property_account_income_categ_id" ref="chart4000" />
+      <!--
+           <field name="expense_currency_exchange_account_id" ref="a654"/>
+           <field name="income_currency_exchange_account_id" ref="a754"/>
+      -->
     </record>
   </data>
 </odoo>
