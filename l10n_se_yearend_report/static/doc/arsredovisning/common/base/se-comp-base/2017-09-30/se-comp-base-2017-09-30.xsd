@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.bolagsverket.se/se/fr/comp-base/2017-09-30" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:se-comp-base="http://www.bolagsverket.se/se/fr/comp-base/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrli="http://www.xbrl.org/2003/instance">
+  <xsd:annotation>
+    <xsd:appinfo>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-comp-base-2017-09-30-label-sv.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-comp-base-2017-09-30-label-doc-sv.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-comp-base-2017-09-30-label-ver-sv.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-comp-base-2017-09-30-ref.xml" xlink:role="http://www.xbrl.org/2003/role/referenceLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xsd:element name="FaststallelseResultatBalansrakning" id="se-comp-base_FaststallelseResultatBalansrakning" type="se-comp-base:FaststallelseType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionGodkannaStyrelsensForslag" id="se-comp-base_ArsstammaResultatDispositionGodkannaStyrelsensForslag" type="se-comp-base:ArsstammaResultatDispositionGodkannaStyrelsensForslagType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionInteGodkannaStyrelsensForslag" id="se-comp-base_ArsstammaResultatDispositionInteGodkannaStyrelsensForslag" type="se-comp-base:ArsstammaResultatDispositionInteGodkannaStyrelsensForslagType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionAvsattningReservfond" id="se-comp-base_ArsstammaResultatDispositionAvsattningReservfond" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="Arsstamma" id="se-comp-base_Arsstamma" type="xbrli:dateItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionAktieutdelning" id="se-comp-base_ArsstammaResultatDispositionAktieutdelning" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionBalanserasINyRakning" id="se-comp-base_ArsstammaResultatDispositionBalanserasINyRakning" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionFondemission" id="se-comp-base_ArsstammaResultatDispositionFondemission" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionIanspraktagandeReservfond" id="se-comp-base_ArsstammaResultatDispositionIanspraktagandeReservfond" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionIanspraktagandeUppskrivningsfond" id="se-comp-base_ArsstammaResultatDispositionIanspraktagandeUppskrivningsfond" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="Faststallelseintyg" id="se-comp-base_Faststallelseintyg" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDisposition" id="se-comp-base_ArsstammaResultatDisposition" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaIntygande" id="se-comp-base_ArsstammaIntygande" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="false" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="ArsstammaResultatDispositionBeslutstext" id="se-comp-base_ArsstammaResultatDispositionBeslutstext" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="IntygandeOriginalInnehall" id="se-comp-base_IntygandeOriginalInnehall" type="se-comp-base:IntygandeOriginalInnehallType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="UnderskriftFaststallseintygForetradare" id="se-comp-base_UnderskriftFaststallseintygForetradare" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" abstract="true" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="UnderskriftFastallelseintygDatum" id="se-comp-base_UnderskriftFastallelseintygDatum" type="xbrli:dateItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="UnderskriftFaststallelseintygForetradareTilltalsnamn" id="se-comp-base_UnderskriftFaststallelseintygForetradareTilltalsnamn" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UnderskriftFaststallelseintygForetradareEfternamn" id="se-comp-base_UnderskriftFaststallelseintygForetradareEfternamn" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="duration"/>
+  <xsd:element name="UnderskriftFaststallelseintygElektroniskt" id="se-comp-base_UnderskriftFaststallelseintygElektroniskt" type="se-comp-base:UnderskriftFaststallelseintygElektronisktType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="instant"/>
+  <xsd:element name="UnderskriftFaststallelseintygForetradareForetradarroll" id="se-comp-base_UnderskriftFaststallelseintygForetradareForetradarroll" type="se-comp-base:UnderskriftFaststallelseintygForetradareForetradarrollType" substitutionGroup="xbrli:item" nillable="true" xbrli:periodType="duration"/>
+  <xsd:complexType name="IntygandeOriginalInnehallType">
+    <xsd:simpleContent>
+      <xsd:restriction base="xbrli:stringItemType">
+        <xsd:enumeration value="Jag intygar att innehållet i dessa elektroniska handlingar överensstämmer med originalen och att originalen undertecknats av samtliga personer som enligt lag ska underteckna dessa."/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="FaststallelseType">
+    <xsd:simpleContent>
+      <xsd:restriction base="xbrli:stringItemType">
+        <xsd:enumeration value="Jag intygar att resultaträkningen och balansräkningen har fastställts på årsstämma"/>
+        <xsd:enumeration value="Jag intygar att balansräkningen har fastställts på årsstämma"/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ArsstammaResultatDispositionGodkannaStyrelsensForslagType">
+    <xsd:simpleContent>
+      <xsd:restriction base="xbrli:stringItemType">
+        <xsd:enumeration value="Årsstämman beslöt att godkänna styrelsens förslag till behandling av ansamlad förlust."/>
+        <xsd:enumeration value="Årsstämman beslöt att godkänna styrelsens förslag till vinstdisposition."/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ArsstammaResultatDispositionInteGodkannaStyrelsensForslagType">
+    <xsd:simpleContent>
+      <xsd:restriction base="xbrli:stringItemType">
+        <xsd:enumeration value="Årsstämman beslöt att inte godkänna styrelsens förslag till vinstdisposition."/>
+        <xsd:enumeration value="Årsstämman beslöt att inte godkänna styrelsens förslag till behandling av ansamlad förlust."/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="UnderskriftFaststallelseintygElektronisktType">
+    <xsd:simpleContent>
+      <xsd:restriction base="xbrli:stringItemType">
+        <xsd:enumeration value="Elektroniskt underskriven av"/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="UnderskriftFaststallelseintygForetradareForetradarrollType">
+    <xsd:simpleContent>
+      <xsd:restriction base="xbrli:stringItemType">
+        <xsd:enumeration value="Styrelseledamot"/>
+        <xsd:enumeration value="Styrelsesuppleant"/>
+        <xsd:enumeration value="Verkställande direktör"/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

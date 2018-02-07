@@ -1346,7 +1346,7 @@
       <field name="code">1620</field>
       <field name="user_type_id" ref="account.data_account_type_payable"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="note">T.ex. aktuella skattefordringar.</field>
+      <field name="note">Upparbetade men ej fakturerade intäkter från uppdrag på löpande räkning eller till fast pris enligt huvudregeln.</field>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_1640_2017" model="account.account.template">
@@ -9365,7 +9365,7 @@ skattskyldighet, 25 % moms</field>
       <field name="code">1620</field>
       <field name="user_type_id" ref="account.data_account_type_payable"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="note">T.ex. aktuella skattefordringar.</field>
+      <field name="note">Upparbetade men ej fakturerade intäkter från uppdrag på löpande räkning eller till fast pris enligt huvudregeln.</field>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_1640_2017" model="account.account.template">
@@ -17384,7 +17384,7 @@ skattskyldighet, 25 % moms</field>
       <field name="code">1620</field>
       <field name="user_type_id" ref="account.data_account_type_payable"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="note">T.ex. aktuella skattefordringar.</field>
+      <field name="note">Upparbetade men ej fakturerade intäkter från uppdrag på löpande räkning eller till fast pris enligt huvudregeln.</field>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_1640_2017" model="account.account.template">
@@ -25403,7 +25403,7 @@ skattskyldighet, 25 % moms</field>
       <field name="code">1620</field>
       <field name="user_type_id" ref="account.data_account_type_payable"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="note">T.ex. aktuella skattefordringar.</field>
+      <field name="note">Upparbetade men ej fakturerade intäkter från uppdrag på löpande räkning eller till fast pris enligt huvudregeln.</field>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_1640_2017" model="account.account.template">

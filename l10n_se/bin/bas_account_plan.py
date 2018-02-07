@@ -65,7 +65,7 @@ def mk_chart(data,type,name,year,accounts,rule):
     field(ke, 'cash_account_code_prefix', '191')
     field(ke, 'bank_account_code_prefix', '193')
     field(ke, 'code_digits', '4')
-    
+
     #~ root_account2 = record(data, '%s_1955_%s' % (type,year), 'account.account.template')
     #~ field(root_account2, 'chart_template_id', '', {'ref': exid})
     
@@ -92,13 +92,13 @@ def mk_chart(data,type,name,year,accounts,rule):
 def import_excel(year, input, output):
     wb = open_workbook(file_contents=input.read(), formatting_info=True)
     ws = wb.sheet_by_index(0)
-    
+
     not_k2 = u'[Ej K2]'
-    
+
     k2 = []
     k3 = []
     rule = Rule()
-    
+
     general_accounts = [1410,1510,1630,1650,1910,1920,1930,1955,2440,2610,2611,
                         2612,2613,2614,2615,2616,2618,2620,2621,2622,2623,2624,
                         2625,2626,2628,2630,2631,2632,2633,2634,2635,2636,2638,
@@ -126,10 +126,10 @@ def import_excel(year, input, output):
                     'code': str(int(row[5].value)),
                     'name': row[6].value,
                 })
-    
+
     root = etree.Element('odoo')
     data = etree.SubElement(root, 'data')
-    
+
     mk_chart(data,'K1',u'K1 - Mindre verksamheter',year,k2,rule)
     mk_chart(data,'K2',u'K2 - Små till medelstora verksamheter',year,k2,rule)
     mk_chart(data,'K3',u'K3 - Medelstora till större verksamheter',year,k3,rule)

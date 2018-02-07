@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:se-comp-base="http://www.bolagsverket.se/se/fr/comp-base/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <link:labelLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link" xlink:title="Companies registration base">
+    <link:loc xlink:type="locator" xlink:href="se-comp-base-2017-09-30.xsd#se-comp-base_Faststallelseintyg" xlink:label="Faststallelseintyg" xlink:title="Faststallelseintyg"/>
+    <link:label xlink:type="resource" xlink:label="label_Faststallelseintyg" xlink:role="http://www.xbrl.org/2003/role/verboseLabel" xlink:title="label_Faststallelseintyg" xml:lang="sv" id="label_Faststallelseintyg">Fastställelseintyg (Presentation)</link:label>
+    <link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="Faststallelseintyg" xlink:to="label_Faststallelseintyg" xlink:title="label: Faststallelseintyg to label_Faststallelseintyg"/>
+  </link:labelLink>
+</link:linkbase>

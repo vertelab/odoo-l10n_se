@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.taxonomier.se/se/fr/gaap/k2-ext/2017-09-30" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:se-k2-ext="http://www.taxonomier.se/se/fr/gaap/k2-ext/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xsd:annotation>
+    <xsd:appinfo>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-k2-ext-2017-09-30-label-sv.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-k2-ext-2017-09-30-ref-bas.xml" xlink:role="http://www.xbrl.org/2003/role/referenceLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="se-k2-ext-2017-09-30-ref-bfn.xml" xlink:role="http://www.xbrl.org/2003/role/referenceLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xsd:import namespace="http://www.taxonomier.se/se/fr/gen-base/2017-09-30" schemaLocation="../../../../base/se-gen-base/2017-09-30/se-gen-base-2017-09-30.xsd"/>
+  <xsd:import namespace="http://www.taxonomier.se/se/fr/cd-base/2017-09-30" schemaLocation="../../../../base/se-cd-base/2017-09-30/se-cd-base-2017-09-30.xsd"/>
+</xsd:schema>

@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
+    <!--
+
+         # General accounts tied to tax accounts (account.account.template)
+         # Tax accounts (account.tax.template)
+
+    -->
+    <!--
+         <record id="l10nbe_chart_template" model="account.chart.template">
+         <field name="name">Belgian PCMN</field>
+         <field name="bank_account_code_prefix">550</field>
+         <field name="cash_account_code_prefix">570</field>
+         <field name="code_digits">6</field>
+         <field name="transfer_account_id" ref="trans"/>
+         <field name="property_account_receivable_id" ref="a4000"/>
+         <field name="property_account_payable_id" ref="a440"/>
+         <field name="property_account_expense_categ_id" ref="a600"/>
+         <field name="property_account_income_categ_id" ref="a7010"/>
+         <field name="expense_currency_exchange_account_id" ref="a654"/>
+         <field name="income_currency_exchange_account_id" ref="a754"/>
+         </record>
+    -->
     <record id="chart1955" model="account.account.template">
       <field name="name">Bank transfer</field>
-      <field name="code">1955general</field>
-      <field name="user_type_id" ref="account.data_account_type_current_assets"/>
-      <field name="reconcile" eval="True"/>
+      <field name="code">1955</field>
+      <field name="user_type_id" ref="account.data_account_type_current_assets" />
+      <field name="reconcile" eval="True" />
     </record>
     <!-- General chart_template -->
     <record id="chart_template_general" model="account.chart.template">
       <field name="name">General</field>
-      <field name="transfer_account_id" ref="chart1955"/>
-      <field name="currency_id" ref="base.SEK"/>
+      <field name="transfer_account_id" ref="chart1955" />
+      <field name="currency_id" ref="base.SEK" />
       <field name="cash_account_code_prefix">1910</field>
       <field name="bank_account_code_prefix">1930</field>
       <field name="code_digits">4</field>
-      <field name="visible" eval="False"/>
+      <field name="visible" eval="False" />
     </record>
-    
     <record id="chart1955" model="account.account.template">
-            <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
     </record>
     <!-- Account Tags -->
     <record id="tag_g" model="account.account.tag">
@@ -33,52 +53,49 @@
     <record id="tag_a" model="account.account.tag">
       <field name="name">A. Momspliktig försäljning eller uttag exklusive moms.</field>
       <field name="applicability">taxes</field>
-    </record>    
+    </record>
     <record id="tag_5" model="account.account.tag">
       <field name="name">5. Momspliktig försäljning som inte ingår i annan ruta nedan</field>
       <field name="applicability">taxes</field>
-    </record>    
-    
-<!--
-    tag G,G. Moms att betala eller få tillbaka.,G,0,false,1  
-tag 49,49. Moms att betala ut eller få tillbaka,R1,G,false,1
-tag A,A. Momspliktig försäljning eller uttag exklusive moms.,A,a0,false,0
-tag 5, 5. Momspliktig försäljning som inte ingår i annan ruta nedan,MP1,A,false,0
-tag 6, 6. Momspliktiga uttag,aMU1,A,false,0
-7, 7. Beskattningsunderlag vid vinstmarginalbeskattning,MBBU,A,false,0
-8, 8. Hyresinkomster vid frivillig skattskyldighet,MPFF,A,false,0
-tag B,B. Utgående moms på försäljning eller uttag i ruta 5-8.,aB,a49,false,-1
-10,10. Utgående moms 25%,aU1,aB,false,1
-11,11. Utgående moms 12%,aU2,aB,false,1
-12,12. Utgående moms 6%,aU3,aB,false,1
-tag C,C. Momspliktiga inköp där köparen är skattskyldig.,aC,a0,false,0
-20,20. Inköp av varor från annat EG-land,aVFEU,aC,false,0
-21,21. Inköp av tjänster från annat EG-land,aTFEU,aC,false,0
-22,22. Inköp av tjänster från land utanför EG,aTFFU,aC,false,0
-23,23. Inköp av varor i Sverige,aIVIS,aC,false,0
-24,24. Inköp av tjänster i Sverige,aITIS,aC,false,0
-tag D,D. Utgående moms på inköp i ruta 20 - 24.,aD,a49,false,-1
-30,30. Utgående moms 25%,aU1MI,aD,false,1
-31,31. Utgående moms 12%,aU2MI,aD,false,1
-32,32. Utgående moms 6%,aU3MI,aD,false,1
-E,E. Försäljning m.m. som är undantagen från moms.,E1,0,false,0
-35,35. Försäljning av varor till annat EG-land,VTEU,E,false,0
-36,36. Försäljning av varor utanför EG,E,E,false,0
-37,37. Mellanmans inköp av varor vid trepartshandel,a3VEU,aE,false,0
-38,38. Mellanmans försäljning av varor vid trepartshandel,a3FEU,aE,false,0
-39,39. Försäjning av tjänster när köparen är skatteskyldig i EG,aFTEU,aE,false,0
-40,40. Övrig försäljning av tjänster omsatta i utlandet,aOTTU,aE,false,0
-41,41. Försäljning när köparen är skatteskyldig i Sverige,aOMSS,aE,false,0
-42,42. Övrig försäljning m.m,aMF,aE,false,0
-tag F,F. Ingående moms.,aF,a49,false,1
-tag 48,48. Ingående moms att dra av,aI,aF,false,1
-MPI,nn. Ingående moms bas 25 %,aMPI,a0,false,0
-MPI12,nn. Ingående moms bas 12 %,aMPI,a0,false,0
-MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
--->
-    
-    
-        <record id="chart2610" model="account.account.template">
+    </record>
+    <!--
+         tag G,G. Moms att betala eller få tillbaka.,G,0,false,1
+         tag 49,49. Moms att betala ut eller få tillbaka,R1,G,false,1
+         tag A,A. Momspliktig försäljning eller uttag exklusive moms.,A,a0,false,0
+         tag 5, 5. Momspliktig försäljning som inte ingår i annan ruta nedan,MP1,A,false,0
+         tag 6, 6. Momspliktiga uttag,aMU1,A,false,0
+         7, 7. Beskattningsunderlag vid vinstmarginalbeskattning,MBBU,A,false,0
+         8, 8. Hyresinkomster vid frivillig skattskyldighet,MPFF,A,false,0
+         tag B,B. Utgående moms på försäljning eller uttag i ruta 5-8.,aB,a49,false,-1
+         10,10. Utgående moms 25%,aU1,aB,false,1
+         11,11. Utgående moms 12%,aU2,aB,false,1
+         12,12. Utgående moms 6%,aU3,aB,false,1
+         tag C,C. Momspliktiga inköp där köparen är skattskyldig.,aC,a0,false,0
+         20,20. Inköp av varor från annat EG-land,aVFEU,aC,false,0
+         21,21. Inköp av tjänster från annat EG-land,aTFEU,aC,false,0
+         22,22. Inköp av tjänster från land utanför EG,aTFFU,aC,false,0
+         23,23. Inköp av varor i Sverige,aIVIS,aC,false,0
+         24,24. Inköp av tjänster i Sverige,aITIS,aC,false,0
+         tag D,D. Utgående moms på inköp i ruta 20 - 24.,aD,a49,false,-1
+         30,30. Utgående moms 25%,aU1MI,aD,false,1
+         31,31. Utgående moms 12%,aU2MI,aD,false,1
+         32,32. Utgående moms 6%,aU3MI,aD,false,1
+         E,E. Försäljning m.m. som är undantagen från moms.,E1,0,false,0
+         35,35. Försäljning av varor till annat EG-land,VTEU,E,false,0
+         36,36. Försäljning av varor utanför EG,E,E,false,0
+         37,37. Mellanmans inköp av varor vid trepartshandel,a3VEU,aE,false,0
+         38,38. Mellanmans försäljning av varor vid trepartshandel,a3FEU,aE,false,0
+         39,39. Försäjning av tjänster när köparen är skatteskyldig i EG,aFTEU,aE,false,0
+         40,40. Övrig försäljning av tjänster omsatta i utlandet,aOTTU,aE,false,0
+         41,41. Försäljning när köparen är skatteskyldig i Sverige,aOMSS,aE,false,0
+         42,42. Övrig försäljning m.m,aMF,aE,false,0
+         tag F,F. Ingående moms.,aF,a49,false,1
+         tag 48,48. Ingående moms att dra av,aI,aF,false,1
+         MPI,nn. Ingående moms bas 25 %,aMPI,a0,false,0
+         MPI12,nn. Ingående moms bas 12 %,aMPI,a0,false,0
+         MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
+    -->
+    <record id="chart2610" model="account.account.template">
       <field name="name">Utgående moms, 25 %</field>
       <field name="code">2610</field>
       <field name="user_type_id" ref="account.data_account_type_payable" />
@@ -344,209 +361,191 @@ MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
       <field name="chart_template_id" ref="chart_template_general" />
       <field name="reconcile" eval="True" />
     </record>
-    
-
     <record id="mp1" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">MP1</field>
       <field name="description">Försäljning 25%</field>
       <field name="amount">25</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">sale</field>
-      <field name="account_id" ref="chart2610"/>
-      <field name="refund_account_id" ref="chart2610"/>
-
-<!--
-      <field name="account_id" ref="chart2701"/>
-      <field name="refund_account_id" ref="chart2701"/>
-      <field name="tag_ids" eval="[(6,0,[ref('tag_no_04'),ref('tag_no_14')])]"/>
--->
+      <field name="account_id" ref="chart2610" />
+      <field name="refund_account_id" ref="chart2610" />
+      <field name="sequence">0</field> <!-- make sure system choose it by default -->
+      <!--
+           <field name="tag_ids" eval="[(6,0,[ref('tag_no_04'),ref('tag_no_14')])]"/>
+      -->
     </record>
-
     <record id="mp1i" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">MP1i</field>
       <field name="description">Försäljning 25% (ink)</field>
       <field name="amount">25</field>
       <field name="amount_type">percent</field>
-      <field name="price_include" eval="True"/>
+      <field name="price_include" eval="True" />
       <field name="type_tax_use">sale</field>
-      <field name="account_id" ref="chart2610"/>
-      <field name="refund_account_id" ref="chart2610"/>
-
+      <field name="account_id" ref="chart2610" />
+      <field name="refund_account_id" ref="chart2610" />
     </record>
-
-
     <record id="mp2" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">MP2</field>
       <field name="description">Försäljning 12%</field>
       <field name="amount">12</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">sale</field>
-      <field name="account_id" ref="chart2620"/>
-      <field name="refund_account_id" ref="chart2620"/>
-
+      <field name="account_id" ref="chart2620" />
+      <field name="refund_account_id" ref="chart2620" />
     </record>
-
-
-
     <record id="mp2i" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">MP2i</field>
       <field name="description">Försäljning 12% (ink)</field>
       <field name="amount">12</field>
       <field name="amount_type">percent</field>
-      <field name="price_include" eval="True"/>
+      <field name="price_include" eval="True" />
       <field name="type_tax_use">sale</field>
-      <field name="account_id" ref="chart2620"/>
-      <field name="refund_account_id" ref="chart2620"/>
-
+      <field name="account_id" ref="chart2620" />
+      <field name="refund_account_id" ref="chart2620" />
     </record>
-
-
     <record id="mp3" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">MP3</field>
       <field name="description">Försäljning 6% (ink)</field>
       <field name="amount">6</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">sale</field>
-      <field name="account_id" ref="chart2630"/>
-      <field name="refund_account_id" ref="chart2630"/>
-
+      <field name="account_id" ref="chart2630" />
+      <field name="refund_account_id" ref="chart2630" />
     </record>
-
     <record id="mp3i" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">MP3i</field>
       <field name="description">Försäljning 6% (ink)</field>
       <field name="amount">6</field>
       <field name="amount_type">percent</field>
-      <field name="price_include" eval="True"/>
+      <field name="price_include" eval="True" />
       <field name="type_tax_use">sale</field>
-            <field name="account_id" ref="chart2630"/>
-      <field name="refund_account_id" ref="chart2630"/>
-
+      <field name="account_id" ref="chart2630" />
+      <field name="refund_account_id" ref="chart2630" />
     </record>
-
     <record id="mf" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">MF</field>
       <field name="description">Momsfri försäljning</field>
       <field name="amount">0</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">sale</field>
     </record>
-<!-- purchase -->
-    <record id="I" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+    <!-- purchase -->
+    <record id="i" model="account.tax.template">
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">I</field>
       <field name="description">Inköp 25%</field>
       <field name="amount">25</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">purchase</field>
-      <field name="account_id" ref="chart2640"/>
-      <field name="refund_account_id" ref="chart2640"/>
-
-      
+      <field name="account_id" ref="chart2640" />
+      <field name="refund_account_id" ref="chart2640" />
+      <field name="sequence">0</field> <!-- make sure system choose it by default -->
     </record>
-
-    <record id="Ii" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+    <record id="ii" model="account.tax.template">
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">Ii</field>
       <field name="description">Inköp 25% (ink)</field>
       <field name="amount">25</field>
       <field name="amount_type">percent</field>
-      <field name="price_include" eval="True"/>
+      <field name="price_include" eval="True" />
       <field name="type_tax_use">purchase</field>
-      <field name="account_id" ref="chart2640"/>
-      <field name="refund_account_id" ref="chart2640"/>
-
+      <field name="account_id" ref="chart2640" />
+      <field name="refund_account_id" ref="chart2640" />
     </record>
-    <record id="I12" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+    <record id="i12" model="account.tax.template">
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">I12</field>
       <field name="description">Inköp 12%</field>
       <field name="amount">12</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">purchase</field>
-      <field name="account_id" ref="chart2640"/>
-      <field name="refund_account_id" ref="chart2640"/>
-
+      <field name="account_id" ref="chart2640" />
+      <field name="refund_account_id" ref="chart2640" />
     </record>
-    <record id="I12i" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+    <record id="i12i" model="account.tax.template">
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">I12i</field>
       <field name="description">Inköp 12% (ink)</field>
       <field name="amount">12</field>
       <field name="amount_type">percent</field>
-      <field name="price_include" eval="True"/>
+      <field name="price_include" eval="True" />
       <field name="type_tax_use">purchase</field>
-      <field name="account_id" ref="chart2640"/>
-      <field name="refund_account_id" ref="chart2640"/>
-
+      <field name="account_id" ref="chart2640" />
+      <field name="refund_account_id" ref="chart2640" />
     </record>
-    <record id="I6" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+    <record id="i6" model="account.tax.template">
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">I6</field>
       <field name="description">Inköp 6%</field>
       <field name="amount">6</field>
       <field name="amount_type">percent</field>
       <field name="type_tax_use">purchase</field>
-      <field name="account_id" ref="chart2640"/>
-      <field name="refund_account_id" ref="chart2640"/>
-
+      <field name="account_id" ref="chart2640" />
+      <field name="refund_account_id" ref="chart2640" />
     </record>
-    <record id="I6i" model="account.tax.template">
-      <field name="chart_template_id" ref="chart_template_general"/>
+    <record id="i6i" model="account.tax.template">
+      <field name="chart_template_id" ref="chart_template_general" />
       <field name="name">I6i</field>
       <field name="description">Inköp 6% (ink)</field>
       <field name="amount">6</field>
       <field name="amount_type">percent</field>
-      <field name="price_include" eval="True"/>
+      <field name="price_include" eval="True" />
       <field name="type_tax_use">purchase</field>
-      <field name="account_id" ref="chart2640"/>
-      <field name="refund_account_id" ref="chart2640"/>
-
+      <field name="account_id" ref="chart2640" />
+      <field name="refund_account_id" ref="chart2640" />
     </record>
-
-
-<!--
-description	name
-I	Inköp 25%
-U3	Utgående moms 6%
-I6	Inköp 6%
-MF	Momsfri försäljning
-IVL	Uthyrning ingående moms
-UVL	Uthyrning utgående moms
-MBVT	Begagnade varor (försäljningssumma)
-MBBU	Begagnade varor (rad 15 beskattningsunderlag)
-MU1	Momspliktiga uttag 25%
-MU2	Momspliktiga uttag 12%
-MU3	Momspliktiga uttag 6%
-MPFF	Hyresinkomster vid frivillig skattskyldighet
-VFEU	Inköp av varor från annat EG-land
-TFEU	Inköp av tjänster från annat EG-land
-TFFU	Inköp av tjänster från land utanför EG
-IVIS	Inköp av varor
-ITIS	Inköp av tjänster
-U1MI	Utgående moms 25% (omvänd)
-U2MI	Utgående moms 12% (omvänd)
-U3MI	Utgående moms 6% (omvänd)
-VTEU	Försäljning av varor till annat EG-land
-3VEU	Mellanmans inköp av varor vid trepartshandel
-3FEU	Mellanmans försäljning av varor vid trepartshandel
-3FTEU	Mellanmans försäljning av tjänster vid trepartshandel
-OTTU	Övrig försäljning av tjänster omsatta i utlandet
-OMSS	Försäljning när köparen är skatteskyldig i Sverige
-FTEU	Försäljning när köparen är skatteskyldig i EU
-I12	Inköp 12%
-U1	Utgående moms 25%
-I125	Inköp 12,5% 
-U2	Utgående moms 12%
--->
-
-
+    <record id="mu1" model="account.tax.template">
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="name">MU1</field>
+      <field name="description">Momspliktiga uttag 25%</field>
+      <field name="amount">25</field>
+      <field name="amount_type">percent</field>
+      <field name="type_tax_use">sale</field>
+      <!--
+           <field name="account_id" ref="chart3011"/>
+           <field name="refund_account_id" ref="chart3011"/>
+      -->
+    </record>
+    <!--
+         description name
+         I   Inköp 25%
+         U3  Utgående moms 6%
+         I6  Inköp 6%
+         MF  Momsfri försäljning
+         IVL Uthyrning ingående moms
+         UVL Uthyrning utgående moms
+         MBVT    Begagnade varor (försäljningssumma)
+         MBBU    Begagnade varor (rad 15 beskattningsunderlag)
+         MU1 Momspliktiga uttag 25%
+         MU2 Momspliktiga uttag 12%
+         MU3 Momspliktiga uttag 6%
+         MPFF    Hyresinkomster vid frivillig skattskyldighet
+         VFEU    Inköp av varor från annat EG-land
+         TFEU    Inköp av tjänster från annat EG-land
+         TFFU    Inköp av tjänster från land utanför EG
+         IVIS    Inköp av varor
+         ITIS    Inköp av tjänster
+         U1MI    Utgående moms 25% (omvänd)
+         U2MI    Utgående moms 12% (omvänd)
+         U3MI    Utgående moms 6% (omvänd)
+         VTEU    Försäljning av varor till annat EG-land
+         3VEU    Mellanmans inköp av varor vid trepartshandel
+         3FEU    Mellanmans försäljning av varor vid trepartshandel
+         3FTEU   Mellanmans försäljning av tjänster vid trepartshandel
+         OTTU    Övrig försäljning av tjänster omsatta i utlandet
+         OMSS    Försäljning när köparen är skatteskyldig i Sverige
+         FTEU    Försäljning när köparen är skatteskyldig i EU
+         I12 Inköp 12%
+         U1  Utgående moms 25%
+         I125    Inköp 12,5%
+         U2  Utgående moms 12%
+    -->
   </data>
 </odoo>

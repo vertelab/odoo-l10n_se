@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbrli:xbrl xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:se-gen-base="http://www.taxonomier.se/se/fr/gen-base/2017-09-30" xmlns:se-bol-base="http://www.bolagsverket.se/se/fr/comp-base/2017-09-30" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:se-cd-base="http://www.taxonomier.se/se/fr/cd-base/2017-09-30" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <link:schemaRef xlink:type="simple" xlink:href="http://xbrl.taxonomier.se/se/fr/gaap/k2/rcoa/2017-09-30/se-k2-rcoa-2017-09-30.xsd"/>
+  <link:schemaRef xlink:type="simple" xlink:href="http://xbrl.taxonomier.se/se/fr/gaap/k2/risbs/2017-09-30/se-k2-risbs-2017-09-30.xsd"/>
+  <xbrli:context id="PERIOD0">
+    <xbrli:entity>
+      <xbrli:identifier scheme="http://www.bolagsverket.se">556999-9999</xbrli:identifier>
+    </xbrli:entity>
+    <xbrli:period>
+      <xbrli:startDate>2016-01-01</xbrli:startDate>
+      <xbrli:endDate>2016-12-31</xbrli:endDate>
+    </xbrli:period>
+  </xbrli:context>
+  <xbrli:context id="BALANS0">
+    <xbrli:entity>
+      <xbrli:identifier scheme="http://www.bolagsverket.se">556999-9999</xbrli:identifier>
+    </xbrli:entity>
+    <xbrli:period>
+      <xbrli:instant>2016-12-31</xbrli:instant>
+    </xbrli:period>
+  </xbrli:context>
+  <se-cd-base:Sprak contextRef="PERIOD0">sv</se-cd-base:Sprak>
+  <se-cd-base:Land contextRef="PERIOD0">SE</se-cd-base:Land>
+  <se-cd-base:Redovisningsvaluta contextRef="PERIOD0">SEK</se-cd-base:Redovisningsvaluta>
+  <se-cd-base:Beloppsformat contextRef="PERIOD0">NORMALFORM</se-cd-base:Beloppsformat>
+  <se-cd-base:RakenskapsarForstaDag contextRef="PERIOD0">2016-01-01</se-cd-base:RakenskapsarForstaDag>
+  <se-cd-base:RakenskapsarSistaDag contextRef="PERIOD0">2016-12-31</se-cd-base:RakenskapsarSistaDag>
+  <se-cd-base:ForetagetsNamn contextRef="PERIOD0">Exempel fastställelseintyg 3 AB</se-cd-base:ForetagetsNamn>
+  <se-cd-base:Organisationsnummer contextRef="PERIOD0">556999-9999</se-cd-base:Organisationsnummer>
+  <se-gen-base:LopandeBokforingenAvslutasMening contextRef="PERIOD0">Styrelsen avger följande årsredovisning</se-gen-base:LopandeBokforingenAvslutasMening>
+  <se-bol-base:ArsstammaIntygande contextRef="BALANS0">Jag intygar att balansräkningen har fastställts på årsstämma 2017-05-17. Jag intygar att innehållet i dessa elektroniska handlingar överensstämmer med originalen och att originalen undertecknats av samtliga personer som enligt lag ska underteckna dessa.</se-bol-base:ArsstammaIntygande>
+  <se-bol-base:FaststallelseResultatBalansrakning contextRef="BALANS0">Jag intygar att balansräkningen har fastställts på årsstämma</se-bol-base:FaststallelseResultatBalansrakning>
+  <se-bol-base:Arsstamma contextRef="BALANS0">2017-05-17</se-bol-base:Arsstamma>
+  <se-bol-base:IntygandeOriginalInnehall contextRef="BALANS0">Jag intygar att innehållet i dessa elektroniska handlingar överensstämmer med originalen och att originalen undertecknats av samtliga personer som enligt lag ska underteckna dessa.</se-bol-base:IntygandeOriginalInnehall>
+  <se-bol-base:UnderskriftFaststallelseintygElektroniskt contextRef="BALANS0">Elektroniskt underskriven av</se-bol-base:UnderskriftFaststallelseintygElektroniskt>
+  <se-bol-base:UnderskriftFaststallelseintygForetradareTilltalsnamn contextRef="PERIOD0">Karl</se-bol-base:UnderskriftFaststallelseintygForetradareTilltalsnamn>
+  <se-bol-base:UnderskriftFaststallelseintygForetradareEfternamn contextRef="PERIOD0">Karlsson</se-bol-base:UnderskriftFaststallelseintygForetradareEfternamn>
+  <se-bol-base:UnderskriftFaststallelseintygForetradareForetradarroll contextRef="PERIOD0">Styrelseledamot</se-bol-base:UnderskriftFaststallelseintygForetradareForetradarroll>
+  <se-bol-base:UnderskriftFastallelseintygDatum contextRef="BALANS0">2017-06-01</se-bol-base:UnderskriftFastallelseintygDatum>
+</xbrli:xbrl>

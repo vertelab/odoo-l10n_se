@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2004/ref http://www.xbrl.org/2004/ref-2004-08-10.xsd http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:se-cd-base="http://www.taxonomier.se/se/fr/cd-base/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:ref="http://www.xbrl.org/2004/ref" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <link:referenceLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link">
+    <link:loc xlink:type="locator" xlink:href="se-cd-base-2017-09-30.xsd#se-cd-base_Sprak" xlink:label="Sprak_1" xlink:title="Sprak_1"/>
+    <link:reference xlink:type="resource" xlink:label="ref_Sprak_5" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="ref_Sprak_5" id="ref_Sprak_5">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>2</ref:Chapter>
+      <ref:Paragraph>5</ref:Paragraph>
+      <ref:Section>1</ref:Section>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Sprak_1" xlink:to="ref_Sprak_5" xlink:title="reference: Sprak_1 to ref_Sprak_5"/>
+    <link:loc xlink:type="locator" xlink:href="se-cd-base-2017-09-30.xsd#se-cd-base_ForetagetsNamn" xlink:label="ForetagetsNamn_2" xlink:title="ForetagetsNamn_2"/>
+    <link:reference xlink:type="resource" xlink:label="ref_ForetagetsNamn_6" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="ref_ForetagetsNamn_6" id="ref_ForetagetsNamn_6">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>2</ref:Chapter>
+      <ref:Paragraph>5</ref:Paragraph>
+      <ref:Section>2</ref:Section>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ForetagetsNamn_2" xlink:to="ref_ForetagetsNamn_6" xlink:title="reference: ForetagetsNamn_2 to ref_ForetagetsNamn_6"/>
+    <link:reference xlink:type="resource" xlink:label="ref_ForetagetsNamn_7" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="ref_ForetagetsNamn_7" id="ref_ForetagetsNamn_7">
+      <ref:Name>Firmalagen</ref:Name>
+      <ref:Number>1974:156</ref:Number>
+      <ref:Paragraph>1</ref:Paragraph>
+      <ref:Section>1</ref:Section>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="ForetagetsNamn_2" xlink:to="ref_ForetagetsNamn_7" xlink:title="reference: ForetagetsNamn_2 to ref_ForetagetsNamn_7"/>
+    <link:loc xlink:type="locator" xlink:href="se-cd-base-2017-09-30.xsd#se-cd-base_Organisationsnummer" xlink:label="Organisationsnummer_3" xlink:title="Organisationsnummer_3"/>
+    <link:reference xlink:type="resource" xlink:label="ref_Organisationsnummer_8" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="ref_Organisationsnummer_8" id="ref_Organisationsnummer_8">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>2</ref:Chapter>
+      <ref:Paragraph>5</ref:Paragraph>
+      <ref:Section>2</ref:Section>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Organisationsnummer_3" xlink:to="ref_Organisationsnummer_8" xlink:title="reference: Organisationsnummer_3 to ref_Organisationsnummer_8"/>
+    <link:loc xlink:type="locator" xlink:href="se-cd-base-2017-09-30.xsd#se-cd-base_Redovisningsvaluta" xlink:label="Redovisningsvaluta_4" xlink:title="Redovisningsvaluta_4"/>
+    <link:reference xlink:type="resource" xlink:label="ref_Redovisningsvaluta_9" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="ref_Redovisningsvaluta_9" id="ref_Redovisningsvaluta_9">
+      <ref:Name>ÅRL</ref:Name>
+      <ref:Number>1995:1554</ref:Number>
+      <ref:Chapter>2</ref:Chapter>
+      <ref:Paragraph>6</ref:Paragraph>
+      <ref:Section>1</ref:Section>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Redovisningsvaluta_4" xlink:to="ref_Redovisningsvaluta_9" xlink:title="reference: Redovisningsvaluta_4 to ref_Redovisningsvaluta_9"/>
+    <link:reference xlink:type="resource" xlink:label="ref_Redovisningsvaluta_10" xlink:role="http://www.xbrl.org/2003/role/reference" xlink:title="ref_Redovisningsvaluta_10" id="ref_Redovisningsvaluta_10">
+      <ref:Name>BFL</ref:Name>
+      <ref:Number>1999:1078</ref:Number>
+      <ref:Chapter>4</ref:Chapter>
+      <ref:Paragraph>6</ref:Paragraph>
+      <ref:Section>1</ref:Section>
+    </link:reference>
+    <link:referenceArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-reference" xlink:from="Redovisningsvaluta_4" xlink:to="ref_Redovisningsvaluta_10" xlink:title="reference: Redovisningsvaluta_4 to ref_Redovisningsvaluta_10"/>
+  </link:referenceLink>
+</link:linkbase>

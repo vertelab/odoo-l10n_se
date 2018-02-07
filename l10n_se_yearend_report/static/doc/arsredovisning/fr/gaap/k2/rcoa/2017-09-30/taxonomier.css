@@ -1,0 +1,140 @@
+abbr[title] {border:0}
+aside, footer, header, main, nav {display:block}
+aside {margin:1.5em 1em; padding-top:0.75em}
+  aside h2 {margin:0 0 1.5rem; font-size:0.833em}
+cite {font-style:normal}
+dl, ol, p, ul {margin-top:0; margin-bottom:1.5em}
+footer {margin:1.5rem 0; padding:0.5em; font-size:smaller; text-align:center}
+  footer address {font-style:normal}
+header {margin:0 0 1.5rem; padding:0.75rem 1rem; font-size:120%; font-weight:bold}
+main {margin:0 1em 1.5em}
+  h1 {margin:0 0 1.5rem; font-size:150%; line-height:1.2}
+  main h2 {margin:1.5rem 0 0.25rem; font-size:120%}
+  main h3 {margin:1.5rem 0 0.25rem; font-size:100%}
+  main>ol, main>p, main>ul {margin:0 0 1.5em; font-family:Georgia,serif}
+ol, ul {margin-left:0; padding-left:1.5em}
+sup {vertical-align: super; font-size: smaller;}
+.faq {counter-reset:heading}
+  .faq h3 {counter-increment:heading}
+    .faq h3::before {content:counter(heading) ". "}
+.links a:link, .links a:visited {text-decoration:none}
+
+.schema {margin:0}
+  .schema>dt {font-weight:bold}
+    .schema>dt::after {content:"" !important}
+  .schema>dd {margin:0 0 0.75em}
+    .schema dl {margin:0 0 0.75em}
+      .schema dl dt {float:left}
+        .schema dl dt::after {content:":"}
+      .schema dl dd {margin-left:6em}
+
+.taxonomy {}
+  .taxonomy>dt {font-weight:bold}
+  .taxonomy>dd {font-family:Georgia,serif}
+
+.toc li {list-style-type:decimal}
+  .toc li a:link, .toc li a:visited {text-decoration:none}
+  .toc li a:hover {text-decoration:underline}
+  
+#breadcrumbs {margin:0 0 1.5rem; padding:0; font-size:smaller}
+  #breadcrumbs li {display:inline}
+  #breadcrumbs li+li::before {content:"> "}
+    #breadcrumbs a:link, #breadcrumbs a:visited {text-decoration:none}
+    #breadcrumbs a:hover {text-decoration:underline}
+
+@media screen {
+  body {max-width:50em; margin:0 auto; padding:0; background-color:#fff; color:#333; font:100%/1.5 Calibri,Helvetica,Arial,sans-serif}
+    a:link {color:#005aa3}
+    a:visited {color:#800080}
+    a:focus {padding:0.25em; background-color:#e90101; color:#fff; font-weight:bold; text-decoration:none}
+    a[href$=".doc"], a[href$=".docx"] {padding-left:16px; background-image:url("//bolagsverket.se/img/icon-msword.png"); background-repeat:no-repeat; background-position:2px 50%}
+    a[href$=".pdf"] {padding-left:16px; background-image:url("//bolagsverket.se/img/icon-pdf.png"); background-repeat:no-repeat; background-position:2px 50%}
+    a[href$=".xls"], a[href$=".xlsx"] {padding-left:16px; background-image:url("//bolagsverket.se/img/icon-excel.png"); background-repeat:no-repeat; background-position:2px 50%}
+    a[href$=".zip"] {padding-left:16px; background-image:url("//bolagsverket.se/img/icon-zip.png"); background-repeat:no-repeat; background-position:2px 50%}
+    aside {border-top:1px solid #b5b5b5}
+    code {font-family:Consolas,Courier New,Courier,monospace}
+    footer {border-top:6px solid #e90101}
+    header {background-color:#08415c; color:#fff}
+    main {}
+      main>ol, main>p, main>ul {box-sizing:border-box; max-width:35em}
+    nav {margin:0 0.25em 1.5em}
+      nav>ul {margin:0; border:solid #b5b5b5; border-width:1px 0 0; padding:0}
+        nav ul ul {display:none}
+        nav>ul>li {border-bottom:1px solid #b5b5b5; text-align:center; list-style-type:none}
+        nav>ul>li.current {border-left:6px solid #e90101}
+          nav a:link, nav a:visited {display:block; padding:0.5em; color:#545454; font-weight:bold; text-decoration:none; text-transform:uppercase}
+          nav a:hover, nav a:focus {background-color:#e90101; color:#fff !important}
+          nav li.current a:link, nav li.current a:visited {color:#e90101}
+
+    .links li {margin-bottom:0.75em}
+
+    ul.logos {margin-left:0; padding-left:0}
+      ul.logos li {margin:0 0 1.5em; list-style-type:none}
+        ul.logos li a {display:block}
+        ul.logos li a:focus {padding:0; background:transparent; color:inherit; outline:2px solid #e90101}
+
+    .taxonomy>dd {margin:0 0 1.5em 1.5em}
+      .taxonomy .links {padding-left:0}
+        .taxonomy .links>li {list-style-type:none}
+
+    .toc li {margin-bottom:0.75em}
+
+    #breadcrumbs {color:#545454}
+      #breadcrumbs a:link, #breadcrumbs a:visited {color:#545454}
+}
+
+@media screen and (min-width:37em) {
+  html {background-color:#f1eff0}
+    footer {margin-right:0.5em; margin-left:0.5em}
+    nav {margin-right:0.5em; margin-left:0.5em}
+      nav>ul {border-width:1px 0; padding:0.25em 1em 0.75em}
+        nav>ul>li {display:inline; border:0; text-align:left}
+        nav>ul>li.current {border:0}
+        nav>ul>li+li {margin-left:2em}
+          nav a:link, nav a:visited {display:inline; padding:0 0 0.25em}
+          nav a:hover {background:transparent; color:#e90101 !important}
+          nav li.current a:link, nav li.current a:visited {border-bottom:6px solid #e90101}
+
+  ul.logos {}
+    ul.logos li {display:inline; margin-right:2em; line-height:120px}
+      ul.logos li a {display:inline; vertical-align:middle}
+        ul.logos li a img {vertical-align:middle}
+
+  .taxonomy>dt {float:left; clear:left; width:13em; margin-top:0.5em}
+    .taxonomy dt::after {content:":"}
+  .taxonomy>dd {max-width:35em; margin:0 0 0.5em; border-top:1px solid #b5b5b5; padding:0.5em 0 0 14em}
+    .taxonomy>dd::after {display:block; clear:left; height:0; content:"\a0"}
+  .taxonomy>dd:last-child {border-bottom:1px solid #b5b5b5}
+    .taxonomy>dd .log>dt {float:left}
+    .taxonomy>dd .log>dd {margin:0 0 0.75em 8em}
+  .taxonomy .links li li {margin-bottom:0}
+
+  .toc li {margin-bottom:0}
+}
+
+@media print {
+  body {margin:0; padding:0; font:100%/1.5 Calibri,Helvetica,Arial,sans-serif}
+  a:link, a:visited {color:#000; text-decoration:none}
+  aside {border-top:1px solid #b5b5b5}
+  footer {border-top:4pt solid #757575}
+  header {border-bottom:4pt solid #757575}
+  nav {display:none}
+
+  ul.logos {margin-left:0; padding-left:0}
+    ul.logos li {display:inline; margin-right:2em; line-height:80px}
+      ul.logos li a {display:inline; vertical-align:middle}
+        ul.logos li a img {vertical-align:middle}
+
+  .taxonomy {}
+    .taxonomy>dt {float:left; clear:left; width:13em; margin-top:0.5em}
+      .taxonomy dt::after {content:":"}
+    .taxonomy>dd {max-width:35em; margin:0 0 0.5em; border-top:1px solid #b5b5b5; padding:0.5em 0 0 14em; page-break-inside:avoid}
+    .taxonomy>dd:last-child {border-bottom:1px solid #b5b5b5}
+      .taxonomy>dd .log>dt {float:left}
+      .taxonomy>dd .log>dd {margin:0 0 0.75em 8em}
+
+  .toc {display:none}
+
+  #breadcrumbs {color:#545454}
+      #breadcrumbs a:link, #breadcrumbs a:visited {color:#545454}
+}
