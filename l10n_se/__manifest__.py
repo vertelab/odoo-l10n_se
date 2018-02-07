@@ -86,7 +86,7 @@
         #~ 'views/account_vat_view.xml',
         #~ 'views/account_view.xml',
         #~ 'views/res_partner_view.xml',
-        #~ 'data/account_tax_code_template_hr_data.xml',
+        'data/account_tax_template_hr_data.xml',
         #~ 'wizard/import_chart_of_account.xml',
     ],
 #    'demo_xml' : [
