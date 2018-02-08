@@ -24,6 +24,31 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class account_tax(models.Model):
+    _inherit = 'account.tax'
+
+    sum_period = fields.Float(string='Period Sum', compute='_sum_period')
+
+    @api.multi
+    def _sum_period(self):
+        #~ move_state = ('posted', )
+        #~ if self._context.get('state', False) == 'all':
+            #~ move_state = ('draft', 'posted', )
+        #~ if self._context.get('period_id', False):
+            #~ period_id = self._context['period_id']
+        #~ if self._context.get('period_ids', False):
+            #~ move_state = ('posted', )
+            #~ if self._context.get('state', False) == 'all':
+                #~ move_state = ('draft', 'posted', )
+            #~ period_ids = tuple(self._context['period_ids'])
+        #~ else:
+            #~ period_id = self.env['account.period'].find(cr, uid, context=context)
+            #~ if not period_id:
+                #~ return dict.fromkeys(ids, 0.0)
+            #~ period_id = period_id[0]
+        self.sum_period = sum(self.env['account.move.line'].search([('tax_line_id', '=', self.id)]).mapped('balance'))
+
+
 class account_financial_report(models.Model):
     _inherit = 'account.financial.report'
 

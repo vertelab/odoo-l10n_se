@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2017 Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2012-2016 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,26 +17,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Sweden - Account Tax Report',
-    'version': '1.0',
-    'category': 'Report',
-    'description': """
-Swedish accounting Tax Report
-=============================
-Taxes for financial report
-     """,
-    'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
-    'depends': ['l10n_se', 'account_period', 'report_glabels'],
-    'data': [
-        'data/account_data.xml',
-        'views/account_view.xml',
-        'report/glabel_report.xml',
-        'report/agd_report.xml',
-        'report/moms_report.xml',
-    ],
-    'demo_xml' : [],
-    'installable': 'True',
-}
+
+import account
+#~ import res_company
+#~ import res_partner
+#~ import account_vat
+#import setup
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
