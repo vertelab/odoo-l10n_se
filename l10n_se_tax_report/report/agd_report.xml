@@ -8,16 +8,16 @@
             <field name="arch" type="xml">
                 <form string="Arbetsgivardeklaration">
                     <group string="Arbetsgivardeklaration" col="4">
-                        <field name="chart_tax_id" widget="selection"/>
+                        <field name="chart_tax_id"/>
                         <field name="fiscalyear_id"/>
                         <field name="period" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
                         <field name="ej_bokforda"/>
                     </group>
                     <group col="3">
                         <field name="skattekonto"/>
-                        <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_account_moves"/>
+                        <button help="Visa Verifikat" type="object" name="show_account_moves" class="oe_link" string="Visa Verifikat"/>
                         <field name="agavgpres"/>
-                        <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_journal_items"/>
+                        <button help="Visa Verifikat" type="object" name="show_journal_items" class="oe_link" string="Visa Verifikat"/>
                     </group>
                     <footer>
                         <button name="print_report" string="Skriv ut rapporten" type="object" class="oe_highlight"/>
@@ -40,7 +40,7 @@
 
         <menuitem
             name="Arbetsgivardeklaration"
-            parent="account.menu_account_reports"
+            parent="account.menu_finance_legal_statement"
             action="action_account_agd_declaration"
             id="menu_account_agd_declaration"
             groups="account.group_account_user,account.group_account_manager"/>

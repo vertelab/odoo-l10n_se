@@ -29,7 +29,7 @@ class account_tax(models.Model):
 
     sum_period = fields.Float(string='Period Sum', compute='_sum_period')
 
-    @api.multi
+    @api.one
     def _sum_period(self):
         #~ move_state = ('posted', )
         #~ if self._context.get('state', False) == 'all':

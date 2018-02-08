@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -28,15 +28,17 @@ _logger = logging.getLogger(__name__)
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
 
+    @api.one
     def _get_tax(self):
         user = self.env.user
-        taxes = self.env['account.tax.code'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
+        taxes = self.env['account.tax'].search([('company_id', '=', user.company_id.id)], limit=1)
         return taxes and taxes[0] or False
 
+    @api.one
     def _get_year(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
 
-    chart_tax_id = fields.Many2one(comodel_name='account.tax.code', string='Chart of Tax', help='Select Charts of Taxes', default=_get_tax, required=True, domain = [('parent_id','=', False)])
+    chart_tax_id = fields.Many2one(comodel_name='account.tax', string='Chart of Tax', help='Select Charts of Taxes', default=_get_tax, required=True)
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year', default=_get_year)
     period_start = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Period', required=True)
@@ -78,7 +80,7 @@ class moms_declaration_wizard(models.TransientModel):
             self.skattekonto = -sum(tax_accounts.mapped('balance'))
             tax_account = 0.0
             for p in self.get_period_ids(self.period_start, self.period_stop):
-                tax_account += self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', '=', 'bR1')]).sum_period
+                tax_account += self.env['account.tax'].with_context({'period_id': p, 'state': 'all'}).search([('code', '=', 'bR1')]).sum_period
             self.br1 = tax_account
 
     @api.multi
@@ -199,7 +201,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_journal_items(self):
-        tax_account = self.env['account.tax.code'].search([('code', '=', 'bR1')])
+        tax_account = self.env['account.tax'].search([('code', '=', 'bR1')])
         domain = [('tax_code_id', 'child_of', tax_account.id), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
         if self.ej_bokforda:
             domain.append(('move_id.state', '=', 'draft'))
@@ -216,9 +218,9 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def print_report(self):
-        account_tax_codes = self.env['account.tax.code'].search([])
+        account_tax_codes = self.env['account.tax'].search([])
         data = {}
         data['ids'] = account_tax_codes.mapped('id')
-        data['model'] = 'account.tax.code'
+        data['model'] = 'account.tax'
 
         return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)

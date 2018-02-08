@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="Momsdeklaration">
                     <group string="Momsdeklaration" col="4">
-                        <field name="chart_tax_id" widget="selection"/>
+                        <field name="chart_tax_id"/>
                         <field name="fiscalyear_id"/>
                         <field name="period_start" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
                         <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
@@ -41,7 +41,7 @@
 
         <menuitem
             name="Momsdeklaration"
-            parent="account.menu_account_reports"
+            parent="account.menu_finance_legal_statement"
             action="action_account_moms_declaration"
             id="menu_account_moms_declaration"
             groups="account.group_account_user,account.group_account_manager"/>
