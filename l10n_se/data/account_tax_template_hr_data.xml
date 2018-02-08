@@ -17,16 +17,16 @@
          <field name="notprintable">False</field>
          </record>
     -->
-    
- 
-    
+
+
+
             <!-- Account Tax Group -->
         <record id="tax_group_hr" model="account.tax.group">
 <field name="name">HR</field>
             <field name="sequence">10</field>
         </record>
-    
-    
+
+
     <record id="account_tax_code_template-eSKDUpload" model="account.tax.template">
       <field name="chart_template_id" ref="chart_template_general" />
 <field name="name">eSKDUpload</field>
@@ -106,10 +106,10 @@
     <field name="type_tax_use">none</field>
     <field name="tax_group_id" ref="tax_group_hr"/>
 
-      <field name="child_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-AgBrutU'), ref('account_tax_code_template-SumUlagAvg'),ref('account_tax_code_template-LonBrutto'),ref('account_tax_code_template-Forman'),ref('account_tax_code_template-AvdrKostn')])]" />
+      <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-AgBrutU'), ref('account_tax_code_template-SumUlagAvg'),ref('account_tax_code_template-LonBrutto'),ref('account_tax_code_template-Forman'),ref('account_tax_code_template-AvdrKostn')])]" />
     </record>
-    
-    
+
+
     <!--
          ======= Blankett del 2
     -->
@@ -467,6 +467,6 @@
     <field name="tax_group_id" ref="tax_group_hr"/>
 
     </record>
- 
+
   </data>
 </openerp>

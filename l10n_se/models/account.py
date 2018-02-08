@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    Odoo, Open Source Management Solution
 #    Copyright (C) 2004-2017 Vertel (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,17 +19,15 @@
 #
 ##############################################################################
 
-#~ import time
-#~ from datetime import datetime
-#~ from dateutil.relativedelta import relativedelta
-#~ from operator import itemgetter
+import time
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from operator import itemgetter
 
-#~ from openerp import pooler
-#~ from openerp.osv import fields, osv
-#~ from openerp.tools.translate import _
+from openerp.osv import osv
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
 import base64
 
 try:
@@ -59,7 +57,7 @@ class wizard_multi_charts_accounts(models.TransientModel):
     bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
 
-    def X_create_bank_journals_from_o2m(self, cr, uid, obj_wizard, company_id, acc_template_ref, context=None):
+    def X_create_bank_journals_from_o2m(self, obj_wizard, company_id, acc_template_ref):
         '''
         This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
         wizard.
@@ -70,8 +68,8 @@ class wizard_multi_charts_accounts(models.TransientModel):
             of the accounts that have been generated from them.
         :return: True
         '''
-        obj_acc = self.pool.get('account.account')
-        obj_journal = self.pool.get('account.journal')
+        obj_acc = self.env['account.account']
+        obj_journal = self.env['account.journal']
         code_digits = obj_wizard.code_digits
 
         # Build a list with all the data to process
@@ -108,12 +106,13 @@ class wizard_multi_charts_accounts(models.TransientModel):
             current_num += 1
         return True
 
-    def default_get(self, cr, uid, fields, context=None):
-        res = super(wizard_multi_charts_accounts, self).default_get(cr, uid, fields, context=context)
+    @api.model
+    def default_get(self, fields):
+        res = super(wizard_multi_charts_accounts, self).default_get(fields)
         if 'bank_accounts_id' in fields:
             company_id = res.get('company_id') or False
             if company_id:
-                company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
+                company = self.env['res.company'].browse(company_id)
                 ba_list = [{'acc_name': _('Kalle Cash'), 'account_type': 'cash'}]
                 for ba in company.bank_ids:
                     ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.state}]

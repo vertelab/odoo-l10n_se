@@ -36,21 +36,21 @@ class res_company(osv.osv):
             return self.pool.get('res.currency').search(cr, uid, [('name','=','SEK')])[0]
         except:
             return False
-    
+
     def onchange_footer(self, cr, uid, ids, custom_footer, phone, fax, email, website, vat, company_registry, bank_ids, context=None):
         if custom_footer:
             return {}
 
         # first line (notice that missing elements are filtered out before the join)
-        
+
         res_partner_bank = self.pool.get('res.partner.bank')
         account_data = self.resolve_2many_commands(cr, uid, 'bank_ids', bank_ids, context=context)
         account_names = res_partner_bank._prepare_name_get(cr, uid, account_data, context=context)
         if account_names:
             bankgiro = '\n%s: %s' % ('Bankgiro', ', '.join(name for id, name in account_names))
-            
-        
-            
+
+
+
         res = ' | '.join(filter(bool, [
             phone            and '%s: %s' % (_('Phone'), phone),
             fax              and '%s: %s' % (_('Fax'), fax),
@@ -66,7 +66,7 @@ class res_company(osv.osv):
         if account_names:
             title = _('Bank Accounts') if len(account_names) > 1 else _('Bank Account')
             res += '\n%s: %s' % (title, ', '.join(name for id, name in account_names))
- 
+
         return {'value': {'rml_footer': res, 'rml_footer_readonly': res}}
 
 res_company()
