@@ -433,7 +433,7 @@
         <field name="amount">1.0</field>
         <field name="amount_type">percent</field>
         <field name="type_tax_use">none</field>
-        <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-SkAvdrLon'), ref('account_tax_code_template-SkAvdrPension'),ref('account_tax_code_template-SkAvdrRanta')])]" />
+        <field name="account_id" search="[('code', '=', '2710')]"/>
         <field name="tax_group_id" ref="tax_group_hr"/>
     </record>
 
