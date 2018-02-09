@@ -32,6 +32,7 @@ Taxes for financial report
     'depends': ['l10n_se', 'account_period', 'report_glabels'],
     'data': [
         'data/account_data.xml',
+        'data/account_financial.xml',
         'views/account_view.xml',
         'report/glabel_report.xml',
         'report/agd_report.xml',

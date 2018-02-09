@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="agd_report" model="account.financial.report">
+            <field name="name">Arbetsgivardeklaration</field>
+            <field name="sequence">0</field>
+            <field name="type">sum</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="1"/>
+        </record>
+        <record id="agd_report_LonBrutto" model="account.financial.report">
+            <field name="name">50. Avgiftspliktig bruttolön utom förmåner</field>
+            <field name="sequence">10</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'LonBrutto')]"/>
+        </record>
+        <record id="agd_report_SumUlagAvg" model="account.financial.report">
+            <field name="name">53. Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt</field>
+            <field name="sequence">20</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'SumUlagAvg')]"/>
+        </record>
+        <record id="agd_report_UlagAvgHel" model="account.financial.report">
+            <field name="name">55. Full arbetsgivaravgift för yngre än 65 år</field>
+            <field name="sequence">30</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'UlagAvgHel')]"/>
+        </record>
+        <record id="agd_report_AvgHel" model="account.financial.report">
+            <field name="name">56. 31,42% av rad 55</field>
+            <field name="sequence">40</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'UlagAvgHel')]"/>
+        </record>
+        <record id="agd_report_SumAvgBetala" model="account.financial.report">
+            <field name="name">78. Summa arbetsgivaravgift</field>
+            <field name="sequence">50</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'SumAvgBetala')]"/>
+        </record>
+        <record id="agd_report_UlagSkAvdrLon" model="account.financial.report">
+            <field name="name">81. Lön och förmåner</field>
+            <field name="sequence">60</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'UlagSkAvdrLon')]"/>
+        </record>
+        <record id="agd_report_SkAvdrLon" model="account.financial.report">
+            <field name="name">82. Från lön och förmåner</field>
+            <field name="sequence">70</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'SkAvdrLon')]"/>
+        </record>
+        <record id="agd_report_SumSkAvdr" model="account.financial.report">
+            <field name="name">88. Summa avdragen skatt</field>
+            <field name="sequence">80</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'SumSkAvdr')]"/>
+        </record>
+        <record id="agd_report_AgAvgPreS" model="account.financial.report">
+            <field name="name">Summa avgift och skatt att betala</field>
+            <field name="sequence">90</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="3"/>
+            <field name="tax_ids" search="[('name', '=', 'AgAvgPreS')]"/>
+        </record>
+    </data>
+</odoo>

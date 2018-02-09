@@ -84,7 +84,7 @@
         #~ 'data/res_country_data.xml',
         #~ 'views/account_report.xml',
         #~ 'views/account_vat_view.xml',
-        #~ 'views/account_view.xml',
+        'views/account_view.xml',
         #~ 'views/res_partner_view.xml',
         'data/account_tax_template_hr_data.xml',
         #~ 'wizard/import_chart_of_account.xml',

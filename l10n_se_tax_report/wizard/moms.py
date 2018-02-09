@@ -223,4 +223,4 @@ class moms_declaration_wizard(models.TransientModel):
         data['ids'] = account_tax_codes.mapped('id')
         data['model'] = 'account.tax'
 
-        return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
+        return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_tax_report.moms_report_glabel').name, data=data)

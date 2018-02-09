@@ -46,7 +46,10 @@ class account_tax(models.Model):
             #~ if not period_id:
                 #~ return dict.fromkeys(ids, 0.0)
             #~ period_id = period_id[0]
-        self.sum_period = sum(self.env['account.move.line'].search([('tax_line_id', '=', self.id)]).mapped('balance'))
+        if self.children_tax_ids:
+            self.sum_period = sum(sum(self.env['account.move.line'].search([('tax_line_id', '=', c.id)]).mapped('balance')) for c in self.children_tax_ids)
+        else:
+            self.sum_period = sum(self.env['account.move.line'].search([('tax_line_id', '=', self.id)]).mapped('balance'))
 
 
 class account_financial_report(models.Model):
@@ -57,13 +60,21 @@ class account_financial_report(models.Model):
     @api.model
     def create(self, vals):
         if 'tax_ids' in vals:
-            vals['account_ids'] = [(6, _, self.env['account.tax'].browse(vals['tax_ids'][0][2]).mapped('account_id').mapped('id'))]
+            account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
+            if account.children_tax_ids:
+                vals['account_ids'] = [(6, _, [account.children_tax_ids.mapped('account_id').mapped('id')])]
+            else:
+                vals['account_ids'] = [(6, _, account.mapped('account_id').mapped('id'))]
         return super(account_financial_report, self).create(vals)
 
     @api.multi
     def write(self, vals):
         if 'tax_ids' in vals:
-            vals['account_ids'] = [(6, _, self.env['account.tax'].browse(vals['tax_ids'][0][2]).mapped('account_id').mapped('id'))]
+            account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
+            if account.children_tax_ids:
+                vals['account_ids'] = [(6, _, [account.children_tax_ids.mapped('account_id').mapped('id')])]
+            else:
+                vals['account_ids'] = [(6, _, account.mapped('account_id').mapped('id'))]
         return super(account_financial_report, self).write(vals)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
