@@ -2329,37 +2329,32 @@
     <record id="K1_2340_2017" model="account.account.template">
       <field name="name">Byggnadskreditiv </field>
       <field name="code">2340</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2350_2017" model="account.account.template">
       <field name="name">Andra långfristiga skulder till kreditinstitut </field>
       <field name="code">2350</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2351_2017" model="account.account.template">
       <field name="name">Fastighetslån, långfristig del </field>
       <field name="code">2351</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2355_2017" model="account.account.template">
       <field name="name">Långfristiga lån i utländsk valuta från kreditinstitut </field>
       <field name="code">2355</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2359_2017" model="account.account.template">
       <field name="name">Övriga långfristiga lån från kreditinstitut </field>
       <field name="code">2359</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2360_2017" model="account.account.template">
       <field name="name">Långfristiga skulder till koncernföretag </field>
@@ -2412,91 +2407,82 @@
     <record id="K1_2390_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2390</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2391_2017" model="account.account.template">
       <field name="name">Avbetalningskontrakt, långfristig del </field>
       <field name="code">2391</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2392_2017" model="account.account.template">
       <field name="name">Villkorliga långfristiga skulder </field>
       <field name="code">2392</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2393_2017" model="account.account.template">
       <field name="name">Lån från närstående personer, långfristig del </field>
       <field name="code">2393</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2394_2017" model="account.account.template">
       <field name="name">Långfristiga leverantörskrediter </field>
       <field name="code">2394</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2395_2017" model="account.account.template">
       <field name="name">Andra långfristiga lån i utländsk valuta </field>
       <field name="code">2395</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2396_2017" model="account.account.template">
       <field name="name">Derivat</field>
       <field name="code">2396</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2397_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, långfristiga </field>
       <field name="code">2397</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2399_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2399</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2410_2017" model="account.account.template">
       <field name="name">Andra kortfristiga låneskulder till kreditinstitut </field>
       <field name="code">2410</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2411_2017" model="account.account.template">
       <field name="name">Kortfristiga lån från kreditinstitut </field>
       <field name="code">2411</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2417_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder till kreditinstitut </field>
       <field name="code">2417</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2419_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut </field>
       <field name="code">2419</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
@@ -2645,16 +2631,14 @@
     <record id="K1_2490_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer </field>
       <field name="code">2490</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2491_2017" model="account.account.template">
       <field name="name">Avräkning spelarrangörer</field>
       <field name="code">2491</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2492_2017" model="account.account.template">
       <field name="name">Växelskulder</field>
@@ -2666,9 +2650,8 @@
     <record id="K1_2499_2017" model="account.account.template">
       <field name="name">Andra övriga kortfristiga skulder </field>
       <field name="code">2499</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2510_2017" model="account.account.template">
       <field name="name">Skatteskulder </field>
@@ -2721,191 +2704,164 @@
     <record id="K1_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
       <field name="code">2661</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2669_2017" model="account.account.template">
       <field name="name">Övriga punktskatter </field>
       <field name="code">2669</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2732_2017" model="account.account.template">
       <field name="name">Avräkning särskild löneskatt </field>
       <field name="code">2732</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2740_2017" model="account.account.template">
       <field name="name">Avtalade sociala avgifter </field>
       <field name="code">2740</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2750_2017" model="account.account.template">
       <field name="name">Utmätning i lön m.m. </field>
       <field name="code">2750</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2761_2017" model="account.account.template">
       <field name="name">Avräkning semesterlöner </field>
       <field name="code">2761</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2762_2017" model="account.account.template">
       <field name="name">Semesterlönekassa </field>
       <field name="code">2762</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2790_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2790</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2791_2017" model="account.account.template">
       <field name="name">Personalens intressekonto </field>
       <field name="code">2791</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2792_2017" model="account.account.template">
       <field name="name">Lönsparande </field>
       <field name="code">2792</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2793_2017" model="account.account.template">
       <field name="name">Gruppförsäkringspremier </field>
       <field name="code">2793</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2794_2017" model="account.account.template">
       <field name="name">Fackföreningsavgifter </field>
       <field name="code">2794</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2795_2017" model="account.account.template">
       <field name="name">Mätnings- och granskningsarvoden </field>
       <field name="code">2795</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2799_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2799</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2810_2017" model="account.account.template">
       <field name="name">Avräkning för factoring och belånade kontraktsfordringar </field>
       <field name="code">2810</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2811_2017" model="account.account.template">
       <field name="name">Avräkning för factoring</field>
       <field name="code">2811</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2812_2017" model="account.account.template">
       <field name="name">Avräkning för belånade kontraktsfordringar</field>
       <field name="code">2812</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2820_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till anställda </field>
       <field name="code">2820</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2821_2017" model="account.account.template">
       <field name="name">Löneskulder </field>
       <field name="code">2821</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2822_2017" model="account.account.template">
       <field name="name">Reseräkningar </field>
       <field name="code">2822</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2823_2017" model="account.account.template">
       <field name="name">Tantiem, gratifikationer </field>
       <field name="code">2823</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2829_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till anställda </field>
       <field name="code">2829</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2830_2017" model="account.account.template">
       <field name="name">Avräkning för annans räkning </field>
       <field name="code">2830</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2840_2017" model="account.account.template">
       <field name="name">Kortfristiga låneskulder </field>
       <field name="code">2840</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2841_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder </field>
       <field name="code">2841</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2849_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga låneskulder </field>
       <field name="code">2849</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2860_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till koncernföretag </field>
@@ -2958,65 +2914,56 @@
     <record id="K1_2880_2017" model="account.account.template">
       <field name="name">Skuld erhållna bidrag </field>
       <field name="code">2880</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K1_2910_2017" model="account.account.template">
       <field name="name">Upplupna löner </field>
@@ -10348,37 +10295,32 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2340_2017" model="account.account.template">
       <field name="name">Byggnadskreditiv </field>
       <field name="code">2340</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2350_2017" model="account.account.template">
       <field name="name">Andra långfristiga skulder till kreditinstitut </field>
       <field name="code">2350</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2351_2017" model="account.account.template">
       <field name="name">Fastighetslån, långfristig del </field>
       <field name="code">2351</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2355_2017" model="account.account.template">
       <field name="name">Långfristiga lån i utländsk valuta från kreditinstitut </field>
       <field name="code">2355</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2359_2017" model="account.account.template">
       <field name="name">Övriga långfristiga lån från kreditinstitut </field>
       <field name="code">2359</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2360_2017" model="account.account.template">
       <field name="name">Långfristiga skulder till koncernföretag </field>
@@ -10431,91 +10373,82 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2390_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2390</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2391_2017" model="account.account.template">
       <field name="name">Avbetalningskontrakt, långfristig del </field>
       <field name="code">2391</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2392_2017" model="account.account.template">
       <field name="name">Villkorliga långfristiga skulder </field>
       <field name="code">2392</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2393_2017" model="account.account.template">
       <field name="name">Lån från närstående personer, långfristig del </field>
       <field name="code">2393</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2394_2017" model="account.account.template">
       <field name="name">Långfristiga leverantörskrediter </field>
       <field name="code">2394</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2395_2017" model="account.account.template">
       <field name="name">Andra långfristiga lån i utländsk valuta </field>
       <field name="code">2395</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2396_2017" model="account.account.template">
       <field name="name">Derivat</field>
       <field name="code">2396</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2397_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, långfristiga </field>
       <field name="code">2397</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2399_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2399</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2410_2017" model="account.account.template">
       <field name="name">Andra kortfristiga låneskulder till kreditinstitut </field>
       <field name="code">2410</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2411_2017" model="account.account.template">
       <field name="name">Kortfristiga lån från kreditinstitut </field>
       <field name="code">2411</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2417_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder till kreditinstitut </field>
       <field name="code">2417</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2419_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut </field>
       <field name="code">2419</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
@@ -10664,16 +10597,14 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2490_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer </field>
       <field name="code">2490</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2491_2017" model="account.account.template">
       <field name="name">Avräkning spelarrangörer</field>
       <field name="code">2491</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2492_2017" model="account.account.template">
       <field name="name">Växelskulder</field>
@@ -10685,9 +10616,8 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2499_2017" model="account.account.template">
       <field name="name">Andra övriga kortfristiga skulder </field>
       <field name="code">2499</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2510_2017" model="account.account.template">
       <field name="name">Skatteskulder </field>
@@ -10740,191 +10670,164 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
       <field name="code">2661</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2669_2017" model="account.account.template">
       <field name="name">Övriga punktskatter </field>
       <field name="code">2669</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2732_2017" model="account.account.template">
       <field name="name">Avräkning särskild löneskatt </field>
       <field name="code">2732</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2740_2017" model="account.account.template">
       <field name="name">Avtalade sociala avgifter </field>
       <field name="code">2740</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2750_2017" model="account.account.template">
       <field name="name">Utmätning i lön m.m. </field>
       <field name="code">2750</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2761_2017" model="account.account.template">
       <field name="name">Avräkning semesterlöner </field>
       <field name="code">2761</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2762_2017" model="account.account.template">
       <field name="name">Semesterlönekassa </field>
       <field name="code">2762</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2790_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2790</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2791_2017" model="account.account.template">
       <field name="name">Personalens intressekonto </field>
       <field name="code">2791</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2792_2017" model="account.account.template">
       <field name="name">Lönsparande </field>
       <field name="code">2792</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2793_2017" model="account.account.template">
       <field name="name">Gruppförsäkringspremier </field>
       <field name="code">2793</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2794_2017" model="account.account.template">
       <field name="name">Fackföreningsavgifter </field>
       <field name="code">2794</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2795_2017" model="account.account.template">
       <field name="name">Mätnings- och granskningsarvoden </field>
       <field name="code">2795</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2799_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2799</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2810_2017" model="account.account.template">
       <field name="name">Avräkning för factoring och belånade kontraktsfordringar </field>
       <field name="code">2810</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2811_2017" model="account.account.template">
       <field name="name">Avräkning för factoring</field>
       <field name="code">2811</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2812_2017" model="account.account.template">
       <field name="name">Avräkning för belånade kontraktsfordringar</field>
       <field name="code">2812</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2820_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till anställda </field>
       <field name="code">2820</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2821_2017" model="account.account.template">
       <field name="name">Löneskulder </field>
       <field name="code">2821</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2822_2017" model="account.account.template">
       <field name="name">Reseräkningar </field>
       <field name="code">2822</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2823_2017" model="account.account.template">
       <field name="name">Tantiem, gratifikationer </field>
       <field name="code">2823</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2829_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till anställda </field>
       <field name="code">2829</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2830_2017" model="account.account.template">
       <field name="name">Avräkning för annans räkning </field>
       <field name="code">2830</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2840_2017" model="account.account.template">
       <field name="name">Kortfristiga låneskulder </field>
       <field name="code">2840</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2841_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder </field>
       <field name="code">2841</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2849_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga låneskulder </field>
       <field name="code">2849</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2860_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till koncernföretag </field>
@@ -10977,65 +10880,56 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2880_2017" model="account.account.template">
       <field name="name">Skuld erhållna bidrag </field>
       <field name="code">2880</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K2_2910_2017" model="account.account.template">
       <field name="name">Upplupna löner </field>
@@ -18367,37 +18261,32 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2340_2017" model="account.account.template">
       <field name="name">Byggnadskreditiv </field>
       <field name="code">2340</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2350_2017" model="account.account.template">
       <field name="name">Andra långfristiga skulder till kreditinstitut </field>
       <field name="code">2350</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2351_2017" model="account.account.template">
       <field name="name">Fastighetslån, långfristig del </field>
       <field name="code">2351</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2355_2017" model="account.account.template">
       <field name="name">Långfristiga lån i utländsk valuta från kreditinstitut </field>
       <field name="code">2355</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2359_2017" model="account.account.template">
       <field name="name">Övriga långfristiga lån från kreditinstitut </field>
       <field name="code">2359</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2360_2017" model="account.account.template">
       <field name="name">Långfristiga skulder till koncernföretag </field>
@@ -18450,91 +18339,82 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2390_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2390</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2391_2017" model="account.account.template">
       <field name="name">Avbetalningskontrakt, långfristig del </field>
       <field name="code">2391</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2392_2017" model="account.account.template">
       <field name="name">Villkorliga långfristiga skulder </field>
       <field name="code">2392</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2393_2017" model="account.account.template">
       <field name="name">Lån från närstående personer, långfristig del </field>
       <field name="code">2393</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2394_2017" model="account.account.template">
       <field name="name">Långfristiga leverantörskrediter </field>
       <field name="code">2394</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2395_2017" model="account.account.template">
       <field name="name">Andra långfristiga lån i utländsk valuta </field>
       <field name="code">2395</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2396_2017" model="account.account.template">
       <field name="name">Derivat</field>
       <field name="code">2396</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2397_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, långfristiga </field>
       <field name="code">2397</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2399_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2399</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2410_2017" model="account.account.template">
       <field name="name">Andra kortfristiga låneskulder till kreditinstitut </field>
       <field name="code">2410</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2411_2017" model="account.account.template">
       <field name="name">Kortfristiga lån från kreditinstitut </field>
       <field name="code">2411</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2417_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder till kreditinstitut </field>
       <field name="code">2417</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2419_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut </field>
       <field name="code">2419</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
@@ -18683,16 +18563,14 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2490_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer </field>
       <field name="code">2490</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2491_2017" model="account.account.template">
       <field name="name">Avräkning spelarrangörer</field>
       <field name="code">2491</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2492_2017" model="account.account.template">
       <field name="name">Växelskulder</field>
@@ -18704,9 +18582,8 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2499_2017" model="account.account.template">
       <field name="name">Andra övriga kortfristiga skulder </field>
       <field name="code">2499</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2510_2017" model="account.account.template">
       <field name="name">Skatteskulder </field>
@@ -18759,191 +18636,164 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
       <field name="code">2661</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2669_2017" model="account.account.template">
       <field name="name">Övriga punktskatter </field>
       <field name="code">2669</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2732_2017" model="account.account.template">
       <field name="name">Avräkning särskild löneskatt </field>
       <field name="code">2732</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2740_2017" model="account.account.template">
       <field name="name">Avtalade sociala avgifter </field>
       <field name="code">2740</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2750_2017" model="account.account.template">
       <field name="name">Utmätning i lön m.m. </field>
       <field name="code">2750</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2761_2017" model="account.account.template">
       <field name="name">Avräkning semesterlöner </field>
       <field name="code">2761</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2762_2017" model="account.account.template">
       <field name="name">Semesterlönekassa </field>
       <field name="code">2762</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2790_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2790</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2791_2017" model="account.account.template">
       <field name="name">Personalens intressekonto </field>
       <field name="code">2791</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2792_2017" model="account.account.template">
       <field name="name">Lönsparande </field>
       <field name="code">2792</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2793_2017" model="account.account.template">
       <field name="name">Gruppförsäkringspremier </field>
       <field name="code">2793</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2794_2017" model="account.account.template">
       <field name="name">Fackföreningsavgifter </field>
       <field name="code">2794</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2795_2017" model="account.account.template">
       <field name="name">Mätnings- och granskningsarvoden </field>
       <field name="code">2795</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2799_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2799</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2810_2017" model="account.account.template">
       <field name="name">Avräkning för factoring och belånade kontraktsfordringar </field>
       <field name="code">2810</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2811_2017" model="account.account.template">
       <field name="name">Avräkning för factoring</field>
       <field name="code">2811</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2812_2017" model="account.account.template">
       <field name="name">Avräkning för belånade kontraktsfordringar</field>
       <field name="code">2812</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2820_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till anställda </field>
       <field name="code">2820</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2821_2017" model="account.account.template">
       <field name="name">Löneskulder </field>
       <field name="code">2821</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2822_2017" model="account.account.template">
       <field name="name">Reseräkningar </field>
       <field name="code">2822</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2823_2017" model="account.account.template">
       <field name="name">Tantiem, gratifikationer </field>
       <field name="code">2823</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2829_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till anställda </field>
       <field name="code">2829</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2830_2017" model="account.account.template">
       <field name="name">Avräkning för annans räkning </field>
       <field name="code">2830</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2840_2017" model="account.account.template">
       <field name="name">Kortfristiga låneskulder </field>
       <field name="code">2840</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2841_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder </field>
       <field name="code">2841</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2849_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga låneskulder </field>
       <field name="code">2849</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2860_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till koncernföretag </field>
@@ -18996,65 +18846,56 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2880_2017" model="account.account.template">
       <field name="name">Skuld erhållna bidrag </field>
       <field name="code">2880</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K3_2910_2017" model="account.account.template">
       <field name="name">Upplupna löner </field>
@@ -26386,37 +26227,32 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2340_2017" model="account.account.template">
       <field name="name">Byggnadskreditiv </field>
       <field name="code">2340</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2350_2017" model="account.account.template">
       <field name="name">Andra långfristiga skulder till kreditinstitut </field>
       <field name="code">2350</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2351_2017" model="account.account.template">
       <field name="name">Fastighetslån, långfristig del </field>
       <field name="code">2351</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2355_2017" model="account.account.template">
       <field name="name">Långfristiga lån i utländsk valuta från kreditinstitut </field>
       <field name="code">2355</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2359_2017" model="account.account.template">
       <field name="name">Övriga långfristiga lån från kreditinstitut </field>
       <field name="code">2359</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2360_2017" model="account.account.template">
       <field name="name">Långfristiga skulder till koncernföretag </field>
@@ -26469,91 +26305,82 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2390_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2390</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2391_2017" model="account.account.template">
       <field name="name">Avbetalningskontrakt, långfristig del </field>
       <field name="code">2391</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2392_2017" model="account.account.template">
       <field name="name">Villkorliga långfristiga skulder </field>
       <field name="code">2392</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2393_2017" model="account.account.template">
       <field name="name">Lån från närstående personer, långfristig del </field>
       <field name="code">2393</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2394_2017" model="account.account.template">
       <field name="name">Långfristiga leverantörskrediter </field>
       <field name="code">2394</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2395_2017" model="account.account.template">
       <field name="name">Andra långfristiga lån i utländsk valuta </field>
       <field name="code">2395</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2396_2017" model="account.account.template">
       <field name="name">Derivat</field>
       <field name="code">2396</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2397_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, långfristiga </field>
       <field name="code">2397</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2399_2017" model="account.account.template">
       <field name="name">Övriga långfristiga skulder </field>
       <field name="code">2399</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2410_2017" model="account.account.template">
       <field name="name">Andra kortfristiga låneskulder till kreditinstitut </field>
       <field name="code">2410</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2411_2017" model="account.account.template">
       <field name="name">Kortfristiga lån från kreditinstitut </field>
       <field name="code">2411</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2417_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder till kreditinstitut </field>
       <field name="code">2417</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2419_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut </field>
       <field name="code">2419</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="reconcile" eval="True"/>
     </record>
@@ -26702,16 +26529,14 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2490_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer </field>
       <field name="code">2490</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2491_2017" model="account.account.template">
       <field name="name">Avräkning spelarrangörer</field>
       <field name="code">2491</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2492_2017" model="account.account.template">
       <field name="name">Växelskulder</field>
@@ -26723,9 +26548,8 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2499_2017" model="account.account.template">
       <field name="name">Andra övriga kortfristiga skulder </field>
       <field name="code">2499</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2510_2017" model="account.account.template">
       <field name="name">Skatteskulder </field>
@@ -26778,191 +26602,164 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2661_2017" model="account.account.template">
       <field name="name">Reklamskatt </field>
       <field name="code">2661</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2669_2017" model="account.account.template">
       <field name="name">Övriga punktskatter </field>
       <field name="code">2669</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2732_2017" model="account.account.template">
       <field name="name">Avräkning särskild löneskatt </field>
       <field name="code">2732</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2740_2017" model="account.account.template">
       <field name="name">Avtalade sociala avgifter </field>
       <field name="code">2740</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2750_2017" model="account.account.template">
       <field name="name">Utmätning i lön m.m. </field>
       <field name="code">2750</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2761_2017" model="account.account.template">
       <field name="name">Avräkning semesterlöner </field>
       <field name="code">2761</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2762_2017" model="account.account.template">
       <field name="name">Semesterlönekassa </field>
       <field name="code">2762</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2790_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2790</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2791_2017" model="account.account.template">
       <field name="name">Personalens intressekonto </field>
       <field name="code">2791</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2792_2017" model="account.account.template">
       <field name="name">Lönsparande </field>
       <field name="code">2792</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2793_2017" model="account.account.template">
       <field name="name">Gruppförsäkringspremier </field>
       <field name="code">2793</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2794_2017" model="account.account.template">
       <field name="name">Fackföreningsavgifter </field>
       <field name="code">2794</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2795_2017" model="account.account.template">
       <field name="name">Mätnings- och granskningsarvoden </field>
       <field name="code">2795</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2799_2017" model="account.account.template">
       <field name="name">Övriga löneavdrag </field>
       <field name="code">2799</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2810_2017" model="account.account.template">
       <field name="name">Avräkning för factoring och belånade kontraktsfordringar </field>
       <field name="code">2810</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2811_2017" model="account.account.template">
       <field name="name">Avräkning för factoring</field>
       <field name="code">2811</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2812_2017" model="account.account.template">
       <field name="name">Avräkning för belånade kontraktsfordringar</field>
       <field name="code">2812</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2820_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till anställda </field>
       <field name="code">2820</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2821_2017" model="account.account.template">
       <field name="name">Löneskulder </field>
       <field name="code">2821</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2822_2017" model="account.account.template">
       <field name="name">Reseräkningar </field>
       <field name="code">2822</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2823_2017" model="account.account.template">
       <field name="name">Tantiem, gratifikationer </field>
       <field name="code">2823</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2829_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder till anställda </field>
       <field name="code">2829</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2830_2017" model="account.account.template">
       <field name="name">Avräkning för annans räkning </field>
       <field name="code">2830</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2840_2017" model="account.account.template">
       <field name="name">Kortfristiga låneskulder </field>
       <field name="code">2840</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2841_2017" model="account.account.template">
       <field name="name">Kortfristig del av långfristiga skulder </field>
       <field name="code">2841</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2849_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga låneskulder </field>
       <field name="code">2849</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2860_2017" model="account.account.template">
       <field name="name">Kortfristiga skulder till koncernföretag </field>
@@ -27015,65 +26812,56 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2880_2017" model="account.account.template">
       <field name="name">Skuld erhållna bidrag </field>
       <field name="code">2880</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_payable"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
-      <field name="reconcile" eval="True"/>
     </record>
     <record id="K4_2910_2017" model="account.account.template">
       <field name="name">Upplupna löner </field>

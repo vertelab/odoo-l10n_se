@@ -148,7 +148,7 @@ for l in ln:
     if u'Ackumulerade överavskrivningar' in l.get('f') or u'Avsättningar för pensioner och liknande förpliktelser' in l.get('f') or u'Övriga avsättningar' in l.get('f') or u'Skulder till koncernföretag' in l.get('f') or u'Skulder till övriga företag som det finns ett ägarintresse i' in l.get('f') or u'Skulder till intresseföretag och gemensamt styrda företag' in l.get('f') or u'Övriga skulder' in l.get('f'):
         ut = 'account.data_account_type_non_current_liabilities'
 
-    if u'Övriga skulder' in l.get('f') or u'Leverantörsskulder' in l.get('f') or  u'Checkräkningskredit' in l.get('f') or  u'Växelskulder' in l.get('f') or  u'Upplupna kostnader och förutbetalda intäkter' in l.get('f') or  u'Övriga fordringar' in l.get('f') or  u'Skattefordringar' in l.get('f') or u'Upparbetad men ej fakturerad intäkt' in l.get('f'):
+    if u'Leverantörsskulder' in l.get('f') or  u'Checkräkningskredit' in l.get('f') or  u'Växelskulder' in l.get('f') or  u'Upplupna kostnader och förutbetalda intäkter' in l.get('f') or  u'Övriga fordringar' in l.get('f') or  u'Skattefordringar' in l.get('f') or u'Upparbetad men ej fakturerad intäkt' in l.get('f'):
         ut = 'account.data_account_type_payable'
 
     if u'Förskott' in l['f'] or u'förskott' in l['f'] or u'Förutbetalda' in l['f'] or u'Fakturerad men ej upparbetad intäkt' in l['f']:

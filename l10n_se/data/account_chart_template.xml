@@ -635,8 +635,10 @@
     <record id="chart_template_general" model="account.chart.template">
       <field name="property_account_receivable_id" ref="chart1510" />
       <field name="property_account_payable_id" ref="chart2440" />
-      <field name="property_account_expense_categ_id" ref="chart3000" />
-      <field name="property_account_income_categ_id" ref="chart4000" />
+      <field name="property_account_expense_categ_id" ref="chart4000"/>
+      <field name="property_account_income_categ_id" ref="chart3001"/>
+      <field name="property_account_expense_id" ref="chart4000"/>
+      <field name="property_account_income_id" ref="chart3001"/>
       <!--
            <field name="expense_currency_exchange_account_id" ref="a654"/>
            <field name="income_currency_exchange_account_id" ref="a754"/>

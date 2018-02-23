@@ -48,7 +48,6 @@ def field(parent, name, value='', attrs=None):
     return f
 
 def mk_chart(data,type,name,year,accounts,rule):
-
     #~ root_account = record(data, '%s_1955_%s' % (type,year), 'account.account.template')
     #~ field(root_account,'name','Bank transfer')
     #~ field(root_account,'code','1955')
@@ -64,11 +63,17 @@ def mk_chart(data,type,name,year,accounts,rule):
     field(ke, 'currency_id', '', {'ref': 'base.SEK'})
     field(ke, 'cash_account_code_prefix', '191')
     field(ke, 'bank_account_code_prefix', '193')
+    #~ field(ke, 'property_account_receivable_id', '', {'ref': 'chart1510'})
+    #~ field(ke, 'property_account_payable_id', '', {'ref': 'chart2440'})
+    #~ field(ke, 'property_account_expense_categ_id', '', {'ref': 'chart4000'})
+    #~ field(ke, 'property_account_income_categ_id', '', {'ref': 'chart3001'})
+    #~ field(ke, 'property_account_expense_id', '', {'ref': 'chart4000'})
+    #~ field(ke, 'property_account_income_id', '', {'ref': 'chart3001'})
     field(ke, 'code_digits', '4')
-
+    #~ field(ke, 'tax_template_ids', '', {'eval': "[(6,0,[ref('%s_mp1'),ref('%s_i')])]" %(type, type)})
     #~ root_account2 = record(data, '%s_1955_%s' % (type,year), 'account.account.template')
     #~ field(root_account2, 'chart_template_id', '', {'ref': exid})
-    
+
     for account in accounts:
         r = record(data, '%s_%s_%s' % (type,account['code'], year), 'account.account.template')
         field(r, 'name', account['name'])
