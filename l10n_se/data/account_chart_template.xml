@@ -88,6 +88,7 @@
       <field name="code">3001</field>
       <field name="user_type_id" ref="account.data_account_type_revenue" />
       <field name="chart_template_id" ref="chart_template_general" />
+      <field name="tax_ids" eval="[(6,0,[ref('mp1')])]"/>
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
     <record id="chart3002" model="account.account.template">
@@ -95,6 +96,7 @@
       <field name="code">3002</field>
       <field name="user_type_id" ref="account.data_account_type_revenue" />
       <field name="chart_template_id" ref="chart_template_general" />
+      <field name="tax_ids" eval="[(6,0,[ref('mp2')])]"/>
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
     <record id="chart3003" model="account.account.template">
@@ -102,6 +104,7 @@
       <field name="code">3003</field>
       <field name="user_type_id" ref="account.data_account_type_revenue" />
       <field name="chart_template_id" ref="chart_template_general" />
+      <field name="tax_ids" eval="[(6,0,[ref('mp3')])]"/>
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
     <record id="chart3004" model="account.account.template">
@@ -203,6 +206,7 @@
       <field name="code">4000</field>
       <field name="user_type_id" ref="account.data_account_type_direct_costs" />
       <field name="chart_template_id" ref="chart_template_general" />
+      <field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
       <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
     </record>
     <!--
