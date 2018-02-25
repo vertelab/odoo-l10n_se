@@ -152,51 +152,51 @@ class create_year_end_report(models.TransientModel):
 
 
 
-from lxml import html
-import requests
+#~ from lxml import html
+#~ import requests
 
-import re
+#~ import re
 
-import logging
-_logger = logging.getLogger(__name__)
+#~ import logging
+#~ _logger = logging.getLogger(__name__)
 
-def domain(konto):
-    k = re.compile('(\d{4})')
-    kl = re.compile('(\d{4})-(\d{4})')
+#~ def domain(konto):
+    #~ k = re.compile('(\d{4})')
+    #~ kl = re.compile('(\d{4})-(\d{4})')
 
-    dom = []
-    sign = ['>=','<=']
-    if k.findall(konto):
+    #~ dom = []
+    #~ sign = ['>=','<=']
+    #~ if k.findall(konto):
 
-        for i,k in enumerate(k.findall(konto)):
-           dom.append("('code','%s','%s')" % (sign[i % 2],k))
+        #~ for i,k in enumerate(k.findall(konto)):
+           #~ dom.append("('code','%s','%s')" % (sign[i % 2],k))
 
-    return dom
+    #~ return dom
 
 
-page = requests.get('https://www.arsredovisning-online.se/bas_kontoplan')
-tree = html.fromstring(page.content)
+#~ page = requests.get('https://www.arsredovisning-online.se/bas_kontoplan')
+#~ tree = html.fromstring(page.content)
 
-data = tree.xpath('//h3/text()')
+#~ data = tree.xpath('//h3/text()')
 
-konton = tree.xpath('//h4/text()')
-texter = tree.xpath('//ul/li/text()')
-rubr = tree.xpath('//ul/li/b/text()')
+#~ konton = tree.xpath('//h4/text()')
+#~ texter = tree.xpath('//ul/li/text()')
+#~ rubr = tree.xpath('//ul/li/b/text()')
 
-print "l = ["
-t = 2
-for i in range(0,len(konton)):
-    if konton[i] > 'Konto 3':
-        type = 'R'
-    else:
-        type = 'B'
-    falt = texter[t]
-    if len(rubr) > t and rubr[t-1] == 'Beskrivning:':
-        besk = texter[t+1].strip().replace('"',"'")
-        t += 1
-    else:
-        besk = ''
-    print "{'t':'%s','f':\"%s\",'b':\"%s\",'k':\"%s\"}," % (type,falt.strip(),besk,domain(konton[i]))
-    t += 1
+#~ print "l = ["
+#~ t = 2
+#~ for i in range(0,len(konton)):
+    #~ if konton[i] > 'Konto 3':
+        #~ type = 'R'
+    #~ else:
+        #~ type = 'B'
+    #~ falt = texter[t]
+    #~ if len(rubr) > t and rubr[t-1] == 'Beskrivning:':
+        #~ besk = texter[t+1].strip().replace('"',"'")
+        #~ t += 1
+    #~ else:
+        #~ besk = ''
+    #~ print "{'t':'%s','f':\"%s\",'b':\"%s\",'k':\"%s\"}," % (type,falt.strip(),besk,domain(konton[i]))
+    #~ t += 1
 
-print "]"
+#~ print "]"

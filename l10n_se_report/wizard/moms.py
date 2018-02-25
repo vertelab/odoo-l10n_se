@@ -92,7 +92,8 @@ class moms_declaration_wizard(models.TransientModel):
     @api.onchange('period_start', 'period_stop')
     def read_account(self):
         if self.period_start and self.period_stop:
-            tax_accounts = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '26')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+            #~ raise Warning('hejsam %s' % self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)]))
+            tax_accounts = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
             self.skattekonto = -sum(tax_accounts.mapped('balance'))
             tax_account = 0.0
             for p in self.get_period_ids(self.period_start, self.period_stop):
@@ -101,7 +102,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def create_vat(self):
-        kontomoms = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '26')]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        kontomoms = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
         momsskuld = self.env['account.account'].search([('code', '=', '2650')])
         momsfordran = self.env['account.account'].search([('code', '=', '1650')])
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
@@ -200,7 +201,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '26')]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
         domain = [('account_id', 'in', tax_accounts.mapped('id')), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
         if self.ej_bokforda:
             domain.append(('move_id.state', '=', 'draft'))
