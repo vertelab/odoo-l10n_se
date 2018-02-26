@@ -22,6 +22,7 @@ import logging
 from openerp import api,models, _
 from .seb import SEBTransaktionsrapportType1 as Parser
 from .seb import SEBTransaktionsrapportType2 as Parser2
+from .seb import SEBTransaktionsrapportType3 as Parser3
 import base64
 import re
 
@@ -59,26 +60,36 @@ class AccountBankStatementImport(models.TransientModel):
             except ValueError:
                 # Not a SEB Type 2 file, returning super will call next candidate:
                 _logger.info(u"Statement file was not a SEB Type 2 Kontohändelse file.")
-                return super(AccountBankStatementImport, self)._parse_all_files(data_file)
+                try:
+                    _logger.info(u"Try parsing with SEB Typ 3 Kontohändelser.")
+                    parser = Parser3(base64.b64decode(self.data_file)) 
+                except ValueError:
+                    # Not a SEB Type 3 file, returning super will call next candidate:
+                    _logger.info(u"Statement file was not a SEB Type 3 Kontohändelse file.")
+                    return super(AccountBankStatementImport, self)._parse_all_files(data_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
         seb = parser.parse()
         for s in seb.statements:
+            currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
             for t in s['transactions']:
                 #raise Warning(t)
-                partner_id = self.env['res.partner'].search([('name','ilike',t['partner_name'])])
+                t['currency_id'] = currency.id
+                partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])]) # ,('ref','ilike',t['partner_name']),('phone','ilike',t['partner_name'])])
                 if partner_id:
-                    t['account_number'] = partner_id[0].bank_ids and partner_id[0].bank_ids[0].acc_number or ''
-                    t['partner_id'] = partner_id[0].id
+                    t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
+                    t['partner_id'] = partner_id[0].commercial_partner_id.id
                 fnr = '-'.join(fakt.findall(t['name']))
                 if fnr:
                     invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
                     if invoice:
                         t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                         t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
+                # account.voucher / account.move  t['journal_entry_id']
+                
         #~ res = parser.parse(data_file)
-        #_logger.debug("res: %s" % seb.statements)
-        #raise Warning(seb.statements)
+        _logger.debug("res: %s" % seb.statements)
+        #~ raise Warning(seb.statements)
         return seb.statements
 
 class account_bank_statement(osv.osv):
@@ -103,6 +114,7 @@ class account_bank_statement(osv.osv):
         """
         _logger.warn('st_line: %s' % st_line)
         _logger.warn('st_line.name: %s' % st_line.name)
+        _logger.warn('st_line.currency_id: %s' % st_line.currency_id)
         _logger.warn('excluded_ids: %s' % excluded_ids)
         _logger.warn('str: %s' % str)
         _logger.warn('limit: %s' % limit)
@@ -143,7 +155,9 @@ class account_bank_statement(osv.osv):
         # Or return list of dicts representing the formatted move lines
         else:
             target_currency = st_line.currency_id or st_line.journal_id.currency or st_line.journal_id.company_id.currency_id
+
             mv_lines = mv_line_pool.prepare_move_lines_for_reconciliation_widget(cr, uid, lines, target_currency=target_currency, target_date=st_line.date, context=context)
+            #~ raise Warning(target_currency.name,mv_lines)
             has_no_partner = not bool(st_line.partner_id.id)
             for line in mv_lines:
                 line['has_no_partner'] = has_no_partner

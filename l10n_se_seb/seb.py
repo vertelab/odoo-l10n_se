@@ -100,13 +100,13 @@ class SEBTransaktionsrapportType2(object):
         self.nrows = self.data.nrows - 1
         self.header = []
         self.statements = []
-        if not (self.data.cell(2,0).value[:7] == u'Datum: ' and self.data.cell(4,0).value[:15] == u'Bokföringsdatum'):
+        if not (self.data.cell(2,0).value[:7] == u'Datum: ' and self.data.cell(4,0).value[:15] == u'Bokföringsdatum' and self.data.cell(4,3).value[:16] == u'text / mottagare'):
             _logger.error(u'Row 0 %s (was looking for Datum / Bokföringsdatum) %s %s' % (self.data.cell(2,0).value[:7],self.data.cell(4,0).value[:15],self.data.row(0)))
-            raise ValueError(u'This is not a SEB Kontohändelser')
+            raise ValueError(u'This is not a SEB Kontohändelser Typ2')
 
         
     def parse(self):
-        """Parse SEB transaktionsrapport bank statement file contents type 1."""
+        """Parse SEB transaktionsrapport bank statement file contents type 2."""
 
         self.account_currency = 'SEK' 
         self.header = []
@@ -135,6 +135,59 @@ class SEBTransaktionsrapportType2(object):
         self.statements.append(self.current_statement)
 #        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
         return self
+
+
+class SEBTransaktionsrapportType3(object):
+    """Parser for SEB Kontohändelser import files."""
+    
+    def __init__(self, data_file):
+        try:
+            #~ self.data_file = open_workbook(file_contents=data_file)
+            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
+        except XLRDError, e:
+            _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
+            raise ValueError(e)  
+        self.nrows = self.data.nrows - 1
+        self.header = []
+        self.statements = []
+        if not (self.data.cell(2,0).value[:7] == u'Datum: ' and self.data.cell(4,0).value[:15] == u'Bokföringsdatum' and self.data.cell(4,3).value[:14] == u'Text/mottagare'):
+            _logger.error(u'Row 0 %s (was looking for Datum / Bokföringsdatum) %s %s' % (self.data.cell(2,0).value[:7],self.data.cell(4,0).value[:15],self.data.row(0)))
+            raise ValueError(u'This is not a SEB Kontohändelser Typ3')
+
+        
+    def parse(self):
+        """Parse SEB transaktionsrapport bank statement file contents type 3."""
+
+        self.account_currency = 'SEK' 
+        self.header = []
+        self.account_number = self.data.cell(1,0).value.strip()
+        self.name = self.data.cell(0,0).value[15:30]
+
+        self.current_statement = BankStatement()
+        self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+        self.current_statement.local_currency = self.account_currency or 'SEK'
+        self.current_statement.local_account =  self.account_number
+        self.current_statement.statement_id = '%s %s' % (self.data.cell(0,0).value,self.data.cell(2,0).value[6:])
+        self.current_statement.start_balance = float(self.data.cell(self.nrows,5).value - self.data.cell(self.nrows,4).value)
+        self.current_statement.end_balance = float(self.data.cell(5,5).value)
+        for t in SEBIterator(self.data,header_row=4):
+            transaction = self.current_statement.create_transaction()
+            transaction.transferred_amount = float(t['belopp'])
+            transaction.eref = t['verifikationsnummer'].strip()
+            transaction.name = t['text/mottagare'].strip()
+            transaction.partner_name = t['text/mottagare'].strip()
+            transaction.note = t['text/mottagare'].strip()
+            transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+            transaction.unique_import_id = t['verifikationsnummer'].strip()
+            transaction.remote_owner = t['text/mottagare'].strip()
+            
+            #~ transaction.message
+            #self.current_statement.end_balance = 
+        
+        self.statements.append(self.current_statement)
+#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
+        return self
+
 
 class SEBIterator(object):
     def __init__(self, data,header_row=8):
