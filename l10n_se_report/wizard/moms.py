@@ -97,7 +97,7 @@ class moms_declaration_wizard(models.TransientModel):
             self.skattekonto = -sum(tax_accounts.mapped('balance'))
             tax_account = 0.0
             for p in self.get_period_ids(self.period_start, self.period_stop):
-                tax_account += self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', '=', 'bR1')]).sum_period
+                tax_account += sum(self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', 'in', ['aR1','bR1'])]).mapped('sum_period'))
             self.br1 = tax_account
 
     @api.multi
@@ -218,7 +218,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_journal_items(self):
-        tax_account = self.env['account.tax.code'].search([('code', '=', 'bR1')])
+        tax_account = self.env['account.tax.code'].search([('code', 'in', ['aR1','bR1'])])
         domain = [('tax_code_id', 'child_of', tax_account.id), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
         if self.ej_bokforda:
             domain.append(('move_id.state', '=', 'draft'))
