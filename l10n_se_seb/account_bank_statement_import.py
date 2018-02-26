@@ -19,7 +19,7 @@
 #
 ##############################################################################
 import logging
-from openerp import api,models, _
+from openerp import api,models,fields, _
 from .seb import SEBTransaktionsrapportType1 as Parser
 from .seb import SEBTransaktionsrapportType2 as Parser2
 from .seb import SEBTransaktionsrapportType3 as Parser3
@@ -30,6 +30,7 @@ from openerp.osv import osv
     
 from StringIO import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
+from datetime import timedelta
 
 
 _logger = logging.getLogger(__name__)
@@ -69,23 +70,33 @@ class AccountBankStatementImport(models.TransientModel):
                     return super(AccountBankStatementImport, self)._parse_all_files(data_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
+        
+        
+        
         seb = parser.parse()
         for s in seb.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
             for t in s['transactions']:
-                #raise Warning(t)
+                raise Warning(s['account_number'])
                 t['currency_id'] = currency.id
                 partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])]) # ,('ref','ilike',t['partner_name']),('phone','ilike',t['partner_name'])])
                 if partner_id:
                     t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner_id[0].commercial_partner_id.id
                 fnr = '-'.join(fakt.findall(t['name']))
+                invoice = None
                 if fnr:
                     invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
                     if invoice:
                         t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                         t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
                 # account.voucher / account.move  t['journal_entry_id']
+                #~ if not invoice:
+                    #~ d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
+                    #~ d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=5))
+                    #~ lines = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).filtered(lambda v: round(v.amount,-1) == round(t['amount'],-1)).mapped('line_id').filtered(lambda l: l.account_id.id == t['account_id'])
+                    #~ if len(lines)>0:
+                        #~ raise Warning(lines)
                 
         #~ res = parser.parse(data_file)
         _logger.debug("res: %s" % seb.statements)
@@ -102,6 +113,7 @@ class account_bank_statement(osv.osv):
         if additional_domain is None:
             additional_domain = []
         st_line = self.browse(cr, uid, st_line_id, context=context)
+        raise Warning('here I am')
         return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
     
     def get_move_lines_for_reconciliation(self, cr, uid, st_line, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
