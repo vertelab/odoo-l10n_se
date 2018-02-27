@@ -76,8 +76,8 @@ class AccountBankStatementImport(models.TransientModel):
         seb = parser.parse()
         for s in seb.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
+            account = self.env['res.partner.bank'].search([('acc_number','=',s['account_number'])]).mapped('journal_id').mapped('default_debit_account_id')
             for t in s['transactions']:
-                raise Warning(s['account_number'])
                 t['currency_id'] = currency.id
                 partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])]) # ,('ref','ilike',t['partner_name']),('phone','ilike',t['partner_name'])])
                 if partner_id:
@@ -91,10 +91,17 @@ class AccountBankStatementImport(models.TransientModel):
                         t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                         t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
                 # account.voucher / account.move  t['journal_entry_id']
-                #~ if not invoice:
-                    #~ d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
-                    #~ d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=5))
-                    #~ lines = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).filtered(lambda v: round(v.amount,-1) == round(t['amount'],-1)).mapped('line_id').filtered(lambda l: l.account_id.id == t['account_id'])
+                if not invoice:
+                    d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
+                    d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=5))
+                    
+                    #~ lines = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).filtered(lambda v: round(v.amount,-1) == round(t['amount'],-1)).mapped('line_id').filtered(lambda l: l.account_id.id == account and (account.id))
+                    line = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).mapped('line_id').filtered(lambda l: l.account_id == account and round(l.balance,-1) == round(t['amount'],-1))
+                    if len(line)>0:
+                        _logger.error(line.mapped('move_id'))
+                        _logger.error(account.mapped('code'))
+                        
+                        t['journal_entry_id'] = line.mapped('move_id')[0].id if len(line)>0 else None
                     #~ if len(lines)>0:
                         #~ raise Warning(lines)
                 
@@ -113,7 +120,6 @@ class account_bank_statement(osv.osv):
         if additional_domain is None:
             additional_domain = []
         st_line = self.browse(cr, uid, st_line_id, context=context)
-        raise Warning('here I am')
         return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
     
     def get_move_lines_for_reconciliation(self, cr, uid, st_line, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
