@@ -27,7 +27,7 @@ import base64
 import re
 
 from openerp.osv import osv
-    
+
 from StringIO import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
 from datetime import timedelta
@@ -48,7 +48,7 @@ class AccountBankStatementImport(models.TransientModel):
         """
         statements = []
         files = [data_file]
-        
+
         try:
             _logger.info(u"Try parsing with SEB Typ 1 Kontohändelser.")
             parser = Parser(base64.b64decode(self.data_file))
@@ -57,22 +57,22 @@ class AccountBankStatementImport(models.TransientModel):
             _logger.info(u"Statement file was not a SEB Type 1 Kontohändelse file.")
             try:
                 _logger.info(u"Try parsing with SEB Typ 2 Kontohändelser.")
-                parser = Parser2(base64.b64decode(self.data_file)) 
+                parser = Parser2(base64.b64decode(self.data_file))
             except ValueError:
                 # Not a SEB Type 2 file, returning super will call next candidate:
                 _logger.info(u"Statement file was not a SEB Type 2 Kontohändelse file.")
                 try:
                     _logger.info(u"Try parsing with SEB Typ 3 Kontohändelser.")
-                    parser = Parser3(base64.b64decode(self.data_file)) 
+                    parser = Parser3(base64.b64decode(self.data_file))
                 except ValueError:
                     # Not a SEB Type 3 file, returning super will call next candidate:
                     _logger.info(u"Statement file was not a SEB Type 3 Kontohändelse file.")
                     return super(AccountBankStatementImport, self)._parse_all_files(data_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
-        
-        
-        
+
+
+
         seb = parser.parse()
         for s in seb.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
@@ -85,26 +85,26 @@ class AccountBankStatementImport(models.TransientModel):
                     t['partner_id'] = partner_id[0].commercial_partner_id.id
                 fnr = '-'.join(fakt.findall(t['name']))
                 invoice = None
-                if fnr:
-                    invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
-                    if invoice:
-                        t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
-                        t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
+                #~ if fnr:
+                    #~ invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
+                    #~ if invoice:
+                        #~ t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
+                        #~ t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
                 # account.voucher / account.move  t['journal_entry_id']
                 if not invoice:
                     d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
-                    d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=5))
-                    
+                    d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
                     #~ lines = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).filtered(lambda v: round(v.amount,-1) == round(t['amount'],-1)).mapped('line_id').filtered(lambda l: l.account_id.id == account and (account.id))
-                    line = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).mapped('line_id').filtered(lambda l: l.account_id == account and round(l.balance,-1) == round(t['amount'],-1))
+                    line = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).mapped('line_id').filtered(lambda l: l.account_id == account and round(l.debit-l.credit, -1) == round(t['amount'], -1))
                     if len(line)>0:
-                        _logger.error(line.mapped('move_id'))
-                        _logger.error(account.mapped('code'))
-                        
+                        #~ _logger.error(line.mapped('move_id'))
+                        #~ _logger.error(account.mapped('code'))
+                        if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
+                            line[0].move_id.date = t['date']
                         t['journal_entry_id'] = line.mapped('move_id')[0].id if len(line)>0 else None
                     #~ if len(lines)>0:
                         #~ raise Warning(lines)
-                
+
         #~ res = parser.parse(data_file)
         _logger.debug("res: %s" % seb.statements)
         #~ raise Warning(seb.statements)
@@ -112,7 +112,7 @@ class AccountBankStatementImport(models.TransientModel):
 
 class account_bank_statement(osv.osv):
     _inherit = 'account.bank.statement.line'
-    
+
     def get_move_lines_for_reconciliation_by_statement_line_id(self, cr, uid, st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
         """ Bridge between the web client reconciliation widget and get_move_lines_for_reconciliation (which expects a browse record) """
         if excluded_ids is None:
@@ -121,7 +121,7 @@ class account_bank_statement(osv.osv):
             additional_domain = []
         st_line = self.browse(cr, uid, st_line_id, context=context)
         return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
-    
+
     def get_move_lines_for_reconciliation(self, cr, uid, st_line, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
         """ Find the move lines that could be used to reconcile a statement line. If count is true, only returns the count.
 
