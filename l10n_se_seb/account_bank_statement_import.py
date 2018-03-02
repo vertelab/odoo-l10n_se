@@ -91,9 +91,17 @@ class AccountBankStatementImport(models.TransientModel):
                         #~ t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                         #~ t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
                 # account.voucher / account.move  t['journal_entry_id']
-                if not invoice:
-                    d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
-                    d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
+                d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
+                d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
+                vouchers = self.env['account.voucher'].search([('date','>',d1),('date','<',d2), ('account_id', '=', account.id)])
+                voucher = None
+                if len(vouchers) > 0:
+                    voucher_partner = vouchers.filtered(lambda v: v.partner_id == partner_id and round(v.amount, -1) == round(t['amount'], -1))
+                    if len(voucher_partner) > 0:
+                        voucher = voucher_partner[0]
+                    else:
+                        voucher = vouchers.filtered(lambda v: round(v.amount, -1) == round(t['amount'], -1))[0] if vouchers.filtered(lambda v: round(v.amount, -1) == round(t['amount'], -1)) else None
+                if not invoice or not voucher:  # match with account.move
                     #~ lines = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).filtered(lambda v: round(v.amount,-1) == round(t['amount'],-1)).mapped('line_id').filtered(lambda l: l.account_id.id == account and (account.id))
                     line = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).mapped('line_id').filtered(lambda l: l.account_id == account and round(l.debit-l.credit, -1) == round(t['amount'], -1))
                     if len(line)>0:
@@ -101,9 +109,24 @@ class AccountBankStatementImport(models.TransientModel):
                         #~ _logger.error(account.mapped('code'))
                         if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
                             line[0].move_id.date = t['date']
-                        t['journal_entry_id'] = line.mapped('move_id')[0].id if len(line)>0 else None
-                    #~ if len(lines)>0:
-                        #~ raise Warning(lines)
+                        move = line.mapped('move_id')[0].id if len(line)>0 else None
+                        if move:
+                            t['journal_entry_id'] = move
+                            t['voucher_id'] = self.env['account.voucher'].search([('move_id', '=', move)]).id if self.env['account.voucher'].search([('move_id', '=', move)]) else None
+                elif voucher:   # match with account.voucher
+                    if voucher.move_id.state == 'draft' and voucher.move_id.date != t['date']:
+                        voucher.move_id.date = t['date']
+                    if voucher.state == 'draft' and voucher.date != t['date']:
+                        voucher.date = t['date']
+                    t['journal_entry_id'] = voucher.move_id.id
+                    t['voucher_id'] = voucher.id
+                elif invoice:   # match with account.invoice
+                    line = invoice.payment_ids.filtered(lambda l: l.date > d1 and l.date < d2 and round(l.debit-l.credit, -1) == round(t['amount'], -1))
+                    if len(line) > 0:
+                        if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
+                            line[0].move_id.date = t['date']
+                        t['journal_entry_id'] = line[0].move_id.id
+
 
         #~ res = parser.parse(data_file)
         _logger.debug("res: %s" % seb.statements)
