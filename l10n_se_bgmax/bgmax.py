@@ -319,28 +319,34 @@ class BgMaxParser(object):
             #~ _logger.warn("bet: %s" % avsnitt.bet)
             #~ _logger.warn("type: %s" % avsnitt.type)
             
+            current_statement = BankStatement()
+            current_statement.local_currency = 'SEK'
+            current_statement.start_balance = 0.0
+            current_statement.end_balance = 0.0
+         
+         
          
 
-            if not self.current_statement.local_account:
-                self.current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
-                if len(self.current_statement.local_account) == 8:
-                    self.current_statement.local_account = self.current_statement.local_account[:4] + '-' + self.current_statement.local_account[4:]
+            if not current_statement.local_account:
+                current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+                if len(current_statement.local_account) == 8:
+                    current_statement.local_account = current_statement.local_account[:4] + '-' + current_statement.local_account[4:]
             #if not self.current_statement.local_currency:
             #    self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
-            if not self.current_statement.statement_id:
-                self.current_statement.statement_id = 'BgMax %s %s' % (self.current_statement.local_account,iterator.header['skrivdag'][:10])
+            if not current_statement.statement_id:
+                current_statement.statement_id = 'BgMax %s %s' % (current_statement.local_account,iterator.header['skrivdag'][:10])
                 
             for ins in avsnitt.ins:
-                transaction = self.current_statement.create_transaction()
+                transaction = current_statement.create_transaction()
                 #~ if int(ins.get('bankgiro', 0)):
                     #~ transaction.remote_account = str(int(ins.get('bankgiro', 0)))
                 transaction.transferred_amount = float(ins.get('betbelopp', 0)) / 100
-                self.current_statement.end_balance += transaction.transferred_amount
+                current_statement.end_balance += transaction.transferred_amount
 
                 date = avsnitt.footer.get('betalningsdag') or ''
                 if date:
                     date = date[:4] + '-' + date[4:6] + '-' + date[6:]
-                    self.current_statement.date = date
+                    current_statement.date = date
                     transaction.value_date = date
                 transaction.remote_account = ins.get('bankgiro', '').strip().lstrip('0')
                 if len(transaction.remote_account) == 8:
@@ -367,7 +373,7 @@ class BgMaxParser(object):
                 if transaction.remote_account:
                     transaction.note += ' bg %s ' % transaction.remote_account
                     
-            self.statements.append(self.current_statement)
+            self.statements.append(current_statement)
             
         if not iterator.check():
             _logger.error('BgMax-file error')
@@ -375,4 +381,5 @@ class BgMaxParser(object):
         #_logger.warning('currency_code %s' % self.statements[0].pop('currency_code'))
         #_logger.warning('transactions %s' % self.statements[0]['transactions'])
         
+        #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
         return self.statements
