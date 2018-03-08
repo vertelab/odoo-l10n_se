@@ -77,6 +77,7 @@ class AccountBankStatementImport(models.TransientModel):
         for s in seb.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
             account = self.env['res.partner.bank'].search([('acc_number','=',s['account_number'])]).mapped('journal_id').mapped('default_debit_account_id')
+            move_line_ids = []
             for t in s['transactions']:
                 t['currency_id'] = currency.id
                 partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])]) # ,('ref','ilike',t['partner_name']),('phone','ilike',t['partner_name'])])
@@ -109,16 +110,20 @@ class AccountBankStatementImport(models.TransientModel):
                         #~ _logger.error(account.mapped('code'))
                         if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
                             line[0].move_id.date = t['date']
-                        move = line.mapped('move_id')[0].id if len(line)>0 else None
+                        move = line.mapped('move_id')[0] if len(line)>0 else None
                         if move:
-                            t['journal_entry_id'] = move
-                            t['voucher_id'] = self.env['account.voucher'].search([('move_id', '=', move)]).id if self.env['account.voucher'].search([('move_id', '=', move)]) else None
+                            t['journal_entry_id'] = move.id
+                            for line in move.line_id:
+                                move_line_ids.append(line)
+                            t['voucher_id'] = self.env['account.voucher'].search([('move_id', '=', move.id)]).id if self.env['account.voucher'].search([('move_id', '=', move.id)]) else None
                 elif voucher:   # match with account.voucher
                     if voucher.move_id.state == 'draft' and voucher.move_id.date != t['date']:
                         voucher.move_id.date = t['date']
                     if voucher.state == 'draft' and voucher.date != t['date']:
                         voucher.date = t['date']
                     t['journal_entry_id'] = voucher.move_id.id
+                    for line in voucher.move_id.line_id:
+                        move_line_ids.append(line)
                     t['voucher_id'] = voucher.id
                 elif invoice:   # match with account.invoice
                     line = invoice.payment_ids.filtered(lambda l: l.date > d1 and l.date < d2 and round(l.debit-l.credit, -1) == round(t['amount'], -1))
@@ -126,7 +131,9 @@ class AccountBankStatementImport(models.TransientModel):
                         if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
                             line[0].move_id.date = t['date']
                         t['journal_entry_id'] = line[0].move_id.id
-
+                        for line in line[0].move_id.line_id:
+                            move_line_ids.append(line)
+            s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
         #~ res = parser.parse(data_file)
         _logger.debug("res: %s" % seb.statements)
