@@ -91,7 +91,8 @@ class account_bank_statement_line(models.Model):
             excluded_ids = []
         if additional_domain is None:
             additional_domain = [('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90)))]
-            #~ additional_domain = [('invoice.number', '=', str)]
+            if len(str) > 0:
+                additional_domain += [('invoice.number', '=', str)]
         st_line = self.browse(cr, uid, st_line_id, context=context)
         return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
 
