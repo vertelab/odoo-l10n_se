@@ -90,20 +90,21 @@ class account_bank_statement_line(models.Model):
         if excluded_ids is None:
             excluded_ids = []
         if additional_domain is None:
-            additional_domain = [('invoice.number', '=', str)]
+            additional_domain = [('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90)))]
+            #~ additional_domain = [('invoice.number', '=', str)]
         st_line = self.browse(cr, uid, st_line_id, context=context)
         return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
 
-    def _domain_reconciliation_proposition(self, cr, uid, st_line, excluded_ids=None, context=None):
-        if excluded_ids is None:
-            excluded_ids = []
-        domain = [('ref', '=', st_line.name.strip()),
-                  ('reconcile_id', '=', False),
-                  ('state', '=', 'valid'),
-                  ('account_id.reconcile', '=', True),
-                  ('id', 'not in', excluded_ids),
-                  ('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90))),]
-        if st_line.partner_id:
-            domain.append(('partner_id', '=', st_line.partner_id.id))
-        _logger.warn('>>>>>> domain: %s' %domain)
-        return domain
+    #~ def _domain_reconciliation_proposition(self, cr, uid, st_line, excluded_ids=None, context=None):
+        #~ if excluded_ids is None:
+            #~ excluded_ids = []
+        #~ domain = [('ref', '=', st_line.name.strip()),
+                  #~ ('reconcile_id', '=', False),
+                  #~ ('state', '=', 'valid'),
+                  #~ ('account_id.reconcile', '=', True),
+                  #~ ('id', 'not in', excluded_ids),
+                  #~ ('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90))),]
+        #~ if st_line.partner_id:
+            #~ domain.append(('partner_id', '=', st_line.partner_id.id))
+        #~ _logger.warn('>>>>>> domain: %s' %domain)
+        #~ return domain
