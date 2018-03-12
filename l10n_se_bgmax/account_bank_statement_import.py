@@ -86,16 +86,47 @@ class AccountBankStatementImport(models.TransientModel):
 class account_bank_statement_line(models.Model):
     _inherit = 'account.bank.statement.line'
 
-    def get_move_lines_for_reconciliation_by_statement_line_id(self, cr, uid, st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
+    @api.model
+    def get_move_lines_for_reconciliation_by_statement_line_id(self,st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None):
+        st_line = self.browse(st_line_id)
+        additional_domain = additional_domain if additional_domain else [] + ['&',('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90))),('date', '<=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) + timedelta(days=30))),]
+                                                    #~ '&',('debit', '>=', round(st_line.amount,-2) + 50.0),('debit', '<=', round(st_line.amount,-2) - 50.0)]
+        _logger.error('domain %s' % additional_domain)
+        if len(str) > 0:
+            additional_domain += ['|',('invoice.number', '=', str),'|',('invoice.origin', 'ilike', str),('invoice.name', 'ilike', str)]
+            #~ additional_domain += ['|',('invoice.number', '=', str)]
+        #~ st_line = self.browse(cr, uid, st_line_id, context=context)
+        return super(account_bank_statement_line,self).get_move_lines_for_reconciliation_by_statement_line_id(st_line_id, excluded_ids, str, offset, limit, count, additional_domain)
+    
+    def XXX_domain_move_lines_for_reconciliation(self, cr, uid, st_line, excluded_ids=None, str=False, additional_domain=None, context=None):
         if excluded_ids is None:
             excluded_ids = []
         if additional_domain is None:
-            additional_domain = [('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90)))]
-            if len(str) > 0:
-                additional_domain += [('invoice.number', '=', str)]
-        st_line = self.browse(cr, uid, st_line_id, context=context)
-        return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
-
+            additional_domain = []
+        # Make domain
+        domain = additional_domain + [
+            ('reconcile_id', '=', False),
+            ('state', '=', 'valid'),
+            ('account_id.reconcile', '=', True)
+        ]
+        if st_line.partner_id.id:
+            domain += [('partner_id', '=', st_line.partner_id.id)]
+        if excluded_ids:
+            domain.append(('id', 'not in', excluded_ids))
+        if str:
+            domain += [
+                '|', ('move_id.name', 'ilike', str),
+                '|', ('move_id.ref', 'ilike', str),
+                ('date_maturity', 'like', str),
+            ]
+            if not st_line.partner_id.id:
+                domain.insert(-1, '|', )
+                domain.append(('partner_id.name', 'ilike', str))
+            if str != '/':
+                domain.insert(-1, '|', )
+                domain.append(('name', 'ilike', str))
+        return domain
+    
     #~ def _domain_reconciliation_proposition(self, cr, uid, st_line, excluded_ids=None, context=None):
         #~ if excluded_ids is None:
             #~ excluded_ids = []
