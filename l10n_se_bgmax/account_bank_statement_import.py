@@ -19,9 +19,10 @@
 #
 ##############################################################################
 import logging
-from openerp import api,models, _
+from openerp import api,models, _, fields
 from .bgmax import BgMaxParser as Parser
 import re
+from datetime import timedelta
 from openerp.exceptions import Warning
 
 _logger = logging.getLogger(__name__)
@@ -55,7 +56,7 @@ class AccountBankStatementImport(models.TransientModel):
                 partner = None
                 #~ _logger.error('---> account_number %s ' % (t.get('account_number','no account')))
                 if t.get('account_number',None):
-                    partner = self.env['res.partner.bank'].search([('acc_number','ilike',t['account_number'])],limit=1).mapped('partner_id')                    
+                    partner = self.env['res.partner.bank'].search([('acc_number','ilike',t['account_number'])],limit=1).mapped('partner_id')
                 if not partner:
                     vat = 'SE%s01' % t['partner_name'][2:]
                     name1 = t['partner_name'].strip()
@@ -67,7 +68,7 @@ class AccountBankStatementImport(models.TransientModel):
                         partner.bank_ids = [(0,False,{'acc_number': t['account_number'],'state': 'bg'})]
                     t['account_number'] = partner.bank_ids and partner.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner.id
-                else:    
+                else:
                     fnr = '-'.join(fakt.findall(t['name']))
                     if fnr:
                         invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
@@ -81,3 +82,28 @@ class AccountBankStatementImport(models.TransientModel):
         #raise Warning(seb.statements)
 
         return statements
+
+class account_bank_statement_line(models.Model):
+    _inherit = 'account.bank.statement.line'
+
+    def get_move_lines_for_reconciliation_by_statement_line_id(self, cr, uid, st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
+        if excluded_ids is None:
+            excluded_ids = []
+        if additional_domain is None:
+            additional_domain = [('invoice.number', '=', str)]
+        st_line = self.browse(cr, uid, st_line_id, context=context)
+        return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
+
+    def _domain_reconciliation_proposition(self, cr, uid, st_line, excluded_ids=None, context=None):
+        if excluded_ids is None:
+            excluded_ids = []
+        domain = [('ref', '=', st_line.name.strip()),
+                  ('reconcile_id', '=', False),
+                  ('state', '=', 'valid'),
+                  ('account_id.reconcile', '=', True),
+                  ('id', 'not in', excluded_ids),
+                  ('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90))),]
+        if st_line.partner_id:
+            domain.append(('partner_id', '=', st_line.partner_id.id))
+        _logger.warn('>>>>>> domain: %s' %domain)
+        return domain
