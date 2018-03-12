@@ -52,14 +52,21 @@ class AccountBankStatementImport(models.TransientModel):
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
         for s in statements:
             for t in s['transactions']:
-                #raise Warning(t)
-                vat = 'SE%s01' % t['partner_name'][2:]
-                partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('vat','=',vat)])
-                if partner_id:
-                    if t['account_number'] and not partner_id[0].bank_ids:
-                        partner_id[0].bank_ids = [(0,False,{'acc_number': t['account_number'],'state': 'bg'})]
-                    t['account_number'] = partner_id[0].bank_ids and partner_id[0].bank_ids[0].acc_number or ''
-                    t['partner_id'] = partner_id[0].id
+                partner = None
+                #~ _logger.error('---> account_number %s ' % (t.get('account_number','no account')))
+                if t.get('account_number',None):
+                    partner = self.env['res.partner.bank'].search([('acc_number','ilike',t['account_number'])],limit=1).mapped('partner_id')                    
+                if not partner:
+                    vat = 'SE%s01' % t['partner_name'][2:]
+                    name1 = t['partner_name'].strip()
+                    name2 = name1.upper().replace(' AB','').replace('AKTIEBOLAG','').replace(' HB','').replace('HANDELSBOLAG','').replace(' KB','').replace('KOMMANDITBOLAG','').replace('FIRMA','').strip()
+                    partner = self.env['res.partner'].search(['|','|',('name','ilike',name1),('name','ilike',name2),('vat','=',vat)],limit=1)
+                    #~ _logger.error('----> NAME name1=%s| name2=%s| vat %s partner %s' % (name1,name2,vat,partner))
+                if partner:
+                    if t['account_number'] and not partner.bank_ids:
+                        partner.bank_ids = [(0,False,{'acc_number': t['account_number'],'state': 'bg'})]
+                    t['account_number'] = partner.bank_ids and partner.bank_ids[0].acc_number or ''
+                    t['partner_id'] = partner.id
                 else:    
                     fnr = '-'.join(fakt.findall(t['name']))
                     if fnr:
@@ -67,7 +74,10 @@ class AccountBankStatementImport(models.TransientModel):
                         if invoice:
                             t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                             t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
+                        #~ _logger.error('---> fnr %s  invoice %s' % (fnr,invoice if invoice else 'no invoice'))
+                _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
         #~ res = parser.parse(data_file)
-        #_logger.debug("res: %s" % seb.statements)
+        _logger.debug("res: %s" % statements)
         #raise Warning(seb.statements)
+
         return statements
