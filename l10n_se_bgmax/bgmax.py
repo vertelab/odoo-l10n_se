@@ -39,38 +39,62 @@ class avsnitt(object):
         self.bet = []
         self.message = []
         self.type = ''
+        self.current_type = ''
 
     def add(self,rec):
         self.type = rec['type']
         if rec['type'] == '20':
+            self.current_type = 'ins'
             self.type = '20'
             self.ins.append(rec)
         elif rec['type'] == '21':
+            self.current_type = 'bet'
             self.type = '21'
             self.bet.append(rec)
-        elif self.type == '20':
-            for r in rec.keys():
-                self.bet[-1][r] = rec[r].strip()
-        elif self.type == '21':
-            for r in rec.keys():
-                self.ins[-1][r] = rec[r].strip()
+        #~ elif self.type == '20':
+            #~ for r in rec.keys():
+                #~ self.bet[-1][r] = rec[r].strip()
+        #~ elif self.type == '21':
+            #~ for r in rec.keys():
+                #~ self.ins[-1][r] = rec[r].strip()
         elif self.type == '25':
-            if not self.ins[-1].get('informationstext'):
-                self.ins[-1]['informationstext'] = []
-            self.ins[-1]['informationstext'].append(rec['informationstext'].strip())
+            if self.current_type == 'ins':
+                if not self.ins[-1].get('informationstext'):
+                    self.ins[-1]['informationstext'] = []
+                self.ins[-1]['informationstext'].append(rec['informationstext'].strip())
+            if self.current_type == 'bet':
+                if not self.bet[-1].get('informationstext'):
+                    self.bet[-1]['informationstext'] = []
+                self.bet[-1]['informationstext'].append(rec['informationstext'].strip())
         elif self.type == '26':
-            self.ins[-1]['betalarens_namn'] = rec['betalarens_namn']
-            self.ins[-1]['extra_namn'] = rec['extra_namn']
+            if self.current_type == 'ins':
+                self.ins[-1]['betalarens_namn'] = rec['betalarens_namn']
+                self.ins[-1]['extra_namn'] = rec['extra_namn']
+            if self.current_type == 'bet':
+                self.bet[-1]['betalarens_namn'] = rec['betalarens_namn']
+                self.bet[-1]['extra_namn'] = rec['extra_namn']
         elif self.type == '27':
-            self.ins[-1]['betalarens_adress'] = rec['betalarens_adress']
-            self.ins[-1]['betalarens_postnr'] = rec['betalarens_postnr']
+            if self.current_type == 'ins':
+                self.ins[-1]['betalarens_adress'] = rec['betalarens_adress']
+                self.ins[-1]['betalarens_postnr'] = rec['betalarens_postnr']
+            if self.current_type == 'bet':
+                self.bet[-1]['betalarens_adress'] = rec['betalarens_adress']
+                self.bet[-1]['betalarens_postnr'] = rec['betalarens_postnr']
         elif self.type == '28':
-            self.ins[-1]['betalarens_ort'] = rec['betalarens_ort']
-            self.ins[-1]['betalarens_land'] = rec['betalarens_land']
-            self.ins[-1]['betalarens_landkod'] = rec['betalarens_landkod']
+            if self.current_type == 'ins':
+                self.ins[-1]['betalarens_ort'] = rec['betalarens_ort']
+                self.ins[-1]['betalarens_land'] = rec['betalarens_land']
+                self.ins[-1]['betalarens_landkod'] = rec['betalarens_landkod']
+            if self.current_type == 'bet':
+                self.bet[-1]['betalarens_ort'] = rec['betalarens_ort']
+                self.bet[-1]['betalarens_land'] = rec['betalarens_land']
+                self.bet[-1]['betalarens_landkod'] = rec['betalarens_landkod']
         elif self.type == '29':
-            self.ins[-1]['organisationsnummer'] = rec['organisationsnummer']
-    
+            if self.current_type == 'ins':
+                self.ins[-1]['organisationsnummer'] = rec['organisationsnummer']
+            if self.current_type == 'bet':
+                self.bet[-1]['organisationsnummer'] = rec['organisationsnummer']
+
     def check_insbelopp(self):
         #print "summa",sum([float(b['betbelopp'])/100 for b in self.ins])
         #print "insbel",float(self.footer['insbelopp']) / 100
@@ -101,7 +125,7 @@ class avsnitt(object):
 
 class BgMaxRowParser(object):
     """Parser for BgMax bank statement import files lines."""
-    
+
     layout = {
             '01': [ # Start post
                 ('layoutnamn',3,22),
@@ -144,7 +168,7 @@ class BgMaxRowParser(object):
                 ('avibildmarkering',70,70),
                 ('avdragskod',71,71),
             ],
-            '22': [ 
+            '22': [
                 ('22bankgiro',3,12),
                 ('22referens',13,37),
                 ('22betbelopp',38,55),
@@ -154,7 +178,7 @@ class BgMaxRowParser(object):
                 ('22avibildmarkering',70,70),
                 ('22reserv',71,80),
             ],
-            '23': [ 
+            '23': [
                 ('23bankgiro',3,12),
                 ('23referens',13,37),
                 ('23betbelopp',38,55),
@@ -164,31 +188,31 @@ class BgMaxRowParser(object):
                 ('23avibildmarkering',70,70),
                 ('reserv',71,80),
             ],
-            '25': [ 
+            '25': [
                 ('informationstext',3,52),
                 ('reserv',53,80),
-            ],            
-            '26': [ 
+            ],
+            '26': [
                 ('betalarens_namn',3,37),
                 ('extra_namn',38,72),
                 ('reserv',73,80),
             ],
-            '27': [ 
+            '27': [
                 ('betalarens_adress',3,37),
                 ('betalarens_postnr',38,46),
                 ('reserv',47,80),
             ],
-            '28': [ 
+            '28': [
                 ('betalarens_ort',3,37),
                 ('betalarens_land',38,72),
                 ('betalarens_landkod',73,74),
                 ('reserv',75,80),
             ],
-            '29': [ 
+            '29': [
                 ('organisationsnummer',3,14),
                 ('reserv',15,80),
             ],
-            '70': [ 
+            '70': [
                 ('antal_betposter',3,10),
                 ('antal_avdrag',11,18),
                 ('antal_ref',19,26),
@@ -215,7 +239,7 @@ class BgMaxIterator(BgMaxRowParser):
         self.header = {}
         self.footer = {}
         self.avsnitt = []
-    
+
     def __iter__(self):
         return self
 
@@ -235,7 +259,7 @@ class BgMaxIterator(BgMaxRowParser):
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
                 _logger.warn("rec: %s" % rec)
                 self.avsnitt[-1].add(rec)
-                rec = self.next_rec()                
+                rec = self.next_rec()
             if rec['type'] == '15':
                 self.avsnitt[-1].footer = rec
             return self.avsnitt[-1]
@@ -269,14 +293,14 @@ class BgMaxIterator(BgMaxRowParser):
                 _logger.error('BgMax-file error %s' % c)
                 raise ValueError('BgMax file error %s' % c)
                 ok = False
-            
+
         return ok
 
 
 
 class BgMaxParser(object):
     """Parser for BgMax bank statement import files."""
-    
+
     #~ def __init__(self, data):
         #~ self.row = 0
         #~ self.data = unicode(data,'iso8859-1').splitlines()
@@ -310,10 +334,10 @@ class BgMaxParser(object):
 
     def parse(self, data):
         """Parse bgmax bank statement file contents."""
-        
+
         self.is_bgmax(data)
         iterator = BgMaxIterator(data)
-        
+
         current_statement = BankStatement()
         current_statement.local_currency = 'SEK'
         current_statement.start_balance = 0.0
@@ -326,7 +350,7 @@ class BgMaxParser(object):
             #~ _logger.warn("ins: %s" % avsnitt.ins)
             #~ _logger.warn("bet: %s" % avsnitt.bet)
             #~ _logger.warn("type: %s" % avsnitt.type)
-            
+
             if not current_statement.local_account:
                 current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
                 if len(current_statement.local_account) == 8:
@@ -335,7 +359,7 @@ class BgMaxParser(object):
             #    self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
             if not current_statement.statement_id:
                 current_statement.statement_id = 'BgMax %s %s' % (current_statement.local_account,iterator.header['skrivdag'][:10])
-                
+
             for ins in avsnitt.ins:
                 transaction = current_statement.create_transaction()
                 #~ if int(ins.get('bankgiro', 0)):
@@ -360,7 +384,7 @@ class BgMaxParser(object):
                 #~ transaction.name
                 #~ transaction.note
                 #~ transaction.value_date
-            
+
                 transaction.message = ins.get('betalarens_namn', '')
                 transaction.eref = ins.get('referens') or ins.get('BGC-nummer')
                 transaction.note = '\n'.join(ins.get('informationstext',[]))
@@ -372,7 +396,7 @@ class BgMaxParser(object):
                     transaction.note += ' BGC %s ' % ins.get('BGC-nummer')
                 if transaction.remote_account:
                     transaction.note += ' bg %s ' % transaction.remote_account
-                    
+
             for bet in avsnitt.bet:
                 transaction = current_statement.create_transaction()
                 #~ if int(ins.get('bankgiro', 0)):
@@ -397,7 +421,7 @@ class BgMaxParser(object):
                 #~ transaction.name
                 #~ transaction.note
                 #~ transaction.value_date
-            
+
                 transaction.message = bet.get('betalarens_namn', '')
                 transaction.eref = bet.get('referens') or bet.get('BGC-nummer')
                 transaction.note = '\n'.join(bet.get('informationstext',[]))
@@ -409,13 +433,13 @@ class BgMaxParser(object):
                     transaction.note += ' BGC %s ' % bet.get('BGC-nummer')
                 if transaction.remote_account:
                     transaction.note += ' bg %s ' % transaction.remote_account
-            
+
         if not iterator.check():
             _logger.error('BgMax-file error')
         #raise Warning(self.statements)
         #_logger.warning('currency_code %s' % self.statements[0].pop('currency_code'))
         #_logger.warning('transactions %s' % self.statements[0]['transactions'])
-        
+
         #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
         self.statements.append(current_statement)
 
