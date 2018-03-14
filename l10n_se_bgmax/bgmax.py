@@ -74,17 +74,22 @@ class avsnitt(object):
     def check_insbelopp(self):
         #print "summa",sum([float(b['betbelopp'])/100 for b in self.ins])
         #print "insbel",float(self.footer['insbelopp']) / 100
-        if not (int(self.footer['insbelopp'])) == sum([int(b['betbelopp']) for b in self.ins]):
+        if not (int(self.footer['insbelopp'])) == sum([int(b['betbelopp']) for b in self.ins])-sum([int(b['betbelopp']) for b in self.bet]):
             #_logger.error('BgMax check_insbelopp %s != %s' % (int(self.footer['insbelopp']),sum([int(b['betbelopp']) for b in self.ins])))
+            str = 'betalare:belopp\n'
+            for rec in self.ins:
+                str += '%s:%s\n' % (rec['betalarens_namn'],float(rec['betbelopp'])/100.0)
+            _logger.error('record\n%s\n%s' % (str,'BgMax check_antal_bet %s != %s' % (len(self.ins)+len(self.bet),int(self.footer['antal_bet']))))
+            _logger.error('footer %s' % self.footer)
             raise ValueError('BgMax check_insbelopp %s != %s' % (int(self.footer['insbelopp']),sum([int(b['betbelopp']) for b in self.ins])))
-        return (int(self.footer['insbelopp']) == sum([int(b['betbelopp']) for b in self.ins]))
+        return (int(self.footer['insbelopp']) == sum([int(b['betbelopp']) for b in self.ins])-sum([int(b['betbelopp']) for b in self.bet]))
     def check_antal_bet(self):
         #print "antal",len(self.ins)
         #print "antal_bet",int(self.footer['antal_bet'])
-        if not len(self.ins) == int(self.footer['antal_bet']):
+        if not (len(self.ins)+len(self.bet)) == int(self.footer['antal_bet']):
             #~ _logger.error('BgMax check_antal_bet %s != %s' % (len(self.ins),int(self.footer['antal_bet'])))
-            raise ValueError('BgMax check_antal_bet %s != %s' % (len(self.ins),int(self.footer['antal_bet'])))
-        return len(self.ins) == int(self.footer['antal_bet'])
+            raise ValueError('BgMax check_antal_bet %s != %s' % (len(self.ins)+len(self.bet),int(self.footer['antal_bet'])))
+        return (len(self.ins)+len(self.bet)) == int(self.footer['antal_bet'])
     def __str__(self):
         return str({
             'type': self.type,
@@ -243,6 +248,7 @@ class BgMaxIterator(BgMaxRowParser):
         ok = True
         for a in self.avsnitt:
             if not (a.check_insbelopp() and a.check_antal_bet()):
+                _logger.error('BGMax check_avsnitt insbelopp %s antal %s' % (a.check_insbelopp() , a.check_antal_bet()))
                 ok = False
         return ok
     def check_antal_ins(self):
@@ -252,12 +258,12 @@ class BgMaxIterator(BgMaxRowParser):
     def check_antal_betposter(self):
         #print "antal",sum([len(a.ins) for a in self.avsnitt])
         #print "antal_betposter",int(self.footer['antal_betposter'])
-        if not sum([len(a.ins) for a in self.avsnitt]) == int(self.footer.get('antal_betposter',0)):
-            _logger.error('BgMax antal_betposter %s == %s (%s)' % (sum([len(a.ins) for a in self.avsnitt]),int(self.footer.get('antal_betposter',0)),self.footer))
-        return sum([len(a.ins) for a in self.avsnitt]) == int(self.footer.get('antal_betposter',0))
+        if not sum([len(a.bet) for a in self.avsnitt]) == int(self.footer.get('antal_avdrag',0)):
+            _logger.error('BgMax antal_betposter %s == %s (%s)' % (sum([len(a.bet) for a in self.avsnitt]),int(self.footer.get('antal_avdrag',0)),self.footer))
+        return sum([len(a.bet) for a in self.avsnitt]) == int(self.footer.get('antal_avdrag',0))
     def check(self):
         ok = True
-        for c,result in [('avsnitt',self.check_avsnitt()),('antal_betpost',self.check_antal_betposter()),('check_antal_ins',self.check_antal_ins())]:
+        for c,result in [('avsnitt',self.check_avsnitt()),('antal_avdrag',self.check_antal_betposter()),('check_antal_ins',self.check_antal_ins())]:
             if not result:
                 _logger.error('BgMax-file error %s' % c)
                 raise ValueError('BgMax file error %s' % c)
@@ -373,6 +379,42 @@ class BgMaxParser(object):
                 if transaction.remote_account:
                     transaction.note += ' bg %s ' % transaction.remote_account
                     
+            for bet in avsnitt.bet:
+                transaction = current_statement.create_transaction()
+                #~ if int(ins.get('bankgiro', 0)):
+                    #~ transaction.remote_account = str(int(ins.get('bankgiro', 0)))
+                transaction.transferred_amount = float(bet.get('betbelopp', 0)) / 100.0 * -1
+                current_statement.end_balance += transaction.transferred_amount
+
+                date = avsnitt.footer.get('betalningsdag') or ''
+                if date:
+                    date = date[:4] + '-' + date[4:6] + '-' + date[6:]
+                    current_statement.date = date
+                    transaction.value_date = date
+                transaction.remote_account = bet.get('bankgiro', '').strip().lstrip('0')
+                if len(transaction.remote_account) == 8:
+                    transaction.remote_account = transaction.remote_account[:4] + '-' + transaction.remote_account[4:]
+                if bet.get('organisationsnummer'):
+                    transaction.remote_owner = bet.get('organisationsnummer','').strip()
+                else:
+                    transaction.remote_owner = bet.get('betalarens_namn', '').strip()
+                #~ transaction.message
+                #~ transaction.remote_owner
+                #~ transaction.name
+                #~ transaction.note
+                #~ transaction.value_date
+            
+                transaction.message = bet.get('betalarens_namn', '')
+                transaction.eref = bet.get('referens') or bet.get('BGC-nummer')
+                transaction.note = '\n'.join(bet.get('informationstext',[]))
+                if bet.get('betalarens_adress'):
+                    transaction.note += ' %s, %s %s %s' % (bet.get('betalarens_adress'),bet.get('betalarens_postnr'),bet.get('betalarens_ort'),bet.get('betalarens_land'))
+                if bet.get('organisationsnummer'):
+                    transaction.note += ' %s ' % bet.get('organisationsnummer')
+                if bet.get('BGC-nummer'):
+                    transaction.note += ' BGC %s ' % bet.get('BGC-nummer')
+                if transaction.remote_account:
+                    transaction.note += ' bg %s ' % transaction.remote_account
             self.statements.append(current_statement)
             
         if not iterator.check():
