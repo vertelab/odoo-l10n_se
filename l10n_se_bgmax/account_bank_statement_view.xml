@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="bgc" model="res.partner">
+            <field name="name">Bankgirot</field>
+            <field name="supplier">1</field>
+            <field eval="0" name="customer"/>
+            <field name="is_company">1</field>
+            <field name="city">Stockholm</field>
+            <field name="zip">10519</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="street">Mejerivägen 1</field>
+            <field name="email"></field>
+            <field name="phone">08-725 60 00</field>
+            <field name="website">http://www.bankgirot.se</field>
+            <field name="image" type="base64" file="l10n_se_bgmax/static/src/img/bankgirot-logo.png"/>
+        </record>
+    </data>
+    <data>
+        <record id="view_partner_bank_form" model="ir.ui.view">
+            <field name="name">res.partner.bank.form.inherited.l10n_se_bgmax</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form" />
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="connected_journal_id" />
+                </field>
+            </field>
+        </record>
+        <record id="view_bank_statement_form" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.inherited.l10n_se_bgmax</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="is_bg" />
+                    <field name="account_no" />
+                </field>
+                <field name="balance_end_read" position="after">
+                    <field name="move_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="action_create_bg_move" model="ir.actions.server">
+            <field name="name">Create BG Move</field>
+            <field name="model_id" ref="account.model_account_bank_statement" />
+            <field name="state">code</field>
+            <field name="code">for o in object.browse(context.get('active_ids', [])):
+    o.create_bg_move()
+            </field>
+        </record>
+        <record id="ir_values_create_journal" model="ir.values">
+            <field name="name">Create BG Move</field>
+            <field name="model">account.bank.statement</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se_bgmax.action_create_bg_move')" />
+        </record>
+    </data>
+</openerp>

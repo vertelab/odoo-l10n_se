@@ -28,6 +28,78 @@ from openerp.exceptions import Warning
 _logger = logging.getLogger(__name__)
 
 
+class res_partner_bank(models.Model):
+    _inherit = 'res.partner.bank'
+
+    connected_journal_id = fields.Many2one(comodel_name='account.journal', string='Connected Journal')
+
+
+class account_bank_statement(models.Model):
+    _inherit = 'account.bank.statement'
+
+    is_bg = fields.Boolean(string='Is Bankgiro')
+    account_no = fields.Char(string='Account Number')
+    move_id = fields.Many2one(comodel_name='account.move', string='Account Move')
+
+    @api.model
+    def get_bank_account_id(self):
+        bank_account_id = None
+        if self.account_no and len(self.account_no) > 4:
+            bank_account_ids = self.env['res.partner.bank'].search(
+                [('acc_number', '=', self.account_no)], limit=1)
+            if bank_account_ids:
+                bank_account_id = bank_account_ids[0].id
+        return bank_account_id
+
+    @api.multi
+    def create_bg_move(self):
+        if self.is_bg and not self.move_id:
+            journal_id = self.get_bank_account_id.journal_id.id
+            bg_account_id = self.journal_id.default_credit_account_id.id    # get money from bg account
+            bank_account_id = self.get_bank_account_id.journal_id.default_debit_account_id.id   # add money to bank account
+            bg_move = self.env['account.move'].create({
+                'journal_id': journal_id,
+                'period_id': self.period_id.id,
+                'date': self.date,
+                'partner_id': self.env.ref('l10n_se_bgmax.bgc').id,
+                'company_id': self.company_id.id,
+                'ref': self.name,
+            })
+            self.move_id = bg_move.id
+            self.env['account.move.line'].create({
+                'name': self.name,
+                'account_id': bank_account_id,
+                'partner_id': self.env.ref('l10n_se_bgmax.bgc').id,
+                'debit': self.balance_end_real,
+                'credit': 0.0,
+                'move_id': bg_move.id,
+            })
+            self.env['account.move.line'].create({
+                'name': self.name,
+                'account_id': bg_account_id,
+                'partner_id': self.env.ref('l10n_se_bgmax.bgc').id,
+                'debit': 0.0,
+                'credit': self.balance_end_real,
+                'move_id': bg_move.id,
+            })
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'account.move',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'view_id': self.env.ref('account.view_move_form').id,
+                'res_id': bg_move.id,
+                'target': 'current',
+                'context': {}
+            }
+
+    @api.multi
+    def button_confirm_bank(self):
+        res = super(account_bank_statement, self).button_confirm_bank()
+        self.create_bg_move()
+        return res
+
+
 class AccountBankStatementImport(models.TransientModel):
     """Add process_bgmax method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'

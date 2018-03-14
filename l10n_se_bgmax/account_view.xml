@@ -34,8 +34,7 @@
 
         </field>
       </field>
-    </record>
-
+    </record>z
 <!--
     <record id="res_company_form" model="ir.ui.view">
       <field name="name">res.company.form.inherit</field>

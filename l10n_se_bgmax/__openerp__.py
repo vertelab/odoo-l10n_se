@@ -27,15 +27,16 @@
     'website': 'http://vertel.se',
     'category': 'Banking addons',
     'depends': ['account_bank_statement_import'],
+    'data': ['account_bank_statement_view.xml'],
     'summary': 'BgMax Format Bank Statements Import',
     'description': """
         Reading BgMax formated files from Bankgirocentralen.
-        
-        
+
+
         There are some problems with the oca class AcountBankStatementImport
         from OCA bank-statement-import/account_bank_statement_import/models/account_bank_statement_import.py
         change pop to get:
-        
+
         140,141c140,141
 <         currency_code = stmt_vals.pop('currency_code')
 <         account_number = stmt_vals.pop('account_number')
@@ -51,7 +52,7 @@
 ---
 >         for line_vals in stmt_vals.get('transactions',[]):
 
-        
+
         """,
     'installable': 'True',
     'application': 'False',
