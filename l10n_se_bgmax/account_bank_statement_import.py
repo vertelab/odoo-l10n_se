@@ -97,7 +97,7 @@ class account_bank_statement_line(models.Model):
             #~ additional_domain += ['|',('invoice.number', '=', str)]
         #~ st_line = self.browse(cr, uid, st_line_id, context=context)
         return super(account_bank_statement_line,self).get_move_lines_for_reconciliation_by_statement_line_id(st_line_id, excluded_ids, str, offset, limit, count, additional_domain)
-    
+
     def XXX_domain_move_lines_for_reconciliation(self, cr, uid, st_line, excluded_ids=None, str=False, additional_domain=None, context=None):
         if excluded_ids is None:
             excluded_ids = []
@@ -126,7 +126,7 @@ class account_bank_statement_line(models.Model):
                 domain.insert(-1, '|', )
                 domain.append(('name', 'ilike', str))
         return domain
-    
+
     #~ def _domain_reconciliation_proposition(self, cr, uid, st_line, excluded_ids=None, context=None):
         #~ if excluded_ids is None:
             #~ excluded_ids = []

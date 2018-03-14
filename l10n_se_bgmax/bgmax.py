@@ -338,13 +338,13 @@ class BgMaxParser(object):
         self.is_bgmax(data)
         iterator = BgMaxIterator(data)
 
-        current_statement = BankStatement()
-        current_statement.local_currency = 'SEK'
-        current_statement.start_balance = 0.0
-        current_statement.end_balance = 0.0
-
 
         for avsnitt in iterator:
+
+            current_statement = BankStatement()
+            current_statement.local_currency = 'SEK'
+            current_statement.start_balance = 0.0
+            current_statement.end_balance = 0.0
             #~ _logger.warn("header: %s" % avsnitt.header)
             #~ _logger.warn("footer: %s" % avsnitt.footer)
             #~ _logger.warn("ins: %s" % avsnitt.ins)
@@ -358,7 +358,7 @@ class BgMaxParser(object):
             #if not self.current_statement.local_currency:
             #    self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
             if not current_statement.statement_id:
-                current_statement.statement_id = 'BgMax %s %s' % (current_statement.local_account,iterator.header['skrivdag'][:10])
+                current_statement.statement_id = '%sBM %s' % (current_statement.local_account.replace('-', ''), avsnitt.footer.get('inslopnummer'))
 
             for ins in avsnitt.ins:
                 transaction = current_statement.create_transaction()
@@ -433,6 +433,7 @@ class BgMaxParser(object):
                     transaction.note += ' BGC %s ' % bet.get('BGC-nummer')
                 if transaction.remote_account:
                     transaction.note += ' bg %s ' % transaction.remote_account
+            self.statements.append(current_statement)
 
         if not iterator.check():
             _logger.error('BgMax-file error')
@@ -441,6 +442,5 @@ class BgMaxParser(object):
         #_logger.warning('transactions %s' % self.statements[0]['transactions'])
 
         #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
-        self.statements.append(current_statement)
 
         return self.statements
