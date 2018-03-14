@@ -250,6 +250,7 @@ class BgMaxIterator(BgMaxRowParser):
             if not (a.check_insbelopp() and a.check_antal_bet()):
                 _logger.error('BGMax check_avsnitt insbelopp %s antal %s' % (a.check_insbelopp() , a.check_antal_bet()))
                 ok = False
+        raise Warning(self.footer,len(avsnitt))
         return ok
     def check_antal_ins(self):
         #print "antal",len(self.avsnitt)
