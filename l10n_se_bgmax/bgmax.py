@@ -250,7 +250,7 @@ class BgMaxIterator(BgMaxRowParser):
             if not (a.check_insbelopp() and a.check_antal_bet()):
                 _logger.error('BGMax check_avsnitt insbelopp %s antal %s' % (a.check_insbelopp() , a.check_antal_bet()))
                 ok = False
-        raise Warning(self.footer,len(avsnitt))
+        #~ raise Warning(self.footer,[a.ins + a.bet for a in self.avsnitt])
         return ok
     def check_antal_ins(self):
         #print "antal",len(self.avsnitt)
@@ -269,6 +269,7 @@ class BgMaxIterator(BgMaxRowParser):
                 _logger.error('BgMax-file error %s' % c)
                 raise ValueError('BgMax file error %s' % c)
                 ok = False
+            
         return ok
 
 
@@ -313,10 +314,10 @@ class BgMaxParser(object):
         self.is_bgmax(data)
         iterator = BgMaxIterator(data)
         
-        self.current_statement = BankStatement()
-        self.current_statement.local_currency = 'SEK'
-        self.current_statement.start_balance = 0.0
-        self.current_statement.end_balance = 0.0
+        current_statement = BankStatement()
+        current_statement.local_currency = 'SEK'
+        current_statement.start_balance = 0.0
+        current_statement.end_balance = 0.0
 
 
         for avsnitt in iterator:
@@ -326,14 +327,6 @@ class BgMaxParser(object):
             #~ _logger.warn("bet: %s" % avsnitt.bet)
             #~ _logger.warn("type: %s" % avsnitt.type)
             
-            current_statement = BankStatement()
-            current_statement.local_currency = 'SEK'
-            current_statement.start_balance = 0.0
-            current_statement.end_balance = 0.0
-         
-         
-         
-
             if not current_statement.local_account:
                 current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
                 if len(current_statement.local_account) == 8:
@@ -416,7 +409,6 @@ class BgMaxParser(object):
                     transaction.note += ' BGC %s ' % bet.get('BGC-nummer')
                 if transaction.remote_account:
                     transaction.note += ' bg %s ' % transaction.remote_account
-            self.statements.append(current_statement)
             
         if not iterator.check():
             _logger.error('BgMax-file error')
@@ -425,4 +417,6 @@ class BgMaxParser(object):
         #_logger.warning('transactions %s' % self.statements[0]['transactions'])
         
         #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
+        self.statements.append(current_statement)
+
         return self.statements
