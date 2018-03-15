@@ -53,45 +53,46 @@ class account_bank_statement(models.Model):
 
     @api.multi
     def create_bg_move(self):
-        if self.is_bg and not self.move_id:
-            journal_id = self.get_bank_account_id().journal_id.id
-            bg_account_id = self.journal_id.default_credit_account_id.id    # get money from bg account
-            bank_account_id = self.get_bank_account_id().journal_id.default_debit_account_id.id   # add money to bank account
-            bg_move = self.env['account.move'].create({
-                'journal_id': journal_id,
-                'period_id': self.period_id.id,
-                'date': self.date,
-                'partner_id': self.env.ref('l10n_se_bgmax.bgc').id,
-                'company_id': self.company_id.id,
-                'ref': self.name,
-            })
-            self.move_id = bg_move.id
-            self.env['account.move.line'].create({
-                'name': self.name,
-                'account_id': bank_account_id,
-                'partner_id': self.env.ref('l10n_se_bgmax.bgc').id,
-                'debit': self.balance_end_real,
-                'credit': 0.0,
-                'move_id': bg_move.id,
-            })
-            self.env['account.move.line'].create({
-                'name': self.name,
-                'account_id': bg_account_id,
-                'partner_id': self.env.ref('l10n_se_bgmax.bgc').id,
-                'debit': 0.0,
-                'credit': self.balance_end_real,
-                'move_id': bg_move.id,
-            })
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'account.move',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'view_id': self.env.ref('account.view_move_form').id,
-                'res_id': bg_move.id,
-                'target': 'current',
-                'context': {}
-            }
+        for statement in self:
+            if statement.is_bg and not statement.move_id:
+                journal_id = statement.get_bank_account_id().journal_id.id
+                bg_account_id = statement.journal_id.default_credit_account_id.id    # get money from bg account
+                bank_account_id = statement.get_bank_account_id().journal_id.default_debit_account_id.id   # add money to bank account
+                bg_move = self.env['account.move'].create({
+                    'journal_id': journal_id,
+                    'period_id': statement.period_id.id,
+                    'date': statement.date,
+                    'partner_id': statement.env.ref('l10n_se_bgmax.bgc').id,
+                    'company_id': statement.company_id.id,
+                    'ref': statement.name,
+                })
+                statement.move_id = bg_move.id
+                self.env['account.move.line'].create({
+                    'name': statement.name,
+                    'account_id': bank_account_id,
+                    'partner_id': statement.env.ref('l10n_se_bgmax.bgc').id,
+                    'debit': statement.balance_end_real,
+                    'credit': 0.0,
+                    'move_id': bg_move.id,
+                })
+                self.env['account.move.line'].create({
+                    'name': statement.name,
+                    'account_id': bg_account_id,
+                    'partner_id': statement.env.ref('l10n_se_bgmax.bgc').id,
+                    'debit': 0.0,
+                    'credit': statement.balance_end_real,
+                    'move_id': bg_move.id,
+                })
+        #~ return {
+            #~ 'type': 'ir.actions.act_window',
+            #~ 'res_model': 'account.move',
+            #~ 'view_type': 'form',
+            #~ 'view_mode': 'form',
+            #~ 'view_id': self.env.ref('account.view_move_form').id,
+            #~ 'res_id': bg_move.id,
+            #~ 'target': 'current',
+            #~ 'context': {}
+        #~ }
 
     @api.multi
     def button_confirm_bank(self):
