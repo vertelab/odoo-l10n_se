@@ -36,6 +36,7 @@ https://www1.skatteverket.se/es/demoeskd/loggedIn.do
 
 """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['l10n_se',],
     'data': [ 'l10n_se_esdk.xml','l10n_se_esdk_data.xml'

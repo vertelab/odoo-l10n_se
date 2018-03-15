@@ -41,6 +41,7 @@ connected you can choose what periods you want to export data from.
 
 """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['account',],
     'data': [ 'account_export_xml.xml',

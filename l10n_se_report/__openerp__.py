@@ -12,6 +12,7 @@
     'category': 'other',
     'summary': 'Reports for l10n_se project',
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['l10n_se', 'report_glabels'],
     'data': [ 'l10n_se_report_view.xml',
