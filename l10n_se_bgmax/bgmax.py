@@ -31,6 +31,34 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class BankStatement(BankStatement):
+
+    @property
+    def is_bg(self):
+        """property getter"""
+        return self['is_bg']
+
+    @is_bg.setter
+    def is_bg(self, is_bg):
+        """property setter"""
+        self['is_bg'] = is_bg
+
+    @property
+    def account_no(self):
+        """property getter"""
+        return self['account_no']
+
+    @account_no.setter
+    def account_no(self, account_no):
+        """property setter"""
+        self['account_no'] = account_no
+
+    def __init__(self):
+        super(BankStatement, self).__init__()
+        self.is_bg = True
+        self.account_no = None
+
+
 class avsnitt(object):
     def __init__(self,rec):
         self.header = rec
@@ -343,8 +371,9 @@ class BgMaxParser(object):
 
             current_statement = BankStatement()
             current_statement.local_currency = avsnitt.footer.get('valuta')
-            current_statement.balance_start = 0.0
-            current_statement.balance_end_real = avsnitt.footer.get('insbelopp')
+            current_statement.start_balance = 0.0
+            current_statement.end_balance = 0.0
+            current_statement.is_bg = True
             #~ _logger.warn("header: %s" % avsnitt.header)
             #~ _logger.warn("footer: %s" % avsnitt.footer)
             #~ _logger.warn("ins: %s" % avsnitt.ins)
@@ -359,14 +388,14 @@ class BgMaxParser(object):
             #    self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
             if not current_statement.statement_id:
                 current_statement.statement_id = '%sBM %s' % (current_statement.local_account.replace('-', ''), avsnitt.footer.get('inslopnummer'))
-            current_statement.account_no = avsnitt.footer.get('mottagarbankkonto')
+            current_statement.account_no = avsnitt.footer.get('mottagarbankkonto').lstrip('0')
 
             for ins in avsnitt.ins:
                 transaction = current_statement.create_transaction()
                 #~ if int(ins.get('bankgiro', 0)):
                     #~ transaction.remote_account = str(int(ins.get('bankgiro', 0)))
                 transaction.transferred_amount = float(ins.get('betbelopp', 0)) / 100
-                current_statement.balance_end += transaction.transferred_amount
+                current_statement.end_balance += transaction.transferred_amount
 
                 date = avsnitt.footer.get('betalningsdag') or ''
                 if date:
@@ -403,7 +432,7 @@ class BgMaxParser(object):
                 #~ if int(ins.get('bankgiro', 0)):
                     #~ transaction.remote_account = str(int(ins.get('bankgiro', 0)))
                 transaction.transferred_amount = float(bet.get('betbelopp', 0)) / 100.0 * -1
-                current_statement.balance_end += transaction.transferred_amount
+                current_statement.end_balance += transaction.transferred_amount
 
                 date = avsnitt.footer.get('betalningsdag') or ''
                 if date:

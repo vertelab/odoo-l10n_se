@@ -48,15 +48,15 @@ class account_bank_statement(models.Model):
             bank_account_ids = self.env['res.partner.bank'].search(
                 [('acc_number', '=', self.account_no)], limit=1)
             if bank_account_ids:
-                bank_account_id = bank_account_ids[0].id
+                bank_account_id = bank_account_ids[0]
         return bank_account_id
 
     @api.multi
     def create_bg_move(self):
         if self.is_bg and not self.move_id:
-            journal_id = self.get_bank_account_id.journal_id.id
+            journal_id = self.get_bank_account_id().journal_id.id
             bg_account_id = self.journal_id.default_credit_account_id.id    # get money from bg account
-            bank_account_id = self.get_bank_account_id.journal_id.default_debit_account_id.id   # add money to bank account
+            bank_account_id = self.get_bank_account_id().journal_id.default_debit_account_id.id   # add money to bank account
             bg_move = self.env['account.move'].create({
                 'journal_id': journal_id,
                 'period_id': self.period_id.id,
@@ -150,7 +150,7 @@ class AccountBankStatementImport(models.TransientModel):
                         #~ _logger.error('---> fnr %s  invoice %s' % (fnr,invoice if invoice else 'no invoice'))
                 _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
         #~ res = parser.parse(data_file)
-        _logger.debug("res: %s" % statements)
+        _logger.warn("res: %s" % statements)
         #raise Warning(seb.statements)
 
         return statements

@@ -27,7 +27,10 @@
     'website': 'http://vertel.se',
     'category': 'Banking addons',
     'depends': ['account_bank_statement_import'],
-    'data': ['account_bank_statement_view.xml'],
+    'data': [
+        'account_bank_statement_data.xml',
+        'account_bank_statement_view.xml',
+    ],
     'summary': 'BgMax Format Bank Statements Import',
     'description': """
         Reading BgMax formated files from Bankgirocentralen.
