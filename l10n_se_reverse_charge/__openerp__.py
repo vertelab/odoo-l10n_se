@@ -25,6 +25,7 @@
 'category': 'account',
 'description': """Adds fiscal positions for Reverse charge and Triangulation.""",
 'author': 'Vertel AB',
+    'license': 'AGPL-3',
 'website': 'http://www.vertel.se',
 'depends': ['account', 'account_fiscal_position_note_translate'],
 'data': ['account_data.xml'],
