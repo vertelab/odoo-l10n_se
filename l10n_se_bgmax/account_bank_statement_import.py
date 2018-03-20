@@ -159,6 +159,8 @@ class AccountBankStatementImport(models.TransientModel):
 class account_bank_statement_line(models.Model):
     _inherit = 'account.bank.statement.line'
 
+    _order = 'date desc'
+
     @api.model
     def get_move_lines_for_reconciliation_by_statement_line_id(self,st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None):
         st_line = self.browse(st_line_id)
