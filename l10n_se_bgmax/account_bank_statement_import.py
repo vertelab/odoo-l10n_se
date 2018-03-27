@@ -162,7 +162,7 @@ class account_bank_statement_line(models.Model):
     _order = 'date desc'
 
     @api.model
-    def get_move_lines_for_reconciliation_by_statement_line_id(self,st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None):
+    def Xget_move_lines_for_reconciliation_by_statement_line_id(self,st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None):
         st_line = self.browse(st_line_id)
         additional_domain = additional_domain if additional_domain else [] + ['&',('date', '>=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) - timedelta(days=90))),('date', '<=', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) + timedelta(days=30))),]
                                                     #~ '&',('debit', '>=', round(st_line.amount,-2) + 50.0),('debit', '<=', round(st_line.amount,-2) - 50.0)]
