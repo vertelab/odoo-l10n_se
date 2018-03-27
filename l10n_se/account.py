@@ -58,7 +58,7 @@ class wizard_multi_charts_accounts(models.TransientModel):
     code_digits = fields.Integer(default=4)
     bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
-    
+
     def X_create_bank_journals_from_o2m(self, cr, uid, obj_wizard, company_id, acc_template_ref, context=None):
         '''
         This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
@@ -109,14 +109,14 @@ class wizard_multi_charts_accounts(models.TransientModel):
         return True
 
     def default_get(self, cr, uid, fields, context=None):
-        res = super(wizard_multi_charts_accounts, self).default_get(cr, uid, fields, context=context) 
+        res = super(wizard_multi_charts_accounts, self).default_get(cr, uid, fields, context=context)
         if 'bank_accounts_id' in fields:
             company_id = res.get('company_id') or False
             if company_id:
                 company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
                 ba_list = [{'acc_name': _('Kalle Cash'), 'account_type': 'cash'}]
                 for ba in company.bank_ids:
-                    ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.state}]            
+                    ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.state}]
                 res.update({'bank_account_id': ba_list})
         return res
 
@@ -136,12 +136,12 @@ class account_chart_template(models.Model):
     def update_bas_chart(self):
         if not self.bas_chart:
             return
-                  
+
         wb = open_workbook(file_contents=base64.decodestring(self.bas_chart))
         ws = wb.sheet_by_index(0)
         basic_code = u' \u25a0'
         not_k2 = u'[Ej K2]'
-            
+
         nbr_lines = ws.nrows
         user_type = 'account.data_account_type_asset'
 
@@ -154,8 +154,8 @@ class account_chart_template(models.Model):
         #~ self.env['account.account.template'].search([('code','>','10'),('code','<','99')]).unlink()
         #~ self.env['account.account.template'].search([('code','>','1'),('code','<','9')]).unlink()
         #~ self.env['account.account.template'].search([]).unlink()
-        
-        return 
+
+        return
         for l in range(0,ws.nrows):
             if ws.cell_value(l,2) == 1 or ws.cell_value(l,2) in range(10,20) or ws.cell_value(l,2) in range(1000,1999) :
                 user_type = 'account.data_account_type_asset'
@@ -174,27 +174,27 @@ class account_chart_template(models.Model):
                     user_type = 'account.data_account_type_payable'
             if ws.cell_value(l,2) in [26,27] or ws.cell_value(l,2) in range(2600,2800):
                     user_type = 'account.conf_account_type_tax'
-            
+
             if ws.cell_value(l,2) == 3 or ws.cell_value(l,2) == '30-34'  or ws.cell_value(l,2) in range(30,40) or ws.cell_value(l,2) in range(3000,4000):
                     user_type = 'account.data_account_type_income'
             if ws.cell_value(l,2) in [4,5,6,7] or ws.cell_value(l,2) in ['5-6'] or  ws.cell_value(l,2) in range(30,80) or ws.cell_value(l,2) in ['40-45'] or ws.cell_value(l,2) in range(4000,8000):
                     user_type = 'account.data_account_type_expense'
-            
-                    
+
+
             if ws.cell_value(l,2) == 8 or ws.cell_value(l,2) in [80,81,82,83] or ws.cell_value(l,2) in range(8000,8400):
                     user_type = 'account.data_account_type_income'
             if ws.cell_value(l,2) in [84,88] or ws.cell_value(l,2) in range(8400,8500) or ws.cell_value(l,2) in range(8800,8900):
                     user_type = 'account.data_account_type_expense'
             if ws.cell_value(l,2) in [89] or ws.cell_value(l,2) in range(8900,9000):
                     user_type = 'account.data_account_type_expense'
-                    
 
 
 
-            if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass              
+
+            if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass
                 last_account_class = self.env['account.account.template'].create({
-                    'code': ws.cell_value(l,2), 
-                    'name': ws.cell_value(l,3), 
+                    'code': ws.cell_value(l,2),
+                    'name': ws.cell_value(l,3),
                     'user_type': self.env.ref(user_type).id,
                     'type': 'view',
                     'chart_template_id': self.id,
@@ -202,19 +202,19 @@ class account_chart_template(models.Model):
             if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in ['30-34','40-45']: # kontogrupp
                 last_account_group = self.env['account.account.template'].create(
                     {
-                        'code': ws.cell_value(l,2), 
-                        'name': ws.cell_value(l,3), 
+                        'code': ws.cell_value(l,2),
+                        'name': ws.cell_value(l,3),
                         'type': 'view',
-                        'user_type': self.env.ref(user_type).id, 
+                        'user_type': self.env.ref(user_type).id,
                         'parent_id':last_account_class.id,
                         'chart_template_id': self.id,
                         })
-            
+
             if ws.cell_value(l,2) in range(1000,9999):
                 last_account = self.env['account.account.template'].create({
-                    'code': ws.cell_value(l,2), 
-                    'name': ws.cell_value(l,3), 
-                    'type': 'other', 
+                    'code': ws.cell_value(l,2),
+                    'name': ws.cell_value(l,3),
+                    'type': 'other',
                     'parent_id':last_account_group.id,
                     'user_type': self.env.ref(user_type).id,
                     'chart_template_id': self.id,
@@ -223,16 +223,16 @@ class account_chart_template(models.Model):
                     })
                 if ws.cell_value(l,5) in range(1000,9999):
                     last_account = self.env['account.account.template'].create({
-                        'code': ws.cell_value(l,5), 
-                        'name': ws.cell_value(l,6), 
-                        'type': 'other', 
+                        'code': ws.cell_value(l,5),
+                        'name': ws.cell_value(l,6),
+                        'type': 'other',
                         'parent_id':last_account_group.id,
                         'user_type': self.env.ref(user_type).id,
                         'chart_template_id': self.id,
                         'bas_k34': True if  ws.cell_value(l,4) == not_k2 else False,
                         'bas_basic': True if ws.cell_value(l,4) == basic_code else False,
                         })
-            
+
             #~ if ws.cell_value(l,1) == basic_code and self.bas_basic:
                 #~ _logger.warn("%s %s" % (ws.cell_value(l,2),ws.cell_value(l,3)))
                 #~ for account_l in range(l,ws.nrows):
@@ -245,15 +245,15 @@ class account_chart_template(models.Model):
 class account_account_template(models.Model):
     _inherit = "account.account.template"
 
-    
+
     bas_k34 = fields.Boolean(string='K3/K4',default=False)
     bas_basic = fields.Boolean(string='Endast grundläggande konton',default=True)
-    
+
     def account2group(self,account_code):
-        if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass              
+        if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass
             last_account_class = self.env['account.account.template'].create({
-                'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
-                'name': ws.cell_value(l,3), 
+                'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2),
+                'name': ws.cell_value(l,3),
                 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
                 'type': 'view',
                 'chart_template_id': chart_template_titles.id,
@@ -262,14 +262,14 @@ class account_account_template(models.Model):
         if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in [u'30–34 Huvudintäkter',u"""40–
 45 """]: # kontogrupp
             last_account_group = self.env['account.account.template'].create({
-                    'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2), 
-                    'name': ws.cell_value(l,3), 
+                    'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2),
+                    'name': ws.cell_value(l,3),
                     'type': 'view',
-                    'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id, 
+                    'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
                     'parent_id':last_account_class.id,
                     'chart_template_id': chart_template_titles.id,
                 })
-            
+
         return self.env.ref(user_type) if user_type else None
 
 class account_tax_template(models.Model):
@@ -304,6 +304,13 @@ class account_tax_template(models.Model):
 class account_account_type(models.Model):
     _inherit = 'account.account.type'
 
+    def init_tax_records(self, cr, uid, context=None):
+        conf_account_type_tax = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account', 'conf_account_type_tax')
+        self.pool.get('account.account.type').write(cr,uid,conf_account_type_tax[1],{
+            'close_method': 'none',
+            'report_type': 'liability',
+        })
+
     def account2user_type(self,account_code):
         user_type = 'account.data_account_type_asset'
         if account_code == 1 or account_code in range(10,20) or account_code in range(1000,1999) :
@@ -323,13 +330,13 @@ class account_account_type(models.Model):
                 user_type = 'account.data_account_type_payable'
         if account_code in [26,27] or account_code in range(2600,2800):
                 user_type = 'account.conf_account_type_tax'
-        
+
         if account_code == 3 or account_code == '30-34'  or account_code in range(30,40) or account_code in range(3000,4000):
                 user_type = 'account.data_account_type_income'
         if account_code in [4,5,6,7] or account_code in ['5-6'] or  account_code in range(30,80) or account_code in ['40-45'] or account_code in range(4000,8000):
                 user_type = 'account.data_account_type_expense'
-        
-                
+
+
         if account_code == 8 or account_code in [80,81,82,83] or account_code in range(8000,8400):
                 user_type = 'account.data_account_type_income'
         if account_code in [84,88] or account_code in range(8400,8500) or account_code in range(8800,8900):
@@ -337,5 +344,5 @@ class account_account_type(models.Model):
         if account_code in [89] or account_code in range(8900,9000):
                 user_type = 'account.data_account_type_expense'
         return self.env.ref(user_type) if user_type else None
-            
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

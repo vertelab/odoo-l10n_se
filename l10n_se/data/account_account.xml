@@ -10,4 +10,8 @@
     </record>
 
   </data>
+
+    <data noupdate="0">
+        <function model="account.account.type" name="init_tax_records" />
+    </data>
 </openerp>
