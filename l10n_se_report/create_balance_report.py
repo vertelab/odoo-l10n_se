@@ -34,7 +34,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountFinancialReport(models.Model):
     _inherit = "account.financial.report"
-    
+
     sru = fields.Char(string='SRU Code')
     field_code = fields.Char(string='Field Code', help="Code for Swedish electronic reporting.")
     field_code_pos = fields.Char(string='Field Code (Positive)', help="Code for Swedish electronic reporting. Only used if result is positive.")
@@ -132,7 +132,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                     txt = txt[1:]
                 else:
                     sign = None
-                txt = txt.replace('exkl.', '!')
+                txt = txt.replace('exkl.', '!').replace('samt', ',').replace('och', ',')
                 separators = ',-()!'
                 for sep in separators:
                     txt = txt.replace(sep, ' %s ' % sep)
