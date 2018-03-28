@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
     <report id="l10n_report" model="account.move" string="Daily Ledger" report_type="qweb-pdf" name="l10n_se_report.daily_ledger" file="l10n_se_report.daily_ledger" />
@@ -55,7 +56,7 @@
                   </tbody>
                 </div>
     </template>
-    
+
      <template id="compact_layout_header">
       <div class="header">
         <div class="row" style="max-height: 50px;">
@@ -66,13 +67,13 @@
         </div>
       </div>
     </template>
-    
+
     <template id="compact_layout_footer">
       <div class="footer">
         <div class="text-center" style="border-top: 1px solid black;">
           <ul class="list-inline">
             <li>
-               <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>            
+               <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
             </li>
             <li>
               <span t-raw="last_account_move" />
@@ -89,7 +90,7 @@
         </div>
       </div>
     </template>
-    
+
     <template id="compact_layout">
       <!-- Multicompany -->
       <t t-if="o and 'company_id' in o">
@@ -102,6 +103,6 @@
       <t t-raw="0" />
       <t t-call="l10n_se_report.compact_layout_footer" />
     </template>
-    
+
   </data>
 </openerp>

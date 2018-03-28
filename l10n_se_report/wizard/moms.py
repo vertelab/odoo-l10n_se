@@ -93,11 +93,11 @@ class moms_declaration_wizard(models.TransientModel):
     def read_account(self):
         if self.period_start and self.period_stop:
             #~ raise Warning('hejsam %s' % self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)]))
-            tax_accounts = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+            tax_accounts = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax'), ('report_type', '=', 'liability'), ('close_method', '=', 'none')]).id)])
             self.skattekonto = -sum(tax_accounts.mapped('balance'))
             tax_account = 0.0
             for p in self.get_period_ids(self.period_start, self.period_stop):
-                tax_account += sum(self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', 'in', ['aR1','bR1'])]).mapped('sum_period'))
+                tax_account += sum(self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', 'in', ['aR1','bR1','R1'])]).mapped('sum_period'))
             self.br1 = tax_account
 
     @api.multi
@@ -201,7 +201,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax'), ('report_type', '=', 'liability'), ('close_method', '=', 'none')]).id)])
         domain = [('account_id', 'in', tax_accounts.mapped('id')), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
         if self.ej_bokforda:
             domain.append(('move_id.state', '=', 'draft'))
@@ -218,7 +218,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_journal_items(self):
-        tax_account = self.env['account.tax.code'].search([('code', 'in', ['aR1','bR1'])])
+        tax_account = self.env['account.tax.code'].search([('code', 'in', ['aR1','bR1','R1'])])
         domain = [('tax_code_id', 'child_of', tax_account.id), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
         if self.ej_bokforda:
             domain.append(('move_id.state', '=', 'draft'))
