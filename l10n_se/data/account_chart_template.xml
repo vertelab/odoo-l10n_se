@@ -649,4 +649,13 @@
       -->
     </record>
   </data>
+  <data>
+    <record id="base.res_partner-SKV" model="res.partner">
+      <field name="company_id" ref="base.main_company" />
+      <field name="name">Skatteverket</field>
+      <field name="tz">Europe/Stockholm</field>
+      <field name="is_company">False</field>
+      <field name="lang">sv_SE</field>
+    </record>
+  </data>
 </odoo>
