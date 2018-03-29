@@ -91,14 +91,22 @@
             <field name="description">55: Full arbetsgivaravgift för 65 år eller yngre</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
-            <field name="account_id" search="[('code', '=', '7210')]" />
+            <field name="type_tax_use">none</field>
+            <field name="tax_group_id" ref="tax_group_hr" />
+        </record>
+        <record id="account_tax_code_template-UlagVXLon" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">UlagVXLon</field>
+            <field name="description">57: Enskild näringsidkares första anställda</field>
+            <field name="amount">1.0</field>
+            <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
         <record id="account_tax_code_template-UlagAvgAldersp" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">UlagAvgAldersp</field>
-            <field name="description">57: Enskild näringsidkares första anställda</field>
+            <field name="description">59: Arbetsgivaravgift för 66-79 år</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
@@ -107,15 +115,6 @@
         <record id="account_tax_code_template-UlagAlderspSkLon" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">UlagAlderspSkLon</field>
-            <field name="description">59: Arbetsgivaravgift för 66-79 år</field>
-            <field name="amount">1.0</field>
-            <field name="amount_type">percent</field>
-            <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
-        </record>
-        <record id="account_tax_code_template-UlagSkLonSarsk" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
-            <field name="name">UlagSkLonSarsk</field>
             <field name="description">61: Särskild löneskatt för 80 år eller äldre</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
@@ -183,7 +182,6 @@
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="account_id" search="[('code', '=', '2731')]" />
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
         <record id="account_tax_code_template-SumAvgBetala" model="account.tax.template">
@@ -205,34 +203,31 @@
             <field name="type_tax_use">none</field>
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
-        <record id="account_tax_code_template-AvgAldersp" model="account.tax.template">
+        <record id="account_tax_code_template-AvgVXLon" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
-            <field name="name">AvgAldersp</field>
-            <field name="description">58: Arbetsgivaravgift 25,46%</field>
+            <field name="name">AvgVXLon</field>
+            <field name="description">58: Arbetsgivaravgift 10,21%</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="account_id" search="[('code', '=', '2731')]" />
+            <field name="tax_group_id" ref="tax_group_hr" />
+        </record>
+        <record id="account_tax_code_template-AvgAldersp" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">AvgAldersp</field>
+            <field name="description">60: Arbetsgivaravgift 16,36%</field>
+            <field name="amount">1.0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">none</field>
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
         <record id="account_tax_code_template-AvgAlderspSkLon" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">AvgAlderspSkLon</field>
-            <field name="description">60: Arbetsgivaravgift 10,21%</field>
-            <field name="amount">1.0</field>
-            <field name="amount_type">percent</field>
-            <field name="type_tax_use">none</field>
-            <field name="account_id" search="[('code', '=', '2731')]" />
-            <field name="tax_group_id" ref="tax_group_hr" />
-        </record>
-        <record id="account_tax_code_template-SkLonSarsk" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
-            <field name="name">SkLonSarsk</field>
             <field name="description">62: Särskild löneskatt 6,15%</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="account_id" search="[('code', '=', '2730')]" />
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
         <record id="account_tax_code_template-AvgAmbassad" model="account.tax.template">
@@ -323,7 +318,6 @@
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="account_id" search="[('code', '=', '2710')]" />
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
         <record id="account_tax_code_template-SkAvdrPension" model="account.tax.template">
@@ -371,7 +365,6 @@
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="account_id" search="[('code', '=', '2710')]" />
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
         <!--
@@ -393,7 +386,7 @@
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-UlagAvgHel'), ref('account_tax_code_template-UlagAvgAldersp'),ref('account_tax_code_template-UlagSkLonSarsk'),ref('account_tax_code_template-UlagAvgAmbassad'),ref('account_tax_code_template-UlagAvgAmerika')])]" />
+            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-UlagAvgHel'),ref('account_tax_code_template-UlagVXLon'),ref('account_tax_code_template-UlagAvgAldersp'),ref('account_tax_code_template-UlagAlderspSkLon'),ref('account_tax_code_template-UlagAvgAmbassad'),ref('account_tax_code_template-UlagAvgAmerika')])]" />
             <field name="tax_group_id" ref="tax_group_hr" />
         </record>
         <!-- problem with ref('account_tax_code_template-UlagAlderspSklon'),-->

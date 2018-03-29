@@ -35,10 +35,9 @@ try:
 except ImportError:
     raise Warning('excel library missing, pip install xlrd')
 
-
-
 import logging
 _logger = logging.getLogger(__name__)
+
 
 
 class account_bank_accounts_wizard(models.TransientModel):
@@ -56,6 +55,31 @@ class wizard_multi_charts_accounts(models.TransientModel):
     code_digits = fields.Integer(default=4)
     bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
+    @api.multi
+    def execute(self):
+        res = super(wizard_multi_charts_accounts, self).execute()
+        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
+        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
+        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
+        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
+        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
+        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
+        personalskatt = self.env['account.account'].search([('code', '=', '2710')])
+        account_values = {
+            'UlagAvgHel': {'account_id': loner_till_tjansteman_7210.id, 'refund_account_id': loner_till_tjansteman_7210.id},
+            'UlagVXLon': {'account_id': lon_vaxa_stod_tjansteman.id, 'refund_account_id': lon_vaxa_stod_tjansteman.id},
+            'UlagAvgAldersp': {'account_id': loner_till_tjansteman_16_36.id, 'refund_account_id': loner_till_tjansteman_16_36.id},
+            'UlagAlderspSkLon': {'account_id': loner_till_tjansteman_6_15.id, 'refund_account_id': loner_till_tjansteman_6_15.id},
+            'AvgHel': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+            'AvgVXLon': {'account_id': avrakning_sarskild_loneskatt.id, 'refund_account_id': avrakning_sarskild_loneskatt.id},
+            'AvgAldersp': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+            'AvgAlderspSkLon': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+            'AgPre': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
+            'SkAvdrLon': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
+        }
+        for k,v in account_values.items():
+            self.env['account.tax'].search([('name', '=', k)]).write(v)
+        return res
 
     def X_create_bank_journals_from_o2m(self, obj_wizard, company_id, acc_template_ref):
         '''
