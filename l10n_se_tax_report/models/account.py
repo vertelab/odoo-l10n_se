@@ -23,6 +23,8 @@ from odoo import api, fields, models, _
 import logging
 _logger = logging.getLogger(__name__)
 
+#~ https://www.skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/hurlamnarjagarbetsgivardeklaration/saharfyllerduirutaforruta.4.3810a01c150939e893f18e43.html
+
 
 class account_tax(models.Model):
     _inherit = 'account.tax'
@@ -60,21 +62,21 @@ class account_financial_report(models.Model):
     @api.model
     def create(self, vals):
         if 'tax_ids' in vals:
-            account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
-            if account.children_tax_ids:
-                vals['account_ids'] = [(6, _, [account.children_tax_ids.mapped('account_id').mapped('id')])]
-            else:
-                vals['account_ids'] = [(6, _, account.mapped('account_id').mapped('id'))]
+            tax_account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
+            if tax_account.children_tax_ids and len(tax_account.children_tax_ids.mapped('account_id').mapped('id')) > 0:
+                vals['account_ids'] = [(6, _, tax_account.children_tax_ids.mapped('account_id').mapped('id'))]
+            elif len(tax_account.mapped('account_id').mapped('id')) > 0:
+                vals['account_ids'] = [(6, _, tax_account.mapped('account_id').mapped('id'))]
         return super(account_financial_report, self).create(vals)
 
     @api.multi
     def write(self, vals):
         if 'tax_ids' in vals:
-            account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
-            if account.children_tax_ids:
-                vals['account_ids'] = [(6, _, [account.children_tax_ids.mapped('account_id').mapped('id')])]
-            else:
-                vals['account_ids'] = [(6, _, account.mapped('account_id').mapped('id'))]
+            tax_account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
+            if tax_account.children_tax_ids and len(tax_account.children_tax_ids.mapped('account_id').mapped('id')) > 0:
+                vals['account_ids'] = [(6, _, tax_account.children_tax_ids.mapped('account_id').mapped('id'))]
+            elif len(tax_account.mapped('account_id').mapped('id')) > 0:
+                vals['account_ids'] = [(6, _, tax_account.mapped('account_id').mapped('id'))]
         return super(account_financial_report, self).write(vals)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
