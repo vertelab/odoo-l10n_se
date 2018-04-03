@@ -41,7 +41,8 @@ class agd_declaration_wizard(models.TransientModel):
     period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
-    ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
+    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('unposted', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    #~ ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
 
     def _build_comparison_context(self, cr, uid, ids, data, context=None):
         if context is None:
@@ -122,7 +123,7 @@ class agd_declaration_wizard(models.TransientModel):
     def show_account_moves(self):
         tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
         domain = [('account_id', 'in', tax_accounts.mapped('id'))]
-        if self.ej_bokforda:
+        if self.target_move == 'unposted':
             domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',
@@ -139,7 +140,7 @@ class agd_declaration_wizard(models.TransientModel):
     def show_journal_items(self):
         tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
         domain = [('tax_code_id', 'child_of', tax_account.id)]
-        if self.ej_bokforda:
+        if self.target_move == 'unposted':
             domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',

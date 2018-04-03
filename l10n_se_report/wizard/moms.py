@@ -60,7 +60,8 @@ class moms_declaration_wizard(models.TransientModel):
     period_stop = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     br1 = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, readonly=True)
-    ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
+    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('unposted', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    #~ ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
 
     def _build_comparison_context(self, cr, uid, ids, data, context=None):
         if context is None:
@@ -203,7 +204,7 @@ class moms_declaration_wizard(models.TransientModel):
     def show_account_moves(self):
         tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax'), ('report_type', '=', 'liability'), ('close_method', '=', 'none')]).id)])
         domain = [('account_id', 'in', tax_accounts.mapped('id')), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
-        if self.ej_bokforda:
+        if self.target_move == 'unposted':
             domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',
@@ -220,7 +221,7 @@ class moms_declaration_wizard(models.TransientModel):
     def show_journal_items(self):
         tax_account = self.env['account.tax.code'].search([('code', 'in', ['aR1','bR1','R1'])])
         domain = [('tax_code_id', 'child_of', tax_account.id), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
-        if self.ej_bokforda:
+        if self.target_move == 'unposted':
             domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',

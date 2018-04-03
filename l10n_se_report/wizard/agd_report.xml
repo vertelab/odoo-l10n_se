@@ -11,7 +11,7 @@
                         <field name="chart_tax_id" widget="selection"/>
                         <field name="fiscalyear_id"/>
                         <field name="period" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
-                        <field name="ej_bokforda"/>
+                        <field name="target_move"/>
                     </group>
                     <group col="3">
                         <field name="skattekonto"/>

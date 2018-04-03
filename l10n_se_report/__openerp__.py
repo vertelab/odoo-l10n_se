@@ -21,6 +21,7 @@
               'create_year_end_report.xml',
               'wizard/agd_report.xml',
               'wizard/moms_report.xml',
+              'wizard/year_end_report.xml',
               'wizard/glabel_report.xml',
               'res_config_view.xml',
             ],

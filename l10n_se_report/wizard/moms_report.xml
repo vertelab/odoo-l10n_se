@@ -12,7 +12,7 @@
                         <field name="fiscalyear_id"/>
                         <field name="period_start" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
                         <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
-                        <field name="ej_bokforda"/>
+                        <field name="target_move"/>
                     </group>
                     <group col="3">
                         <field name="skattekonto"/>
