@@ -40,7 +40,7 @@ class year_end_wizard(models.TransientModel):
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('all', 'All Entries')], string='Target Moves')
 
     @api.one
-    @api.onchange('fiscalyear_id')
+    @api.onchange('fiscalyear_id', 'target_move')
     def read_account(self):
         if self.fiscalyear_id:
             start_period = self.env['account.period'].search([('fiscalyear_id', '=', self.fiscalyear_id.id), ('date_start', '=', self.fiscalyear_id.date_start), ('special', '=', True)])
