@@ -28,6 +28,10 @@ _logger = logging.getLogger(__name__)
 class agd_declaration_wizard(models.TransientModel):
     _name = 'agd.declaration.wizard'
 
+    @api.model
+    def get_tax_account_domain(self):
+        return [('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)]
+
     def _get_tax(self):
         user = self.env.user
         taxes = self.env['account.tax.code'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
@@ -66,7 +70,7 @@ class agd_declaration_wizard(models.TransientModel):
     @api.onchange('period')
     def read_account(self):
         if self.period:
-            tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+            tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
             tax_account = self.env['account.tax.code'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('code', '=', 'AgAvgPreS')])
             self.skattekonto = sum(tax_accounts.mapped('credit'))
             if tax_account:
@@ -75,7 +79,7 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.multi
     def create_vat(self):
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
         if len(kontoskatte) > 0 and skattekonto:
             agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_report.agd_journal')
@@ -118,13 +122,15 @@ class agd_declaration_wizard(models.TransientModel):
                         'target': 'current',
                         'context': {}
                     }
+        else:
+            raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
     @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
         domain = [('account_id', 'in', tax_accounts.mapped('id'))]
-        if self.target_move == 'draft':
-            domain.append(('move_id.state', '=', 'draft'))
+        if self.target_move in ['draft', 'posted']:
+            domain.append(('move_id.state', '=', self.target_move))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -140,8 +146,8 @@ class agd_declaration_wizard(models.TransientModel):
     def show_journal_items(self):
         tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
         domain = [('tax_code_id', 'child_of', tax_account.id)]
-        if self.target_move == 'draft':
-            domain.append(('move_id.state', '=', 'draft'))
+        if self.target_move in ['draft', 'posted']:
+            domain.append(('move_id.state', '=', self.target_move))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',

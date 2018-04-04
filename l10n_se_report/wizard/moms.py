@@ -204,7 +204,7 @@ class moms_declaration_wizard(models.TransientModel):
                         'context': {}
                     }
         else:
-            raise Warning(_('Kontomoms: %s, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
+            raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
 
     @api.multi
