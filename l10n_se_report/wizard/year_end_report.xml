@@ -43,7 +43,7 @@
 
         <menuitem
             name="Year End"
-            parent="account.menu_finance_periodical_processing"
+            parent="account.menu_account_end_year_treatments"
             action="l10n_se_report.action_account_year_end"
             id="menu_account_year_end"
             groups="account.group_account_user,account.group_account_manager"/>
