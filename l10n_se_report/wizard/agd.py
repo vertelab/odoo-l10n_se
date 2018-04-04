@@ -41,7 +41,7 @@ class agd_declaration_wizard(models.TransientModel):
     period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
-    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('unposted', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
     #~ ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
 
     def _build_comparison_context(self, cr, uid, ids, data, context=None):
@@ -67,7 +67,7 @@ class agd_declaration_wizard(models.TransientModel):
     def read_account(self):
         if self.period:
             tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
-            tax_account = self.env['account.tax.code'].with_context({'period_id': self.period.id, 'state': 'all'}).search([('code', '=', 'AgAvgPreS')])
+            tax_account = self.env['account.tax.code'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('code', '=', 'AgAvgPreS')])
             self.skattekonto = sum(tax_accounts.mapped('credit'))
             if tax_account:
                 #~ self.agavgpres = sum(self.env['account.move.line'].search([('tax_code_id', 'child_of', tax_account.id), ('account_id', 'in', tax_accounts.mapped('id')), ('move_id.state', '=', 'draft'), ('state', '=', 'valid'), ('period_id', '=', self.period.id)]).mapped('credit'))
@@ -123,7 +123,7 @@ class agd_declaration_wizard(models.TransientModel):
     def show_account_moves(self):
         tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
         domain = [('account_id', 'in', tax_accounts.mapped('id'))]
-        if self.target_move == 'unposted':
+        if self.target_move == 'draft':
             domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',
@@ -140,7 +140,7 @@ class agd_declaration_wizard(models.TransientModel):
     def show_journal_items(self):
         tax_account = self.env['account.tax.code'].search([('code', '=', 'AgAvgPreS')])
         domain = [('tax_code_id', 'child_of', tax_account.id)]
-        if self.target_move == 'unposted':
+        if self.target_move == 'draft':
             domain.append(('move_id.state', '=', 'draft'))
         return {
             'type': 'ir.actions.act_window',
@@ -160,4 +160,4 @@ class agd_declaration_wizard(models.TransientModel):
         data['ids'] = account_tax_codes.mapped('id')
         data['model'] = 'account.tax.code'
 
-        return self.env['report'].with_context({'period_id': self.period.id, 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.ag_report_glabel').name, data=data)
+        return self.env['report'].with_context({'period_id': self.period.id, 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_report.ag_report_glabel').name, data=data)

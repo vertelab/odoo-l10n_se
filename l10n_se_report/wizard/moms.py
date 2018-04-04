@@ -46,6 +46,10 @@ class account_tax_code(models.Model):
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
 
+    @api.model
+    def get_tax_account_domain(self):
+        return [('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', 'not in', ['2650', '1650', '1630']), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax'), ('report_type', '=', 'liability'), ('close_method', '=', 'none')]).id)]
+
     def _get_tax(self):
         user = self.env.user
         taxes = self.env['account.tax.code'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
@@ -58,9 +62,9 @@ class moms_declaration_wizard(models.TransientModel):
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year', default=_get_year)
     period_start = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Period', required=True)
-    skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
-    br1 = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, readonly=True)
-    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('unposted', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True, help='Sum of all transactions on account of type tax.')
+    br1 = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, readonly=True, help='Sum of all tax accounts. Without any payments to tax office.')
+    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
     #~ ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
 
     def _build_comparison_context(self, cr, uid, ids, data, context=None):
@@ -90,20 +94,20 @@ class moms_declaration_wizard(models.TransientModel):
             return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop)])]
 
     @api.one
-    @api.onchange('period_start', 'period_stop')
+    @api.onchange('period_start', 'period_stop', 'target_move')
     def read_account(self):
         if self.period_start and self.period_stop:
             #~ raise Warning('hejsam %s' % self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)]))
-            tax_accounts = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax'), ('report_type', '=', 'liability'), ('close_method', '=', 'none')]).id)])
+            tax_accounts = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).search(self.get_tax_account_domain())
             self.skattekonto = -sum(tax_accounts.mapped('balance'))
             tax_account = 0.0
             for p in self.get_period_ids(self.period_start, self.period_stop):
-                tax_account += sum(self.env['account.tax.code'].with_context({'period_id': p, 'state': 'all'}).search([('code', 'in', ['aR1','bR1','R1'])]).mapped('sum_period'))
+                tax_account += sum(self.env['account.tax.code'].with_context({'period_id': p, 'state': self.target_move}).search([('code', 'in', ['aR1','bR1','R1'])]).mapped('sum_period'))
             self.br1 = tax_account
 
     @api.multi
     def create_vat(self):
-        kontomoms = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id}).search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
+        kontomoms = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).search(self.get_tax_account_domain())
         momsskuld = self.env['account.account'].search([('code', '=', '2650')])
         momsfordran = self.env['account.account'].search([('code', '=', '1650')])
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
@@ -141,7 +145,7 @@ class moms_declaration_wizard(models.TransientModel):
                     if total > 0.0: # momsfordran, moms ska få tillbaka
                         self.env['account.move.line'].create({
                             'name': momsfordran.name,
-                            'account_id': momsfordran.id,
+                            'account_id': momsfordran.id, # moms_journal.default_debit_account_id
                             'partner_id': '',
                             'debit': total,
                             'credit': 0.0,
@@ -166,7 +170,7 @@ class moms_declaration_wizard(models.TransientModel):
                     if total < 0.0: # moms redovisning, moms ska betalas in
                         self.env['account.move.line'].create({
                             'name': momsskuld.name,
-                            'account_id': momsskuld.id,
+                            'account_id': momsskuld.id, # moms_journal.default_credit_account_id
                             'partner_id': '',
                             'debit': 0.0,
                             'credit': abs(total),
@@ -199,13 +203,16 @@ class moms_declaration_wizard(models.TransientModel):
                         'target': 'current',
                         'context': {}
                     }
+        else:
+            raise Warning(_('Kontomoms: %s, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
+
 
     @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env['account.account'].search([('parent_id', '=', self.env['account.account'].search([('code', 'in', ['26','B14'])]).id), ('code', '!=', '2650'), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax'), ('report_type', '=', 'liability'), ('close_method', '=', 'none')]).id)])
+        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
         domain = [('account_id', 'in', tax_accounts.mapped('id')), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
-        if self.target_move == 'unposted':
-            domain.append(('move_id.state', '=', 'draft'))
+        if self.target_move in ['draft', 'posted']:
+            domain.append(('move_id.state', '=', self.target_move))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -221,8 +228,8 @@ class moms_declaration_wizard(models.TransientModel):
     def show_journal_items(self):
         tax_account = self.env['account.tax.code'].search([('code', 'in', ['aR1','bR1','R1'])])
         domain = [('tax_code_id', 'child_of', tax_account.id), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
-        if self.target_move == 'unposted':
-            domain.append(('move_id.state', '=', 'draft'))
+        if self.target_move in ['draft', 'posted']:
+            domain.append(('move_id.state', '=', self.target_move))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -241,4 +248,4 @@ class moms_declaration_wizard(models.TransientModel):
         data['ids'] = account_tax_codes.mapped('id')
         data['model'] = 'account.tax.code'
 
-        return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
+        return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_report.moms_report_glabel').name, data=data)
