@@ -131,6 +131,7 @@ class account_initial_entry(models.TransientModel):
         #3. accounts with defferal method == 'balance'
         accounts_balance = accounts.filtered(lambda a: a.user_type.close_method == 'balance' and a.balance != 0.0)
         entry = self.env['account.move'].create({
+            'name': self.report_name,
             'journal_id': self.journal_id.id,
             'period_id': self.period_id.id,
             'date': self.period_id.date_stop,
