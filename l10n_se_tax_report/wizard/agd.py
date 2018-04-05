@@ -20,6 +20,8 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
+from lxml import etree
+import StringIO
 from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
@@ -29,12 +31,14 @@ class agd_declaration_wizard(models.TransientModel):
     _name = 'agd.declaration.wizard'
 
     @api.model
+    def get_tax_account_domain(self):
+        return [('user_type_id', '=', self.env['account.account.type'].search([('type', '=', 'payable')]).id)]
+
     def _get_tax(self):
         user = self.env.user
-        taxes = self.env['account.tax'].search([('company_id', '=', user.company_id.id)], limit=1)
+        taxes = self.env['account.tax'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
         return taxes and taxes[0] or False
 
-    @api.model
     def _get_year(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
 
@@ -42,40 +46,39 @@ class agd_declaration_wizard(models.TransientModel):
     period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
-    ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
+    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    #~ ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
 
-    @api.multi
-    def _build_comparison_context(self, data):
-        result = {}
-        result['fiscalyear'] = 'fiscalyear_id_cmp' in data['form'] and data['form']['fiscalyear_id_cmp'] or False
-        result['journal_ids'] = 'journal_ids' in data['form'] and data['form']['journal_ids'] or False
-        result['chart_account_id'] = 'chart_account_id' in data['form'] and data['form']['chart_account_id'] or False
-        result['state'] = 'target_move' in data['form'] and data['form']['target_move'] or ''
-        if data['form']['filter_cmp'] == 'filter_date':
-            result['date_from'] = data['form']['date_from_cmp']
-            result['date_to'] = data['form']['date_to_cmp']
-        elif data['form']['filter_cmp'] == 'filter_period':
-            if not data['form']['period_from_cmp'] or not data['form']['period_to_cmp']:
-                raise osv.except_osv(_('Error!'),_('Select a starting and an ending period'))
-            result['period_from'] = data['form']['period_from_cmp']
-            result['period_to'] = data['form']['period_to_cmp']
-        return result
+    #~ def _build_comparison_context(self, cr, uid, ids, data, context=None):
+        #~ if context is None:
+            #~ context = {}
+        #~ result = {}
+        #~ result['fiscalyear'] = 'fiscalyear_id_cmp' in data['form'] and data['form']['fiscalyear_id_cmp'] or False
+        #~ result['journal_ids'] = 'journal_ids' in data['form'] and data['form']['journal_ids'] or False
+        #~ result['chart_account_id'] = 'chart_account_id' in data['form'] and data['form']['chart_account_id'] or False
+        #~ result['state'] = 'target_move' in data['form'] and data['form']['target_move'] or ''
+        #~ if data['form']['filter_cmp'] == 'filter_date':
+            #~ result['date_from'] = data['form']['date_from_cmp']
+            #~ result['date_to'] = data['form']['date_to_cmp']
+        #~ elif data['form']['filter_cmp'] == 'filter_period':
+            #~ if not data['form']['period_from_cmp'] or not data['form']['period_to_cmp']:
+                #~ raise osv.except_osv(_('Error!'),_('Select a starting and an ending period'))
+            #~ result['period_from'] = data['form']['period_from_cmp']
+            #~ result['period_to'] = data['form']['period_to_cmp']
+        #~ return result
 
     @api.onchange('period')
     def read_account(self):
         if self.period:
-            #~ tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
-            #~ tax_account = self.env['account.tax.code'].with_context({'period_id': self.period.id, 'state': 'all'}).search([('code', '=', 'AgAvgPreS')])
-            tax_accounts = self.env['account.account'].search([('user_type_id', '=', self.env['account.account.type'].search([('type', '=', 'payable')]).id)])
-            tax_account = self.env['account.tax'].search([('name', '=', 'AgAvgPreS')])
-            self.skattekonto = sum(tax_accounts.mapped('tax_ids').mapped('sum_period'))
+            tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
+            tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
+            #~ self.skattekonto = sum(tax_accounts.mapped('balance'))
             if tax_account:
                 self.agavgpres = tax_account.sum_period
 
     @api.multi
-    def create_vat(self):
-        #~ kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('parent_id', '=', self.env['account.account'].search([('code', '=', '27')]).id), ('user_type', '=', self.env['account.account.type'].search([('code', '=', 'tax')]).id)])
-        kontoskatte = self.env['account.account'].search([('user_type_id', '=', self.env['account.account.type'].search([('type', '=', 'payable')]).id)])
+    def create_entry(self):
+        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
         if len(kontoskatte) > 0 and skattekonto:
             agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_report.agd_journal')
@@ -83,29 +86,30 @@ class agd_declaration_wizard(models.TransientModel):
                 raise Warning('Konfigurera din arbetsgivardeklaration journal!')
             else:
                 total = 0.0
-                vat = self.env['account.move'].create({
+                entry = self.env['account.move'].create({
                     'journal_id': self.env.ref('l10n_se.lonjournal').id,
                     'period_id': self.period.id,
                     'date': fields.Date.today(),
                 })
-                if vat:
+                if entry:
                     for k in kontoskatte:
-                        if k.credit != 0.0:
+                        credit = k.get_debit_credit_balance(self.period, self.period).get('credit')
+                        if credit != 0.0:
                             self.env['account.move.line'].create({
                                 'name': k.name,
                                 'account_id': k.id,
-                                'debit': k.credit,
+                                'debit': credit,
                                 'credit': 0.0,
-                                'move_id': vat.id,
+                                'move_id': entry.id,
                             })
-                            total += k.credit
+                            total += credit
                     self.env['account.move.line'].create({
                         'name': skattekonto.name,
                         'account_id': skattekonto.id,
                         'partner_id': self.env.ref('base.res_partner-SKV').id,
                         'debit': 0.0,
                         'credit': total,
-                        'move_id': vat.id,
+                        'move_id': entry.id,
                     })
                     #~ return self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_journal_period_tree')
                     return {
@@ -114,17 +118,34 @@ class agd_declaration_wizard(models.TransientModel):
                         'view_type': 'form',
                         'view_mode': 'form',
                         'view_id': self.env.ref('account.view_move_form').id,
-                        'res_id': vat.id,
+                        'res_id': entry.id,
                         'target': 'current',
                         'context': {}
                     }
+        else:
+            raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+
+    @api.multi
+    def create_eskd(self):
+        #~ doctype = etree.fromstring("""<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd"/>""")
+        tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id)])
+        def parse_xml(recordsets):
+            root = etree.Element('eSKDUpload', Version="6.0")
+            orgnr = etree.SubElement(root, 'OrgNr')
+            ag = etree.SubElement(root, 'Ag')
+            for lines in recordsets:
+                for line in lines:
+                    pass
+            return root
+        raise Warning(etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1"))
+        return etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
 
     @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env['account.account'].search([('user_type_id', '=', self.env['account.account.type'].search([('type', '=', 'payable')]).id)])
+        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
         domain = [('account_id', 'in', tax_accounts.mapped('id'))]
-        if self.ej_bokforda:
-            domain.append(('move_id.state', '=', 'draft'))
+        if self.target_move in ['draft', 'posted']:
+            domain.append(('move_id.state', '=', self.target_move))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -140,8 +161,8 @@ class agd_declaration_wizard(models.TransientModel):
     def show_journal_items(self):
         tax_account = self.env['account.tax'].search([('name', '=', 'AgAvgPreS')])
         domain = [('tax_code_id', 'child_of', tax_account.id)]
-        if self.ej_bokforda:
-            domain.append(('move_id.state', '=', 'draft'))
+        if self.target_move in ['draft', 'posted']:
+            domain.append(('move_id.state', '=', self.target_move))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -160,4 +181,4 @@ class agd_declaration_wizard(models.TransientModel):
         data['ids'] = account_tax_codes.mapped('id')
         data['model'] = 'account.tax'
 
-        return self.env['report'].with_context({'period_id': self.period.id, 'state': 'all'}).get_action(account_tax_codes, self.env.ref('l10n_se_tax_report.ag_report_glabel').name, data=data)
+        return self.env['report'].with_context({'period_id': self.period.id, 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_report.ag_report_glabel').name, data=data)
