@@ -1,29 +1,31 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_se_report
+#   * l10n_se_report
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20171009\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-05 07:06+0000\n"
-"PO-Revision-Date: 2018-04-05 07:06+0000\n"
+"POT-Creation-Date: 2018-04-05 06:13+0000\n"
+"PO-Revision-Date: 2018-04-05 08:57+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: sv\n"
+"X-Generator: Poedit 2.0.4\n"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.verificate_document
 msgid "Account"
-msgstr ""
+msgstr "Account"
 
 #. module: l10n_se_report
 #: model:ir.model,name:l10n_se_report.model_account_financial_report
 msgid "Account Report"
-msgstr ""
+msgstr "Account Report"
 
 #. module: l10n_se_report
 #: selection:account.initial.entry,target_move:0
@@ -32,7 +34,7 @@ msgstr ""
 #: selection:moms.declaration.wizard,target_move:0
 #: selection:year.end.wizard,target_move:0
 msgid "All Entries"
-msgstr ""
+msgstr "Alla verifikat"
 
 #. module: l10n_se_report
 #: selection:account.initial.entry,target_move:0
@@ -41,18 +43,18 @@ msgstr ""
 #: selection:moms.declaration.wizard,target_move:0
 #: selection:year.end.wizard,target_move:0
 msgid "All Posted Entries"
-msgstr ""
+msgstr "Alla bokförda verifikat"
 
 #. module: l10n_se_report
 #: selection:agd.declaration.wizard,target_move:0
 #: selection:moms.declaration.wizard,target_move:0
 msgid "All Unposted Entries"
-msgstr ""
+msgstr "Alla ej bokförda verifikat"
 
 #. module: l10n_se_report
 #: field:agd.declaration.wizard,agavgpres:0
 msgid "Arbetsgivaravgift & Preliminär skatt"
-msgstr ""
+msgstr "Arbetsgivaravgift & Preliminär skatt"
 
 #. module: l10n_se_report
 #: view:agd.declaration.wizard:l10n_se_report.view_account_agd_declaration
@@ -60,66 +62,66 @@ msgstr ""
 #: model:ir.actions.report.xml,name:l10n_se_report.ag_report_glabel
 #: model:ir.ui.menu,name:l10n_se_report.menu_account_agd_declaration
 msgid "Arbetsgivardeklaration"
-msgstr ""
+msgstr "Arbetsgivardeklaration"
 
 #. module: l10n_se_report
 #: field:account.config.settings,agd_journal:0
 msgid "Arbetsgivardeklaration journal"
-msgstr ""
+msgstr "Arbetsgivardeklaration journal"
 
 #. module: l10n_se_report
 #: view:agd.declaration.wizard:l10n_se_report.view_account_agd_declaration
 #: view:moms.declaration.wizard:l10n_se_report.view_account_moms_declaration
 #: view:year.end.wizard:l10n_se_report.view_account_year_end
 msgid "Avbryt"
-msgstr ""
+msgstr "Avbryt"
 
 #. module: l10n_se_report
 #: field:year_end.report,data_simplified:0
 msgid "BAS K1 simplified"
-msgstr ""
+msgstr "BAS K1 simplified"
 
 #. module: l10n_se_report
 #: field:year_end.report,data_normal:0
 msgid "BAS Normal"
-msgstr ""
+msgstr "BAS Normal"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.basic_r_and_b_document
 msgid "Balance"
-msgstr ""
+msgstr "Balans"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.basic_r_and_b_document
 msgid "Balance sheet"
-msgstr ""
+msgstr "Balansräkning"
 
 #. module: l10n_se_report
 #: model:ir.actions.report.xml,name:l10n_se_report.basic_r_and_b_report
 msgid "Basic P&L and Balance"
-msgstr ""
+msgstr "Grundläggande P&L och Balans"
 
 #. module: l10n_se_report
 #: model:ir.actions.act_window,name:l10n_se_report.basic_r_and_b_report_action
 msgid "Basic Profit & Loss and Balance"
-msgstr ""
+msgstr "Grundläggande vinst & förlust och balans"
 
 #. module: l10n_se_report
 #: view:l10n_se_report.basic_r_and_b.wizard:l10n_se_report.basic_r_and_b_view
 msgid "Basic Profit & loss and balance report"
-msgstr ""
+msgstr "Grundresultat resultaträkning och balansräkning"
 
 #. module: l10n_se_report
 #: code:addons/l10n_se_report/wizard/year_end.py:68
 #, python-format
 msgid "Can not find account with code 2099."
-msgstr ""
+msgstr "Kan inte hitta kontot med koden 2099."
 
 #. module: l10n_se_report
 #: code:addons/l10n_se_report/wizard/year_end.py:66
 #, python-format
 msgid "Can not find account with code 8999."
-msgstr ""
+msgstr "Kan inte hitta kontot med koden 8999."
 
 #. module: l10n_se_report
 #: view:account.financial.report.balance_result.import:l10n_se_report.wizard_result_balance_reports
@@ -127,54 +129,60 @@ msgstr ""
 #: view:l10n_se_report.basic_r_and_b.wizard:l10n_se_report.basic_r_and_b_view
 #: view:year_end.report:l10n_se_report.wizard_create_year_end_report
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #. module: l10n_se_report
 #: field:l10n_se_report.basic_r_and_b.wizard,chart_account_id:0
 msgid "Chart of Account"
-msgstr ""
+msgstr "Kontoplan"
+
+#. module: l10n_se_report
+#: field:agd.declaration.wizard,chart_tax_id:0
+#: field:moms.declaration.wizard,chart_tax_id:0
+msgid "Chart of Tax"
+msgstr "Skattetabell"
 
 #. module: l10n_se_report
 #: help:account.financial.report,field_code:0
 msgid "Code for Swedish electronic reporting."
-msgstr ""
+msgstr "Kod för svensk elektronisk rappot."
 
 #. module: l10n_se_report
 #: help:account.financial.report,field_code_neg:0
 msgid "Code for Swedish electronic reporting. Only used if result is negative."
-msgstr ""
+msgstr "Kod för svensk elektronisk rapport. Används endast om resultatet är negativt."
 
 #. module: l10n_se_report
 #: help:account.financial.report,field_code_pos:0
 msgid "Code for Swedish electronic reporting. Only used if result is positive."
-msgstr ""
+msgstr "Kod för svensk elektronisk rapport. Används endast om resultatet är positivt."
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.verificate_document
 msgid "Company"
-msgstr ""
+msgstr "Bolag"
 
 #. module: l10n_se_report
 #: view:account.initial.entry:l10n_se_report.view_account_initial_entry
 msgid "Create"
-msgstr ""
+msgstr "Skapa"
 
 #. module: l10n_se_report
 #: view:year.end.wizard:l10n_se_report.view_account_year_end
 msgid "Create Entry"
-msgstr ""
+msgstr "Skapa verifikat"
 
 #. module: l10n_se_report
 #: model:ir.actions.act_window,name:l10n_se_report.action_wizard_result_balance_reports
 #: model:ir.ui.menu,name:l10n_se_report.menu_wizard_result_balance_reports
 msgid "Create Result and Balance Reports"
-msgstr ""
+msgstr "Skapa resultat och balansrapporter"
 
 #. module: l10n_se_report
 #: model:ir.actions.act_window,name:l10n_se_report.action_wizard_create_year_end_report
 #: model:ir.ui.menu,name:l10n_se_report.menu_wizard_create_year_end_report
 msgid "Create Year End Report"
-msgstr ""
+msgstr "Skapa bokslut rapport"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,create_uid:0
@@ -182,10 +190,9 @@ msgstr ""
 #: field:agd.declaration.wizard,create_uid:0
 #: field:l10n_se_report.basic_r_and_b.wizard,create_uid:0
 #: field:moms.declaration.wizard,create_uid:0
-#: field:year.end.wizard,create_uid:0
-#: field:year_end.report,create_uid:0
+#: field:year.end.wizard,create_uid:0 field:year_end.report,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Skapad av"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,create_date:0
@@ -193,32 +200,31 @@ msgstr ""
 #: field:agd.declaration.wizard,create_date:0
 #: field:l10n_se_report.basic_r_and_b.wizard,create_date:0
 #: field:moms.declaration.wizard,create_date:0
-#: field:year.end.wizard,create_date:0
-#: field:year_end.report,create_date:0
+#: field:year.end.wizard,create_date:0 field:year_end.report,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Skapad på"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.daily_ledger_document
 #: view:website:l10n_se_report.verificate_document
 msgid "Credit"
-msgstr ""
+msgstr "Kredit"
 
 #. module: l10n_se_report
 #: model:ir.actions.report.xml,name:l10n_se_report.l10n_report
 msgid "Daily Ledger"
-msgstr ""
+msgstr "Dagbok"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.verificate_document
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.daily_ledger_document
 #: view:website:l10n_se_report.verificate_document
 msgid "Debit"
-msgstr ""
+msgstr "Debit"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,display_name:0
@@ -226,63 +232,62 @@ msgstr ""
 #: field:agd.declaration.wizard,display_name:0
 #: field:l10n_se_report.basic_r_and_b.wizard,display_name:0
 #: field:moms.declaration.wizard,display_name:0
-#: field:year.end.wizard,display_name:0
-#: field:year_end.report,display_name:0
+#: field:year.end.wizard,display_name:0 field:year_end.report,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Visningsnamn"
 
 #. module: l10n_se_report
 #: field:moms.declaration.wizard,period_stop:0
 msgid "End Period"
-msgstr ""
+msgstr "Slutperiod"
 
 #. module: l10n_se_report
 #: help:year.end.wizard,journal_id:0
 msgid "Entry journal"
-msgstr ""
+msgstr "Verifikat journal"
 
 #. module: l10n_se_report
 #: field:account.initial.entry,equity:0
 msgid "Equity"
-msgstr ""
+msgstr "Balanserad konto"
 
 #. module: l10n_se_report
-#: code:addons/l10n_se_report/wizard/agd.py:63
-#: code:addons/l10n_se_report/wizard/moms.py:82
+#: code:addons/l10n_se_report/wizard/agd.py:64
+#: code:addons/l10n_se_report/wizard/moms.py:83
 #, python-format
 msgid "Error!"
-msgstr ""
+msgstr "Fel!"
 
 #. module: l10n_se_report
 #: field:account.financial.report,field_code:0
 msgid "Field Code"
-msgstr ""
+msgstr "Fältkod"
 
 #. module: l10n_se_report
 #: field:account.financial.report,field_code_neg:0
 msgid "Field Code (Negative)"
-msgstr ""
+msgstr "Fältkod (Negativ)"
 
 #. module: l10n_se_report
 #: field:account.financial.report,field_code_pos:0
 msgid "Field Code (Positive)"
-msgstr ""
+msgstr "Fältkod (Positiv)"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,data:0
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #. module: l10n_se_report
 #: view:year_end.report:l10n_se_report.wizard_create_year_end_report
 msgid "File to upload"
-msgstr ""
+msgstr "Fil att ladda upp"
 
 #. module: l10n_se_report
 #: view:account.financial.report.balance_result.import:l10n_se_report.wizard_result_balance_reports
 #: view:year_end.report:l10n_se_report.wizard_create_year_end_report
 msgid "Filebox"
-msgstr ""
+msgstr "Fillåda"
 
 #. module: l10n_se_report
 #: field:agd.declaration.wizard,fiscalyear_id:0
@@ -290,78 +295,76 @@ msgstr ""
 #: field:moms.declaration.wizard,fiscalyear_id:0
 #: field:year.end.wizard,fiscalyear_id:0
 msgid "Fiscal Year"
-msgstr ""
+msgstr "Räkenskapsår"
 
 #. module: l10n_se_report
 #: field:account.initial.entry,fy_id:0
 msgid "Fiscal Year to close"
-msgstr ""
+msgstr "Räkenskapsår att stänga"
 
 #. module: l10n_se_report
 #: model:ir.model,name:l10n_se_report.model_account_fiscalyear_close
 msgid "Fiscalyear Close"
-msgstr ""
+msgstr "Räkenskapsår stängt"
 
 #. module: l10n_se_report
 #: view:account.initial.entry:l10n_se_report.view_account_initial_entry
 msgid "Generate Fiscal Year Opening Entries"
-msgstr ""
+msgstr "Skapa räkenskapsår ingående balanser"
 
 #. module: l10n_se_report
 #: model:ir.actions.act_window,name:l10n_se_report.action_account_initial_entry
 msgid "Generate Opening Entries"
-msgstr ""
+msgstr "Skapa ingående balanser"
 
 #. module: l10n_se_report
 #: help:account.initial.entry,report_name:0
 msgid "Give name of the new entries"
-msgstr ""
+msgstr "Ange ett name till nytt verifikat"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,id:0
-#: field:account.initial.entry,id:0
-#: field:agd.declaration.wizard,id:0
+#: field:account.initial.entry,id:0 field:agd.declaration.wizard,id:0
 #: field:l10n_se_report.basic_r_and_b.wizard,id:0
-#: field:moms.declaration.wizard,id:0
-#: field:year.end.wizard,id:0
+#: field:moms.declaration.wizard,id:0 field:year.end.wizard,id:0
 #: field:year_end.report,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_se_report
 #: view:account.financial.report.balance_result.import:l10n_se_report.wizard_result_balance_reports
 #: view:year_end.report:l10n_se_report.wizard_create_year_end_report
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 #. module: l10n_se_report
 #: field:year.end.wizard,income_statement:0
 msgid "Income Statement"
-msgstr ""
+msgstr "Resultaträkning"
 
 #. module: l10n_se_report
 #: field:year.end.wizard,income_statement_account:0
 msgid "Income Statement Account"
-msgstr ""
+msgstr "Resultaträknings konto"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.verificate_document
 #: field:year.end.wizard,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: l10n_se_report
 #: help:agd.declaration.wizard,fiscalyear_id:0
 #: help:moms.declaration.wizard,fiscalyear_id:0
 #: help:year.end.wizard,fiscalyear_id:0
 msgid "Keep empty for all open fiscal year"
-msgstr ""
+msgstr "Håll tom för alla öppna räkenskapsår"
 
 #. module: l10n_se_report
-#: code:addons/l10n_se_report/wizard/moms.py:206
+#: code:addons/l10n_se_report/wizard/moms.py:207
 #, python-format
 msgid "Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s"
-msgstr ""
+msgstr "Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,__last_update:0
@@ -369,21 +372,19 @@ msgstr ""
 #: field:agd.declaration.wizard,__last_update:0
 #: field:l10n_se_report.basic_r_and_b.wizard,__last_update:0
 #: field:moms.declaration.wizard,__last_update:0
-#: field:year.end.wizard,__last_update:0
-#: field:year_end.report,__last_update:0
+#: field:year.end.wizard,__last_update:0 field:year_end.report,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Senast ändrad på"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,write_uid:0
 #: field:account.initial.entry,write_uid:0
 #: field:agd.declaration.wizard,write_uid:0
 #: field:l10n_se_report.basic_r_and_b.wizard,write_uid:0
-#: field:moms.declaration.wizard,write_uid:0
-#: field:year.end.wizard,write_uid:0
+#: field:moms.declaration.wizard,write_uid:0 field:year.end.wizard,write_uid:0
 #: field:year_end.report,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Senast uppdaterad av"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,write_date:0
@@ -391,20 +392,19 @@ msgstr ""
 #: field:agd.declaration.wizard,write_date:0
 #: field:l10n_se_report.basic_r_and_b.wizard,write_date:0
 #: field:moms.declaration.wizard,write_date:0
-#: field:year.end.wizard,write_date:0
-#: field:year_end.report,write_date:0
+#: field:year.end.wizard,write_date:0 field:year_end.report,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Senast uppdaterad på"
 
 #. module: l10n_se_report
 #: field:account.financial.report.balance_result.import,message:0
 msgid "Message"
-msgstr ""
+msgstr "Meddelande"
 
 #. module: l10n_se_report
 #: field:moms.declaration.wizard,br1:0
 msgid "Moms att betala ut (+) eller få tillbaka (-)"
-msgstr ""
+msgstr "Moms att betala ut (+) eller få tillbaka (-)"
 
 #. module: l10n_se_report
 #: model:ir.actions.act_window,name:l10n_se_report.action_account_moms_declaration
@@ -412,128 +412,136 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_se_report.menu_account_moms_declaration
 #: view:moms.declaration.wizard:l10n_se_report.view_account_moms_declaration
 msgid "Momsdeklaration"
-msgstr ""
+msgstr "Momsdeklaration"
 
 #. module: l10n_se_report
 #: field:account.config.settings,moms_journal:0
 msgid "Momsdeklaration journal"
-msgstr ""
+msgstr "Momsdeklaration journal"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.verificate_document
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #. module: l10n_se_report
 #: field:account.initial.entry,report_name:0
 msgid "Name of new entries"
-msgstr ""
+msgstr "Namn till nytt verifikat"
 
 #. module: l10n_se_report
 #: field:account.initial.entry,fy2_id:0
 msgid "New Fiscal Year"
-msgstr ""
+msgstr "Nytt räkenskapsår"
 
 #. module: l10n_se_report
 #: field:account.initial.entry,journal_id:0
 msgid "Opening Entries Journal"
-msgstr ""
+msgstr "Ingående balanse journal"
 
 #. module: l10n_se_report
 #: field:account.initial.entry,period_id:0
 msgid "Opening Entries Period"
-msgstr ""
+msgstr "Ingående balanse period"
 
 #. module: l10n_se_report
 #: model:ir.ui.menu,name:l10n_se_report.menu_basic_r_and_b_report
 msgid "P&L and Balance"
-msgstr ""
+msgstr "P&L och balans"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.compact_layout_footer
 msgid "Page:"
-msgstr ""
+msgstr "Sida:"
 
 #. module: l10n_se_report
 #: field:agd.declaration.wizard,period:0
+#: field:moms.declaration.wizard,period_start:0
+#: field:moms.declaration.wizard,period_stop:0
 #: view:website:l10n_se_report.verificate_document
 msgid "Period"
-msgstr ""
+msgstr "Period"
 
 #. module: l10n_se_report
 #: view:l10n_se_report.basic_r_and_b.wizard:l10n_se_report.basic_r_and_b_view
 msgid "Print"
-msgstr ""
+msgstr "Skriv ut"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.basic_r_and_b_document
 msgid "Resultaträkning"
-msgstr ""
+msgstr "Resultaträkning"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.basic_r_and_b_document
 msgid "Rörelsens intäkter"
-msgstr ""
+msgstr "Rörelsens intäkter"
 
 #. module: l10n_se_report
 #: field:account.financial.report,sru:0
 msgid "SRU Code"
-msgstr ""
+msgstr "SRU kod"
 
 #. module: l10n_se_report
 #: help:l10n_se_report.basic_r_and_b.wizard,chart_account_id:0
 msgid "Select Charts of Accounts"
-msgstr ""
+msgstr "Välj kontoplan"
+
+#. module: l10n_se_report
+#: help:agd.declaration.wizard,chart_tax_id:0
+#: help:moms.declaration.wizard,chart_tax_id:0
+msgid "Select Charts of Taxes"
+msgstr "Välj skattetabell"
 
 #. module: l10n_se_report
 #: help:account.initial.entry,fy_id:0
 msgid "Select a Fiscal year to close"
-msgstr ""
+msgstr "Välj ett räkenskapsår att stänga"
 
 #. module: l10n_se_report
-#: code:addons/l10n_se_report/wizard/agd.py:63
-#: code:addons/l10n_se_report/wizard/moms.py:82
+#: code:addons/l10n_se_report/wizard/agd.py:64
+#: code:addons/l10n_se_report/wizard/moms.py:83
 #, python-format
 msgid "Select a starting and an ending period"
-msgstr ""
+msgstr "Välj start och slut period"
 
 #. module: l10n_se_report
 #: view:agd.declaration.wizard:l10n_se_report.view_account_agd_declaration
 #: view:moms.declaration.wizard:l10n_se_report.view_account_moms_declaration
 msgid "Skapa verifikat"
-msgstr ""
+msgstr "Skapa verifikat"
 
 #. module: l10n_se_report
 #: field:agd.declaration.wizard,skattekonto:0
 #: field:moms.declaration.wizard,skattekonto:0
 msgid "Skattekontot"
-msgstr ""
+msgstr "Skattekontot"
 
 #. module: l10n_se_report
 #: view:agd.declaration.wizard:l10n_se_report.view_account_agd_declaration
 #: view:moms.declaration.wizard:l10n_se_report.view_account_moms_declaration
 msgid "Skriv ut rapporten"
-msgstr ""
+msgstr "Skriv ut rapporten"
 
 #. module: l10n_se_report
 #: field:moms.declaration.wizard,period_start:0
 msgid "Start Period"
-msgstr ""
+msgstr "Startperiod"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.verificate_document
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 #. module: l10n_se_report
 #: help:moms.declaration.wizard,br1:0
 msgid "Sum of all tax accounts. Without any payments to tax office."
-msgstr ""
+msgstr "Summan av alla skattekonton. Utan betalningar till Skatteverket."
 
 #. module: l10n_se_report
 #: help:moms.declaration.wizard,skattekonto:0
 msgid "Sum of all transactions on account of type tax."
-msgstr ""
+msgstr "Summan av alla transaktioner med kontotyp moms."
 
 #. module: l10n_se_report
 #: field:account.initial.entry,target_move:0
@@ -542,83 +550,83 @@ msgstr ""
 #: field:moms.declaration.wizard,target_move:0
 #: field:year.end.wizard,target_move:0
 msgid "Target Moves"
-msgstr ""
+msgstr "Mål verifikat"
 
 #. module: l10n_se_report
 #: model:ir.model,name:l10n_se_report.model_account_tax_code
 msgid "Tax Code"
-msgstr ""
+msgstr "Skattekod"
 
 #. module: l10n_se_report
 #: help:account.initial.entry,journal_id:0
 msgid "The best practice here is to use a journal dedicated to contain the opening entries of all fiscal years. Note that you should define it with default debit/credit accounts, of type 'situation' and with a centralized counterpart."
-msgstr ""
+msgstr "The best practice here is to use a journal dedicated to contain the opening entries of all fiscal years. Note that you should define it with default debit/credit accounts, of type 'situation' and with a centralized counterpart."
 
 #. module: l10n_se_report
 #: view:account.initial.entry:l10n_se_report.view_account_initial_entry
 msgid "This wizard will generate the end of year journal entries of selected fiscal year. Note that you can run this wizard many times for the same fiscal year: it will simply replace the old opening entries with the new ones."
-msgstr ""
+msgstr "This wizard will generate the end of year journal entries of selected fiscal year. Note that you can run this wizard many times for the same fiscal year: it will simply replace the old opening entries with the new ones."
 
 #. module: l10n_se_report
 #: field:year.end.wizard,trial_balance:0
 msgid "Trial Balance"
-msgstr ""
+msgstr "Råbalans"
 
 #. module: l10n_se_report
 #: field:year.end.wizard,trial_balance_account:0
 msgid "Trial Balance Account"
-msgstr ""
+msgstr "Råbalans konto"
 
 #. module: l10n_se_report
 #: code:addons/l10n_se_report/wizard/year_end.py:62
 #, python-format
 msgid "Trial balance must match with income statement."
-msgstr ""
+msgstr "Råbalans måste matcha med resultaträkning."
 
 #. module: l10n_se_report
 #: view:agd.declaration.wizard:l10n_se_report.view_account_agd_declaration
 #: view:moms.declaration.wizard:l10n_se_report.view_account_moms_declaration
 msgid "Visa Verifikat"
-msgstr ""
+msgstr "Visa Verifikat"
 
 #. module: l10n_se_report
 #: field:l10n_se_report.basic_r_and_b.wizard,initial_bal:0
 msgid "With initial balance"
-msgstr ""
+msgstr "Med ingående balans"
 
 #. module: l10n_se_report
 #: model:ir.ui.menu,name:l10n_se_report.menu_account_year_end
 #: view:year.end.wizard:l10n_se_report.view_account_year_end
 msgid "Year End"
-msgstr ""
+msgstr "Bokslut"
 
 #. module: l10n_se_report
 #: code:addons/l10n_se_report/wizard/year_end.py:69
 #, python-format
 msgid "Year End %s"
-msgstr ""
+msgstr "Bokslut %s"
 
 #. module: l10n_se_report
 #: model:ir.actions.act_window,name:l10n_se_report.action_account_year_end
 msgid "Year End Entry"
-msgstr ""
+msgstr "Bokslut verifikat"
 
 #. module: l10n_se_report
 #: code:addons/l10n_se_report/wizard/year_end.py:120
 #, python-format
 msgid "You cannot create journal items on an account of type view or consolidation."
-msgstr ""
+msgstr "Du kan inte skapa journalposter på ett konto med kontoryp vy eller konsolidering."
 
 #. module: l10n_se_report
 #: view:account.config.settings:l10n_se_report.view_account_config_settings
 msgid "eInvoicing & Payments"
-msgstr ""
+msgstr "Elfakturering & Betalningar"
 
 #. module: l10n_se_report
-#: code:addons/l10n_se_report/wizard/agd.py:125
+#: code:addons/l10n_se_report/wizard/agd.py:126
 #, python-format
 msgid "kontoskatte: %sst, skattekonto: %s"
-msgstr ""
+msgstr "kontoskatte: %sst, skattekonto: %s"
 
 #. module: l10n_se_report
 #: view:account.financial.report.balance_result.import:l10n_se_report.wizard_result_balance_reports
@@ -628,10 +636,9 @@ msgstr ""
 #: view:year.end.wizard:l10n_se_report.view_account_year_end
 #: view:year_end.report:l10n_se_report.wizard_create_year_end_report
 msgid "or"
-msgstr ""
+msgstr "eller"
 
 #. module: l10n_se_report
 #: view:website:l10n_se_report.daily_ledger_document
 msgid "ref:"
-msgstr ""
-
+msgstr "ref:"
