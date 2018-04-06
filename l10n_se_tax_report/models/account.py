@@ -48,10 +48,23 @@ class account_tax(models.Model):
             #~ if not period_id:
                 #~ return dict.fromkeys(ids, 0.0)
             #~ period_id = period_id[0]
+        domain = []
+        if self._context.get('period_id'):
+            period = self.env['account.period'].browse(self._context.get('period_id'))
+            domain += [('date', '>=', period.date_start), ('date', '<=', period.date_stop)]
+        if self._context.get('state'):
+            if self._context.get('state') != 'all':
+                domain.append(tuple(('move_id.state', '=', self._context.get('state'))))
         if self.children_tax_ids:
-            self.sum_period = sum(sum(self.env['account.move.line'].search([('tax_line_id', '=', c.id)]).mapped('balance')) for c in self.children_tax_ids)
+            def get_children_sum(tax):
+                s = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', tax.id)]).mapped('balance'))
+                if tax.children_tax_ids:
+                    for t in tax.children_tax_ids:
+                        s += get_children_sum(t)
+                return s
+            self.sum_period = get_children_sum(self)
         else:
-            self.sum_period = sum(self.env['account.move.line'].search([('tax_line_id', '=', self.id)]).mapped('balance'))
+            self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
 
 
 class account_financial_report(models.Model):

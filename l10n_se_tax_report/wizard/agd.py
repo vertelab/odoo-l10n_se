@@ -21,7 +21,7 @@
 
 from odoo import models, fields, api, _
 from lxml import etree
-import StringIO
+import base64
 from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
@@ -47,6 +47,26 @@ class agd_declaration_wizard(models.TransientModel):
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    eskd_file = fields.Binary(compute='_compute_eskd_file')
+
+    @api.one
+    def _compute_eskd_file(self):
+        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag'])])
+        def parse_xml(recordsets):
+            root = etree.Element('eSKDUpload', Version="6.0")
+            orgnr = etree.SubElement(root, 'OrgNr')
+            orgnr.text = self.env.user.company_id.company_registry
+            ag = etree.SubElement(root, 'Ag')
+            period = etree.SubElement(ag, 'Period')
+            period.text = self.period.date_start[:4] + self.period.date_start[5:7]
+            for record in recordsets:
+                tax = etree.SubElement(ag, record.name)
+                tax.text = str(int(abs(record.with_context({'period_id': self.period.id, 'state': self.target_move}).sum_period)))
+            return root
+        xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
+        xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">')
+        self.eskd_file = base64.b64encode(xml)
+
     #~ ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
 
     #~ def _build_comparison_context(self, cr, uid, ids, data, context=None):
@@ -67,7 +87,7 @@ class agd_declaration_wizard(models.TransientModel):
             #~ result['period_to'] = data['form']['period_to_cmp']
         #~ return result
 
-    @api.onchange('period')
+    @api.onchange('period', 'target_move')
     def read_account(self):
         if self.period:
             tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
@@ -127,18 +147,14 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.multi
     def create_eskd(self):
-        #~ doctype = etree.fromstring("""<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd"/>""")
-        tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id)])
-        def parse_xml(recordsets):
-            root = etree.Element('eSKDUpload', Version="6.0")
-            orgnr = etree.SubElement(root, 'OrgNr')
-            ag = etree.SubElement(root, 'Ag')
-            for lines in recordsets:
-                for line in lines:
-                    pass
-            return root
-        raise Warning(etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1"))
-        return etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_type': 'controller',
+            #for v9.0, 10.0
+            'report_file': '/web/content/agd.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %self.period.date_start[:4])
+            #for v7.0, v8.0
+            #'report_file': '/web/binary/saveas?model=agd.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %self.period.date_start[:4], self.id)
+        }
 
     @api.multi
     def show_account_moves(self):
