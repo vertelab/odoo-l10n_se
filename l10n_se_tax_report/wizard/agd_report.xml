@@ -11,6 +11,7 @@
                         <field name="fiscalyear_id"/>
                         <field name="target_move"/>
                         <field name="period" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                        <field name="free_text"/>
                     </group>
                     <group col="3">
                         <field name="skattekonto"/>

@@ -47,6 +47,7 @@ class agd_declaration_wizard(models.TransientModel):
     skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    free_text = fields.Text(string='Text Upplysning')
     eskd_file = fields.Binary(compute='_compute_eskd_file')
 
     @api.one
@@ -62,6 +63,8 @@ class agd_declaration_wizard(models.TransientModel):
             for record in recordsets:
                 tax = etree.SubElement(ag, record.name)
                 tax.text = str(int(abs(record.with_context({'period_id': self.period.id, 'state': self.target_move}).sum_period)))
+            free_text = etree.SubElement(ag, 'TextUpplysningAg')
+            free_text.text = self.free_text
             return root
         xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">')
