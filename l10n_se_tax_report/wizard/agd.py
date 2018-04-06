@@ -67,32 +67,11 @@ class agd_declaration_wizard(models.TransientModel):
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">')
         self.eskd_file = base64.b64encode(xml)
 
-    #~ ej_bokforda = fields.Boolean(string='Ej bokförda', default=True)
-
-    #~ def _build_comparison_context(self, cr, uid, ids, data, context=None):
-        #~ if context is None:
-            #~ context = {}
-        #~ result = {}
-        #~ result['fiscalyear'] = 'fiscalyear_id_cmp' in data['form'] and data['form']['fiscalyear_id_cmp'] or False
-        #~ result['journal_ids'] = 'journal_ids' in data['form'] and data['form']['journal_ids'] or False
-        #~ result['chart_account_id'] = 'chart_account_id' in data['form'] and data['form']['chart_account_id'] or False
-        #~ result['state'] = 'target_move' in data['form'] and data['form']['target_move'] or ''
-        #~ if data['form']['filter_cmp'] == 'filter_date':
-            #~ result['date_from'] = data['form']['date_from_cmp']
-            #~ result['date_to'] = data['form']['date_to_cmp']
-        #~ elif data['form']['filter_cmp'] == 'filter_period':
-            #~ if not data['form']['period_from_cmp'] or not data['form']['period_to_cmp']:
-                #~ raise osv.except_osv(_('Error!'),_('Select a starting and an ending period'))
-            #~ result['period_from'] = data['form']['period_from_cmp']
-            #~ result['period_to'] = data['form']['period_to_cmp']
-        #~ return result
-
     @api.onchange('period', 'target_move')
     def read_account(self):
         if self.period:
             tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
             tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-            #~ self.skattekonto = sum(tax_accounts.mapped('balance'))
             if tax_account:
                 self.agavgpres = tax_account.sum_period
 
@@ -151,9 +130,9 @@ class agd_declaration_wizard(models.TransientModel):
             'type': 'ir.actions.report.xml',
             'report_type': 'controller',
             #for v9.0, 10.0
-            'report_file': '/web/content/agd.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %self.period.date_start[:4])
+            'report_file': '/web/content/agd.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]))
             #for v7.0, v8.0
-            #'report_file': '/web/binary/saveas?model=agd.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %self.period.date_start[:4], self.id)
+            #'report_file': '/web/binary/saveas?model=agd.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
         }
 
     @api.multi
