@@ -73,7 +73,6 @@ class agd_declaration_wizard(models.TransientModel):
     @api.onchange('period', 'target_move')
     def read_account(self):
         if self.period:
-            tax_accounts = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
             tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
             if tax_account:
                 self.agavgpres = tax_account.sum_period
@@ -179,4 +178,4 @@ class agd_declaration_wizard(models.TransientModel):
         data['ids'] = account_tax_codes.mapped('id')
         data['model'] = 'account.tax'
 
-        return self.env['report'].with_context({'period_id': self.period.id, 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_report.ag_report_glabel').name, data=data)
+        return self.env['report'].with_context({'period_id': self.period.id, 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_tax_report.ag_report_glabel').name, data=data)
