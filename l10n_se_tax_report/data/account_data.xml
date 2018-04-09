@@ -47,22 +47,6 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="1"/>
         </record>
-        <record id="g" model="account.financial.report">
-            <field name="name">G. Moms att betala eller få tillbaka</field>
-            <field name="sequence">90</field>
-            <field name="parent_id" ref="l10n_se_tax_report.root"/>
-            <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
-            <field name="style_overwrite" eval="2"/>
-        </record>
-        <record id="49" model="account.financial.report">
-            <field name="name">49. Moms att betala ut eller få tillbaka</field>
-            <field name="sequence">99</field>
-            <field name="parent_id" ref="l10n_se_tax_report.g"/>
-            <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
-            <field name="style_overwrite" eval="4"/>
-        </record>
         <!-- column A -->
         <record id="a" model="account.financial.report">
             <field name="name">A. Momspliktig försäljning eller uttag exklusive moms</field>
@@ -88,9 +72,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mu1')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'MU1')]"/>
         </record>
         <record id="7" model="account.financial.report">
             <field name="name">7. Beskattningsunderlag vid vinstmarginalbeskattning</field>
@@ -99,9 +81,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mbbu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'MBBU')]"/>
         </record>
         <record id="8" model="account.financial.report">
             <field name="name">8. Hyresinkomster vid frivillig skattskyldighet</field>
@@ -110,9 +90,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mpff')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'MPFF')]"/>
         </record>
         <!-- column B -->
         <record id="b" model="account.financial.report">
@@ -130,9 +108,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u1')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'U1')]"/>
         </record>
         <record id="11" model="account.financial.report">
             <field name="name">11. Utgående moms 12%</field>
@@ -141,9 +117,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u2')])]"/>
--->
+            <field name="tax_ids"  search="[('name', '=', 'U2')]"/>
         </record>
         <record id="12" model="account.financial.report">
             <field name="name">12. Utgående moms 6%</field>
@@ -152,9 +126,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u3')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'U3')]"/>
         </record>
         <!-- column C -->
         <record id="c" model="account.financial.report">
@@ -166,37 +138,31 @@
             <field name="style_overwrite" eval="2"/>
         </record>
         <record id="20" model="account.financial.report">
-            <field name="name">20. Inköp av varor från annat EG-land</field>
+            <field name="name">20. Inköp av varor från annat EU-land</field>
             <field name="sequence">31</field>
             <field name="parent_id" ref="l10n_se_tax_report.c"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.vfeu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'VFEU')]"/>
         </record>
         <record id="21" model="account.financial.report">
-            <field name="name">21. Inköp av tjänster från annat EG-land</field>
+            <field name="name">21. Inköp av tjänster från annat EU-land</field>
             <field name="sequence">32</field>
             <field name="parent_id" ref="l10n_se_tax_report.c"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.tfeu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'TFEU')]"/>
         </record>
         <record id="22" model="account.financial.report">
-            <field name="name">22. Inköp av tjänster från land utanför EG</field>
+            <field name="name">22. Inköp av tjänster från land utanför EU</field>
             <field name="sequence">33</field>
             <field name="parent_id" ref="l10n_se_tax_report.c"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.tffu')])]"/>
--->
+            <field name="tax_ids"  search="[('name', '=', 'TFFU')]"/>
         </record>
         <record id="23" model="account.financial.report">
             <field name="name">23. Inköp av varor i Sverige</field>
@@ -205,9 +171,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.ivis')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'IVIS')]"/>
         </record>
         <record id="24" model="account.financial.report">
             <field name="name">24. Inköp av tjänster i Sverige</field>
@@ -216,9 +180,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.itis')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'ITIS')]"/>
         </record>
         <!-- column D -->
         <record id="d" model="account.financial.report">
@@ -236,9 +198,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u1mi')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'U1MI')]"/>
         </record>
         <record id="31" model="account.financial.report">
             <field name="name">31. Utgående moms 12%</field>
@@ -247,9 +207,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u2mi')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'U2MI')]"/>
         </record>
         <record id="32" model="account.financial.report">
             <field name="name">32. Utgående moms 6%</field>
@@ -258,9 +216,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.u3mi')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'U3MI')]"/>
         </record>
         <!-- column E -->
         <record id="e" model="account.financial.report">
@@ -272,26 +228,22 @@
             <field name="style_overwrite" eval="2"/>
         </record>
         <record id="35" model="account.financial.report">
-            <field name="name">35. Försäljning av varor till annat EG-land</field>
+            <field name="name">35. Försäljning av varor till annat EU-land</field>
             <field name="sequence">51</field>
             <field name="parent_id" ref="l10n_se_tax_report.e"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.vteu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'VTEU')]"/>
         </record>
         <record id="36" model="account.financial.report">
-            <field name="name">36. Försäljning av varor utanför EG</field>
+            <field name="name">36. Försäljning av varor utanför EU</field>
             <field name="sequence">52</field>
             <field name="parent_id" ref="l10n_se_tax_report.e"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.e')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'E')]"/>
         </record>
         <record id="37" model="account.financial.report">
             <field name="name">37. Mellanmans inköp av varor vid trepartshandel</field>
@@ -300,9 +252,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.3veu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', '3VEU')]"/>
         </record>
         <record id="38" model="account.financial.report">
             <field name="name">38. Mellanmans försäljning av varor vid trepartshandel</field>
@@ -311,20 +261,16 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.3feu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', '3FEU')]"/>
         </record>
         <record id="39" model="account.financial.report">
-            <field name="name">39. Försäjning av tjänster när köparen är skatteskyldig i EG</field>
+            <field name="name">39. Försäjning av tjänster när köparen är skatteskyldig i EU</field>
             <field name="sequence">55</field>
             <field name="parent_id" ref="l10n_se_tax_report.e"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.fteu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'FTEU')]"/>
         </record>
         <record id="40" model="account.financial.report">
             <field name="name">40. Övrig försäljning av tjänster omsatta i utlandet</field>
@@ -333,9 +279,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.ottu')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'OTTU')]"/>
         </record>
         <record id="41" model="account.financial.report">
             <field name="name">41. Försäljning när köparen är skatteskyldig i Sverige</field>
@@ -344,9 +288,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.omss')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'OMSS')]"/>
         </record>
         <record id="42" model="account.financial.report">
             <field name="name">42. Övrig försäljning m.m</field>
@@ -355,9 +297,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-<!--
-            <field name="tax_ids" eval="[(6,0,[ref('l10n_se.mf')])]"/>
--->
+            <field name="tax_ids" search="[('name', '=', 'MF')]"/>
         </record>
         <!-- column F -->
         <record id="f" model="account.financial.report">
@@ -375,9 +315,26 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'I')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i'])]"/>
         </record>
-
+        <!-- column G -->
+        <record id="g" model="account.financial.report">
+            <field name="name">G. Moms att betala eller få tillbaka</field>
+            <field name="sequence">90</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="2"/>
+        </record>
+        <record id="49" model="account.financial.report">
+            <field name="name">49. Moms att betala ut eller få tillbaka</field>
+            <field name="sequence">99</field>
+            <field name="parent_id" ref="l10n_se_tax_report.g"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', 'in', ['U1', 'U2', 'U3', 'U1MI', 'U2MI', 'U3MI', 'U1MBBUI', 'U2MBBUI', 'U3MBBUI'])]"/>
+        </record>
     </data>
 
 </odoo>

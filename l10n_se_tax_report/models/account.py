@@ -74,22 +74,15 @@ class account_financial_report(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'tax_ids' in vals:
-            tax_account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
-            if tax_account.children_tax_ids and len(tax_account.children_tax_ids.mapped('account_id').mapped('id')) > 0:
-                vals['account_ids'] = [(6, _, tax_account.children_tax_ids.mapped('account_id').mapped('id'))]
-            elif len(tax_account.mapped('account_id').mapped('id')) > 0:
-                vals['account_ids'] = [(6, _, tax_account.mapped('account_id').mapped('id'))]
-        return super(account_financial_report, self).create(vals)
+        res = super(account_financial_report, self).create(vals)
+        res.account_ids |= res.tax_ids.mapped('children_tax_ids').mapped('account_id') | res.tax_ids.mapped('account_id')
+        return res
 
     @api.multi
     def write(self, vals):
+        res = super(account_financial_report, self).write(vals)
         if 'tax_ids' in vals:
-            tax_account = self.env['account.tax'].browse(vals['tax_ids'][0][2])
-            if tax_account.children_tax_ids and len(tax_account.children_tax_ids.mapped('account_id').mapped('id')) > 0:
-                vals['account_ids'] = [(6, _, tax_account.children_tax_ids.mapped('account_id').mapped('id'))]
-            elif len(tax_account.mapped('account_id').mapped('id')) > 0:
-                vals['account_ids'] = [(6, _, tax_account.mapped('account_id').mapped('id'))]
-        return super(account_financial_report, self).write(vals)
+            self.account_ids |= self.tax_ids.mapped('children_tax_ids').mapped('account_id') | self.tax_ids.mapped('account_id')
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
