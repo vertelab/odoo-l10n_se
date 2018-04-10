@@ -345,4 +345,10 @@ class account_account_type(models.Model):
                 user_type = 'account.data_account_type_expense'
         return self.env.ref(user_type) if user_type else None
 
+
+class account_fiscal_position(models.Model):
+    _inherit = 'account.fiscal.position'
+
+    name = fields.Char(string='Fiscal Position', required=True, translate=True)
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -35,10 +35,10 @@ _logger = logging.getLogger(__name__)
 
 class account_tax_esdk(models.Model):
     """
-      
+
       https://support.speedledger.se/hc/sv/articles/204207739-Momskoder
-      
-      
+      http://www.bas.se/kontoplaner/sru/vad-ar-sru-kopplingar/
+
     """
 
     _name = 'account.tax.esdk'
@@ -60,7 +60,7 @@ class account_tax_esdk(models.Model):
         readonly=True, states={'draft': [('readonly', False)]})
     description = fields.Text('Note', help="This will be included in the message")
 
- 
+
 
     @api.model
     def get_tax_sum(self,code):
@@ -111,7 +111,7 @@ class account_tax_code(models.Model):
         _logger.warning("This is tax  %s " % (','.join([str(p) for p in self._context['period_ids']])))
         self.sum_periods = amount[self.id]
     sum_periods = fields.Float('Periods Sum',compute='_sum_periods')
-    
+
 #----------------------------------------------------------
 # Field names
 #----------------------------------------------------------
@@ -119,7 +119,7 @@ class account_tax_code(models.Model):
 class account_esdk_code(models.Model):
     _name = 'account.esdk.code'
     _description = "Fields for eSDK forms"
-    
+
     name = fields.Char(string="Code")
     form_id = fields.Many2one('account.esdk.form')
     mandatory = fields.Boolean(string="Mandatory",default=False)
@@ -140,7 +140,7 @@ class account_esdk_code(models.Model):
         return [(model.model, model.name)
                 for model in models
                 if not model.model.startswith('ir.')]
-    
+
 #----------------------------------------------------------
 # Forms
 #----------------------------------------------------------
@@ -158,10 +158,10 @@ class account_esdk_form(models.Model):
                                 ], string='Target Moves', required=True)
     initial_bal = fields.Boolean(string="With initial balance")
     field_ids = fields.Many2many(comodel_name='account.esdk.code',)
-    
-    
+
+
     #~ comodel_name='res.users',
                             #~ relation='table_name',
                             #~ column1='col_name',
                             #~ column2='other_col_name'
-    
+

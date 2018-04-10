@@ -13,7 +13,7 @@
                 <field name="complete_tax_set" position="before">
                     <field name="bas_sru" />
                     <field name="bas_chart" />
-                    
+
                 </field>
 
             </field>
@@ -29,7 +29,7 @@
                 <filter string="Account Type" position="after">
                         <filter string="Chart Template" domain="[]" context="{'group_by':'chart_template_id'}"/>
                 </filter>
-                
+
 
                 <search string="Search Account Templates">
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Account Template"/>
@@ -92,6 +92,17 @@
                     <field name="reconcile"/>
                 </field>
 
+            </field>
+        </record>
+
+        <record id="view_move_line_tree" model="ir.ui.view">
+            <field name="name">account.move.line.tree.inherited.l10n_se</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="tax_code_id"/>
+                </field>
             </field>
         </record>
 
