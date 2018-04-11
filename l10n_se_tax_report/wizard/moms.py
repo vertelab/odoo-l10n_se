@@ -88,7 +88,6 @@ class moms_declaration_wizard(models.TransientModel):
             moms = etree.SubElement(root, 'Moms')
             period = etree.SubElement(moms, 'Period')
             period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            _logger.warn(recordsets.mapped('name'))
             for record in recordsets:
                 tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
                 tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
