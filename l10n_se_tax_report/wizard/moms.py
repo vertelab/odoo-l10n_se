@@ -20,10 +20,39 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
+from lxml import etree
+import base64
 from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
+
+NAMEMAPPING = {
+    u'MP1': u'MomsUtgHog',
+    u'MP2': u'MomsUtgMedel',
+    u'MP3': u'MomsUtgLag',
+    u'I': u'MomsInkopUtgHog',
+    u'I12': u'MomsInkopUtgMedel',
+    u'I6': u'MomsInkopUtgLag',
+    u'MBBUI': u'MomsUlagImport',
+    u'U1MBBUI': u'MomsImportUtgHog',
+    u'U2MBBUI': u'MomsImportUtgMedel',
+    u'U3MBBUI': u'MomsImportUtgLag',
+    u'MPFF': u'HyrinkomstFriv',
+    u'VTEU': u'ForsVaruAnnatEg',
+    u'E': u'ForsVaruUtomEg',
+    u'OMSS': u'ForsKopareSkskSverige',
+    u'FTEU': u'ForsTjOvrUtomEg',
+    u'VFEU': u'InkopVaruAnnatEg',
+    u'TFEU': u'InkopTjanstAnnatEg',
+    u'TFFU': u'InkopTjanstUtomEg',
+    u'IVIS': u'InkopVaruSverige',
+    u'ITIS': u'InkopTjanstSverige',
+    u'3VEU': u'InkopVaruMellan3p',
+    u'3FEU': u'ForsTjSkskAnnatEg',
+}
+
+TAXNOTINCLUD = [u'MP1i', u'MP2i', u'MP3i', u'Ii', u'I12i', u'I6i']
 
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
@@ -51,9 +80,24 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.one
     def _compute_eskd_file(self):
-        # TODO: find all account.tax with tax_group_id self.env.ref('account.tax_group_taxes').id
-        # make a mapping dictionary and find eSKD tags
-        self.eskd_file = None
+        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id), ('name', 'not in', TAXNOTINCLUD)])
+        def parse_xml(recordsets):
+            root = etree.Element('eSKDUpload', Version="6.0")
+            orgnr = etree.SubElement(root, 'OrgNr')
+            orgnr.text = self.env.user.company_id.company_registry
+            moms = etree.SubElement(root, 'Moms')
+            period = etree.SubElement(moms, 'Period')
+            period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
+            _logger.warn(recordsets.mapped('name'))
+            for record in recordsets:
+                tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
+                tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
+            free_text = etree.SubElement(moms, 'TextUpplysningMoms')
+            free_text.text = self.free_text or ''
+            return root
+        xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
+        xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">')
+        self.eskd_file = base64.b64encode(xml)
 
     @api.multi
     def create_eskd(self):
@@ -61,7 +105,7 @@ class moms_declaration_wizard(models.TransientModel):
             'type': 'ir.actions.report.xml',
             'report_type': 'controller',
             #for v9.0, 10.0
-            'report_file': '/web/content/moms.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]))
+            'report_file': '/web/content/moms.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'moms-%s.txt' %(self.period_start.date_start[:4] + self.period_start.date_start[5:7]))
             #for v7.0, v8.0
             #'report_file': '/web/binary/saveas?model=moms.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
         }

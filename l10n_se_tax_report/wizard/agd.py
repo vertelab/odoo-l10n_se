@@ -64,7 +64,7 @@ class agd_declaration_wizard(models.TransientModel):
                 tax = etree.SubElement(ag, record.name)
                 tax.text = str(int(abs(record.with_context({'period_id': self.period.id, 'state': self.target_move}).sum_period)))
             free_text = etree.SubElement(ag, 'TextUpplysningAg')
-            free_text.text = self.free_text
+            free_text.text = self.free_text or ''
             return root
         xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">')

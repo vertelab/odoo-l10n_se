@@ -502,10 +502,9 @@
             <field name="refund_account_id" ref="chart2640" />
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
-<!--
-        <record id="isum" model="account.tax.template">
+        <record id="MomsIngAvdr" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
-            <field name="name">ISUM</field>
+            <field name="name">MomsIngAvdr</field>
             <field name="description">Ingående moms att dra av</field>
             <field name="amount">0</field>
             <field name="amount_type">group</field>
@@ -513,17 +512,16 @@
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="children_tax_ids" eval="[(6, 0, [ref('i'),ref('ii'),ref('i12'),ref('i12i'),ref('i6'),ref('i6i')])]"/>
         </record>
-        <record id="r1" model="account.tax.template">
+        <record id="MomsBetala" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
-            <field name="name">R1</field>
-            <field name="description">Inköp 25%</field>
+            <field name="name">MomsBetala</field>
+            <field name="description">Moms att betala(+) eller få tillbaka(-)</field>
             <field name="amount">0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">purchase</field>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="children_tax_ids" eval="[(6, 0, [ref('u1'),ref('u2'),ref('u3'),ref('u1mi'),ref('u2mi'),ref('u3mi'),ref('u1mbbui'),ref('u2mbbui'),ref('u3mbbui')])]"/>
         </record>
--->
         <!--  with tab: found, without tab: not found
             description name
                 I   Inköp 25%
