@@ -14,10 +14,14 @@
                         <field name="free_text"/>
                     </group>
                     <group col="3">
-                        <field name="skattekonto"/>
-                        <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_account_moves"/>
+                        <field name="baskonto"/>
+                        <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_account_moves"/>
                         <field name="agavgpres"/>
-                        <button icon="terp-gtk-jump-to-ltr" help="Visa Verifikat" type="object" name="show_journal_items"/>
+                        <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_journal_items"/>
+                    </group>
+                    <group col="3">
+                        <field name="move_id"/>
+                        <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_entry"/>
                     </group>
                     <footer>
                         <button name="print_report" string="Skriv ut rapporten" type="object" class="oe_highlight"/>

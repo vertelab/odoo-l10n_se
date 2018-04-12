@@ -296,21 +296,21 @@
         <record id="chart2660" model="account.account.template">
             <field name="name">Särskilda punktskatter</field>
             <field name="code">2660</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="user_type_id" ref="l10n_se.tax" />
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="reconcile" eval="True" />
         </record>
         <record id="chart2710" model="account.account.template">
             <field name="name">Personalskatt</field>
             <field name="code">2710</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="user_type_id" ref="l10n_se.tax" />
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="reconcile" eval="True" />
         </record>
         <record id="chart2730" model="account.account.template">
             <field name="name">Lagstadgade sociala avgifter och särskild löneskatt</field>
             <field name="code">2730</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="user_type_id" ref="l10n_se.tax" />
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="reconcile" eval="True" />
         </record>

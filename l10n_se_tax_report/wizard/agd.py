@@ -32,7 +32,7 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.model
     def get_tax_account_domain(self):
-        return [('user_type_id', '=', self.env['account.account.type'].search([('type', '=', 'payable')]).id)]
+        return [('user_type_id', '=', self.env.ref('l10n_se.tax').id)]
 
     def _get_tax(self):
         user = self.env.user
@@ -42,13 +42,14 @@ class agd_declaration_wizard(models.TransientModel):
     def _get_year(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
 
-    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year', default=_get_year)
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_get_year)
     period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
-    skattekonto = fields.Float(string='Skattekontot', default=0.0, readonly=True)
+    baskonto = fields.Float(string='Baskonto', default=0.0, readonly=True, help='Avläsning av transationer från baskontoplanen.')
     agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
-    free_text = fields.Text(string='Text Upplysning')
+    free_text = fields.Text(string='Upplysningstext')
     eskd_file = fields.Binary(compute='_compute_eskd_file')
+    move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
 
     @api.one
     def _compute_eskd_file(self):
@@ -76,6 +77,8 @@ class agd_declaration_wizard(models.TransientModel):
             tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
             if tax_account:
                 self.agavgpres = tax_account.sum_period
+        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
+        self.baskonto = sum(accounts.get_balance(self.period) for accounts in tax_accounts)
 
     @api.multi
     def create_entry(self):
@@ -91,10 +94,11 @@ class agd_declaration_wizard(models.TransientModel):
                     'journal_id': self.env.ref('l10n_se.lonjournal').id,
                     'period_id': self.period.id,
                     'date': fields.Date.today(),
+                    'period_id': self.period.id,
                 })
                 if entry:
                     for k in kontoskatte:
-                        credit = k.get_debit_credit_balance(self.period, self.period).get('credit')
+                        credit = k.get_debit_credit_balance(self.period).get('credit')
                         if credit != 0.0:
                             self.env['account.move.line'].create({
                                 'name': k.name,
@@ -113,18 +117,24 @@ class agd_declaration_wizard(models.TransientModel):
                         'move_id': entry.id,
                     })
                     #~ return self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_journal_period_tree')
-                    return {
-                        'type': 'ir.actions.act_window',
-                        'res_model': 'account.move',
-                        'view_type': 'form',
-                        'view_mode': 'form',
-                        'view_id': self.env.ref('account.view_move_form').id,
-                        'res_id': entry.id,
-                        'target': 'current',
-                        'context': {}
-                    }
+                    self.move_id = entry.id
         else:
             raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+
+    @api.multi
+    def show_entry(self):
+        if not self.move_id:
+            raise Warning(_(u'Du måste skapa verifikat först'))
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': self.env.ref('account.view_move_form').id,
+            'res_id': self.move_id.id,
+            'target': 'new',
+            'context': {}
+        }
 
     @api.multi
     def create_eskd(self):
@@ -173,9 +183,23 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.multi
     def print_report(self):
-        account_tax_codes = self.env['account.tax'].search([])
-        data = {}
-        data['ids'] = account_tax_codes.mapped('id')
-        data['model'] = 'account.tax'
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'accounting.report',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': self.env.ref('account.accounting_report_view').id,
+            'target': 'new',
+            'domain': [],
+            'context': {
+                'default_account_report_id': self.env.ref('l10n_se_tax_report.agd_report').id,
+                'default_date_from': self.period.date_start,
+                'default_date_to': self.period.date_stop,
+            },
+        }
 
-        return self.env['report'].with_context({'period_id': self.period.id, 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_tax_report.ag_report_glabel').name, data=data)
+        #~ account_tax_codes = self.env['account.tax'].search([])
+        #~ data = {}
+        #~ data['ids'] = account_tax_codes.mapped('id')
+        #~ data['model'] = 'account.tax'
+        #~ return self.env['report'].with_context({'period_id': self.period.id, 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_tax_report.ag_report_glabel').name, data=data)

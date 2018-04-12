@@ -2716,7 +2716,7 @@
     <record id="K1_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.tax"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2732_2017" model="account.account.template">
@@ -10682,7 +10682,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.tax"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2732_2017" model="account.account.template">
@@ -18648,7 +18648,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.tax"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2732_2017" model="account.account.template">
@@ -26614,7 +26614,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2731_2017" model="account.account.template">
       <field name="name">Avräkning lagstadgade sociala avgifter </field>
       <field name="code">2731</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.tax"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2732_2017" model="account.account.template">

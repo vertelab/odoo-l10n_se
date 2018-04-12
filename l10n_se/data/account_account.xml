@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <record id="lonjournal" model="account.journal">
             <field name="name">Lönejournal</field>
             <field name="code">LÖN</field>
             <field name="type">general</field>
-            <field name="default_debit_account_id" search="[('code', '=', '7210')]" model="account.account" />
-            <field name="default_crebit_account_id" search="[('code', '=', '7210')]" model="account.account" />
+            <field name="default_debit_account_id" search="[('code', '=', '2821')]" model="account.account" />
+            <field name="default_crebit_account_id" search="[('code', '=', '2821')]" model="account.account" />
         </record>
     </data>
 </odoo>
