@@ -49,7 +49,7 @@ class agd_declaration_wizard(models.TransientModel):
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
     free_text = fields.Text(string='Upplysningstext')
     eskd_file = fields.Binary(compute='_compute_eskd_file')
-    move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
+    move_id = fields.Many2one(comodel_name='account.move', string='Verifikat')
 
     @api.one
     def _compute_eskd_file(self):
@@ -97,27 +97,30 @@ class agd_declaration_wizard(models.TransientModel):
                     'period_id': self.period.id,
                 })
                 if entry:
+                    move_line_list = []
                     for k in kontoskatte:
                         credit = k.get_debit_credit_balance(self.period, self.target_move).get('credit')
                         if credit != 0.0:
-                            self.env['account.move.line'].create({
+                            move_line_list.append((0, 0, {
                                 'name': k.name,
                                 'account_id': k.id,
                                 'debit': credit,
                                 'credit': 0.0,
                                 'move_id': entry.id,
-                            })
+                            }))
                             total += credit
-                    self.env['account.move.line'].create({
+                    move_line_list.append((0, 0, {
                         'name': skattekonto.name,
                         'account_id': skattekonto.id,
                         'partner_id': self.env.ref('base.res_partner-SKV').id,
                         'debit': 0.0,
                         'credit': total,
                         'move_id': entry.id,
+                    }))
+                    entry.write({
+                        'line_ids': move_line_list,
                     })
-                    #~ return self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_journal_period_tree')
-                    self.move_id = entry.id
+                    self.write({'move_id': entry.id}) # wizard disappeared
         else:
             raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
@@ -158,16 +161,16 @@ class agd_declaration_wizard(models.TransientModel):
             'res_model': 'account.move.line',
             'view_type': 'form',
             'view_mode': 'tree',
-            'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
+            'view_id': self.env.ref('account.view_move_line_tree').id,
             'target': 'current',
             'domain': domain,
-            'context': {'search_default_period_id': self.period.id}
+            'context': {'search_default_period_id': self.period.id},
         }
 
     @api.multi
     def show_journal_items(self):
-        tax_account = self.env['account.tax'].search([('name', '=', 'AgAvgPreS')])
-        domain = [('tax_code_id', 'child_of', tax_account.id)]
+        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
+        domain = [('move_id.period_id', '=', self.period.id), ('account_id', 'in', tax_accounts.mapped('id'))]
         if self.target_move in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self.target_move))
         return {
@@ -175,10 +178,10 @@ class agd_declaration_wizard(models.TransientModel):
             'res_model': 'account.move.line',
             'view_type': 'form',
             'view_mode': 'tree',
-            'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
+            'view_id': self.env.ref('account.view_move_line_tree').id,
             'target': 'current',
             'domain': domain,
-            'context': {'search_default_period_id': self.period.id}
+            'context': {'search_default_period_id': self.period.id},
         }
 
     @api.multi

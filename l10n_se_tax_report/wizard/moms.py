@@ -148,76 +148,80 @@ class moms_declaration_wizard(models.TransientModel):
                     'date': fields.Date.today(),
                 })
                 if entry:
+                    move_line_list = []
                     for k in kontomoms: # kollar på 26xx konton
                         balance = self._get_account_period_balance(k, self.period_start, self.period_stop, self.target_move)
                         if balance > 0.0: # ingående moms
-                            self.env['account.move.line'].create({
+                            move_line_list.append((0, 0, {
                                 'name': k.name,
                                 'account_id': k.id,
                                 'credit': balance,
                                 'debit': 0.0,
                                 'move_id': entry.id,
-                            })
+                            }))
                         if balance < 0.0: # utgående moms
-                            self.env['account.move.line'].create({
+                            move_line_list.append((0, 0, {
                                 'name': k.name,
                                 'account_id': k.id,
                                 'debit': abs(balance),
                                 'credit': 0.0,
                                 'move_id': entry.id,
-                            })
+                            }))
                         total += balance
                     if total > 0.0: # momsfordran, moms ska få tillbaka
-                        self.env['account.move.line'].create({
+                        move_line_list.append((0, 0, {
                             'name': momsfordran.name,
                             'account_id': momsfordran.id, # moms_journal.default_debit_account_id
                             'partner_id': '',
                             'debit': total,
                             'credit': 0.0,
                             'move_id': entry.id,
-                        })
-                        self.env['account.move.line'].create({
+                        }))
+                        move_line_list.append((0, 0, {
                             'name': momsfordran.name,
                             'account_id': momsfordran.id,
                             'partner_id': '',
                             'debit': 0.0,
                             'credit': total,
                             'move_id': entry.id,
-                        })
-                        self.env['account.move.line'].create({
+                        }))
+                        move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('base.res_partner-SKV').id,
                             'debit': total,
                             'credit': 0.0,
                             'move_id': entry.id,
-                        })
+                        }))
                     if total < 0.0: # moms redovisning, moms ska betalas in
-                        self.env['account.move.line'].create({
+                        move_line_list.append((0, 0, {
                             'name': momsskuld.name,
                             'account_id': momsskuld.id, # moms_journal.default_credit_account_id
                             'partner_id': '',
                             'debit': 0.0,
                             'credit': abs(total),
                             'move_id': entry.id,
-                        })
-                        self.env['account.move.line'].create({
+                        }))
+                        move_line_list.append((0, 0, {
                             'name': momsskuld.name,
                             'account_id': momsskuld.id,
                             'partner_id': '',
                             'debit': abs(total),
                             'credit': 0.0,
                             'move_id': entry.id,
-                        })
-                        self.env['account.move.line'].create({
+                        }))
+                        move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('base.res_partner-SKV').id,
                             'debit': 0.0,
                             'credit': abs(total),
                             'move_id': entry.id,
-                        })
-                    self.move_id = entry.id
+                        }))
+                    entry.write({
+                        'line_ids': move_line_list,
+                    })
+                    self.write({'move_id': entry.id}) # wizard disappeared
         else:
             raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
@@ -238,8 +242,8 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env.ref('l10n_se_tax_report.49').mapped('account_ids')
-        domain = [('account_id', 'in', tax_accounts.mapped('id')), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
+        tax_accounts = self.env.ref('l10n_se_tax_report.49').mapped('account_ids').with_context({'state': self.target_move})
+        domain = [('account_id', 'in', tax_accounts.mapped('id')), ('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
         if self.target_move in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self.target_move))
         return {
@@ -247,27 +251,25 @@ class moms_declaration_wizard(models.TransientModel):
             'res_model': 'account.move.line',
             'view_type': 'form',
             'view_mode': 'tree',
-            'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
+            'view_id': self.env.ref('account.view_move_line_tree').id,
             'target': 'current',
             'domain': domain,
-            'context': {}
+            'context': {},
         }
 
     @api.multi
     def show_journal_items(self):
-        tax_account = self.env['account.tax'].search([('name', 'in', ['aR1','bR1','R1'])])
-        domain = [('tax_code_id', 'child_of', tax_account.id), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
-        if self.target_move in ['draft', 'posted']:
-            domain.append(('move_id.state', '=', self.target_move))
+        tax_accounts = self.env['account.tax'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
+        domain = [('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop)), ('account_id', 'in', tax_accounts.mapped('id'))]
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
             'view_type': 'form',
             'view_mode': 'tree',
-            'view_id': self.env['ir.model.data'].get_object_reference('account', 'view_move_line_tree')[1],
+            'view_id': self.env.ref('account.view_move_line_tree').id,
             'target': 'current',
             'domain': domain,
-            'context': {}
+            'context': {},
         }
 
     @api.multi
