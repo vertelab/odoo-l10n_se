@@ -78,7 +78,7 @@ class agd_declaration_wizard(models.TransientModel):
             if tax_account:
                 self.agavgpres = tax_account.sum_period
         tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
-        self.baskonto = sum(accounts.get_balance(self.period) for accounts in tax_accounts)
+        self.baskonto = sum(accounts.get_balance(self.period, self.target_move) for accounts in tax_accounts)
 
     @api.multi
     def create_entry(self):
@@ -98,7 +98,7 @@ class agd_declaration_wizard(models.TransientModel):
                 })
                 if entry:
                     for k in kontoskatte:
-                        credit = k.get_debit_credit_balance(self.period).get('credit')
+                        credit = k.get_debit_credit_balance(self.period, self.target_move).get('credit')
                         if credit != 0.0:
                             self.env['account.move.line'].create({
                                 'name': k.name,

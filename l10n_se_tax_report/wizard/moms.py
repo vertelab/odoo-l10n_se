@@ -57,10 +57,6 @@ TAXNOTINCLUD = [u'MP1i', u'MP2i', u'MP3i', u'Ii', u'I12i', u'I6i']
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
 
-    @api.model
-    def get_tax_account_domain(self):
-        return [('code', 'not in', ['2650', '1650', '1630']), ('user_type_id', '=', self.env['account.account.type'].search([('type', '=', 'liability')]).id)]
-
     def _get_tax(self):
         user = self.env.user
         taxes = self.env['account.tax'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
@@ -111,12 +107,15 @@ class moms_declaration_wizard(models.TransientModel):
         }
 
     def get_period_ids(self, period_start, period_stop):
-        if period_stop.date_start < period_start.date_start:
+        if period_stop and period_stop.date_start < period_start.date_start:
             raise Warning('Stop period must be after start period')
         if period_stop.date_start == period_start.date_start:
             return [period_start.id]
         else:
             return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop)])]
+
+    def _get_account_period_balance(self, account, period_start, period_stop, target_move):
+        return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))
 
     @api.onchange('period_start', 'period_stop', 'target_move')
     def read_account(self):
@@ -125,12 +124,14 @@ class moms_declaration_wizard(models.TransientModel):
             for p in self.get_period_ids(self.period_start, self.period_stop):
                 tax_account += sum(self.env['account.tax'].with_context({'period_id': p, 'state': self.target_move}).search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)]).mapped('sum_period'))
             self.br1 = tax_account
-        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
-        self.baskonto = sum(accounts.get_balance(self.period) for accounts in tax_accounts)
+        sum_baskonto = 0.0
+        for account in self.env.ref('l10n_se_tax_report.49').mapped('account_ids'):
+            sum_baskonto += self._get_account_period_balance(account, self.period_start, self.period_stop, self.target_move)
+        self.baskonto = sum_baskonto
 
     @api.multi
     def create_entry(self):
-        kontomoms = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).search(self.get_tax_account_domain())
+        kontomoms = self.env.ref('l10n_se_tax_report.49').mapped('account_ids')
         momsskuld = self.env['account.account'].search([('code', '=', '2650')])
         momsfordran = self.env['account.account'].search([('code', '=', '1650')])
         skattekonto = self.env['account.account'].search([('code', '=', '1630')])
@@ -148,23 +149,24 @@ class moms_declaration_wizard(models.TransientModel):
                 })
                 if entry:
                     for k in kontomoms: # kollar på 26xx konton
-                        if k.balance > 0.0: # ingående moms
+                        balance = self._get_account_period_balance(k, self.period_start, self.period_stop, self.target_move)
+                        if balance > 0.0: # ingående moms
                             self.env['account.move.line'].create({
                                 'name': k.name,
                                 'account_id': k.id,
-                                'credit': k.balance,
+                                'credit': balance,
                                 'debit': 0.0,
                                 'move_id': entry.id,
                             })
-                        if k.balance < 0.0: # utgående moms
+                        if balance < 0.0: # utgående moms
                             self.env['account.move.line'].create({
                                 'name': k.name,
                                 'account_id': k.id,
-                                'debit': abs(k.balance),
+                                'debit': abs(balance),
                                 'credit': 0.0,
                                 'move_id': entry.id,
                             })
-                        total += k.balance
+                        total += balance
                     if total > 0.0: # momsfordran, moms ska få tillbaka
                         self.env['account.move.line'].create({
                             'name': momsfordran.name,
@@ -236,7 +238,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
+        tax_accounts = self.env.ref('l10n_se_tax_report.49').mapped('account_ids')
         domain = [('account_id', 'in', tax_accounts.mapped('id')), ('period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
         if self.target_move in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self.target_move))
