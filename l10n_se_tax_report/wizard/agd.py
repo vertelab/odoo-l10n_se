@@ -49,7 +49,43 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.one
     def _compute_eskd_file(self):
-        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag'])])
+        # order must be correct:
+        #~ <Period>201804</Period>
+        #~ <LonBrutto>0</LonBrutto>
+        #~ <Forman>0</Forman>
+        #~ <AvdrKostn>0</AvdrKostn>
+        #~ <SumUlagAvg>0</SumUlagAvg>
+        #~ <UlagAvgHel>0</UlagAvgHel>
+        #~ <AvgHel>0</AvgHel>
+        #~ <UlagAvgAldersp>0</UlagAvgAldersp>
+        #~ <AvgAldersp>0</AvgAldersp>
+        #~ <UlagAlderspSkLon>0</UlagAlderspSkLon>
+        #~ <AvgAlderspSkLon>0</AvgAlderspSkLon>
+        #~ <UlagSkLonSarsk>0</UlagSkLonSarsk>
+        #~ <SkLonSarsk>0</SkLonSarsk>
+        #~ <UlagAvgAmbassad>0</UlagAvgAmbassad>
+        #~ <AvgAmbassad>0</AvgAmbassad>
+        #~ <KodAmerika>0</KodAmerika>
+        #~ <UlagAvgAmerika>0</UlagAvgAmerika>
+        #~ <AvgAmerika>0</AvgAmerika>
+        #~ <UlagStodForetag>0</UlagStodForetag>
+        #~ <AvdrStodForetag>0</AvdrStodForetag>
+        #~ <UlagStodUtvidgat>0</UlagStodUtvidgat>
+        #~ <AvdrStodUtvidgat>0</AvdrStodUtvidgat>
+        #~ <SumAvgBetala>0</SumAvgBetala>
+        #~ <UlagSkAvdrLon>0</UlagSkAvdrLon>
+        #~ <SkAvdrLon>0</SkAvdrLon>
+        #~ <UlagSkAvdrPension>0</UlagSkAvdrPension>
+        #~ <SkAvdrPension>0</SkAvdrPension>
+        #~ <UlagSkAvdrRanta>0</UlagSkAvdrRanta>
+        #~ <SkAvdrRanta>0</SkAvdrRanta>
+        #~ <UlagSumSkAvdr>0</UlagSumSkAvdr>
+        #~ <SumSkAvdr>0</SumSkAvdr>
+        #~ <SjukLonKostnEhs>0</SjukLonKostnEhs>
+        #~ <TextUpplysningAg></TextUpplysningAg>
+
+        # account should not included: AgBrutU, AgAvgU, AgAvgAv, AgAvg, AgAvd, AgAvdU, AgAvgPreS, AgPre, UlagVXLon, AvgVXLon
+        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
         def parse_xml(recordsets):
             root = etree.Element('eSKDUpload', Version="6.0")
             orgnr = etree.SubElement(root, 'OrgNr')
@@ -60,6 +96,8 @@ class agd_declaration_wizard(models.TransientModel):
             for record in recordsets:
                 tax = etree.SubElement(ag, record.name)
                 tax.text = str(int(abs(record.with_context({'period_id': self.period.id, 'state': self.target_move}).sum_period)))
+            kodamerika = etree.SubElement(ag, 'KodAmerika') # KodAmerika not exists
+            kodamerika.text = '0'
             free_text = etree.SubElement(ag, 'TextUpplysningAg')
             free_text.text = self.free_text or ''
             return root
