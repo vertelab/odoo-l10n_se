@@ -112,7 +112,7 @@ class moms_declaration_wizard(models.TransientModel):
         if period_stop.date_start == period_start.date_start:
             return [period_start.id]
         else:
-            return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop)])]
+            return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop), ('special', '=', False)])]
 
     def _get_account_period_balance(self, account, period_start, period_stop, target_move):
         return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))

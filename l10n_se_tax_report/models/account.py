@@ -51,11 +51,14 @@ class account_tax(models.Model):
         domain = []
         if self._context.get('period_id'):
             period = self.env['account.period'].browse(self._context.get('period_id'))
-            domain += [('date', '>=', period.date_start), ('date', '<=', period.date_stop)]
+            domain += [('move_id.period_id', '=', self._context.get('period_id'))]
+            #~ domain += [('date', '>=', period.date_start), ('date', '<=', period.date_stop)]
         if self._context.get('period_from') and self._context.get('period_to'):
-            period_from = self.env['account.period'].browse(self._context.get('period_from'))
-            period_to = self.env['account.period'].browse(self._context.get('period_to'))
-            domain += [('date', '>=', period_from.date_start), ('date', '<=', period_to.date_stop)]
+            #~ period_from = self.env['account.period'].browse(self._context.get('period_from'))
+            #~ period_to = self.env['account.period'].browse(self._context.get('period_to'))
+            #~ domain += [('date', '>=', period_from.date_start), ('date', '<=', period_to.date_stop)]
+            periods = self.env['account.period'].search([('date_start', '>=', self._context.get('period_from')), ('date_stop', '<=', self._context.get('period_to')), ('special', '=', False)])
+            domain += [('move_id.period_id', 'in', periods.mapped('id'))]
         if self._context.get('state'):
             if self._context.get('state') != 'all':
                 domain.append(tuple(('move_id.state', '=', self._context.get('state'))))
