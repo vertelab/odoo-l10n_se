@@ -30,10 +30,6 @@ _logger = logging.getLogger(__name__)
 class agd_declaration_wizard(models.TransientModel):
     _name = 'agd.declaration.wizard'
 
-    @api.model
-    def get_tax_account_domain(self):
-        return [('user_type_id', '=', self.env.ref('l10n_se.tax').id)]
-
     def _get_tax(self):
         user = self.env.user
         taxes = self.env['account.tax'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
@@ -71,14 +67,27 @@ class agd_declaration_wizard(models.TransientModel):
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">')
         self.eskd_file = base64.b64encode(xml)
 
+    @api.multi
+    def create_eskd(self):
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_type': 'controller',
+            #for v9.0, 10.0
+            'report_file': '/web/content/agd.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]))
+            #for v7.0, v8.0
+            #'report_file': '/web/binary/saveas?model=agd.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
+        }
+
     @api.onchange('period', 'target_move')
     def read_account(self):
         if self.period:
             tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
             if tax_account:
                 self.agavgpres = tax_account.sum_period
-        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
-        self.baskonto = sum(accounts.get_balance(self.period, self.target_move) for accounts in tax_accounts)
+                sum_baskonto = 0.0
+                for account in self.env['account.financial.report'].search([('tax_ids', 'in', tax_account.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids'):
+                    sum_baskonto += account.get_balance(self.period, self.target_move)
+                self.baskonto = sum_baskonto
 
     @api.multi
     def create_entry(self):
@@ -140,20 +149,9 @@ class agd_declaration_wizard(models.TransientModel):
         }
 
     @api.multi
-    def create_eskd(self):
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_type': 'controller',
-            #for v9.0, 10.0
-            'report_file': '/web/content/agd.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]))
-            #for v7.0, v8.0
-            #'report_file': '/web/binary/saveas?model=agd.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
-        }
-
-    @api.multi
     def show_account_moves(self):
-        tax_accounts = self.env['account.account'].search(self.get_tax_account_domain())
-        domain = [('account_id', 'in', tax_accounts.mapped('id'))]
+        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
+        domain = [('move_id.period_id', '=', self.period.id), ('account_id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))]
         if self.target_move in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self.target_move))
         return {
@@ -169,20 +167,7 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_journal_items(self):
-        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        domain = [('move_id.period_id', '=', self.period.id), ('account_id', 'in', tax_accounts.mapped('id'))]
-        if self.target_move in ['draft', 'posted']:
-            domain.append(('move_id.state', '=', self.target_move))
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move.line',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'view_id': self.env.ref('account.view_move_line_tree').id,
-            'target': 'current',
-            'domain': domain,
-            'context': {'search_default_period_id': self.period.id},
-        }
+        return self.show_account_moves()
 
     @api.multi
     def print_report(self):

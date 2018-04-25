@@ -124,10 +124,10 @@ class moms_declaration_wizard(models.TransientModel):
             for p in self.get_period_ids(self.period_start, self.period_stop):
                 tax_account += sum(self.env['account.tax'].with_context({'period_id': p, 'state': self.target_move}).search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)]).mapped('sum_period'))
             self.br1 = tax_account
-        sum_baskonto = 0.0
-        for account in self.env.ref('l10n_se_tax_report.49').mapped('account_ids'):
-            sum_baskonto += self._get_account_period_balance(account, self.period_start, self.period_stop, self.target_move)
-        self.baskonto = sum_baskonto
+            sum_baskonto = 0.0
+            for account in self.env.ref('l10n_se_tax_report.49').mapped('account_ids'):
+                sum_baskonto += self._get_account_period_balance(account, self.period_start, self.period_stop, self.target_move)
+            self.baskonto = sum_baskonto
 
     @api.multi
     def create_entry(self):
@@ -243,7 +243,7 @@ class moms_declaration_wizard(models.TransientModel):
     @api.multi
     def show_account_moves(self):
         tax_accounts = self.env.ref('l10n_se_tax_report.49').mapped('account_ids').with_context({'state': self.target_move})
-        domain = [('account_id', 'in', tax_accounts.mapped('id')), ('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop))]
+        domain = [('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop)), ('account_id', 'in', tax_accounts.mapped('id'))]
         if self.target_move in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self.target_move))
         return {
@@ -259,8 +259,10 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.multi
     def show_journal_items(self):
-        tax_accounts = self.env['account.tax'].with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
-        domain = [('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop)), ('account_id', 'in', tax_accounts.mapped('id'))]
+        tax_accounts = self.env['account.tax'].browse()
+        for p in self.get_period_ids(self.period_start, self.period_stop):
+            tax_accounts |= self.env['account.tax'].with_context({'period_id': p, 'state': self.target_move}).search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
+        domain = [('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop)), ('account_id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))]
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
