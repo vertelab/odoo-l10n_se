@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="bgc" model="res.partner">
+            <field name="name">Bankgirot</field>
+            <field name="supplier">1</field>
+            <field eval="0" name="customer"/>
+            <field name="is_company">1</field>
+            <field name="city">Stockholm</field>
+            <field name="zip">10519</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="street">Mejerivägen 1</field>
+            <field name="email"></field>
+            <field name="phone">08-725 60 00</field>
+            <field name="website">http://www.bankgirot.se</field>
+            <field name="image" type="base64" file="l10n_se_bgmax/static/src/img/bankgirot-logo.png"/>
+        </record>
+    </data>
+</odoo>
