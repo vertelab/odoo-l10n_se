@@ -518,7 +518,7 @@
             <field name="description">Moms att betala(+) eller få tillbaka(-)</field>
             <field name="amount">0</field>
             <field name="amount_type">group</field>
-            <field name="type_tax_use">purchase</field>
+            <field name="type_tax_use">sale</field>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="children_tax_ids" eval="[(6, 0, [ref('u1'),ref('u2'),ref('u3'),ref('u1mi'),ref('u2mi'),ref('u3mi'),ref('u1mbbui'),ref('u2mbbui'),ref('u3mbbui')])]"/>
         </record>
@@ -625,6 +625,7 @@
             'account_id': template.account_id.id,
             'refund_account_id': template.refund_account_id.id,
             'tax_group_id': template.tax_group_id.id,
+            'children_tax_ids': [(6, 0, template.children_tax_ids.mapped('id'))] if len(template.children_tax_ids) > 0 else None,
         })
     else:
         env['account.tax'].create({
@@ -637,6 +638,7 @@
             'account_id': template.account_id.id,
             'refund_account_id': template.refund_account_id.id,
             'tax_group_id': template.tax_group_id.id,
+            'children_tax_ids': [(6, 0, template.children_tax_ids.mapped('id'))] if len(template.children_tax_ids) > 0 else None,
         })
             </field>
         </record>
