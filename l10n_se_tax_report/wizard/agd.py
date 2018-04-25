@@ -84,6 +84,8 @@ class agd_declaration_wizard(models.TransientModel):
         #~ <SjukLonKostnEhs>0</SjukLonKostnEhs>
         #~ <TextUpplysningAg></TextUpplysningAg>
 
+        tags = ['LonBrutto', 'Forman', 'AvdrKostn', 'SumUlagAvg', 'UlagAvgHel', 'AvgHel', 'UlagAvgAldersp', 'AvgAldersp', 'UlagAlderspSkLon', 'AvgAlderspSkLon', 'UlagSkLonSarsk', 'SkLonSarsk', 'UlagAvgAmbassad', 'AvgAmbassad', 'KodAmerika', 'UlagAvgAmerika', 'AvgAmerika', 'UlagStodForetag', 'AvdrStodForetag', 'UlagStodUtvidgat', 'AvdrStodUtvidgat', 'SumAvgBetala', 'UlagSkAvdrLon', 'SkAvdrLon', 'UlagSkAvdrPension', 'SkAvdrPension', 'UlagSkAvdrRanta', 'SkAvdrRanta', 'UlagSumSkAvdr', 'SumSkAvdr', 'SjukLonKostnEhs']
+
         # account should not included: AgBrutU, AgAvgU, AgAvgAv, AgAvg, AgAvd, AgAvdU, AgAvgPreS, AgPre, UlagVXLon, AvgVXLon
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
         def parse_xml(recordsets):
@@ -93,11 +95,13 @@ class agd_declaration_wizard(models.TransientModel):
             ag = etree.SubElement(root, 'Ag')
             period = etree.SubElement(ag, 'Period')
             period.text = self.period.date_start[:4] + self.period.date_start[5:7]
-            for record in recordsets:
-                tax = etree.SubElement(ag, record.name)
-                tax.text = str(int(abs(record.with_context({'period_id': self.period.id, 'state': self.target_move}).sum_period)))
-            kodamerika = etree.SubElement(ag, 'KodAmerika') # KodAmerika not exists
-            kodamerika.text = '0'
+            for tag in tags:
+                tax = etree.SubElement(ag, tag)
+                acc = self.env['account.tax'].search([('name', '=', tag)])
+                if acc:
+                    tax.text = str(int(abs(acc.with_context({'period_id': self.period.id, 'state': self.target_move}).sum_period)))
+                else:
+                    tax.text = '0'
             free_text = etree.SubElement(ag, 'TextUpplysningAg')
             free_text.text = self.free_text or ''
             return root
