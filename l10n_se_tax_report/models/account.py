@@ -57,7 +57,7 @@ class account_tax(models.Model):
             #~ period_from = self.env['account.period'].browse(self._context.get('period_from'))
             #~ period_to = self.env['account.period'].browse(self._context.get('period_to'))
             #~ domain += [('date', '>=', period_from.date_start), ('date', '<=', period_to.date_stop)]
-            periods = self.env['account.period'].search([('date_start', '>=', self._context.get('period_from')), ('date_stop', '<=', self._context.get('period_to')), ('special', '=', False)])
+            periods = self.env['account.period'].search([('date_start', '>=', self.env['account.period'].browse(self._context.get('period_from')).date_start), ('date_stop', '<=', self.env['account.period'].browse(self._context.get('period_to')).date_stop), ('special', '=', False)])
             domain += [('move_id.period_id', 'in', periods.mapped('id'))]
         if self._context.get('state'):
             if self._context.get('state') != 'all':
