@@ -131,13 +131,14 @@ class agd_declaration_wizard(models.TransientModel):
     @api.multi
     def create_entry(self):
         tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('move_id.period_id', '=', self.period.id), ('account_id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
-        skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-        if len(kontoskatte) > 0 and skattekonto:
-            agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_report.agd_journal')
-            if not agd_journal_id:
-                raise Warning('Konfigurera din arbetsgivardeklaration journal!')
-            else:
+        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
+        agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
+        if not agd_journal_id:
+            raise Warning('Konfigurera din arbetsgivardeklaration journal!')
+        else:
+            agd_journal = self.env['account.journal'].browse(agd_journal_id)
+            skattekonto = agd_journal.default_debit_account_id
+            if len(kontoskatte) > 0 and skattekonto:
                 total = 0.0
                 entry = self.env['account.move'].create({
                     'journal_id': self.env.ref('l10n_se.lonjournal').id,
@@ -170,8 +171,8 @@ class agd_declaration_wizard(models.TransientModel):
                         'line_ids': move_line_list,
                     })
                     self.write({'move_id': entry.id}) # wizard disappeared
-        else:
-            raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+            else:
+                raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
     @api.multi
     def show_entry(self):

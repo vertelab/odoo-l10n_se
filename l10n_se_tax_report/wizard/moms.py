@@ -151,16 +151,16 @@ class moms_declaration_wizard(models.TransientModel):
     @api.multi
     def create_entry(self):
         kontomoms = self.env.ref('l10n_se_tax_report.49').mapped('account_ids')
-        momsskuld = self.env['account.account'].search([('code', '=', '2650')])
-        momsfordran = self.env['account.account'].search([('code', '=', '1650')])
-        skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-        if len(kontomoms) > 0 and momsskuld and momsfordran and skattekonto:
-            total = 0.0
-            moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_report.moms_journal')
-            if not moms_journal_id:
-                raise Warning('Konfigurera din momsdeklaration journal!')
-            else:
-                moms_journal = self.env['account.journal'].browse(moms_journal_id)
+        moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
+        if not moms_journal_id:
+            raise Warning('Konfigurera din momsdeklaration journal!')
+        else:
+            moms_journal = self.env['account.journal'].browse(moms_journal_id)
+            momsskuld = moms_journal.default_crebit_account_id
+            momsfordran = moms_journal.default_debit_account_id
+            skattekonto = self.env['account.account'].search([('code', '=', '1630')])
+            if len(kontomoms) > 0 and momsskuld and momsfordran and skattekonto:
+                total = 0.0
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
                     'period_id': self.period_start.id,
@@ -241,8 +241,8 @@ class moms_declaration_wizard(models.TransientModel):
                         'line_ids': move_line_list,
                     })
                     self.write({'move_id': entry.id}) # wizard disappeared
-        else:
-            raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
+            else:
+                raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
     @api.multi
     def show_entry(self):
