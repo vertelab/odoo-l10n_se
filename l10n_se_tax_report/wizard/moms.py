@@ -155,8 +155,8 @@ class moms_declaration_wizard(models.TransientModel):
         if not moms_journal_id:
             raise Warning('Konfigurera din momsdeklaration journal!')
         else:
-            moms_journal = self.env['account.journal'].browse(moms_journal_id)
-            momsskuld = moms_journal.default_crebit_account_id
+            moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
+            momsskuld = moms_journal.default_credit_account_id
             momsfordran = moms_journal.default_debit_account_id
             skattekonto = self.env['account.account'].search([('code', '=', '1630')])
             if len(kontomoms) > 0 and momsskuld and momsfordran and skattekonto:

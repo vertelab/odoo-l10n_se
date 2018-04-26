@@ -136,15 +136,14 @@ class agd_declaration_wizard(models.TransientModel):
         if not agd_journal_id:
             raise Warning('Konfigurera din arbetsgivardeklaration journal!')
         else:
-            agd_journal = self.env['account.journal'].browse(agd_journal_id)
+            agd_journal = self.env['account.journal'].browse(int(agd_journal_id))
             skattekonto = agd_journal.default_debit_account_id
             if len(kontoskatte) > 0 and skattekonto:
                 total = 0.0
                 entry = self.env['account.move'].create({
-                    'journal_id': self.env.ref('l10n_se.lonjournal').id,
+                    'journal_id': agd_journal.id,
                     'period_id': self.period.id,
                     'date': fields.Date.today(),
-                    'period_id': self.period.id,
                 })
                 if entry:
                     move_line_list = []

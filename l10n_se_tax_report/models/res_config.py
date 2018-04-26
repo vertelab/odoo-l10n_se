@@ -33,16 +33,16 @@ class account_config_settings(models.TransientModel):
     def set_custom_parameters(self):
         config_parameters = self.env['ir.config_parameter']
         if self.agd_journal:
-            config_parameters.set_param(key="l10n_se_report.agd_journal", value=str(self.agd_journal.id))
+            config_parameters.set_param(key="l10n_se_tax_report.agd_journal", value=str(self.agd_journal.id))
         if self.moms_journal:
-            config_parameters.set_param(key="l10n_se_report.moms_journal", value=str(self.moms_journal.id))
+            config_parameters.set_param(key="l10n_se_tax_report.moms_journal", value=str(self.moms_journal.id))
 
     @api.model
     def get_default_custom_parameters(self, fields=None):
         icp = self.env['ir.config_parameter']
         return {
-            'agd_journal': int(icp.get_param(key='l10n_se_report.agd_journal', default='0')) or False,
-            'moms_journal': int(icp.get_param(key='l10n_se_report.moms_journal', default='0')) or False,
+            'agd_journal': int(icp.get_param(key='l10n_se_tax_report.agd_journal', default='0')) or False,
+            'moms_journal': int(icp.get_param(key='l10n_se_tax_report.moms_journal', default='0')) or False,
         }
 
 
