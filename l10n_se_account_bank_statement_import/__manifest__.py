@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
-#    Copyright (C) 2013-2016 Vertel (<http://vertel.se>).
+#    Copyright (C) 2018 Vertel (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,42 +20,17 @@
 ##############################################################################
 
 {
-    'name': 'BgMax Format Bank Statements Import',
+    'name': 'Swedish Account Bank Statement Import',
     'version': '10.0.1',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['l10n_se_account_bank_statement_import'],
+    'depends': ['account_bank_statement_import'],
     'data': [
-        'account_bank_statement_data.xml',
-        'account_bank_statement_view.xml',
     ],
-    'summary': 'BgMax Format Bank Statements Import',
+    'summary': 'Swedish Account Bank Statement Import',
     'description': """
-        Reading BgMax formated files from Bankgirocentralen.
-
-
-        There are some problems with the oca class AcountBankStatementImport
-        from OCA bank-statement-import/account_bank_statement_import/models/account_bank_statement_import.py
-        change pop to get:
-
-        140,141c140,141
-<         currency_code = stmt_vals.pop('currency_code')
-<         account_number = stmt_vals.pop('account_number')
----
->         currency_code = stmt_vals.get('currency_code')
->         account_number = stmt_vals.get('account_number')
-328c328
-<         for line_vals in stmt_vals['transactions']:
----
->         for line_vals in stmt_vals.get('transactions',[]):
-380c380
-<         for line_vals in stmt_vals['transactions']:
----
->         for line_vals in stmt_vals.get('transactions',[]):
-
-
         """,
     'installable': 'True',
     'application': 'False',
