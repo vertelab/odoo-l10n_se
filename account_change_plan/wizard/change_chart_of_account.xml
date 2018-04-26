@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    
+    <record id="form_wizard_object_usage" model="ir.ui.view">
+        <field name="name">view.wizard.object.usage.form</field>
+        <field name="model">wizard.object.usage</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="model_id"/>
+                    <field name="filter"/>
+                    <field name="results"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_wizard_multi_chart" model="ir.actions.act_window">
+        <field name="name">Find Model Usage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wizard.object.usage</field>
+        <field name="view_id" ref="form_wizard_object_usage"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+  </data>
+  
+  <menuitem id="menu_wizard_multi_chart" name="Find Model Usage"
+            parent="base.next_id_9"
+            action="action_wizard_multi_chart" sequence="100"/>
+  
+  <data noupdate="0">
+    
+    <record id="update_charts_accounts" model="ir.actions.server">
+            <field name="name">Update accounting plan</field>
+            <field name="model_id" ref="base.model_ir_actions_server"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="code">### These values must be specified by the user. ###
+company_id = env['res.company'].browse(1)
+chart_template_id = env.ref('l10n_se.chart_template_K3_2017')
+sale_tax_rate = purchase_tax_rate = 25
+
+
+### Fetch defaults from company. ###
+currency_id = company_id.currency_id
+transfer_account_id = company_id.transfer_account_id
+bank_account_code_prefix = company_id.bank_account_code_prefix
+cash_account_code_prefix = company_id.cash_account_code_prefix
+code_digits = company_id.accounts_code_digits
+
+
+### update taxes ###
+ir_values = env['ir.values']
+taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id = company_id.id)
+supplier_taxes_id = ir_values.get_default('product.template', 'supplier_taxes_id', company_id = company_id.id)
+default_sale_tax_id = isinstance(taxes_id, list) and len(taxes_id) &gt; 0 and taxes_id[0] or taxes_id
+default_purchase_tax_id = isinstance(supplier_taxes_id, list) and len(supplier_taxes_id) &gt; 0 and supplier_taxes_id[0] or supplier_taxes_id
+
+
+### Fetch defaults from coa. ###
+tax_templ_obj = env['account.tax.template']
+complete_tax_set = sale_tax_id = purchase_tax_id = False
+# update complete_tax_set, sale_tax_id and purchase_tax_id
+complete_tax_set = chart_template_id.complete_tax_set
+if chart_template_id.complete_tax_set:
+    ir_values_obj = env['ir.values']
+    # default tax is given by the lowest sequence. For same sequence we will take the latest created as it will be the case for tax created while isntalling the generic chart of account
+    sale_tax = tax_templ_obj.search(
+        [('chart_template_id', 'parent_of', chart_template_id.id), ('type_tax_use', '=', 'sale')], limit=1,
+        order="sequence, id desc")
+    purchase_tax = tax_templ_obj.search(
+        [('chart_template_id', 'parent_of', chart_template_id.id), ('type_tax_use', '=', 'purchase')], limit=1,
+        order="sequence, id desc")
+    sale_tax_id = sale_tax
+    purchase_tax_id = purchase_tax
+if chart_template_id.code_digits:
+    code_digits = chart_template_id.code_digits
+if chart_template_id.transfer_account_id:
+    template_transfer_account_id = chart_template_id.transfer_account_id
+if chart_template_id.bank_account_code_prefix:
+    bank_account_code_prefix = chart_template_id.bank_account_code_prefix
+if chart_template_id.cash_account_code_prefix:
+    cash_account_code_prefix = chart_template_id.cash_account_code_prefix
+
+values = {
+    'company_id': company_id.id,
+    'chart_template_id': chart_template_id.id,
+    'transfer_account_id': template_transfer_account_id.id,
+    'code_digits': code_digits or 6,
+    'sale_tax_id': sale_tax_id.id,
+    'purchase_tax_id': purchase_tax_id.id,
+    'sale_tax_rate': sale_tax_rate,
+    'purchase_tax_rate': purchase_tax_rate,
+    'complete_tax_set': complete_tax_set,
+    'currency_id': currency_id.id,
+    'bank_account_code_prefix': bank_account_code_prefix or chart_template_id.bank_account_code_prefix,
+    'cash_account_code_prefix': cash_account_code_prefix or chart_template_id.cash_account_code_prefix,
+}
+
+
+### Enter object mappings here. ###
+# This will make the accounting templates overwrite existing objects instead of creating new ones.
+mappings = {}
+
+# Example
+#~ mappings = {
+    #~ 'account.account': {
+        #~ 'l10n_se.account_template_1930': 42,
+    #~ },
+    #~ 'account.tax': {
+        #~ 'l10n_se.account_tax_template_mp1': 5,
+        #~ 'l10n_se.account_tax_template_mp2': 23,
+    #~ },
+#~ }
+
+
+### Look before you leap. ###
+raise Warning(str(values))
+
+
+### Last chance to set values! ###
+wizard = env['wizard.change.charts.accounts'].create(values)
+
+
+### Perform changes ###
+wizard.with_context(change_chart_mapping=mappings).execute()
+
+            </field>
+        </record>
+    
+  </data>
+</openerp>
