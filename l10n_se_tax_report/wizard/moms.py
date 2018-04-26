@@ -22,35 +22,44 @@
 from odoo import models, fields, api, _
 from lxml import etree
 import base64
+from collections import OrderedDict
 from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
+#~ ['ForsMomsEjAnnan', 'UttagMoms', 'UlagMargbesk', 'HyrinkomstFriv', 'InkopVaruAnnatEg', 'InkopTjanstAnnatEg', 'InkopTjanstUtomEg', 'InkopVaruSverige', 'InkopTjanstSverige', 'MomsUlagImport', 'ForsVaruAnnatEg', 'ForsVaruUtomEg', 'InkopVaruMellan3p', 'ForsVaruMellan3p', 'ForsTjSkskAnnatEg', 'ForsTjOvrUtomEg', 'ForsKopareSkskSverige', 'ForsOvrigt', 'MomsUtgHog', 'MomsUtgMedel', 'MomsUtgLag', 'MomsInkopUtgHog', 'MomsInkopUtgMedel', 'MomsInkopUtgLag', 'MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag', 'MomsIngAvdr', 'MomsBetala']
 
-NAMEMAPPING = {
-    u'MP1': u'MomsUtgHog',
-    u'MP2': u'MomsUtgMedel',
-    u'MP3': u'MomsUtgLag',
-    u'I': u'MomsInkopUtgHog',
-    u'I12': u'MomsInkopUtgMedel',
-    u'I6': u'MomsInkopUtgLag',
-    u'MBBUI': u'MomsUlagImport',
-    u'U1MBBUI': u'MomsImportUtgHog',
-    u'U2MBBUI': u'MomsImportUtgMedel',
-    u'U3MBBUI': u'MomsImportUtgLag',
-    u'MPFF': u'HyrinkomstFriv',
-    u'VTEU': u'ForsVaruAnnatEg',
-    u'E': u'ForsVaruUtomEg',
-    u'OMSS': u'ForsKopareSkskSverige',
-    u'FTEU': u'ForsTjOvrUtomEg',
-    u'VFEU': u'InkopVaruAnnatEg',
-    u'TFEU': u'InkopTjanstAnnatEg',
-    u'TFFU': u'InkopTjanstUtomEg',
-    u'IVIS': u'InkopVaruSverige',
-    u'ITIS': u'InkopTjanstSverige',
-    u'3VEU': u'InkopVaruMellan3p',
-    u'3FEU': u'ForsTjSkskAnnatEg',
-}
+NAMEMAPPING = OrderedDict([
+    ('ForsMomsEjAnnan', 'MP1'),
+    ('UttagMoms', 'MP2'),
+    ('UlagMargbesk', 'MP3'),
+    ('HyrinkomstFriv', 'MPFF'),
+    ('InkopVaruAnnatEg', 'VFEU'),
+    ('InkopTjanstAnnatEg', 'TFEU'),
+    ('InkopTjanstUtomEg', 'TFFU'),
+    ('InkopVaruSverige', 'IVIS'),
+    ('InkopTjanstSverige', 'ITIS'),
+    ('MomsUlagImport', 'MBBUI'),
+    ('ForsVaruAnnatEg', 'VTEU'),
+    ('ForsVaruUtomEg', 'E'),
+    ('InkopVaruMellan3p', '3VEU'),
+    ('ForsVaruMellan3p', '3FEU'),
+    ('ForsTjSkskAnnatEg', 'FTEU'),
+    ('ForsTjOvrUtomEg', 'OTTU'),
+    ('ForsKopareSkskSverige', 'OMSS'),
+    ('ForsOvrigt', 'MF'),
+    ('MomsUtgHog', 'U1'),
+    ('MomsUtgMedel', 'U2'),
+    ('MomsUtgLag', 'U3'),
+    ('MomsInkopUtgHog', 'I'),
+    ('MomsInkopUtgMedel', 'I12'),
+    ('MomsInkopUtgLag', 'I6'),
+    ('MomsImportUtgHog', 'U1MBBUI'),
+    ('MomsImportUtgMedel', 'U2MBBUI'),
+    ('MomsImportUtgLag', 'U3MBBUI'),
+    ('MomsIngAvdr', 'MomsIngAvdr'),
+    ('MomsBetala', 'MomsBetala'),
+])
 
 TAXNOTINCLUD = [u'MP1i', u'MP2i', u'MP3i', u'Ii', u'I12i', u'I6i']
 
@@ -85,15 +94,25 @@ class moms_declaration_wizard(models.TransientModel):
             moms = etree.SubElement(root, 'Moms')
             period = etree.SubElement(moms, 'Period')
             period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            for record in recordsets:
-                tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
-                tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
+            for k,v in NAMEMAPPING.items():
+                tax = etree.SubElement(moms, k)
+                acc = self.env['account.tax'].search([('name', '=', v)])
+                if acc:
+                    tax.text = self.account_sum_period(acc, self.period_start.id, self.period_stop.id, self.target_move)
+                else:
+                    tax.text = '0'
+            #~ for record in recordsets:
+                #~ tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
+                #~ tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
             free_text = etree.SubElement(moms, 'TextUpplysningMoms')
             free_text.text = self.free_text or ''
             return root
         xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
         self.eskd_file = base64.b64encode(xml)
+
+    def account_sum_period(self, account, period_start, period_stop, target_move):
+        return str(int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period)))
 
     @api.multi
     def create_eskd(self):
