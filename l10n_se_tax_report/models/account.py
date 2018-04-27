@@ -63,7 +63,7 @@ class account_tax(models.Model):
             if self._context.get('state') != 'all':
                 domain.append(tuple(('move_id.state', '=', self._context.get('state'))))
         if self.children_tax_ids:
-            def get_children_sum(tax):
+            def get_children_sum(tax): #TODO: make sure only tax_line_id need to be in search domain not account_id
                 s = sum(self.env['account.move.line'].search(domain + ['|', ('tax_line_id', '=', tax.id), ('account_id', '=', tax.account_id.id)]).mapped('balance'))
                 if tax.children_tax_ids:
                     for t in tax.children_tax_ids:
