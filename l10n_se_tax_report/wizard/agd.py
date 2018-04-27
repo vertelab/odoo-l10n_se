@@ -144,6 +144,7 @@ class agd_declaration_wizard(models.TransientModel):
                     'journal_id': agd_journal.id,
                     'period_id': self.period.id,
                     'date': fields.Date.today(),
+                    'ref', u'Arbetsgivardeklaration',
                 })
                 if entry:
                     move_line_list = []

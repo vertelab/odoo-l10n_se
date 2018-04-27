@@ -165,6 +165,7 @@ class moms_declaration_wizard(models.TransientModel):
                     'journal_id': moms_journal.id,
                     'period_id': self.period_start.id,
                     'date': fields.Date.today(),
+                    'ref', u'Momsdeklaration',
                 })
                 if entry:
                     move_line_list = []
