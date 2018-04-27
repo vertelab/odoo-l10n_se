@@ -98,7 +98,10 @@ class moms_declaration_wizard(models.TransientModel):
                 tax = etree.SubElement(moms, k)
                 acc = self.env['account.tax'].search([('name', 'in', v)])
                 if acc:
-                    tax.text = self.account_sum_period(acc, self.period_start.id, self.period_stop.id, self.target_move)
+                    t = 0
+                    for a in acc:
+                        t += self.account_sum_period(a, self.period_start.id, self.period_stop.id, self.target_move)
+                    tax.text = str(t)
                 else:
                     tax.text = '0'
             #~ for record in recordsets:
@@ -112,7 +115,7 @@ class moms_declaration_wizard(models.TransientModel):
         self.eskd_file = base64.b64encode(xml)
 
     def account_sum_period(self, account, period_start, period_stop, target_move):
-        return str(int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period)))
+        return int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period))
 
     @api.multi
     def create_eskd(self):
