@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-"""Add process_camt method to account.bank.statement.import."""
 ##############################################################################
 #
 #    Copyright (C) 2013-2016 Vertel AB <http://vertel.se>
