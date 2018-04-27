@@ -30,9 +30,9 @@ _logger = logging.getLogger(__name__)
 #~ ['ForsMomsEjAnnan', 'UttagMoms', 'UlagMargbesk', 'HyrinkomstFriv', 'InkopVaruAnnatEg', 'InkopTjanstAnnatEg', 'InkopTjanstUtomEg', 'InkopVaruSverige', 'InkopTjanstSverige', 'MomsUlagImport', 'ForsVaruAnnatEg', 'ForsVaruUtomEg', 'InkopVaruMellan3p', 'ForsVaruMellan3p', 'ForsTjSkskAnnatEg', 'ForsTjOvrUtomEg', 'ForsKopareSkskSverige', 'ForsOvrigt', 'MomsUtgHog', 'MomsUtgMedel', 'MomsUtgLag', 'MomsInkopUtgHog', 'MomsInkopUtgMedel', 'MomsInkopUtgLag', 'MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag', 'MomsIngAvdr', 'MomsBetala']
 
 NAMEMAPPING = OrderedDict([
-    ('ForsMomsEjAnnan', ['MP1', 'MP1i']),
-    ('UttagMoms', ['MP2', 'MP2i']),
-    ('UlagMargbesk', ['MP3', 'MP3i']),
+    ('ForsMomsEjAnnan', ['MP1', 'MP1i', 'MP2', 'MP2i', 'MP3', 'MP3i']),
+    ('UttagMoms', ['xxx']),
+    ('UlagMargbesk', ['xxx']),
     ('HyrinkomstFriv', ['MPFF']),
     ('InkopVaruAnnatEg', ['VFEU']),
     ('InkopTjanstAnnatEg', ['TFEU']),
