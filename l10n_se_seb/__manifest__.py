@@ -25,7 +25,7 @@
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['l10n_se_account_bank_statement_import'],
+    'depends': ['account_voucher', 'l10n_se_account_bank_statement_import'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
