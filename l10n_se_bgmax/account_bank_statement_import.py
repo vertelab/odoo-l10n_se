@@ -146,6 +146,6 @@ class AccountBankStatementImport(models.TransientModel):
                             t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
                 _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
         currency_code = statements[0].get('currency_code')
-        account_number = statements[0].get('account_no')
+        account_number = statements[0].get('account_number')
         account_number = account_number[:4] + account_number[4:].lstrip('0')
         return currency_code, account_number, statements
