@@ -30,35 +30,35 @@ _logger = logging.getLogger(__name__)
 #~ ['ForsMomsEjAnnan', 'UttagMoms', 'UlagMargbesk', 'HyrinkomstFriv', 'InkopVaruAnnatEg', 'InkopTjanstAnnatEg', 'InkopTjanstUtomEg', 'InkopVaruSverige', 'InkopTjanstSverige', 'MomsUlagImport', 'ForsVaruAnnatEg', 'ForsVaruUtomEg', 'InkopVaruMellan3p', 'ForsVaruMellan3p', 'ForsTjSkskAnnatEg', 'ForsTjOvrUtomEg', 'ForsKopareSkskSverige', 'ForsOvrigt', 'MomsUtgHog', 'MomsUtgMedel', 'MomsUtgLag', 'MomsInkopUtgHog', 'MomsInkopUtgMedel', 'MomsInkopUtgLag', 'MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag', 'MomsIngAvdr', 'MomsBetala']
 
 NAMEMAPPING = OrderedDict([
-    ('ForsMomsEjAnnan', 'MP1'),
-    ('UttagMoms', 'MP2'),
-    ('UlagMargbesk', 'MP3'),
-    ('HyrinkomstFriv', 'MPFF'),
-    ('InkopVaruAnnatEg', 'VFEU'),
-    ('InkopTjanstAnnatEg', 'TFEU'),
-    ('InkopTjanstUtomEg', 'TFFU'),
-    ('InkopVaruSverige', 'IVIS'),
-    ('InkopTjanstSverige', 'ITIS'),
-    ('MomsUlagImport', 'MBBUI'),
-    ('ForsVaruAnnatEg', 'VTEU'),
-    ('ForsVaruUtomEg', 'E'),
-    ('InkopVaruMellan3p', '3VEU'),
-    ('ForsVaruMellan3p', '3FEU'),
-    ('ForsTjSkskAnnatEg', 'FTEU'),
-    ('ForsTjOvrUtomEg', 'OTTU'),
-    ('ForsKopareSkskSverige', 'OMSS'),
-    ('ForsOvrigt', 'MF'),
-    ('MomsUtgHog', 'U1'),
-    ('MomsUtgMedel', 'U2'),
-    ('MomsUtgLag', 'U3'),
-    ('MomsInkopUtgHog', 'I'),
-    ('MomsInkopUtgMedel', 'I12'),
-    ('MomsInkopUtgLag', 'I6'),
-    ('MomsImportUtgHog', 'U1MBBUI'),
-    ('MomsImportUtgMedel', 'U2MBBUI'),
-    ('MomsImportUtgLag', 'U3MBBUI'),
-    ('MomsIngAvdr', 'MomsIngAvdr'),
-    ('MomsBetala', 'MomsBetala'),
+    ('ForsMomsEjAnnan', ['MP1', 'MP1i']),
+    ('UttagMoms', ['MP2', 'MP2i']),
+    ('UlagMargbesk', ['MP3', 'MP3i']),
+    ('HyrinkomstFriv', ['MPFF']),
+    ('InkopVaruAnnatEg', ['VFEU']),
+    ('InkopTjanstAnnatEg', ['TFEU']),
+    ('InkopTjanstUtomEg', ['TFFU']),
+    ('InkopVaruSverige', ['IVIS']),
+    ('InkopTjanstSverige', ['ITIS']),
+    ('MomsUlagImport', ['MBBUI']),
+    ('ForsVaruAnnatEg', ['VTEU']),
+    ('ForsVaruUtomEg', ['E']),
+    ('InkopVaruMellan3p', ['3VEU']),
+    ('ForsVaruMellan3p', ['3FEU']),
+    ('ForsTjSkskAnnatEg', ['FTEU']),
+    ('ForsTjOvrUtomEg', ['OTTU']),
+    ('ForsKopareSkskSverige', ['OMSS']),
+    ('ForsOvrigt', ['MF']),
+    ('MomsUtgHog', ['U1']),
+    ('MomsUtgMedel', ['U2']),
+    ('MomsUtgLag', ['U3']),
+    ('MomsInkopUtgHog', ['I', 'Ii']),
+    ('MomsInkopUtgMedel', ['I12', 'I12i']),
+    ('MomsInkopUtgLag', ['I6', 'I6i']),
+    ('MomsImportUtgHog', ['U1MBBUI']),
+    ('MomsImportUtgMedel', ['U2MBBUI']),
+    ('MomsImportUtgLag', ['U3MBBUI']),
+    ('MomsIngAvdr', ['MomsIngAvdr']),
+    ('MomsBetala', ['MomsBetala']),
 ])
 
 TAXNOTINCLUD = [u'MP1i', u'MP2i', u'MP3i', u'Ii', u'I12i', u'I6i']
@@ -86,7 +86,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.one
     def _compute_eskd_file(self):
-        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id), ('name', 'not in', TAXNOTINCLUD)])
+        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets):
             root = etree.Element('eSKDUpload', Version="6.0")
             orgnr = etree.SubElement(root, 'OrgNr')
@@ -96,7 +96,7 @@ class moms_declaration_wizard(models.TransientModel):
             period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
             for k,v in NAMEMAPPING.items():
                 tax = etree.SubElement(moms, k)
-                acc = self.env['account.tax'].search([('name', '=', v)])
+                acc = self.env['account.tax'].search([('name', 'in', v)])
                 if acc:
                     tax.text = self.account_sum_period(acc, self.period_start.id, self.period_stop.id, self.target_move)
                 else:
