@@ -33,14 +33,14 @@ TAGS = [
     'Forman',           #51: Avgiftspliktiga förmåner
     'AvdrKostn',        #52: Avdrag för utgifter
     'SumUlagAvg',       #53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt
-    'UlagAvgHel',       #55: Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - 61 - 65 - 69)
-    'AvgHel',           #56: 31,42% av #55
-    'UlagAvgAldersp',   #59: Arbetsgivaravgift för 66-80 år
-    'AvgAldersp',       #60: 16,36% av #59
+    'UlagAvgHel',       #55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - 61 - 65 - 69)
+    'AvgHel',           #56: (san) 31,42% av #55
+    'UlagAvgAldersp',   #59:  sap  Arbetsgivaravgift för 66-80 år
+    'AvgAldersp',       #60: (sap) 16,36% av #59
     'UlagAlderspSkLon', #57??
     'AvgAlderspSkLon',  #58??
-    'UlagSkLonSarsk',   #61: Särskild löneskatt för 81 år eller äldre
-    'SkLonSarsk',       #62: 6,15% #61
+    'UlagSkLonSarsk',   #61:  sapx Särskild löneskatt för 81 år eller äldre
+    'SkLonSarsk',       #62: (sapx)6,15% av #61
     'UlagAvgAmbassad',  #65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt på vissa försäkringar m.m.
     'AvgAmbassad',      #66: Se uträkningsruta
     'KodAmerika',       #67: Kod USA, Kanada, Québec m.fl.

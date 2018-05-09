@@ -48,15 +48,15 @@ class account_tax(models.Model):
             if self._context.get('state') != 'all':
                 domain.append(tuple(('move_id.state', '=', self._context.get('state'))))
         if self.children_tax_ids:
-            def get_children_sum(tax): #TODO: make sure only tax_line_id need to be in search domain not account_id
-                s = sum(self.env['account.move.line'].search(domain + ['|', ('tax_line_id', '=', tax.id), ('account_id', '=', tax.account_id.id)]).mapped('balance'))
+            def get_children_sum(tax):
+                s = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', tax.id)]).mapped('balance'))
                 if tax.children_tax_ids:
                     for t in tax.children_tax_ids:
                         s += get_children_sum(t)
                 return s
             self.sum_period = get_children_sum(self)
         else:
-            self.sum_period = sum(self.env['account.move.line'].search(domain + ['|', ('tax_line_id', '=', self.id), ('account_id', '=', self.account_id.id)]).mapped('balance'))
+            self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
 
 
 class account_financial_report(models.Model):
