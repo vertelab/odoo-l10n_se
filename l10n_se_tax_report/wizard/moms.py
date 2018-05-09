@@ -27,42 +27,39 @@ from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
-#~ ['ForsMomsEjAnnan', 'UttagMoms', 'UlagMargbesk', 'HyrinkomstFriv', 'InkopVaruAnnatEg', 'InkopTjanstAnnatEg', 'InkopTjanstUtomEg', 'InkopVaruSverige', 'InkopTjanstSverige', 'MomsUlagImport', 'ForsVaruAnnatEg', 'ForsVaruUtomEg', 'InkopVaruMellan3p', 'ForsVaruMellan3p', 'ForsTjSkskAnnatEg', 'ForsTjOvrUtomEg', 'ForsKopareSkskSverige', 'ForsOvrigt', 'MomsUtgHog', 'MomsUtgMedel', 'MomsUtgLag', 'MomsInkopUtgHog', 'MomsInkopUtgMedel', 'MomsInkopUtgLag', 'MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag', 'MomsIngAvdr', 'MomsBetala']
 
-#TODO: Find out where should 'I, Ii, I12, I12i, I6, I6i be'.
+# order must be correct
 NAMEMAPPING = OrderedDict([
-    ('ForsMomsEjAnnan', ['MP1', 'MP1i', 'MP2', 'MP2i', 'MP3', 'MP3i']),
-    ('UttagMoms', ['xxx']),
-    ('UlagMargbesk', ['xxx']),
-    ('HyrinkomstFriv', ['MPFF']),
-    ('InkopVaruAnnatEg', ['VFEU']),
-    ('InkopTjanstAnnatEg', ['TFEU']),
-    ('InkopTjanstUtomEg', ['TFFU']),
-    ('InkopVaruSverige', ['IVIS']),
-    ('InkopTjanstSverige', ['ITIS']),
-    ('MomsUlagImport', ['MBBUI']),
-    ('ForsVaruAnnatEg', ['VTEU']),
-    ('ForsVaruUtomEg', ['E']),
-    ('InkopVaruMellan3p', ['3VEU']),
-    ('ForsVaruMellan3p', ['3FEU']),
-    ('ForsTjSkskAnnatEg', ['FTEU']),
-    ('ForsTjOvrUtomEg', ['OTTU']),
-    ('ForsKopareSkskSverige', ['OMSS']),
-    ('ForsOvrigt', ['MF']),
-    ('MomsUtgHog', ['U1']),
-    ('MomsUtgMedel', ['U2']),
-    ('MomsUtgLag', ['U3']),
-    ('MomsInkopUtgHog', ['I', 'Ii']),
-    ('MomsInkopUtgMedel', ['I12', 'I12i']),
-    ('MomsInkopUtgLag', ['I6', 'I6i']),
-    ('MomsImportUtgHog', ['U1MBBUI']),
-    ('MomsImportUtgMedel', ['U2MBBUI']),
-    ('MomsImportUtgLag', ['U3MBBUI']),
-    ('MomsIngAvdr', ['MomsIngAvdr']),
-    ('MomsBetala', ['MomsBetala']),
+    ('ForsMomsEjAnnan', ['MP1', 'MP1i', 'MP2', 'MP2i', 'MP3', 'MP3i']), #05: Momspliktig försäljning som inte ingår i annan ruta nedan
+    ('UttagMoms', ['MU1', 'MU2', 'MU3']),   #06: Momspliktiga uttag
+    ('UlagMargbesk', ['MBBU']),             #07: Beskattningsunderlag vid vinstmarginalbeskattning
+    ('HyrinkomstFriv', ['MPFF']),           #08: Hyresinkomster vid frivillig skattskyldighet
+    ('InkopVaruAnnatEg', ['VFEU']),         #20: Inköp av varor från annat EU-land
+    ('InkopTjanstAnnatEg', ['TFEU']),       #21: Inköp av tjänster från annat EU-land
+    ('InkopTjanstUtomEg', ['TFFU']),        #22: Inköp av tjänster från land utanför EU
+    ('InkopVaruSverige', ['IVIS']),         #23: Inköp av varor i Sverige
+    ('InkopTjanstSverige', ['ITIS']),       #24: Inköp av tjänster i Sverige
+    ('MomsUlagImport', ['MBBUI']),          #50: Beskattningsunderlag vid import
+    ('ForsVaruAnnatEg', ['VTEU']),          #35: Försäljning av varor till annat EU-land
+    ('ForsVaruUtomEg', ['E']),              #36: Försäljning av varor utanför EU
+    ('InkopVaruMellan3p', ['3VEU']),        #37: Mellanmans inköp av varor vid trepartshandel
+    ('ForsVaruMellan3p', ['3FEU']),         #38: Mellanmans försäljning av varor vid trepartshandel
+    ('ForsTjSkskAnnatEg', ['FTEU']),        #39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land
+    ('ForsTjOvrUtomEg', ['OTTU']),          #40: Övrig försäljning av tjänster omsatta utom landet
+    ('ForsKopareSkskSverige', ['OMSS']),    #41: Försäljning när köparen är skattskyldig i Sverige
+    ('ForsOvrigt', ['MF']),                 #42: Övrig försäljning m.m. ???
+    ('MomsUtgHog', ['U1', 'U1MI']),         #10: Utgående moms 25 %
+    ('MomsUtgMedel', ['U2', 'U2MI']),       #11: Utgående moms 12 %
+    ('MomsUtgLag', ['U3', 'U3MI']),         #12: Utgående moms 6 %
+    ('MomsInkopUtgHog', ['I', 'Ii']),       #30: Utgående moms 25%
+    ('MomsInkopUtgMedel', ['I12', 'I12i']), #31: Utgående moms 12%
+    ('MomsInkopUtgLag', ['I6', 'I6i']),     #32: Utgående moms 6%
+    ('MomsImportUtgHog', ['U1MBBUI']),      #60: Utgående moms 25%
+    ('MomsImportUtgMedel', ['U2MBBUI']),    #61: Utgående moms 12%
+    ('MomsImportUtgLag', ['U3MBBUI']),      #62: Utgående moms 6%
+    ('MomsIngAvdr', ['MomsIngAvdr']),       #48: Ingående moms att dra av
+    ('MomsBetala', ['MomsBetala']),         #49: Moms att betala eller få tillbaka
 ])
-
-TAXNOTINCLUD = [u'MP1i', u'MP2i', u'MP3i', u'Ii', u'I12i', u'I6i']
 
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
