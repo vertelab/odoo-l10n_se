@@ -26,7 +26,7 @@
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['l10n_se_account_bank_statement_import'],
+    'depends': ['account_period', 'l10n_se_account_bank_statement_import'],
     'data': [
         'account_bank_statement_data.xml',
         'account_bank_statement_view.xml',

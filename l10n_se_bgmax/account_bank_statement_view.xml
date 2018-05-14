@@ -18,7 +18,9 @@
             <field name="arch" type="xml">
                 <field name="company_id" position="after">
                     <field name="is_bg" invisible="1"/>
+<!--
                     <field name="account_no" attrs="{'invisible':[('is_bg','=',False)]}"/>
+-->
                 </field>
                 <field name="balance_end_real" position="after">
                     <field name="move_id" attrs="{'invisible':[('is_bg','=',False)]}"/>
