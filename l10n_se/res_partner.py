@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 import re
 
 import logging
@@ -37,7 +37,8 @@ class res_partner(models.Model):
     def _set_company_registry(self):
         for partner in self:
             if not partner.company_registry: continue
-            if not partner.company_registry[6] == '-': continue
+            if len(partner.company_registry) != 11: raise ValidationError("The company registry '%s'is not valid." % partner.company_registry)
+            if not partner.company_registry[6] == '-': raise ValidationError("The company registry '%s'is not valid." % partner.company_registry)
             partner.vat = 'SE' + partner.company_registry[:6] + partner.company_registry[7:] + '01'
 
     company_registry = fields.Char(compute="_company_registry",inverse='_set_company_registry',string='Company Registry', size=11,readonly=False)
