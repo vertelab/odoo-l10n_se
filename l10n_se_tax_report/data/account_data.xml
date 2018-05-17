@@ -63,7 +63,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'MP1')]"/>
+            <field name="account_ids" search="[('code', 'in', ['3001', '3002', '3003'])]"/>
         </record>
         <record id="6" model="account.financial.report">
             <field name="name">6. Momspliktiga uttag</field>
@@ -108,7 +108,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'U1')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['MP1', 'MP1i'])]"/>
         </record>
         <record id="11" model="account.financial.report">
             <field name="name">11. Utgående moms 12%</field>
@@ -117,7 +117,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids"  search="[('name', '=', 'U2')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['MP2', 'MP2i'])]"/>
         </record>
         <record id="12" model="account.financial.report">
             <field name="name">12. Utgående moms 6%</field>
@@ -126,7 +126,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'U3')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['MP3', 'MP3i'])]"/>
         </record>
         <!-- column C -->
         <record id="c" model="account.financial.report">
@@ -315,7 +315,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i'])]"/>
+            <field name="tax_ids" search="[('name', '=', 'MomsIngAvdr')]"/>
         </record>
         <!-- column G -->
         <record id="g" model="account.financial.report">
@@ -333,7 +333,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['U1', 'U2', 'U3', 'U1MI', 'U2MI', 'U3MI', 'U1MBBUI', 'U2MBBUI', 'U3MBBUI'])]"/>
+            <field name="tax_ids" search="[('name', '=', 'MomsBetala')]"/>
         </record>
     </data>
 

@@ -64,6 +64,10 @@ class account_financial_report(models.Model):
 
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Account Tax')
 
+    @api.multi
+    def sum_tax_period(self):
+        return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
+
     @api.model
     def create(self, vals):
         res = super(account_financial_report, self).create(vals)
@@ -75,6 +79,26 @@ class account_financial_report(models.Model):
         res = super(account_financial_report, self).write(vals)
         if 'tax_ids' in vals:
             self.account_ids |= self.tax_ids.mapped('children_tax_ids').mapped('account_id') | self.tax_ids.mapped('account_id')
+        return res
+
+
+class ReportFinancial(models.AbstractModel):
+    _inherit = 'report.account.report_financial'
+
+    def _compute_report_balance(self, reports):
+        res = super(ReportFinancial, self)._compute_report_balance(reports)
+        if res.keys()[0] == self.env.ref('l10n_se_tax_report.root').id: # make sure the first line is momsrapport
+            ctx = {
+                'period_from': self.env['account.period'].date2period(self._context.get('date_from')).id,
+                'period_to': self.env['account.period'].date2period(self._context.get('date_to')).id
+            }
+            for i in res.keys()[1:]:
+                afr = self.env['account.financial.report'].browse(i)
+                if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
+                    if afr == self.env.ref('l10n_se_tax_report.49'):
+                        res[i]['balance'] = self.env['account.tax'].search([('name', '=', 'MomsBetala')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period
+                    else:
+                        res[i]['balance'] = afr.with_context(ctx).sum_tax_period()
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -107,7 +107,7 @@
         <record id="mp3" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">MP3</field>
-            <field name="description">Försäljning 6% (ink)</field>
+            <field name="description">Försäljning 6%</field>
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
@@ -520,7 +520,7 @@
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
-            <field name="children_tax_ids" eval="[(6, 0, [ref('u1'),ref('u2'),ref('u3'),ref('u1mi'),ref('u2mi'),ref('u3mi'),ref('u1mbbui'),ref('u2mbbui'),ref('u3mbbui')])]"/>
+            <field name="children_tax_ids" eval="[(6, 0, [ref('mp1'),ref('mp1i'),ref('mp2'),ref('mp2i'),ref('mp3'),ref('mp3i'),ref('u1'),ref('u2'),ref('u3'),ref('mu1'),ref('mu2'),ref('mu3'),ref('u1mi'),ref('u2mi'),ref('u3mi'),ref('u1mbbui'),ref('u2mbbui'),ref('u3mbbui')])]"/>
         </record>
         <!--  with tab: found, without tab: not found
             description name
