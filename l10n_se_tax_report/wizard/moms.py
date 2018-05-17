@@ -48,12 +48,12 @@ NAMEMAPPING = OrderedDict([
     ('ForsTjOvrUtomEg', ['OTTU']),          #40: Övrig försäljning av tjänster omsatta utom landet
     ('ForsKopareSkskSverige', ['OMSS']),    #41: Försäljning när köparen är skattskyldig i Sverige
     ('ForsOvrigt', ['MF']),                 #42: Övrig försäljning m.m. ???
-    ('MomsUtgHog', ['U1', 'U1MI']),         #10: Utgående moms 25 %
-    ('MomsUtgMedel', ['U2', 'U2MI']),       #11: Utgående moms 12 %
-    ('MomsUtgLag', ['U3', 'U3MI']),         #12: Utgående moms 6 %
-    ('MomsInkopUtgHog', ['I', 'Ii']),       #30: Utgående moms 25%
-    ('MomsInkopUtgMedel', ['I12', 'I12i']), #31: Utgående moms 12%
-    ('MomsInkopUtgLag', ['I6', 'I6i']),     #32: Utgående moms 6%
+    ('MomsUtgHog', ['U1']),                 #10: Utgående moms 25 %
+    ('MomsUtgMedel', ['U2']),               #11: Utgående moms 12 %
+    ('MomsUtgLag', ['U3']),                 #12: Utgående moms 6 %
+    ('MomsInkopUtgHog', ['U1MI']),          #30: Utgående moms 25%
+    ('MomsInkopUtgMedel', ['U2MI']),        #31: Utgående moms 12%
+    ('MomsInkopUtgLag', ['U3MI']),          #32: Utgående moms 6%
     ('MomsImportUtgHog', ['U1MBBUI']),      #60: Utgående moms 25%
     ('MomsImportUtgMedel', ['U2MBBUI']),    #61: Utgående moms 12%
     ('MomsImportUtgLag', ['U3MBBUI']),      #62: Utgående moms 6%
