@@ -690,7 +690,26 @@ class AccountChartTemplate(models.Model):
             if noupdate:
                 ir_model_data.search([('model', '=', model), ('res_id', '=', mapped_id)]).write({'noupdate': True})
             return res
-        return ir_model_data._update(model, template_xmlid.module, vals, xml_id=new_xml_id, store=True, noupdate=True, mode='init', res_id=False)
+        else:
+            noupdate = False
+            old_xmlid = ir_model_data.search([('module', '=', template_xmlid.module), ('name', '=', new_xml_id)])
+            if old_xmlid:
+                # Find all xmlids relating to this object.
+                old_xmlid = ir_model_data.search([('model', '=', model), ('res_id', '=', old_xmlid.res_id)])
+            else:
+                # No matching xmlid found. Create a new one.
+                return ir_model_data._update(model, template_xmlid.module, vals, xml_id=new_xml_id, store=True, noupdate=True, mode='init', res_id=False)
+            # Fix noupdate on existing xmlids
+            for xmlid in old_xmlid:
+                if xmlid.noupdate:
+                    noupdate = True
+                    xmlid.noupdate = False
+            # Existing xmlid found. Update it.
+            res = ir_model_data._update(model, template_xmlid.module, vals, xml_id=new_xml_id, store=True, noupdate=False, mode='update', res_id=False)
+            # Restore noupdate if needed
+            if noupdate:
+                ir_model_data.search([('model', '=', model), ('res_id', '=', mapped_id)]).write({'noupdate': True})
+            return res
 
     @api.model
     def warninator(self, msg):
