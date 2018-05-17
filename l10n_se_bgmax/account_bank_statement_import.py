@@ -47,7 +47,7 @@ class account_bank_statement(models.Model):
         bank_account_id = None
         if self.account_no and len(self.account_no) > 4:
             bank_account_ids = self.env['res.partner.bank'].search(
-                [('acc_number', '=', self.account_no)], limit=1)
+                [('acc_number', '=', self.account_no[:4] + self.account_no[4:].lstrip('0'))], limit=1)
             if bank_account_ids:
                 bank_account_id = bank_account_ids[0]
         return bank_account_id
@@ -56,9 +56,11 @@ class account_bank_statement(models.Model):
     def create_bg_move(self):
         for statement in self:
             if statement.is_bg and not statement.move_id:
-                journal_id = statement.get_bank_account_id().journal_id.id
+                # ~ journal_id = statement.get_bank_account_id().journal_id.id
+                journal_id = statement.journal_id.id
                 bg_account_id = statement.journal_id.default_credit_account_id.id    # get money from bg account
-                bank_account_id = statement.get_bank_account_id().journal_id.default_debit_account_id.id   # add money to bank account
+                # ~ bank_account_id = statement.journal_id.default_debit_account_id.id   # add money to bank account
+                bank_account_id = statement.get_bank_account_id().connected_journal_id.default_debit_account_id.id   # add money to bank account
                 bg_move = self.env['account.move'].create({
                     'journal_id': journal_id,
                     'period_id': statement.period_id.id,
@@ -68,21 +70,25 @@ class account_bank_statement(models.Model):
                     'ref': statement.name,
                 })
                 statement.move_id = bg_move.id
-                self.env['account.move.line'].create({
+                move_line_list = []
+                move_line_list.append((0, 0, {
                     'name': statement.name,
                     'account_id': bank_account_id,
                     'partner_id': statement.env.ref('l10n_se_bgmax.bgc').id,
                     'debit': statement.balance_end_real,
                     'credit': 0.0,
                     'move_id': bg_move.id,
-                })
-                self.env['account.move.line'].create({
+                }))
+                move_line_list.append((0, 0, {
                     'name': statement.name,
                     'account_id': bg_account_id,
                     'partner_id': statement.env.ref('l10n_se_bgmax.bgc').id,
                     'debit': 0.0,
                     'credit': statement.balance_end_real,
                     'move_id': bg_move.id,
+                }))
+                bg_move.write({
+                    'line_ids': move_line_list,
                 })
         #~ return {
             #~ 'type': 'ir.actions.act_window',
@@ -145,8 +151,7 @@ class AccountBankStatementImport(models.TransientModel):
                             t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                             t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
                 _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
-        _logger.warn("res: %s" % statements)
         currency_code = statements[0].get('currency_code')
-        account_number = statements[0].get('account_no')
+        account_number = statements[0].get('account_number')
         account_number = account_number[:4] + account_number[4:].lstrip('0')
         return currency_code, account_number, statements

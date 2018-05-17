@@ -22,37 +22,44 @@
 from odoo import models, fields, api, _
 from lxml import etree
 import base64
+from collections import OrderedDict
 from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
 
-NAMEMAPPING = {
-    u'MP1': u'MomsUtgHog',
-    u'MP2': u'MomsUtgMedel',
-    u'MP3': u'MomsUtgLag',
-    u'I': u'MomsInkopUtgHog',
-    u'I12': u'MomsInkopUtgMedel',
-    u'I6': u'MomsInkopUtgLag',
-    u'MBBUI': u'MomsUlagImport',
-    u'U1MBBUI': u'MomsImportUtgHog',
-    u'U2MBBUI': u'MomsImportUtgMedel',
-    u'U3MBBUI': u'MomsImportUtgLag',
-    u'MPFF': u'HyrinkomstFriv',
-    u'VTEU': u'ForsVaruAnnatEg',
-    u'E': u'ForsVaruUtomEg',
-    u'OMSS': u'ForsKopareSkskSverige',
-    u'FTEU': u'ForsTjOvrUtomEg',
-    u'VFEU': u'InkopVaruAnnatEg',
-    u'TFEU': u'InkopTjanstAnnatEg',
-    u'TFFU': u'InkopTjanstUtomEg',
-    u'IVIS': u'InkopVaruSverige',
-    u'ITIS': u'InkopTjanstSverige',
-    u'3VEU': u'InkopVaruMellan3p',
-    u'3FEU': u'ForsTjSkskAnnatEg',
-}
-
-TAXNOTINCLUD = [u'MP1i', u'MP2i', u'MP3i', u'Ii', u'I12i', u'I6i']
+# order must be correct
+NAMEMAPPING = OrderedDict([
+    ('ForsMomsEjAnnan', ['MP1', 'MP1i', 'MP2', 'MP2i', 'MP3', 'MP3i']), #05: Momspliktig försäljning som inte ingår i annan ruta nedan
+    ('UttagMoms', ['MU1', 'MU2', 'MU3']),   #06: Momspliktiga uttag
+    ('UlagMargbesk', ['MBBU']),             #07: Beskattningsunderlag vid vinstmarginalbeskattning
+    ('HyrinkomstFriv', ['MPFF']),           #08: Hyresinkomster vid frivillig skattskyldighet
+    ('InkopVaruAnnatEg', ['VFEU']),         #20: Inköp av varor från annat EU-land
+    ('InkopTjanstAnnatEg', ['TFEU']),       #21: Inköp av tjänster från annat EU-land
+    ('InkopTjanstUtomEg', ['TFFU']),        #22: Inköp av tjänster från land utanför EU
+    ('InkopVaruSverige', ['IVIS']),         #23: Inköp av varor i Sverige
+    ('InkopTjanstSverige', ['ITIS']),       #24: Inköp av tjänster i Sverige
+    ('MomsUlagImport', ['MBBUI']),          #50: Beskattningsunderlag vid import
+    ('ForsVaruAnnatEg', ['VTEU']),          #35: Försäljning av varor till annat EU-land
+    ('ForsVaruUtomEg', ['E']),              #36: Försäljning av varor utanför EU
+    ('InkopVaruMellan3p', ['3VEU']),        #37: Mellanmans inköp av varor vid trepartshandel
+    ('ForsVaruMellan3p', ['3FEU']),         #38: Mellanmans försäljning av varor vid trepartshandel
+    ('ForsTjSkskAnnatEg', ['FTEU']),        #39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land
+    ('ForsTjOvrUtomEg', ['OTTU']),          #40: Övrig försäljning av tjänster omsatta utom landet
+    ('ForsKopareSkskSverige', ['OMSS']),    #41: Försäljning när köparen är skattskyldig i Sverige
+    ('ForsOvrigt', ['MF']),                 #42: Övrig försäljning m.m. ???
+    ('MomsUtgHog', ['U1']),                 #10: Utgående moms 25 %
+    ('MomsUtgMedel', ['U2']),               #11: Utgående moms 12 %
+    ('MomsUtgLag', ['U3']),                 #12: Utgående moms 6 %
+    ('MomsInkopUtgHog', ['U1MI']),          #30: Utgående moms 25%
+    ('MomsInkopUtgMedel', ['U2MI']),        #31: Utgående moms 12%
+    ('MomsInkopUtgLag', ['U3MI']),          #32: Utgående moms 6%
+    ('MomsImportUtgHog', ['U1MBBUI']),      #60: Utgående moms 25%
+    ('MomsImportUtgMedel', ['U2MBBUI']),    #61: Utgående moms 12%
+    ('MomsImportUtgLag', ['U3MBBUI']),      #62: Utgående moms 6%
+    ('MomsIngAvdr', ['MomsIngAvdr']),       #48: Ingående moms att dra av
+    ('MomsBetala', ['MomsBetala']),         #49: Moms att betala eller få tillbaka
+])
 
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
@@ -77,7 +84,7 @@ class moms_declaration_wizard(models.TransientModel):
 
     @api.one
     def _compute_eskd_file(self):
-        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id), ('name', 'not in', TAXNOTINCLUD)])
+        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets):
             root = etree.Element('eSKDUpload', Version="6.0")
             orgnr = etree.SubElement(root, 'OrgNr')
@@ -85,15 +92,28 @@ class moms_declaration_wizard(models.TransientModel):
             moms = etree.SubElement(root, 'Moms')
             period = etree.SubElement(moms, 'Period')
             period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            for record in recordsets:
-                tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
-                tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
+            for k,v in NAMEMAPPING.items():
+                tax = etree.SubElement(moms, k)
+                acc = self.env['account.tax'].search([('name', 'in', v)])
+                if acc:
+                    t = 0
+                    for a in acc:
+                        t += self.account_sum_period(a, self.period_start.id, self.period_stop.id, self.target_move)
+                    tax.text = str(t)
+                else:
+                    tax.text = '0'
+            #~ for record in recordsets:
+                #~ tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
+                #~ tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
             free_text = etree.SubElement(moms, 'TextUpplysningMoms')
             free_text.text = self.free_text or ''
             return root
         xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
         self.eskd_file = base64.b64encode(xml)
+
+    def account_sum_period(self, account, period_start, period_stop, target_move):
+        return int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period))
 
     @api.multi
     def create_eskd(self):
@@ -132,20 +152,21 @@ class moms_declaration_wizard(models.TransientModel):
     @api.multi
     def create_entry(self):
         kontomoms = self.env.ref('l10n_se_tax_report.49').mapped('account_ids')
-        momsskuld = self.env['account.account'].search([('code', '=', '2650')])
-        momsfordran = self.env['account.account'].search([('code', '=', '1650')])
-        skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-        if len(kontomoms) > 0 and momsskuld and momsfordran and skattekonto:
-            total = 0.0
-            moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_report.moms_journal')
-            if not moms_journal_id:
-                raise Warning('Konfigurera din momsdeklaration journal!')
-            else:
-                moms_journal = self.env['account.journal'].browse(moms_journal_id)
+        moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
+        if not moms_journal_id:
+            raise Warning('Konfigurera din momsdeklaration journal!')
+        else:
+            moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
+            momsskuld = moms_journal.default_credit_account_id
+            momsfordran = moms_journal.default_debit_account_id
+            skattekonto = self.env['account.account'].search([('code', '=', '1630')])
+            if len(kontomoms) > 0 and momsskuld and momsfordran and skattekonto:
+                total = 0.0
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
                     'period_id': self.period_start.id,
                     'date': fields.Date.today(),
+                    'ref': u'Momsdeklaration',
                 })
                 if entry:
                     move_line_list = []
@@ -222,8 +243,8 @@ class moms_declaration_wizard(models.TransientModel):
                         'line_ids': move_line_list,
                     })
                     self.write({'move_id': entry.id}) # wizard disappeared
-        else:
-            raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
+            else:
+                raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
     @api.multi
     def show_entry(self):

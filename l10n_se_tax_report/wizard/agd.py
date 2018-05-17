@@ -27,6 +27,41 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+# order must be correct
+TAGS = [
+    'LonBrutto',        #50: Avgiftspliktig bruttolön utom förmåner
+    'Forman',           #51: Avgiftspliktiga förmåner
+    'AvdrKostn',        #52: Avdrag för utgifter
+    'SumUlagAvg',       #53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt
+    'UlagAvgHel',       #55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - 61 - 65 - 69)
+    'AvgHel',           #56: (san) 31,42% av #55
+    'UlagAvgAldersp',   #59:  sap  Arbetsgivaravgift för 66-80 år
+    'AvgAldersp',       #60: (sap) 16,36% av #59
+    'UlagAlderspSkLon', #57??
+    'AvgAlderspSkLon',  #58??
+    'UlagSkLonSarsk',   #61:  sapx Särskild löneskatt för 81 år eller äldre
+    'SkLonSarsk',       #62: (sapx)6,15% av #61
+    'UlagAvgAmbassad',  #65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt på vissa försäkringar m.m.
+    'AvgAmbassad',      #66: Se uträkningsruta
+    'KodAmerika',       #67: Kod USA, Kanada, Québec m.fl.
+    'UlagAvgAmerika',   #69:
+    'AvgAmerika',       #70: Se uträkningsruta
+    'UlagStodForetag',  #73: Forskning och utveckling
+    'AvdrStodForetag',  #74: Avdrag 10%, dock högst 230000 kr
+    'UlagStodUtvidgat', #75: Regionalt stöd för vissa branscher i stödområde
+    'AvdrStodUtvidgat', #76: Avdrag 10%, dock högst 7100 kr
+    'SumAvgBetala',     #78: Summa arbetsgivaravgifter
+    'UlagSkAvdrLon',    #81: Lön och förmåner inkl. SINK
+    'SkAvdrLon',        #82: Från lön och förmåner
+    'UlagSkAvdrPension',#83: Pension, livränta, försäkringsersättning inkl. SINK
+    'SkAvdrPension',    #84: Från pension m.m.
+    'UlagSkAvdrRanta',  #85: Ränta och utdelning
+    'SkAvdrRanta',      #86: Från ränta och utdelning
+    'UlagSumSkAvdr',    #87: Summa underlag för skatteanvdrag
+    'SumSkAvdr',        #88: Summa avdragen skatt
+    'SjukLonKostnEhs'   #99: Summa arbetsgivaravgifter och avdragen skatt att betala
+]
+
 class agd_declaration_wizard(models.TransientModel):
     _name = 'agd.declaration.wizard'
 
@@ -49,43 +84,6 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.one
     def _compute_eskd_file(self):
-        # order must be correct:
-        #~ <Period>201804</Period>
-        #~ <LonBrutto>0</LonBrutto>
-        #~ <Forman>0</Forman>
-        #~ <AvdrKostn>0</AvdrKostn>
-        #~ <SumUlagAvg>0</SumUlagAvg>
-        #~ <UlagAvgHel>0</UlagAvgHel>
-        #~ <AvgHel>0</AvgHel>
-        #~ <UlagAvgAldersp>0</UlagAvgAldersp>
-        #~ <AvgAldersp>0</AvgAldersp>
-        #~ <UlagAlderspSkLon>0</UlagAlderspSkLon>
-        #~ <AvgAlderspSkLon>0</AvgAlderspSkLon>
-        #~ <UlagSkLonSarsk>0</UlagSkLonSarsk>
-        #~ <SkLonSarsk>0</SkLonSarsk>
-        #~ <UlagAvgAmbassad>0</UlagAvgAmbassad>
-        #~ <AvgAmbassad>0</AvgAmbassad>
-        #~ <KodAmerika>0</KodAmerika>
-        #~ <UlagAvgAmerika>0</UlagAvgAmerika>
-        #~ <AvgAmerika>0</AvgAmerika>
-        #~ <UlagStodForetag>0</UlagStodForetag>
-        #~ <AvdrStodForetag>0</AvdrStodForetag>
-        #~ <UlagStodUtvidgat>0</UlagStodUtvidgat>
-        #~ <AvdrStodUtvidgat>0</AvdrStodUtvidgat>
-        #~ <SumAvgBetala>0</SumAvgBetala>
-        #~ <UlagSkAvdrLon>0</UlagSkAvdrLon>
-        #~ <SkAvdrLon>0</SkAvdrLon>
-        #~ <UlagSkAvdrPension>0</UlagSkAvdrPension>
-        #~ <SkAvdrPension>0</SkAvdrPension>
-        #~ <UlagSkAvdrRanta>0</UlagSkAvdrRanta>
-        #~ <SkAvdrRanta>0</SkAvdrRanta>
-        #~ <UlagSumSkAvdr>0</UlagSumSkAvdr>
-        #~ <SumSkAvdr>0</SumSkAvdr>
-        #~ <SjukLonKostnEhs>0</SjukLonKostnEhs>
-        #~ <TextUpplysningAg></TextUpplysningAg>
-
-        tags = ['LonBrutto', 'Forman', 'AvdrKostn', 'SumUlagAvg', 'UlagAvgHel', 'AvgHel', 'UlagAvgAldersp', 'AvgAldersp', 'UlagAlderspSkLon', 'AvgAlderspSkLon', 'UlagSkLonSarsk', 'SkLonSarsk', 'UlagAvgAmbassad', 'AvgAmbassad', 'KodAmerika', 'UlagAvgAmerika', 'AvgAmerika', 'UlagStodForetag', 'AvdrStodForetag', 'UlagStodUtvidgat', 'AvdrStodUtvidgat', 'SumAvgBetala', 'UlagSkAvdrLon', 'SkAvdrLon', 'UlagSkAvdrPension', 'SkAvdrPension', 'UlagSkAvdrRanta', 'SkAvdrRanta', 'UlagSumSkAvdr', 'SumSkAvdr', 'SjukLonKostnEhs']
-
         # account should not included: AgBrutU, AgAvgU, AgAvgAv, AgAvg, AgAvd, AgAvdU, AgAvgPreS, AgPre, UlagVXLon, AvgVXLon
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
         def parse_xml(recordsets):
@@ -95,7 +93,7 @@ class agd_declaration_wizard(models.TransientModel):
             ag = etree.SubElement(root, 'Ag')
             period = etree.SubElement(ag, 'Period')
             period.text = self.period.date_start[:4] + self.period.date_start[5:7]
-            for tag in tags:
+            for tag in TAGS:
                 tax = etree.SubElement(ag, tag)
                 acc = self.env['account.tax'].search([('name', '=', tag)])
                 if acc:
@@ -133,19 +131,21 @@ class agd_declaration_wizard(models.TransientModel):
 
     @api.multi
     def create_entry(self):
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search(self.get_tax_account_domain())
-        skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-        if len(kontoskatte) > 0 and skattekonto:
-            agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_report.agd_journal')
-            if not agd_journal_id:
-                raise Warning('Konfigurera din arbetsgivardeklaration journal!')
-            else:
+        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
+        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
+        agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
+        if not agd_journal_id:
+            raise Warning('Konfigurera din arbetsgivardeklaration journal!')
+        else:
+            agd_journal = self.env['account.journal'].browse(int(agd_journal_id))
+            skattekonto = agd_journal.default_debit_account_id
+            if len(kontoskatte) > 0 and skattekonto:
                 total = 0.0
                 entry = self.env['account.move'].create({
-                    'journal_id': self.env.ref('l10n_se.lonjournal').id,
+                    'journal_id': agd_journal.id,
                     'period_id': self.period.id,
                     'date': fields.Date.today(),
-                    'period_id': self.period.id,
+                    'ref': u'Arbetsgivardeklaration',
                 })
                 if entry:
                     move_line_list = []
@@ -172,8 +172,8 @@ class agd_declaration_wizard(models.TransientModel):
                         'line_ids': move_line_list,
                     })
                     self.write({'move_id': entry.id}) # wizard disappeared
-        else:
-            raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+            else:
+                raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
     @api.multi
     def show_entry(self):

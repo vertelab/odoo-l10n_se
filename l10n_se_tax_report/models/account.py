@@ -33,21 +33,6 @@ class account_tax(models.Model):
 
     @api.one
     def _sum_period(self):
-        #~ move_state = ('posted', )
-        #~ if self._context.get('state', False) == 'all':
-            #~ move_state = ('draft', 'posted', )
-        #~ if self._context.get('period_id', False):
-            #~ period_id = self._context['period_id']
-        #~ if self._context.get('period_ids', False):
-            #~ move_state = ('posted', )
-            #~ if self._context.get('state', False) == 'all':
-                #~ move_state = ('draft', 'posted', )
-            #~ period_ids = tuple(self._context['period_ids'])
-        #~ else:
-            #~ period_id = self.env['account.period'].find(cr, uid, context=context)
-            #~ if not period_id:
-                #~ return dict.fromkeys(ids, 0.0)
-            #~ period_id = period_id[0]
         domain = []
         if self._context.get('period_id'):
             period = self.env['account.period'].browse(self._context.get('period_id'))
