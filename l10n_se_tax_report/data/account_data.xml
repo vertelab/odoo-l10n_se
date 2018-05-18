@@ -381,7 +381,7 @@
             <field name="style_overwrite" eval="2"/>
         </record>
         <record id="49" model="account.financial.report">
-            <field name="name">49. Moms att betala ut eller få tillbaka</field>
+            <field name="name">49. Moms att betala ut(+) eller få tillbaka(-)</field>
             <field name="sequence">99</field>
             <field name="parent_id" ref="l10n_se_tax_report.g"/>
             <field name="type">accounts</field>

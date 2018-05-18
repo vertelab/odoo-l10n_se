@@ -30,7 +30,7 @@ _logger = logging.getLogger(__name__)
 
 # order must be correct
 NAMEMAPPING = OrderedDict([
-    ('ForsMomsEjAnnan', ['MP1', 'MP1i', 'MP2', 'MP2i', 'MP3', 'MP3i']), #05: Momspliktig försäljning som inte ingår i annan ruta nedan
+    ('ForsMomsEjAnnan', []),                #05: Momspliktig försäljning som inte ingår i annan ruta nedan
     ('UttagMoms', ['MU1', 'MU2', 'MU3']),   #06: Momspliktiga uttag
     ('UlagMargbesk', ['MBBU']),             #07: Beskattningsunderlag vid vinstmarginalbeskattning
     ('HyrinkomstFriv', ['MPFF']),           #08: Hyresinkomster vid frivillig skattskyldighet
@@ -48,9 +48,9 @@ NAMEMAPPING = OrderedDict([
     ('ForsTjOvrUtomEg', ['OTTU']),          #40: Övrig försäljning av tjänster omsatta utom landet
     ('ForsKopareSkskSverige', ['OMSS']),    #41: Försäljning när köparen är skattskyldig i Sverige
     ('ForsOvrigt', ['MF']),                 #42: Övrig försäljning m.m. ???
-    ('MomsUtgHog', ['U1']),                 #10: Utgående moms 25 %
-    ('MomsUtgMedel', ['U2']),               #11: Utgående moms 12 %
-    ('MomsUtgLag', ['U3']),                 #12: Utgående moms 6 %
+    ('MomsUtgHog', ['MP1', 'MP1i']),        #10: Utgående moms 25 %
+    ('MomsUtgMedel', ['MP2', 'MP2i']),      #11: Utgående moms 12 %
+    ('MomsUtgLag', ['MP3', 'MP3i']),        #12: Utgående moms 6 %
     ('MomsInkopUtgHog', ['U1MI']),          #30: Utgående moms 25%
     ('MomsInkopUtgMedel', ['U2MI']),        #31: Utgående moms 12%
     ('MomsInkopUtgLag', ['U3MI']),          #32: Utgående moms 6%
@@ -94,14 +94,31 @@ class moms_declaration_wizard(models.TransientModel):
             period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
             for k,v in NAMEMAPPING.items():
                 tax = etree.SubElement(moms, k)
-                acc = self.env['account.tax'].search([('name', 'in', v)])
-                if acc:
-                    t = 0
-                    for a in acc:
-                        t += self.account_sum_period(a, self.period_start.id, self.period_stop.id, self.target_move)
-                    tax.text = str(t)
+                if k == 'ForsMomsEjAnnan':
+                    acc = self.env['account.account'].search([('code', 'in', ['3001', '3002', '3003'])])
+                    if acc:
+                        t = 0
+                        for a in acc:
+                            t += self._get_account_period_balance(a, self.period_start, self.period_stop, self.target_move)
+                        tax.text = str(int(round(abs(t))))
+                    else:
+                        tax.text = '0'
+                elif k == 'MomsBetala':
+                    ctx = {
+                        'period_from': self.period_start.id,
+                        'period_to': self.period_stop.id,
+                        'target_move': self.target_move,
+                    }
+                    tax.text = str(int(round(-(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period))))
                 else:
-                    tax.text = '0'
+                    acc = self.env['account.tax'].search([('name', 'in', v)])
+                    if acc:
+                        t = 0
+                        for a in acc:
+                            t += self.account_sum_period(a, self.period_start.id, self.period_stop.id, self.target_move)
+                        tax.text = str(int(round(abs(t))))
+                    else:
+                        tax.text = '0'
             #~ for record in recordsets:
                 #~ tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
                 #~ tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
@@ -142,7 +159,6 @@ class moms_declaration_wizard(models.TransientModel):
         accounts = self.env.ref('l10n_se_tax_report.48').mapped('account_ids')
         return accounts
 
-
     def get_period_ids(self, period_start, period_stop):
         if period_stop and period_stop.date_start < period_start.date_start:
             raise Warning('Stop period must be after start period')
@@ -159,14 +175,14 @@ class moms_declaration_wizard(models.TransientModel):
         if self.period_start and self.period_stop:
             sum_baskonto = 0.0
             for account in self.get_all_output_accounts() | self.get_all_input_accounts():
-                sum_baskonto += self._get_account_period_balance(account, self.period_start, self.period_stop, self.target_move)
+                sum_baskonto += -(self._get_account_period_balance(account, self.period_start, self.period_stop, self.target_move))
             self.baskonto = sum_baskonto
             ctx = {
                 'period_from': self.period_start.id,
                 'period_to': self.period_stop.id,
                 'target_move': self.target_move,
             }
-            self.br1 = self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period
+            self.br1 = -(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period)
 
     @api.multi
     def create_entry(self):
