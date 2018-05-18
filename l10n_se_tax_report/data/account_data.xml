@@ -188,7 +188,7 @@
             <field name="sequence">40</field>
             <field name="parent_id" ref="l10n_se_tax_report.root"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="-1"/>
+            <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="2"/>
         </record>
         <record id="30" model="account.financial.report">
@@ -217,6 +217,60 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U3MI')]"/>
+        </record>
+        <!-- column H -->
+        <record id="h" model="account.financial.report">
+            <field name="name">H. Import</field>
+            <field name="sequence">44</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="2"/>
+        </record>
+        <record id="50" model="account.financial.report">
+            <field name="name">50. Beskattningsunderlag vid import</field>
+            <field name="sequence">45</field>
+            <field name="parent_id" ref="l10n_se_tax_report.h"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'MBBUI')]"/>
+        </record>
+        <!-- column I -->
+        <record id="i" model="account.financial.report">
+            <field name="name">I. Utgående moms på import i rutan 50</field>
+            <field name="sequence">46</field>
+            <field name="parent_id" ref="l10n_se_tax_report.root"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="2"/>
+        </record>
+        <record id="60" model="account.financial.report">
+            <field name="name">60. Utgående moms 25 %</field>
+            <field name="sequence">47</field>
+            <field name="parent_id" ref="l10n_se_tax_report.i"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'U1MBBUI')]"/>
+        </record>
+        <record id="61" model="account.financial.report">
+            <field name="name">61. Utgående moms 12 %</field>
+            <field name="sequence">48</field>
+            <field name="parent_id" ref="l10n_se_tax_report.i"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'U2MBBUI')]"/>
+        </record>
+        <record id="62" model="account.financial.report">
+            <field name="name">62. Utgående moms 6 %</field>
+            <field name="sequence">49</field>
+            <field name="parent_id" ref="l10n_se_tax_report.i"/>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', '=', 'U3MBBUI')]"/>
         </record>
         <!-- column E -->
         <record id="e" model="account.financial.report">
