@@ -62,6 +62,9 @@ class account_tax(models.Model):
 class account_financial_report(models.Model):
     _inherit = 'account.financial.report'
 
+    sru = fields.Char(string='SRU Code')
+    field_code = fields.Char(string='Field Code', help="Code for Swedish electronic reporting. If Field code (Negative) has a value, Field code is only used for positive results.")
+    field_code_neg = fields.Char(string='Field Code (Negative)', help="Code for Swedish electronic reporting. Only used if result is negative. If this field has a value, Field code is only used for positive results.")
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Account Tax')
 
     @api.multi

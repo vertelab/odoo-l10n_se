@@ -10,6 +10,15 @@
                 <field name="account_ids" position="after">
                     <field name="tax_ids" attrs="{'invisible': [('type', '!=', 'accounts')]}"/>
                 </field>
+                <notebook position="inside">
+                    <page string="SRU">
+                        <group>
+                            <field name="sru"/>
+                            <field name="field_code"/>
+                            <field name="field_code_neg"/>
+                        </group>
+                    </page>
+                </notebook>
             </field>
         </record>
 
