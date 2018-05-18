@@ -63,7 +63,6 @@ NAMEMAPPING = OrderedDict([
 
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
-    _inherit = 'account.common.report'
 
     def _get_tax(self):
         user = self.env.user
@@ -296,22 +295,33 @@ class moms_declaration_wizard(models.TransientModel):
             'context': {},
         }
 
-    @api.multi
     def print_report(self):
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'accounting.report',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': self.env.ref('account.accounting_report_view').id,
-            'target': 'new',
-            'domain': [],
-            'context': {
-                'default_account_report_id': self.env.ref('l10n_se_tax_report.root').id,
-                'default_date_from': self.period_start.date_start,
-                'default_date_to': self.period_stop.date_stop,
-            },
-        }
+        afr = self.env['accounting.report'].sudo().create({
+            'account_report_id': self.env.ref('l10n_se_tax_report.root').id,
+            'target_move': 'all',
+            'enable_filter': False,
+            'debit_credit': False,
+            'date_from_cmp': self.period_start.date_start,
+            'date_to_cmp': self.period_stop.date_stop,
+        })
+        return afr.check_report()
+
+    # ~ @api.multi
+    # ~ def print_report(self):
+        # ~ return {
+            # ~ 'type': 'ir.actions.act_window',
+            # ~ 'res_model': 'accounting.report',
+            # ~ 'view_type': 'form',
+            # ~ 'view_mode': 'form',
+            # ~ 'view_id': self.env.ref('account.accounting_report_view').id,
+            # ~ 'target': 'new',
+            # ~ 'domain': [],
+            # ~ 'context': {
+                # ~ 'default_account_report_id': self.env.ref('l10n_se_tax_report.root').id,
+                # ~ 'default_date_from': self.period_start.date_start,
+                # ~ 'default_date_to': self.period_stop.date_stop,
+            # ~ },
+        # ~ }
 
         #~ account_tax_codes = self.env['account.tax'].search([])
         #~ data = {}
