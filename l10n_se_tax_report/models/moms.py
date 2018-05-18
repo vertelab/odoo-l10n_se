@@ -61,9 +61,10 @@ NAMEMAPPING = OrderedDict([
     ('MomsBetala', ['MomsBetala']),         #49: Moms att betala eller få tillbaka
 ])
 
-class moms_declaration_wizard(models.TransientModel):
-    _name = 'moms.declaration.wizard'
-
+class moms_declaration_wizard(models.Model):
+    _name = 'account.vat.declaration'
+    _inherit = ['mail.thread']
+    
     def _get_tax(self):
         user = self.env.user
         taxes = self.env['account.tax'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
@@ -72,15 +73,34 @@ class moms_declaration_wizard(models.TransientModel):
     def _get_year(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
 
+    name = fields.Char()
+    date = fields.Date(help="Planned date")
+    state = fields.Selection(selection=[('draft','Draft'),('progress','Progress'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_get_year)
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
     baskonto = fields.Float(string='Baskonto', default=0.0, readonly=True, help='Avläsning av transationer från baskontoplanen.')
-    br1 = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, readonly=True, help='Avläsning av skattekonto.')
+
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
     free_text = fields.Text(string='Upplysningstext')
     eskd_file = fields.Binary(compute='_compute_eskd_file')
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
+
+    @api.onchange('period_start', 'period_stop', 'target_move')
+    def _vat(self):
+        if self.period_start and self.period_stop:
+            ctx = {
+                'period_from': self.period_start.id,
+                'period_to': self.period_stop.id,
+                'target_move': self.target_move,
+            }            
+            self.vat_momsingavdr =  sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])
+            self.vat_momsutg = sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [10,11,12,30,31,32,60,61,62]])
+            self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
+    vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
+    vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
+    vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
+
 
     @api.one
     def _compute_eskd_file(self):

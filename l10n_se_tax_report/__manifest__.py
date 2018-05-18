@@ -37,7 +37,7 @@ Taxes for financial report
         'views/res_config_view.xml',
         'wizard/glabel_report.xml',
         'wizard/agd_report.xml',
-        'wizard/moms_report.xml',
+        'views/moms_report.xml',
     ],
     'demo_xml' : [],
     'installable': 'True',
