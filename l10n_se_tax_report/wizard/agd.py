@@ -43,7 +43,7 @@ TAGS = [
     'SkLonSarsk',       #62: (sapx)6,15% av #61
     'UlagAvgAmbassad',  #65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt på vissa försäkringar m.m.
     'AvgAmbassad',      #66: Se uträkningsruta
-    'KodAmerika',       #67: Kod USA, Kanada, Québec m.fl.
+    # ~ 'KodAmerika',       #67: Kod USA, Kanada, Québec m.fl.
     'UlagAvgAmerika',   #69:
     'AvgAmerika',       #70: Se uträkningsruta
     'UlagStodForetag',  #73: Forskning och utveckling
@@ -123,11 +123,11 @@ class agd_declaration_wizard(models.TransientModel):
         if self.period:
             tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
             if tax_account:
-                self.agavgpres = tax_account.sum_period
                 sum_baskonto = 0.0
                 for account in self.env['account.financial.report'].search([('tax_ids', 'in', tax_account.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids'):
                     sum_baskonto += account.get_balance(self.period, self.target_move)
-                self.baskonto = sum_baskonto
+                self.baskonto = -sum_baskonto
+                self.agavgpres = -tax_account.sum_period
 
     @api.multi
     def create_entry(self):
@@ -211,22 +211,33 @@ class agd_declaration_wizard(models.TransientModel):
     def show_journal_items(self):
         return self.show_account_moves()
 
-    @api.multi
-    def print_report(self):
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'accounting.report',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': self.env.ref('account.accounting_report_view').id,
-            'target': 'new',
-            'domain': [],
-            'context': {
-                'default_account_report_id': self.env.ref('l10n_se_tax_report.agd_report').id,
-                'default_date_from': self.period.date_start,
-                'default_date_to': self.period.date_stop,
-            },
-        }
+    def print_report(self): # make a short cut to print financial report
+        afr = self.env['accounting.report'].sudo().create({
+            'account_report_id': self.env.ref('l10n_se_tax_report.agd_report').id,
+            'target_move': 'all',
+            'enable_filter': False,
+            'debit_credit': False,
+            'date_from_cmp': self.period.date_start,
+            'date_to_cmp': self.period.date_stop,
+        })
+        return afr.check_report()
+
+    # ~ @api.multi
+    # ~ def print_report(self):
+        # ~ return {
+            # ~ 'type': 'ir.actions.act_window',
+            # ~ 'res_model': 'accounting.report',
+            # ~ 'view_type': 'form',
+            # ~ 'view_mode': 'form',
+            # ~ 'view_id': self.env.ref('account.accounting_report_view').id,
+            # ~ 'target': 'new',
+            # ~ 'domain': [],
+            # ~ 'context': {
+                # ~ 'default_account_report_id': self.env.ref('l10n_se_tax_report.agd_report').id,
+                # ~ 'default_date_from': self.period.date_start,
+                # ~ 'default_date_to': self.period.date_stop,
+            # ~ },
+        # ~ }
 
         #~ account_tax_codes = self.env['account.tax'].search([])
         #~ data = {}
