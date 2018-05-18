@@ -512,15 +512,24 @@
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="children_tax_ids" eval="[(6, 0, [ref('i'),ref('ii'),ref('i12'),ref('i12i'),ref('i6'),ref('i6i')])]"/>
         </record>
-        <record id="MomsBetala" model="account.tax.template">
+        <record id="MomsUtg" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
-            <field name="name">MomsBetala</field>
-            <field name="description">Moms att betala(+) eller få tillbaka(-)</field>
+            <field name="name">MomsUtg</field>
+            <field name="description">Summering av utgående moms</field>
             <field name="amount">0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="children_tax_ids" eval="[(6, 0, [ref('mp1'),ref('mp1i'),ref('mp2'),ref('mp2i'),ref('mp3'),ref('mp3i'),ref('u1'),ref('u2'),ref('u3'),ref('mu1'),ref('mu2'),ref('mu3'),ref('u1mi'),ref('u2mi'),ref('u3mi'),ref('u1mbbui'),ref('u2mbbui'),ref('u3mbbui')])]"/>
+        </record>
+        <record id="MomsBetala" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">MomsBetala</field>
+            <field name="description">Moms att betala(+) eller få tillbaka(-)</field>
+            <field name="amount">0</field>
+            <field name="amount_type">fixed</field>
+            <field name="type_tax_use">none</field>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!--  with tab: found, without tab: not found
             description name

@@ -94,11 +94,11 @@ class ReportFinancial(models.AbstractModel):
             }
             for i in res.keys()[1:]:
                 afr = self.env['account.financial.report'].browse(i)
-                if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
-                    if afr == self.env.ref('l10n_se_tax_report.49'):
-                        res[i]['balance'] = self.env['account.tax'].search([('name', '=', 'MomsBetala')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period
-                    else:
-                        res[i]['balance'] = afr.with_context(ctx).sum_tax_period()
+                if afr and afr.type == 'accounts':
+                    if afr == self.env.ref('l10n_se_tax_report.49') and len(afr.tax_ids) == 0:
+                        res[i]['balance'] = int(round(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period))
+                    elif len(afr.tax_ids) > 0:
+                        res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

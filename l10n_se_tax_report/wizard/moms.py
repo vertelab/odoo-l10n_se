@@ -63,6 +63,7 @@ NAMEMAPPING = OrderedDict([
 
 class moms_declaration_wizard(models.TransientModel):
     _name = 'moms.declaration.wizard'
+    _inherit = 'account.common.report'
 
     def _get_tax(self):
         user = self.env.user
