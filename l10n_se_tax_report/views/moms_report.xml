@@ -7,14 +7,14 @@
       <field name="arch" type="xml">
         <form string="Momsdeklaration">
           <header>
-            <button name="print_report" string="Skriv ut rapporten" type="object" class="oe_highlight" />
+            <button name="create_report" string="Skriv ut rapporten" type="object" class="oe_highlight" />
             <button name="create_entry" string="Skapa verifikat" type="object" class="oe_highlight" />
             <button name="create_eskd" string="Skapa eSKD-fil" type="object" class="oe_highlight" />
             <field name="state" widget="statusbar" clickable="True" />
           </header>
           <sheet>
             <div class="oe_right oe_button_box" name="buttons">
-              <button type="object" class="oe_stat_button" id="momsutg_button" icon="fa-pencil-square-o" name="show_momsutg" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" id="momsutg_button" icon="fa-level-up" name="show_momsutg" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsutg" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -22,7 +22,7 @@
                   <span class="o_stat_text">Utgående</span>
                 </div>
               </button>
-              <button type="object" class="oe_stat_button" id="momsing_button" icon="fa-pencil-square-o" name="show_momsing" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" id="momsing_button" icon="fa-level-down" name="show_momsingavdr" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsingavdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -48,9 +48,10 @@
               <field name="vat_momsbetala" />
               <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_journal_items" />
             </group>
-            <group col="3">
+            <group >
+              <field name="report_file" />
               <field name="move_id" />
-              <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_entry" />
+              <field name="eskd_file" />
             </group>
             <notebook>
               <page string="Upplysningstext">

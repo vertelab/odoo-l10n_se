@@ -61,7 +61,7 @@ NAMEMAPPING = OrderedDict([
     ('MomsBetala', ['MomsBetala']),         #49: Moms att betala eller få tillbaka
 ])
 
-class moms_declaration_wizard(models.Model):
+class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
     
@@ -73,17 +73,17 @@ class moms_declaration_wizard(models.Model):
     def _get_year(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
 
-    name = fields.Char()
+    name = fields.Char(default='Moms jan - mars')
     date = fields.Date(help="Planned date")
     state = fields.Selection(selection=[('draft','Draft'),('progress','Progress'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_get_year)
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
-    baskonto = fields.Float(string='Baskonto', default=0.0, readonly=True, help='Avläsning av transationer från baskontoplanen.')
 
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
     free_text = fields.Text(string='Upplysningstext')
-    eskd_file = fields.Binary(compute='_compute_eskd_file')
+    report_file = fields.Binary(string="Report-file")
+    eskd_file = fields.Binary(string="eSKD-file")
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
 
     @api.onchange('period_start', 'period_stop', 'target_move')
@@ -103,7 +103,7 @@ class moms_declaration_wizard(models.Model):
 
 
     @api.one
-    def _compute_eskd_file(self):
+    def create_eskd(self):
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -152,16 +152,6 @@ class moms_declaration_wizard(models.Model):
     def account_sum_period(self, account, period_start, period_stop, target_move):
         return int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period))
 
-    @api.multi
-    def create_eskd(self):
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_type': 'controller',
-            #for v9.0, 10.0
-            'report_file': '/web/content/moms.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'moms-%s.txt' %(self.period_start.date_start[:4] + self.period_start.date_start[5:7]))
-            #for v7.0, v8.0
-            #'report_file': '/web/binary/saveas?model=moms.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
-        }
 
     def get_all_output_accounts(self):
         accounts = self.env.ref('l10n_se_tax_report.10').mapped('account_ids')
@@ -190,19 +180,7 @@ class moms_declaration_wizard(models.Model):
     def _get_account_period_balance(self, account, period_start, period_stop, target_move):
         return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))
 
-    @api.onchange('period_start', 'period_stop', 'target_move')
-    def read_account(self):
-        if self.period_start and self.period_stop:
-            sum_baskonto = 0.0
-            for account in self.get_all_output_accounts() | self.get_all_input_accounts():
-                sum_baskonto += -(self._get_account_period_balance(account, self.period_start, self.period_stop, self.target_move))
-            self.baskonto = sum_baskonto
-            ctx = {
-                'period_from': self.period_start.id,
-                'period_to': self.period_stop.id,
-                'target_move': self.target_move,
-            }
-            self.br1 = -(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period)
+  
 
     @api.multi
     def create_entry(self):
@@ -348,6 +326,7 @@ class moms_declaration_wizard(models.Model):
             'context': {},
         }
 
+    @api.one
     def print_report(self): # make a short cut to print financial report
         afr = self.env['accounting.report'].sudo().create({
             'account_report_id': self.env.ref('l10n_se_tax_report.root').id,
@@ -357,7 +336,10 @@ class moms_declaration_wizard(models.Model):
             'date_from_cmp': self.period_start.date_start,
             'date_to_cmp': self.period_stop.date_stop,
         })
-        return afr.check_report()
+        self.report_file = afr.get_pdf()
+
+
+
 
     # ~ @api.multi
     # ~ def print_report(self):
