@@ -62,8 +62,8 @@ TAGS = [
     'SjukLonKostnEhs'   #99: Summa arbetsgivaravgifter och avdragen skatt att betala
 ]
 
-class agd_declaration_wizard(models.TransientModel):
-    _name = 'agd.declaration.wizard'
+class agd_declaration(models.Model):
+    _name = 'agd.declaration'
 
     def _get_tax(self):
         user = self.env.user
@@ -73,6 +73,9 @@ class agd_declaration_wizard(models.TransientModel):
     def _get_year(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
 
+    name = fields.Char()
+    date = fields.Date(help="Planned date")
+    state = fields.Selection(selection=[('draft', 'Draft'), ('progress', 'Progress'), ('done', 'Done'), ('canceled','Canceled')],default='draft', track_visibility='onchange')
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_get_year)
     period = fields.Many2one(comodel_name='account.period', string='Period', required=True)
     baskonto = fields.Float(string='Baskonto', default=0.0, readonly=True, help='Avläsning av transationer från baskontoplanen.')
@@ -113,9 +116,9 @@ class agd_declaration_wizard(models.TransientModel):
             'type': 'ir.actions.report.xml',
             'report_type': 'controller',
             #for v9.0, 10.0
-            'report_file': '/web/content/agd.declaration.wizard/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]))
+            'report_file': '/web/content/agd.declaration/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]))
             #for v7.0, v8.0
-            #'report_file': '/web/binary/saveas?model=agd.declaration.wizard&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
+            #'report_file': '/web/binary/saveas?model=agd.declaration&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
         }
 
     @api.onchange('period', 'target_move')
