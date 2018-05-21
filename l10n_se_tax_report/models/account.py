@@ -29,36 +29,62 @@ _logger = logging.getLogger(__name__)
 class account_tax(models.Model):
     _inherit = 'account.tax'
 
-    sum_period = fields.Float(string='Period Sum', compute='_sum_period')
-
     @api.one
     def _sum_period(self):
-        domain = []
-        if self._context.get('period_id'):
-            period = self.env['account.period'].browse(self._context.get('period_id'))
-            domain += [('move_id.period_id', '=', self._context.get('period_id'))]
-            #~ domain += [('date', '>=', period.date_start), ('date', '<=', period.date_stop)]
-        if self._context.get('period_from') and self._context.get('period_to'):
-            #~ period_from = self.env['account.period'].browse(self._context.get('period_from'))
-            #~ period_to = self.env['account.period'].browse(self._context.get('period_to'))
-            #~ domain += [('date', '>=', period_from.date_start), ('date', '<=', period_to.date_stop)]
-            periods = self.env['account.period'].search([('date_start', '>=', self.env['account.period'].browse(self._context.get('period_from')).date_start), ('date_stop', '<=', self.env['account.period'].browse(self._context.get('period_to')).date_stop), ('special', '=', False)])
-            domain += [('move_id.period_id', 'in', periods.mapped('id'))]
-        if self._context.get('state'):
-            if self._context.get('state') != 'all':
-                domain.append(tuple(('move_id.state', '=', self._context.get('state'))))
-        if self.children_tax_ids:
-            def get_children_sum(tax):
-                s = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', tax.id)]).mapped('balance'))
-                if tax.children_tax_ids:
-                    for t in tax.children_tax_ids:
-                        s += get_children_sum(t)
-                return s
-            self.sum_period = get_children_sum(self)
+        self.sum_period = sum(self.get_taxlines().filtered(lambda l: l.tax_line_id.id in [self.id] + self.children_tax_ids.mapped('id')).mapped('balance'))
+    sum_period = fields.Float(string='Period Sum', compute='_sum_period')
+
+    #~ @api.one
+    #~ def _sum_period(self):
+        #~ domain = []
+        #~ if self._context.get('period_id'):
+            #~ period = self.env['account.period'].browse(self._context.get('period_id'))
+            #~ domain += [('move_id.period_id', '=', self._context.get('period_id'))]
+           # domain += [('date', '>=', period.date_start), ('date', '<=', period.date_stop)]
+        #~ if self._context.get('period_from') and self._context.get('period_to'):
+           # period_from = self.env['account.period'].browse(self._context.get('period_from'))
+           # period_to = self.env['account.period'].browse(self._context.get('period_to'))
+           # domain += [('date', '>=', period_from.date_start), ('date', '<=', period_to.date_stop)]
+            #~ periods = self.env['account.period'].search([('date_start', '>=', self.env['account.period'].browse(self._context.get('period_from')).date_start), ('date_stop', '<=', self.env['account.period'].browse(self._context.get('period_to')).date_stop), ('special', '=', False)])
+            #~ domain += [('move_id.period_id', 'in', periods.mapped('id'))]
+        #~ if self._context.get('state'):
+            #~ if self._context.get('state') != 'all':
+                #~ domain.append(tuple(('move_id.state', '=', self._context.get('state'))))
+        #~ if self.children_tax_ids:
+            #~ def get_children_sum(tax):
+                #~ s = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', tax.id)]).mapped('balance'))
+                #~ if tax.children_tax_ids:
+                    #~ for t in tax.children_tax_ids:
+                        #~ s += get_children_sum(t)
+                #~ return s
+            #~ self.sum_period = get_children_sum(self)
+        #~ else:
+            #~ self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
+
+    @api.model  
+    def get_taxlines(self):
+        period_start = self._context.get('period_start',self._context.get('period_id'))
+        period_stop = self._context.get('period_stop',period_start)
+        # date_start / date_stop
+        domain = [('period_id','in',self.env['account.period'].get_period_ids(period_start,period_stop))]
+        if self._context.get('target_move') and self._context.get('target_move') in ['draft', 'posted']:
+            domain.append(tuple(('move_id.state', '=', self._context.get('target_move'))))
+        if self._context.get('accounting_method','invoice'):
+            # fakturametoden
+            lines = self.env['account.move'].search(domain).mapped('line_ids')
         else:
-            self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
+            # bokslutsmetoden / kontantmetoden
+            reconcile_ids = self.env['account.move'].search(domain).mapped('line_ids').filtered(lambda l: l.account_id.code[:2] == '19').mapped('full_reconcile_id')
+            lines = self.env['account.move.line'].search('full_reconcile_id','in',reconcile_ids)
+        return lines
 
-
+    @api.model  
+    def get_taxtable(self):
+        tax = {tax.code:line.balance for line in self.get_taxlines() for tax in line.mapped('tax_ids')}
+        return tax
+        
+    
+        
 class account_financial_report(models.Model):
     _inherit = 'account.financial.report'
 

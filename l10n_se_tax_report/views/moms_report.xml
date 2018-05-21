@@ -38,17 +38,93 @@
               </h1>
             </div>
             <group col="4">
-              <field name="date" /><newline/>
-              <field name="fiscalyear_id" />
+              <field name="date" />
+              <newline />
               <field name="target_move" />
+              <field name="accounting_method" />
+              <field name="fiscalyear_id" /><newline/>
               <field name="period_start" domain="[('fiscalyear_id', '=', fiscalyear_id)]" />
               <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id)]" />
             </group>
             <group col="3">
               <field name="vat_momsbetala" />
-              <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_journal_items" />
+                              <div class="oe_button_box" name="buttons">
+                  <button type="object" class="oe_stat_button" id="15xx_button" icon="fa-level-up" name="show_15xx" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c15xx_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">15xx (kundfordringar)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="30xx_button" icon="fa-level-up" name="show_30xx" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c30xx_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">30xx (försäljning)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="244x_button" icon="fa-level-up" name="show_30xx" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c244x_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">244x (Leverantörsfordringar)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="5x6x_button" icon="fa-level-up" name="show_5x6x" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c5x6x_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">5x6x (Kostnader)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="19xx_button" icon="fa-level-up" name="show_19xx" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c19xx_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">19xx (Kontorörelser)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="2640_button" icon="fa-level-up" name="show_2640" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c2640_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">2640 (Ingående moms)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="2630_button" icon="fa-level-up" name="show_2630" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c2630_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">2630 (Utgående 6 %)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="2620_button" icon="fa-level-up" name="show_2620" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c2620_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">2620 (Utgående 12 %)</span>
+                    </div>
+                  </button>
+                  <button type="object" class="oe_stat_button" id="2610_button" icon="fa-level-up" name="show_2610" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
+                    <div class="o_form_field o_stat_info">
+                      <span class="o_stat_value">
+                        <field name="c2610_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                      </span>
+                      <span class="o_stat_text">2610 (Utgående 25 %)</span>
+                    </div>
+                  </button>
+                </div>
+
             </group>
-            <group >
+            <group>
               <field name="report_file" />
               <field name="move_id" />
               <field name="eskd_file" />
@@ -72,9 +148,9 @@
       <field name="arch" type="xml">
         <search string="Search VAT Declaration">
           <field name="name" />
-          <field name="fiscalyear_id"  />
-          <field name="period_start"  />
-          <field name="period_stop"  />
+          <field name="fiscalyear_id" />
+          <field name="period_start" />
+          <field name="period_stop" />
           <field name="date" string="Date" />
           <field name="state" string="State" />
           <separator />
@@ -89,29 +165,29 @@
       </field>
     </record>
     <record id="view_moms_tree" model="ir.ui.view">
-            <field name="name">account.vat.declaration.tree</field>
-            <field name="model">account.vat.declaration</field>
-            <field name="arch" type="xml">
-                <tree string="Momsdeklaration">
-                    <field name="name"/>
-                    <field name="date"/>
-                    <field name="fiscalyear_id"/>
-                    <field name="period_start"/>
-                    <field name="state"/>
-                </tree>
-            </field>
+      <field name="name">account.vat.declaration.tree</field>
+      <field name="model">account.vat.declaration</field>
+      <field name="arch" type="xml">
+        <tree string="Momsdeklaration">
+          <field name="name" />
+          <field name="date" />
+          <field name="fiscalyear_id" />
+          <field name="period_start" />
+          <field name="state" />
+        </tree>
+      </field>
     </record>
     <record id="view_moms_calendar" model="ir.ui.view">
-            <field name="name">account.vat.declaration.cal</field>
-            <field name="model">account.vat.declaration</field>
-            <field name="arch" type="xml">
-                <calendar date_start="date" string="Momsdeklaration">
-                    <field name="name"/>
-                    <field name="fiscalyear_id"/>
-                    <field name="period_start"/>
-                    <field name="state"/>
-                </calendar>
-            </field>
+      <field name="name">account.vat.declaration.cal</field>
+      <field name="model">account.vat.declaration</field>
+      <field name="arch" type="xml">
+        <calendar date_start="date" string="Momsdeklaration">
+          <field name="name" />
+          <field name="fiscalyear_id" />
+          <field name="period_start" />
+          <field name="state" />
+        </calendar>
+      </field>
     </record>
     <record id="action_account_moms_declaration" model="ir.actions.act_window">
       <field name="name">Momsdeklaration</field>

@@ -27,6 +27,39 @@ from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
+# Momsredovisning enligt bokslutsmetoden (kontantmetoden) respektive fakturametoden
+# Vid kontantmetoden skall 15xx kredit (betalda kundfordringar) redovisas som ingående moms 
+# och 264x debet (betalda leverantörsfordringar) redovisas som utgående moms
+#
+# Period   A-id konto   benämning        debet   kredit     tax
+# 1803      A01 3041   försäljning              10000   
+# 1803      A01 2611   Utgående moms 25%         2500       MP1/MP1i
+# 1803      A01 1510   kundfordran      12500
+#
+# 1803      A02 5410   Förbrukningsinv  10000    
+# 1803      A02 2640   Ing moms          2500               I/Ii
+# 1803      A02 2440   Leverantörsskuld         12500    
+#
+# 1804      A01 1930   Bankgiro         12500
+# 1804      A01 1510   Kundfordran              12500
+#
+# 1804      A02 1930   Bankgiro                 12500
+# 1804      A02 2440   Leverantörsskuld 12500
+#
+# 1806      A03 3041   försäljning              10000   
+# 1806      A03 2611   Utgående moms 25%         2500       MP1/MP1i
+# 1806      A03 1510   kundfordran      12500
+#
+# 1807      A03 1930   Bankgiro         12500
+# 1807      A03 1510   Kundfordran              12500
+#
+# Momsrapport för 1804 - 1806 skall redovisa Utg/ing 2500 från 1803 (kontantmetoden)
+# Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax
+#
+# Fakturametoden
+# Alla account.move 1804/06 -> account.line -> account.tax 
+#
+
 
 # order must be correct
 NAMEMAPPING = OrderedDict([
@@ -65,33 +98,28 @@ class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
     
-    def _get_tax(self):
-        user = self.env.user
-        taxes = self.env['account.tax'].search([('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
-        return taxes and taxes[0] or False
-
-    def _get_year(self):
-        return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
-
     name = fields.Char(default='Moms jan - mars')
     date = fields.Date(help="Planned date")
     state = fields.Selection(selection=[('draft','Draft'),('progress','Progress'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
-    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_get_year)
+    def _fiscalyear_id(self):
+        return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
-
-    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], string='Target Moves')
+    target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
+    accounting_method = fields.Selection(selection=[('casch', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     free_text = fields.Text(string='Upplysningstext')
-    report_file = fields.Binary(string="Report-file")
-    eskd_file = fields.Binary(string="eSKD-file")
+    report_file = fields.Binary(string="Report-file",readonly=True)
+    eskd_file = fields.Binary(string="eSKD-file",readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
 
-    @api.onchange('period_start', 'period_stop', 'target_move')
+    @api.onchange('period_start', 'period_stop', 'target_move','acounting_method')
     def _vat(self):
         if self.period_start and self.period_stop:
             ctx = {
-                'period_from': self.period_start.id,
-                'period_to': self.period_stop.id,
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'acounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }            
             self.vat_momsingavdr =  sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])
@@ -101,9 +129,42 @@ class account_vat_declaration(models.Model):
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
 
+    @api.one
+    @api.onchange('period_start', 'period_stop', 'acounting_method','target_move')
+    def _huvudbok(self):
+        if self.period_start and self.period_stop:
+            ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'acounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }            
+            self.c15xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','15%' )])])
+            self.c30xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','30%' )])])
+            self.c244x =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','244%')])])
+            self.c5x6x =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search(['|','|',('code','like','5%'),('code','like','6%'),('code','like','12%'),('code','like','4%')])])
+            self.c19xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','19%')])])
+            self.c2610 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2610')])])
+            self.c2620 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2620')])])
+            self.c2630 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2630')])])
+            self.c2640 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2640')])])
+    c15xx_sum = fields.Float(string='15xx', default=0.0, compute="_huvudbok", )
+    c30xx_sum = fields.Float(string='30xx', default=0.0, compute="_huvudbok", )
+    c244x_sum = fields.Float(string='244x', default=0.0, compute="_huvudbok", )
+    c5x6x_sum = fields.Float(string='5x6x', default=0.0, compute="_huvudbok", )
+    c19xx_sum = fields.Float(string='19xx', default=0.0, compute="_huvudbok", )
+    c2610_sum = fields.Float(string='2610', default=0.0, compute="_huvudbok", )
+    c2620_sum = fields.Float(string='2620', default=0.0, compute="_huvudbok", )
+    c2630_sum = fields.Float(string='2630', default=0.0, compute="_huvudbok", )
+    c2640_sum = fields.Float(string='2640', default=0.0, compute="_huvudbok", )
 
     @api.one
     def create_eskd(self):
+        if self.state not in ['draft','progress']:
+            raise Warning("Du kan inte skapa eSDK-fil i denna status, ändra till pågår")
+        if self.state in ['draft']:
+            self.state = 'progress'
+        
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -153,37 +214,24 @@ class account_vat_declaration(models.Model):
         return int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period))
 
 
-    def get_all_output_accounts(self):
-        accounts = self.env.ref('l10n_se_tax_report.10').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.11').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.12').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.30').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.31').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.32').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.60').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.61').mapped('account_ids')
-        accounts |= self.env.ref('l10n_se_tax_report.62').mapped('account_ids')
-        return accounts
+    #~ def get_all_input_accounts(self):
+        #~ accounts = self.env.ref('l10n_se_tax_report.48').mapped('account_ids')
+        #~ return accounts
 
-    def get_all_input_accounts(self):
-        accounts = self.env.ref('l10n_se_tax_report.48').mapped('account_ids')
-        return accounts
 
-    def get_period_ids(self, period_start, period_stop):
-        if period_stop and period_stop.date_start < period_start.date_start:
-            raise Warning('Stop period must be after start period')
-        if period_stop.date_start == period_start.date_start:
-            return [period_start.id]
-        else:
-            return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop), ('special', '=', False)])]
-
-    def _get_account_period_balance(self, account, period_start, period_stop, target_move):
-        return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))
+    #~ def _get_account_period_balance(self, account, period_start, period_stop, target_move):
+        #~ return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))
 
   
 
     @api.multi
     def create_entry(self):
+        if self.state not in ['draft','progress']:
+            raise Warning("Du kan inte skapa verifikat i denna status, ändra till pågår")
+        if self.state in ['draft']:
+            self.state = 'progress'
+
+        
         kontomoms = self.get_all_output_accounts() | self.get_all_input_accounts()
         moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
         if not moms_journal_id:
@@ -279,28 +327,38 @@ class account_vat_declaration(models.Model):
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
-    @api.multi
-    def show_entry(self):
-        if not self.move_id:
-            raise Warning(_(u'Du måste skapa verifikat först'))
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': self.env.ref('account.view_move_form').id,
-            'res_id': self.move_id.id,
-            'target': 'new',
-            'context': {}
-        }
+
 
     @api.multi
-    def show_account_moves(self):
-        accounts = self.get_all_output_accounts() | self.get_all_input_accounts()
-        tax_accounts = accounts.with_context({'state': self.target_move})
-        domain = [('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop)), ('account_id', 'in', tax_accounts.mapped('id'))]
-        if self.target_move in ['draft', 'posted']:
-            domain.append(('move_id.state', '=', self.target_move))
+    def show_15xx(self):
+        return self.show_accounts([('code','like','15%')])
+    @api.multi
+    def show_30xx(self):
+        return self.show_accounts([('code','like','30%')])
+    @api.multi
+    def show_244x(self):
+        return self.show_accounts([('code','like','244%')])
+    @api.multi
+    def show_5x6x(self):
+        return self.show_accounts(['|','|',('code','like','5%'),('code','like','6%'),('code','like','12%'),('code','like','4%')])
+    @api.multi
+    def show_19xx(self):
+        return self.show_accounts([('code','like','19%')])
+    @api.multi
+    def show_2610(self):
+        return self.show_accounts([('code','=','2610')])
+    @api.multi
+    def show_2620(self):
+        return self.show_accounts([('code','=','2620')])
+    @api.multi
+    def show_2630(self):
+        return self.show_accounts([('code','=','2630')])
+    @api.multi
+    def show_2640(self):
+        return self.show_accounts([('code','=','2640')])
+
+    @api.multi
+    def show_accounts(self,accounts):
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move.line',
@@ -308,26 +366,18 @@ class account_vat_declaration(models.Model):
             'view_mode': 'tree',
             'view_id': self.env.ref('account.view_move_line_tree').id,
             'target': 'current',
-            'domain': domain,
-            'context': {},
-        }
-
-    @api.multi
-    def show_journal_items(self):
-        domain = [('move_id.period_id', 'in', self.get_period_ids(self.period_start, self.period_stop)), ('account_id', 'in', (self.get_all_output_accounts() | self.get_all_input_accounts()).mapped('id'))]
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move.line',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'view_id': self.env.ref('account.view_move_line_tree').id,
-            'target': 'current',
-            'domain': domain,
+            'domain': [('id', 'in', self.env['account.tax'].with_context(period_start=self.period_start,period_stop=self.period_stop,target_move=self.target_move).get_taxlines().mapped('id')), ('account_id', 'in', self.env['account.account'].search(accounts).mapped('id'))],
             'context': {},
         }
 
     @api.one
-    def print_report(self): # make a short cut to print financial report
+    def create_report(self): # make a short cut to print financial report
+        if self.state not in ['draft','progress']:
+            raise Warning("Du kan inte skapa rapporten i denna status, ändra till pågår")
+        if self.state in ['draft']:
+            self.state = 'progress'
+
+        
         afr = self.env['accounting.report'].sudo().create({
             'account_report_id': self.env.ref('l10n_se_tax_report.root').id,
             'target_move': 'all',
