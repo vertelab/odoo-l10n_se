@@ -25,6 +25,10 @@
     'description': """
 Swedish accounting Year End Reports
 ===================================
+http://www.srfredovisning.se/srf-mallar-for-arsredovisning-2/2-exempel/
+http://www.srfredovisning.se/foretagsanalys-med-redovisningsinformation/3-analys-med-nyckeltal/
+http://www.srfredovisning.se/foretagsanalys-med-redovisningsinformation/4-analys-med-kassafloden/
+
      """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
