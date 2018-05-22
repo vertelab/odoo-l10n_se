@@ -54,7 +54,7 @@
                       <span class="o_stat_value">
                         <field name="c15xx_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">15xx (kundfordringar)</span>
+                      <span class="o_stat_text">Kundfordr</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="30xx_button" icon="fa-level-up" name="show_30xx" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -62,7 +62,7 @@
                       <span class="o_stat_value">
                         <field name="c30xx_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">30xx (försäljning)</span>
+                      <span class="o_stat_text">Försäljning</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="244x_button" icon="fa-level-up" name="show_30xx" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -70,7 +70,7 @@
                       <span class="o_stat_value">
                         <field name="c244x_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">244x (Leverantörsfordringar)</span>
+                      <span class="o_stat_text">Levfordr</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="5x6x_button" icon="fa-level-up" name="show_5x6x" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -78,7 +78,7 @@
                       <span class="o_stat_value">
                         <field name="c5x6x_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">5x6x (Kostnader)</span>
+                      <span class="o_stat_text">Kostnader</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="19xx_button" icon="fa-level-up" name="show_19xx" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -86,7 +86,7 @@
                       <span class="o_stat_value">
                         <field name="c19xx_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">19xx (Kontorörelser)</span>
+                      <span class="o_stat_text">Kontorörelser</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="2640_button" icon="fa-level-up" name="show_2640" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -94,7 +94,7 @@
                       <span class="o_stat_value">
                         <field name="c2640_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">2640 (Ingående moms)</span>
+                      <span class="o_stat_text">Ingående</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="2630_button" icon="fa-level-up" name="show_2630" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -102,7 +102,7 @@
                       <span class="o_stat_value">
                         <field name="c2630_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">2630 (Utgående 6 %)</span>
+                      <span class="o_stat_text">6% Utgående</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="2620_button" icon="fa-level-up" name="show_2620" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -110,7 +110,7 @@
                       <span class="o_stat_value">
                         <field name="c2620_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">2620 (Utgående 12 %)</span>
+                      <span class="o_stat_text">12% Utgående</span>
                     </div>
                   </button>
                   <button type="object" class="oe_stat_button" id="2610_button" icon="fa-level-up" name="show_2610" context="{'default_period_start': period_start,'default_period_stop': period_stop,'default_target_move': target_move}">
@@ -118,7 +118,7 @@
                       <span class="o_stat_value">
                         <field name="c2610_sum" widget="monetary" options="{'currency_field': 'currency_id'}" />
                       </span>
-                      <span class="o_stat_text">2610 (Utgående 25 %)</span>
+                      <span class="o_stat_text">25% Utgående</span>
                     </div>
                   </button>
                 </div>

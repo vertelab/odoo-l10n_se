@@ -189,6 +189,7 @@ class account_vat_declaration(models.Model):
                         'period_from': self.period_start.id,
                         'period_to': self.period_stop.id,
                         'target_move': self.target_move,
+                        'accounting_method': self.accounting_method,
                     }
                     tax.text = str(int(round(-(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period))))
                 else:
@@ -326,8 +327,33 @@ class account_vat_declaration(models.Model):
                     self.write({'move_id': entry.id}) # wizard disappeared
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
+    @api.multi
+    def show_momsingavdr(self):
+        ctx = {'period_start': self.period_start,'period_stop':self.period_stop,'target_move':self.target_move,'accounting_method': self.accounting_method}
+        return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'account.move.line',
+                'view_type': 'form',
+                'view_mode': 'tree',
+                'view_id': self.env.ref('account.view_move_line_tree').id,
+                'target': 'current',
+                'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+                'context': {},
+            }
 
-
+    @api.multi
+    def show_momsutg(self):
+        ctx = {'period_start': self.period_start,'period_stop':self.period_stop,'target_move':self.target_move,'accounting_method': self.accounting_method}
+        return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'account.move.line',
+                'view_type': 'form',
+                'view_mode': 'tree',
+                'view_id': self.env.ref('account.view_move_line_tree').id,
+                'target': 'current',
+                'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
+                'context': {},
+            }
 
     @api.multi
     def show_15xx(self):

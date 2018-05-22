@@ -68,14 +68,14 @@ class account_tax(models.Model):
         # date_start / date_stop
         domain = [('period_id','in',self.env['account.period'].get_period_ids(period_start,period_stop))]
         if self._context.get('target_move') and self._context.get('target_move') in ['draft', 'posted']:
-            domain.append(tuple(('move_id.state', '=', self._context.get('target_move'))))
-        if self._context.get('accounting_method','invoice'):
+            domain.append(tuple(('state', '=', self._context.get('target_move'))))
+        if self._context.get('accounting_method','invoice') == 'invoice':
             # fakturametoden
             lines = self.env['account.move'].search(domain).mapped('line_ids')
         else:
             # bokslutsmetoden / kontantmetoden
             reconcile_ids = self.env['account.move'].search(domain).mapped('line_ids').filtered(lambda l: l.account_id.code[:2] == '19').mapped('full_reconcile_id')
-            lines = self.env['account.move.line'].search('full_reconcile_id','in',reconcile_ids)
+            lines = self.env['account.move.line'].search([('full_reconcile_id','in',reconcile_ids.mapped('id'))])
         return lines
 
     @api.model  
@@ -96,6 +96,11 @@ class account_financial_report(models.Model):
     @api.multi
     def sum_tax_period(self):
         return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
+        
+    @api.multi
+    def get_taxlines(self):
+        lines = [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()]
+        return self.env['account.move.line'].browse(lines)
 
     @api.model
     def create(self, vals):
