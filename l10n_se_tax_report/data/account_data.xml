@@ -369,7 +369,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'MomsIngAvdr')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i'])]"/>
         </record>
         <!-- column G -->
         <record id="g" model="account.financial.report">

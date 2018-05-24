@@ -32,25 +32,29 @@ _logger = logging.getLogger(__name__)
 # och 264x debet (betalda leverantörsfordringar) redovisas som utgående moms
 #
 # Period   A-id konto   benämning        debet   kredit     tax
-# 1803      A01 3041   försäljning              10000   
-# 1803      A01 2611   Utgående moms 25%         2500       MP1/MP1i
+# 1803          3041   försäljning              10000   
+# 1803          2611   Utgående moms 25%         2500       MP1/MP1i
 # 1803      A01 1510   kundfordran      12500
 #
-# 1803      A02 5410   Förbrukningsinv  10000    
-# 1803      A02 2640   Ing moms          2500               I/Ii
+# 1803          5410   Förbrukningsinv  10000    
+# 1803          2640   Ing moms          2500               I/Ii
 # 1803      A02 2440   Leverantörsskuld         12500    
 #
-# 1804      A01 1930   Bankgiro         12500
+# 1804          1930   Bankgiro         12500
 # 1804      A01 1510   Kundfordran              12500
 #
-# 1804      A02 1930   Bankgiro                 12500
+# 1804          1930   Bankgiro                 12500
 # 1804      A02 2440   Leverantörsskuld 12500
 #
-# 1806      A03 3041   försäljning              10000   
-# 1806      A03 2611   Utgående moms 25%         2500       MP1/MP1i
+# 1805          5410   Förbrukningsinv  10000    
+# 1805          2640   Ing moms         2500               I/Ii
+# 1805          1930   Bank                     12500   
+#
+# 1806          3041   försäljning              10000   
+# 1806          2611   Utgående moms 25%         2500       MP1/MP1i
 # 1806      A03 1510   kundfordran      12500
 #
-# 1807      A03 1930   Bankgiro         12500
+# 1807          1930   Bankgiro         12500
 # 1807      A03 1510   Kundfordran              12500
 #
 # Momsrapport för 1804 - 1806 skall redovisa Utg/ing 2500 från 1803 (kontantmetoden)
@@ -90,7 +94,7 @@ NAMEMAPPING = OrderedDict([
     ('MomsImportUtgHog', ['U1MBBUI']),      #60: Utgående moms 25%
     ('MomsImportUtgMedel', ['U2MBBUI']),    #61: Utgående moms 12%
     ('MomsImportUtgLag', ['U3MBBUI']),      #62: Utgående moms 6%
-    ('MomsIngAvdr', ['MomsIngAvdr']),       #48: Ingående moms att dra av
+    ('MomsIngAvdr', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i']),       #48: Ingående moms att dra av
     ('MomsBetala', ['MomsBetala']),         #49: Moms att betala eller få tillbaka
 ])
 
@@ -113,23 +117,22 @@ class account_vat_declaration(models.Model):
     eskd_file = fields.Binary(string="eSKD-file",readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
 
-    @api.onchange('period_start', 'period_stop', 'target_move','acounting_method')
+    @api.onchange('period_start', 'period_stop', 'target_move','accounting_method')
     def _vat(self):
         if self.period_start and self.period_stop:
             ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
-                'acounting_method': self.accounting_method,
+                'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }            
             self.vat_momsingavdr =  sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])
-            self.vat_momsutg = sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [10,11,12,30,31,32,60,61,62]])
+            self.vat_momsutg = abs(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids') ]))
             self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
 
-    @api.one
     @api.onchange('period_start', 'period_stop', 'acounting_method','target_move')
     def _huvudbok(self):
         if self.period_start and self.period_stop:
@@ -330,30 +333,22 @@ class account_vat_declaration(models.Model):
     @api.multi
     def show_momsingavdr(self):
         ctx = {'period_start': self.period_start,'period_stop':self.period_stop,'target_move':self.target_move,'accounting_method': self.accounting_method}
-        return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'account.move.line',
-                'view_type': 'form',
-                'view_mode': 'tree',
-                'view_id': self.env.ref('account.view_move_line_tree').id,
-                'target': 'current',
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action.update({
                 'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
                 'context': {},
-            }
+            })
+        return action
 
     @api.multi
     def show_momsutg(self):
         ctx = {'period_start': self.period_start,'period_stop':self.period_stop,'target_move':self.target_move,'accounting_method': self.accounting_method}
-        return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'account.move.line',
-                'view_type': 'form',
-                'view_mode': 'tree',
-                'view_id': self.env.ref('account.view_move_line_tree').id,
-                'target': 'current',
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action.update({
                 'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
                 'context': {},
-            }
+            })
+        return action
 
     @api.multi
     def show_15xx(self):

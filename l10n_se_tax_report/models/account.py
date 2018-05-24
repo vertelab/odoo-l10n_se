@@ -74,9 +74,21 @@ class account_tax(models.Model):
             lines = self.env['account.move'].search(domain).mapped('line_ids')
         else:
             # bokslutsmetoden / kontantmetoden
-            reconcile_ids = self.env['account.move'].search(domain).mapped('line_ids').filtered(lambda l: l.account_id.code[:2] == '19').mapped('full_reconcile_id')
-            lines = self.env['account.move.line'].search([('full_reconcile_id','in',reconcile_ids.mapped('id'))])
-        return lines
+            moves = self.env['account.move'].search(domain)
+            lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
+            
+            #~ lines = self.env['account.move'].search(domain)
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('line_ids')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('full_reconcile_id')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('reconciled_line_ids')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('move_id')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('line_ids')
+        return lines.filtered(lambda r: self == r.tax_line_id)
 
     @api.model  
     def get_taxtable(self):
@@ -99,6 +111,11 @@ class account_financial_report(models.Model):
         
     @api.multi
     def get_taxlines(self):
+        _logger.warn(self.name)
+        _logger.warn(self._context)
+        for tax in self.tax_ids:
+            _logger.warn('tax: %s' % tax.name)
+            _logger.warn(tax.with_context(self._context).get_taxlines())
         lines = [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()]
         return self.env['account.move.line'].browse(lines)
 
