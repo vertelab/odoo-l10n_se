@@ -112,12 +112,13 @@ class account_vat_declaration(models.Model):
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
     accounting_method = fields.Selection(selection=[('casch', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
+    accounting_yearend = fields.Boolean(string="Bokslutsperiod",help="I bokslutsperioden skall även utestående fordringar ingå i momsredovisningen vid kontantmetoden")
     free_text = fields.Text(string='Upplysningstext')
     report_file = fields.Binary(string="Report-file",readonly=True)
     eskd_file = fields.Binary(string="eSKD-file",readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
 
-    @api.onchange('period_start', 'period_stop', 'target_move','accounting_method')
+    @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
         if self.period_start and self.period_stop:
             ctx = {
@@ -129,6 +130,7 @@ class account_vat_declaration(models.Model):
             self.vat_momsingavdr =  sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])
             self.vat_momsutg = abs(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids') ]))
             self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
+            self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
