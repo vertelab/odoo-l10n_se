@@ -31,31 +31,31 @@ _logger = logging.getLogger(__name__)
 # Vid kontantmetoden skall 15xx kredit (betalda kundfordringar) redovisas som ingående moms 
 # och 264x debet (betalda leverantörsfordringar) redovisas som utgående moms
 #
-# Period   A-id konto   benämning        debet   kredit     tax
-# 1803          3041   försäljning              10000   
-# 1803          2611   Utgående moms 25%         2500       MP1/MP1i
-# 1803      A01 1510   kundfordran      12500
+# Period   A-id konto   benämning           debet   kredit     tax
+# 1803      A01 1510   kundfordran          6250
+# 1803          2610   Utgående moms 25%            1250       MP1/MP1i
+# 1803          3001   gem                          5000   
 #
-# 1803          5410   Förbrukningsinv  10000    
-# 1803          2640   Ing moms          2500               I/Ii
-# 1803      A02 2440   Leverantörsskuld         12500    
+# 1803      A02 2440   Leverantörsskuld             12500    
+# 1803          2640   Ing moms             2500               I/Ii
+# 1803          5410   Förbrukningsinv      10000    
 #
-# 1804          1930   Bankgiro         12500
-# 1804      A01 1510   Kundfordran              12500
+# 1804      A01 1510   Kundfordran                  6250
+# 1804          1931   Bankgiro             6250
 #
-# 1804          1930   Bankgiro                 12500
-# 1804      A02 2440   Leverantörsskuld 12500
+# 1804          1930   Bankgiro                     12500
+# 1804      A02 2440   Leverantörsskuld     12500
 #
-# 1805          5410   Förbrukningsinv  10000    
-# 1805          2640   Ing moms         2500               I/Ii
-# 1805          1930   Bank                     12500   
+# 1805          1930   Bank                         25000
+# 1805          2640   Ing moms             5000               I/Ii   
+# 1805          5410   Förbrukningsinv      20000    
 #
-# 1806          3041   försäljning              10000   
-# 1806          2611   Utgående moms 25%         2500       MP1/MP1i
-# 1806      A03 1510   kundfordran      12500
+# 1806      A03 1510   kundfordran          50000
+# 1806          2611   Utgående moms 25%            10000       MP1/MP1i
+# 1806          3041   försäljning                  40000   
 #
-# 1807          1930   Bankgiro         12500
-# 1807      A03 1510   Kundfordran              12500
+# 1807          1930   Bankgiro             50000
+# 1807      A03 1510   Kundfordran                  50000
 #
 # Momsrapport för 1804 - 1806 skall redovisa Utg/ing 2500 från 1803 (kontantmetoden)
 # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax
@@ -63,6 +63,14 @@ _logger = logging.getLogger(__name__)
 # Fakturametoden
 # Alla account.move 1804/06 -> account.line -> account.tax 
 #
+
+# Typ               Period      Slutperiod  Ingående    Utgående 
+# Fakturametoden    p04 - p06               5000        10000
+# Kontantmetoden    p04 - p06               7500        1250
+# Kontantmetoden    p04 - p06   Ja          7500        11250
+
+
+
 
 
 # order must be correct
@@ -111,12 +119,16 @@ class account_vat_declaration(models.Model):
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
-    accounting_method = fields.Selection(selection=[('casch', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
+    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     accounting_yearend = fields.Boolean(string="Bokslutsperiod",help="I bokslutsperioden skall även utestående fordringar ingå i momsredovisningen vid kontantmetoden")
     free_text = fields.Text(string='Upplysningstext')
     report_file = fields.Binary(string="Report-file",readonly=True)
     eskd_file = fields.Binary(string="eSKD-file",readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
+
+    @api.onchange('period_stop')
+    def onchange_period_stop(self):
+        self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
 
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
@@ -124,13 +136,13 @@ class account_vat_declaration(models.Model):
             ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }            
             self.vat_momsingavdr =  sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])
             self.vat_momsutg = abs(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids') ]))
             self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
-            self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
@@ -334,22 +346,37 @@ class account_vat_declaration(models.Model):
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
     @api.multi
     def show_momsingavdr(self):
-        ctx = {'period_start': self.period_start,'period_stop':self.period_stop,'target_move':self.target_move,'accounting_method': self.accounting_method}
+        ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        _logger.warn(action)
         action.update({
-                'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-                'context': {},
-            })
+            'display_name': _('VAT In'),
+            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            'context': {},
+        })
         return action
-
+            
     @api.multi
     def show_momsutg(self):
-        ctx = {'period_start': self.period_start,'period_stop':self.period_stop,'target_move':self.target_move,'accounting_method': self.accounting_method}
+        ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
         action.update({
-                'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
-                'context': {},
-            })
+            'display_name': _('VAT Out'),
+            'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
+            'context': {},
+        })
         return action
 
     @api.multi
@@ -393,7 +420,7 @@ class account_vat_declaration(models.Model):
             'context': {},
         }
 
-    @api.one
+    @api.multi
     def create_report(self): # make a short cut to print financial report
         if self.state not in ['draft','progress']:
             raise Warning("Du kan inte skapa rapporten i denna status, ändra till pågår")
@@ -409,10 +436,79 @@ class account_vat_declaration(models.Model):
             'date_from_cmp': self.period_start.date_start,
             'date_to_cmp': self.period_stop.date_stop,
         })
-        self.report_file = afr.get_pdf()
+        data = {}
+        data['form'] = afr.read(['account_report_id', 'date_from_cmp', 'date_to_cmp', 'journal_ids', 'filter_cmp', 'target_move'])[0]
+        for field in ['account_report_id']:
+            if isinstance(data['form'][field], tuple):
+                data['form'][field] = data['form'][field][0]
+        #~ comparison_context = afr._build_comparison_context(data)
+        #~ res['data']['form']['comparison_context'] = comparison_context
+        _logger.warn(data)
+        res =  self.env['report'].get_pdf(None, 'account.report_financial', data=data)
+        _logger.warn(res)
+        
+        return afr.check_report()
 
 
+        #~ docids: None
+#~ reportname: account.report_financial
+#~ data: {
+    #~ u'model': u'ir.ui.menu',
+    #~ u'form': {
+        #~ u'date_to': u'2018-06-30',
+        #~ u'comparison_context': {
+            #~ u'state': u'posted', 
+            #~ u'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8]
+        #~ }, 
+        #~ u'filter_cmp': u'filter_no', 
+        #~ u'date_from': u'2018-04-01', 
+        #~ u'enable_filter': False, 
+        #~ u'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8], 
+        #~ u'date_to_cmp': False, 
+        #~ u'used_context': {
+            #~ u'lang': u'sv_SE', 
+            #~ u'date_from': u'2018-04-01', 
+            #~ u'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8], 
+            #~ u'state': u'posted', 
+            #~ u'strict_range': True, 
+            #~ u'date_to': u'2018-06-30'}, 
+            #~ u'label_filter': False, 
+            #~ u'date_from_cmp': False, 
+            #~ u'id': 16, 
+            #~ u'account_report_id': [9, u'Momsrapport'], 
+            #~ u'debit_credit': False, 
+            #~ u'target_move': u'posted'
+        #~ }, 
+        #~ u'ids': [], 
+        #~ 'context': {
+            #~ u'tz': False, 
+            #~ u'uid': 1, 
+            #~ u'active_model': u'accounting.report', 
+            #~ u'params': {
+                #~ u'action': 215
+            #~ }, 
+            #~ u'search_disable_custom_filters': True, 
+            #~ u'active_ids': [16], 
+            #~ u'active_id': 16
+        #~ }
+    #~ }
 
+#~ {
+    #~ 'form': {
+        #~ 'filter_cmp': u'filter_no',
+        #~ 'account_report_id': 9, 
+        #~ 'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8], 
+        #~ 'date_to_cmp': '2018-06-30', 
+        #~ 'date_from_cmp': '2018-04-01', 
+        #~ 'id': 17, 
+        #~ 'target_move': u'all'
+    #~ }
+#~ }
+
+#~ context: {'lang': u'sv_SE', 'tz': False, 'uid': 1, u'active_model': u'accounting.report', u'params': {u'action': 215}, u'search_disable_custom_filters': True, u'active_ids': [16], u'active_id': 16}
+        
+        #~ data['form'].update(self.read(['date_from_cmp', 'debit_credit', 'date_to_cmp', 'filter_cmp', 'account_report_id', 'enable_filter', 'label_filter', 'target_move'])[0])
+        #~ return self.env['report'].get_action(self, 'account.report_financial', data=data)
 
     # ~ @api.multi
     # ~ def print_report(self):

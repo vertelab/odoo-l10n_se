@@ -45,7 +45,7 @@
               <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '>', period_start),('state','=','draft')]" nolabel="1"/><newline/>
               <field name="target_move" /><newline/>
               <field name="accounting_method" />
-              <field name="accounting_yearend"  attrs="{'invisible': [('accounting_method', '&gt;&lt;', 'casch')]}"/>
+              <field name="accounting_yearend"  attrs="{'invisible': [('accounting_method', '!=', 'cash')]}"/>
             </group>
             <group col="3">
               <field name="vat_momsbetala" />

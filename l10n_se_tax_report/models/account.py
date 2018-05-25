@@ -75,7 +75,10 @@ class account_tax(models.Model):
         else:
             # bokslutsmetoden / kontantmetoden
             moves = self.env['account.move'].search(domain)
-            lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
+            if self._context.get('accounting_yearend'):
+                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
+            else:
+                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids]) and any([l.account_id.code[:2] == '19'])).mapped('line_ids')
             
             #~ lines = self.env['account.move'].search(domain)
             #~ _logger.warn(lines)

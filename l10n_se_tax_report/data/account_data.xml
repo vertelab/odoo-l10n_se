@@ -63,7 +63,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="account_ids" search="[('code', 'in', ['3001', '3002', '3003'])]"/>
+            <field name="account_ids" search="[('code', 'in', ['3000', '3001', '3002', '3003', '3510', '3511', '3518', '3520', '3540', '3550', '3560', '3561', '3562', '3563', '3570', '3590', '3600', '3610', '3611', '3612', '3613', '3619', '3620', '3730', '3731', '3732', '3740'])]"/>
         </record>
         <record id="6" model="account.financial.report">
             <field name="name">6. Momspliktiga uttag</field>
