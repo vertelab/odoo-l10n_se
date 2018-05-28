@@ -24,6 +24,8 @@ from lxml import etree
 import base64
 from collections import OrderedDict
 from odoo.exceptions import Warning
+import time
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -444,6 +446,47 @@ class account_vat_declaration(models.Model):
         #~ comparison_context = afr._build_comparison_context(data)
         #~ res['data']['form']['comparison_context'] = comparison_context
         _logger.warn(data)
+        data['form']['account_report_id'] = [self.env.ref('l10n_se_tax_report.root').id]
+        data['form']['enable_filter'] = False
+        data['form']['debit_credit'] = False
+        data['form']['used_context'] = {
+            'target_move': self.target_move,
+            'enable_filter': False,
+            'debit_credit': False,
+            'date_from_cmp': self.period_start.date_start,  # Dangerous!
+            'date_to_cmp': self.period_stop.date_stop,
+            'acounting_method': self.accounting_method,
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,        
+                'active_model': afr._name,        
+                'active_id': afr.id,        
+                
+                
+                
+        }
+        # ~ raise Warning(self.env['report.account.report_financial'].get_account_lines(data.get('form')))
+        docargs = {
+            'form': data['form'],
+            'doc_ids': [afr.id],
+            'doc_model': afr._name,
+            'data': data['form'],
+            'docs': afr,
+            'time': time,
+            'get_account_lines': self.env['report.account.report_financial'].get_account_lines(data.get('form')),
+        }
+        
+        return self.env['report'].with_context(data['form']['used_context']).get_action(afr, 'account.report_financial', data=data)
+        raise Warning(self.env['report'].get_action(self, 'account.report_financial', data=data).items())
+        raise Warning(self.env['report'].with_context(data['form']['used_context']).render('account.report_financial', docargs))
+        raise Warning(self.env['report'].with_context(data['form']['used_context']).get_html(None, 'account.report_financial', data=docargs))
+        raise Warning(self.env['report'].with_context(data['form']['used_context']).get_pdf(None,'account.report_financial', data=data))
+        # ~ raise Warning(self.env['report'].get_html([afr.id],'account.report_financial', data=docargs))
+        raise Warning(self.env['report'].render('account.report_financial', docargs))
+        return self.env['report'].render('account.report_financial', docargs)
+        
+        
+        
+        raise Warning(self.env['report.account.report_financial'].render_html(data.get('form')))
         res =  self.env['report'].get_pdf(None, 'account.report_financial', data=data)
         _logger.warn(res)
         
