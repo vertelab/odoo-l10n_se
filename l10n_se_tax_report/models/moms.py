@@ -149,6 +149,9 @@ class account_vat_declaration(models.Model):
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
 
+    line_ids = fields.One2many(comodel_name='account.vat.declaration.line',inverse_name="declaration_id")
+    move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
+
     @api.onchange('period_start', 'period_stop', 'acounting_method','target_move')
     def _huvudbok(self):
         if self.period_start and self.period_stop:
@@ -177,6 +180,113 @@ class account_vat_declaration(models.Model):
     c2630_sum = fields.Float(string='2630', default=0.0, compute="_huvudbok", )
     c2640_sum = fields.Float(string='2640', default=0.0, compute="_huvudbok", )
 
+    @api.multi
+    def show_momsingavdr(self):
+        ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        _logger.warn(action)
+        action.update({
+            'display_name': _('VAT In'),
+            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            'context': {},
+        })
+        return action
+            
+    @api.multi
+    def show_momsutg(self):
+        ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action.update({
+            'display_name': _('VAT Out'),
+            'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
+            'context': {},
+        })
+        return action
+
+    @api.multi
+    def show_15xx(self):
+        return self.show_accounts([('code','like','15%')])
+    @api.multi
+    def show_30xx(self):
+        return self.show_accounts([('code','like','30%')])
+    @api.multi
+    def show_244x(self):
+        return self.show_accounts([('code','like','244%')])
+    @api.multi
+    def show_5x6x(self):
+        return self.show_accounts(['|','|',('code','like','5%'),('code','like','6%'),('code','like','12%'),('code','like','4%')])
+    @api.multi
+    def show_19xx(self):
+        return self.show_accounts([('code','like','19%')])
+    @api.multi
+    def show_2610(self):
+        return self.show_accounts([('code','=','2610')])
+    @api.multi
+    def show_2620(self):
+        return self.show_accounts([('code','=','2620')])
+    @api.multi
+    def show_2630(self):
+        return self.show_accounts([('code','=','2630')])
+    @api.multi
+    def show_2640(self):
+        return self.show_accounts([('code','=','2640')])
+
+    @api.multi
+    def show_accounts(self,accounts):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move.line',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'view_id': self.env.ref('account.view_move_line_tree').id,
+            'target': 'current',
+            'domain': [('id', 'in', self.env['account.tax'].with_context(period_start=self.period_start,period_stop=self.period_stop,target_move=self.target_move).get_taxlines().mapped('id')), ('account_id', 'in', self.env['account.account'].search(accounts).mapped('id'))],
+            'context': {},
+        }
+
+
+    @api.one
+    def calculate(self): # make a short cut to print financial report
+        if self.state not in ['draft','progress']:
+            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+        if self.state in ['draft']:
+            self.state = 'progress'
+        
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }  
+        
+        self.line_ids.unlink()
+        # ~ self.env['account.vat.declaration.line'].search([('declaration_id','=',self.id)]).unlink()
+        for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,49,50,60,61,62]:
+            line = self.env.ref('l10n_se_tax_report.%s' % row)
+            self.env['account.vat.declaration.line'].create({
+                'declaration_id': self.id,
+                'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
+                'name': line.name,
+                'level': line.level,
+                'move_line_ids': [(6,0,line.get_moveline_ids())],
+                })
+        raise Warning(self.env.ref('l10n_se_tax_report.%s' % 5).get_moveline_ids()) # ,self.line_ids.mapped('move_line_ids'))
+        for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
+            move.vat_declaration_id = self.id
+            
     @api.one
     def create_eskd(self):
         if self.state not in ['draft','progress']:
@@ -346,232 +456,26 @@ class account_vat_declaration(models.Model):
                     self.write({'move_id': entry.id}) # wizard disappeared
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
-    @api.multi
-    def show_momsingavdr(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        _logger.warn(action)
-        action.update({
-            'display_name': _('VAT In'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            'context': {},
-        })
-        return action
-            
-    @api.multi
-    def show_momsutg(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('VAT Out'),
-            'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
-            'context': {},
-        })
-        return action
 
-    @api.multi
-    def show_15xx(self):
-        return self.show_accounts([('code','like','15%')])
-    @api.multi
-    def show_30xx(self):
-        return self.show_accounts([('code','like','30%')])
-    @api.multi
-    def show_244x(self):
-        return self.show_accounts([('code','like','244%')])
-    @api.multi
-    def show_5x6x(self):
-        return self.show_accounts(['|','|',('code','like','5%'),('code','like','6%'),('code','like','12%'),('code','like','4%')])
-    @api.multi
-    def show_19xx(self):
-        return self.show_accounts([('code','like','19%')])
-    @api.multi
-    def show_2610(self):
-        return self.show_accounts([('code','=','2610')])
-    @api.multi
-    def show_2620(self):
-        return self.show_accounts([('code','=','2620')])
-    @api.multi
-    def show_2630(self):
-        return self.show_accounts([('code','=','2630')])
-    @api.multi
-    def show_2640(self):
-        return self.show_accounts([('code','=','2640')])
 
-    @api.multi
-    def show_accounts(self,accounts):
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move.line',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'view_id': self.env.ref('account.view_move_line_tree').id,
-            'target': 'current',
-            'domain': [('id', 'in', self.env['account.tax'].with_context(period_start=self.period_start,period_stop=self.period_stop,target_move=self.target_move).get_taxlines().mapped('id')), ('account_id', 'in', self.env['account.account'].search(accounts).mapped('id'))],
-            'context': {},
-        }
-
-    @api.multi
-    def create_report(self): # make a short cut to print financial report
-        if self.state not in ['draft','progress']:
-            raise Warning("Du kan inte skapa rapporten i denna status, ändra till pågår")
-        if self.state in ['draft']:
-            self.state = 'progress'
 
         
-        afr = self.env['accounting.report'].sudo().create({
-            'account_report_id': self.env.ref('l10n_se_tax_report.root').id,
-            'target_move': 'all',
-            'enable_filter': False,
-            'debit_credit': False,
-            'date_from_cmp': self.period_start.date_start,
-            'date_to_cmp': self.period_stop.date_stop,
-        })
-        data = {}
-        data['form'] = afr.read(['account_report_id', 'date_from_cmp', 'date_to_cmp', 'journal_ids', 'filter_cmp', 'target_move'])[0]
-        for field in ['account_report_id']:
-            if isinstance(data['form'][field], tuple):
-                data['form'][field] = data['form'][field][0]
-        #~ comparison_context = afr._build_comparison_context(data)
-        #~ res['data']['form']['comparison_context'] = comparison_context
-        _logger.warn(data)
-        data['form']['account_report_id'] = [self.env.ref('l10n_se_tax_report.root').id]
-        data['form']['enable_filter'] = False
-        data['form']['debit_credit'] = False
-        data['form']['used_context'] = {
-            'target_move': self.target_move,
-            'enable_filter': False,
-            'debit_credit': False,
-            'date_from_cmp': self.period_start.date_start,  # Dangerous!
-            'date_to_cmp': self.period_stop.date_stop,
-            'acounting_method': self.accounting_method,
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,        
-                'active_model': afr._name,        
-                'active_id': afr.id,        
-                
-                
-                
-        }
-        # ~ raise Warning(self.env['report.account.report_financial'].get_account_lines(data.get('form')))
-        docargs = {
-            'form': data['form'],
-            'doc_ids': [afr.id],
-            'doc_model': afr._name,
-            'data': data['form'],
-            'docs': afr,
-            'time': time,
-            'get_account_lines': self.env['report.account.report_financial'].get_account_lines(data.get('form')),
-        }
-        
-        return self.env['report'].with_context(data['form']['used_context']).get_action(afr, 'account.report_financial', data=data)
-        raise Warning(self.env['report'].get_action(self, 'account.report_financial', data=data).items())
-        raise Warning(self.env['report'].with_context(data['form']['used_context']).render('account.report_financial', docargs))
-        raise Warning(self.env['report'].with_context(data['form']['used_context']).get_html(None, 'account.report_financial', data=docargs))
-        raise Warning(self.env['report'].with_context(data['form']['used_context']).get_pdf(None,'account.report_financial', data=data))
-        # ~ raise Warning(self.env['report'].get_html([afr.id],'account.report_financial', data=docargs))
-        raise Warning(self.env['report'].render('account.report_financial', docargs))
-        return self.env['report'].render('account.report_financial', docargs)
-        
-        
-        
-        raise Warning(self.env['report.account.report_financial'].render_html(data.get('form')))
-        res =  self.env['report'].get_pdf(None, 'account.report_financial', data=data)
-        _logger.warn(res)
-        
-        return afr.check_report()
 
+class account_vat_declaration_line(models.Model):
+    _name = 'account.vat.declaration.line'
 
-        #~ docids: None
-#~ reportname: account.report_financial
-#~ data: {
-    #~ u'model': u'ir.ui.menu',
-    #~ u'form': {
-        #~ u'date_to': u'2018-06-30',
-        #~ u'comparison_context': {
-            #~ u'state': u'posted', 
-            #~ u'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8]
-        #~ }, 
-        #~ u'filter_cmp': u'filter_no', 
-        #~ u'date_from': u'2018-04-01', 
-        #~ u'enable_filter': False, 
-        #~ u'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8], 
-        #~ u'date_to_cmp': False, 
-        #~ u'used_context': {
-            #~ u'lang': u'sv_SE', 
-            #~ u'date_from': u'2018-04-01', 
-            #~ u'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8], 
-            #~ u'state': u'posted', 
-            #~ u'strict_range': True, 
-            #~ u'date_to': u'2018-06-30'}, 
-            #~ u'label_filter': False, 
-            #~ u'date_from_cmp': False, 
-            #~ u'id': 16, 
-            #~ u'account_report_id': [9, u'Momsrapport'], 
-            #~ u'debit_credit': False, 
-            #~ u'target_move': u'posted'
-        #~ }, 
-        #~ u'ids': [], 
-        #~ 'context': {
-            #~ u'tz': False, 
-            #~ u'uid': 1, 
-            #~ u'active_model': u'accounting.report', 
-            #~ u'params': {
-                #~ u'action': 215
-            #~ }, 
-            #~ u'search_disable_custom_filters': True, 
-            #~ u'active_ids': [16], 
-            #~ u'active_id': 16
-        #~ }
-    #~ }
-
-#~ {
-    #~ 'form': {
-        #~ 'filter_cmp': u'filter_no',
-        #~ 'account_report_id': 9, 
-        #~ 'journal_ids': [2, 3, 4, 5, 7, 6, 9, 1, 8], 
-        #~ 'date_to_cmp': '2018-06-30', 
-        #~ 'date_from_cmp': '2018-04-01', 
-        #~ 'id': 17, 
-        #~ 'target_move': u'all'
-    #~ }
-#~ }
-
-#~ context: {'lang': u'sv_SE', 'tz': False, 'uid': 1, u'active_model': u'accounting.report', u'params': {u'action': 215}, u'search_disable_custom_filters': True, u'active_ids': [16], u'active_id': 16}
-        
-        #~ data['form'].update(self.read(['date_from_cmp', 'debit_credit', 'date_to_cmp', 'filter_cmp', 'account_report_id', 'enable_filter', 'label_filter', 'target_move'])[0])
-        #~ return self.env['report'].get_action(self, 'account.report_financial', data=data)
-
-    # ~ @api.multi
-    # ~ def print_report(self):
-        # ~ return {
-            # ~ 'type': 'ir.actions.act_window',
-            # ~ 'res_model': 'accounting.report',
-            # ~ 'view_type': 'form',
-            # ~ 'view_mode': 'form',
-            # ~ 'view_id': self.env.ref('account.accounting_report_view').id,
-            # ~ 'target': 'new',
-            # ~ 'domain': [],
-            # ~ 'context': {
-                # ~ 'default_account_report_id': self.env.ref('l10n_se_tax_report.root').id,
-                # ~ 'default_date_from': self.period_start.date_start,
-                # ~ 'default_date_to': self.period_stop.date_stop,
-            # ~ },
-        # ~ }
-
-        #~ account_tax_codes = self.env['account.tax'].search([])
-        #~ data = {}
-        #~ data['ids'] = account_tax_codes.mapped('id')
-        #~ data['model'] = 'account.tax'
-        #~ return self.env['report'].with_context({'period_ids': self.get_period_ids(self.period_start, self.period_stop), 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_tax_report.moms_report_glabel').name, data=data)
+    declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
+    move_line_ids = fields.Many2many(comodel_name="account.move.line")
+    # ~ report_id = fields.Many2one(comodel_name="account.financial.report")
+    account_type = fields.Char()
+    balance = fields.Float()
+    type = fields.Char()
+    name = fields.Char()
+    level = fields.Integer()
+    
+  
+class account_move(models.Model):
+    _inherit = 'account.move'  
+              
+    vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
+    

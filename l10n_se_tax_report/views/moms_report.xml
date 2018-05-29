@@ -7,9 +7,9 @@
       <field name="arch" type="xml">
         <form string="Momsdeklaration">
           <header>
-            <button name="create_report" string="Skriv ut rapporten" type="object" class="oe_highlight" />
-            <button name="create_entry" string="Skapa verifikat" type="object" class="oe_highlight" />
-            <button name="create_eskd" string="Skapa eSKD-fil" type="object" class="oe_highlight" />
+            <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft"/>
+            <button name="create_entry" string="Skapa verifikat" type="object" class="oe_highlight" states="progress"/>
+            <button name="create_eskd" string="Skapa eSKD-fil" type="object" class="oe_highlight" states="progress"/>
             <field name="state" widget="statusbar" clickable="True" />
           </header>
           <sheet>
@@ -134,6 +134,36 @@
               <page string="Upplysningstext">
                 <field name="free_text" nolabel="1" />
               </page>
+              <page string="Rader">
+                <field name="line_ids" nolabel="1" >
+                    <tree>   
+                            <field name='level'/>
+<!--
+                        <field name="account_type"/>
+-->
+                        <field name="name"/>
+<!--
+                        <field name='type'/>
+-->
+                        <field name='balance'/>
+                 
+                    </tree>
+                </field>
+              </page>
+              <page string="Verifikat">
+                <field name="move_ids" nolabel="1" >
+                    <tree>   
+                            <field name='name'/>
+                            <field name='ref'/>
+                            <field name='date'/>
+                            <field name='period_id'/>
+                            <field name='partner_id'/>
+                            <field name='state'/>
+                            <field name='amount'/>
+                    </tree>
+                </field>
+              </page>
+
             </notebook>
           </sheet>
           <div class="oe_chatter">

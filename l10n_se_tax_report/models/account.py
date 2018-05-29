@@ -24,6 +24,36 @@ import logging
 _logger = logging.getLogger(__name__)
 
 #~ https://www.skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/hurlamnarjagarbetsgivardeklaration/saharfyllerduirutaforruta.4.3810a01c150939e893f18e43.html
+class account_account(models.Model):
+    _inherit = 'account.account'
+    
+    @api.multi
+    def sum_period(self):
+        self.ensure_one()
+        return sum([a.balance for a in self.get_movelines()])
+
+
+    @api.multi
+    def get_movelines(self):
+        period_start = self._context.get('period_start',self._context.get('period_id'))
+        period_stop = self._context.get('period_stop',period_start)
+        # date_start / date_stop
+        domain = [('period_id','in',self.env['account.period'].get_period_ids(period_start,period_stop))]
+        if self._context.get('target_move') and self._context.get('target_move') in ['draft', 'posted']:
+            domain.append(tuple(('state', '=', self._context.get('target_move'))))
+        if self._context.get('accounting_method','invoice') == 'invoice':
+            # fakturametoden
+            lines = self.env['account.move'].search(domain).mapped('line_ids')
+        else:
+            # bokslutsmetoden / kontantmetoden
+            moves = self.env['account.move'].search(domain)
+            
+            if self._context.get('accounting_yearend'):
+                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
+            else:
+                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids]) and any([l.account_id.code[:2] == '19'])).mapped('line_ids')
+        _logger.warn('Code %s --> %s'%(self.code,lines.filtered(lambda l: l.account_id in self)))
+        return lines.filtered(lambda l: l.account_id in self)
 
 
 class account_tax(models.Model):
@@ -111,6 +141,16 @@ class account_financial_report(models.Model):
     @api.multi
     def sum_tax_period(self):
         return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
+
+    @api.multi
+    def get_moveline_ids(self):
+        for account in self.account_ids:
+            _logger.warn('account: %s --> %s' % (account.code,account.with_context(self._context).get_movelines()))
+
+        for tax in self.tax_ids:
+            _logger.warn('tax: %s' % tax.name)
+            _logger.warn(tax.with_context(self._context).get_taxlines())
+        return [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()] 
         
     @api.multi
     def get_taxlines(self):
