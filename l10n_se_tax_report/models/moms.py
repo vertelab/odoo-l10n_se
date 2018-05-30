@@ -283,7 +283,6 @@ class account_vat_declaration(models.Model):
                 'level': line.level,
                 'move_line_ids': [(6,0,line.get_moveline_ids())],
                 })
-        raise Warning(self.env.ref('l10n_se_tax_report.%s' % 5).get_moveline_ids()) # ,self.line_ids.mapped('move_line_ids'))
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
             move.vat_declaration_id = self.id
             

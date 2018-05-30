@@ -52,7 +52,7 @@ class account_account(models.Model):
                 lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
             else:
                 lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids]) and any([l.account_id.code[:2] == '19'])).mapped('line_ids')
-        _logger.warn('Code %s --> %s'%(self.code,lines.filtered(lambda l: l.account_id in self)))
+        _logger.warn('Code %s --> %s (%s)'%(self.code,lines.filtered(lambda l: l.account_id in self),self))
         return lines.filtered(lambda l: l.account_id in self)
 
 
@@ -91,8 +91,10 @@ class account_tax(models.Model):
         #~ else:
             #~ self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
 
-    @api.model  
+    @api.multi  
     def get_taxlines(self):
+        _logger.warn('get_taxlines context %s' % self._context)
+        _logger.warn('get_taxlines self %s' % self)
         period_start = self._context.get('period_start',self._context.get('period_id'))
         period_stop = self._context.get('period_stop',period_start)
         # date_start / date_stop
@@ -121,7 +123,9 @@ class account_tax(models.Model):
             #~ lines = lines.mapped('move_id')
             #~ _logger.warn(lines)
             #~ lines = lines.mapped('line_ids')
-        return lines.filtered(lambda r: self == r.tax_line_id)
+        
+
+        return lines.filtered(lambda r: r.tax_line_id in self)
 
     @api.model  
     def get_taxtable(self):
@@ -140,17 +144,20 @@ class account_financial_report(models.Model):
 
     @api.multi
     def sum_tax_period(self):
+        _logger.warn('sum_tax_period context %s' %self._context )
         return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
 
     @api.multi
     def get_moveline_ids(self):
+        _logger.warn('financial report %s',self)
         for account in self.account_ids:
-            _logger.warn('account: %s --> %s' % (account.code,account.with_context(self._context).get_movelines()))
+            _logger.warn('account: %s --> %s (%s)' % (account.code,account.with_context(self._context).get_movelines(),self._context))
+            _logger.warn('account: %s >>> %s' % (account.code,[l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()]))
 
         for tax in self.tax_ids:
             _logger.warn('tax: %s' % tax.name)
             _logger.warn(tax.with_context(self._context).get_taxlines())
-        return [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()] 
+        return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()]))
         
     @api.multi
     def get_taxlines(self):
