@@ -30,17 +30,17 @@ import logging
 _logger = logging.getLogger(__name__)
 
 # Momsredovisning enligt bokslutsmetoden (kontantmetoden) respektive fakturametoden
-# Vid kontantmetoden skall 15xx kredit (betalda kundfordringar) redovisas som ingående moms 
+# Vid kontantmetoden skall 15xx kredit (betalda kundfordringar) redovisas som ingående moms
 # och 264x debet (betalda leverantörsfordringar) redovisas som utgående moms
 #
 # Period   A-id konto   benämning           debet   kredit     tax
 # 1803      A01 1510   kundfordran          6250
 # 1803          2610   Utgående moms 25%            1250       MP1/MP1i
-# 1803          3001   gem                          5000   
+# 1803          3001   gem                          5000
 #
-# 1803      A02 2440   Leverantörsskuld             12500    
+# 1803      A02 2440   Leverantörsskuld             12500
 # 1803          2640   Ing moms             2500               I/Ii
-# 1803          5410   Förbrukningsinv      10000    
+# 1803          5410   Förbrukningsinv      10000
 #
 # 1804      A01 1510   Kundfordran                  6250
 # 1804          1931   Bankgiro             6250
@@ -49,12 +49,12 @@ _logger = logging.getLogger(__name__)
 # 1804      A02 2440   Leverantörsskuld     12500
 #
 # 1805          1930   Bank                         25000
-# 1805          2640   Ing moms             5000               I/Ii   
-# 1805          5410   Förbrukningsinv      20000    
+# 1805          2640   Ing moms             5000               I/Ii
+# 1805          5410   Förbrukningsinv      20000
 #
 # 1806      A03 1510   kundfordran          50000
 # 1806          2611   Utgående moms 25%            10000       MP1/MP1i
-# 1806          3041   försäljning                  40000   
+# 1806          3041   försäljning                  40000
 #
 # 1807          1930   Bankgiro             50000
 # 1807      A03 1510   Kundfordran                  50000
@@ -63,10 +63,10 @@ _logger = logging.getLogger(__name__)
 # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax
 #
 # Fakturametoden
-# Alla account.move 1804/06 -> account.line -> account.tax 
+# Alla account.move 1804/06 -> account.line -> account.tax
 #
 
-# Typ               Period      Slutperiod  Ingående    Utgående 
+# Typ               Period      Slutperiod  Ingående    Utgående
 # Fakturametoden    p04 - p06               5000        10000
 # Kontantmetoden    p04 - p06               7500        1250
 # Kontantmetoden    p04 - p06   Ja          7500        11250
@@ -111,7 +111,7 @@ NAMEMAPPING = OrderedDict([
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
-    
+
     name = fields.Char(default='Moms jan - mars')
     date = fields.Date(help="Planned date")
     state = fields.Selection(selection=[('draft','Draft'),('progress','Progress'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
@@ -141,7 +141,7 @@ class account_vat_declaration(models.Model):
                 'accounting_yearend': self.accounting_yearend,
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
-            }            
+            }
             self.vat_momsingavdr =  sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])
             self.vat_momsutg = abs(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids') ]))
             self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
@@ -160,7 +160,7 @@ class account_vat_declaration(models.Model):
                 'period_stop': self.period_stop.id,
                 'acounting_method': self.accounting_method,
                 'target_move': self.target_move,
-            }            
+            }
             self.c15xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','15%' )])])
             self.c30xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','30%' )])])
             self.c244x =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','244%')])])
@@ -197,7 +197,7 @@ class account_vat_declaration(models.Model):
             'context': {},
         })
         return action
-            
+
     @api.multi
     def show_momsutg(self):
         ctx = {
@@ -263,15 +263,15 @@ class account_vat_declaration(models.Model):
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
         if self.state in ['draft']:
             self.state = 'progress'
-        
+
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
             'accounting_yearend': self.accounting_yearend,
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
-        }  
-        
+        }
+
         self.line_ids.unlink()
         # ~ self.env['account.vat.declaration.line'].search([('declaration_id','=',self.id)]).unlink()
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,49,50,60,61,62]:
@@ -283,17 +283,16 @@ class account_vat_declaration(models.Model):
                 'level': line.level,
                 'move_line_ids': [(6,0,line.get_moveline_ids())],
                 })
-        raise Warning(self.env.ref('l10n_se_tax_report.%s' % 5).get_moveline_ids()) # ,self.line_ids.mapped('move_line_ids'))
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
             move.vat_declaration_id = self.id
-            
+
     @api.one
     def create_eskd(self):
         if self.state not in ['draft','progress']:
             raise Warning("Du kan inte skapa eSDK-fil i denna status, ändra till pågår")
         if self.state in ['draft']:
             self.state = 'progress'
-        
+
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -352,7 +351,7 @@ class account_vat_declaration(models.Model):
     #~ def _get_account_period_balance(self, account, period_start, period_stop, target_move):
         #~ return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))
 
-  
+
 
     @api.multi
     def create_entry(self):
@@ -361,7 +360,7 @@ class account_vat_declaration(models.Model):
         if self.state in ['draft']:
             self.state = 'progress'
 
-        
+
         kontomoms = self.get_all_output_accounts() | self.get_all_input_accounts()
         moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
         if not moms_journal_id:
@@ -458,24 +457,34 @@ class account_vat_declaration(models.Model):
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
 
-
-        
-
 class account_vat_declaration_line(models.Model):
     _name = 'account.vat.declaration.line'
 
-    declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
-    move_line_ids = fields.Many2many(comodel_name="account.move.line")
+    declaration_id = fields.Many2one(comodel_name="account.vat.declaration", string='Declatation')
+    move_line_ids = fields.Many2many(comodel_name="account.move.line", string='Move Lines')
     # ~ report_id = fields.Many2one(comodel_name="account.financial.report")
-    account_type = fields.Char()
-    balance = fields.Float()
-    type = fields.Char()
-    name = fields.Char()
-    level = fields.Integer()
-    
-  
+    account_type = fields.Char(string='Account Type')
+    balance = fields.Float(string='Balance')
+    type = fields.Char(string='Type')
+    name = fields.Char(string='Name')
+    level = fields.Integer(string='Level')
+
+    @api.multi
+    def show_move_lines(self):
+        return {
+            'display_name': _('%s') %self.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move.line',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'view_id': self.env.ref('account.view_move_line_tree').id,
+            'target': 'current',
+            'domain': [('id', 'in', self.move_line_ids.mapped('id'))],
+            'context': {},
+        }
+
+
 class account_move(models.Model):
-    _inherit = 'account.move'  
-              
+    _inherit = 'account.move'
+
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
-    

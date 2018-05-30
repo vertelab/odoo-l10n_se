@@ -136,7 +136,7 @@
               </page>
               <page string="Rader">
                 <field name="line_ids" nolabel="1" >
-                    <tree>   
+                    <tree>
                             <field name='level'/>
 <!--
                         <field name="account_type"/>
@@ -146,13 +146,13 @@
                         <field name='type'/>
 -->
                         <field name='balance'/>
-                 
+                        <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines"/>
                     </tree>
                 </field>
               </page>
               <page string="Verifikat">
                 <field name="move_ids" nolabel="1" >
-                    <tree>   
+                    <tree>
                             <field name='name'/>
                             <field name='ref'/>
                             <field name='date'/>
@@ -229,5 +229,33 @@
       <field name="search_view_id" ref="view_moms_filter" />
     </record>
     <menuitem name="Momsdeklaration" parent="account.menu_finance_legal_statement" action="action_account_moms_declaration" id="menu_account_moms_declaration" groups="account.group_account_user,account.group_account_manager" />
+        <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
+            <field name="name">account.vat.declaration.line.form</field>
+            <field name="model">account.vat.declaration.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Declaration Lines">
+                    <sheet string="Declaration Lines">
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="declaration_id"/>
+                                <field name="account_type"/>
+                                <field name="type"/>
+                                <field name="balance"/>
+                                <field name="level"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Move Lines">
+                                <tree>
+                                    <field name="move_line_ids"/>
+                                </tree>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
   </data>
 </odoo>
