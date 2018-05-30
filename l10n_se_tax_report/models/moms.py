@@ -108,6 +108,39 @@ NAMEMAPPING = OrderedDict([
     ('MomsBetala', ['MomsBetala']),         #49: Moms att betala eller få tillbaka
 ])
 
+NAMEMAPPING = OrderedDict([
+    ('ForsMomsEjAnnan', 5),                #05: Momspliktig försäljning som inte ingår i annan ruta nedan
+    ('UttagMoms', 6),   #06: Momspliktiga uttag
+    ('UlagMargbesk', 7),             #07: Beskattningsunderlag vid vinstmarginalbeskattning
+    ('HyrinkomstFriv', 8),           #08: Hyresinkomster vid frivillig skattskyldighet
+    ('InkopVaruAnnatEg', 20),         #20: Inköp av varor från annat EU-land
+    ('InkopTjanstAnnatEg', 21),       #21: Inköp av tjänster från annat EU-land
+    ('InkopTjanstUtomEg', 22),        #22: Inköp av tjänster från land utanför EU
+    ('InkopVaruSverige', 23),         #23: Inköp av varor i Sverige
+    ('InkopTjanstSverige', 24),       #24: Inköp av tjänster i Sverige
+    ('MomsUlagImport', 50),          #50: Beskattningsunderlag vid import
+    ('ForsVaruAnnatEg', 35),          #35: Försäljning av varor till annat EU-land
+    ('ForsVaruUtomEg', 36),              #36: Försäljning av varor utanför EU
+    ('InkopVaruMellan3p', 37),        #37: Mellanmans inköp av varor vid trepartshandel
+    ('ForsVaruMellan3p', 38),         #38: Mellanmans försäljning av varor vid trepartshandel
+    ('ForsTjSkskAnnatEg', 39),        #39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land
+    ('ForsTjOvrUtomEg', 40),          #40: Övrig försäljning av tjänster omsatta utom landet
+    ('ForsKopareSkskSverige', 41),    #41: Försäljning när köparen är skattskyldig i Sverige
+    ('ForsOvrigt', 42),                 #42: Övrig försäljning m.m. ???
+    ('MomsUtgHog', 10),        #10: Utgående moms 25 %
+    ('MomsUtgMedel', 11),      #11: Utgående moms 12 %
+    ('MomsUtgLag', 12),        #12: Utgående moms 6 %
+    ('MomsInkopUtgHog', 30),          #30: Utgående moms 25%
+    ('MomsInkopUtgMedel', 31),        #31: Utgående moms 12%
+    ('MomsInkopUtgLag', 32),          #32: Utgående moms 6%
+    ('MomsImportUtgHog', 60),      #60: Utgående moms 25%
+    ('MomsImportUtgMedel', 61),    #61: Utgående moms 12%
+    ('MomsImportUtgLag', 62),      #62: Utgående moms 6%
+    ('MomsIngAvdr', 48),       #48: Ingående moms att dra av
+    ('MomsBetala', 49),         #49: Moms att betala eller få tillbaka
+])
+
+
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
@@ -151,6 +184,10 @@ class account_vat_declaration(models.Model):
 
     line_ids = fields.One2many(comodel_name='account.vat.declaration.line',inverse_name="declaration_id")
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
+    @api.one
+    def _move_ids_count(self):
+        self.move_ids_count = len(self.move_ids)
+    move_ids_count = fields.Integer(compute='_move_ids_count')
 
     @api.onchange('period_start', 'period_stop', 'acounting_method','target_move')
     def _huvudbok(self):
@@ -197,7 +234,7 @@ class account_vat_declaration(models.Model):
             'context': {},
         })
         return action
-
+        
     @api.multi
     def show_momsutg(self):
         ctx = {
@@ -214,6 +251,27 @@ class account_vat_declaration(models.Model):
             'context': {},
         })
         return action
+        
+    @api.multi
+    def show_journal_entries(self):
+        ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        action.update({
+            'display_name': _('Verifikat'),
+            'domain': [('id', 'in',self.move_ids.mapped('id'))],
+            'context': ctx,
+        })
+        return action
+
+
+
+
 
     @api.multi
     def show_15xx(self):
@@ -273,6 +331,8 @@ class account_vat_declaration(models.Model):
         }
 
         self.line_ids.unlink()
+        for move in self.move_ids:
+            move.vat_declaration_id = None
         # ~ self.env['account.vat.declaration.line'].search([('declaration_id','=',self.id)]).unlink()
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,49,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
@@ -281,7 +341,7 @@ class account_vat_declaration(models.Model):
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,
                 'level': line.level,
-                'move_line_ids': [(6,0,line.get_moveline_ids())],
+                'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
                 })
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
             move.vat_declaration_id = self.id
@@ -292,50 +352,48 @@ class account_vat_declaration(models.Model):
             raise Warning("Du kan inte skapa eSDK-fil i denna status, ändra till pågår")
         if self.state in ['draft']:
             self.state = 'progress'
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
 
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
-        def parse_xml(recordsets):
+        def parse_xml(recordsets,ctx):
             root = etree.Element('eSKDUpload', Version="6.0")
             orgnr = etree.SubElement(root, 'OrgNr')
-            orgnr.text = self.env.user.company_id.company_registry
+            orgnr.text = self.env.user.company_id.company_registry or ''
             moms = etree.SubElement(root, 'Moms')
             period = etree.SubElement(moms, 'Period')
             period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
             for k,v in NAMEMAPPING.items():
-                tax = etree.SubElement(moms, k)
-                if k == 'ForsMomsEjAnnan':
-                    acc = self.env['account.account'].search([('code', 'in', ['3001', '3002', '3003'])])
-                    if acc:
-                        t = 0
-                        for a in acc:
-                            t += self._get_account_period_balance(a, self.period_start, self.period_stop, self.target_move)
-                        tax.text = str(int(round(abs(t))))
+                line = self.env.ref('l10n_se_tax_report.%s' % v)
+                amount = str(int(round(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0))
+                if not amount == '0':
+                    tax = etree.SubElement(moms, k)
+                
+                # ~ if k == 'ForsMomsEjAnnan':
+                    # ~ acc = self.env['account.account'].search([('code', 'in', ['3001', '3002', '3003'])])
+                    # ~ if acc:
+                        # ~ t = 0
+                        # ~ for a in acc:
+                            # ~ t += self._get_account_period_balance(a, self.period_start, self.period_stop, self.target_move)
+                        # ~ tax.text = str(int(round(abs(t))))
+                    # ~ else:
+                        # ~ tax.text = '0'
+                    if k == 'MomsBetala':
+                        tax.text = str(int(round(self.vat_momsutg + self.vat_momsingavdr)))
                     else:
-                        tax.text = '0'
-                elif k == 'MomsBetala':
-                    ctx = {
-                        'period_from': self.period_start.id,
-                        'period_to': self.period_stop.id,
-                        'target_move': self.target_move,
-                        'accounting_method': self.accounting_method,
-                    }
-                    tax.text = str(int(round(-(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period))))
-                else:
-                    acc = self.env['account.tax'].search([('name', 'in', v)])
-                    if acc:
-                        t = 0
-                        for a in acc:
-                            t += self.account_sum_period(a, self.period_start.id, self.period_stop.id, self.target_move)
-                        tax.text = str(int(round(abs(t))))
-                    else:
-                        tax.text = '0'
+                        tax.text = amount
             #~ for record in recordsets:
                 #~ tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
                 #~ tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
             free_text = etree.SubElement(moms, 'TextUpplysningMoms')
             free_text.text = self.free_text or ''
             return root
-        xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
+        xml = etree.tostring(parse_xml(tax_account,ctx), pretty_print=True, encoding="ISO-8859-1")
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
         self.eskd_file = base64.b64encode(xml)
 
@@ -471,6 +529,7 @@ class account_vat_declaration_line(models.Model):
 
     @api.multi
     def show_move_lines(self):
+        _logger.warn('fl %s ids %s' % (self,self.move_line_ids))
         return {
             'display_name': _('%s') %self.name,
             'type': 'ir.actions.act_window',
