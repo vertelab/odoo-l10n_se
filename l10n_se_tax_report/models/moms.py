@@ -134,7 +134,7 @@ class account_vat_declaration(models.Model):
     @api.onchange('period_stop')
     def onchange_period_stop(self):
         self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-        self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=14))
+        self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=12))
         self.name = 'Moms %s - %s' % (self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
@@ -443,7 +443,7 @@ class account_vat_declaration(models.Model):
     def create(self,vals):
         if vals.get('period_stop'):
             vals['name'] = 'Moms %s - %s' % (self.env['account.period'].period2month(vals.get('period_start')),self.env['account.period'].period2month(vals.get('period_stop')))
-            vals['date'] = fields.Date.to_string(fields.Date.from_string(self.env['account.period'].browse(vals['period_stop']).date_stop) + timedelta(days=14))
+            vals['date'] = fields.Date.to_string(fields.Date.from_string(self.env['account.period'].browse(vals['period_stop']).date_stop) + timedelta(days=12))
             vals['accounting_yearend'] = (self.env['account.period'].browse(vals['period_stop']) == self.env['account.fiscalyear'].browse(vals.get('fiscalyear_id')).period_ids[-1] if vals.get('fiscalyear_id') else None)
         return super(account_vat_declaration, self).create(vals)
 
