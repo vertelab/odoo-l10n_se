@@ -71,10 +71,6 @@ _logger = logging.getLogger(__name__)
 # Kontantmetoden    p04 - p06               7500        1250
 # Kontantmetoden    p04 - p06   Ja          7500        11250
 
-
-
-
-
 # order must be correct
 NAMEMAPPING = OrderedDict([
     ('ForsMomsEjAnnan', 5),                #05: Momspliktig försäljning som inte ingår i annan ruta nedan
@@ -112,9 +108,6 @@ NAMEMAPPING = OrderedDict([
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
-    
-    def _name(self):
-        return 
 
     name = fields.Char(default='Moms jan - mars')
     date = fields.Date(help="Planned date")
@@ -123,7 +116,7 @@ class account_vat_declaration(models.Model):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
     def _period_start(self):
-        return 
+        return None
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
@@ -213,17 +206,15 @@ class account_vat_declaration(models.Model):
         })
         return action
 
-
     @api.model
     def get_next_period(self):
         last_declaration = self.search([],order='period_stop.date_end',limit=1)
         return self.env['account.period'].next(last_declation.period_stop if last_declaration else None)
 
     @api.one
-    def do_draft(self): 
+    def do_draft(self):
         if self.move_id and self.move_id.state != 'draft':
             raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
-
         self.line_ids.unlink()
         for move in self.move_ids:
             move.vat_declaration_id = None
@@ -232,9 +223,20 @@ class account_vat_declaration(models.Model):
                 self.move_id.unlink()
             else:
                 raise Warning(_('Cannot recalculate.'))
-        self.esdk_file = None
-
+        self.eskd_file = None
         self.state = 'draft'
+
+    @api.one
+    def do_cancel(self):
+        if self.move_id and self.move_id.state != 'draft':
+            raise Warning('Deklarationen är bokförd, kan inte avbryta i detta läge')
+        # ~ self.line_ids.unlink()
+        for move in self.move_ids:
+            move.vat_declaration_id = None
+        if self.move_id:
+            self.move_id.unlink()
+        self.eskd_file = None
+        self.state = 'canceled'
 
     @api.one
     def calculate(self): # make a short cut to print financial report
@@ -253,7 +255,7 @@ class account_vat_declaration(models.Model):
         ##
         ####  Create report lines
         ##
-        
+
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
             self.env['account.vat.declaration.line'].create({
@@ -274,7 +276,7 @@ class account_vat_declaration(models.Model):
         ##
         #### Create eSDK-file
         ##
-        
+
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets,ctx):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -302,7 +304,7 @@ class account_vat_declaration(models.Model):
         #### Create move
         ##
 
-        #TODO check all warnings 
+        #TODO check all warnings
 
         moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
         if not moms_journal_id:
@@ -408,8 +410,6 @@ class account_vat_declaration(models.Model):
                     self.write({'move_id': entry.id})
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
-
-
 
 
 class account_vat_declaration_line(models.Model):

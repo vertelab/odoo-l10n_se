@@ -9,7 +9,8 @@
           <header>
             <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
             <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,canceled" />
-            <field name="state" widget="statusbar" clickable="True" />
+            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="done" />
+            <field name="state" widget="statusbar" />
           </header>
           <sheet>
             <div class="oe_right oe_button_box" name="buttons">
@@ -29,7 +30,7 @@
                   <span class="o_stat_text">Ingående</span>
                 </div>
               </button>
-              <button type="object" class="oe_stat_button" id="momsing_button" icon="fa-level-down" name="show_journal_entries" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" id="momsing_button" icon="fa-file" name="show_journal_entries" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="move_ids_count" />
@@ -104,8 +105,6 @@
           <field name="period_stop" />
           <field name="date" string="Date" />
           <field name="state" string="State" />
-          <separator />
-          <filter string="Progress" name="state_progress" domain="[('state', '=', 'progress')]" />
           <separator />
           <group expand="0" string="Group By">
             <filter string="State" domain="[]" context="{'group_by': 'state'}" />
