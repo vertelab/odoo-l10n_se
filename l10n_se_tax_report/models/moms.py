@@ -109,10 +109,9 @@ NAMEMAPPING = OrderedDict([
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
-    
+
     name = fields.Char()
     date = fields.Date(help="Planned date, date when to report Skatteverket or do the declaration. Usually monday second week after period, but check calendar at Skatteverket")
-
     state = fields.Selection(selection=[('draft','Draft'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     def _fiscalyear_id(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
@@ -123,7 +122,6 @@ class account_vat_declaration(models.Model):
     def _period_stop(self):
         return  self.get_next_periods()[1]
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
-
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
     accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     accounting_yearend = fields.Boolean(string="Bokslutsperiod",help="I bokslutsperioden skall även utestående fordringar ingå i momsredovisningen vid kontantmetoden")
@@ -160,6 +158,10 @@ class account_vat_declaration(models.Model):
     def _move_ids_count(self):
         self.move_ids_count = len(self.move_ids)
     move_ids_count = fields.Integer(compute='_move_ids_count')
+    @api.one
+    def _payment_ids_count(self):
+        self.payment_ids_count = len(self.get_payment_orders())
+    payment_ids_count = fields.Integer(compute='_payment_ids_count')
 
     @api.multi
     def show_momsingavdr(self):
@@ -171,7 +173,6 @@ class account_vat_declaration(models.Model):
                 'target_move': self.target_move,
             }
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        _logger.warn(action)
         action.update({
             'display_name': _('VAT In'),
             'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
@@ -199,20 +200,38 @@ class account_vat_declaration(models.Model):
     @api.multi
     def show_journal_entries(self):
         ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
         action.update({
             'display_name': _('Verifikat'),
-            'domain': [('id', 'in',self.move_ids.mapped('id'))],
+            'domain': [('id', 'in', self.move_ids.mapped('id'))],
             'context': ctx,
         })
         return action
 
+    @api.multi
+    def get_payment_orders(self):
+        payment_order = []
+        if self.move_id:
+            for l in self.move_id.line_ids:
+                line = self.env['account.payment.line'].search([('move_line_id', '=', l.id)])
+                if line:
+                    payment_order.append(line.order_id.id)
+        return payment_order
+
+    @api.multi
+    def show_payment_orders(self):
+        action = self.env['ir.actions.act_window'].for_xml_id('account_payment_order', 'account_payment_order_outbound_action')
+        action.update({
+            'display_name': _('%s') %self.name,
+            'domain': [('id', 'in', self.get_payment_orders())],
+        })
+        return action
 
     @api.model
     def get_next_periods(self,length=3):
@@ -220,10 +239,9 @@ class account_vat_declaration(models.Model):
         return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None,length)
 
     @api.one
-    def do_draft(self): 
+    def do_draft(self):
         if self.move_id and self.move_id.state != 'draft':
             raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
-
         self.line_ids.unlink()
         for move in self.move_ids:
             move.vat_declaration_id = None
@@ -232,9 +250,20 @@ class account_vat_declaration(models.Model):
                 self.move_id.unlink()
             else:
                 raise Warning(_('Cannot recalculate.'))
-        self.esdk_file = None
-
+        self.eskd_file = None
         self.state = 'draft'
+
+    @api.one
+    def do_cancel(self):
+        if self.move_id and self.move_id.state != 'draft':
+            raise Warning('Deklarationen är bokförd, kan inte avbryta i detta läge')
+        # ~ self.line_ids.unlink()
+        for move in self.move_ids:
+            move.vat_declaration_id = None
+        if self.move_id:
+            self.move_id.unlink()
+        self.eskd_file = None
+        self.state = 'canceled'
 
     @api.one
     def calculate(self): # make a short cut to print financial report
@@ -253,7 +282,7 @@ class account_vat_declaration(models.Model):
         ##
         ####  Create report lines
         ##
-        
+
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
             self.env['account.vat.declaration.line'].create({
@@ -274,7 +303,7 @@ class account_vat_declaration(models.Model):
         ##
         #### Create eSDK-file
         ##
-        
+
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets,ctx):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -302,7 +331,7 @@ class account_vat_declaration(models.Model):
         #### Create move
         ##
 
-        #TODO check all warnings 
+        #TODO check all warnings
 
         moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
         if not moms_journal_id:
@@ -394,12 +423,13 @@ class account_vat_declaration(models.Model):
                         }))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
                         oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
+                        oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
                         move_line_list.append((0, 0, {
                             'name': oresavrundning.name,
                             'account_id': oresavrundning.id,
                             'partner_id': '',
-                            'debit': abs(moms_diff) - abs(self.vat_momsbetala) if abs(moms_diff) - abs(self.vat_momsbetala) > 0.0 else 0.0,
-                            'credit': abs(abs(moms_diff) - abs(self.vat_momsbetala)) if abs(moms_diff) - abs(self.vat_momsbetala) < 0.0 else 0.0,
+                            'debit': oresavrundning_amount if moms_diff < self.vat_momsbetala else 0.0,
+                            'credit': oresavrundning_amount if moms_diff > self.vat_momsbetala else 0.0,
                             'move_id': entry.id,
                         }))
                     entry.write({
@@ -432,18 +462,12 @@ class account_vat_declaration_line(models.Model):
 
     @api.multi
     def show_move_lines(self):
-        _logger.warn('fl %s ids %s' % (self,self.move_line_ids))
-        return {
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action.update({
             'display_name': _('%s') %self.name,
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move.line',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'view_id': self.env.ref('account.view_move_line_tree').id,
-            'target': 'current',
             'domain': [('id', 'in', self.move_line_ids.mapped('id'))],
-            'context': {},
-        }
+        })
+        return action
 
 
 class account_move(models.Model):
