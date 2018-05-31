@@ -24,6 +24,7 @@
         </record>
         <!-- supplier invoice -->
         <record id="demo_invoice_0" model="account.invoice">
+            <field name="name">VAT 02</field>
             <field name="date_invoice" eval="time.strftime('%Y')+'-03-01'" />
             <field name="date_due" eval="time.strftime('%Y')+'-03-30'" />
             <field name="period_id" search="[('name', '=', '03/2018')]"/>
@@ -40,6 +41,7 @@
             <field name="amount_untaxed" eval="14.0" />
             <field name="amount_total" eval="14.0" />
             <field name="partner_id" ref="partner_supplier" />
+            <field name="tax_line_ids" eval="[(0, 0, {'name': 'I', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 2.8})]"/>
         </record>
         <record id="demo_invoice_0_line_rpanrearpanelshe0" model="account.invoice.line">
             <field name="invoice_id" ref="demo_invoice_0" />
@@ -66,6 +68,7 @@
         <!-- Some customer invoices used to show the reconciliation process on the bank statement -->
         <!-- customer invoice -->
         <record id="invoice_1" model="account.invoice">
+            <field name="name">VAT 02</field>
             <field name="date_invoice" eval="time.strftime('%Y')+'-03-01'" />
             <field name="date_due" eval="time.strftime('%Y')+'-03-30'" />
             <field name="period_id" search="[('name', '=', '03/2018')]"/>
@@ -76,6 +79,7 @@
             <field name="type">out_invoice</field>
             <field name="account_id" search="[('code', '=', u'1510')]" />
             <field name="partner_id" ref="partner_customer" />
+            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP1', 'account_id': ref('l10n_se.1_chart2610'), 'amount': 922.0})]"/>
         </record>
         <record id="invoice_1_line_1" model="account.invoice.line">
             <field name="name">Otpez Laptop without OS</field>
@@ -105,6 +109,7 @@
             <field name="type">out_invoice</field>
             <field name="account_id" search="[('code', '=', u'1510')]" />
             <field name="partner_id" ref="partner_customer" />
+            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP1', 'account_id': ref('l10n_se.1_chart2610'), 'amount': 130.0})]"/>
         </record>
         <record id="invoice_2_line_1" model="account.invoice.line">
             <field name="name">8-port Switch</field>
