@@ -8,8 +8,7 @@
         <form string="Momsdeklaration">
           <header>
             <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
-            <button name="create_entry" string="Skapa verifikat" type="object" class="oe_highlight" states="progress" />
-            <button name="create_eskd" string="Skapa eSKD-fil" type="object" class="oe_highlight" states="progress" />
+            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,canceled" />
             <field name="state" widget="statusbar" clickable="True" />
           </header>
           <sheet>

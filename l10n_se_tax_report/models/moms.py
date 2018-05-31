@@ -77,38 +77,6 @@ _logger = logging.getLogger(__name__)
 
 # order must be correct
 NAMEMAPPING = OrderedDict([
-    ('ForsMomsEjAnnan', []),                #05: Momspliktig försäljning som inte ingår i annan ruta nedan
-    ('UttagMoms', ['MU1', 'MU2', 'MU3']),   #06: Momspliktiga uttag
-    ('UlagMargbesk', ['MBBU']),             #07: Beskattningsunderlag vid vinstmarginalbeskattning
-    ('HyrinkomstFriv', ['MPFF']),           #08: Hyresinkomster vid frivillig skattskyldighet
-    ('InkopVaruAnnatEg', ['VFEU']),         #20: Inköp av varor från annat EU-land
-    ('InkopTjanstAnnatEg', ['TFEU']),       #21: Inköp av tjänster från annat EU-land
-    ('InkopTjanstUtomEg', ['TFFU']),        #22: Inköp av tjänster från land utanför EU
-    ('InkopVaruSverige', ['IVIS']),         #23: Inköp av varor i Sverige
-    ('InkopTjanstSverige', ['ITIS']),       #24: Inköp av tjänster i Sverige
-    ('MomsUlagImport', ['MBBUI']),          #50: Beskattningsunderlag vid import
-    ('ForsVaruAnnatEg', ['VTEU']),          #35: Försäljning av varor till annat EU-land
-    ('ForsVaruUtomEg', ['E']),              #36: Försäljning av varor utanför EU
-    ('InkopVaruMellan3p', ['3VEU']),        #37: Mellanmans inköp av varor vid trepartshandel
-    ('ForsVaruMellan3p', ['3FEU']),         #38: Mellanmans försäljning av varor vid trepartshandel
-    ('ForsTjSkskAnnatEg', ['FTEU']),        #39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land
-    ('ForsTjOvrUtomEg', ['OTTU']),          #40: Övrig försäljning av tjänster omsatta utom landet
-    ('ForsKopareSkskSverige', ['OMSS']),    #41: Försäljning när köparen är skattskyldig i Sverige
-    ('ForsOvrigt', ['MF']),                 #42: Övrig försäljning m.m. ???
-    ('MomsUtgHog', ['MP1', 'MP1i']),        #10: Utgående moms 25 %
-    ('MomsUtgMedel', ['MP2', 'MP2i']),      #11: Utgående moms 12 %
-    ('MomsUtgLag', ['MP3', 'MP3i']),        #12: Utgående moms 6 %
-    ('MomsInkopUtgHog', ['U1MI']),          #30: Utgående moms 25%
-    ('MomsInkopUtgMedel', ['U2MI']),        #31: Utgående moms 12%
-    ('MomsInkopUtgLag', ['U3MI']),          #32: Utgående moms 6%
-    ('MomsImportUtgHog', ['U1MBBUI']),      #60: Utgående moms 25%
-    ('MomsImportUtgMedel', ['U2MBBUI']),    #61: Utgående moms 12%
-    ('MomsImportUtgLag', ['U3MBBUI']),      #62: Utgående moms 6%
-    ('MomsIngAvdr', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i']),       #48: Ingående moms att dra av
-    ('MomsBetala', ['MomsBetala']),         #49: Moms att betala eller få tillbaka
-])
-
-NAMEMAPPING = OrderedDict([
     ('ForsMomsEjAnnan', 5),                #05: Momspliktig försäljning som inte ingår i annan ruta nedan
     ('UttagMoms', 6),   #06: Momspliktiga uttag
     ('UlagMargbesk', 7),             #07: Beskattningsunderlag vid vinstmarginalbeskattning
@@ -144,13 +112,18 @@ NAMEMAPPING = OrderedDict([
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
+    
+    def _name(self):
+        return 
 
     name = fields.Char(default='Moms jan - mars')
     date = fields.Date(help="Planned date")
-    state = fields.Selection(selection=[('draft','Draft'),('progress','Progress'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
+    state = fields.Selection(selection=[('draft','Draft'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     def _fiscalyear_id(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
+    def _period_start(self):
+        return 
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
@@ -187,34 +160,6 @@ class account_vat_declaration(models.Model):
     def _move_ids_count(self):
         self.move_ids_count = len(self.move_ids)
     move_ids_count = fields.Integer(compute='_move_ids_count')
-
-    @api.onchange('period_start', 'period_stop', 'acounting_method','target_move')
-    def _huvudbok(self):
-        if self.period_start and self.period_stop:
-            ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'acounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-            self.c15xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','15%' )])])
-            self.c30xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','30%' )])])
-            self.c244x =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','244%')])])
-            self.c5x6x =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search(['|','|',('code','like','5%'),('code','like','6%'),('code','like','12%'),('code','like','4%')])])
-            self.c19xx =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','like','19%')])])
-            self.c2610 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2610')])])
-            self.c2620 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2620')])])
-            self.c2630 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2630')])])
-            self.c2640 =  sum([a.with_context(ctx).sum_period() for a in self.env['account.account'].search([('code','=','2640')])])
-    c15xx_sum = fields.Float(string='15xx', default=0.0, compute="_huvudbok", )
-    c30xx_sum = fields.Float(string='30xx', default=0.0, compute="_huvudbok", )
-    c244x_sum = fields.Float(string='244x', default=0.0, compute="_huvudbok", )
-    c5x6x_sum = fields.Float(string='5x6x', default=0.0, compute="_huvudbok", )
-    c19xx_sum = fields.Float(string='19xx', default=0.0, compute="_huvudbok", )
-    c2610_sum = fields.Float(string='2610', default=0.0, compute="_huvudbok", )
-    c2620_sum = fields.Float(string='2620', default=0.0, compute="_huvudbok", )
-    c2630_sum = fields.Float(string='2630', default=0.0, compute="_huvudbok", )
-    c2640_sum = fields.Float(string='2640', default=0.0, compute="_huvudbok", )
 
     @api.multi
     def show_momsingavdr(self):
@@ -268,60 +213,17 @@ class account_vat_declaration(models.Model):
         })
         return action
 
-    @api.multi
-    def show_15xx(self):
-        return self.show_accounts([('code','like','15%')])
-    @api.multi
-    def show_30xx(self):
-        return self.show_accounts([('code','like','30%')])
-    @api.multi
-    def show_244x(self):
-        return self.show_accounts([('code','like','244%')])
-    @api.multi
-    def show_5x6x(self):
-        return self.show_accounts(['|','|',('code','like','5%'),('code','like','6%'),('code','like','12%'),('code','like','4%')])
-    @api.multi
-    def show_19xx(self):
-        return self.show_accounts([('code','like','19%')])
-    @api.multi
-    def show_2610(self):
-        return self.show_accounts([('code','=','2610')])
-    @api.multi
-    def show_2620(self):
-        return self.show_accounts([('code','=','2620')])
-    @api.multi
-    def show_2630(self):
-        return self.show_accounts([('code','=','2630')])
-    @api.multi
-    def show_2640(self):
-        return self.show_accounts([('code','=','2640')])
 
-    @api.multi
-    def show_accounts(self,accounts):
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move.line',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'view_id': self.env.ref('account.view_move_line_tree').id,
-            'target': 'current',
-            'domain': [('id', 'in', self.env['account.tax'].with_context(period_start=self.period_start,period_stop=self.period_stop,target_move=self.target_move).get_taxlines().mapped('id')), ('account_id', 'in', self.env['account.account'].search(accounts).mapped('id'))],
-            'context': {},
-        }
+    @api.model
+    def get_next_period(self):
+        last_declaration = self.search([],order='period_stop.date_end',limit=1)
+        return self.env['account.period'].next(last_declation.period_stop if last_declaration else None)
 
     @api.one
-    def calculate(self): # make a short cut to print financial report
-        if self.state not in ['draft','progress']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        if self.state in ['draft']:
-            self.state = 'progress'
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
+    def do_draft(self): 
+        if self.move_id and self.move_id.state != 'draft':
+            raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
+
         self.line_ids.unlink()
         for move in self.move_ids:
             move.vat_declaration_id = None
@@ -330,7 +232,28 @@ class account_vat_declaration(models.Model):
                 self.move_id.unlink()
             else:
                 raise Warning(_('Cannot recalculate.'))
-        # ~ self.env['account.vat.declaration.line'].search([('declaration_id','=',self.id)]).unlink()
+        self.esdk_file = None
+
+        self.state = 'draft'
+
+    @api.one
+    def calculate(self): # make a short cut to print financial report
+        if self.state not in ['draft']:
+            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+        if self.state in ['draft']:
+            self.state = 'done'
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+
+        ##
+        ####  Create report lines
+        ##
+        
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
             self.env['account.vat.declaration.line'].create({
@@ -340,22 +263,18 @@ class account_vat_declaration(models.Model):
                 'level': line.level,
                 'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
                 })
+
+        ##
+        #### Mark Used moves
+        ##
+
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
             move.vat_declaration_id = self.id
 
-    @api.one
-    def create_eskd(self):
-        if self.state not in ['draft','progress']:
-            raise Warning("Du kan inte skapa eSDK-fil i denna status, ändra till pågår")
-        if self.state in ['draft']:
-            self.state = 'progress'
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
+        ##
+        #### Create eSDK-file
+        ##
+        
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets,ctx):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -379,25 +298,12 @@ class account_vat_declaration(models.Model):
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
         self.eskd_file = base64.b64encode(xml)
 
-    def account_sum_period(self, account, period_start, period_stop, target_move):
-        return int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period))
+        ##
+        #### Create move
+        ##
 
-    #~ def _get_account_period_balance(self, account, period_start, period_stop, target_move):
-        #~ return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))
+        #TODO check all warnings 
 
-    @api.multi
-    def create_entry(self):
-        if self.state not in ['draft','progress']:
-            raise Warning("Du kan inte skapa verifikat i denna status, ändra till pågår")
-        if self.state in ['draft']:
-            self.state = 'progress'
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
         moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
         if not moms_journal_id:
             raise Warning('Konfigurera din momsdeklaration journal!')
@@ -502,6 +408,8 @@ class account_vat_declaration(models.Model):
                     self.write({'move_id': entry.id})
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
+
+
 
 
 class account_vat_declaration_line(models.Model):
