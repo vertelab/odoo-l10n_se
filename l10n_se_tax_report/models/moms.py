@@ -175,13 +175,12 @@ class account_vat_declaration(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-            self.vat_momsingavdr = round(sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]]))
-            self.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids') ]))
+            self.vat_momsingavdr = round(sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])) * -1.0
+            self.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
             self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
-
     line_ids = fields.One2many(comodel_name='account.vat.declaration.line',inverse_name="declaration_id")
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
     @api.one
@@ -269,10 +268,6 @@ class account_vat_declaration(models.Model):
         })
         return action
 
-
-
-
-
     @api.multi
     def show_15xx(self):
         return self.show_accounts([('code','like','15%')])
@@ -314,14 +309,12 @@ class account_vat_declaration(models.Model):
             'context': {},
         }
 
-
     @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft','progress']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
         if self.state in ['draft']:
             self.state = 'progress'
-
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
@@ -329,12 +322,16 @@ class account_vat_declaration(models.Model):
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
         }
-
         self.line_ids.unlink()
         for move in self.move_ids:
             move.vat_declaration_id = None
+        if self.move_id:
+            if self.move_id.state == 'draft':
+                self.move_id.unlink()
+            else:
+                raise Warning(_('Cannot recalculate.'))
         # ~ self.env['account.vat.declaration.line'].search([('declaration_id','=',self.id)]).unlink()
-        for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,49,50,60,61,62]:
+        for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
             self.env['account.vat.declaration.line'].create({
                 'declaration_id': self.id,
@@ -359,7 +356,6 @@ class account_vat_declaration(models.Model):
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
         }
-
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
         def parse_xml(recordsets,ctx):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -370,26 +366,12 @@ class account_vat_declaration(models.Model):
             period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
             for k,v in NAMEMAPPING.items():
                 line = self.env.ref('l10n_se_tax_report.%s' % v)
-                amount = str(int(round(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0))
+                amount = str(int(abs(round(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign) or 0))
                 if not amount == '0':
                     tax = etree.SubElement(moms, k)
-
-                # ~ if k == 'ForsMomsEjAnnan':
-                    # ~ acc = self.env['account.account'].search([('code', 'in', ['3001', '3002', '3003'])])
-                    # ~ if acc:
-                        # ~ t = 0
-                        # ~ for a in acc:
-                            # ~ t += self._get_account_period_balance(a, self.period_start, self.period_stop, self.target_move)
-                        # ~ tax.text = str(int(round(abs(t))))
-                    # ~ else:
-                        # ~ tax.text = '0'
-                    if k == 'MomsBetala':
-                        tax.text = str(int(round(self.vat_momsutg + self.vat_momsingavdr)))
-                    else:
-                        tax.text = amount
-            #~ for record in recordsets:
-                #~ tax = etree.SubElement(moms, NAMEMAPPING.get(record.name) or record.name) # TODO: make sure all account.tax name exist here, removed "or" later on
-                #~ tax.text = str(int(abs(record.with_context({'period_from': self.period_start.id, 'period_to': self.period_stop.id, 'state': self.target_move}).sum_period)))
+                    tax.text = amount
+            momsbetala = etree.SubElement(moms, 'MomsBetala')
+            momsbetala.text = str(int(round(self.vat_momsbetala)))
             free_text = etree.SubElement(moms, 'TextUpplysningMoms')
             free_text.text = self.free_text or ''
             return root
@@ -454,12 +436,12 @@ class account_vat_declaration(models.Model):
                             'move_id': entry.id,
                         }))
                         moms_diff += debit
-                    if self.vat_momsbetala > 0.0: # momsfordran, moms ska få tillbaka
+                    if self.vat_momsbetala < 0.0: # momsfordran, moms ska få tillbaka
                         move_line_list.append((0, 0, {
                             'name': momsfordran.name,
                             'account_id': momsfordran.id, # moms_journal.default_debit_account_id
                             'partner_id': '',
-                            'debit': self.vat_momsbetala,
+                            'debit': abs(self.vat_momsbetala),
                             'credit': 0.0,
                             'move_id': entry.id,
                         }))
@@ -468,32 +450,31 @@ class account_vat_declaration(models.Model):
                             'account_id': momsfordran.id,
                             'partner_id': '',
                             'debit': 0.0,
-                            'credit': self.vat_momsbetala,
+                            'credit': abs(self.vat_momsbetala),
                             'move_id': entry.id,
                         }))
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('base.res_partner-SKV').id,
-                            'debit': self.vat_momsbetala,
+                            'debit': abs(self.vat_momsbetala),
                             'credit': 0.0,
                             'move_id': entry.id,
                         }))
-                        moms_diff += self.vat_momsbetala
-                    if self.vat_momsbetala < 0.0: # moms redovisning, moms ska betalas in
+                    if self.vat_momsbetala > 0.0: # moms redovisning, moms ska betalas in
                         move_line_list.append((0, 0, {
                             'name': momsskuld.name,
                             'account_id': momsskuld.id, # moms_journal.default_credit_account_id
                             'partner_id': '',
                             'debit': 0.0,
-                            'credit': abs(self.vat_momsbetala),
+                            'credit': self.vat_momsbetala,
                             'move_id': entry.id,
                         }))
                         move_line_list.append((0, 0, {
                             'name': momsskuld.name,
                             'account_id': momsskuld.id,
                             'partner_id': '',
-                            'debit': abs(self.vat_momsbetala),
+                            'debit': self.vat_momsbetala,
                             'credit': 0.0,
                             'move_id': entry.id,
                         }))
@@ -502,18 +483,17 @@ class account_vat_declaration(models.Model):
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('base.res_partner-SKV').id,
                             'debit': 0.0,
-                            'credit': abs(self.vat_momsbetala),
+                            'credit': self.vat_momsbetala,
                             'move_id': entry.id,
                         }))
-                        moms_diff += abs(self.vat_momsbetala)
-                    if moms_diff != 0.0:
+                    if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
                         oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
                         move_line_list.append((0, 0, {
                             'name': oresavrundning.name,
                             'account_id': oresavrundning.id,
                             'partner_id': '',
-                            'debit': moms_diff if moms_diff < 0.0 else 0.0,
-                            'credit': moms_diff if moms_diff > 0.0 else 0.0,
+                            'debit': abs(moms_diff) - abs(self.vat_momsbetala) if abs(moms_diff) - abs(self.vat_momsbetala) > 0.0 else 0.0,
+                            'credit': abs(abs(moms_diff) - abs(self.vat_momsbetala)) if abs(moms_diff) - abs(self.vat_momsbetala) < 0.0 else 0.0,
                             'move_id': entry.id,
                         }))
                     entry.write({
