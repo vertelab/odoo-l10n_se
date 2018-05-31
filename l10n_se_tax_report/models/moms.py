@@ -164,7 +164,6 @@ class account_vat_declaration(models.Model):
                 'target_move': self.target_move,
             }
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        _logger.warn(action)
         action.update({
             'display_name': _('VAT In'),
             'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
@@ -396,12 +395,13 @@ class account_vat_declaration(models.Model):
                         }))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
                         oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
+                        oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
                         move_line_list.append((0, 0, {
                             'name': oresavrundning.name,
                             'account_id': oresavrundning.id,
                             'partner_id': '',
-                            'debit': abs(moms_diff) - abs(self.vat_momsbetala) if abs(moms_diff) - abs(self.vat_momsbetala) > 0.0 else 0.0,
-                            'credit': abs(abs(moms_diff) - abs(self.vat_momsbetala)) if abs(moms_diff) - abs(self.vat_momsbetala) < 0.0 else 0.0,
+                            'debit': oresavrundning_amount if moms_diff < self.vat_momsbetala else 0.0,
+                            'credit': oresavrundning_amount if moms_diff > self.vat_momsbetala else 0.0,
                             'move_id': entry.id,
                         }))
                     entry.write({
@@ -426,7 +426,6 @@ class account_vat_declaration_line(models.Model):
 
     @api.multi
     def show_move_lines(self):
-        _logger.warn('fl %s ids %s' % (self,self.move_line_ids))
         return {
             'display_name': _('%s') %self.name,
             'type': 'ir.actions.act_window',
