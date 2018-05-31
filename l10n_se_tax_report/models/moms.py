@@ -175,8 +175,8 @@ class account_vat_declaration(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-            self.vat_momsingavdr =  sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])
-            self.vat_momsutg = abs(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids') ]))
+            self.vat_momsingavdr = round(sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]]))
+            self.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids') ]))
             self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
@@ -234,7 +234,7 @@ class account_vat_declaration(models.Model):
             'context': {},
         })
         return action
-        
+
     @api.multi
     def show_momsutg(self):
         ctx = {
@@ -251,7 +251,7 @@ class account_vat_declaration(models.Model):
             'context': {},
         })
         return action
-        
+
     @api.multi
     def show_journal_entries(self):
         ctx = {
@@ -373,7 +373,7 @@ class account_vat_declaration(models.Model):
                 amount = str(int(round(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0))
                 if not amount == '0':
                     tax = etree.SubElement(moms, k)
-                
+
                 # ~ if k == 'ForsMomsEjAnnan':
                     # ~ acc = self.env['account.account'].search([('code', 'in', ['3001', '3002', '3003'])])
                     # ~ if acc:
@@ -400,16 +400,8 @@ class account_vat_declaration(models.Model):
     def account_sum_period(self, account, period_start, period_stop, target_move):
         return int(abs(account.with_context({'period_from': period_start, 'period_to': period_stop, 'state': target_move}).sum_period))
 
-
-    #~ def get_all_input_accounts(self):
-        #~ accounts = self.env.ref('l10n_se_tax_report.48').mapped('account_ids')
-        #~ return accounts
-
-
     #~ def _get_account_period_balance(self, account, period_start, period_stop, target_move):
         #~ return sum(account.get_balance(period, target_move) for period in self.env['account.period'].browse(self.get_period_ids(self.period_start, self.period_stop)))
-
-
 
     @api.multi
     def create_entry(self):
@@ -417,9 +409,13 @@ class account_vat_declaration(models.Model):
             raise Warning("Du kan inte skapa verifikat i denna status, ändra till pågår")
         if self.state in ['draft']:
             self.state = 'progress'
-
-
-        kontomoms = self.get_all_output_accounts() | self.get_all_input_accounts()
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
         moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
         if not moms_journal_id:
             raise Warning('Konfigurera din momsdeklaration journal!')
@@ -428,8 +424,7 @@ class account_vat_declaration(models.Model):
             momsskuld = moms_journal.default_credit_account_id
             momsfordran = moms_journal.default_debit_account_id
             skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-            if len(kontomoms) > 0 and momsskuld and momsfordran and skattekonto:
-                total = 0.0
+            if momsskuld and momsfordran and skattekonto:
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
                     'period_id': self.period_start.id,
@@ -438,31 +433,33 @@ class account_vat_declaration(models.Model):
                 })
                 if entry:
                     move_line_list = []
-                    for k in kontomoms: # kollar på 26xx konton
-                        balance = self._get_account_period_balance(k, self.period_start, self.period_stop, self.target_move)
-                        if balance > 0.0: # ingående moms
-                            move_line_list.append((0, 0, {
-                                'name': k.name,
-                                'account_id': k.id,
-                                'credit': balance,
-                                'debit': 0.0,
-                                'move_id': entry.id,
-                            }))
-                        if balance < 0.0: # utgående moms
-                            move_line_list.append((0, 0, {
-                                'name': k.name,
-                                'account_id': k.id,
-                                'debit': abs(balance),
-                                'credit': 0.0,
-                                'move_id': entry.id,
-                            }))
-                        total += balance
-                    if total > 0.0: # momsfordran, moms ska få tillbaka
+                    moms_diff = 0.0
+                    for k in self.env.ref('l10n_se_tax_report.48').mapped('account_ids'): # kollar på 2640 konton, ingående moms
+                        credit = k.with_context(ctx).sum_period()
+                        move_line_list.append((0, 0, {
+                            'name': k.name,
+                            'account_id': k.id,
+                            'credit': credit,
+                            'debit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                        moms_diff -= credit
+                    for k in set([a for row in [10,11,12,30,31,32,60,61,62] for a in self.env.ref('l10n_se_tax_report.%s' % row).mapped('account_ids')]): # kollar på 26xx konton, utgående moms
+                        debit = abs(k.with_context(ctx).sum_period())
+                        move_line_list.append((0, 0, {
+                            'name': k.name,
+                            'account_id': k.id,
+                            'debit': debit,
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                        moms_diff += debit
+                    if self.vat_momsbetala > 0.0: # momsfordran, moms ska få tillbaka
                         move_line_list.append((0, 0, {
                             'name': momsfordran.name,
                             'account_id': momsfordran.id, # moms_journal.default_debit_account_id
                             'partner_id': '',
-                            'debit': total,
+                            'debit': self.vat_momsbetala,
                             'credit': 0.0,
                             'move_id': entry.id,
                         }))
@@ -471,31 +468,32 @@ class account_vat_declaration(models.Model):
                             'account_id': momsfordran.id,
                             'partner_id': '',
                             'debit': 0.0,
-                            'credit': total,
+                            'credit': self.vat_momsbetala,
                             'move_id': entry.id,
                         }))
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('base.res_partner-SKV').id,
-                            'debit': total,
+                            'debit': self.vat_momsbetala,
                             'credit': 0.0,
                             'move_id': entry.id,
                         }))
-                    if total < 0.0: # moms redovisning, moms ska betalas in
+                        moms_diff += self.vat_momsbetala
+                    if self.vat_momsbetala < 0.0: # moms redovisning, moms ska betalas in
                         move_line_list.append((0, 0, {
                             'name': momsskuld.name,
                             'account_id': momsskuld.id, # moms_journal.default_credit_account_id
                             'partner_id': '',
                             'debit': 0.0,
-                            'credit': abs(total),
+                            'credit': abs(self.vat_momsbetala),
                             'move_id': entry.id,
                         }))
                         move_line_list.append((0, 0, {
                             'name': momsskuld.name,
                             'account_id': momsskuld.id,
                             'partner_id': '',
-                            'debit': abs(total),
+                            'debit': abs(self.vat_momsbetala),
                             'credit': 0.0,
                             'move_id': entry.id,
                         }))
@@ -504,13 +502,24 @@ class account_vat_declaration(models.Model):
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('base.res_partner-SKV').id,
                             'debit': 0.0,
-                            'credit': abs(total),
+                            'credit': abs(self.vat_momsbetala),
+                            'move_id': entry.id,
+                        }))
+                        moms_diff += abs(self.vat_momsbetala)
+                    if moms_diff != 0.0:
+                        oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
+                        move_line_list.append((0, 0, {
+                            'name': oresavrundning.name,
+                            'account_id': oresavrundning.id,
+                            'partner_id': '',
+                            'debit': moms_diff if moms_diff < 0.0 else 0.0,
+                            'credit': moms_diff if moms_diff > 0.0 else 0.0,
                             'move_id': entry.id,
                         }))
                     entry.write({
                         'line_ids': move_line_list,
                     })
-                    self.write({'move_id': entry.id}) # wizard disappeared
+                    self.write({'move_id': entry.id})
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 

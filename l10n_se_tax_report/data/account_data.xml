@@ -106,7 +106,7 @@
             <field name="sequence">21</field>
             <field name="parent_id" ref="l10n_se_tax_report.b"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['MP1', 'MP1i'])]"/>
         </record>
@@ -115,7 +115,7 @@
             <field name="sequence">22</field>
             <field name="parent_id" ref="l10n_se_tax_report.b"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['MP2', 'MP2i'])]"/>
         </record>
@@ -124,7 +124,7 @@
             <field name="sequence">23</field>
             <field name="parent_id" ref="l10n_se_tax_report.b"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['MP3', 'MP3i'])]"/>
         </record>
@@ -367,7 +367,7 @@
             <field name="sequence">61</field>
             <field name="parent_id" ref="l10n_se_tax_report.f"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i'])]"/>
         </record>

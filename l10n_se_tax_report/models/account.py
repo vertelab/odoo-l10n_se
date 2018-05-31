@@ -26,11 +26,11 @@ _logger = logging.getLogger(__name__)
 #~ https://www.skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/hurlamnarjagarbetsgivardeklaration/saharfyllerduirutaforruta.4.3810a01c150939e893f18e43.html
 class account_account(models.Model):
     _inherit = 'account.account'
-    
+
     @api.multi
     def sum_period(self):
         self.ensure_one()
-        return sum([a.balance for a in self.get_movelines()])
+        return round(sum([a.balance for a in self.get_movelines()]))
 
 
     @api.multi
@@ -47,7 +47,7 @@ class account_account(models.Model):
         else:
             # bokslutsmetoden / kontantmetoden
             moves = self.env['account.move'].search(domain)
-            
+
             if self._context.get('accounting_yearend'):
                 lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
             else:
@@ -61,7 +61,7 @@ class account_tax(models.Model):
 
     @api.one
     def _sum_period(self):
-        self.sum_period = sum(self.get_taxlines().filtered(lambda l: l.tax_line_id.id in [self.id] + self.children_tax_ids.mapped('id')).mapped('balance'))
+        self.sum_period = round(sum(self.get_taxlines().filtered(lambda l: l.tax_line_id.id in [self.id] + self.children_tax_ids.mapped('id')).mapped('balance')))
     sum_period = fields.Float(string='Period Sum', compute='_sum_period')
 
     #~ @api.one
@@ -91,7 +91,7 @@ class account_tax(models.Model):
         #~ else:
             #~ self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
 
-    @api.multi  
+    @api.multi
     def get_taxlines(self):
         _logger.warn('get_taxlines context %s' % self._context)
         _logger.warn('get_taxlines self %s' % self)
@@ -111,7 +111,7 @@ class account_tax(models.Model):
                 lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
             else:
                 lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids]) and any([l.account_id.code[:2] == '19'])).mapped('line_ids')
-            
+
             #~ lines = self.env['account.move'].search(domain)
             #~ _logger.warn(lines)
             #~ lines = lines.mapped('line_ids')
@@ -123,17 +123,17 @@ class account_tax(models.Model):
             #~ lines = lines.mapped('move_id')
             #~ _logger.warn(lines)
             #~ lines = lines.mapped('line_ids')
-        
+
 
         return lines.filtered(lambda r: r.tax_line_id in self)
 
-    @api.model  
+    @api.model
     def get_taxtable(self):
         tax = {tax.code:line.balance for line in self.get_taxlines() for tax in line.mapped('tax_ids')}
         return tax
-        
-    
-        
+
+
+
 class account_financial_report(models.Model):
     _inherit = 'account.financial.report'
 
@@ -158,7 +158,7 @@ class account_financial_report(models.Model):
             _logger.warn('tax: %s' % tax.name)
             _logger.warn(tax.with_context(self._context).get_taxlines())
         return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()]))
-        
+
     @api.multi
     def get_taxlines(self):
         _logger.warn(self.name)
