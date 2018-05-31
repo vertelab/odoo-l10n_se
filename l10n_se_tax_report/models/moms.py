@@ -25,6 +25,7 @@ import base64
 from collections import OrderedDict
 from odoo.exceptions import Warning
 import time
+from datetime import datetime, timedelta
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -71,41 +72,37 @@ _logger = logging.getLogger(__name__)
 # Kontantmetoden    p04 - p06               7500        1250
 # Kontantmetoden    p04 - p06   Ja          7500        11250
 
-
-
-
-
 # order must be correct
 NAMEMAPPING = OrderedDict([
-    ('ForsMomsEjAnnan', 5),                #05: Momspliktig försäljning som inte ingår i annan ruta nedan
-    ('UttagMoms', 6),   #06: Momspliktiga uttag
+    ('ForsMomsEjAnnan', 5),          #05: Momspliktig försäljning som inte ingår i annan ruta nedan
+    ('UttagMoms', 6),                #06: Momspliktiga uttag
     ('UlagMargbesk', 7),             #07: Beskattningsunderlag vid vinstmarginalbeskattning
     ('HyrinkomstFriv', 8),           #08: Hyresinkomster vid frivillig skattskyldighet
-    ('InkopVaruAnnatEg', 20),         #20: Inköp av varor från annat EU-land
-    ('InkopTjanstAnnatEg', 21),       #21: Inköp av tjänster från annat EU-land
-    ('InkopTjanstUtomEg', 22),        #22: Inköp av tjänster från land utanför EU
-    ('InkopVaruSverige', 23),         #23: Inköp av varor i Sverige
-    ('InkopTjanstSverige', 24),       #24: Inköp av tjänster i Sverige
+    ('InkopVaruAnnatEg', 20),        #20: Inköp av varor från annat EU-land
+    ('InkopTjanstAnnatEg', 21),      #21: Inköp av tjänster från annat EU-land
+    ('InkopTjanstUtomEg', 22),       #22: Inköp av tjänster från land utanför EU
+    ('InkopVaruSverige', 23),        #23: Inköp av varor i Sverige
+    ('InkopTjanstSverige', 24),      #24: Inköp av tjänster i Sverige
     ('MomsUlagImport', 50),          #50: Beskattningsunderlag vid import
-    ('ForsVaruAnnatEg', 35),          #35: Försäljning av varor till annat EU-land
-    ('ForsVaruUtomEg', 36),              #36: Försäljning av varor utanför EU
-    ('InkopVaruMellan3p', 37),        #37: Mellanmans inköp av varor vid trepartshandel
-    ('ForsVaruMellan3p', 38),         #38: Mellanmans försäljning av varor vid trepartshandel
-    ('ForsTjSkskAnnatEg', 39),        #39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land
-    ('ForsTjOvrUtomEg', 40),          #40: Övrig försäljning av tjänster omsatta utom landet
-    ('ForsKopareSkskSverige', 41),    #41: Försäljning när köparen är skattskyldig i Sverige
-    ('ForsOvrigt', 42),                 #42: Övrig försäljning m.m. ???
-    ('MomsUtgHog', 10),        #10: Utgående moms 25 %
-    ('MomsUtgMedel', 11),      #11: Utgående moms 12 %
-    ('MomsUtgLag', 12),        #12: Utgående moms 6 %
-    ('MomsInkopUtgHog', 30),          #30: Utgående moms 25%
-    ('MomsInkopUtgMedel', 31),        #31: Utgående moms 12%
-    ('MomsInkopUtgLag', 32),          #32: Utgående moms 6%
-    ('MomsImportUtgHog', 60),      #60: Utgående moms 25%
-    ('MomsImportUtgMedel', 61),    #61: Utgående moms 12%
-    ('MomsImportUtgLag', 62),      #62: Utgående moms 6%
-    ('MomsIngAvdr', 48),       #48: Ingående moms att dra av
-    ('MomsBetala', 49),         #49: Moms att betala eller få tillbaka
+    ('ForsVaruAnnatEg', 35),         #35: Försäljning av varor till annat EU-land
+    ('ForsVaruUtomEg', 36),          #36: Försäljning av varor utanför EU
+    ('InkopVaruMellan3p', 37),       #37: Mellanmans inköp av varor vid trepartshandel
+    ('ForsVaruMellan3p', 38),        #38: Mellanmans försäljning av varor vid trepartshandel
+    ('ForsTjSkskAnnatEg', 39),       #39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land
+    ('ForsTjOvrUtomEg', 40),         #40: Övrig försäljning av tjänster omsatta utom landet
+    ('ForsKopareSkskSverige', 41),   #41: Försäljning när köparen är skattskyldig i Sverige
+    ('ForsOvrigt', 42),              #42: Övrig försäljning m.m. ???
+    ('MomsUtgHog', 10),              #10: Utgående moms 25 %
+    ('MomsUtgMedel', 11),            #11: Utgående moms 12 %
+    ('MomsUtgLag', 12),              #12: Utgående moms 6 %
+    ('MomsInkopUtgHog', 30),         #30: Utgående moms 25%
+    ('MomsInkopUtgMedel', 31),       #31: Utgående moms 12%
+    ('MomsInkopUtgLag', 32),         #32: Utgående moms 6%
+    ('MomsImportUtgHog', 60),        #60: Utgående moms 25%
+    ('MomsImportUtgMedel', 61),      #61: Utgående moms 12%
+    ('MomsImportUtgLag', 62),        #62: Utgående moms 6%
+    ('MomsIngAvdr', 48),             #48: Ingående moms att dra av
+#    ('MomsBetala', 49),             #49: Moms att betala eller få tillbaka | hard coded
 ])
 
 
@@ -113,19 +110,20 @@ class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherit = ['mail.thread']
     
-    def _name(self):
-        return 
+    name = fields.Char()
+    date = fields.Date(help="Planned date, date when to report Skatteverket or do the declaration. Usually monday second week after period, but check calendar at Skatteverket")
 
-    name = fields.Char(default='Moms jan - mars')
-    date = fields.Date(help="Planned date")
     state = fields.Selection(selection=[('draft','Draft'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     def _fiscalyear_id(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
     def _period_start(self):
-        return 
-    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
-    period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
+        return  self.get_next_periods()[0]
+    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
+    def _period_stop(self):
+        return  self.get_next_periods()[1]
+    period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
+
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
     accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     accounting_yearend = fields.Boolean(string="Bokslutsperiod",help="I bokslutsperioden skall även utestående fordringar ingå i momsredovisningen vid kontantmetoden")
@@ -133,11 +131,13 @@ class account_vat_declaration(models.Model):
     report_file = fields.Binary(string="Report-file",readonly=True)
     eskd_file = fields.Binary(string="eSKD-file",readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
+    date_stop = fields.Date(related='period_stop.date_stop')
 
     @api.onchange('period_stop')
     def onchange_period_stop(self):
         self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-
+        self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=14))
+        self.name = 'Moms %s - %s' % (self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
         if self.period_start and self.period_stop:
@@ -215,9 +215,9 @@ class account_vat_declaration(models.Model):
 
 
     @api.model
-    def get_next_period(self):
-        last_declaration = self.search([],order='period_stop.date_end',limit=1)
-        return self.env['account.period'].next(last_declation.period_stop if last_declaration else None)
+    def get_next_periods(self,length=3):
+        last_declaration = self.search([],order='date_stop asc',limit=1)
+        return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None,length)
 
     @api.one
     def do_draft(self): 
@@ -409,7 +409,13 @@ class account_vat_declaration(models.Model):
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
-
+    @api.model
+    def create(self,vals):
+        if vals.get('period_stop'):
+            vals['name'] = 'Moms %s - %s' % (self.env['account.period'].period2month(vals.get('period_start')),self.env['account.period'].period2month(vals.get('period_stop')))
+            vals['date'] = fields.Date.to_string(fields.Date.from_string(self.env['account.period'].browse(vals['period_stop']).date_stop) + timedelta(days=14))
+            vals['accounting_yearend'] = (self.env['account.period'].browse(vals['period_stop']) == self.env['account.fiscalyear'].browse(vals.get('fiscalyear_id')).period_ids[-1] if vals.get('fiscalyear_id') else None)
+        return super(account_vat_declaration, self).create(vals)
 
 
 class account_vat_declaration_line(models.Model):
