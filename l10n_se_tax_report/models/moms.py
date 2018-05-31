@@ -153,6 +153,10 @@ class account_vat_declaration(models.Model):
     def _move_ids_count(self):
         self.move_ids_count = len(self.move_ids)
     move_ids_count = fields.Integer(compute='_move_ids_count')
+    @api.one
+    def _payment_ids_count(self):
+        self.payment_ids_count = len(self.get_payment_orders())
+    payment_ids_count = fields.Integer(compute='_payment_ids_count')
 
     @api.multi
     def show_momsingavdr(self):
@@ -191,17 +195,36 @@ class account_vat_declaration(models.Model):
     @api.multi
     def show_journal_entries(self):
         ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
         action.update({
             'display_name': _('Verifikat'),
-            'domain': [('id', 'in',self.move_ids.mapped('id'))],
+            'domain': [('id', 'in', self.move_ids.mapped('id'))],
             'context': ctx,
+        })
+        return action
+
+    @api.multi
+    def get_payment_orders(self):
+        payment_order = []
+        if self.move_id:
+            for l in self.move_id.line_ids:
+                line = self.env['account.payment.line'].search([('move_line_id', '=', l.id)])
+                if line:
+                    payment_order.append(line.order_id.id)
+        return payment_order
+
+    @api.multi
+    def show_payment_orders(self):
+        action = self.env['ir.actions.act_window'].for_xml_id('account_payment_order', 'account_payment_order_outbound_action')
+        action.update({
+            'display_name': _('%s') %self.name,
+            'domain': [('id', 'in', self.get_payment_orders())],
         })
         return action
 
@@ -426,17 +449,12 @@ class account_vat_declaration_line(models.Model):
 
     @api.multi
     def show_move_lines(self):
-        return {
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action.update({
             'display_name': _('%s') %self.name,
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move.line',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'view_id': self.env.ref('account.view_move_line_tree').id,
-            'target': 'current',
             'domain': [('id', 'in', self.move_line_ids.mapped('id'))],
-            'context': {},
-        }
+        })
+        return action
 
 
 class account_move(models.Model):
