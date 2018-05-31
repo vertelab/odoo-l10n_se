@@ -133,9 +133,10 @@ class account_vat_declaration(models.Model):
 
     @api.onchange('period_stop')
     def onchange_period_stop(self):
-        self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-        self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=12))
-        self.name = 'Moms %s - %s' % (self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
+        if self.period_stop:
+            self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
+            self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=12))
+            self.name = 'Moms %s - %s' % (self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
         if self.period_start and self.period_stop:
