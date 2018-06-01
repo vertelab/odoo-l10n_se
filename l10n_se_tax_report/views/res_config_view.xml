@@ -10,6 +10,8 @@
                     <group>
                         <field name="agd_journal" />
                         <field name="moms_journal" />
+                        <field name="accounting_method" />
+                        <field name="vat_declaration_frequency" />                        
                     </group>
                 </group>
             </field>

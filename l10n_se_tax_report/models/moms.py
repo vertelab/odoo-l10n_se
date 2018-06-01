@@ -115,7 +115,7 @@ class account_vat_declaration(models.Model):
     state = fields.Selection(selection=[('draft','Draft'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     def _fiscalyear_id(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
-    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string=u'Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
     def _period_start(self):
         return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
@@ -123,19 +123,25 @@ class account_vat_declaration(models.Model):
         return  self.get_next_periods()[1]
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
-    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
+    def _accounting_method(self):
+        return  self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
+    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default=_accounting_method,string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     accounting_yearend = fields.Boolean(string="Bokslutsperiod",help="I bokslutsperioden skall även utestående fordringar ingå i momsredovisningen vid kontantmetoden")
     free_text = fields.Text(string='Upplysningstext')
     report_file = fields.Binary(string="Report-file",readonly=True)
     eskd_file = fields.Binary(string="eSKD-file",readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
-    date_stop = fields.Date(related='period_stop.date_stop')
+    date_stop = fields.Date(related='period_stop.date_stop',store=True)
+    event_id = fields.Many2one(comodel_name='calendar.event',readonly=True)
 
     @api.onchange('period_stop')
     def onchange_period_stop(self):
-        self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-        self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=14))
-        self.name = 'Moms %s - %s' % (self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
+        if self.period_stop:
+            self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
+            self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=12))
+            self.name = 'Moms %s - %s' % (self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
+
+        
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
         if self.period_start and self.period_stop:
@@ -235,8 +241,9 @@ class account_vat_declaration(models.Model):
 
     @api.model
     def get_next_periods(self,length=3):
-        last_declaration = self.search([],order='date_stop asc',limit=1)
-        return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None,length)
+        last_declaration = self.search([],order='date_stop desc',limit=1)
+        _logger.warn('get_netx_period date_stop %s >>> %s | %s' % (last_declaration.date_stop,self.search([],order='date_stop asc').mapped('name'),self.search([],order='date_stop desc').mapped('name')))
+        return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None, int(self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.vat_declaration_frequency', default=str(length))))
 
     @api.one
     def do_draft(self):
@@ -439,14 +446,55 @@ class account_vat_declaration(models.Model):
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
+    @api.one
+    def create_event(self):
+        #TODO create bokförings categ_ids
+        if self.event_id and self.date:
+            self.event_id.write({'start': self.date, 'stop': self.date})
+        elif self.date:
+            self.event_id = self.env['calendar.event'].with_context(no_mail_to_attendees=True).create({
+                        'name': self.name,
+                        'description': 'Planned date for VAT-declaration',
+                        'start': self.date,
+                        'stop': self.date,
+                        #'start_datetime': self.date,
+                        #'stop_datetime': self.date,
+                        #'partner_ids': [(6, 0, [int(partner)])],
+                        'allday': True,
+                        'duration': 8, 
+                        'categ_ids': [(6, 0, [self.env.ref('l10n_se_tax_report.categ_accounting').id])],
+                        'state': 'open',            # to block that meeting date in the calendar
+                        'privacy': 'confidential',
+                    })
+
     @api.model
     def create(self,vals):
         if vals.get('period_stop'):
-            vals['name'] = 'Moms %s - %s' % (self.env['account.period'].period2month(vals.get('period_start')),self.env['account.period'].period2month(vals.get('period_stop')))
+            if vals.get('period_start') != vals.get('period_stop'):
+                vals['name'] = 'Moms %s - %s' % (self.env['account.period'].period2month(vals.get('period_start')),self.env['account.period'].period2month(vals.get('period_stop')))
+            else:
+                vals['name'] = 'Moms %s' % (self.env['account.period'].period2month(vals.get('period_start')))
             vals['date'] = fields.Date.to_string(fields.Date.from_string(self.env['account.period'].browse(vals['period_stop']).date_stop) + timedelta(days=14))
             vals['accounting_yearend'] = (self.env['account.period'].browse(vals['period_stop']) == self.env['account.fiscalyear'].browse(vals.get('fiscalyear_id')).period_ids[-1] if vals.get('fiscalyear_id') else None)
-        return super(account_vat_declaration, self).create(vals)
+        res = super(account_vat_declaration, self).create(vals)
+        if vals.get('date'):
+            res.create_event()
+        return res
+            
+    @api.multi
+    def write(self,values):
+        res = super(account_vat_declaration,self).write(values)
+        if values.get('date'):
+            self.create_event()
+        return res
 
+    @api.multi
+    def unlink(self):
+        for s in self:
+            if s.event_id:
+                s.event_id.unlink()
+            res = super(account_vat_declaration,s).unlink()
+        return res
 
 class account_vat_declaration_line(models.Model):
     _name = 'account.vat.declaration.line'

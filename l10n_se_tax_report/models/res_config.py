@@ -28,6 +28,8 @@ class account_config_settings(models.TransientModel):
 
     agd_journal = fields.Many2one(comodel_name='account.journal', string='Arbetsgivardeklaration journal')
     moms_journal = fields.Many2one(comodel_name='account.journal', string='Momsdeklaration journal')
+    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
+    vat_declaration_frequency = fields.Selection(selection=[(1, 'Month'), (3, 'Quarter'),(12, 'Year')], default=3,string='Skattedeklarationsfrekvens',help="Hur stor är momsdeklarationsperioden?")
 
     @api.multi
     def set_custom_parameters(self):
@@ -36,6 +38,10 @@ class account_config_settings(models.TransientModel):
             config_parameters.set_param(key="l10n_se_tax_report.agd_journal", value=str(self.agd_journal.id))
         if self.moms_journal:
             config_parameters.set_param(key="l10n_se_tax_report.moms_journal", value=str(self.moms_journal.id))
+        if self.accounting_method:
+            config_parameters.set_param(key="l10n_se_tax_report.accounting_method", value=str(self.accounting_method))
+        if self.vat_declaration_frequency:
+            config_parameters.set_param(key="l10n_se_tax_report.vat_declaration_frequency", value=str(self.vat_declaration_frequency))
 
     @api.model
     def get_default_custom_parameters(self, fields=None):
@@ -43,6 +49,8 @@ class account_config_settings(models.TransientModel):
         return {
             'agd_journal': int(icp.get_param(key='l10n_se_tax_report.agd_journal', default='0')) or False,
             'moms_journal': int(icp.get_param(key='l10n_se_tax_report.moms_journal', default='0')) or False,
+            'accounting_method': icp.get_param(key='l10n_se_tax_report.accounting_method', default='invoice') or False,
+            'vat_declaration_frequency': int(icp.get_param(key='l10n_se_tax_report.vat_declaration_frequency', default='3')) or False,
         }
 
 
