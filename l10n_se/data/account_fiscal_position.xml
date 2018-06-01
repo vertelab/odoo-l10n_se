@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+<data>
+    
+    <!-- K2 Trade with EU -->
+    <record id="k2_fpos_trade_eu" model="account.fiscal.position.template">
+        <field name="name">Handel med EU</field>
+        <field name="chart_template_id" ref="chart_template_K2_2017" />
+    </record>
+    
+    <!-- K2 Trade with EU tax lines -->
+    <record id="k2_fpos_trade_eu_tax_i" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="i"/>
+        <field name="tax_dest_id" ref="vfeu"/>
+    </record>
+    <record id="k2_fpos_trade_eu_tax_i12" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="i12"/>
+        <field name="tax_dest_id" ref="vfeu12"/>
+    </record>
+    <record id="k2_fpos_trade_eu_tax_i6" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="i6"/>
+        <field name="tax_dest_id" ref="vfeu6"/>
+    </record>
+    
+    <!-- K2 Trade with EU account lines -->
+    <record id="k2_fpos_trade_eu_acc_chart4000" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart4000"/>
+        <field name="account_dest_id" ref="K2_4515_2017"/>
+    </record>
+    <record id="k2_fpos_trade_eu_acc_chart4001" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart4001"/>
+        <field name="account_dest_id" ref="K2_4515_2017"/>
+    </record>
+    <record id="k2_fpos_trade_eu_acc_chart4002" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart4002"/>
+        <field name="account_dest_id" ref="K2_4516_2017"/>
+    </record>
+    <record id="k2_fpos_trade_eu_acc_chart4003" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart4003"/>
+        <field name="account_dest_id" ref="K2_4517_2017"/>
+    </record>
+    
+</data>
+</odoo>

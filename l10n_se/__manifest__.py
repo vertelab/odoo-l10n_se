@@ -77,6 +77,7 @@
         'data/account_chart_template_k23.xml',
         'data/account_chart_template_data.yml',
         'data/account_tax_data.xml',
+        'data/account_fiscal_position.xml',
         #~ 'data/account.tax.code.template.csv',
         #~ 'data/account.tax.template-after.csv',
         #~ 'data/res.partner.bank.type.csv',
