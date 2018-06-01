@@ -4,7 +4,7 @@
 
         <record id="view_account_agd_declaration" model="ir.ui.view">
             <field name="name">arbetsgivardeklaration.form</field>
-            <field name="model">agd.declaration</field>
+            <field name="model">account.agd.declaration</field>
             <field name="arch" type="xml">
                 <form string="Arbetsgivardeklaration">
                     <header>
