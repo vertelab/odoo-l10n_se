@@ -45,7 +45,92 @@ class account_bank_accounts_wizard(models.TransientModel):
 
     account_type = fields.Selection(selection_add=[('bg','Bankgiro'),('pg','Plusgiro')])
 
+class AccountFiscalPosition(models.Model):
+    _inherit = 'account.fiscal.position'
 
+    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id', string='Tax Balance Mapping', copy=True)
+    
+    @api.multi
+    def get_map_balance_row(self, values):
+        if not values.get('tax_line_id'):
+            return
+        tax = None
+        for line in self.tax_balance_ids.filtered(lambda r: r.tax_src_id.id == values['tax_line_id']):
+            tax = line.tax_dest_id
+        if tax:
+            return {
+                'invoice_tax_line_id': values.get('invoice_tax_line_id'), # ??? Looks like it does nothing
+                'tax_line_id': tax.id,
+                'type': 'tax',
+                'name': values.get('name'),
+                'price_unit': values.get('price_unit'),
+                'quantity': values.get('quantity'),
+                'price': -values.get('price', 0), # debit (+) or credit (-)
+                'account_id': tax.account_id and tax.account_id.id,
+                'account_analytic_id': values.get('account_analytic_id'),
+                'invoice_id': values.get('invoice_id'),
+                'tax_ids': values.get('tax_ids'), # Looks like it will contain any previous taxes that will be included in the base value for this tax
+            }
+
+class AccountFiscalPositionTaxBalance(models.Model):
+    _name = 'account.fiscal.position.tax.balance'
+    _description = 'Taxes Balance Fiscal Position'
+    _rec_name = 'position_id'
+
+    position_id = fields.Many2one('account.fiscal.position', string='Fiscal Position',
+        required=True, ondelete='cascade')
+    tax_src_id = fields.Many2one('account.tax', string='Tax on Product', required=True)
+    tax_dest_id = fields.Many2one('account.tax', string='Tax to Balance Against', required=True)
+
+    _sql_constraints = [
+        ('tax_src_dest_uniq',
+         'unique (position_id,tax_src_id,tax_dest_id)',
+         'A tax balance fiscal position could be defined only one time on same taxes.')
+    ]
+
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.model
+    def tax_line_move_line_get(self):
+        res = super(AccountInvoice, self).tax_line_move_line_get()
+        if not self.fiscal_position_id:
+            return res
+        i = 0
+        while i < len(res):
+            values = self.fiscal_position_id.get_map_balance_row(res[i])
+            _logger.warn('values: %s' % values)
+            if values:
+                i += 1
+                res.insert(i, values)
+            i += 1
+        _logger.warn('res: %s' % res)
+        return res
+                
+        # ~ # keep track of taxes already processed
+        # ~ done_taxes = []
+        # ~ # loop the invoice.tax.line in reversal sequence
+        # ~ for tax_line in sorted(self.tax_line_ids, key=lambda x: -x.sequence):
+            # ~ if tax_line.amount:
+                # ~ tax = tax_line.tax_id
+                # ~ if tax.amount_type == "group":
+                    # ~ for child_tax in tax.children_tax_ids:
+                        # ~ done_taxes.append(child_tax.id)
+                # ~ res.append({
+                    # ~ 'invoice_tax_line_id': tax_line.id,
+                    # ~ 'tax_line_id': tax_line.tax_id.id,
+                    # ~ 'type': 'tax',
+                    # ~ 'name': tax_line.name,
+                    # ~ 'price_unit': tax_line.amount,
+                    # ~ 'quantity': 1,
+                    # ~ 'price': tax_line.amount,
+                    # ~ 'account_id': tax_line.account_id.id,
+                    # ~ 'account_analytic_id': tax_line.account_analytic_id.id,
+                    # ~ 'invoice_id': self.id,
+                    # ~ 'tax_ids': [(6, 0, list(done_taxes))] if tax_line.tax_id.include_base_amount else []
+                # ~ })
+                # ~ done_taxes.append(tax.id)
+        # ~ return res
 class wizard_multi_charts_accounts(models.TransientModel):
     """
         defaults for 4 digits in chart of accounts

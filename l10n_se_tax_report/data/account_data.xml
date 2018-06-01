@@ -144,7 +144,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'VFEU')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['VFEU', 'VFEU12', 'VFEU6'])]"/>
         </record>
         <record id="21" model="account.financial.report">
             <field name="name">21. Inköp av tjänster från annat EU-land</field>
@@ -406,6 +406,7 @@
             <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1630')]"/>
             <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2850')]"/>
         </record>
+        
     </data>
 
 </odoo>
