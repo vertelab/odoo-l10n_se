@@ -196,7 +196,7 @@
             <field name="sequence">41</field>
             <field name="parent_id" ref="l10n_se_tax_report.d"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U1MI')]"/>
         </record>
@@ -205,7 +205,7 @@
             <field name="sequence">42</field>
             <field name="parent_id" ref="l10n_se_tax_report.d"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U2MI')]"/>
         </record>
@@ -214,7 +214,7 @@
             <field name="sequence">43</field>
             <field name="parent_id" ref="l10n_se_tax_report.d"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U3MI')]"/>
         </record>
@@ -250,7 +250,7 @@
             <field name="sequence">47</field>
             <field name="parent_id" ref="l10n_se_tax_report.i"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U1MBBUI')]"/>
         </record>
@@ -259,7 +259,7 @@
             <field name="sequence">48</field>
             <field name="parent_id" ref="l10n_se_tax_report.i"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U2MBBUI')]"/>
         </record>
@@ -268,7 +268,7 @@
             <field name="sequence">49</field>
             <field name="parent_id" ref="l10n_se_tax_report.i"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U3MBBUI')]"/>
         </record>
@@ -367,7 +367,7 @@
             <field name="sequence">61</field>
             <field name="parent_id" ref="l10n_se_tax_report.f"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="-1"/>
+            <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i'])]"/>
         </record>
@@ -406,7 +406,10 @@
             <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1630')]"/>
             <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2850')]"/>
         </record>
-        
+
+        <record id="categ_accounting" model="calendar.event.type">
+            <field name="name">Accouning Report</field>
+        </record>
     </data>
 
 </odoo>
