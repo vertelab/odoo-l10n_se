@@ -62,6 +62,7 @@ _logger = logging.getLogger(__name__)
 #
 # Momsrapport för 1804 - 1806 skall redovisa Utg/ing 2500 från 1803 (kontantmetoden)
 # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax
+# Alla 19x account.move.line med tax_line_id
 #
 # Fakturametoden
 # Alla account.move 1804/06 -> account.line -> account.tax
@@ -297,14 +298,18 @@ class account_vat_declaration(models.Model):
                 'name': line.name,
                 'level': line.level,
                 'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
+                'move_ids': [(6,0,line.with_context(ctx).get_taxlines().mapped('move_id').mapped('id'))],
                 })
 
         ##
         #### Mark Used moves
         ##
 
-        for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
+        for move in self.env['account.move'].with_context(ctx).get_move():
             move.vat_declaration_id = self.id
+
+        for move in self.move_ids:
+            move.full_reconcile_id = move.line_ids.mapped('full_reconcile_id')[0].id if len(move.line_ids.mapped('full_reconcile_id')) > 0 else None
 
         ##
         #### Create eSDK-file
@@ -460,7 +465,7 @@ class account_vat_declaration(models.Model):
                         #'stop_datetime': self.date,
                         #'partner_ids': [(6, 0, [int(partner)])],
                         'allday': True,
-                        'duration': 8, 
+                        'duration': 8,
                         'categ_ids': [(6, 0, [self.env.ref('l10n_se_tax_report.categ_accounting').id])],
                         'state': 'open',            # to block that meeting date in the calendar
                         'privacy': 'confidential',
@@ -479,7 +484,7 @@ class account_vat_declaration(models.Model):
         if vals.get('date'):
             res.create_event()
         return res
-            
+
     @api.multi
     def write(self,values):
         res = super(account_vat_declaration,self).write(values)
@@ -506,6 +511,7 @@ class account_vat_declaration_line(models.Model):
     type = fields.Char(string='Type')
     name = fields.Char(string='Name')
     level = fields.Integer(string='Level')
+    move_ids = fields.Many2many(comodel_name='account.move')
 
     @api.multi
     def show_move_lines(self):
@@ -521,3 +527,46 @@ class account_move(models.Model):
     _inherit = 'account.move'
 
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
+    full_reconcile_id = fields.Many2one(comodel_name='account.full.reconcile')
+
+    @api.model
+    def get_movelines(self):
+        #TODO:Undantag icke fodringsverifikat
+        #TODO:Kontrollera yearend och invoice samt första perioden
+        period_start = self._context.get('period_start',self._context.get('period_id'))
+        period_stop = self._context.get('period_stop',period_start)
+        # date_start / date_stop
+        domain = [('period_id','in',self.env['account.period'].get_period_ids(period_start,period_stop))]
+        if self._context.get('target_move') and self._context.get('target_move') in ['draft', 'posted']:
+            domain.append(tuple(('state', '=', self._context.get('target_move'))))
+        if self._context.get('accounting_method','invoice') == 'invoice':
+            # fakturametoden
+            lines = self.env['account.move'].search(domain).mapped('line_ids')
+        else:
+            # bokslutsmetoden / kontantmetoden
+            # TODO:första perioden, betalningar som gäller fodringar som gäller föregående år skall inte ingå.
+            moves = self.env['account.move'].search(domain)
+            if self._context.get('accounting_yearend'):
+                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
+            else:
+                moves_19 = self.env['account.move'].search(domain).mapped('line_ids').filtered(lambda l: l.account_id.code[:2] == '19').mapped('move_id')
+                reconciled_lines = moves_19.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').filtered(lambda m: m.period_id.date_start <= self.env['account.period'].browse(period_stop).date_start).mapped('line_ids') # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax utom betalningar i framtiden
+                lines = reconciled_lines | moves_19.mapped('line_ids').filtered(lambda l: l.tax_ids != False) # Alla 19x account.move.line med tax_line_id
+
+            #~ lines = self.env['account.move'].search(domain)
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('line_ids')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('full_reconcile_id')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('reconciled_line_ids')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('move_id')
+            #~ _logger.warn(lines)
+            #~ lines = lines.mapped('line_ids')
+
+        return lines
+
+    @api.model
+    def get_move(self):
+        return self.get_movelines().mapped('move_id')

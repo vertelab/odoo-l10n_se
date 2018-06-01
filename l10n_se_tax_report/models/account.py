@@ -32,28 +32,9 @@ class account_account(models.Model):
         self.ensure_one()
         return round(sum([a.balance for a in self.get_movelines()]))
 
-
     @api.multi
     def get_movelines(self):
-        period_start = self._context.get('period_start',self._context.get('period_id'))
-        period_stop = self._context.get('period_stop',period_start)
-        # date_start / date_stop
-        domain = [('period_id','in',self.env['account.period'].get_period_ids(period_start,period_stop))]
-        if self._context.get('target_move') and self._context.get('target_move') in ['draft', 'posted']:
-            domain.append(tuple(('state', '=', self._context.get('target_move'))))
-        if self._context.get('accounting_method','invoice') == 'invoice':
-            # fakturametoden
-            lines = self.env['account.move'].search(domain).mapped('line_ids')
-        else:
-            # bokslutsmetoden / kontantmetoden
-            moves = self.env['account.move'].search(domain)
-
-            if self._context.get('accounting_yearend'):
-                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
-            else:
-                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids]) and any([l.account_id.code[:2] == '19'])).mapped('line_ids')
-        _logger.warn('Code %s --> %s (%s)'%(self.code,lines.filtered(lambda l: l.account_id in self),self))
-        return lines.filtered(lambda l: l.account_id in self)
+        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda l: l.account_id in self)
 
 
 class account_tax(models.Model):
@@ -93,39 +74,7 @@ class account_tax(models.Model):
 
     @api.multi
     def get_taxlines(self):
-        _logger.warn('get_taxlines context %s' % self._context)
-        _logger.warn('get_taxlines self %s' % self)
-        period_start = self._context.get('period_start',self._context.get('period_id'))
-        period_stop = self._context.get('period_stop',period_start)
-        # date_start / date_stop
-        domain = [('period_id','in',self.env['account.period'].get_period_ids(period_start,period_stop))]
-        if self._context.get('target_move') and self._context.get('target_move') in ['draft', 'posted']:
-            domain.append(tuple(('state', '=', self._context.get('target_move'))))
-        if self._context.get('accounting_method','invoice') == 'invoice':
-            # fakturametoden
-            lines = self.env['account.move'].search(domain).mapped('line_ids')
-        else:
-            # bokslutsmetoden / kontantmetoden
-            moves = self.env['account.move'].search(domain)
-            if self._context.get('accounting_yearend'):
-                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
-            else:
-                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids]) and any([l.account_id.code[:2] == '19'])).mapped('line_ids')
-
-            #~ lines = self.env['account.move'].search(domain)
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('line_ids')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('full_reconcile_id')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('reconciled_line_ids')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('move_id')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('line_ids')
-
-
-        return lines.filtered(lambda r: r.tax_line_id in self)
+        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda r: r.tax_line_id in self)
 
     @api.model
     def get_taxtable(self):
