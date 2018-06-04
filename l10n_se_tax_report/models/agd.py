@@ -77,9 +77,7 @@ class account_agd_declaration(models.Model):
 
     @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
     def _vat(self):
-        pass
-        
-        if self.period_start and self.period_stop:
+        if self.period_start:
             ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
@@ -87,16 +85,13 @@ class account_agd_declaration(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-            self.SumSkAvdr = round(sum([self.env.ref('l10n_se_tax_report.agd_report_%s' % row).with_context(ctx).sum_tax_period() for row in [48]])) * -1.0
-            self.SumAvgBetala = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
-            self.ag_betala = self.vat_momsutg + self.vat_momsingavdr
+            self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+            self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+            self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
 
     SumSkAvdr    = fields.Float(compute='_vat')
     SumAvgBetala = fields.Float(compute='_vat')
     ag_betala  = fields.Float(compute='_vat')
-    
-    baskonto = fields.Float(string='Baskonto', default=0.0, readonly=True, help='Avläsning av transationer från baskontoplanen.')
-    agavgpres = fields.Float(string='Arbetsgivaravgift & Preliminär skatt', default=0.0, readonly=True)
     
     @api.multi
     def show_agavgpres(self):
@@ -155,147 +150,6 @@ class account_agd_declaration(models.Model):
         #### Create eSDK-file
         ##
 
-        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
-        def parse_xml(recordsets,ctx):
-            root = etree.Element('eSKDUpload', Version="6.0")
-            orgnr = etree.SubElement(root, 'OrgNr')
-            orgnr.text = self.env.user.company_id.company_registry or ''
-            moms = etree.SubElement(root, 'Moms')
-            period = etree.SubElement(moms, 'Period')
-            period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            for row in TAGS.items():
-                line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-                amount = str(int(abs(round(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign) or 0))
-                if not amount == '0':
-                    tax = etree.SubElement(moms, row)
-                    tax.text = amount
-            momsbetala = etree.SubElement(moms, 'MomsBetala')
-            momsbetala.text = str(int(round(self.vat_momsbetala)))
-            free_text = etree.SubElement(moms, 'TextUpplysningMoms')
-            free_text.text = self.free_text or ''
-            return root
-        xml = etree.tostring(parse_xml(tax_account,ctx), pretty_print=True, encoding="ISO-8859-1")
-        xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
-        self.eskd_file = base64.b64encode(xml)
-
-        ##
-        #### Create move
-        ##
-
-        #TODO check all warnings
-
-        moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
-        if not moms_journal_id:
-            raise Warning('Konfigurera din momsdeklaration journal!')
-        else:
-            moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
-            momsskuld = moms_journal.default_credit_account_id
-            momsfordran = moms_journal.default_debit_account_id
-            skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-            if momsskuld and momsfordran and skattekonto:
-                entry = self.env['account.move'].create({
-                    'journal_id': moms_journal.id,
-                    'period_id': self.period_start.id,
-                    'date': fields.Date.today(),
-                    'ref': u'Momsdeklaration',
-                })
-                if entry:
-                    move_line_list = []
-                    moms_diff = 0.0
-                    for k in self.env.ref('l10n_se_tax_report.48').mapped('account_ids'): # kollar på 2640 konton, ingående moms
-                        credit = k.with_context(ctx).sum_period()
-                        move_line_list.append((0, 0, {
-                            'name': k.name,
-                            'account_id': k.id,
-                            'credit': credit,
-                            'debit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        moms_diff -= credit
-                    for k in set([a for row in [10,11,12,30,31,32,60,61,62] for a in self.env.ref('l10n_se_tax_report.%s' % row).mapped('account_ids')]): # kollar på 26xx konton, utgående moms
-                        debit = abs(k.with_context(ctx).sum_period())
-                        move_line_list.append((0, 0, {
-                            'name': k.name,
-                            'account_id': k.id,
-                            'debit': debit,
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        moms_diff += debit
-                    if self.vat_momsbetala < 0.0: # momsfordran, moms ska få tillbaka
-                        move_line_list.append((0, 0, {
-                            'name': momsfordran.name,
-                            'account_id': momsfordran.id, # moms_journal.default_debit_account_id
-                            'partner_id': '',
-                            'debit': abs(self.vat_momsbetala),
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': momsfordran.name,
-                            'account_id': momsfordran.id,
-                            'partner_id': '',
-                            'debit': 0.0,
-                            'credit': abs(self.vat_momsbetala),
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': skattekonto.name,
-                            'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('base.res_partner-SKV').id,
-                            'debit': abs(self.vat_momsbetala),
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                    if self.vat_momsbetala > 0.0: # moms redovisning, moms ska betalas in
-                        move_line_list.append((0, 0, {
-                            'name': momsskuld.name,
-                            'account_id': momsskuld.id, # moms_journal.default_credit_account_id
-                            'partner_id': '',
-                            'debit': 0.0,
-                            'credit': self.vat_momsbetala,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': momsskuld.name,
-                            'account_id': momsskuld.id,
-                            'partner_id': '',
-                            'debit': self.vat_momsbetala,
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': skattekonto.name,
-                            'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('base.res_partner-SKV').id,
-                            'debit': 0.0,
-                            'credit': self.vat_momsbetala,
-                            'move_id': entry.id,
-                        }))
-                    if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
-                        oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
-                        oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
-                        move_line_list.append((0, 0, {
-                            'name': oresavrundning.name,
-                            'account_id': oresavrundning.id,
-                            'partner_id': '',
-                            'debit': oresavrundning_amount if moms_diff < self.vat_momsbetala else 0.0,
-                            'credit': oresavrundning_amount if moms_diff > self.vat_momsbetala else 0.0,
-                            'move_id': entry.id,
-                        }))
-                    entry.write({
-                        'line_ids': move_line_list,
-                    })
-                    self.write({'move_id': entry.id})
-            else:
-                raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
-
-    
--------------
-
-    @api.one
-    def _compute_eskd_file(self):
-        # account should not included: AgBrutU, AgAvgU, AgAvgAv, AgAvg, AgAvd, AgAvdU, AgAvgPreS, AgPre, UlagVXLon, AvgVXLon
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
         def parse_xml(recordsets):
             root = etree.Element('eSKDUpload', Version="6.0")
@@ -308,7 +162,7 @@ class account_agd_declaration(models.Model):
                 tax = etree.SubElement(ag, tag)
                 acc = self.env['account.tax'].search([('name', '=', tag)])
                 if acc:
-                    tax.text = str(int(abs(acc.with_context({'period_id': self.period.id, 'state': self.target_move}).sum_period)))
+                    tax.text = str(int(abs(acc.with_context(ctx).sum_period)))
                 else:
                     tax.text = '0'
             free_text = etree.SubElement(ag, 'TextUpplysningAg')
@@ -318,30 +172,11 @@ class account_agd_declaration(models.Model):
         xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
         self.eskd_file = base64.b64encode(xml)
 
-    @api.multi
-    def create_eskd(self):
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_type': 'controller',
-            #for v9.0, 10.0
-            'report_file': '/web/content/agd.declaration/%s/eskd_file/%s?download=true' %(self.id, 'ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]))
-            #for v7.0, v8.0
-            #'report_file': '/web/binary/saveas?model=agd.declaration&field=eskd_file&filename_field=%s&id=%s' %('ag-%s.txt' %(self.period.date_start[:4] + self.period.date_start[5:7]), self.id)
-        }
+        ##
+        #### Create move
+        ##
 
-    @api.onchange('period', 'target_move')
-    def read_account(self):
-        if self.period:
-            tax_account = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-            if tax_account:
-                sum_baskonto = 0.0
-                for account in self.env['account.financial.report'].search([('tax_ids', 'in', tax_account.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids'):
-                    sum_baskonto += account.get_balance(self.period, self.target_move)
-                self.baskonto = -sum_baskonto
-                self.agavgpres = -tax_account.sum_period
-
-    @api.multi
-    def create_entry(self):
+        #TODO check all warnings
         tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
         kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
         agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
@@ -361,7 +196,7 @@ class account_agd_declaration(models.Model):
                 if entry:
                     move_line_list = []
                     for k in kontoskatte:
-                        credit = k.get_debit_credit_balance(self.period, self.target_move).get('credit')
+                        credit = k.with_context(ctx).sum_period()
                         if credit != 0.0:
                             move_line_list.append((0, 0, {
                                 'name': k.name,
@@ -385,73 +220,3 @@ class account_agd_declaration(models.Model):
                     self.write({'move_id': entry.id}) # wizard disappeared
             else:
                 raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
-
-    @api.multi
-    def show_entry(self):
-        if not self.move_id:
-            raise Warning(_(u'Du måste skapa verifikat först'))
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': self.env.ref('account.view_move_form').id,
-            'res_id': self.move_id.id,
-            'target': 'new',
-            'context': {}
-        }
-
-    @api.multi
-    def show_account_moves(self):
-        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        domain = [('move_id.period_id', '=', self.period.id), ('account_id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))]
-        if self.target_move in ['draft', 'posted']:
-            domain.append(('move_id.state', '=', self.target_move))
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move.line',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'view_id': self.env.ref('account.view_move_line_tree').id,
-            'target': 'current',
-            'domain': domain,
-            'context': {'search_default_period_id': self.period.id},
-        }
-
-    @api.multi
-    def show_journal_items(self):
-        return self.show_account_moves()
-
-    def print_report(self): # make a short cut to print financial report
-        afr = self.env['accounting.report'].sudo().create({
-            'account_report_id': self.env.ref('l10n_se_tax_report.agd_report').id,
-            'target_move': 'all',
-            'enable_filter': False,
-            'debit_credit': False,
-            'date_from_cmp': self.period.date_start,
-            'date_to_cmp': self.period.date_stop,
-        })
-        return afr.check_report()
-
-    # ~ @api.multi
-    # ~ def print_report(self):
-        # ~ return {
-            # ~ 'type': 'ir.actions.act_window',
-            # ~ 'res_model': 'accounting.report',
-            # ~ 'view_type': 'form',
-            # ~ 'view_mode': 'form',
-            # ~ 'view_id': self.env.ref('account.accounting_report_view').id,
-            # ~ 'target': 'new',
-            # ~ 'domain': [],
-            # ~ 'context': {
-                # ~ 'default_account_report_id': self.env.ref('l10n_se_tax_report.agd_report').id,
-                # ~ 'default_date_from': self.period.date_start,
-                # ~ 'default_date_to': self.period.date_stop,
-            # ~ },
-        # ~ }
-
-        #~ account_tax_codes = self.env['account.tax'].search([])
-        #~ data = {}
-        #~ data['ids'] = account_tax_codes.mapped('id')
-        #~ data['model'] = 'account.tax'
-        #~ return self.env['report'].with_context({'period_id': self.period.id, 'state': self.target_move}).get_action(account_tax_codes, self.env.ref('l10n_se_tax_report.ag_report_glabel').name, data=data)
