@@ -91,7 +91,8 @@
         #~ 'wizard/import_chart_of_account.xml',
     ],
     'demo_xml' : [
-        'demo/account_chart.yml'
+        'demo/account_chart.yml',
+        'demo/l10n_se_demo.xml'
     ],
     'installable': 'True',
 }

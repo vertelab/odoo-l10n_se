@@ -42,7 +42,9 @@ Taxes for financial report
         # ~ 'account_invoice_demo.xml',
         'security/ir.model.access.csv',
     ],
-    'demo_xml' : [],
+    'demo_xml' : [
+        'demo/account_invoice.yml',
+    ],
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
