@@ -36,9 +36,10 @@ Taxes for financial report
         'views/account_view.xml',
         'views/res_config_view.xml',
         'wizard/glabel_report.xml',
-        'views/agd_report.xml',
         'wizard/import_b_and_r_report.xml',
         'views/moms_report.xml',
+        'views/agd_report.xml',
+
         # ~ 'account_invoice_demo.xml',
         'security/ir.model.access.csv',
     ],

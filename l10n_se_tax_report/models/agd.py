@@ -68,9 +68,13 @@ class account_agd_declaration(models.Model):
     _name = 'account.agd.declaration'
     _inherit = 'account.declaration'
     _report_name = 'Agd'
-
+    
+    def _period_start(self):
+        return  self.get_next_periods()[0]
+    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
-
+    move_ids = fields.One2many(comodel_name='account.move',inverse_name="agd_declaration_id")
+    
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
@@ -99,7 +103,24 @@ class account_agd_declaration(models.Model):
     ag_betala  = fields.Float(compute='_vat')
     
     @api.multi
-    def show_agavgpres(self):
+    def show_SumSkAvdr(self):
+        ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action.update({
+            'display_name': _('VAT Ag'),
+            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            'context': {},
+        })
+        return action
+    @api.multi
+    
+    def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
@@ -136,7 +157,7 @@ class account_agd_declaration(models.Model):
 
         for row in TAGS:
             line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-            self.env['account.agd.declaration.line'].create({
+            self.env['account.declaration.line'].create({
                 'declaration_id': self.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,
@@ -149,7 +170,7 @@ class account_agd_declaration(models.Model):
         ##
 
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
-            move.vat_declaration_id = self.id
+            move.agd_declaration_id = self.id
 
         ##
         #### Create eSDK-file
@@ -225,3 +246,15 @@ class account_agd_declaration(models.Model):
                     self.write({'move_id': entry.id}) # wizard disappeared
             else:
                 raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+
+    @api.model
+    def get_next_periods(self,length=1):
+        last_declaration = self.search([],order='date_stop desc',limit=1)
+        _logger.warn('get_netx_period date_stop %s >>> %s | %s' % (last_declaration.date_stop,self.search([],order='date_stop asc').mapped('date_stop'),self.search([],order='date_stop desc').mapped('name')))
+        return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
+
+
+class account_move(models.Model):
+    _inherit = 'account.move'
+
+    agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")

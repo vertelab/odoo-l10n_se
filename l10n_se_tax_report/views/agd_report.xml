@@ -14,7 +14,7 @@
           </header>
           <sheet>
             <div class="oe_right oe_button_box" name="buttons">
-              <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_SumSkAvdr" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="SumSkAvdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -22,7 +22,7 @@
                   <span class="o_stat_text">SumSkAvdr</span>
                 </div>
               </button>
-              <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_momsingavdr" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_SumAvgBetala" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="SumAvgBetala" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -128,6 +128,9 @@
       <field name="view_mode">tree,form,calendar</field>
       <field name="target">current</field>
     </record>
-    <menuitem name="Arbetsgivardeklaration" parent="account.menu_finance_legal_statement" action="action_account_agd_declaration" id="menu_account_agd_declaration" groups="account.group_account_user,account.group_account_manager" />
+<!--
+    <menuitem name="Arbetsgivardeklaration" parent="menu_report_authoritiesmenu_report_authorities" action="action_account_agd_declaration" id="menu_account_agd_declaration" groups="account.group_account_user,account.group_account_manager" />
+-->
+    <menuitem name="Arbetsgivardeklaration" parent="menu_report_authorities" action="action_account_agd_declaration" id="menu_account_agd_declaration" />
   </data>
 </odoo>
