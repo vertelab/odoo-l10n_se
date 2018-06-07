@@ -224,7 +224,7 @@ class wizard_multi_charts_accounts(models.TransientModel):
                 company = self.env['res.company'].browse(company_id)
                 ba_list = [{'acc_name': _('Kalle Cash'), 'account_type': 'cash'}]
                 for ba in company.bank_ids:
-                    ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.state}]
+                    ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.acc_type}]
                 res.update({'bank_account_id': ba_list})
         return res
 

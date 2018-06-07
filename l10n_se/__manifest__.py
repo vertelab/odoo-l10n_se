@@ -90,9 +90,10 @@
         'data/account_tax_template_hr_data.xml',
         #~ 'wizard/import_chart_of_account.xml',
     ],
-#    'demo_xml' : [
-#        'demo/demo.xml'
-#    ],
+    'demo_xml' : [
+        'demo/account_chart.yml',
+        'demo/l10n_se_demo.xml'
+    ],
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
