@@ -23,6 +23,8 @@ from odoo import models, fields, api, _
 from lxml import etree
 import base64
 from odoo.exceptions import Warning
+import time
+from datetime import datetime, timedelta
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -64,30 +66,33 @@ TAGS = [
 
 class account_agd_declaration(models.Model):
     _name = 'account.agd.declaration'
-    _inherit = 'account.vat.declaration'
+    _inherit = 'account.declaration'
+    _report_name = 'Agd'
 
+    # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
 
-    date_stop = fields.Date(related='period_stop.date_start',store=True)
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
             # ~ self.accounting_yearend = (self.period_start == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
+            self.period_stop = self.period_start
             self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop) + timedelta(days=12))
-            self.name = 'Agd %s' % (self.env['account.period'].period2month(self.period_start,short=False)))
+            self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
     @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
     def _vat(self):
-        if self.period_start:
-            ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-            self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-            self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-            self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
+        for decl in self:
+            if decl.period_start:
+                ctx = {
+                    'period_start': decl.period_start.id,
+                    'period_stop': decl.period_stop.id,
+                    'accounting_yearend': decl.accounting_yearend,
+                    'accounting_method': decl.accounting_method,
+                    'target_move': decl.target_move,
+                }
+                decl.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+                decl.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+                decl.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
 
     SumSkAvdr    = fields.Float(compute='_vat')
     SumAvgBetala = fields.Float(compute='_vat')
@@ -131,7 +136,7 @@ class account_agd_declaration(models.Model):
 
         for row in TAGS:
             line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-            self.env['account.vat.declaration.line'].create({
+            self.env['account.agd.declaration.line'].create({
                 'declaration_id': self.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,

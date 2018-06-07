@@ -55,21 +55,13 @@
             </div>
             <group string="Arbetsgivardeklaration" col="2">
               <field name="date" />
-              <field name="fiscalyear_id" />
-              <field name="target_move" />
               <field name="period_start" string="Period" domain="[('fiscalyear_id', '=', fiscalyear_id),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" />
               <field name="ag_betala" />
-            </group>
-            <group col="3">
-              <field name="baskonto" />
-              <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_account_moves" />
-              <field name="agavgpres" />
-              <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_journal_items" />
-            </group>
-            <group col="3">
               <field name="move_id" />
-              <button icon="fa-book" string="Visa Verifikat" help="Visa Verifikat" type="object" name="show_entry" />
+              <field name="eskd_file" />
+
             </group>
+            
             <notebook>
               <page string="Inställningar">
                 <group>
@@ -102,9 +94,23 @@
         </form>
       </field>
     </record>
+    <record id="view_agd_tree" model="ir.ui.view">
+      <field name="name">arbetsgivardeklaration.tree</field>
+      <field name="model">account.agd.declaration</field>
+      <field name="arch" type="xml">
+        <tree string="Arbetsgivardeklaration">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="SumSkAvdr"/>
+            <field name="SumAvgBetala"/>
+            <field name="ag_betala"/>
+            <field name="state"/>
+    </tree>
+    </field>
+    </record>
     <record id="view_agd_calendar" model="ir.ui.view">
       <field name="name">arbetsgivardeklaration.cal</field>
-      <field name="model">agd.declaration</field>
+      <field name="model">account.agd.declaration</field>
       <field name="arch" type="xml">
         <calendar date_start="date" string="Momsdeklaration" mode="month">
           <field name="name" />
@@ -117,7 +123,7 @@
     <record id="action_account_agd_declaration" model="ir.actions.act_window">
       <field name="name">Arbetsgivardeklaration</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">agd.declaration</field>
+      <field name="res_model">account.agd.declaration</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form,calendar</field>
       <field name="target">current</field>
