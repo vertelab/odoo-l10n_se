@@ -28,60 +28,28 @@ from datetime import datetime, timedelta
 import logging
 _logger = logging.getLogger(__name__)
 
-
-# order must be correct
-TAGS = [
-    'LonBrutto',        #50: Avgiftspliktig bruttolön utom förmåner
-    'Forman',           #51: Avgiftspliktiga förmåner
-    'AvdrKostn',        #52: Avdrag för utgifter
-    'SumUlagAvg',       #53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt
-    'UlagAvgHel',       #55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - 61 - 65 - 69)
-    'AvgHel',           #56: (san) 31,42% av #55
-    'UlagAvgAldersp',   #59:  sap  Arbetsgivaravgift för 66-80 år
-    'AvgAldersp',       #60: (sap) 16,36% av #59
-    'UlagAlderspSkLon', #57??
-    'AvgAlderspSkLon',  #58??
-    'UlagSkLonSarsk',   #61:  sapx Särskild löneskatt för 81 år eller äldre
-    'SkLonSarsk',       #62: (sapx)6,15% av #61
-    'UlagAvgAmbassad',  #65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt på vissa försäkringar m.m.
-    'AvgAmbassad',      #66: Se uträkningsruta
-    # ~ 'KodAmerika',       #67: Kod USA, Kanada, Québec m.fl.
-    'UlagAvgAmerika',   #69:
-    'AvgAmerika',       #70: Se uträkningsruta
-    'UlagStodForetag',  #73: Forskning och utveckling
-    'AvdrStodForetag',  #74: Avdrag 10%, dock högst 230000 kr
-    'UlagStodUtvidgat', #75: Regionalt stöd för vissa branscher i stödområde
-    'AvdrStodUtvidgat', #76: Avdrag 10%, dock högst 7100 kr
-    'SumAvgBetala',     #78: Summa arbetsgivaravgifter
-    'UlagSkAvdrLon',    #81: Lön och förmåner inkl. SINK
-    'SkAvdrLon',        #82: Från lön och förmåner
-    'UlagSkAvdrPension',#83: Pension, livränta, försäkringsersättning inkl. SINK
-    'SkAvdrPension',    #84: Från pension m.m.
-    'UlagSkAvdrRanta',  #85: Ränta och utdelning
-    'SkAvdrRanta',      #86: Från ränta och utdelning
-    'UlagSumSkAvdr',    #87: Summa underlag för skatteanvdrag
-    'SumSkAvdr',        #88: Summa avdragen skatt
-    'SjukLonKostnEhs'   #99: Summa arbetsgivaravgifter och avdragen skatt att betala
-]
-
-class account_agd_declaration(models.Model):
-    _name = 'account.agd.declaration'
+class account_sru_declaration(models.Model):
+    _name = 'account.sru.declaration'
+    _inherits = {'account.declaration': 'declaration_id'}
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
-    _report_name = 'Agd'
+    _report_name = 'SRU'
     
     line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)  
     def _period_start(self):
-        return  self.get_next_periods()[0]
+        return  self.get_next_periods(length=12)[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
-    # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
-    move_ids = fields.One2many(comodel_name='account.move',inverse_name="agd_declaration_id")
+    def _period_stop(self):
+        return  self.get_next_periods(length=12)[1]
+    period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
+    move_ids = fields.One2many(comodel_name='account.move',inverse_name="sru_declaration_id")
+    report_id = fields.Many2one(comodel_name="account.financial.report")
+    sru_betala = fields.Float()
     
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
             # ~ self.accounting_yearend = (self.period_start == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-            self.period_stop = self.period_start
             self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop) + timedelta(days=12))
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
@@ -152,13 +120,12 @@ class account_agd_declaration(models.Model):
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
         }
-
+    
         ##
         ####  Create report lines
         ##
 
-        for row in TAGS:
-            line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
+        for line in self.report_id._get_children_by_order():
             self.env['account.declaration.line'].create({
                 'declaration_id': self.line_id.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
@@ -167,9 +134,13 @@ class account_agd_declaration(models.Model):
                 'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
                 })
 
+        return
+    
         ##
         #### Mark Used moves
         ##
+
+    
 
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
             move.agd_declaration_id = self.id
@@ -259,4 +230,6 @@ class account_agd_declaration(models.Model):
 class account_move(models.Model):
     _inherit = 'account.move'
 
-    agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+    sru_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+    
+

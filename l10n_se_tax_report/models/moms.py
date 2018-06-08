@@ -131,7 +131,7 @@ class account_declaration(models.Model):
     report_file = fields.Binary(string="Report-file",readonly=True)
     eskd_file = fields.Binary(string="eSKD-file",readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
-    date_stop = fields.Date(related='period_stop.date_stop',store=True)
+    date_stop = fields.Date(related='period_start.date_stop',store=True)
     event_id = fields.Many2one(comodel_name='calendar.event',readonly=True)
 
     @api.onchange('period_stop')
@@ -141,8 +141,7 @@ class account_declaration(models.Model):
             self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=12))
             self.name = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
 
-    line_ids = fields.One2many(comodel_name='account.vat.declaration.line',inverse_name="declaration_id")
-    move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
+    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="declaration_id")
     @api.one
     def _move_ids_count(self):
         self.move_ids_count = len(self.move_ids)
@@ -275,11 +274,16 @@ class account_declaration(models.Model):
             res = super(account_declaration,s).unlink()
         return res
 
+class account_declaration_line_id(models.Model):
+    _name = 'account.declaration.line.id'
+    
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
-    _inherit = ['account.declaration']
+    _inherits = {'account.declaration.line.id': 'line_id'}
+    _inherit = 'account.declaration'
     _report_name = 'Moms'
-
+    
+    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)    
     def _period_start(self):
         return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
@@ -289,20 +293,22 @@ class account_vat_declaration(models.Model):
 
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
-        if self.period_start and self.period_stop:
-            ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-            self.vat_momsingavdr = round(sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])) * -1.0
-            self.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
-            self.vat_momsbetala = self.vat_momsutg + self.vat_momsingavdr
+        for decl in self:
+            if decl.period_start and decl.period_stop:
+                ctx = {
+                    'period_start': decl.period_start.id,
+                    'period_stop': decl.period_stop.id,
+                    'accounting_yearend': decl.accounting_yearend,
+                    'accounting_method': decl.accounting_method,
+                    'target_move': decl.target_move,
+                }
+                decl.vat_momsingavdr = round(sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])) * -1.0
+                decl.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
+                decl.vat_momsbetala = decl.vat_momsutg + decl.vat_momsingavdr
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
+    move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
 
     @api.multi
     def show_momsingavdr(self):
@@ -359,9 +365,8 @@ class account_vat_declaration(models.Model):
 
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
-            _logger.warn('\n\nline: %s\n' % line.name)
-            self.env['account.vat.declaration.line'].create({
-                'declaration_id': self.id,
+            self.env['account.declaration.line'].create({
+                'declaration_id': self.line_id.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,
                 'level': line.level,
@@ -518,10 +523,10 @@ class account_vat_declaration(models.Model):
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
                 
-class account_vat_declaration_line(models.Model):
-    _name = 'account.vat.declaration.line'
+class account_declaration_line(models.Model):
+    _name = 'account.declaration.line'
 
-    declaration_id = fields.Many2one(comodel_name="account.vat.declaration", string='Declatation')
+    declaration_id = fields.Many2one(comodel_name="account.declaration.line.id", string='Declatation')
     move_line_ids = fields.Many2many(comodel_name="account.move.line", string='Move Lines')
     # ~ report_id = fields.Many2one(comodel_name="account.financial.report")
     account_type = fields.Char(string='Account Type')

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
+      
+<!--
+      
+             <menuitem id="next_id_23" name="Periods" parent="account.menu_finance_configuration" sequence="5" />
+        <menuitem id="menu_action_account_fiscalyear" action="action_account_fiscalyear" parent="next_id_23"/> 
+
+    <menuitem id="menu_action_account_period_form" action="action_account_period_form" parent="account.menu_finance_entries" sequence="50"/>
+-->
+    <menuitem name="Myndighetsrapportering" id="menu_report_authorities" parent="account.menu_finance_entries" />
+
     <record id="view_account_moms_declaration" model="ir.ui.view">
       <field name="name">momsdeklaration.form</field>
       <field name="model">account.vat.declaration</field>
@@ -155,10 +165,13 @@
       <field name="view_mode">tree,form,calendar</field>
       <field name="search_view_id" ref="view_moms_filter" />
     </record>
-    <menuitem name="Momsdeklaration" parent="account.menu_finance_legal_statement" action="action_account_moms_declaration" id="menu_account_moms_declaration" groups="account.group_account_user,account.group_account_manager" />
+<!--
+    <menuitem name="Momsdeklaration" parent="menu_report_authorities" action="action_account_moms_declaration" id="menu_account_moms_declaration" groups="account.group_account_user,account.group_account_manager" />
+-->
+    <menuitem name="Momsdeklaration" parent="menu_report_authorities" action="action_account_moms_declaration" id="menu_account_moms_declaration" />
     <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
-      <field name="name">account.vat.declaration.line.form</field>
-      <field name="model">account.vat.declaration.line</field>
+      <field name="name">account.declaration.line.form</field>
+      <field name="model">account.declaration.line</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Declaration Lines">
