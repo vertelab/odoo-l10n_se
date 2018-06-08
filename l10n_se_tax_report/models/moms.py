@@ -359,6 +359,7 @@ class account_vat_declaration(models.Model):
 
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
+            _logger.warn('\n\nline: %s\n' % line.name)
             self.env['account.vat.declaration.line'].create({
                 'declaration_id': self.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
