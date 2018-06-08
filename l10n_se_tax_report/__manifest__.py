@@ -39,6 +39,7 @@ Taxes for financial report
         'wizard/import_b_and_r_report.xml',
         'views/moms_report.xml',
         'views/agd_report.xml',
+        'views/sru_report.xml',
 
         # ~ 'account_invoice_demo.xml',
         'security/ir.model.access.csv',

@@ -23,5 +23,6 @@ import account
 import res_config
 import moms
 import agd
+import sru
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

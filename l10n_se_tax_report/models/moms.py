@@ -274,11 +274,16 @@ class account_declaration(models.Model):
             res = super(account_declaration,s).unlink()
         return res
 
+class account_declaration_line_id(models.Model):
+    _name = 'account.declaration.line.id'
+    
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
-    _inherit = ['account.declaration']
+    _inherits = {'account.declaration.line.id': 'line_id'}
+    _inherit = 'account.declaration'
     _report_name = 'Moms'
-
+    
+    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)    
     def _period_start(self):
         return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
@@ -361,7 +366,7 @@ class account_vat_declaration(models.Model):
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
             self.env['account.declaration.line'].create({
-                'declaration_id': self.id,
+                'declaration_id': self.line_id.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,
                 'level': line.level,
@@ -521,7 +526,7 @@ class account_vat_declaration(models.Model):
 class account_declaration_line(models.Model):
     _name = 'account.declaration.line'
 
-    declaration_id = fields.Many2one(comodel_name="account.declaration", string='Declatation')
+    declaration_id = fields.Many2one(comodel_name="account.declaration.line.id", string='Declatation')
     move_line_ids = fields.Many2many(comodel_name="account.move.line", string='Move Lines')
     # ~ report_id = fields.Many2one(comodel_name="account.financial.report")
     account_type = fields.Char(string='Account Type')
