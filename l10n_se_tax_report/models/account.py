@@ -42,7 +42,7 @@ class account_tax(models.Model):
 
     @api.one
     def _sum_period(self):
-        self.sum_period = round(sum(self.get_taxlines().filtered(lambda l: l.tax_line_id in self + self.children_tax_ids.mapped('id')).mapped('balance')))
+        self.sum_period = round(sum(self.get_taxlines().filtered(lambda l: l.tax_line_id.id in [self.id] + self.children_tax_ids.mapped('id')).mapped('balance')))
     sum_period = fields.Float(string='Period Sum', compute='_sum_period')
 
     #~ @api.one

@@ -41,13 +41,13 @@ TAGS = [
     'AvgAldersp',       #60: (sap) 16,36% av #59
     'UlagAlderspSkLon', #57??
     'AvgAlderspSkLon',  #58??
-    'UlagSkLonSarsk',   #61:  sapx Särskild löneskatt för 81 år eller äldre
-    'SkLonSarsk',       #62: (sapx)6,15% av #61
-    'UlagAvgAmbassad',  #65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt på vissa försäkringar m.m.
-    'AvgAmbassad',      #66: Se uträkningsruta
+    # ~ 'UlagSkLonSarsk',   #61:  sapx Särskild löneskatt för 81 år eller äldre
+    # ~ 'SkLonSarsk',       #62: (sapx)6,15% av #61
+    # ~ 'UlagAvgAmbassad',  #65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt på vissa försäkringar m.m.
+    # ~ 'AvgAmbassad',      #66: Se uträkningsruta
     # ~ 'KodAmerika',       #67: Kod USA, Kanada, Québec m.fl.
-    'UlagAvgAmerika',   #69:
-    'AvgAmerika',       #70: Se uträkningsruta
+    # ~ 'UlagAvgAmerika',   #69:
+    # ~ 'AvgAmerika',       #70: Se uträkningsruta
     'UlagStodForetag',  #73: Forskning och utveckling
     'AvdrStodForetag',  #74: Avdrag 10%, dock högst 230000 kr
     'UlagStodUtvidgat', #75: Regionalt stöd för vissa branscher i stödområde
@@ -55,13 +55,13 @@ TAGS = [
     'SumAvgBetala',     #78: Summa arbetsgivaravgifter
     'UlagSkAvdrLon',    #81: Lön och förmåner inkl. SINK
     'SkAvdrLon',        #82: Från lön och förmåner
-    'UlagSkAvdrPension',#83: Pension, livränta, försäkringsersättning inkl. SINK
-    'SkAvdrPension',    #84: Från pension m.m.
-    'UlagSkAvdrRanta',  #85: Ränta och utdelning
-    'SkAvdrRanta',      #86: Från ränta och utdelning
+    # ~ 'UlagSkAvdrPension',#83: Pension, livränta, försäkringsersättning inkl. SINK
+    # ~ 'SkAvdrPension',    #84: Från pension m.m.
+    # ~ 'UlagSkAvdrRanta',  #85: Ränta och utdelning
+    # ~ 'SkAvdrRanta',      #86: Från ränta och utdelning
     'UlagSumSkAvdr',    #87: Summa underlag för skatteanvdrag
     'SumSkAvdr',        #88: Summa avdragen skatt
-    'SjukLonKostnEhs'   #99: Summa arbetsgivaravgifter och avdragen skatt att betala
+    # ~ 'SjukLonKostnEhs'   #99: Summa arbetsgivaravgifter och avdragen skatt att betala
 ]
 
 class account_agd_declaration(models.Model):
@@ -69,19 +69,19 @@ class account_agd_declaration(models.Model):
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
     _report_name = 'Agd'
-    
-    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)  
+
+    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
     def _period_start(self):
         return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="agd_declaration_id")
-    
+
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
             # ~ self.accounting_yearend = (self.period_start == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-            self.period_stop = self.period_start
+            # ~ self.period_stop = self.period_start
             self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop) + timedelta(days=12))
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
@@ -103,12 +103,12 @@ class account_agd_declaration(models.Model):
     SumSkAvdr    = fields.Float(compute='_vat')
     SumAvgBetala = fields.Float(compute='_vat')
     ag_betala  = fields.Float(compute='_vat')
-    
+
     @api.multi
     def show_SumSkAvdr(self):
         ctx = {
                 'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
+                'period_stop': self.period_start.id,
                 'accounting_yearend': self.accounting_yearend,
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
@@ -121,11 +121,11 @@ class account_agd_declaration(models.Model):
         })
         return action
     @api.multi
-    
+
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
+                'period_stop': self.period_start.id,
                 'accounting_yearend': self.accounting_yearend,
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
@@ -147,7 +147,7 @@ class account_agd_declaration(models.Model):
             self.state = 'done'
         ctx = {
             'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
+            'period_stop': self.period_start.id,
             'accounting_yearend': self.accounting_yearend,
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
@@ -185,14 +185,11 @@ class account_agd_declaration(models.Model):
             orgnr.text = self.env.user.company_id.company_registry
             ag = etree.SubElement(root, 'Ag')
             period = etree.SubElement(ag, 'Period')
-            period.text = self.period.date_start[:4] + self.period.date_start[5:7]
-            for tag in TAGS:
-                tax = etree.SubElement(ag, tag)
-                acc = self.env['account.tax'].search([('name', '=', tag)])
-                if acc:
-                    tax.text = str(int(abs(acc.with_context(ctx).sum_period)))
-                else:
-                    tax.text = '0'
+            period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
+            for row in TAGS:
+                line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
+                tax = etree.SubElement(ag, row)
+                tax.text = str(int(abs((line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign))) or '0'
             free_text = etree.SubElement(ag, 'TextUpplysningAg')
             free_text.text = self.free_text or ''
             return root
@@ -205,8 +202,8 @@ class account_agd_declaration(models.Model):
         ##
 
         #TODO check all warnings
-        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
+        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period_start.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
+        kontoskatte = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_start.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
         agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
         if not agd_journal_id:
             raise Warning('Konfigurera din arbetsgivardeklaration journal!')
@@ -217,7 +214,7 @@ class account_agd_declaration(models.Model):
                 total = 0.0
                 entry = self.env['account.move'].create({
                     'journal_id': agd_journal.id,
-                    'period_id': self.period.id,
+                    'period_id': self.period_start.id,
                     'date': fields.Date.today(),
                     'ref': u'Arbetsgivardeklaration',
                 })
@@ -229,7 +226,7 @@ class account_agd_declaration(models.Model):
                             move_line_list.append((0, 0, {
                                 'name': k.name,
                                 'account_id': k.id,
-                                'debit': credit,
+                                'debit': int(round(abs(credit))),
                                 'credit': 0.0,
                                 'move_id': entry.id,
                             }))
@@ -239,13 +236,13 @@ class account_agd_declaration(models.Model):
                         'account_id': skattekonto.id,
                         'partner_id': self.env.ref('base.res_partner-SKV').id,
                         'debit': 0.0,
-                        'credit': total,
+                        'credit': int(round(abs(total))),
                         'move_id': entry.id,
                     }))
                     entry.write({
                         'line_ids': move_line_list,
                     })
-                    self.write({'move_id': entry.id}) # wizard disappeared
+                    self.write({'move_id': entry.id})
             else:
                 raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
