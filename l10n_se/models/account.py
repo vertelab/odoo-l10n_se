@@ -49,7 +49,7 @@ class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
     tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id', string='Tax Balance Mapping', copy=True)
-    
+
     @api.multi
     def get_map_balance_row(self, values):
         if not values.get('tax_line_id'):
@@ -106,7 +106,7 @@ class AccountInvoice(models.Model):
             i += 1
         _logger.warn('res: %s' % res)
         return res
-                
+
         # ~ # keep track of taxes already processed
         # ~ done_taxes = []
         # ~ # loop the invoice.tax.line in reversal sequence
@@ -411,6 +411,14 @@ class account_tax_template(models.Model):
 
 class account_account_type(models.Model):
     _inherit = 'account.account.type'
+
+    element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+    account_range = fields.Char(string='Accoun Range', help='Domain shows which account should has this account type.')
+
+    @api.multi
+    def get_account_range(self):
+        self.ensure_one()
+        return self.env['account.account'].search(eval(self.account_range))
 
     def account2user_type(self,account_code):
         user_type = 'account.data_account_type_asset'

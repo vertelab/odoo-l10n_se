@@ -32,7 +32,6 @@ ln = [
     {'t':'R','f':u"Övriga bokslutsdispositioner",'b':"",'k':[('code', 'in', '[8840,8841,8842,8843,8844,8845,8846,8847,8848,8849,8860,8861,8862,8863,8864,8865,8866,8867,8868,8869,8870,8871,8872,8873,8874,8875,8876,8877,8878,8879,8880,8881,8882,8883,8884,8885,8886,8887,8888,8889,8890,8891,8892,8893,8894,8895,8896,8897,8898,8899]')]},
     {'t':'R','f':u"Förändring av överavskrivningar",'b':"",'k':['&', ('code', '>=', '8850'), ('code', '<=', '8859')]},
     {'t':'R','f':u"Skatt på årets resultat",'b':"<p>Beräknad skatt på årets resultat.</p><p> Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.</p>",'k':['&', ('code', '>=', '8900'), ('code', '<=', '8979')]},
-
     {'t':'R','f':u"Övriga skatter",'b':"Används sällan.",'k':['&', ('code', '>=', '8980'), ('code', '<=', '8989')]},
     {'t':'R','f':u"Resultat",'b':"",'k':[('code', 'in', '[8990,8991,8992,8993,8994,8995,8996,8997,8998,8999]')]},
     {'t':'B','f':u"Koncessioner, patent, licenser, varumärken samt liknande rättigheter",'b':"",'k':[('code', 'in', '[1080,1081,1082,1083,1084,1085,1086,1087,1089,1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,1020,1021,1022,1023,1024,1025,1026,1027,1028,1029,1030,1031,1032,1033,1034,1035,1036,1037,1038,1039,1040,1041,1042,1043,1044,1045,1046,1047,1048,1049,1050,1051,1052,1053,1054,1055,1056,1057,1058,1059]')]},
@@ -54,7 +53,6 @@ ln = [
     {'t':'B','f':u"Andra långfristiga värdepappersinnehav",'b':u"Långsiktigt innehav av värdepapper som inte avser koncern- eller intresseföretag.",'k':['&', ('code', '>=','1350'), ('code', '<=','1359')]},
     {'t':'B','f':u"Lån till delägare eller närstående",'b':u"Fordringar på delägare, och andra som står delägare nära, som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=','1360'), ('code', '<=','1369')]},
     {'t':'B','f':u"Uppskjuten skattefordran",'b':u"",'k':[('code', 'in','[1370,1371,1372,1373,1374,1375,1376,1377,1378,1379]')]},
-
     {'t':'B','f':u"Andra långfristiga fordringar",'b':u"Fordringar som förfaller till betalning senare än 12 månader från balansdagen.",'k':['&', ('code', '>=','1380'), ('code', '<=','1389')]},
     {'t':'B','f':u"Råvaror och förnödenheter",'b':"Lager av råvaror eller förnödenheter som har köpts för att bearbetas eller för att vara komponenter i den egna tillverkgningen.",'k':[('code', 'in','[1410,1411,1412,1413,1414,1415,1416,1417,1418,1419,1420,1421,1422,1423,1424,1425,1426,1427,1428,1429,1430,1431,1438]')]},
     {'t':'B','f':u"Varor under tillverkning",'b':"Lager av varor där tillverkning har påbörjats.",'k':[('code', '>=', u'1432'), ('code', '<=', u'1449'), ('code', 'not in', '[1438]')]},
@@ -163,8 +161,10 @@ for l in ln:
 
     if 'Aktiekapital' in l.get('f') or u'Övrigt bundet kapita' in l.get('f') or u'Övrigt bundet kapita' in l.get('f')  or u'Balanserat resultat' in l.get('f') or u'Övrigt fritt eget kapital' in l.get('f') or u'Ej registrerat aktiekapital' in l.get('f') or u'Uppskrivningsfond' in l.get('f')  or u'Reservfond' in l.get('f') or u'Aktieägartillskott' in l.get('f') or u'Överkursfond' in l.get('f') or u'Övriga bokslutsdispositioner' in l.get('f') or u'Resultat' in l.get('f') or u'Årets resultat' in l.get('f'):
         ut = 'account.data_account_type_equity'
-    if u'Nettoomsättning' in l.get('f') or u'Övriga rörelseintäkter' in l.get('f'):
+    if u'Nettoomsättning' in l.get('f'):
         ut = 'account.data_account_type_revenue'
+    if u'Övriga rörelseintäkter' in l.get('f'):
+        ut = 'account.data_account_other_income'
     if u'Extraordinära intäkter' in l.get('f') or u'Erhållna koncernbidrag' in l.get('f') or u'Resultat från ' in l.get('f') or u'Övriga ränteintäkter' in l.get('f'):
         ut = 'account.data_account_type_other_income'
     if u'Aktiverat arbete för egen räkning' in l.get('f') or u'Råvaror och förnödenheter' in l.get('f') or u'Handelsvaror' in l.get('f') or u'Förändring av lager av produkter i arbete' in l.get('f') or u'Av- och nedskrivningar' in l.get('f') or u'Nedskrivningar' in l.get('f') or u'Övriga rörelsekostnader' in l.get('f'):

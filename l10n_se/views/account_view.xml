@@ -27,7 +27,7 @@
                 </notebook>
             </field>
         </record>
-        
+
         <record id="view_move_form" model="ir.ui.view">
             <field name="name">account.move.form</field>
             <field name="model">account.move</field>
@@ -35,6 +35,21 @@
             <field name="arch" type="xml">
                 <field name="analytic_account_id" position="after">
                     <field name="tax_line_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_type_form" model="ir.ui.view">
+            <field name="name">account.account.type.form.inherited.l10n_se</field>
+            <field name="model">account.account.type</field>
+            <field name="inherit_id" ref="account.view_account_type_form"/>
+            <field name="arch" type="xml">
+                <field name="include_initial_balance" position="after">
+                    <field name="element_name"/>
+                </field>
+                <field name="note" position="after">
+                    <separator string="Account Range"/>
+                    <field name="account_range"/>
                 </field>
             </field>
         </record>

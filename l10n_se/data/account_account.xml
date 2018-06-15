@@ -8,5 +8,22 @@
             <field name="default_debit_account_id" search="[('code', '=', '7210')]" model="account.account" />
             <field name="default_crebit_account_id" search="[('code', '=', '7210')]" model="account.account" />
         </record>
+        <record id="set_account_type" model="ir.actions.server">
+            <field name="name">Set Account Type</field>
+            <field name="model_id" ref="base.model_ir_actions_server"/>
+            <field name="state">code</field>
+            <field name="code">for o in env['account.account.type'].search([]):
+    if o.account_range:
+        for account in o.get_account_range():
+            if o.type in ['payable', 'receivable']:
+                account.write({'reconcile': True})
+            account.write({'user_type_id': o.id})</field>
+        </record>
+        <record id="ir_values_po_line_tags" model="ir.values">
+            <field name="name">Set Account Type</field>
+            <field name="model">ir.actions.server</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se.set_account_type')"/>
+        </record>
     </data>
 </odoo>

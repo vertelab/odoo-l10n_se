@@ -276,14 +276,14 @@ class account_declaration(models.Model):
 
 class account_declaration_line_id(models.Model):
     _name = 'account.declaration.line.id'
-    
+
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
     _report_name = 'Moms'
-    
-    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)    
+
+    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
     def _period_start(self):
         return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
@@ -522,7 +522,7 @@ class account_vat_declaration(models.Model):
                     self.write({'move_id': entry.id})
             else:
                 raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
-                
+
 class account_declaration_line(models.Model):
     _name = 'account.declaration.line'
 

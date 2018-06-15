@@ -2,13 +2,13 @@
 <odoo>
   <data>
 
-    <record id="wizard_result_balance_reports" model="ir.ui.view">
-        <field name="name">Import SRU connections</field>
-        <field name="model">account.financial.report.balance_result.import</field>
+    <record id="wizard_bolagsverket_reports" model="ir.ui.view">
+        <field name="name">Import Bolagsverket connections</field>
+        <field name="model">account.financial.report.bolagsverket.import</field>
         <field name="arch" type="xml">
             <form string="Import">
                 <group rowspan="4" string="Import XLS-file">
-                    <p>Create income declaration reports from XLS-files provided by <a href="http://www.bas.se/kontoplaner/sru/">BAS</a>.</p>
+                    <p>Create bolagsverket reports from XLS-files</p>
                     <field name="data"/>
                     <field name="message"/>
                 </group>
@@ -21,16 +21,16 @@
         </field>
     </record>
 
-    <record id="action_wizard_result_balance_reports" model="ir.actions.act_window">
-        <field name="name">Import SRU connections</field>
+    <record id="action_wizard_bolagsverket_reports" model="ir.actions.act_window">
+        <field name="name">Import Bolagsverket connections</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">account.financial.report.balance_result.import</field>
+        <field name="res_model">account.financial.report.bolagsverket.import</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
 
-    <menuitem action="action_wizard_result_balance_reports" id="menu_wizard_result_balance_reports" parent="account.menu_account_reports"/>
+    <menuitem action="action_bolagsverket_reports" id="menu_wizard_bolagsverket_reports" parent="account.menu_account_reports"/>
 
   </data>
 </odoo>

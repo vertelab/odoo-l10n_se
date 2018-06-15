@@ -18,25 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Sweden - Accounting Year End Reports',
-    'version': '1.0',
-    'category': 'Report',
-    'description': """
-Swedish accounting Year End Reports
-===================================
-http://www.srfredovisning.se/srf-mallar-for-arsredovisning-2/2-exempel/
-http://www.srfredovisning.se/foretagsanalys-med-redovisningsinformation/3-analys-med-nyckeltal/
-http://www.srfredovisning.se/foretagsanalys-med-redovisningsinformation/4-analys-med-kassafloden/
 
-     """,
-    'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
-    'depends': ['l10n_se_tax_report'],
-    'data': [
-        'wizard/year_end_report.xml',
-    ],
-    'demo_xml' : [],
-    'installable': 'True',
-}
+import year_end
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
