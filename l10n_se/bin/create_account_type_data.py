@@ -17,12 +17,24 @@ r_title = 10
 # ~ r_saldo = 13
 r_documentation = 16
 r_account_type = 50
+r_element_nix = []
 
 b_element_name = 9
 b_title = 11
 # ~ b_saldo = 14
 b_documentation = 17
 b_account_type = 43
+b_element_nix = [
+    'ImmateriellaAnlaggningstillgangar',
+    'MateriellaAnlaggningstillgangar',
+    'FinansiellaAnlaggningstillgangar',
+    'VarulagerMm',
+    'KortfristigaFordringar',
+    'KortfristigaPlaceringar',
+    'ObeskattadeReserver',
+    'LangfristigaSkulder',
+    'KortfristigaSkulder',
+]
 
 r_lst = []
 b_lst = []
@@ -60,7 +72,7 @@ def get_type(lst):
     else:
         return 'other'
 
-def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_type=0, lst=None):
+def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_type=0, nix=[], lst=None):
     for row in range(1, sheet.nrows):
         if sheet.cell(row, account_type).value == 'BFNAR':
             pass
@@ -72,7 +84,9 @@ def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_typ
                 # ~ 'data_type': sheet.cell(row, data_type).value,
                 # ~ 'note': sheet.cell(row, documentation).value,
             # ~ })
-        if sheet.cell(row, account_type).value == 'BAS-konto':
+        if sheet.cell(row, account_type).value == 'BAS-konto' and sheet.cell(row, element_name).value not in nix:
+            if sheet.cell(row, element_name).value == 'OvrigaKortfristigaSkulder':
+                account_type += 16
             domain = get_range_domain(get_account_range(sheet, account_type, row))
             lst.append({
                 'name': sheet.cell(row, title).value,
@@ -82,8 +96,8 @@ def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_typ
                 'account_range': domain
             })
 
-read_sheet(resultatrakning, r_element_name, r_title, r_documentation, r_account_type, r_lst)
-read_sheet(balansrakning, b_element_name, b_title, b_documentation, b_account_type, b_lst)
+read_sheet(resultatrakning, r_element_name, r_title, r_documentation, r_account_type, r_element_nix, r_lst)
+read_sheet(balansrakning, b_element_name, b_title, b_documentation, b_account_type, b_element_nix, b_lst)
 
 print """<?xml version="1.0" encoding="utf-8"?>
 <odoo>
