@@ -431,8 +431,7 @@
             <field name="type">other</field>
             <field name="element_name">FordringarKoncernforetagKortfristiga</field>
             <field name="account_range">[('code', 'in', ['1560', '1561', '1562', '1563', '1564', '1565', '1566', '1567', '1568', '1569', '1660', '1661', '1662', '1663', '1664', '1665', '1666', '1667', '1668', '1669'])]</field>
-            <field name="note">Här redovisas kortfristiga fordringar på koncernföretag, inklusive kundfordringar
-</field>
+            <field name="note">Här redovisas kortfristiga fordringar på koncernföretag, inklusive kundfordringar</field>
         </record>
 
         <record id="FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga" model="account.account.type">

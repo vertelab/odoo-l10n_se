@@ -415,6 +415,39 @@ class account_account_type(models.Model):
     element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
     account_range = fields.Char(string='Accoun Range', help='Domain shows which account should has this account type.')
 
+    external_id_exchange_dict = {
+        'Kundfordringar': 'account.data_account_type_receivable',
+        'Leverantorsskulder': 'account.data_account_type_payable',
+        'KassaBankExklRedovisningsmedel': 'account.data_account_type_liquidity',
+        'CheckrakningskreditKortfristig': 'account.data_account_type_credit_card',
+        'OvrigaFordringarKortfristiga': 'account.data_account_type_current_assets',
+        'KoncessionerPatentLicenserVarumarkenLiknandeRattigheter': 'account.data_account_type_non_current_assets',
+        'ForskottFranKunder': 'account.data_account_type_prepayments',
+        'MaskinerAndraTekniskaAnlaggningar': 'account.data_account_type_fixed_assets',
+        'OvrigaKortfristigaSkulder': 'account.data_account_type_current_liabilities',
+        'OvrigaLangfristigaSkulderKreditinstitut': 'account.data_account_type_non_current_liabilities',
+        'Aktiekapital': 'account.data_account_type_equity',
+        'AretsResultat': 'account.data_unaffected_earnings',
+        'OvrigaRorelseintakter': 'account.data_account_type_other_income',
+        'Nettoomsattning': 'account.data_account_type_revenue',
+        'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': 'account.data_account_type_depreciation',
+        'OvrigaRorelsekostnader': 'account.data_account_type_expenses',
+        'HandelsvarorKostnader': 'account.data_account_type_direct_costs',
+    }
+
+    @api.model
+    def _set_external_id(self):
+        for k,v in self.external_id_exchange_dict.items():
+            ref = self.env.ref('l10n_se.%s' %k)
+            self.env.ref(v).write({
+                'name': ref.name,
+                'type': ref.type,
+                'element_name': ref.element_name,
+                'account_range': ref.account_range,
+                'note': ref.note,
+            })
+            ref.unlink()
+
     @api.multi
     def get_account_range(self):
         self.ensure_one()
