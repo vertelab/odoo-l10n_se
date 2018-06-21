@@ -76,15 +76,15 @@ class year_end_wizard(models.TransientModel):
             move_line_list.append((0, 0, {
                 'name': year_result_2099.name,
                 'account_id': year_result_2099.id,
-                'debit': 0.0,
-                'credit': round(abs(income)),
+                'debit': round(abs(income+cost)) if income+cost>0 else 0.0,
+                'credit': round(abs(income+cost)) if income+cost<0 else 0.0,
                 'move_id': entry.id,
             }))
             move_line_list.append((0, 0, {
                 'name': year_result_8999.name,
                 'account_id': year_result_8999.id,
-                'debit': round(abs(income)),
-                'credit': 0.0,
+                'debit': round(abs(income+cost)) if income+cost<0 else 0.0,
+                'credit': round(abs(income+cost)) if income+cost>0 else 0.0,
                 'move_id': entry.id,
             }))
             entry.write({
