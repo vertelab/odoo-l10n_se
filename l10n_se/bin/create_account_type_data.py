@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-import base64
-import sys
-import traceback
 try:
     from xlrd import open_workbook
 except ImportError:

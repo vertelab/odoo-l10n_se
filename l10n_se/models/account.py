@@ -530,4 +530,10 @@ class account_account_type(models.Model):
                 user_type = 'account.data_account_type_expense'
         return self.env.ref(user_type) if user_type else None
 
+
+class account_financial_report(models.Model):
+    _inherit = 'account.financial.report'
+
+    element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
