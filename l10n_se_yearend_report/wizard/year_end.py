@@ -82,7 +82,7 @@ class year_end_wizard(models.TransientModel):
             }))
             move_line_list.append((0, 0, {
                 'name': year_result_8999.name,
-                'account_id': year_result_2099.id,
+                'account_id': year_result_8999.id,
                 'debit': round(abs(income)),
                 'credit': 0.0,
                 'move_id': entry.id,
