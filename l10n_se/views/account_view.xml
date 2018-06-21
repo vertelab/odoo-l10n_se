@@ -47,6 +47,10 @@
                 <field name="include_initial_balance" position="after">
                     <field name="element_name"/>
                 </field>
+                <field name="type" position="after">
+                    <field name="main_type"/>
+                    <field name="report_type"/>
+                </field>
                 <field name="note" position="after">
                     <separator string="Account Range"/>
                     <field name="account_range"/>

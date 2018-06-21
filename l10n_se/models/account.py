@@ -414,7 +414,19 @@ class account_account_type(models.Model):
 
     element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
     account_range = fields.Char(string='Accoun Range', help='Domain shows which account should has this account type.')
+    main_type = fields.Selection(selection=[
+        ('RorelsensIntakterLagerforandringarMmAbstract', u'Rörelseintäkter, lagerförändringar m.m.'),
+        ('RorelsekostnaderAbstract', u'Rörelsekostnader'),
+        ('FinansiellaPosterAbstract', u'Finansiella poster'),
+        ('BokslutsdispositionerAbstract', u'Bokslutsdispositioner'),
+        ('SkatterAbstract', u'Skatter'),
+        ('TillgangarAbstract', u'Tillgångar'),
+        ('EgetKapitalSkulderAbstract', u'Eget kapital och skulder'),
+    ], string='Main Type')
+    report_type = fields.Selection(selection=[('r', u'Resultaträkning'), ('b', u'Balansräkning')], string='Report Type')
 
+    # key: element_name
+    # value: external_id
     external_id_exchange_dict = {
         'Kundfordringar': 'account.data_account_type_receivable',
         'Leverantorsskulder': 'account.data_account_type_payable',
@@ -435,18 +447,49 @@ class account_account_type(models.Model):
         'HandelsvarorKostnader': 'account.data_account_type_direct_costs',
     }
 
+    # Rewrite attributes to account type names from core(account)
     @api.model
     def _set_external_id(self):
         for k,v in self.external_id_exchange_dict.items():
             ref = self.env.ref('l10n_se.%s' %k)
             self.env.ref(v).write({
-                'name': ref.name,
+                'name': ref.name, # this doesn't work
                 'type': ref.type,
                 'element_name': ref.element_name,
+                'main_type': ref.main_type,
+                'report_type': ref.report_type,
                 'account_range': ref.account_range,
                 'note': ref.note,
             })
             ref.unlink()
+
+    # key: element_name
+    # value: name
+    name_exchange_dict = {
+        'Kundfordringar': u'Kundfordringar',
+        'Leverantorsskulder': u'Leverantörsskulder',
+        'KassaBankExklRedovisningsmedel': u'Kassa och bank exklusive redovisningsmedel',
+        'CheckrakningskreditKortfristig': u'Kortfristig checkräkningskredit',
+        'OvrigaFordringarKortfristiga': u'Övriga kortfristga fordringar',
+        'KoncessionerPatentLicenserVarumarkenLiknandeRattigheter': u'Koncessioner, patent, licenser, varumärken samt liknande rättigheter',
+        'ForskottFranKunder': u'Förskott från kunder',
+        'MaskinerAndraTekniskaAnlaggningar': u'Maskiner och andra tekniska anläggningar',
+        'OvrigaKortfristigaSkulder': u'Övriga kortfristiga skulder',
+        'OvrigaLangfristigaSkulderKreditinstitut': u'Övriga långfristiga skulder till kreditinstitut',
+        'Aktiekapital': u'Aktiekapital',
+        'AretsResultat': u'Årets resultat',
+        'OvrigaRorelseintakter': u'Övriga rörelseintäkter',
+        'Nettoomsattning': u'Nettoomsättning',
+        'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': u'Av- och nedskrivningar av materiella och immateriella anläggningstillgångar',
+        'OvrigaRorelsekostnader': u'Övriga rörelsekostnader',
+        'HandelsvarorKostnader': u'Kostnad för sålda handelsvaror',
+    }
+
+    # Change account type names from core(account)
+    @api.model
+    def _change_name(self):
+        for k,v in self.name_exchange_dict.items():
+            self.env['account.account.type'].search([('element_name', '=', k)]).write({'name': v})
 
     @api.multi
     def get_account_range(self):

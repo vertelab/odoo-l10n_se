@@ -18,6 +18,13 @@ r_title = 10
 r_documentation = 16
 r_account_type = 50
 r_element_nix = []
+r_main_type = [
+    'RorelsensIntakterLagerforandringarMmAbstract',
+    'RorelsekostnaderAbstract',
+    'FinansiellaPosterAbstract',
+    'BokslutsdispositionerAbstract',
+    'SkatterAbstract',
+]
 
 b_element_name = 9
 b_title = 11
@@ -34,6 +41,10 @@ b_element_nix = [
     'ObeskattadeReserver',
     'LangfristigaSkulder',
     'KortfristigaSkulder',
+]
+b_main_type = [
+    'TillgangarAbstract',
+    'EgetKapitalSkulderAbstract',
 ]
 
 r_lst = []
@@ -72,7 +83,8 @@ def get_type(lst):
     else:
         return 'other'
 
-def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_type=0, nix=[], lst=None):
+def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_type=0, main_type=[] ,report_type='', nix=[], lst=None):
+    mtype = ''
     for row in range(1, sheet.nrows):
         if sheet.cell(row, account_type).value == 'BFNAR':
             pass
@@ -84,6 +96,8 @@ def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_typ
                 # ~ 'data_type': sheet.cell(row, data_type).value,
                 # ~ 'note': sheet.cell(row, documentation).value,
             # ~ })
+        if sheet.cell(row, account_type).value == 'BFNAR' and sheet.cell(row, element_name).value in main_type:
+            mtype = sheet.cell(row, element_name).value
         if sheet.cell(row, account_type).value == 'BAS-konto' and sheet.cell(row, element_name).value not in nix:
             if sheet.cell(row, element_name).value == 'OvrigaKortfristigaSkulder':
                 account_type += 16
@@ -93,11 +107,13 @@ def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_typ
                 'type': get_type(domain[0][2]),
                 'element_name': sheet.cell(row, element_name).value,
                 'note': sheet.cell(row, documentation).value,
-                'account_range': domain
+                'account_range': domain,
+                'main_type': mtype,
+                'report_type': report_type,
             })
 
-read_sheet(resultatrakning, r_element_name, r_title, r_documentation, r_account_type, r_element_nix, r_lst)
-read_sheet(balansrakning, b_element_name, b_title, b_documentation, b_account_type, b_element_nix, b_lst)
+read_sheet(resultatrakning, r_element_name, r_title, r_documentation, r_account_type, r_main_type, 'r', r_element_nix, r_lst)
+read_sheet(balansrakning, b_element_name, b_title, b_documentation, b_account_type, b_main_type, 'b', b_element_nix, b_lst)
 
 print """<?xml version="1.0" encoding="utf-8"?>
 <odoo>
@@ -109,20 +125,24 @@ for r in r_lst:
             <field name="name">%s</field>
             <field name="type">%s</field>
             <field name="element_name">%s</field>
+            <field name="main_type">%s</field>
+            <field name="report_type">%s</field>
             <field name="account_range">%s</field>
             <field name="note">%s</field>
         </record>
-    """ %(r.get('element_name'), r.get('name'), r.get('type'), r.get('element_name'), r.get('account_range'), r.get('note'))
+    """ %(r.get('element_name'), r.get('name'), r.get('type'), r.get('element_name'), r.get('main_type'), r.get('report_type'), r.get('account_range'), r.get('note'))
 
 for b in b_lst:
     print """        <record id="%s" model="account.account.type">
             <field name="name">%s</field>
             <field name="type">%s</field>
             <field name="element_name">%s</field>
+            <field name="main_type">%s</field>
+            <field name="report_type">%s</field>
             <field name="account_range">%s</field>
             <field name="note">%s</field>
         </record>
-    """ %(b.get('element_name'), b.get('name'), b.get('type'), b.get('element_name'), b.get('account_range'), b.get('note'))
+    """ %(b.get('element_name'), b.get('name'), b.get('type'), b.get('element_name'), b.get('main_type'), b.get('report_type'), b.get('account_range'), b.get('note'))
 
 print """    </data>
 </odoo>

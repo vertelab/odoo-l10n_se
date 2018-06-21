@@ -29,6 +29,7 @@ def set_type():
                 if account not in t_list:
                     t_list.append(account)
 set_type()
+env['account.account.type']._change_name()
 if len(r_list) &gt; 0 or len(t_list) &gt; 0:
     msg = 'Problem to set account type:\n'
     if len(r_list) &gt; 0:
