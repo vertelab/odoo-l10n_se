@@ -32,48 +32,32 @@ class year_end_wizard(models.TransientModel):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
 
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', help='Keep empty for all open fiscal year', default=_get_year)
-    # ~ trial_balance_account = fields.Many2one(comodel_name='account.financial.report', string='Trial Balance Account')
-    # ~ income_statement_account = fields.Many2one(comodel_name='account.financial.report', string='Income Statement Account')
-    trial_balance = fields.Float(string='Trial Balance', default=0.0, readonly=True)
-    income_statement = fields.Float(string='Income Statement', default=0.0, readonly=True)
+    cost = fields.Float(string='Cost', default=0.0, readonly=True)
+    income = fields.Float(string='Income', default=0.0, readonly=True)
     journal_id = fields.Many2one(comodel_name='account.journal', string='Journal', help='Entry journal')
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('all', 'All Entries')], string='Target Moves')
 
-    # return the result of financial report line under specified periods
-    @api.model
-    def account_financial_report_result(self, account_financial_report, period_start, period_stop, target_move):
-        type_ids = self.env['account.financial.report'].search([('parent_id', '=', account_financial_report.id), ('type', '=', 'account_type')]).mapped('account_type_ids').mapped('id')
-        accounts = self.env['account.account'].search([('user_type_id', 'in', type_ids)])
-        return sum([a.with_context({'period_start': period_start.id, 'period_stop': period_stop.id, 'state': target_move}).sum_period() for a in accounts])
-
-    #return trial_balance and income_statement
-    @api.model
-    def trial_balance_income_statement(self):
-        period_start = self.env['account.period'].search([('fiscalyear_id', '=', self.fiscalyear_id.id), ('date_start', '=', self.fiscalyear_id.date_start), ('special', '=', True)])
-        period_stop = self.env['account.period'].search([('fiscalyear_id', '=', self.fiscalyear_id.id), ('date_stop', '=', self.fiscalyear_id.date_stop)])
-        trial_balance = self.account_financial_report_result(self.trial_balance_account, period_start, period_stop, self.target_move)
-        income_statement = self.account_financial_report_result(self.income_statement_account, period_start, period_stop, self.target_move)
-        return {'trial_balance': trial_balance, 'income_statement': income_statement}
+    def get_cost_income(self):
+        period_start = self.env[('account.period')].search([('date_start', '=', self.fiscalyear_id.date_start), ('special', '=', False)])
+        period_stop = self.env[('account.period')].search([('date_stop', '=', self.fiscalyear_id.date_stop)])
+        c = 0.0
+        for a in self.env['account.account'].search([('user_type_id', 'in', self.env['account.account.type'].search([('main_type', '=', u'RorelsekostnaderAbstract')]).mapped('id'))]):
+            c += a.with_context(period_start=period_start.id, period_stop=period_stop.id, target_move=self.target_move).sum_period()
+        i = 0.0
+        for a in self.env['account.account'].search([('user_type_id', 'in', self.env['account.account.type'].search([('main_type', '=', u'RorelsensIntakterLagerforandringarMmAbstract')]).mapped('id'))]):
+            i += a.with_context(period_start=period_start.id, period_stop=period_stop.id, target_move=self.target_move).sum_period()
+        return {'cost': c, 'income': i}
 
     @api.onchange('fiscalyear_id', 'target_move')
     def read_account(self):
-        if self.fiscalyear_id and self.trial_balance_account and self.income_statement_account:
-            values = self.trial_balance_income_statement()
-            self.trial_balance = values.get('trial_balance')
-            self.income_statement = values.get('income_statement')
+        self.cost = self.get_cost_income().get('cost', 0.0)
+        self.income = self.get_cost_income().get('income', 0.0)
 
     @api.multi
     def create_entry(self):
-        if self.fiscalyear_id and self.trial_balance_account and self.income_statement_account:
-            values = self.trial_balance_income_statement()
-            self.trial_balance = values.get('trial_balance')
-            self.income_statement = values.get('income_statement')
-            trial_balance = values.get('trial_balance')
-            income_statement = values.get('income_statement')
-            trba = abs(float("{0:.2f}".format(trial_balance)))
-            inst = abs(float("{0:.2f}".format(income_statement)))
-            if trba != inst:
-                raise Warning(_('Trial balance must match with income statement.'))
+        if self.fiscalyear_id:
+            cost = self.get_cost_income().get('cost', 0.0)
+            income = self.get_cost_income().get('income', 0.0)
             year_result_8999 = self.env['account.account'].search([('code', '=', '8999')])
             year_result_2099 = self.env['account.account'].search([('code', '=', '2099')])
             if not year_result_8999:
@@ -88,21 +72,23 @@ class year_end_wizard(models.TransientModel):
                 'date': end_period.date_stop,
                 'ref': ref,
             })
-            # balance with trial balance
-            self.env['account.move.line'].create({
+            move_line_list = []
+            move_line_list.append((0, 0, {
                 'name': year_result_2099.name,
                 'account_id': year_result_2099.id,
                 'debit': 0.0,
-                'credit': trba,
+                'credit': round(abs(income)),
                 'move_id': entry.id,
-            })
-            # balance with income statement
-            self.env['account.move.line'].create({
+            }))
+            move_line_list.append((0, 0, {
                 'name': year_result_8999.name,
-                'account_id': year_result_8999.id,
-                'debit': inst,
+                'account_id': year_result_2099.id,
+                'debit': round(abs(income)),
                 'credit': 0.0,
                 'move_id': entry.id,
+            }))
+            entry.write({
+                'line_ids': move_line_list,
             })
             return {
                 'type': 'ir.actions.act_window',
