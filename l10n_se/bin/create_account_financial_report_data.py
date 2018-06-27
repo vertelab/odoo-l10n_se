@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 try:
     from xlrd import open_workbook
+    import xml.etree.cElementTree as ET
+    from xml.dom import minidom
 except ImportError:
     pass
 
@@ -61,6 +63,46 @@ b_sum = [
     'KortfristigaSkulder',
 ]
 
+b_parents = {
+    'TillgangarAbstract': 'BalansrakningAbstract',
+    'TecknatEjInbetaltKapital': 'TillgangarAbstract',
+    'AnlaggningstillgangarAbstract': 'TillgangarAbstract',
+    'Tillgangar': 'TillgangarAbstract',
+    'ImmateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+    'ImmateriellaAnlaggningstillgangar': 'ImmateriellaAnlaggningstillgangarAbstract',
+    'MateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+    'MateriellaAnlaggningstillgangar': 'MateriellaAnlaggningstillgangarAbstract',
+    'FinansiellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+    'FinansiellaAnlaggningstillgangar': 'FinansiellaAnlaggningstillgangarAbstract',
+    'Anlaggningstillgangar': 'AnlaggningstillgangarAbstract',
+    'OmsattningstillgangarAbstract': 'Tillgangar',
+    'VarulagerMmAbstract': 'Omsattningstillgangar',
+    'VarulagerMm': 'VarulagerMmAbstract',
+    'KortfristigaFordringarAbstract': 'Omsattningstillgangar',
+    'KortfristigaFordringar': 'KortfristigaFordringarAbstract',
+    'KortfristigaPlaceringarAbstract': 'Omsattningstillgangar',
+    'KortfristigaPlaceringar': 'KortfristigaPlaceringarAbstract',
+    'KassaBankAbstract': 'Omsattningstillgangar',
+    'KassaBank': 'KassaBankAbstract',
+    'Omsattningstillgangar': 'Omsattningstillgangar',
+    'EgetKapitalSkulderAbstract': 'BalansrakningAbstract',
+    'EgetKapitalSkulder': 'EgetKapitalSkulderAbstract',
+    'EgetKapitalAbstract': 'EgetKapitalSkulder',
+    'EgetKapital': 'EgetKapitalAbstract',
+    'BundetEgetKapitalAbstract': 'EgetKapitalAbstract',
+    'BundetEgetKapital': 'BundetEgetKapitalAbstract',
+    'FrittEgetKapitalAbstract': 'EgetKapitalAbstract',
+    'FrittEgetKapital': 'FrittEgetKapitalAbstract',
+    'ObeskattadeReserverAbstract': 'EgetKapitalSkulderAbstract',
+    'ObeskattadeReserver': 'ObeskattadeReserverAbstract',
+    'AvsattningarAbstract': 'EgetKapitalSkulderAbstract',
+    'Avsattningar': 'AvsattningarAbstract',
+    'LangfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
+    'LangfristigaSkulder': 'LangfristigaSkulderAbstract',
+    'KortfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
+    'KortfristigaSkulder': 'KortfristigaSkulderAbstract',
+}
+
 def get_account_range(sheet, account_type, row):
     account_range = []
     col = account_type
@@ -89,6 +131,8 @@ def find_sign(sheet=None, row=1, account_type=0, credit_debit=1):
     while (sheet.cell(r, account_type).value != 'BAS-konto'):
         sign = sheet.cell(r, credit_debit).value
         r += 1
+        if r == sheet.nrows:
+            break
     return sign
 
 r_lst = []
@@ -107,47 +151,79 @@ def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, 
             })
             parent = sheet.cell(row, element_name).value
         if sheet.cell(row, account_type).value == 'BAS-konto':
+            account = account_type
             if sheet.cell(row, element_name).value == 'OvrigaKortfristigaSkulder':
-                account_type += 16
-            domain = get_range_domain(get_account_range(sheet, account_type, row))
+                account += 16
+            domain = get_range_domain(get_account_range(sheet, account, row))
             lst.append({
                 'name': sheet.cell(row, title).value,
                 'type': 'accounts',
                 'element_name': sheet.cell(row, element_name).value,
                 'parent_id': "[('element_name', '=', '%s')]" %(parent if not parents.get(sheet.cell(row, element_name).value) else parents.get(sheet.cell(row, element_name).value)),
                 'sign': '-1' if sheet.cell(row, credit_debit).value == 'credit' else '1',
-                'account_ids': get_range_domain(get_account_range(sheet, account_type, row)),
+                'account_ids': get_range_domain(get_account_range(sheet, account, row)),
             })
 
 read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
-# ~ read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
+read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
 
+def print_xml(sheet_list):
+    def parse_xml(sheet_list):
+        odoo = ET.Element('odoo')
+        data = ET.SubElement(odoo, 'data')
+        for lst in sheet_list:
+            for l in lst:
+                record = ET.SubElement(data, 'record', id=l.get('element_name'), model="account.financial.report")
+                field_name = ET.SubElement(record, "field", name="name").text = l.get('name')
+                field_parent_id = ET.SubElement(record, "field", name="parent_id", search=str(l.get('parent_id')))
+                field_sequence = ET.SubElement(record, "field", name="sequence").text = '1'
+                field_type = ET.SubElement(record, "field", name="type").text = l.get('type')
+                field_sign = ET.SubElement(record, "field", name="sign", eval=l.get('sign'))
+                field_style_overwrite = ET.SubElement(record, "field", name="style_overwrite", eval='4')
+                if l.get('account_ids'):
+                    field_account_ids = ET.SubElement(record, "field", name="account_ids", search=str(l.get('account_ids')))
+        return odoo
+    xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="   ")
+    xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
+    with open("../data/account_financial_report.xml", "w") as f:
+        f.write(xml.encode('utf-8'))
+    print 'Finished'
+
+print_xml([r_lst, b_lst])
+
+# ~ # Test script
 print """<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
 """
 
 for r in r_lst:
-    print """        <record id="%s" model="account.account.type">
+    print """        <record id="%s" model="account.financial.report">
             <field name="name">%s</field>
             <field name="parent_id" search="%s"/>
             <field name="sequence">%s</field>
             <field name="type">%s</field>
-            <field name="sign">%s</field>
-            <field name="style_overwrite">%s</field>
-        </record>
-    """ %(r.get('element_name'), r.get('name'), r.get('parent_id'), 1, r.get('type'), r.get('sign'), '4')
+            <field name="sign" eval="%s"/>
+            <field name="style_overwrite" eval="%s"/>""" %(r.get('element_name'), r.get('name'), r.get('parent_id'), 1, r.get('type'), r.get('sign'), '4')
+    if r.get('account_ids'):
+        print """            <field name="account_ids" search="[(%s)]"/>
+        </record>""" %r.get('account_ids')
+    else:
+        print """        </record>"""
 
-# ~ for b in b_lst:
-    # ~ print """        <record id="%s" model="account.account.type">
-            # ~ <field name="name">%s</field>
-            # ~ <field name="parent_id">%s</field>
-            # ~ <field name="sequence">%s</field>
-            # ~ <field name="type">%s</field>
-            # ~ <field name="sign">%s</field>
-            # ~ <field name="style_overwrite">%s</field>
-        # ~ </record>
-    # ~ """ %(b.get('element_name'), b.get('name'), b.get('parent_id'), 1, b.get('type'), b.get('sign'), '4')
+for b in b_lst:
+    print """        <record id="%s" model="account.financial.report">
+            <field name="name">%s</field>
+            <field name="parent_id" search="%s"/>
+            <field name="sequence">%s</field>
+            <field name="type">%s</field>
+            <field name="sign" eval="%s"/>
+            <field name="style_overwrite" eval="%s"/>""" %(b.get('element_name'), b.get('name'), b.get('parent_id'), 1, b.get('type'), b.get('sign'), '4')
+    if b.get('account_ids'):
+        print """            <field name="account_ids" search="[(%s)]"/>
+        </record>""" %b.get('account_ids')
+    else:
+        print """        </record>"""
 
 print """    </data>
 </odoo>

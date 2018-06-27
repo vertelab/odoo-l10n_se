@@ -79,6 +79,7 @@
         'data/account_tax_data.xml',
         'data/account_fiscal_position.xml',
         'data/account_account_type.xml',
+        'data/account_financial_report.xml',
         #~ 'data/account.tax.code.template.csv',
         #~ 'data/account.tax.template-after.csv',
         #~ 'data/res.partner.bank.type.csv',
