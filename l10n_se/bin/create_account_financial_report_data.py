@@ -11,16 +11,9 @@ balansrakning = xl_workbook.sheet_by_index(4)
 
 r_element_name = 8
 r_title = 10
+r_sign = 11
 r_credit_debit = 13
 r_account_type = 50
-# title rows
-r_main_type = [
-    'RorelsensIntakterLagerforandringarMmAbstract',
-    'RorelsekostnaderAbstract',
-    'FinansiellaPosterAbstract',
-    'BokslutsdispositionerAbstract',
-    'SkatterAbstract',
-]
 # sum rows
 r_sum = [
     'RorelseintakterLagerforandringarMm',
@@ -31,39 +24,27 @@ r_sum = [
 # all rows without accounts
 r_parents = {
     'RorelseresultatAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+    'RorelsensIntakterLagerforandringarMmAbstract': 'RorelseresultatAbstract',
+    'RorelseintakterLagerforandringarMm': 'RorelsensIntakterLagerforandringarMmAbstract',
+    'RorelsekostnaderAbstract': 'RorelseresultatAbstract',
+    'Rorelsekostnader': 'RorelsekostnaderAbstract',
     'Rorelseresultat': 'ResultatrakningKostnadsslagsindeladAbstract',
     'FinansiellaPosterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
-    'FinansiellaPoster': 'ResultatrakningKostnadsslagsindeladAbstract',
+    'FinansiellaPoster': 'FinansiellaPosterAbstract',
+    'ResultatEfterFinansiellaPoster': 'ResultatrakningKostnadsslagsindeladAbstract',
     'BokslutsdispositionerAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
-    'Bokslutsdispositioner': 'ResultatrakningKostnadsslagsindeladAbstract',
+    'Bokslutsdispositioner': 'BokslutsdispositionerAbstract',
     'ResultatForeSkatt': 'ResultatrakningKostnadsslagsindeladAbstract',
     'SkatterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
     'AretsResultat': 'ResultatrakningKostnadsslagsindeladAbstract',
-    'RorelsensIntakterLagerforandringarMmAbstract': 'RorelseresultatAbstract',
-    'RorelseintakterLagerforandringarMm': 'RorelseresultatAbstract',
-    'RorelsekostnaderAbstract': 'RorelseresultatAbstract',
-    'Rorelsekostnader': 'RorelseresultatAbstract',
 }
 
 b_element_name = 9
 b_title = 11
+b_sign = 12
 b_credit_debit = 14
 b_account_type = 43
-b_main_type = [
-    'ImmateriellaAnlaggningstillgangarAbstract',
-    'MateriellaAnlaggningstillgangarAbstract',
-    'FinansiellaAnlaggningstillgangarAbstract',
-    'OmsattningstillgangarAbstract',
-    'KortfristigaFordringarAbstract',
-    'KortfristigaPlaceringarAbstract',
-    'KassaBankAbstract',
-    'BundetEgetKapitalAbstract',
-    'FrittEgetKapitalAbstract',
-    'ObeskattadeReserverAbstract',
-    'AvsattningarAbstract',
-    'LangfristigaSkulderAbstract',
-    'KortfristigaSkulderAbstract',
-]
+# sum rows
 b_sum = [
     'ImmateriellaAnlaggningstillgangar',
     'MateriellaAnlaggningstillgangar',
@@ -103,10 +84,9 @@ def get_range_domain(number_list):
                 code_list += [number]
     return [('code', 'in', code_list)]
 
-def find_sign(sheet=None, row, credit_debit):
+def find_sign(sheet=None, row=1, account_type=0, credit_debit=1):
     r = row
-    sign = ''
-    while (sheet.cell(row, account_type).value != 'BAS-konto'):
+    while (sheet.cell(r, account_type).value != 'BAS-konto'):
         sign = sheet.cell(r, credit_debit).value
         r += 1
     return sign
@@ -114,61 +94,60 @@ def find_sign(sheet=None, row, credit_debit):
 r_lst = []
 b_lst = []
 
-def read_sheet(sheet=None, element_name=0, title=0, documentation=0, account_type=0, main_type=[], parents={}, credit_debit, lst=None):
+parent = ''
+def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, credit_debit=1, lst=None):
     for row in range(1, sheet.nrows):
         if sheet.cell(row, account_type).value == 'BFNAR':
             lst.append({
                 'name': sheet.cell(row, title).value,
                 'type': 'sum',
                 'element_name': sheet.cell(row, element_name).value,
-                'parent_id': "[('element_name', '=', %s)]" %parents.get(sheet.cell(row, element_name).value) if parents.get(sheet.cell(row, element_name).value) else None,
-                'sign': '-1' if find_sign(sheet, row, credit_debit) == 'credit' else '1',
+                'parent_id': "[('element_name', '=', '%s')]" %(parents.get(sheet.cell(row, element_name).value) if parents.get(sheet.cell(row, element_name).value) else ''),
+                'sign': '-1' if find_sign(sheet, row, account_type, credit_debit) == 'credit' else '1',
             })
-            mtype = sheet.cell(row, element_name).value
+            parent = sheet.cell(row, element_name).value
         if sheet.cell(row, account_type).value == 'BAS-konto':
             if sheet.cell(row, element_name).value == 'OvrigaKortfristigaSkulder':
                 account_type += 16
             domain = get_range_domain(get_account_range(sheet, account_type, row))
             lst.append({
                 'name': sheet.cell(row, title).value,
-                'accounts': 'sum',
+                'type': 'accounts',
                 'element_name': sheet.cell(row, element_name).value,
-                'parent_id': None, #TODO: find parents
+                'parent_id': "[('element_name', '=', '%s')]" %(parent if not parents.get(sheet.cell(row, element_name).value) else parents.get(sheet.cell(row, element_name).value)),
                 'sign': '-1' if sheet.cell(row, credit_debit).value == 'credit' else '1',
                 'account_ids': get_range_domain(get_account_range(sheet, account_type, row)),
             })
 
-read_sheet(resultatrakning, r_element_name, r_title, r_documentation, r_account_type, r_main_type, r_parents, r_credit_debit, r_lst)
-# ~ read_sheet(balansrakning, b_element_name, b_title, b_documentation, b_account_type, b_main_type, b_element_nix, b_lst)
+read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
+# ~ read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
 
 print """<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
 """
 
-# ~ for r in r_lst:
-    # ~ print """        <record id="%s" model="account.account.type">
-            # ~ <field name="name">%s</field>
-            # ~ <field name="type">%s</field>
-            # ~ <field name="element_name">%s</field>
-            # ~ <field name="main_type">%s</field>
-            # ~ <field name="report_type">%s</field>
-            # ~ <field name="account_range">%s</field>
-            # ~ <field name="note">%s</field>
-        # ~ </record>
-    # ~ """ %(r.get('element_name'), r.get('name'), r.get('type'), r.get('element_name'), r.get('main_type'), r.get('report_type'), r.get('account_range'), r.get('note'))
+for r in r_lst:
+    print """        <record id="%s" model="account.account.type">
+            <field name="name">%s</field>
+            <field name="parent_id" search="%s"/>
+            <field name="sequence">%s</field>
+            <field name="type">%s</field>
+            <field name="sign">%s</field>
+            <field name="style_overwrite">%s</field>
+        </record>
+    """ %(r.get('element_name'), r.get('name'), r.get('parent_id'), 1, r.get('type'), r.get('sign'), '4')
 
 # ~ for b in b_lst:
     # ~ print """        <record id="%s" model="account.account.type">
             # ~ <field name="name">%s</field>
+            # ~ <field name="parent_id">%s</field>
+            # ~ <field name="sequence">%s</field>
             # ~ <field name="type">%s</field>
-            # ~ <field name="element_name">%s</field>
-            # ~ <field name="main_type">%s</field>
-            # ~ <field name="report_type">%s</field>
-            # ~ <field name="account_range">%s</field>
-            # ~ <field name="note">%s</field>
+            # ~ <field name="sign">%s</field>
+            # ~ <field name="style_overwrite">%s</field>
         # ~ </record>
-    # ~ """ %(b.get('element_name'), b.get('name'), b.get('type'), b.get('element_name'), b.get('main_type'), b.get('report_type'), b.get('account_range'), b.get('note'))
+    # ~ """ %(b.get('element_name'), b.get('name'), b.get('parent_id'), 1, b.get('type'), b.get('sign'), '4')
 
 print """    </data>
 </odoo>
