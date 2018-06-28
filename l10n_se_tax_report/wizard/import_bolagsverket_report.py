@@ -242,5 +242,6 @@ class ImportBolagsverketReports(models.TransientModel):
             'view_mode': 'tree,form',
             'view_type': 'form',
             'res_id': self.env.ref('account.action_account_financial_report_tree').id,
+            'limit': 2000,
             'target': 'current',
         }
