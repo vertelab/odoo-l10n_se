@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2018- Vertel AB (<http://vertel.se>).
+#    Odoo, Open Source Management Solution
+#    Copyright (C) 2013-2016 Vertel (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
     'name': 'l10n_se Budget',
     'version': '1.0',
@@ -25,8 +26,15 @@
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Accouting',
-    'depends': ['account_budget',],
-    'data': ['account_budget_view.xml','account_budget_data.xml']
+    'depends': ['account_budget','l10n_se'],
+    'data': ['account_budget_view.xml','account_budget_data.xml'],
+    'application': 'False',
+    'summary': 'Some predefined budgets',
+    'description': """
+        * Resultatbudget
+        * Likviditetsbudget
+        * Försäljningsbudget
+        """,
     'installable': 'True',
     'application': 'False',
 }
