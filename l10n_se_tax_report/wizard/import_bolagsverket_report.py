@@ -213,6 +213,8 @@ class ImportBolagsverketReports(models.TransientModel):
                     'parent_id': self.env['account.financial.report'].search(eval(line.get('parent_id'))).id,
                     'sign': eval(line.get('sign')),
                     'account_ids': [(6, 0, self.env['account.account'].search(line.get('account_ids')).mapped('id'))],
+                    'sequence': 1,
+                    'style_overwrite': 4 if line.get('account_ids') else 2,
                 })
             else:
                 self.env['account.financial.report'].create({
@@ -222,6 +224,8 @@ class ImportBolagsverketReports(models.TransientModel):
                     'parent_id': self.env['account.financial.report'].search(eval(line.get('parent_id'))).id,
                     'sign': eval(line.get('sign')),
                     'account_ids': [(6, 0, self.env['account.account'].search(line.get('account_ids')).mapped('id'))],
+                    'sequence': 1,
+                    'style_overwrite': 4 if line.get('account_ids') else 2,
                 })
 
     @api.multi
