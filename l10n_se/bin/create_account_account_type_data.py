@@ -126,7 +126,7 @@ def print_xml(sheet_list):
                 field_type = ET.SubElement(record, "field", name="type").text = l.get('type')
                 field_main_type = ET.SubElement(record, "field", name="main_type").text = l.get('main_type')
                 field_report_type = ET.SubElement(record, "field", name="report_type").text = l.get('report_type')
-                field_account_range = ET.SubElement(record, "field", name="account_range").text = l.get('account_range')
+                field_account_range = ET.SubElement(record, "field", name="account_range").text = str(l.get('account_range'))
                 field_note = ET.SubElement(record, "field", name="note").text = l.get('note')
         return odoo
     xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
