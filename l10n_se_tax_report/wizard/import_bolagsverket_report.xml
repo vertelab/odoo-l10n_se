@@ -30,7 +30,7 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem action="action_bolagsverket_reports" id="menu_wizard_bolagsverket_reports" parent="account.menu_account_reports"/>
+    <menuitem id="menu_wizard_bolagsverket_reports" action="action_wizard_bolagsverket_reports" parent="account.menu_account_reports"/>
 
   </data>
 </odoo>

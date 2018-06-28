@@ -26,6 +26,8 @@ import sys
 import traceback
 try:
     from xlrd import open_workbook
+    import xml.etree.cElementTree as ET
+    from xml.dom import minidom
 except ImportError:
     _logger.info('project_task_planned_vehicle_import requires xlrd (pip install xlrd)')
 
@@ -38,244 +40,208 @@ class ImportBolagsverketReports(models.TransientModel):
     data = fields.Binary('File', required=True)
     message = fields.Text(string='Message', readonly=True)
 
+    @api.model
+    def get_account_financial_report_values(self, workbook):
+        resultatrakning = workbook.sheet_by_index(2)
+        balansrakning = workbook.sheet_by_index(4)
+
+        r_element_name = 8
+        r_title = 10
+        r_sign = 11
+        r_credit_debit = 13
+        r_account_type = 50
+        # sum rows
+        r_sum = [
+            'RorelseintakterLagerforandringarMm',
+            'Rorelsekostnader',
+            'FinansiellaPoster',
+            'Bokslutsdispositioner',
+        ]
+        # all rows without accounts
+        r_parents = {
+            'RorelseresultatAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+            'RorelsensIntakterLagerforandringarMmAbstract': 'RorelseresultatAbstract',
+            'RorelseintakterLagerforandringarMm': 'RorelsensIntakterLagerforandringarMmAbstract',
+            'RorelsekostnaderAbstract': 'RorelseresultatAbstract',
+            'Rorelsekostnader': 'RorelsekostnaderAbstract',
+            'Rorelseresultat': 'ResultatrakningKostnadsslagsindeladAbstract',
+            'FinansiellaPosterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+            'FinansiellaPoster': 'FinansiellaPosterAbstract',
+            'ResultatEfterFinansiellaPoster': 'ResultatrakningKostnadsslagsindeladAbstract',
+            'BokslutsdispositionerAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+            'Bokslutsdispositioner': 'BokslutsdispositionerAbstract',
+            'ResultatForeSkatt': 'ResultatrakningKostnadsslagsindeladAbstract',
+            'SkatterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+            'AretsResultat': 'ResultatrakningKostnadsslagsindeladAbstract',
+        }
+
+        b_element_name = 9
+        b_title = 11
+        b_sign = 12
+        b_credit_debit = 14
+        b_account_type = 43
+        # sum rows
+        b_sum = [
+            'ImmateriellaAnlaggningstillgangar',
+            'MateriellaAnlaggningstillgangar',
+            'FinansiellaAnlaggningstillgangar',
+            'VarulagerMm',
+            'KortfristigaFordringar',
+            'KortfristigaPlaceringar',
+            'KassaBank',
+            'BundetEgetKapital',
+            'FrittEgetKapital',
+            'ObeskattadeReserver',
+            'Avsattningar',
+            'LangfristigaSkulder',
+            'KortfristigaSkulder',
+        ]
+
+        b_parents = {
+            'TillgangarAbstract': 'BalansrakningAbstract',
+            'TecknatEjInbetaltKapital': 'TillgangarAbstract',
+            'AnlaggningstillgangarAbstract': 'TillgangarAbstract',
+            'Tillgangar': 'TillgangarAbstract',
+            'ImmateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+            'ImmateriellaAnlaggningstillgangar': 'ImmateriellaAnlaggningstillgangarAbstract',
+            'MateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+            'MateriellaAnlaggningstillgangar': 'MateriellaAnlaggningstillgangarAbstract',
+            'FinansiellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+            'FinansiellaAnlaggningstillgangar': 'FinansiellaAnlaggningstillgangarAbstract',
+            'Anlaggningstillgangar': 'AnlaggningstillgangarAbstract',
+            'OmsattningstillgangarAbstract': 'Tillgangar',
+            'VarulagerMmAbstract': 'Omsattningstillgangar',
+            'VarulagerMm': 'VarulagerMmAbstract',
+            'KortfristigaFordringarAbstract': 'Omsattningstillgangar',
+            'KortfristigaFordringar': 'KortfristigaFordringarAbstract',
+            'KortfristigaPlaceringarAbstract': 'Omsattningstillgangar',
+            'KortfristigaPlaceringar': 'KortfristigaPlaceringarAbstract',
+            'KassaBankAbstract': 'Omsattningstillgangar',
+            'KassaBank': 'KassaBankAbstract',
+            'Omsattningstillgangar': 'Omsattningstillgangar',
+            'EgetKapitalSkulderAbstract': 'BalansrakningAbstract',
+            'EgetKapitalSkulder': 'EgetKapitalSkulderAbstract',
+            'EgetKapitalAbstract': 'EgetKapitalSkulder',
+            'EgetKapital': 'EgetKapitalAbstract',
+            'BundetEgetKapitalAbstract': 'EgetKapitalAbstract',
+            'BundetEgetKapital': 'BundetEgetKapitalAbstract',
+            'FrittEgetKapitalAbstract': 'EgetKapitalAbstract',
+            'FrittEgetKapital': 'FrittEgetKapitalAbstract',
+            'ObeskattadeReserverAbstract': 'EgetKapitalSkulderAbstract',
+            'ObeskattadeReserver': 'ObeskattadeReserverAbstract',
+            'AvsattningarAbstract': 'EgetKapitalSkulderAbstract',
+            'Avsattningar': 'AvsattningarAbstract',
+            'LangfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
+            'LangfristigaSkulder': 'LangfristigaSkulderAbstract',
+            'KortfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
+            'KortfristigaSkulder': 'KortfristigaSkulderAbstract',
+        }
+
+        def get_account_range(sheet, account_type, row):
+            account_range = []
+            col = account_type
+            while (sheet.cell(row, col).value == 'BAS-konto'):
+                account_range.append(sheet.cell(row, col+1).value)
+                col += 8
+            return account_range
+
+        def get_range_domain(number_list):
+            code_list = []
+            for number in number_list:
+                if 'x' in number:
+                    if '-' in number:
+                        code_list += [str(i) for i in range(int(number.split('-')[0].replace('x', '0')), int(number.split('-')[1].replace('x', '9'))+1)]
+                    else:
+                        code_list += [str(i) for i in range(int(number.replace('x', '0')), int(number.replace('x', '9'))+1)]
+                else:
+                    if '-' in number:
+                        code_list += [str(i) for i in range(int(number.split('-')[0]), int(number.split('-')[1])+1)]
+                    else:
+                        code_list += [number]
+            return [('code', 'in', code_list)]
+
+        def find_sign(sheet=None, row=1, account_type=0, credit_debit=1):
+            r = row
+            while (sheet.cell(r, account_type).value != 'BAS-konto'):
+                sign = sheet.cell(r, credit_debit).value
+                r += 1
+                if r == sheet.nrows:
+                    break
+            return sign
+
+        r_lst = []
+        b_lst = []
+
+        parent = ''
+        def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, credit_debit=1, lst=None):
+            for row in range(1, sheet.nrows):
+                if sheet.cell(row, account_type).value == 'BFNAR':
+                    lst.append({
+                        'name': sheet.cell(row, title).value,
+                        'type': 'sum',
+                        'element_name': sheet.cell(row, element_name).value,
+                        'parent_id': "[('element_name', '=', '%s')]" %(parents.get(sheet.cell(row, element_name).value) if parents.get(sheet.cell(row, element_name).value) else ''),
+                        'sign': '-1' if find_sign(sheet, row, account_type, credit_debit) == 'credit' else '1',
+                    })
+                    parent = sheet.cell(row, element_name).value
+                if sheet.cell(row, account_type).value == 'BAS-konto':
+                    account = account_type
+                    if sheet.cell(row, element_name).value == 'OvrigaKortfristigaSkulder':
+                        account += 16
+                    domain = get_range_domain(get_account_range(sheet, account, row))
+                    lst.append({
+                        'name': sheet.cell(row, title).value,
+                        'type': 'accounts',
+                        'element_name': sheet.cell(row, element_name).value,
+                        'parent_id': "[('element_name', '=', '%s')]" %(parent if not parents.get(sheet.cell(row, element_name).value) else parents.get(sheet.cell(row, element_name).value)),
+                        'sign': '-1' if sheet.cell(row, credit_debit).value == 'credit' else '1',
+                        'account_ids': get_range_domain(get_account_range(sheet, account, row)),
+                    })
+
+        read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
+        read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
+
+        return {'r_lst': r_lst, 'b_lst': b_lst}
+
+    @api.model
+    def create__update_financial_report(self, lst):
+        for line in lst:
+            financial_report = self.env['account.financial.report'].search([('element_name', '=', line.get('element_name'))])
+            if financial_report:
+                financial_report.write({
+                    'name': line.get('name'),
+                    'type': line.get('type'),
+                    'parent_id': self.env['account.financial.report'].search(eval(line.get('parent_id'))).id,
+                    'sign': eval(line.get('sign')),
+                    'account_ids': [(6, 0, self.env['account.account'].search(line.get('account_ids')).mapped('id'))],
+                })
+            else:
+                self.env['account.financial.report'].create({
+                    'name': line.get('name'),
+                    'element_name': line.get('element_name'),
+                    'type': line.get('type'),
+                    'parent_id': self.env['account.financial.report'].search(eval(line.get('parent_id'))).id,
+                    'sign': eval(line.get('sign')),
+                    'account_ids': [(6, 0, self.env['account.account'].search(line.get('account_ids')).mapped('id'))],
+                })
+
     @api.multi
     def send_form(self):
-        pass
-        # ~ def parse_domain(dl):
-            # ~ """Parse a list representing a BAS string."""
-            # ~ #~ print '0 %s' % dl
-            # ~ if not dl:
-                # ~ return []
-            # ~ changed = True
-            # ~ while changed:
-                # ~ changed = False
-                # ~ for i in range(0, len(dl)):
-                    # ~ if dl[i] == '(':
-                        # ~ for j in range(i + 1, len(dl)):
-                            # ~ if dl[j] == ')':
-                                # ~ dl = dl[:i] + [parse_domain(dl[i + 1 : j])] + dl[j + 1:]
-                                # ~ changed = True
-                                # ~ break
-                        # ~ break
-            # ~ #~ print '1 %s' % dl
-            # ~ #Handle spans (189x - 1930). Can contain wildcards for some mysterious reason.
-            # ~ changed = True
-            # ~ while changed:
-                # ~ _logger.debug(dl)
-                # ~ changed = False
-                # ~ for i in range(0, len(dl)):
-                    # ~ if dl[i] == '-':
-                        # ~ dl = dl[:i - 1] + [[str(x) for x in range(int(dl[i - 1].replace('x', '0')), int(dl[i + 1].replace('x', '9')) + 1)]] + dl[i + 2:]
-                        # ~ changed = True
-                        # ~ break
-            # ~ #~ print '2 %s' % dl
-            # ~ # Handle numbers, wildcards and commas
-            # ~ for i in range(0, len(dl)):
-                # ~ if isinstance(dl[i], list) or dl[i] == '!':
-                    # ~ pass
-                    # ~ #~ print '2.0 %s' % dl
-                # ~ elif dl[i] == ',':
-                    # ~ dl[i] = []
-                    # ~ #~ print '2.1 %s' % dl
-                # ~ elif dl[i].isdigit():
-                    # ~ dl[i] = [dl[i]]
-                    # ~ #~ print '2.2 %s' % dl
-                # ~ else:
-                    # ~ _logger.debug(dl[i])
-                    # ~ dl[i] = [str(x) for x in range(int(dl[i].replace('x', '0')), int(dl[i].replace('x', '9')) + 1)]
-                    # ~ #~ print '2.3 %s' % dl
-            # ~ #~ print '3 %s' % dl
-            # ~ # Handle not
-            # ~ ignore_ids = []
-            # ~ changed = True
-            # ~ while changed:
-                # ~ changed = False
-                # ~ for i in range(0, len(dl)):
-                    # ~ if dl[i] == '!':
-                        # ~ ignore_ids += dl.pop(i + 1)
-                        # ~ dl.pop(i)
-                        # ~ changed = True
-                        # ~ break
-            # ~ #~ print '4 %s' % dl
-            # ~ # Build id list
-            # ~ ids = []
-            # ~ for e in dl:
-                # ~ for id in e:
-                    # ~ if id not in ignore_ids:
-                        # ~ ids.append(id)
-            # ~ return ids
-
-        # ~ def get_domain(text):
-            # ~ """Get a domain from a BAS string."""
-            # ~ _logger.debug('|%s|' % text)
-            # ~ try:
-                # ~ if isinstance(text, float):
-                    # ~ return None, [('code', '=', str(int(text)))], None
-                # ~ txt = text.replace(' ', '')
-                # ~ txt = txt.replace(u'–', '-')
-                # ~ if txt[0] in ('+', '-'):
-                    # ~ sign = txt[0]
-                    # ~ txt = txt[1:]
-                # ~ else:
-                    # ~ sign = None
-                # ~ txt = txt.replace('exkl.', '!').replace('samt', ',').replace('och', ',')
-                # ~ separators = ',-()!'
-                # ~ for sep in separators:
-                    # ~ txt = txt.replace(sep, ' %s ' % sep)
-                # ~ return sign, [('code', 'in', parse_domain(txt.split()))], None
-            # ~ except:
-                # ~ error_info = sys.exc_info()
-                # ~ _logger.warn('\n' + ''.join(traceback.format_exception(error_info[0], error_info[1], error_info[2])))
-                # ~ return None, [], "Couldn't parse domain: %s" % text
-        # ~ errors = []
-        # ~ res = []
-        # ~ year = ''
-        # ~ name = ''
-        # ~ with TemporaryFile('w+') as fileobj:
-            # ~ fileobj.write(base64.decodestring(self.data))
-            # ~ fileobj.seek(0)
-            # ~ wb = open_workbook(file_contents=fileobj.read(), formatting_info=True)
-            # ~ ws = wb.sheet_by_index(0)
-            # ~ heading = None
-            # ~ account = None
-            # ~ state = 0
-            # ~ year = str(int(ws.cell(0, 0).value))
-            # ~ name = ws.cell(0, 2).value
-            # ~ for row in ws.get_rows():
-                # ~ #~ print row
-                # ~ if state == 0:
-                    # ~ #Looking for start of accounts list
-                    # ~ if row and row[0].value == u'Fält-kod':
-                        # ~ state = 1
-                # ~ elif state == 1:
-                    # ~ # Looking for new heading or account to process
-                    # ~ if len(row) > 3 and row[3].value:
-                        # ~ #Found an account row.
-                        # ~ if row[1].value:
-                            # ~ #This row has an SRU code.
-                            # ~ sign, domain, error = get_domain(row[3].value)
-                            # ~ if error:
-                                # ~ errors.append(error)
-                            # ~ account = {
-                                # ~ 'code': row[1].value,
-                                # ~ 'name': row[2].value,
-                                # ~ 'domains': [domain],
-                                # ~ 'field_codes': [{
-                                    # ~ 'code': int(row[0].value),
-                                    # ~ 'sign': sign,
-                                    # ~ 'domain': domain,
-                                # ~ }]
-                            # ~ }
-                            # ~ heading['accounts'].append(account)
-                        # ~ else:
-                            # ~ #No SRU code on this row. Shares SRU with previous row.
-                            # ~ sign, domain, error = get_domain(row[3].value)
-                            # ~ if error:
-                                # ~ errors.append(error)
-                            # ~ if row[0].value:
-                                # ~ account['field_codes'].append({
-                                    # ~ 'code': int(row[0].value),
-                                    # ~ 'sign': sign,
-                                    # ~ 'domain': domain,
-                                # ~ })
-                            # ~ account['domains'].append(domain)
-                    # ~ elif len(row) > 2 and row[2].value and row[2].value.isupper():
-                        # ~ #Top level heading
-                        # ~ heading = {
-                            # ~ 'name': row[2].value,
-                            # ~ 'accounts': [],
-                            # ~ 'children': [],
-                            # ~ 'height': wb.font_list[wb.xf_list[row[2].xf_index].font_index].height,
-                            # ~ 'parent': None,
-                        # ~ }
-                        # ~ res.append(heading)
-                    # ~ elif len(row) > 2 and row[2].value:
-                        # ~ #Subheading
-                        # ~ h = heading
-                        # ~ height = wb.font_list[wb.xf_list[row[2].xf_index].font_index].height
-                        # ~ #~ print height
-                        # ~ while True:
-                            # ~ #~ print 'h: %s' % h['name']
-                            # ~ if not h['parent']:
-                                # ~ break
-                            # ~ if h['height'] > height:
-                                # ~ break
-                            # ~ h = h['parent']
-                        # ~ heading = {
-                            # ~ 'name': row[2].value,
-                            # ~ 'accounts': [],
-                            # ~ 'children': [],
-                            # ~ 'height': height,
-                            # ~ 'parent': h,
-                        # ~ }
-                        # ~ h['children'].append(heading)
-
-        # ~ def create_account(values, parent, sequence):
-            # ~ _logger.debug(values)
-            # ~ accounts = self.env['account.account'].browse()
-            # ~ for domain in values['domains']:
-                # ~ accounts |= self.env['account.account'].search(domain)
-            # ~ vals = {
-                # ~ 'name': '%s %s' % (values['code'], values['name']),
-                # ~ 'parent_id': parent.id,
-                # ~ 'type': 'accounts',
-                # ~ 'sequence': sequence,
-                # ~ 'sign': 1,
-                # ~ 'sru': values['code'],
-                # ~ 'display_detail': 'no_detail',
-                # ~ 'account_ids': [(6, 0, [a.id for a in accounts])],
-            # ~ }
-            # ~ for code in values['field_codes']:
-                # ~ if not code['sign'] or code['sign'] == '+':
-                    # ~ vals['field_code'] = code['code']
-                # ~ elif code['sign'] == '-':
-                    # ~ vals['field_code_neg'] = code['code']
-            # ~ account = self.env['account.financial.report'].create(vals)
-
-        # ~ def create_heading(values, parent, sequence):
-            # ~ heading = self.env['account.financial.report'].create({
-                # ~ 'name': values['name'],
-                # ~ 'parent_id': parent.id,
-                # ~ 'type': 'sum',
-                # ~ 'sequence': sequence,
-                # ~ 'sign': 1,
-            # ~ })
-            # ~ i = 0
-            # ~ for child in values['children']:
-                # ~ create_heading(child, heading, i)
-                # ~ i += 1
-            # ~ for account in values['accounts']:
-                # ~ create_account(account, heading, i)
-                # ~ i += 1
-        # ~ report = self.env['account.financial.report'].create({
-            # ~ 'name': '%s - %s' % (name, year),
-            # ~ 'type': 'sum',
-            # ~ 'sequence': 0,
-            # ~ 'sign': 1,
-        # ~ })
-        # ~ i = 0
-        # ~ for values in res:
-            # ~ create_heading(values, report, i)
-            # ~ i += 1
-        # ~ self.env['ir.filters'].create({
-            # ~ 'name': '%s - %s' % (name, year),
-            # ~ 'user_id': False,
-            # ~ 'model_id': 'account.financial.report',
-            # ~ 'domain': [('id', 'child_of', report.id)],
-        # ~ })
-        # ~ if not errors:
-            # ~ self.message = "Import successfull!"
-        # ~ else:
-            # ~ message = "Errors when importing!"
-            # ~ for e in errors:
-                # ~ message += '\n' + e
-            # ~ self.message = message
-        # ~ return {
-            # ~ 'type': 'ir.actions.act_window',
-            # ~ 'res_model': 'account.financial.report.balance_result.import',
-            # ~ 'view_mode': 'form',
-            # ~ 'view_type': 'form',
-            # ~ 'res_id': self.id,
-            # ~ 'views': [(False, 'form')],
-            # ~ 'target': 'new',
-        # ~ }
+        with TemporaryFile('w+') as fileobj:
+            fileobj.write(base64.decodestring(self.data))
+            fileobj.seek(0)
+            workbook = open_workbook(file_contents=fileobj.read())
+            lst = self.get_account_financial_report_values(workbook)
+            r_list = lst.get('r_lst')
+            b_list = lst.get('b_lst')
+            self.create__update_financial_report(r_list)
+            self.create__update_financial_report(b_list)
+        return {
+            'name': _('Financial Report Lines'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.financial.report',
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'res_id': self.env.ref('account.action_account_financial_report_tree').id,
+            'target': 'current',
+        }
