@@ -129,7 +129,7 @@ def print_xml(sheet_list):
                 field_account_range = ET.SubElement(record, "field", name="account_range").text = l.get('account_range')
                 field_note = ET.SubElement(record, "field", name="note").text = l.get('note')
         return odoo
-    xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="   ")
+    xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
     with open("../data/account_account_type.xml", "w") as f:
         f.write(xml.encode('utf-8'))

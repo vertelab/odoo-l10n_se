@@ -184,7 +184,7 @@ def print_xml(sheet_list):
                 if l.get('account_ids'):
                     field_account_ids = ET.SubElement(record, "field", name="account_ids", search=str(l.get('account_ids')))
         return odoo
-    xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="   ")
+    xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
     with open("../data/account_financial_report.xml", "w") as f:
         f.write(xml.encode('utf-8'))
