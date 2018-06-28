@@ -10,7 +10,6 @@
                 <group rowspan="4" string="Import XLS-file">
                     <p>Create bolagsverket reports from XLS-files</p>
                     <field name="data"/>
-                    <field name="message"/>
                 </group>
                 <footer>
                     <button name="send_form" string="Import" type="object" class="oe_highlight"/>

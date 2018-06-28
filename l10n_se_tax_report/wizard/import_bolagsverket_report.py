@@ -38,7 +38,6 @@ class ImportBolagsverketReports(models.TransientModel):
     _name = 'account.financial.report.bolagsverket.import'
 
     data = fields.Binary('File', required=True)
-    message = fields.Text(string='Message', readonly=True)
 
     @api.model
     def get_account_financial_report_values(self, workbook):
