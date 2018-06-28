@@ -173,8 +173,9 @@ def print_xml(sheet_list):
         data = ET.SubElement(odoo, 'data')
         for lst in sheet_list:
             for l in lst:
-                record = ET.SubElement(data, 'record', id=l.get('element_name'), model="account.financial.report")
+                record = ET.SubElement(data, 'record', id='financial_%s' %l.get('element_name'), model="account.financial.report")
                 field_name = ET.SubElement(record, "field", name="name").text = l.get('name')
+                field_element_name = ET.SubElement(record, "field", name="element_name").text = l.get('element_name')
                 field_parent_id = ET.SubElement(record, "field", name="parent_id", search=str(l.get('parent_id')))
                 field_sequence = ET.SubElement(record, "field", name="sequence").text = '1'
                 field_type = ET.SubElement(record, "field", name="type").text = l.get('type')
@@ -192,39 +193,41 @@ def print_xml(sheet_list):
 print_xml([r_lst, b_lst])
 
 # ~ # Test script
-print """<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-"""
+# ~ print """<?xml version="1.0" encoding="utf-8"?>
+# ~ <odoo>
+    # ~ <data>
+# ~ """
 
-for r in r_lst:
-    print """        <record id="%s" model="account.financial.report">
-            <field name="name">%s</field>
-            <field name="parent_id" search="%s"/>
-            <field name="sequence">%s</field>
-            <field name="type">%s</field>
-            <field name="sign" eval="%s"/>
-            <field name="style_overwrite" eval="%s"/>""" %(r.get('element_name'), r.get('name'), r.get('parent_id'), 1, r.get('type'), r.get('sign'), '4')
-    if r.get('account_ids'):
-        print """            <field name="account_ids" search="[(%s)]"/>
-        </record>""" %r.get('account_ids')
-    else:
-        print """        </record>"""
+# ~ for r in r_lst:
+    # ~ print """        <record id="financial_%s" model="account.financial.report">
+            # ~ <field name="name">%s</field>
+            # ~ <field name="element_name">%s</field>
+            # ~ <field name="parent_id" search="%s"/>
+            # ~ <field name="sequence">%s</field>
+            # ~ <field name="type">%s</field>
+            # ~ <field name="sign" eval="%s"/>
+            # ~ <field name="style_overwrite" eval="%s"/>""" %(r.get('element_name'), r.get('element_name'), r.get('name'), r.get('parent_id'), 1, r.get('type'), r.get('sign'), '4')
+    # ~ if r.get('account_ids'):
+        # ~ print """            <field name="account_ids" search="[(%s)]"/>
+        # ~ </record>""" %r.get('account_ids')
+    # ~ else:
+        # ~ print """        </record>"""
 
-for b in b_lst:
-    print """        <record id="%s" model="account.financial.report">
-            <field name="name">%s</field>
-            <field name="parent_id" search="%s"/>
-            <field name="sequence">%s</field>
-            <field name="type">%s</field>
-            <field name="sign" eval="%s"/>
-            <field name="style_overwrite" eval="%s"/>""" %(b.get('element_name'), b.get('name'), b.get('parent_id'), 1, b.get('type'), b.get('sign'), '4')
-    if b.get('account_ids'):
-        print """            <field name="account_ids" search="[(%s)]"/>
-        </record>""" %b.get('account_ids')
-    else:
-        print """        </record>"""
+# ~ for b in b_lst:
+    # ~ print """        <record id="financial_%s" model="account.financial.report">
+            # ~ <field name="name">%s</field>
+            # ~ <field name="element_name">%s</field>
+            # ~ <field name="parent_id" search="%s"/>
+            # ~ <field name="sequence">%s</field>
+            # ~ <field name="type">%s</field>
+            # ~ <field name="sign" eval="%s"/>
+            # ~ <field name="style_overwrite" eval="%s"/>""" %(b.get('element_name'), b.get('element_name'), b.get('name'), b.get('parent_id'), 1, b.get('type'), b.get('sign'), '4')
+    # ~ if b.get('account_ids'):
+        # ~ print """            <field name="account_ids" search="[(%s)]"/>
+        # ~ </record>""" %b.get('account_ids')
+    # ~ else:
+        # ~ print """        </record>"""
 
-print """    </data>
-</odoo>
-"""
+# ~ print """    </data>
+# ~ </odoo>
+# ~ """
