@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="wizard_bolagsverket_reports" model="ir.ui.view">
+        <field name="name">Import Bolagsverket connections</field>
+        <field name="model">account.financial.report.bolagsverket.import</field>
+        <field name="arch" type="xml">
+            <form string="Import">
+                <group string="Import XLS-file">
+                    <p>Create bolagsverket reports from XLS-files</p>
+                    <group colspan="4">
+                        <field name="data" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="send_form" string="Import" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_bolagsverket_reports" model="ir.actions.act_window">
+        <field name="name">Import Bolagsverket connections</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.financial.report.bolagsverket.import</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_wizard_bolagsverket_reports" action="action_wizard_bolagsverket_reports" parent="account.menu_account_reports"/>
+
+  </data>
+</odoo>

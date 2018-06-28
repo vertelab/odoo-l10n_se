@@ -48,6 +48,7 @@
          # General Chart of Account (account.chart.template)
 
     -->
+        <!-- account.account.type -->
         <record id="trustee_assets" model="account.account.type">
             <field name="name">Trustee Asset</field>
             <field name="type">other</field>
@@ -62,6 +63,7 @@
             <field name="name">Tax in Balance sheet</field>
             <field name="type">other</field>
         </record>
+        <!-- account.account.template -->
         <record id="chart2610" model="account.account.template">
             <field name="name">Utgående moms, 25 %</field>
             <field name="code">2610</field>

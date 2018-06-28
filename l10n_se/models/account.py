@@ -49,7 +49,7 @@ class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
     tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id', string='Tax Balance Mapping', copy=True)
-    
+
     @api.multi
     def get_map_balance_row(self, values):
         if not values.get('tax_line_id'):
@@ -106,7 +106,7 @@ class AccountInvoice(models.Model):
             i += 1
         _logger.warn('res: %s' % res)
         return res
-                
+
         # ~ # keep track of taxes already processed
         # ~ done_taxes = []
         # ~ # loop the invoice.tax.line in reversal sequence
@@ -412,6 +412,90 @@ class account_tax_template(models.Model):
 class account_account_type(models.Model):
     _inherit = 'account.account.type'
 
+    element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+    account_range = fields.Char(string='Accoun Range', help='Domain shows which account should has this account type.')
+    main_type = fields.Selection(selection=[
+        ('RorelsensIntakterLagerforandringarMmAbstract', u'Rörelseintäkter, lagerförändringar m.m.'),
+        ('RorelsekostnaderAbstract', u'Rörelsekostnader'),
+        ('FinansiellaPosterAbstract', u'Finansiella poster'),
+        ('BokslutsdispositionerAbstract', u'Bokslutsdispositioner'),
+        ('SkatterAbstract', u'Skatter'),
+        ('TillgangarAbstract', u'Tillgångar'),
+        ('EgetKapitalSkulderAbstract', u'Eget kapital och skulder'),
+    ], string='Main Type')
+    report_type = fields.Selection(selection=[('r', u'Resultaträkning'), ('b', u'Balansräkning')], string='Report Type')
+
+    # key: element_name
+    # value: external_id
+    external_id_exchange_dict = {
+        'Kundfordringar': 'account.data_account_type_receivable',
+        'Leverantorsskulder': 'account.data_account_type_payable',
+        'KassaBankExklRedovisningsmedel': 'account.data_account_type_liquidity',
+        'CheckrakningskreditKortfristig': 'account.data_account_type_credit_card',
+        'OvrigaFordringarKortfristiga': 'account.data_account_type_current_assets',
+        'KoncessionerPatentLicenserVarumarkenLiknandeRattigheter': 'account.data_account_type_non_current_assets',
+        'ForskottFranKunder': 'account.data_account_type_prepayments',
+        'MaskinerAndraTekniskaAnlaggningar': 'account.data_account_type_fixed_assets',
+        'OvrigaKortfristigaSkulder': 'account.data_account_type_current_liabilities',
+        'OvrigaLangfristigaSkulderKreditinstitut': 'account.data_account_type_non_current_liabilities',
+        'Aktiekapital': 'account.data_account_type_equity',
+        'AretsResultat': 'account.data_unaffected_earnings',
+        'OvrigaRorelseintakter': 'account.data_account_type_other_income',
+        'Nettoomsattning': 'account.data_account_type_revenue',
+        'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': 'account.data_account_type_depreciation',
+        'OvrigaRorelsekostnader': 'account.data_account_type_expenses',
+        'HandelsvarorKostnader': 'account.data_account_type_direct_costs',
+    }
+
+    # Rewrite attributes to account type names from core(account)
+    @api.model
+    def _set_external_id(self):
+        for k,v in self.external_id_exchange_dict.items():
+            ref = self.env.ref('l10n_se.type_%s' %k)
+            self.env.ref(v).write({
+                'name': ref.name, # this doesn't work
+                'type': ref.type,
+                'element_name': ref.element_name,
+                'main_type': ref.main_type,
+                'report_type': ref.report_type,
+                'account_range': ref.account_range,
+                'note': ref.note,
+            })
+            ref.unlink()
+
+    # key: element_name
+    # value: name
+    name_exchange_dict = {
+        'Kundfordringar': u'Kundfordringar',
+        'Leverantorsskulder': u'Leverantörsskulder',
+        'KassaBankExklRedovisningsmedel': u'Kassa och bank exklusive redovisningsmedel',
+        'CheckrakningskreditKortfristig': u'Kortfristig checkräkningskredit',
+        'OvrigaFordringarKortfristiga': u'Övriga kortfristga fordringar',
+        'KoncessionerPatentLicenserVarumarkenLiknandeRattigheter': u'Koncessioner, patent, licenser, varumärken samt liknande rättigheter',
+        'ForskottFranKunder': u'Förskott från kunder',
+        'MaskinerAndraTekniskaAnlaggningar': u'Maskiner och andra tekniska anläggningar',
+        'OvrigaKortfristigaSkulder': u'Övriga kortfristiga skulder',
+        'OvrigaLangfristigaSkulderKreditinstitut': u'Övriga långfristiga skulder till kreditinstitut',
+        'Aktiekapital': u'Aktiekapital',
+        'AretsResultat': u'Årets resultat',
+        'OvrigaRorelseintakter': u'Övriga rörelseintäkter',
+        'Nettoomsattning': u'Nettoomsättning',
+        'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': u'Av- och nedskrivningar av materiella och immateriella anläggningstillgångar',
+        'OvrigaRorelsekostnader': u'Övriga rörelsekostnader',
+        'HandelsvarorKostnader': u'Kostnad för sålda handelsvaror',
+    }
+
+    # Change account type names from core(account)
+    @api.model
+    def _change_name(self):
+        for k,v in self.name_exchange_dict.items():
+            self.env['account.account.type'].search([('element_name', '=', k)]).write({'name': v})
+
+    @api.multi
+    def get_account_range(self):
+        self.ensure_one()
+        return self.env['account.account'].search(eval(self.account_range))
+
     def account2user_type(self,account_code):
         user_type = 'account.data_account_type_asset'
         if account_code == 1 or account_code in range(10,20) or account_code in range(1000,1999) :
@@ -445,5 +529,12 @@ class account_account_type(models.Model):
         if account_code in [89] or account_code in range(8900,9000):
                 user_type = 'account.data_account_type_expense'
         return self.env.ref(user_type) if user_type else None
+
+
+class account_financial_report(models.Model):
+    _inherit = 'account.financial.report'
+
+    element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+    version_name = fields.Char(string='Version Name', help='This name is from import file.')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -15,7 +15,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'LonBrutto')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel', 'LonBrutto'])]"/>
         </record>
         <record id="agd_report_Forman" model="account.financial.report">
             <field name="name">51. Avgiftspliktiga förmåner</field>
@@ -42,7 +42,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'SumUlagAvg')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel', 'SumUlagAvg'])]"/>
         </record>
         <record id="agd_report_UlagAvgHel" model="account.financial.report">
             <field name="name">55. Full arbetsgivaravgift för yngre än 65 år</field>
@@ -60,7 +60,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagAvgHel')]"/>
+            <field name="tax_ids" search="[('name', '=', 'AvgHel')]"/>
         </record>
         <record id="agd_report_AvgVXLon" model="account.financial.report">
             <field name="name">57. Enskild näringsidkares första anställda</field>
@@ -159,7 +159,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'SumAvgBetala')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['AvgHel', 'UlagVXLon', 'AvgAldersp', 'AvgAlderspSkLon', 'SumAvgBetala'])]"/>
         </record>
         <record id="agd_report_UlagSkAvdrLon" model="account.financial.report">
             <field name="name">81. Lön och förmåner</field>
@@ -168,7 +168,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagSkAvdrLon')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel', 'UlagSkAvdrLon'])]"/>
         </record>
         <record id="agd_report_SkAvdrLon" model="account.financial.report">
             <field name="name">82. Från lön och förmåner</field>
@@ -179,6 +179,15 @@
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'SkAvdrLon')]"/>
         </record>
+        <record id="agd_report_UlagSumSkAvdr" model="account.financial.report">
+            <field name="name">87. Summa underlag för skatteavdrag</field>
+            <field name="sequence">79</field>
+            <field name="type">accounts</field>
+            <field name="sign" eval="1"/>
+            <field name="parent_id" ref="agd_report"/>
+            <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel'])]"/>
+        </record>
         <record id="agd_report_SumSkAvdr" model="account.financial.report">
             <field name="name">88. Summa avdragen skatt</field>
             <field name="sequence">80</field>
@@ -186,7 +195,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'SumSkAvdr')]"/>
+            <field name="tax_ids" search="[('name', 'in', ['SkAvdrLon', 'SumSkAvdr'])]"/>
         </record>
         <record id="agd_report_AgAvgPreS" model="account.financial.report">
             <field name="name">Summa avgift och skatt att betala</field>

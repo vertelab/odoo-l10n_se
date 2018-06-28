@@ -34,7 +34,8 @@ class account_account(models.Model):
 
     @api.multi
     def get_movelines(self):
-        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda l: l.account_id in self)
+        self.ensure_one()
+        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda l: l.account_id.id == self.id)
 
 
 class account_tax(models.Model):

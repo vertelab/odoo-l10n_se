@@ -37,6 +37,7 @@ Taxes for financial report
         'views/res_config_view.xml',
         'wizard/glabel_report.xml',
         'wizard/import_b_and_r_report.xml',
+        'wizard/import_bolagsverket_report.xml',
         'views/moms_report.xml',
         'views/agd_report.xml',
         'views/sru_report.xml',

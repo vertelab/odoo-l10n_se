@@ -8,5 +8,42 @@
             <field name="default_debit_account_id" search="[('code', '=', '7210')]" model="account.account" />
             <field name="default_crebit_account_id" search="[('code', '=', '7210')]" model="account.account" />
         </record>
+        <record id="set_account_type" model="ir.actions.server">
+            <field name="name">Set Account Type</field>
+            <field name="model_id" ref="base.model_ir_actions_server"/>
+            <field name="state">code</field>
+            <field name="code">r_list = []
+t_list = []
+def set_type():
+    for o in env['account.account.type'].search([('account_range', '!=', False)]):
+        for account in o.get_account_range():
+            if o.type in ['payable', 'receivable'] and not account.reconcile:
+                try:
+                    account.write({'reconcile': True})
+                except:
+                    if account not in r_list:
+                        r_list.append(account)
+            try:
+                account.write({'user_type_id': o.id})
+            except:
+                if account not in t_list:
+                    t_list.append(account)
+set_type()
+env['account.account.type']._change_name()
+if len(r_list) &gt; 0 or len(t_list) &gt; 0:
+    msg = 'Problem to set account type:\n'
+    if len(r_list) &gt; 0:
+        msg += 'Set reconcile:\n%s' %'\t'.join(r_list)
+    if len(t_list) &gt; 0:
+        msg += 'Set type:\n%s' %'\t'.join(t_list)
+    raise Warning(msg)</field>
+        </record>
+        <record id="ir_values_po_line_tags" model="ir.values">
+            <field name="name">Set Account Type</field>
+            <field name="model">ir.actions.server</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se.set_account_type')"/>
+        </record>
+        <function model="account.account.type" name="_set_external_id" />
     </data>
 </odoo>

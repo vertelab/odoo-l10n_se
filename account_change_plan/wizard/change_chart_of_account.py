@@ -21,7 +21,7 @@
 from odoo.exceptions import AccessError
 from odoo import api, fields, models, _
 from odoo import SUPERUSER_ID
-from odoo.tools import safe_eval as eval
+from odoo.tools.safe_eval import safe_eval as eval
 
 import logging
 _logger = logging.getLogger(__name__)

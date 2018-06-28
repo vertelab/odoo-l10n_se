@@ -1,0 +1,190 @@
+-
+  Prepare partners
+-
+  !python {model: res.partner, id: base.res_partner_12}: |
+      region = self.env.ref('l10n_se.1_k2_fpos_trade_eu')
+      if self.property_account_position_id != region:
+          self.property_account_position_id = region
+-
+  Create demo invoices
+-
+  !record {model: account.invoice, id: demo_invoice_1}:
+    partner_id: l10n_se.res_partner_2
+    #user_id: base.user_demo
+    reference_type: none
+    payment_term_id: account.account_payment_term
+    type: 'out_invoice'
+    date_invoice: !eval time.strftime('%Y')+'-03-14'
+    invoice_line_ids:
+      - product_id: l10n_se.product_product_1
+        price_unit: 2500.0
+        quantity: 2
+-
+  !python {model: account.invoice, id: demo_invoice_1}: |
+    if self.state == 'draft':
+        import time
+        self.invoice_line_ids._onchange_product_id()
+        self.invoice_line_ids._onchange_account_id()
+        self._onchange_invoice_line_ids()
+        self.action_invoice_open()
+        if self.partner_id.customer:
+            method = self.env.ref('account.account_payment_method_manual_in')
+        else:
+            method = self.env.ref('account.account_payment_method_manual_out')
+        payment = self.env['account.payment'].create({
+          'invoice_ids': [(4, self.id, None)],
+          'payment_date': time.strftime('%Y')+'-04-14',
+          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          'partner_id': self.partner_id.id,
+          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          'payment_method_id': method.id,
+          'payment_method_code': method.code,
+          'amount': self.amount_total,
+        })
+        payment.post()
+-
+  #~ !record {model: account.payment, id: demo_payment_1}:
+      #~ invoice_ids: [demo_invoice_1]
+      #~ payment_date: !eval time.strftime('%Y')+'-04-14'
+      #~ journal_id: l10n_se_tax_report.bank_journal
+      #~ payment_type: inbound
+      #~ payment_method_id: account.account_payment_method_manual_in
+      #~ amount: 6250.0
+#~ -
+  !record {model: account.invoice, id: demo_invoice_2}:
+    partner_id: l10n_se.res_partner_1
+    #user_id: base.user_demo
+    reference_type: none
+    payment_term_id: account.account_payment_term
+    type: 'in_invoice'
+    date_invoice: !eval time.strftime('%Y')+'-03-23'
+    invoice_line_ids:
+      - product_id: l10n_se.product_product_1
+        price_unit: 1000.0
+        quantity: 10
+-
+  !python {model: account.invoice, id: demo_invoice_2}: |
+    if self.state == 'draft':
+        import time
+        self.invoice_line_ids._onchange_product_id()
+        self.invoice_line_ids._onchange_account_id()
+        self._onchange_invoice_line_ids()
+        self.action_invoice_open()
+        if self.partner_id.customer:
+            method = self.env.ref('account.account_payment_method_manual_in')
+        else:
+            method = self.env.ref('account.account_payment_method_manual_out')
+        payment = self.env['account.payment'].create({
+          'invoice_ids': [(4, self.id, None)],
+          'payment_date': time.strftime('%Y')+'-04-14',
+          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          'partner_id': self.partner_id.id,
+          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          'payment_method_id': method.id,
+          'payment_method_code': method.code,
+          'amount': self.amount_total,
+        })
+        payment.post()
+-
+  !record {model: account.invoice, id: demo_invoice_3}:
+    partner_id: l10n_se.res_partner_1
+    #user_id: base.user_demo
+    reference_type: none
+    payment_term_id: account.account_payment_term
+    type: 'in_invoice'
+    date_invoice: !eval time.strftime('%Y')+'-05-01'
+    invoice_line_ids:
+      - product_id: l10n_se.product_product_1
+        price_unit: 1000.0
+        quantity: 20
+-
+  !python {model: account.invoice, id: demo_invoice_3}: |
+    if self.state == 'draft':
+        import time
+        self.invoice_line_ids._onchange_product_id()
+        self.invoice_line_ids._onchange_account_id()
+        self._onchange_invoice_line_ids()
+        self.action_invoice_open()
+        if self.partner_id.customer:
+            method = self.env.ref('account.account_payment_method_manual_in')
+        else:
+            method = self.env.ref('account.account_payment_method_manual_out')
+        payment = self.env['account.payment'].create({
+          'invoice_ids': [(4, self.id, None)],
+          'payment_date': time.strftime('%Y')+'-04-14',
+          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          'partner_id': self.partner_id.id,
+          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          'payment_method_id': method.id,
+          'payment_method_code': method.code,
+          'amount': self.amount_total,
+        })
+        payment.post()
+-
+  !record {model: account.invoice, id: demo_invoice_4}:
+    partner_id: l10n_se.res_partner_2
+    #user_id: base.user_demo
+    reference_type: none
+    payment_term_id: account.account_payment_term
+    type: 'out_invoice'
+    date_invoice: !eval time.strftime('%Y')+'-06-10'
+    invoice_line_ids:
+      - product_id: l10n_se.product_product_1
+        price_unit: 2500.0
+        quantity: 20
+-
+  !python {model: account.invoice, id: demo_invoice_4}: |
+    if self.state == 'draft':
+        import time
+        self.invoice_line_ids._onchange_product_id()
+        self.invoice_line_ids._onchange_account_id()
+        self._onchange_invoice_line_ids()
+        self.action_invoice_open()
+        if self.partner_id.customer:
+            method = self.env.ref('account.account_payment_method_manual_in')
+        else:
+            method = self.env.ref('account.account_payment_method_manual_out')
+        payment = self.env['account.payment'].create({
+          'invoice_ids': [(4, self.id, None)],
+          'payment_date': time.strftime('%Y')+'-04-14',
+          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          'partner_id': self.partner_id.id,
+          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          'payment_method_id': method.id,
+          'payment_method_code': method.code,
+          'amount': self.amount_total,
+        })
+        payment.post()
+-
+
+
+
+# Period   A-id konto   benämning           debet   kredit     tax
+# 1803      A01 1510   kundfordran          6250
+# 1803          2610   Utgående moms 25%            1250       MP1/MP1i
+# 1803          3001   gem                          5000
+#
+# 1803      A02 2440   Leverantörsskuld             12500
+# 1803          2640   Ing moms             2500               I/Ii
+# 1803          5410   Förbrukningsinv      10000
+#
+# 1804      A01 1510   Kundfordran                  6250
+# 1804          1931   Bankgiro             6250
+#
+# 1804          1930   Bankgiro                     12500
+# 1804      A02 2440   Leverantörsskuld     12500
+#
+# 1805          1930   Bank                         25000
+# 1805          2640   Ing moms             5000               I/Ii
+# 1805          5410   Förbrukningsinv      20000
+#
+# 1806      A03 1510   kundfordran          50000
+# 1806          2611   Utgående moms 25%            10000       MP1/MP1i
+# 1806          3041   försäljning                  40000
+#
+# 1807          1930   Bankgiro             50000
+# 1807      A03 1510   Kundfordran                  50000
