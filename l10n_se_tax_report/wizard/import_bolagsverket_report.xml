@@ -7,9 +7,11 @@
         <field name="model">account.financial.report.bolagsverket.import</field>
         <field name="arch" type="xml">
             <form string="Import">
-                <group rowspan="4" string="Import XLS-file">
+                <group string="Import XLS-file">
                     <p>Create bolagsverket reports from XLS-files</p>
-                    <field name="data"/>
+                    <group colspan="4">
+                        <field name="data"/>
+                    </group>
                 </group>
                 <footer>
                     <button name="send_form" string="Import" type="object" class="oe_highlight"/>
