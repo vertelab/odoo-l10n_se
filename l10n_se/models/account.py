@@ -451,7 +451,7 @@ class account_account_type(models.Model):
     @api.model
     def _set_external_id(self):
         for k,v in self.external_id_exchange_dict.items():
-            ref = self.env.ref('l10n_se.%s' %k)
+            ref = self.env.ref('l10n_se.type_%s' %k)
             self.env.ref(v).write({
                 'name': ref.name, # this doesn't work
                 'type': ref.type,

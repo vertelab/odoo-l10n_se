@@ -180,9 +180,11 @@ def print_xml(sheet_list):
                 field_sequence = ET.SubElement(record, "field", name="sequence").text = '1'
                 field_type = ET.SubElement(record, "field", name="type").text = l.get('type')
                 field_sign = ET.SubElement(record, "field", name="sign", eval=l.get('sign'))
-                field_style_overwrite = ET.SubElement(record, "field", name="style_overwrite", eval='4')
                 if l.get('account_ids'):
                     field_account_ids = ET.SubElement(record, "field", name="account_ids", search=str(l.get('account_ids')))
+                    field_style_overwrite = ET.SubElement(record, "field", name="style_overwrite", eval='4')
+                else:
+                    field_style_overwrite = ET.SubElement(record, "field", name="style_overwrite", eval='2')
         return odoo
     xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
@@ -205,13 +207,14 @@ print_xml([r_lst, b_lst])
             # ~ <field name="parent_id" search="%s"/>
             # ~ <field name="sequence">%s</field>
             # ~ <field name="type">%s</field>
-            # ~ <field name="sign" eval="%s"/>
-            # ~ <field name="style_overwrite" eval="%s"/>""" %(r.get('element_name'), r.get('element_name'), r.get('name'), r.get('parent_id'), 1, r.get('type'), r.get('sign'), '4')
+            # ~ <field name="sign" eval="%s"/>""" %(r.get('element_name'), r.get('element_name'), r.get('name'), r.get('parent_id'), 1, r.get('type'), r.get('sign'))
     # ~ if r.get('account_ids'):
         # ~ print """            <field name="account_ids" search="[(%s)]"/>
+            # ~ <field name="style_overwrite" eval="4"/>
         # ~ </record>""" %r.get('account_ids')
     # ~ else:
-        # ~ print """        </record>"""
+        # ~ print """            <field name="style_overwrite" eval="2"/>
+        # ~ </record>"""
 
 # ~ for b in b_lst:
     # ~ print """        <record id="financial_%s" model="account.financial.report">
@@ -220,13 +223,14 @@ print_xml([r_lst, b_lst])
             # ~ <field name="parent_id" search="%s"/>
             # ~ <field name="sequence">%s</field>
             # ~ <field name="type">%s</field>
-            # ~ <field name="sign" eval="%s"/>
-            # ~ <field name="style_overwrite" eval="%s"/>""" %(b.get('element_name'), b.get('element_name'), b.get('name'), b.get('parent_id'), 1, b.get('type'), b.get('sign'), '4')
+            # ~ <field name="sign" eval="%s"/>""" %(b.get('element_name'), b.get('element_name'), b.get('name'), b.get('parent_id'), 1, b.get('type'), b.get('sign'))
     # ~ if b.get('account_ids'):
         # ~ print """            <field name="account_ids" search="[(%s)]"/>
+            # ~ <field name="style_overwrite" eval="4"/>
         # ~ </record>""" %b.get('account_ids')
     # ~ else:
-        # ~ print """        </record>"""
+        # ~ print """            <field name="style_overwrite" eval="2"/>
+        # ~ </record>"""
 
 # ~ print """    </data>
 # ~ </odoo>
