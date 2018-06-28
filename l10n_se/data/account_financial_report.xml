@@ -10,6 +10,15 @@
             <field eval="1" name="sign"/>
             <field eval="2" name="style_overwrite"/>
         </record>
+        <record id="financial_RorelseresultatAbstract" model="account.financial.report">
+            <field name="name">Rörelseresultat (Presentation)</field>
+            <field name="element_name">RorelseresultatAbstract</field>
+            <field name="parent_id" search="[('element_name', '=', 'ResultatrakningKostnadsslagsindeladAbstract')]"/>
+            <field name="sequence">1</field>
+            <field name="type">sum</field>
+            <field eval="1" name="sign"/>
+            <field eval="2" name="style_overwrite"/>
+        </record>
         <record id="financial_RorelsensIntakterLagerforandringarMmAbstract" model="account.financial.report">
             <field name="name">Rörelseintäkter, lagerförändringar m.m. (Presentation)</field>
             <field name="element_name">RorelsensIntakterLagerforandringarMmAbstract</field>

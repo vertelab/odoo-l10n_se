@@ -141,7 +141,7 @@ b_lst = []
 parent = ''
 def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, credit_debit=1, lst=None):
     for row in range(1, sheet.nrows):
-        if sheet.cell(row, account_type).value == 'BFNAR':
+        if sheet.cell(row, account_type).value == 'BFNAR' or sheet.cell(row, account_type).value == '':
             lst.append({
                 'name': sheet.cell(row, title).value,
                 'type': 'sum',
