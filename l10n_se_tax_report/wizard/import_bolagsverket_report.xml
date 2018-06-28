@@ -10,7 +10,8 @@
                 <group string="Import XLS-file">
                     <p>Create bolagsverket reports from XLS-files</p>
                     <group colspan="4">
-                        <field name="data"/>
+                        <field name="data" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
                     </group>
                 </group>
                 <footer>

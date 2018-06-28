@@ -535,5 +535,6 @@ class account_financial_report(models.Model):
     _inherit = 'account.financial.report'
 
     element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+    version_name = fields.Char(string='Version Name', help='This name is from import file.')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

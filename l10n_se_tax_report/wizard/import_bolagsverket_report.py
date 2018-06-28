@@ -38,9 +38,10 @@ class ImportBolagsverketReports(models.TransientModel):
     _name = 'account.financial.report.bolagsverket.import'
 
     data = fields.Binary('File', required=True)
+    file_name = fields.Char(string='File Name')
 
     @api.model
-    def get_account_financial_report_values(self, workbook):
+    def get_account_financial_report_values(self, workbook, file_name):
         resultatrakning = workbook.sheet_by_index(2)
         balansrakning = workbook.sheet_by_index(4)
 
@@ -177,10 +178,13 @@ class ImportBolagsverketReports(models.TransientModel):
                 if sheet.cell(row, account_type).value == 'BFNAR' or sheet.cell(row, account_type).value == '':
                     lst.append({
                         'name': sheet.cell(row, title).value,
+                        'version_name': file_name,
                         'type': 'sum',
                         'element_name': sheet.cell(row, element_name).value,
                         'parent_id': "[('element_name', '=', '%s')]" %(parents.get(sheet.cell(row, element_name).value) if parents.get(sheet.cell(row, element_name).value) else ''),
                         'sign': '-1' if find_sign(sheet, row, account_type, credit_debit) == 'credit' else '1',
+                        'sequence': 1,
+                        'style_overwrite': 2,
                     })
                     parent = sheet.cell(row, element_name).value
                 if sheet.cell(row, account_type).value == 'BAS-konto':
@@ -190,17 +194,20 @@ class ImportBolagsverketReports(models.TransientModel):
                     domain = get_range_domain(get_account_range(sheet, account, row))
                     lst.append({
                         'name': sheet.cell(row, title).value,
+                        'version_name': file_name,
                         'type': 'accounts',
                         'element_name': sheet.cell(row, element_name).value,
                         'parent_id': "[('element_name', '=', '%s')]" %(parent if not parents.get(sheet.cell(row, element_name).value) else parents.get(sheet.cell(row, element_name).value)),
                         'sign': '-1' if sheet.cell(row, credit_debit).value == 'credit' else '1',
+                        'sequence': 1,
+                        'style_overwrite': 4,
                         'account_ids': get_range_domain(get_account_range(sheet, account, row)),
                     })
 
         read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
         read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
 
-        return {'r_lst': r_lst, 'b_lst': b_lst}
+        return r_lst + b_lst
 
     @api.model
     def create__update_financial_report(self, lst):
@@ -209,23 +216,25 @@ class ImportBolagsverketReports(models.TransientModel):
             if financial_report:
                 financial_report.write({
                     'name': line.get('name'),
+                    'version_name': line.get('version_name'),
                     'type': line.get('type'),
                     'parent_id': self.env['account.financial.report'].search(eval(line.get('parent_id'))).id,
                     'sign': eval(line.get('sign')),
                     'account_ids': [(6, 0, self.env['account.account'].search(line.get('account_ids')).mapped('id'))],
-                    'sequence': 1,
-                    'style_overwrite': 4 if line.get('account_ids') else 2,
+                    'sequence': line.get('sequence'),
+                    'style_overwrite': line.get('style_overwrite'),
                 })
             else:
                 self.env['account.financial.report'].create({
                     'name': line.get('name'),
                     'element_name': line.get('element_name'),
+                    'version_name': line.get('version_name'),
                     'type': line.get('type'),
                     'parent_id': self.env['account.financial.report'].search(eval(line.get('parent_id'))).id,
                     'sign': eval(line.get('sign')),
                     'account_ids': [(6, 0, self.env['account.account'].search(line.get('account_ids')).mapped('id'))],
-                    'sequence': 1,
-                    'style_overwrite': 4 if line.get('account_ids') else 2,
+                    'sequence': line.get('sequence'),
+                    'style_overwrite': line.get('style_overwrite'),
                 })
 
     @api.multi
@@ -234,11 +243,8 @@ class ImportBolagsverketReports(models.TransientModel):
             fileobj.write(base64.decodestring(self.data))
             fileobj.seek(0)
             workbook = open_workbook(file_contents=fileobj.read())
-            lst = self.get_account_financial_report_values(workbook)
-            r_list = lst.get('r_lst')
-            b_list = lst.get('b_lst')
-            self.create__update_financial_report(r_list)
-            self.create__update_financial_report(b_list)
+            lst = self.get_account_financial_report_values(workbook, self.file_name)
+            self.create__update_financial_report(lst)
         return {
             'name': _('Financial Report Lines'),
             'type': 'ir.actions.act_window',
