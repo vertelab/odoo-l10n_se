@@ -12,7 +12,7 @@
                     <group colspan="4">
                         <field name="data" filename="file_name"/>
                         <field name="file_name" invisible="1"/>
-                        <field name="xml_sheets" placeholder="[0,1,2,3,4]"/>
+                        <field name="xml_sheet"/>
                     </group>
                 </group>
                 <footer>

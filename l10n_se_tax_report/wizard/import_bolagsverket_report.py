@@ -39,7 +39,7 @@ class ImportBolagsverketReports(models.TransientModel):
 
     data = fields.Binary('File', required=True)
     file_name = fields.Char(string='File Name')
-    xml_sheets = fields.Char(string='Sheets', required=True, help='A list of sheet indexes that you want to import, seperate with comma.')
+    xml_sheet = fields.Selection(string='Sheet', required=True, selection=[('simple', 'Simple'), ('complete', 'Complete')])
 
     @api.multi
     def get_workbook(self, data):
@@ -59,7 +59,7 @@ class ImportBolagsverketReports(models.TransientModel):
         return 0
 
     @api.model
-    def get_account_financial_report_values(self, workbook, file_name, sheets):
+    def get_account_financial_report_values(self, workbook, file_name, sheet):
 
         def get_account_range(sheet, account_type, row):
             account_range = []
@@ -98,7 +98,7 @@ class ImportBolagsverketReports(models.TransientModel):
             for row in range(1, sheet.nrows):
                 if sheet.cell(row, account_type).value == 'BFNAR' or sheet.cell(row, account_type).value == '':
                     lst.append({
-                        'name': sheet.cell(row, title).value,
+                        'name': (sheet.cell(row, title).value + ' (' + file_name + ')') if row == 1 else sheet.cell(row, title).value,
                         'version_name': file_name,
                         'type': 'sum',
                         'element_name': sheet.cell(row, element_name).value,
@@ -125,8 +125,8 @@ class ImportBolagsverketReports(models.TransientModel):
                         'account_ids': get_range_domain(get_account_range(sheet, account, row)),
                     })
 
-        def get_resultatrakning_list(sheet_name):
-            if sheet_name == u'Resultaträkning':
+        def get_resultatrakning_list(mode):
+            if mode == 'complete':
                 r_element_name = 8
                 r_title = 10
                 r_sign = 11
@@ -149,6 +149,7 @@ class ImportBolagsverketReports(models.TransientModel):
                     'SkatterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
                     'AretsResultat': 'ResultatrakningKostnadsslagsindeladAbstract',
                 }
+                resultatrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(u'Resultaträkning'))
             else:
                 r_element_name = 7
                 r_title = 9
@@ -168,18 +169,18 @@ class ImportBolagsverketReports(models.TransientModel):
                     'SkatterAbstract': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
                     'AretsResultat': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
                 }
-            resultatrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(sheet_name))
+                resultatrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(u'Förkortad resultaträkning'))
             r_lst = []
             read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
             return r_lst
 
-        def get_balansrakning_list(sheet_name):
+        def get_balansrakning_list(mode):
             b_element_name = 9
             b_title = 11
             b_sign = 12
             b_credit_debit = 14
             b_account_type = 43
-            if sheet_name == u'Balansräkning':
+            if mode == 'complete':
                 # all rows without accounts
                 b_parents = {
                     'TillgangarAbstract': 'BalansrakningAbstract',
@@ -220,6 +221,7 @@ class ImportBolagsverketReports(models.TransientModel):
                     'KortfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
                     'KortfristigaSkulder': 'KortfristigaSkulderAbstract', # sum row
                 }
+                balansrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(u'Balansräkning'))
             else:
                 # all rows without accounts
                 b_parents = {
@@ -244,20 +246,18 @@ class ImportBolagsverketReports(models.TransientModel):
                     'FrittEgetKapitalAbstract': 'EgetKapitalAbstract',
                     'FrittEgetKapital': 'FrittEgetKapitalAbstract', # sum row
                 }
-            balansrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(sheet_name))
+                balansrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(u'Förkortat balansräkning'))
             b_lst = []
             read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
             return b_lst
 
         sheet_list = []
-        if self.get_workbook_sheet_index(u'Resultaträkning') in sheets:
-            sheet_list += get_resultatrakning_list(u'Resultaträkning')
-        if self.get_workbook_sheet_index(u'Förkortad resultaträkning') in sheets:
-            sheet_list += get_resultatrakning_list(u'Förkortad resultaträkning')
-        if self.get_workbook_sheet_index(u'Balansräkning') in sheets:
-            sheet_list += get_balansrakning_list(u'Balansräkning')
-        if self.get_workbook_sheet_index(u'Förkortat balansräkning') in sheets:
-            sheet_list += get_balansrakning_list(u'Förkortat balansräkning')
+        if sheet == 'complete':
+            sheet_list += get_resultatrakning_list('complete')
+            sheet_list += get_balansrakning_list('complete')
+        else:
+            sheet_list += get_resultatrakning_list('simple')
+            sheet_list += get_balansrakning_list('simple')
 
         return sheet_list
 
@@ -291,9 +291,9 @@ class ImportBolagsverketReports(models.TransientModel):
 
     @api.multi
     def send_form(self):
-        sheets = eval(self.xml_sheets)
+        sheet = self.xml_sheet
         workbook = self.get_workbook(self.data)
-        lst = self.get_account_financial_report_values(workbook, self.file_name, sheets)
+        lst = self.get_account_financial_report_values(workbook, self.file_name, sheet)
         self.create_update_financial_report(lst)
         return {
             'name': _('Financial Report Lines'),
