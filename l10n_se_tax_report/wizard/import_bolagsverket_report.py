@@ -39,6 +39,24 @@ class ImportBolagsverketReports(models.TransientModel):
 
     data = fields.Binary('File', required=True)
     file_name = fields.Char(string='File Name')
+    xml_sheets = fields.Char(string='Sheets', required=True, help='A list of sheet indexes that you want to import, seperate with comma.')
+
+    @api.multi
+    def get_workbook(self, data):
+        with TemporaryFile('w+') as fileobj:
+            fileobj.write(base64.decodestring(data))
+            fileobj.seek(0)
+            workbook = open_workbook(file_contents=fileobj.read())
+            return workbook
+
+    @api.multi
+    def get_workbook_sheet_index(self, name):
+        workbook = self.get_workbook(self.data)
+        sheets = []
+        for index in range(0, len(workbook.sheets())):
+            if workbook.sheet_by_index(index).name == name:
+                return index
+        return 0
 
     @api.model
     def get_account_financial_report_values(self, workbook, file_name, sheets):
@@ -107,116 +125,144 @@ class ImportBolagsverketReports(models.TransientModel):
                         'account_ids': get_range_domain(get_account_range(sheet, account, row)),
                     })
 
-        sheet_list = []
-
-        if 2 in sheets:
-            r_element_name = 8
-            r_title = 10
-            r_sign = 11
-            r_credit_debit = 13
-            r_account_type = 50
-            # sum rows
-            r_sum = [
-                'RorelseintakterLagerforandringarMm',
-                'Rorelsekostnader',
-                'FinansiellaPoster',
-                'Bokslutsdispositioner',
-            ]
-            # all rows without accounts
-            r_parents = {
-                'RorelseresultatAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
-                'RorelsensIntakterLagerforandringarMmAbstract': 'RorelseresultatAbstract',
-                'RorelseintakterLagerforandringarMm': 'RorelsensIntakterLagerforandringarMmAbstract',
-                'RorelsekostnaderAbstract': 'RorelseresultatAbstract',
-                'Rorelsekostnader': 'RorelsekostnaderAbstract',
-                'Rorelseresultat': 'ResultatrakningKostnadsslagsindeladAbstract',
-                'FinansiellaPosterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
-                'FinansiellaPoster': 'FinansiellaPosterAbstract',
-                'ResultatEfterFinansiellaPoster': 'ResultatrakningKostnadsslagsindeladAbstract',
-                'BokslutsdispositionerAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
-                'Bokslutsdispositioner': 'BokslutsdispositionerAbstract',
-                'ResultatForeSkatt': 'ResultatrakningKostnadsslagsindeladAbstract',
-                'SkatterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
-                'AretsResultat': 'ResultatrakningKostnadsslagsindeladAbstract',
-            }
-
-            resultatrakning = workbook.sheet_by_index(2)
+        def get_resultatrakning_list(sheet_name):
+            if sheet_name == u'Resultaträkning':
+                r_element_name = 8
+                r_title = 10
+                r_sign = 11
+                r_credit_debit = 13
+                r_account_type = 50
+                # all rows without accounts
+                r_parents = {
+                    'RorelseresultatAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+                    'RorelsensIntakterLagerforandringarMmAbstract': 'RorelseresultatAbstract',
+                    'RorelseintakterLagerforandringarMm': 'RorelsensIntakterLagerforandringarMmAbstract', # sum row
+                    'RorelsekostnaderAbstract': 'RorelseresultatAbstract',
+                    'Rorelsekostnader': 'RorelsekostnaderAbstract', # sum row
+                    'Rorelseresultat': 'ResultatrakningKostnadsslagsindeladAbstract',
+                    'FinansiellaPosterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+                    'FinansiellaPoster': 'FinansiellaPosterAbstract', # sum row
+                    'ResultatEfterFinansiellaPoster': 'ResultatrakningKostnadsslagsindeladAbstract',
+                    'BokslutsdispositionerAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+                    'Bokslutsdispositioner': 'BokslutsdispositionerAbstract', # sum row
+                    'ResultatForeSkatt': 'ResultatrakningKostnadsslagsindeladAbstract',
+                    'SkatterAbstract': 'ResultatrakningKostnadsslagsindeladAbstract',
+                    'AretsResultat': 'ResultatrakningKostnadsslagsindeladAbstract',
+                }
+            else:
+                r_element_name = 7
+                r_title = 9
+                r_sign = 10
+                r_credit_debit = 12
+                r_account_type = 41
+                # all rows without accounts
+                r_parents = {
+                    'RorelseresultatAbstract': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                    'Rorelseresultat': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                    'FinansiellaPosterAbstract': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                    'FinansiellaPoster': 'FinansiellaPosterAbstract', # sum row
+                    'ResultatEfterFinansiellaPoster': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                    'BokslutsdispositionerAbstract': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                    'Bokslutsdispositioner': 'BokslutsdispositionerAbstract', # sum row
+                    'ResultatForeSkatt': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                    'SkatterAbstract': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                    'AretsResultat': 'ResultatrakningKostnadsslagsindeladForkortadAbstract',
+                }
+            resultatrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(sheet_name))
             r_lst = []
             read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
-            sheet_list += r_lst
+            return r_lst
 
-        if 4 in sheets:
+        def get_balansrakning_list(sheet_name):
             b_element_name = 9
             b_title = 11
             b_sign = 12
             b_credit_debit = 14
             b_account_type = 43
-            # sum rows
-            b_sum = [
-                'ImmateriellaAnlaggningstillgangar',
-                'MateriellaAnlaggningstillgangar',
-                'FinansiellaAnlaggningstillgangar',
-                'VarulagerMm',
-                'KortfristigaFordringar',
-                'KortfristigaPlaceringar',
-                'KassaBank',
-                'BundetEgetKapital',
-                'FrittEgetKapital',
-                'ObeskattadeReserver',
-                'Avsattningar',
-                'LangfristigaSkulder',
-                'KortfristigaSkulder',
-            ]
-
-            b_parents = {
-                'TillgangarAbstract': 'BalansrakningAbstract',
-                'TecknatEjInbetaltKapital': 'TillgangarAbstract',
-                'AnlaggningstillgangarAbstract': 'TillgangarAbstract',
-                'Tillgangar': 'TillgangarAbstract',
-                'ImmateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
-                'ImmateriellaAnlaggningstillgangar': 'ImmateriellaAnlaggningstillgangarAbstract',
-                'MateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
-                'MateriellaAnlaggningstillgangar': 'MateriellaAnlaggningstillgangarAbstract',
-                'FinansiellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
-                'FinansiellaAnlaggningstillgangar': 'FinansiellaAnlaggningstillgangarAbstract',
-                'Anlaggningstillgangar': 'AnlaggningstillgangarAbstract',
-                'OmsattningstillgangarAbstract': 'Tillgangar',
-                'VarulagerMmAbstract': 'Omsattningstillgangar',
-                'VarulagerMm': 'VarulagerMmAbstract',
-                'KortfristigaFordringarAbstract': 'Omsattningstillgangar',
-                'KortfristigaFordringar': 'KortfristigaFordringarAbstract',
-                'KortfristigaPlaceringarAbstract': 'Omsattningstillgangar',
-                'KortfristigaPlaceringar': 'KortfristigaPlaceringarAbstract',
-                'KassaBankAbstract': 'Omsattningstillgangar',
-                'KassaBank': 'KassaBankAbstract',
-                'Omsattningstillgangar': 'Omsattningstillgangar',
-                'EgetKapitalSkulderAbstract': 'BalansrakningAbstract',
-                'EgetKapitalSkulder': 'EgetKapitalSkulderAbstract',
-                'EgetKapitalAbstract': 'EgetKapitalSkulder',
-                'EgetKapital': 'EgetKapitalAbstract',
-                'BundetEgetKapitalAbstract': 'EgetKapitalAbstract',
-                'BundetEgetKapital': 'BundetEgetKapitalAbstract',
-                'FrittEgetKapitalAbstract': 'EgetKapitalAbstract',
-                'FrittEgetKapital': 'FrittEgetKapitalAbstract',
-                'ObeskattadeReserverAbstract': 'EgetKapitalSkulderAbstract',
-                'ObeskattadeReserver': 'ObeskattadeReserverAbstract',
-                'AvsattningarAbstract': 'EgetKapitalSkulderAbstract',
-                'Avsattningar': 'AvsattningarAbstract',
-                'LangfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
-                'LangfristigaSkulder': 'LangfristigaSkulderAbstract',
-                'KortfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
-                'KortfristigaSkulder': 'KortfristigaSkulderAbstract',
-            }
-
-            balansrakning = workbook.sheet_by_index(4)
+            if sheet_name == u'Balansräkning':
+                # all rows without accounts
+                b_parents = {
+                    'TillgangarAbstract': 'BalansrakningAbstract',
+                    'TecknatEjInbetaltKapital': 'TillgangarAbstract',
+                    'AnlaggningstillgangarAbstract': 'TillgangarAbstract',
+                    'Tillgangar': 'TillgangarAbstract',
+                    'ImmateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+                    'ImmateriellaAnlaggningstillgangar': 'ImmateriellaAnlaggningstillgangarAbstract', # sum row
+                    'MateriellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+                    'MateriellaAnlaggningstillgangar': 'MateriellaAnlaggningstillgangarAbstract', # sum row
+                    'FinansiellaAnlaggningstillgangarAbstract': 'Anlaggningstillgangar',
+                    'FinansiellaAnlaggningstillgangar': 'FinansiellaAnlaggningstillgangarAbstract', # sum row
+                    'Anlaggningstillgangar': 'AnlaggningstillgangarAbstract',
+                    'OmsattningstillgangarAbstract': 'TillgangarAbstract',
+                    'VarulagerMmAbstract': 'Omsattningstillgangar',
+                    'VarulagerMm': 'VarulagerMmAbstract', # sum row
+                    'KortfristigaFordringarAbstract': 'Omsattningstillgangar',
+                    'KortfristigaFordringar': 'KortfristigaFordringarAbstract', # sum row
+                    'KortfristigaPlaceringarAbstract': 'Omsattningstillgangar',
+                    'KortfristigaPlaceringar': 'KortfristigaPlaceringarAbstract', # sum row
+                    'KassaBankAbstract': 'Omsattningstillgangar',
+                    'KassaBank': 'KassaBankAbstract', # sum row
+                    'Omsattningstillgangar': 'OmsattningstillgangarAbstract',
+                    'EgetKapitalSkulderAbstract': 'BalansrakningAbstract',
+                    'EgetKapitalSkulder': 'EgetKapitalSkulderAbstract',
+                    'EgetKapitalAbstract': 'EgetKapitalSkulder',
+                    'EgetKapital': 'EgetKapitalAbstract',
+                    'BundetEgetKapitalAbstract': 'EgetKapitalAbstract',
+                    'BundetEgetKapital': 'BundetEgetKapitalAbstract', # sum row
+                    'FrittEgetKapitalAbstract': 'EgetKapitalAbstract',
+                    'FrittEgetKapital': 'FrittEgetKapitalAbstract', # sum row
+                    'ObeskattadeReserverAbstract': 'EgetKapitalSkulderAbstract',
+                    'ObeskattadeReserver': 'ObeskattadeReserverAbstract', # sum row
+                    'AvsattningarAbstract': 'EgetKapitalSkulderAbstract',
+                    'Avsattningar': 'AvsattningarAbstract', # sum row
+                    'LangfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
+                    'LangfristigaSkulder': 'LangfristigaSkulderAbstract', # sum row
+                    'KortfristigaSkulderAbstract': 'EgetKapitalSkulderAbstract',
+                    'KortfristigaSkulder': 'KortfristigaSkulderAbstract', # sum row
+                }
+            else:
+                # all rows without accounts
+                b_parents = {
+                    'TillgangarAbstract': 'BalansrakningForkortadAbstract',
+                    'Tillgangar': 'TillgangarAbstract',
+                    'EgetKapitalSkulderAbstract': 'BalansrakningForkortadAbstract',
+                    'EgetKapitalSkulder': 'EgetKapitalSkulderAbstract',
+                    'TecknatEjInbetaltKapital': 'TillgangarAbstract',
+                    'AnlaggningstillgangarAbstract': 'TillgangarAbstract',
+                    'Anlaggningstillgangar': 'AnlaggningstillgangarAbstract',
+                    'OmsattningstillgangarAbstract': 'TillgangarAbstract',
+                    'Omsattningstillgangar': 'OmsattningstillgangarAbstract',
+                    'EgetKapitalAbstract': 'EgetKapitalSkulderAbstract',
+                    'EgetKapital': 'EgetKapitalAbstract',
+                    'ObeskattadeReserver': 'EgetKapitalSkulderAbstract',
+                    'AvsattningarForkortad': 'EgetKapitalSkulderAbstract',
+                    'AvsattningarPensionerLiknandeForpliktelserEnligtLag': 'EgetKapitalSkulderAbstract',
+                    'LangfristigaSkulder': 'EgetKapitalSkulderAbstract', # sum row
+                    'KortfristigaSkulder': 'EgetKapitalSkulderAbstract', # sum row
+                    'BundetEgetKapitalAbstract': 'EgetKapitalAbstract',
+                    'BundetEgetKapital': 'BundetEgetKapitalAbstract', # sum row
+                    'FrittEgetKapitalAbstract': 'EgetKapitalAbstract',
+                    'FrittEgetKapital': 'FrittEgetKapitalAbstract', # sum row
+                }
+            balansrakning = workbook.sheet_by_index(self.get_workbook_sheet_index(sheet_name))
             b_lst = []
             read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
-            sheet_list += b_lst
+            return b_lst
+
+        sheet_list = []
+        if self.get_workbook_sheet_index(u'Resultaträkning') in sheets:
+            sheet_list += get_resultatrakning_list(u'Resultaträkning')
+        if self.get_workbook_sheet_index(u'Förkortad resultaträkning') in sheets:
+            sheet_list += get_resultatrakning_list(u'Förkortad resultaträkning')
+        if self.get_workbook_sheet_index(u'Balansräkning') in sheets:
+            sheet_list += get_balansrakning_list(u'Balansräkning')
+        if self.get_workbook_sheet_index(u'Förkortat balansräkning') in sheets:
+            sheet_list += get_balansrakning_list(u'Förkortat balansräkning')
 
         return sheet_list
 
     @api.model
-    def create__update_financial_report(self, lst):
+    def create_update_financial_report(self, lst):
         for line in lst:
             financial_report = self.env['account.financial.report'].search([('element_name', '=', line.get('element_name'))])
             if financial_report:
@@ -245,13 +291,10 @@ class ImportBolagsverketReports(models.TransientModel):
 
     @api.multi
     def send_form(self):
-        sheets = [2, 4]
-        with TemporaryFile('w+') as fileobj:
-            fileobj.write(base64.decodestring(self.data))
-            fileobj.seek(0)
-            workbook = open_workbook(file_contents=fileobj.read())
-            lst = self.get_account_financial_report_values(workbook, self.file_name, sheets)
-            self.create__update_financial_report(lst)
+        sheets = eval(self.xml_sheets)
+        workbook = self.get_workbook(self.data)
+        lst = self.get_account_financial_report_values(workbook, self.file_name, sheets)
+        self.create_update_financial_report(lst)
         return {
             'name': _('Financial Report Lines'),
             'type': 'ir.actions.act_window',

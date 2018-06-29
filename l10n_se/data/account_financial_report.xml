@@ -683,7 +683,7 @@
         <record id="financial_OmsattningstillgangarAbstract" model="account.financial.report">
             <field name="name">Omsättningstillgångar (Presentation)</field>
             <field name="element_name">OmsattningstillgangarAbstract</field>
-            <field name="parent_id" search="[('element_name', '=', 'Tillgangar')]"/>
+            <field name="parent_id" search="[('element_name', '=', 'TillgangarAbstract')]"/>
             <field name="sequence">1</field>
             <field name="type">sum</field>
             <field eval="1" name="sign"/>
@@ -937,7 +937,7 @@
         <record id="financial_Omsattningstillgangar" model="account.financial.report">
             <field name="name">Omsättningstillgångar</field>
             <field name="element_name">Omsattningstillgangar</field>
-            <field name="parent_id" search="[('element_name', '=', 'Omsattningstillgangar')]"/>
+            <field name="parent_id" search="[('element_name', '=', 'OmsattningstillgangarAbstract')]"/>
             <field name="sequence">1</field>
             <field name="type">sum</field>
             <field eval="1" name="sign"/>
