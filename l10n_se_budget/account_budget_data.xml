@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Resultatbudget -->
+        <record id="Nettoomsattning" model="account.budget.post">
+           <field name='name'>Nettoomsättning</field> 
+           <field name='user_type_ids' search="[('element_name', 'in', ['Nettoomsattning', 'ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning','AktiveratArbeteEgenRakning','OvrigaRorelseintakter'])]"/>
+        </record>
+        <record id="Produktions_och_varukostnader" model="account.budget.post">
+           <field name='name'>Produktions- och varukostnader</field> 
+           <field name='user_type_ids' search="[('element_name', 'in',['RavarorFornodenheterKostnader', 'HandelsvarorKostnader', 'OvrigaExternaKostnader']"/>
+        </record>        
+        
+<!--
+        <record id="view_account_fiscalyear_form" model="account.budget.post">
+        </record>
+-->
+       <!-- 
+        Nettoomsättning -> Nettoomsattning, ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning,AktiveratArbeteEgenRakning,OvrigaRorelseintakter
+        
+        Produktions- och varukostnader -> RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, 
+        Kostnader för personal -> Personalkostnader, 
+        Marknadsföring och försäljning -> OvrigaExternaKostnader
+        Övriga kostnader -> OvrigaRorelsekostnader
+        Avskrivningar -> AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, 
+        -->
+        
+        <!-- Lividitetsbudget -->
+        <!--
+        Pengar i kassan -> KassaBankExklRedovisningsmedel
+        Betalningar från kunder (ink moms) -> Kundfordringar (som faller ut i perioden),
+        Nya lån
+        Övrigt
+        Moms att få tillbaka 
+        ****
+        Moms att betala
+        Löner / eget uttag
+        Skatter och sociala avgifter -> Skatteskulder,
+        Räntor/amorteringar
+        Hyra (inkl moms)
+        Leverantörsbetal- ningar (inkl moms) -> Leverantorsskulder (som faller ut i perioden)
+        Övrigt 
+        ***
+        Pengar i kassan -->
+        
+            
+    
+    </data> 
+</odoo>
