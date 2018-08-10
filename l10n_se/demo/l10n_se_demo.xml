@@ -43,6 +43,19 @@
             <field name="uom_po_id" ref="product.product_uom_unit"/>
             <field name="description_sale">Älgmönstrat. Välsignat av Knugen själv.</field>
         </record>
+      
+        <record id="product_product_2" model="product.product">
+            <field name="name">Datanmaskin</field>
+            <field name="default_code">DMASK</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">11000</field>
+            <field name="list_price">15000</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="product.product_uom_unit"/>
+            <field name="uom_po_id" ref="product.product_uom_unit"/>
+            <field name="property_account_expense_id" search="[('code', '=', '1251')]"/>
+            <field name="description_sale">Perfekt för kontoret.</field>
+        </record>
         
     </data>
 </odoo>

@@ -84,7 +84,28 @@ class AccountFiscalPositionTaxBalance(models.Model):
 
     _sql_constraints = [
         ('tax_src_dest_uniq',
-         'unique (position_id,tax_src_id,tax_dest_id)',
+         'unique (position_id,tax_src_id)',
+         'A tax balance fiscal position could be defined only one time on same taxes.')
+    ]
+
+class AccountFiscalPosition(models.Model):
+    _inherit = 'account.fiscal.position.template'
+
+    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance.template', 'position_id', string='Tax Balance Mapping', copy=True)
+
+class AccountFiscalPositionTaxBalanceTemplate(models.Model):
+    _name = 'account.fiscal.position.tax.balance.template'
+    _description = 'Taxes Balance Fiscal Position'
+    _rec_name = 'position_id'
+
+    position_id = fields.Many2one('account.fiscal.position.template', string='Fiscal Position',
+        required=True, ondelete='cascade')
+    tax_src_id = fields.Many2one('account.tax.template', string='Tax on Product', required=True)
+    tax_dest_id = fields.Many2one('account.tax.template', string='Tax to Balance Against', required=True)
+
+    _sql_constraints = [
+        ('tax_src_dest_uniq',
+         'unique (position_id,tax_src_id)',
          'A tax balance fiscal position could be defined only one time on same taxes.')
     ]
 
@@ -349,6 +370,30 @@ class account_chart_template(models.Model):
                     #~ if ws.cell_value(l,2) > 0:
                         #~ break
 
+    @api.multi
+    def generate_fiscal_position(self, tax_template_ref, acc_template_ref, company):
+        """ This method generate Fiscal Position, Fiscal Position Accounts and Fiscal Position Taxes from templates.
+
+            :param chart_temp_id: Chart Template Id.
+            :param taxes_ids: Taxes templates reference for generating account.fiscal.position.tax.
+            :param acc_template_ref: Account templates reference for generating account.fiscal.position.account.
+            :param company_id: company_id selected from wizard.multi.charts.accounts.
+            :returns: True
+        """
+        _logger.warn('\n\ngenerate_fiscal_position\n')
+        res = super(account_chart_template, self).generate_fiscal_position(tax_template_ref, acc_template_ref, company)
+        positions = self.env['account.fiscal.position.template'].search([('chart_template_id', '=', self.id)])
+        for position in positions:
+            template_xmlid = self.env['ir.model.data'].search([('model', '=', position._name), ('res_id', '=', position.id)])
+            new_xmlid = 'l10n_se.' + str(company.id) + '_' + template_xmlid.name
+            new_fp = self.env.ref(new_xmlid)
+            for balance in position.tax_balance_ids:
+                self.create_record_with_xmlid(company, balance, 'account.fiscal.position.tax.balance', {
+                    'tax_src_id': tax_template_ref[balance.tax_src_id.id],
+                    'tax_dest_id': balance.tax_dest_id and tax_template_ref[balance.tax_dest_id.id] or False,
+                    'position_id': new_fp.id
+                })
+        return res
 
 class account_account_template(models.Model):
     _inherit = "account.account.template"

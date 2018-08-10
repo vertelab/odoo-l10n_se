@@ -144,7 +144,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['VFEU', 'VFEU12', 'VFEU6'])]"/>
+            <field name="account_ids" search="[('code', 'in', ['4515', '4516', '4517', '4518'])]"/> <!-- 4518 = momsfri??? -->
         </record>
         <record id="21" model="account.financial.report">
             <field name="name">21. Inköp av tjänster från annat EU-land</field>
@@ -153,7 +153,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'TFEU')]"/>
+            <field name="account_ids" search="[('code', 'in', ['4535', '4536', '4537', '4538'])]"/> <!-- 4538 = momsfri??? -->
         </record>
         <record id="22" model="account.financial.report">
             <field name="name">22. Inköp av tjänster från land utanför EU</field>
@@ -233,8 +233,8 @@
             <field name="parent_id" ref="l10n_se_tax_report.h"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
+            <field name="account_ids" search="[('code', 'in', ['4545', '4546', '4547'])]"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'MBBUI')]"/>
         </record>
         <!-- column I -->
         <record id="i" model="account.financial.report">
@@ -286,9 +286,9 @@
             <field name="sequence">51</field>
             <field name="parent_id" ref="l10n_se_tax_report.e"/>
             <field name="type">accounts</field>
-            <field name="sign" eval="1"/>
+            <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'VTEU')]"/>
+            <field name="account_ids" search="[('code', 'in', ['3106', '3108'])]"/>
         </record>
         <record id="36" model="account.financial.report">
             <field name="name">36. Försäljning av varor utanför EU</field>
@@ -369,7 +369,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i'])]"/>
+            <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i', 'VFEU', 'VFEU12', 'VFEU6', 'MBBUI1', 'MBBUI2', 'MBBUI3'])]"/>
         </record>
         <!-- column G -->
         <record id="g" model="account.financial.report">

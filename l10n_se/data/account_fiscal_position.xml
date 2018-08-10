@@ -6,9 +6,25 @@
     <record id="k2_fpos_trade_eu" model="account.fiscal.position.template">
         <field name="name">Handel med EU</field>
         <field name="chart_template_id" ref="chart_template_K2_2017" />
+        <field name="note">Reverse charge, intracommunity supply of goods</field>
     </record>
     
     <!-- K2 Trade with EU tax lines -->
+    <record id="k2_fpos_trade_eu_tax_mp1" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="mp1"/>
+        <field name="tax_dest_id" ref="vteu"/>
+    </record>
+    <record id="k2_fpos_trade_eu_tax_mp2" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="mp2"/>
+        <field name="tax_dest_id" ref="vteu"/>
+    </record>
+    <record id="k2_fpos_trade_eu_tax_mp3" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="mp3"/>
+        <field name="tax_dest_id" ref="vteu"/>
+    </record>
     <record id="k2_fpos_trade_eu_tax_i" model="account.fiscal.position.tax.template">
         <field name="position_id" ref="k2_fpos_trade_eu"/>
         <field name="tax_src_id" ref="i"/>
@@ -26,6 +42,27 @@
     </record>
     
     <!-- K2 Trade with EU account lines -->
+    <record id="k2_fpos_trade_eu_acc_chart3000" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart3000"/>
+        <field name="account_dest_id" ref="K2_3106_2017"/>
+    </record>
+    <record id="k2_fpos_trade_eu_acc_chart3001" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart3001"/>
+        <field name="account_dest_id" ref="K2_3106_2017"/>
+    </record>
+    <record id="k2_fpos_trade_eu_acc_chart3002" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart3002"/>
+        <field name="account_dest_id" ref="K2_3106_2017"/>
+    </record>
+    <record id="k2_fpos_trade_eu_acc_chart3003" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="account_src_id" ref="chart3003"/>
+        <field name="account_dest_id" ref="K2_3106_2017"/>
+    </record>
+    
     <record id="k2_fpos_trade_eu_acc_chart4000" model="account.fiscal.position.account.template">
         <field name="position_id" ref="k2_fpos_trade_eu"/>
         <field name="account_src_id" ref="chart4000"/>
@@ -45,6 +82,106 @@
         <field name="position_id" ref="k2_fpos_trade_eu"/>
         <field name="account_src_id" ref="chart4003"/>
         <field name="account_dest_id" ref="K2_4517_2017"/>
+    </record>
+    
+    <!-- K2 Trade with EU tax balances -->
+    <record id="k2_fpos_trade_eu_tax_balance_vfeu" model="account.fiscal.position.tax.balance.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="vfeu"/>
+        <field name="tax_dest_id" ref="u1mi"/>
+    </record>
+    <record id="k2_fpos_trade_eu_tax_balance_vfeu12" model="account.fiscal.position.tax.balance.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="vfeu12"/>
+        <field name="tax_dest_id" ref="u2mi"/>
+    </record>
+    <record id="k2_fpos_trade_eu_tax_balance_vfeu6" model="account.fiscal.position.tax.balance.template">
+        <field name="position_id" ref="k2_fpos_trade_eu"/>
+        <field name="tax_src_id" ref="vfeu6"/>
+        <field name="tax_dest_id" ref="u3mi"/>
+    </record>
+    
+    <!-- K2 Trade with world -->
+    <record id="k2_fpos_trade_world" model="account.fiscal.position.template">
+        <field name="name">Handel utanför EU</field>
+        <field name="chart_template_id" ref="chart_template_K2_2017" />
+        <field name="note"></field>
+    </record>
+    
+    <!-- K2 Trade with world tax lines -->
+    <record id="k2_fpos_trade_world_tax_mp1" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="mp1"/>
+        <field name="tax_dest_id" ref="e"/>
+    </record>
+    <record id="k2_fpos_trade_world_tax_mp2" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="mp2"/>
+        <field name="tax_dest_id" ref="e"/>
+    </record>
+    <record id="k2_fpos_trade_world_tax_mp3" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="mp3"/>
+        <field name="tax_dest_id" ref="e"/>
+    </record>
+    <record id="k2_fpos_trade_world_tax_i" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="i"/>
+        <field name="tax_dest_id" ref="mbbui1"/>
+    </record>
+    <record id="k2_fpos_trade_world_tax_i12" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="i12"/>
+        <field name="tax_dest_id" ref="mbbui2"/>
+    </record>
+    <record id="k2_fpos_trade_world_tax_i6" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="i6"/>
+        <field name="tax_dest_id" ref="mbbui3"/>
+    </record>
+    
+    <!-- K2 Trade with world account lines -->
+    <record id="k2_fpos_trade_world_acc_chart3000" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="account_src_id" ref="chart3000"/>
+        <field name="account_dest_id" ref="K2_3105_2017"/>
+    </record>
+    <record id="k2_fpos_trade_world_acc_chart4000" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="account_src_id" ref="chart4000"/>
+        <field name="account_dest_id" ref="K2_4545_2017"/>
+    </record>
+    <record id="k2_fpos_trade_world_acc_chart4001" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="account_src_id" ref="chart4001"/>
+        <field name="account_dest_id" ref="K2_4545_2017"/>
+    </record>
+    <record id="k2_fpos_trade_world_acc_chart4002" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="account_src_id" ref="chart4002"/>
+        <field name="account_dest_id" ref="K2_4546_2017"/>
+    </record>
+    <record id="k2_fpos_trade_world_acc_chart4003" model="account.fiscal.position.account.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="account_src_id" ref="chart4003"/>
+        <field name="account_dest_id" ref="K2_4547_2017"/>
+    </record>
+    
+    <!-- K2 Trade with world tax balances -->
+    <record id="k2_fpos_trade_world_tax_balance_mbbui1" model="account.fiscal.position.tax.balance.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="mbbui1"/>
+        <field name="tax_dest_id" ref="u1mbbui"/>
+    </record>
+    <record id="k2_fpos_trade_world_tax_balance_mbbui2" model="account.fiscal.position.tax.balance.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="mbbui2"/>
+        <field name="tax_dest_id" ref="u2mbbui"/>
+    </record>
+    <record id="k2_fpos_trade_world_tax_balance_mbbui3" model="account.fiscal.position.tax.balance.template">
+        <field name="position_id" ref="k2_fpos_trade_world"/>
+        <field name="tax_src_id" ref="mbbui3"/>
+        <field name="tax_dest_id" ref="u3mbbui"/>
     </record>
     
 </data>
