@@ -34,8 +34,8 @@ class account_sru_declaration(models.Model):
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
     _report_name = 'SRU'
-    
-    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)  
+
+    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
     def _period_start(self):
         return  self.get_next_periods(length=12)[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
@@ -43,9 +43,10 @@ class account_sru_declaration(models.Model):
         return  self.get_next_periods(length=12)[1]
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="sru_declaration_id")
+    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="sru_declaration_id")
     report_id = fields.Many2one(comodel_name="account.financial.report")
     sru_betala = fields.Float()
-    
+
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
@@ -71,7 +72,7 @@ class account_sru_declaration(models.Model):
     SumSkAvdr    = fields.Float(compute='_vat')
     SumAvgBetala = fields.Float(compute='_vat')
     ag_betala  = fields.Float(compute='_vat')
-    
+
     @api.multi
     def show_SumSkAvdr(self):
         ctx = {
@@ -89,7 +90,7 @@ class account_sru_declaration(models.Model):
         })
         return action
     @api.multi
-    
+
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -120,14 +121,14 @@ class account_sru_declaration(models.Model):
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
         }
-    
+
         ##
         ####  Create report lines
         ##
 
         for line in self.report_id._get_children_by_order():
             self.env['account.declaration.line'].create({
-                'declaration_id': self.line_id.id,
+                'sru_declaration_id': self.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,
                 'level': line.level,
@@ -135,12 +136,12 @@ class account_sru_declaration(models.Model):
                 })
 
         return
-    
+
         ##
         #### Mark Used moves
         ##
 
-    
+
 
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
             move.agd_declaration_id = self.id
@@ -231,5 +232,9 @@ class account_move(models.Model):
     _inherit = 'account.move'
 
     sru_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
-    
 
+
+class account_declaration_line(models.Model):
+    _inherit = 'account.declaration.line'
+
+    sru_declaration_id = fields.Many2one(comodel_name="account.sru.declaration")

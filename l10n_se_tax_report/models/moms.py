@@ -141,7 +141,6 @@ class account_declaration(models.Model):
             self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=12))
             self.name = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
 
-    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="declaration_id")
     @api.one
     def _move_ids_count(self):
         self.move_ids_count = len(self.move_ids)
@@ -150,23 +149,6 @@ class account_declaration(models.Model):
     def _payment_ids_count(self):
         self.payment_ids_count = len(self.get_payment_orders())
     payment_ids_count = fields.Integer(compute='_payment_ids_count')
-
-    @api.multi
-    def show_journal_entries(self):
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
-        action.update({
-            'display_name': _('Verifikat'),
-            'domain': [('id', 'in', self.move_ids.mapped('id'))],
-            'context': ctx,
-        })
-        return action
 
     @api.multi
     def get_payment_orders(self):
@@ -309,6 +291,24 @@ class account_vat_declaration(models.Model):
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
+    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="vat_declaration_id")
+
+    @api.multi
+    def show_journal_entries(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        action.update({
+            'display_name': _('Verifikat'),
+            'domain': [('id', 'in', self.move_ids.mapped('id'))],
+            'context': ctx,
+        })
+        return action
 
     @api.multi
     def show_momsingavdr(self):
@@ -366,7 +366,7 @@ class account_vat_declaration(models.Model):
         for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
             line = self.env.ref('l10n_se_tax_report.%s' % row)
             self.env['account.declaration.line'].create({
-                'declaration_id': self.line_id.id,
+                'vat_declaration_id': self.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,
                 'level': line.level,
@@ -379,7 +379,10 @@ class account_vat_declaration(models.Model):
         ##
 
         for move in self.env['account.move'].with_context(ctx).get_move():
-            move.vat_declaration_id = self.id
+            if not move.vat_declaration_id:
+                move.vat_declaration_id = self.id
+            else:
+                raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name)))
 
         for move in self.move_ids:
             move.full_reconcile_id = move.line_ids.mapped('full_reconcile_id')[0].id if len(move.line_ids.mapped('full_reconcile_id')) > 0 else None
@@ -593,3 +596,9 @@ class account_move(models.Model):
     @api.model
     def get_move(self):
         return self.get_movelines().mapped('move_id')
+
+
+class account_declaration_line(models.Model):
+    _inherit = 'account.declaration.line'
+
+    vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")

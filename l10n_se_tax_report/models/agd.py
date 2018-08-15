@@ -76,6 +76,24 @@ class account_agd_declaration(models.Model):
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="agd_declaration_id")
+    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="agd_declaration_id")
+
+    @api.multi
+    def show_journal_entries(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_start.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        action.update({
+            'display_name': _('Verifikat'),
+            'domain': [('id', 'in', self.move_ids.mapped('id'))],
+            'context': ctx,
+        })
+        return action
 
     @api.onchange('period_start')
     def onchange_period_start(self):
@@ -91,7 +109,7 @@ class account_agd_declaration(models.Model):
             if decl.period_start:
                 ctx = {
                     'period_start': decl.period_start.id,
-                    'period_stop': decl.period_stop.id,
+                    'period_stop': decl.period_start.id,
                     'accounting_yearend': decl.accounting_yearend,
                     'accounting_method': decl.accounting_method,
                     'target_move': decl.target_move,
@@ -116,12 +134,12 @@ class account_agd_declaration(models.Model):
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
         action.update({
             'display_name': _('VAT Ag'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            'domain': [('id', 'in', self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).get_taxlines().mapped('id'))],
             'context': {},
         })
         return action
-    @api.multi
 
+    @api.multi
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -133,11 +151,10 @@ class account_agd_declaration(models.Model):
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
         action.update({
             'display_name': _('VAT Ag'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            'domain': [('id', 'in', self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).get_taxlines().mapped('id'))],
             'context': {},
         })
         return action
-
 
     @api.one
     def calculate(self): # make a short cut to print financial report
@@ -159,8 +176,10 @@ class account_agd_declaration(models.Model):
 
         for row in TAGS:
             line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
+            if not line:
+                raise Warning(_('Report line missing %' % row))
             self.env['account.declaration.line'].create({
-                'declaration_id': self.line_id.id,
+                'agd_declaration_id': self.id,
                 'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
                 'name': line.name,
                 'level': line.level,
@@ -172,7 +191,10 @@ class account_agd_declaration(models.Model):
         ##
 
         for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
-            move.agd_declaration_id = self.id
+            if not move.agd_declaration_id:
+                move.agd_declaration_id = self.id
+            else:
+                raise Warning(_('Move %s is already assigned to %s' % (move.name, move.agd_declaration_id.name)))
 
         ##
         #### Create eSDK-file
@@ -255,5 +277,11 @@ class account_agd_declaration(models.Model):
 
 class account_move(models.Model):
     _inherit = 'account.move'
+
+    agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+
+
+class account_declaration_line(models.Model):
+    _inherit = 'account.declaration.line'
 
     agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
