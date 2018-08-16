@@ -251,12 +251,66 @@
         <record id="tfeu" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">TFEU</field>
-            <field name="description">Inköp av tjänster från annat EU-land enligt huvudregeln</field>
-            <field name="amount">0</field>
-            <field name="amount_type">fixed</field>
+            <field name="description">Inköp av tjänster från annat EU-land enligt huvudregeln, 25%</field>
+            <field name="amount">25</field>
+            <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2645"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
+        <record id="tfeu12" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">TFEU12</field>
+            <field name="description">Inköp av tjänster från annat EU-land enligt huvudregeln, 12%</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2645"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        <record id="tfeu6" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">TFEU6</field>
+            <field name="description">Inköp av tjänster från annat EU-land enligt huvudregeln, 6%</field>
+            <field name="amount">6</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2645"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        
+        <!-- 48 ??? -->
+        <record id="rtfeu" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">RTFEU</field>
+            <field name="description">(Utgående moms) Inköp av tjänster från annat EU-land enligt huvudregeln, 25%</field>
+            <field name="amount">25</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2614"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        <record id="rtfeu12" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">RTFEU12</field>
+            <field name="description">(Utgående moms) Inköp av tjänster från annat EU-land enligt huvudregeln, 12%</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2624"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        <record id="rtfeu6" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">RTFEU6</field>
+            <field name="description">(Utgående moms) Inköp av tjänster från annat EU-land enligt huvudregeln, 6%</field>
+            <field name="amount">6</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2634"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+
         <!-- 22 -->
         <record id="tffu" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
@@ -492,6 +546,17 @@
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="sequence">0</field><!-- make sure system choose it by default -->
         </record>
+        <record id="it" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">IT</field>
+            <field name="description">Inköp av tjänst, 25%</field>
+            <field name="amount">25</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2640" />
+            <field name="refund_account_id" ref="chart2640" />
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
         <record id="ii" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">Ii</field>
@@ -515,6 +580,17 @@
             <field name="refund_account_id" ref="chart2640" />
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
+        <record id="it12" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">IT12</field>
+            <field name="description">Inköp av tjänst, 12%</field>
+            <field name="amount">12</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2640" />
+            <field name="refund_account_id" ref="chart2640" />
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
         <record id="i12i" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">I12i</field>
@@ -531,6 +607,17 @@
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">I6</field>
             <field name="description">Inköp 6%</field>
+            <field name="amount">6</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="chart2640" />
+            <field name="refund_account_id" ref="chart2640" />
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        <record id="it6" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">IT6</field>
+            <field name="description">Inköp av tjänst, 6%</field>
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
