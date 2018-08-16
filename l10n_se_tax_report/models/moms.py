@@ -114,7 +114,7 @@ class account_declaration(models.Model):
 
     name = fields.Char()
     date = fields.Date(help="Planned date, date when to report Skatteverket or do the declaration. Usually monday second week after period, but check calendar at Skatteverket")
-    state = fields.Selection(selection=[('draft','Draft'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
+    state = fields.Selection(selection=[('draft','Draft'),('confirmed','Confirmed'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     def _fiscalyear_id(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string=u'Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
@@ -180,8 +180,6 @@ class account_declaration(models.Model):
         if self.move_id and self.move_id.state != 'draft':
             raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
         self.line_ids.unlink()
-        for move in self.move_ids:
-            move.vat_declaration_id = None
         if self.move_id:
             if self.move_id.state == 'draft':
                 self.move_id.unlink()
@@ -195,12 +193,14 @@ class account_declaration(models.Model):
         if self.move_id and self.move_id.state != 'draft':
             raise Warning('Deklarationen är bokförd, kan inte avbryta i detta läge')
         # ~ self.line_ids.unlink()
-        for move in self.move_ids:
-            move.vat_declaration_id = None
         if self.move_id:
             self.move_id.unlink()
         self.eskd_file = None
         self.state = 'canceled'
+
+    @api.one
+    def do_done(self):
+        self.state = 'done'
 
     @api.one
     def calculate(self): # make a short cut to print financial report
@@ -344,13 +344,24 @@ class account_vat_declaration(models.Model):
         })
         return action
 
+    @api.one
+    def do_draft(self):
+        super(account_vat_declaration, self).do_draft()
+        for move in self.move_ids:
+            move.vat_declaration_id = None
+
+    @api.one
+    def do_cancel(self):
+        super(account_vat_declaration, self).do_draft()
+        for move in self.move_ids:
+            move.vat_declaration_id = None
 
     @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
         if self.state in ['draft']:
-            self.state = 'done'
+            self.state = 'confirmed'
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
@@ -367,7 +378,7 @@ class account_vat_declaration(models.Model):
             line = self.env.ref('l10n_se_tax_report.%s' % row)
             self.env['account.declaration.line'].create({
                 'vat_declaration_id': self.id,
-                'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
+                'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
                 'name': line.name,
                 'level': line.level,
                 'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
@@ -398,7 +409,7 @@ class account_vat_declaration(models.Model):
             orgnr.text = self.env.user.company_id.company_registry or ''
             moms = etree.SubElement(root, 'Moms')
             period = etree.SubElement(moms, 'Period')
-            period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
+            period.text = self.period_stop.date_start[:4] + self.period_stop.date_start[5:7]
             for k,v in NAMEMAPPING.items():
                 line = self.env.ref('l10n_se_tax_report.%s' % v)
                 amount = str(int(abs(round(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign) or 0))
@@ -533,7 +544,7 @@ class account_declaration_line(models.Model):
     move_line_ids = fields.Many2many(comodel_name="account.move.line", string='Move Lines')
     # ~ report_id = fields.Many2one(comodel_name="account.financial.report")
     account_type = fields.Char(string='Account Type')
-    balance = fields.Float(string='Balance')
+    balance = fields.Integer(string='Balance')
     type = fields.Char(string='Type')
     name = fields.Char(string='Name')
     level = fields.Integer(string='Level')

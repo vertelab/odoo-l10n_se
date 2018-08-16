@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-      
+
 <!--
-      
+
              <menuitem id="next_id_23" name="Periods" parent="account.menu_finance_configuration" sequence="5" />
-        <menuitem id="menu_action_account_fiscalyear" action="action_account_fiscalyear" parent="next_id_23"/> 
+        <menuitem id="menu_action_account_fiscalyear" action="action_account_fiscalyear" parent="next_id_23"/>
 
     <menuitem id="menu_action_account_period_form" action="action_account_period_form" parent="account.menu_finance_entries" sequence="50"/>
 -->
@@ -18,8 +18,9 @@
         <form string="Momsdeklaration">
           <header>
             <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
-            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,canceled" />
-            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="done" />
+            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
+            <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
+            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
             <field name="state" widget="statusbar" />
           </header>
           <sheet>

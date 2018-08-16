@@ -8,8 +8,9 @@
         <form string="Arbetsgivardeklaration">
           <header>
             <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
-            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,canceled" />
-            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="done" />
+            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
+            <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
+            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
             <field name="state" widget="statusbar" />
           </header>
           <sheet>
@@ -19,7 +20,7 @@
                   <span class="o_stat_value">
                     <field name="SumSkAvdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
                   </span>
-                  <span class="o_stat_text">SumSkAvdr</span>
+                  <span class="o_stat_text">Skatt</span>
                 </div>
               </button>
               <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_SumAvgBetala" context="{'default_partner_id': active_id}">
@@ -27,7 +28,7 @@
                   <span class="o_stat_value">
                     <field name="SumAvgBetala" widget="monetary" options="{'currency_field': 'currency_id'}" />
                   </span>
-                  <span class="o_stat_text">SumAvgBetala</span>
+                  <span class="o_stat_text">Arbetgivaravgift</span>
                 </div>
               </button>
               <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries" context="{'default_partner_id': active_id}">
@@ -61,7 +62,7 @@
               <field name="eskd_file" />
 
             </group>
-            
+
             <notebook>
               <page string="Inställningar">
                 <group>

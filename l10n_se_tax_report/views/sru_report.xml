@@ -8,8 +8,9 @@
         <form string="SRU Inkompstdeklaration">
           <header>
             <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
-            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,canceled" />
-            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="done" />
+            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
+            <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
+            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
             <field name="state" widget="statusbar" />
           </header>
           <sheet>

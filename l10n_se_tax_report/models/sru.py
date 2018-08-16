@@ -107,6 +107,17 @@ class account_sru_declaration(models.Model):
         })
         return action
 
+    @api.one
+    def do_draft(self):
+        super(account_sru_declaration, self).do_draft()
+        for move in self.move_ids:
+            move.sru_declaration_id = None
+
+    @api.one
+    def do_cancel(self):
+        super(account_sru_declaration, self).do_draft()
+        for move in self.move_ids:
+            move.sru_declaration_id = None
 
     @api.one
     def calculate(self): # make a short cut to print financial report
@@ -129,7 +140,7 @@ class account_sru_declaration(models.Model):
         for line in self.report_id._get_children_by_order():
             self.env['account.declaration.line'].create({
                 'sru_declaration_id': self.id,
-                'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
+                'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
                 'name': line.name,
                 'level': line.level,
                 'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],

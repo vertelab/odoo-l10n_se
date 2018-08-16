@@ -157,11 +157,23 @@ class account_agd_declaration(models.Model):
         return action
 
     @api.one
+    def do_draft(self):
+        super(account_agd_declaration, self).do_draft()
+        for move in self.move_ids:
+            move.agd_declaration_id = None
+
+    @api.one
+    def do_cancel(self):
+        super(account_agd_declaration, self).do_draft()
+        for move in self.move_ids:
+            move.agd_declaration_id = None
+
+    @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
         if self.state in ['draft']:
-            self.state = 'done'
+            self.state = 'confirmed'
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_start.id,
@@ -180,7 +192,7 @@ class account_agd_declaration(models.Model):
                 raise Warning(_('Report line missing %' % row))
             self.env['account.declaration.line'].create({
                 'agd_declaration_id': self.id,
-                'balance': (line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign or 0.0,
+                'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
                 'name': line.name,
                 'level': line.level,
                 'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
