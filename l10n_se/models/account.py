@@ -530,6 +530,15 @@ class account_account_type(models.Model):
         'HandelsvarorKostnader': u'Kostnad för sålda handelsvaror',
     }
 
+    @api.model
+    def set_account_type(self):
+        for t in self.env['account.account.type'].search([]):
+            if t.account_range:
+                for a in self.env['account.account'].search(eval(t.account_range)):
+                    if a.user_type_id != t:
+                       a.user_type_id = t
+                       _logger.warn('Account %s set type to %s' %(a.name, t.name))
+
     # Change account type names from core(account)
     @api.model
     def _change_name(self):
