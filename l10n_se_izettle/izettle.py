@@ -33,7 +33,7 @@ from xlrd.sheet import Sheet
 
 import sys
 
-class IzettleTransaktionsrapportType1(object):
+class IzettleTransaktionsrapportType(object):
     """Parser for iZettle Kontohändelser import files."""
 
     def __init__(self, data_file):
