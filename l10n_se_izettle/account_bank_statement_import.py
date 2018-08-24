@@ -19,9 +19,7 @@
 ##############################################################################
 import logging
 from odoo import api,models,fields, _
-from .seb import SEBTransaktionsrapportType1 as Parser
-from .seb import SEBTransaktionsrapportType2 as Parser2
-from .seb import SEBTransaktionsrapportType3 as Parser3
+from .izettle import IzettleTransaktionsrapportType as Parser
 import base64
 import re
 
