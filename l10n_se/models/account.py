@@ -29,6 +29,7 @@ from openerp.osv import osv
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 import base64
+from odoo.tools.safe_eval import safe_eval as eval
 
 try:
     from xlrd import open_workbook
@@ -538,6 +539,17 @@ class account_account_type(models.Model):
                     if a.user_type_id != t:
                        a.user_type_id = t
                        _logger.warn('Account %s set type to %s' %(a.name, t.name))
+
+    @api.model
+    def return_eval(self):
+        return eval
+
+        # for action:
+        # ~ o = env['account.account.type'].browse([9])
+        # ~ ids = [a['id'] for a in env['account.account'].search_read([('user_type_id', 'in', [a.id for a in o])], ['id'])]
+        # ~ sql = "UPDATE account_account SET reconcile = true WHERE id IN %s;"
+        # ~ env.cr.execute(sql, [tuple(ids)])
+        # ~ o.write({'type': 'payable'})
 
     # Change account type names from core(account)
     @api.model
