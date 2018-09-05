@@ -49,6 +49,28 @@ b_main_type = [
 r_lst = []
 b_lst = []
 
+# key: element_name
+# value: external_id
+external_id_exchange_dict = {
+    'Kundfordringar': 'account.data_account_type_receivable',
+    'Leverantorsskulder': 'account.data_account_type_payable',
+    'KassaBankExklRedovisningsmedel': 'account.data_account_type_liquidity',
+    'CheckrakningskreditKortfristig': 'account.data_account_type_credit_card',
+    'OvrigaFordringarKortfristiga': 'account.data_account_type_current_assets',
+    'KoncessionerPatentLicenserVarumarkenLiknandeRattigheter': 'account.data_account_type_non_current_assets',
+    'ForskottFranKunder': 'account.data_account_type_prepayments',
+    'MaskinerAndraTekniskaAnlaggningar': 'account.data_account_type_fixed_assets',
+    'OvrigaKortfristigaSkulder': 'account.data_account_type_current_liabilities',
+    'OvrigaLangfristigaSkulderKreditinstitut': 'account.data_account_type_non_current_liabilities',
+    'Aktiekapital': 'account.data_account_type_equity',
+    'AretsResultat': 'account.data_unaffected_earnings',
+    'OvrigaRorelseintakter': 'account.data_account_type_other_income',
+    'Nettoomsattning': 'account.data_account_type_revenue',
+    'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': 'account.data_account_type_depreciation',
+    'OvrigaRorelsekostnader': 'account.data_account_type_expenses',
+    'HandelsvarorKostnader': 'account.data_account_type_direct_costs',
+}
+
 def get_account_range(sheet, account_type, row):
     account_range = []
     col = account_type
@@ -120,7 +142,8 @@ def print_xml(sheet_list):
         data = ET.SubElement(odoo, 'data')
         for lst in sheet_list:
             for l in lst:
-                record = ET.SubElement(data, 'record', id='type_%s' %l.get('element_name'), model="account.account.type")
+                external_id = external_id_exchange_dict.get(l.get('element_name'), 'type_%s' %l.get('element_name'))
+                record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
                 field_name = ET.SubElement(record, "field", name="name").text = l.get('name')
                 field_element_name = ET.SubElement(record, "field", name="element_name").text = l.get('element_name')
                 field_type = ET.SubElement(record, "field", name="type").text = l.get('type')

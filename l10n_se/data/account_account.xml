@@ -44,6 +44,5 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
             <field name="key2">client_action_multi</field>
             <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se.set_account_type')"/>
         </record>
-        <function model="account.account.type" name="_set_external_id" />
     </data>
 </odoo>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="type_Nettoomsattning" model="account.account.type">
+        <record id="account.data_account_type_revenue" model="account.account.type">
             <field name="name">Nettoomsättning</field>
             <field name="element_name">Nettoomsattning</field>
             <field name="type">other</field>
@@ -28,7 +28,7 @@
             <field name="account_range">[('code', 'in', ['3800', '3801', '3802', '3803', '3804', '3805', '3806', '3807', '3808', '3809', '3810', '3811', '3812', '3813', '3814', '3815', '3816', '3817', '3818', '3819', '3820', '3821', '3822', '3823', '3824', '3825', '3826', '3827', '3828', '3829', '3830', '3831', '3832', '3833', '3834', '3835', '3836', '3837', '3838', '3839', '3840', '3841', '3842', '3843', '3844', '3845', '3846', '3847', '3848', '3849', '3850', '3851', '3852', '3853', '3854', '3855', '3856', '3857', '3858', '3859', '3860', '3861', '3862', '3863', '3864', '3865', '3866', '3867', '3868', '3869', '3870', '3871', '3872', '3873', '3874', '3875', '3876', '3877', '3878', '3879', '3880', '3881', '3882', '3883', '3884', '3885', '3886', '3887', '3888', '3889', '3890', '3891', '3892', '3893', '3894', '3895', '3896', '3897', '3898', '3899'])]</field>
             <field name="note">Här redovisas utgifter för eget arbete under året som har aktiverats som anläggningstillgång</field>
         </record>
-        <record id="type_OvrigaRorelseintakter" model="account.account.type">
+        <record id="account.data_account_type_other_income" model="account.account.type">
             <field name="name">Övriga rörelseintäkter</field>
             <field name="element_name">OvrigaRorelseintakter</field>
             <field name="type">other</field>
@@ -46,7 +46,7 @@
             <field name="account_range">[('code', 'in', ['4000', '4001', '4002', '4003', '4004', '4005', '4006', '4007', '4008', '4009', '4010', '4011', '4012', '4013', '4014', '4015', '4016', '4017', '4018', '4019', '4020', '4021', '4022', '4023', '4024', '4025', '4026', '4027', '4028', '4029', '4030', '4031', '4032', '4033', '4034', '4035', '4036', '4037', '4038', '4039', '4040', '4041', '4042', '4043', '4044', '4045', '4046', '4047', '4048', '4049', '4050', '4051', '4052', '4053', '4054', '4055', '4056', '4057', '4058', '4059', '4060', '4061', '4062', '4063', '4064', '4065', '4066', '4067', '4068', '4069', '4070', '4071', '4072', '4073', '4074', '4075', '4076', '4077', '4078', '4079', '4080', '4081', '4082', '4083', '4084', '4085', '4086', '4087', '4088', '4089', '4090', '4091', '4092', '4093', '4094', '4095', '4096', '4097', '4098', '4099', '4100', '4101', '4102', '4103', '4104', '4105', '4106', '4107', '4108', '4109', '4110', '4111', '4112', '4113', '4114', '4115', '4116', '4117', '4118', '4119', '4120', '4121', '4122', '4123', '4124', '4125', '4126', '4127', '4128', '4129', '4130', '4131', '4132', '4133', '4134', '4135', '4136', '4137', '4138', '4139', '4140', '4141', '4142', '4143', '4144', '4145', '4146', '4147', '4148', '4149', '4150', '4151', '4152', '4153', '4154', '4155', '4156', '4157', '4158', '4159', '4160', '4161', '4162', '4163', '4164', '4165', '4166', '4167', '4168', '4169', '4170', '4171', '4172', '4173', '4174', '4175', '4176', '4177', '4178', '4179', '4180', '4181', '4182', '4183', '4184', '4185', '4186', '4187', '4188', '4189', '4190', '4191', '4192', '4193', '4194', '4195', '4196', '4197', '4198', '4199', '4200', '4201', '4202', '4203', '4204', '4205', '4206', '4207', '4208', '4209', '4210', '4211', '4212', '4213', '4214', '4215', '4216', '4217', '4218', '4219', '4220', '4221', '4222', '4223', '4224', '4225', '4226', '4227', '4228', '4229', '4230', '4231', '4232', '4233', '4234', '4235', '4236', '4237', '4238', '4239', '4240', '4241', '4242', '4243', '4244', '4245', '4246', '4247', '4248', '4249', '4250', '4251', '4252', '4253', '4254', '4255', '4256', '4257', '4258', '4259', '4260', '4261', '4262', '4263', '4264', '4265', '4266', '4267', '4268', '4269', '4270', '4271', '4272', '4273', '4274', '4275', '4276', '4277', '4278', '4279', '4280', '4281', '4282', '4283', '4284', '4285', '4286', '4287', '4288', '4289', '4290', '4291', '4292', '4293', '4294', '4295', '4296', '4297', '4298', '4299', '4300', '4301', '4302', '4303', '4304', '4305', '4306', '4307', '4308', '4309', '4310', '4311', '4312', '4313', '4314', '4315', '4316', '4317', '4318', '4319', '4320', '4321', '4322', '4323', '4324', '4325', '4326', '4327', '4328', '4329', '4330', '4331', '4332', '4333', '4334', '4335', '4336', '4337', '4338', '4339', '4340', '4341', '4342', '4343', '4344', '4345', '4346', '4347', '4348', '4349', '4350', '4351', '4352', '4353', '4354', '4355', '4356', '4357', '4358', '4359', '4360', '4361', '4362', '4363', '4364', '4365', '4366', '4367', '4368', '4369', '4370', '4371', '4372', '4373', '4374', '4375', '4376', '4377', '4378', '4379', '4380', '4381', '4382', '4383', '4384', '4385', '4386', '4387', '4388', '4389', '4390', '4391', '4392', '4393', '4394', '4395', '4396', '4397', '4398', '4399', '4400', '4401', '4402', '4403', '4404', '4405', '4406', '4407', '4408', '4409', '4410', '4411', '4412', '4413', '4414', '4415', '4416', '4417', '4418', '4419', '4420', '4421', '4422', '4423', '4424', '4425', '4426', '4427', '4428', '4429', '4430', '4431', '4432', '4433', '4434', '4435', '4436', '4437', '4438', '4439', '4440', '4441', '4442', '4443', '4444', '4445', '4446', '4447', '4448', '4449', '4450', '4451', '4452', '4453', '4454', '4455', '4456', '4457', '4458', '4459', '4460', '4461', '4462', '4463', '4464', '4465', '4466', '4467', '4468', '4469', '4470', '4471', '4472', '4473', '4474', '4475', '4476', '4477', '4478', '4479', '4480', '4481', '4482', '4483', '4484', '4485', '4486', '4487', '4488', '4489', '4490', '4491', '4492', '4493', '4494', '4495', '4496', '4497', '4498', '4499', '4500', '4501', '4502', '4503', '4504', '4505', '4506', '4507', '4508', '4509', '4510', '4511', '4512', '4513', '4514', '4515', '4516', '4517', '4518', '4519', '4520', '4521', '4522', '4523', '4524', '4525', '4526', '4527', '4528', '4529', '4530', '4531', '4532', '4533', '4534', '4535', '4536', '4537', '4538', '4539', '4540', '4541', '4542', '4543', '4544', '4545', '4546', '4547', '4548', '4549', '4550', '4551', '4552', '4553', '4554', '4555', '4556', '4557', '4558', '4559', '4560', '4561', '4562', '4563', '4564', '4565', '4566', '4567', '4568', '4569', '4570', '4571', '4572', '4573', '4574', '4575', '4576', '4577', '4578', '4579', '4580', '4581', '4582', '4583', '4584', '4585', '4586', '4587', '4588', '4589', '4590', '4591', '4592', '4593', '4594', '4595', '4596', '4597', '4598', '4599', '4600', '4601', '4602', '4603', '4604', '4605', '4606', '4607', '4608', '4609', '4610', '4611', '4612', '4613', '4614', '4615', '4616', '4617', '4618', '4619', '4620', '4621', '4622', '4623', '4624', '4625', '4626', '4627', '4628', '4629', '4630', '4631', '4632', '4633', '4634', '4635', '4636', '4637', '4638', '4639', '4640', '4641', '4642', '4643', '4644', '4645', '4646', '4647', '4648', '4649', '4650', '4651', '4652', '4653', '4654', '4655', '4656', '4657', '4658', '4659', '4660', '4661', '4662', '4663', '4664', '4665', '4666', '4667', '4668', '4669', '4670', '4671', '4672', '4673', '4674', '4675', '4676', '4677', '4678', '4679', '4680', '4681', '4682', '4683', '4684', '4685', '4686', '4687', '4688', '4689', '4690', '4691', '4692', '4693', '4694', '4695', '4696', '4697', '4698', '4699', '4700', '4701', '4702', '4703', '4704', '4705', '4706', '4707', '4708', '4709', '4710', '4711', '4712', '4713', '4714', '4715', '4716', '4717', '4718', '4719', '4720', '4721', '4722', '4723', '4724', '4725', '4726', '4727', '4728', '4729', '4730', '4731', '4732', '4733', '4734', '4735', '4736', '4737', '4738', '4739', '4740', '4741', '4742', '4743', '4744', '4745', '4746', '4747', '4748', '4749', '4750', '4751', '4752', '4753', '4754', '4755', '4756', '4757', '4758', '4759', '4760', '4761', '4762', '4763', '4764', '4765', '4766', '4767', '4768', '4769', '4770', '4771', '4772', '4773', '4774', '4775', '4776', '4777', '4778', '4779', '4780', '4781', '4782', '4783', '4784', '4785', '4786', '4787', '4788', '4789', '4790', '4791', '4792', '4793', '4794', '4795', '4796', '4797', '4798', '4799', '4800', '4801', '4802', '4803', '4804', '4805', '4806', '4807', '4808', '4809', '4810', '4811', '4812', '4813', '4814', '4815', '4816', '4817', '4818', '4819', '4820', '4821', '4822', '4823', '4824', '4825', '4826', '4827', '4828', '4829', '4830', '4831', '4832', '4833', '4834', '4835', '4836', '4837', '4838', '4839', '4840', '4841', '4842', '4843', '4844', '4845', '4846', '4847', '4848', '4849', '4850', '4851', '4852', '4853', '4854', '4855', '4856', '4857', '4858', '4859', '4860', '4861', '4862', '4863', '4864', '4865', '4866', '4867', '4868', '4869', '4870', '4871', '4872', '4873', '4874', '4875', '4876', '4877', '4878', '4879', '4880', '4881', '4882', '4883', '4884', '4885', '4886', '4887', '4888', '4889', '4890', '4891', '4892', '4893', '4894', '4895', '4896', '4897', '4898', '4899', '4910', '4911', '4912', '4913', '4914', '4915', '4916', '4917', '4918', '4919', '4920', '4921', '4922', '4923', '4924', '4925', '4926', '4927', '4928', '4929', u'4931'])]</field>
             <field name="note">Här redovisas kostnaden för förbrukning av råvaror och förnödenheter (årets inköp +/- förändring av lagerposten Råvaror och förnödenheter) samt kostnader för legoarbeten och underentreprenader</field>
         </record>
-        <record id="type_HandelsvarorKostnader" model="account.account.type">
+        <record id="account.data_account_type_direct_costs" model="account.account.type">
             <field name="name">Kostnad för sålda handelsvaror</field>
             <field name="element_name">HandelsvarorKostnader</field>
             <field name="type">other</field>
@@ -73,7 +73,7 @@
             <field name="account_range">[('code', 'in', ['7000', '7001', '7002', '7003', '7004', '7005', '7006', '7007', '7008', '7009', '7010', '7011', '7012', '7013', '7014', '7015', '7016', '7017', '7018', '7019', '7020', '7021', '7022', '7023', '7024', '7025', '7026', '7027', '7028', '7029', '7030', '7031', '7032', '7033', '7034', '7035', '7036', '7037', '7038', '7039', '7040', '7041', '7042', '7043', '7044', '7045', '7046', '7047', '7048', '7049', '7050', '7051', '7052', '7053', '7054', '7055', '7056', '7057', '7058', '7059', '7060', '7061', '7062', '7063', '7064', '7065', '7066', '7067', '7068', '7069', '7070', '7071', '7072', '7073', '7074', '7075', '7076', '7077', '7078', '7079', '7080', '7081', '7082', '7083', '7084', '7085', '7086', '7087', '7088', '7089', '7090', '7091', '7092', '7093', '7094', '7095', '7096', '7097', '7098', '7099', '7100', '7101', '7102', '7103', '7104', '7105', '7106', '7107', '7108', '7109', '7110', '7111', '7112', '7113', '7114', '7115', '7116', '7117', '7118', '7119', '7120', '7121', '7122', '7123', '7124', '7125', '7126', '7127', '7128', '7129', '7130', '7131', '7132', '7133', '7134', '7135', '7136', '7137', '7138', '7139', '7140', '7141', '7142', '7143', '7144', '7145', '7146', '7147', '7148', '7149', '7150', '7151', '7152', '7153', '7154', '7155', '7156', '7157', '7158', '7159', '7160', '7161', '7162', '7163', '7164', '7165', '7166', '7167', '7168', '7169', '7170', '7171', '7172', '7173', '7174', '7175', '7176', '7177', '7178', '7179', '7180', '7181', '7182', '7183', '7184', '7185', '7186', '7187', '7188', '7189', '7190', '7191', '7192', '7193', '7194', '7195', '7196', '7197', '7198', '7199', '7200', '7201', '7202', '7203', '7204', '7205', '7206', '7207', '7208', '7209', '7210', '7211', '7212', '7213', '7214', '7215', '7216', '7217', '7218', '7219', '7220', '7221', '7222', '7223', '7224', '7225', '7226', '7227', '7228', '7229', '7230', '7231', '7232', '7233', '7234', '7235', '7236', '7237', '7238', '7239', '7240', '7241', '7242', '7243', '7244', '7245', '7246', '7247', '7248', '7249', '7250', '7251', '7252', '7253', '7254', '7255', '7256', '7257', '7258', '7259', '7260', '7261', '7262', '7263', '7264', '7265', '7266', '7267', '7268', '7269', '7270', '7271', '7272', '7273', '7274', '7275', '7276', '7277', '7278', '7279', '7280', '7281', '7282', '7283', '7284', '7285', '7286', '7287', '7288', '7289', '7290', '7291', '7292', '7293', '7294', '7295', '7296', '7297', '7298', '7299', '7300', '7301', '7302', '7303', '7304', '7305', '7306', '7307', '7308', '7309', '7310', '7311', '7312', '7313', '7314', '7315', '7316', '7317', '7318', '7319', '7320', '7321', '7322', '7323', '7324', '7325', '7326', '7327', '7328', '7329', '7330', '7331', '7332', '7333', '7334', '7335', '7336', '7337', '7338', '7339', '7340', '7341', '7342', '7343', '7344', '7345', '7346', '7347', '7348', '7349', '7350', '7351', '7352', '7353', '7354', '7355', '7356', '7357', '7358', '7359', '7360', '7361', '7362', '7363', '7364', '7365', '7366', '7367', '7368', '7369', '7370', '7371', '7372', '7373', '7374', '7375', '7376', '7377', '7378', '7379', '7380', '7381', '7382', '7383', '7384', '7385', '7386', '7387', '7388', '7389', '7390', '7391', '7392', '7393', '7394', '7395', '7396', '7397', '7398', '7399', '7400', '7401', '7402', '7403', '7404', '7405', '7406', '7407', '7408', '7409', '7410', '7411', '7412', '7413', '7414', '7415', '7416', '7417', '7418', '7419', '7420', '7421', '7422', '7423', '7424', '7425', '7426', '7427', '7428', '7429', '7430', '7431', '7432', '7433', '7434', '7435', '7436', '7437', '7438', '7439', '7440', '7441', '7442', '7443', '7444', '7445', '7446', '7447', '7448', '7449', '7450', '7451', '7452', '7453', '7454', '7455', '7456', '7457', '7458', '7459', '7460', '7461', '7462', '7463', '7464', '7465', '7466', '7467', '7468', '7469', '7470', '7471', '7472', '7473', '7474', '7475', '7476', '7477', '7478', '7479', '7480', '7481', '7482', '7483', '7484', '7485', '7486', '7487', '7488', '7489', '7490', '7491', '7492', '7493', '7494', '7495', '7496', '7497', '7498', '7499', '7500', '7501', '7502', '7503', '7504', '7505', '7506', '7507', '7508', '7509', '7510', '7511', '7512', '7513', '7514', '7515', '7516', '7517', '7518', '7519', '7520', '7521', '7522', '7523', '7524', '7525', '7526', '7527', '7528', '7529', '7530', '7531', '7532', '7533', '7534', '7535', '7536', '7537', '7538', '7539', '7540', '7541', '7542', '7543', '7544', '7545', '7546', '7547', '7548', '7549', '7550', '7551', '7552', '7553', '7554', '7555', '7556', '7557', '7558', '7559', '7560', '7561', '7562', '7563', '7564', '7565', '7566', '7567', '7568', '7569', '7570', '7571', '7572', '7573', '7574', '7575', '7576', '7577', '7578', '7579', '7580', '7581', '7582', '7583', '7584', '7585', '7586', '7587', '7588', '7589', '7590', '7591', '7592', '7593', '7594', '7595', '7596', '7597', '7598', '7599', '7600', '7601', '7602', '7603', '7604', '7605', '7606', '7607', '7608', '7609', '7610', '7611', '7612', '7613', '7614', '7615', '7616', '7617', '7618', '7619', '7620', '7621', '7622', '7623', '7624', '7625', '7626', '7627', '7628', '7629', '7630', '7631', '7632', '7633', '7634', '7635', '7636', '7637', '7638', '7639', '7640', '7641', '7642', '7643', '7644', '7645', '7646', '7647', '7648', '7649', '7650', '7651', '7652', '7653', '7654', '7655', '7656', '7657', '7658', '7659', '7660', '7661', '7662', '7663', '7664', '7665', '7666', '7667', '7668', '7669', '7670', '7671', '7672', '7673', '7674', '7675', '7676', '7677', '7678', '7679', '7680', '7681', '7682', '7683', '7684', '7685', '7686', '7687', '7688', '7689', '7690', '7691', '7692', '7693', '7694', '7695', '7696', '7697', '7698', '7699'])]</field>
             <field name="note">Här redovisas kostnader som har direkt samband med företagets anställda, t.ex. löner, sociala avgifter, pensionskostnader och företagshälsovård samt dessutom styrelsearvoden</field>
         </record>
-        <record id="type_AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar" model="account.account.type">
+        <record id="account.data_account_type_depreciation" model="account.account.type">
             <field name="name">Av- och nedskrivningar av materiella och immateriella anläggningstillgångar</field>
             <field name="element_name">AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar</field>
             <field name="type">other</field>
@@ -91,7 +91,7 @@
             <field name="account_range">[('code', 'in', ['7740', '7741', '7742', '7743', '7744', '7745', '7746', '7747', '7748', '7749', '7790', '7791', '7792', '7793', '7794', '7795', '7796', '7797', '7798', '7799'])]</field>
             <field name="note">Här redovisas belopp endast undantagsvis, t.ex. vid exceptionellt stora nedskrivningar av kundfordringar</field>
         </record>
-        <record id="type_OvrigaRorelsekostnader" model="account.account.type">
+        <record id="account.data_account_type_expenses" model="account.account.type">
             <field name="name">Övriga rörelsekostnader</field>
             <field name="element_name">OvrigaRorelsekostnader</field>
             <field name="type">other</field>
@@ -226,7 +226,7 @@
             <field name="account_range">[('code', 'in', ['8980', '8981', '8982', '8983', '8984', '8985', '8986', '8987', '8988', '8989'])]</field>
             <field name="note"/>
         </record>
-        <record id="type_AretsResultat" model="account.account.type">
+        <record id="account.data_unaffected_earnings" model="account.account.type">
             <field name="name">Årets resultat</field>
             <field name="element_name">AretsResultat</field>
             <field name="type">other</field>
@@ -244,7 +244,7 @@
             <field name="account_range">[('code', 'in', ['1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699'])]</field>
             <field name="note">Här redovisas fordringar på aktieägare för tecknat men ej inbetalt kapital vid nyemission</field>
         </record>
-        <record id="type_KoncessionerPatentLicenserVarumarkenLiknandeRattigheter" model="account.account.type">
+        <record id="account.data_account_type_non_current_assets" model="account.account.type">
             <field name="name">Koncessioner, patent, licenser, varumärken samt liknande rättigheter</field>
             <field name="element_name">KoncessionerPatentLicenserVarumarkenLiknandeRattigheter</field>
             <field name="type">other</field>
@@ -289,7 +289,7 @@
             <field name="account_range">[('code', 'in', ['1110', '1111', '1112', '1113', '1114', '1115', '1116', '1117', '1118', '1119', '1130', '1131', '1132', '1133', '1134', '1135', '1136', '1137', '1138', '1139', '1140', '1141', '1142', '1143', '1144', '1145', '1146', '1147', '1148', '1149', '1150', '1151', '1152', '1153', '1154', '1155', '1156', '1157', '1158', '1159'])]</field>
             <field name="note">Här redovisas byggnader, mark och markanläggningar samt maskiner avsedda för en byggnads allmänna användning</field>
         </record>
-        <record id="type_MaskinerAndraTekniskaAnlaggningar" model="account.account.type">
+        <record id="account.data_account_type_fixed_assets" model="account.account.type">
             <field name="name">Maskiner och andra tekniska anläggningar</field>
             <field name="element_name">MaskinerAndraTekniskaAnlaggningar</field>
             <field name="type">other</field>
@@ -469,7 +469,7 @@
             <field name="account_range">[('code', 'in', ['1480', '1481', '1482', '1483', '1484', '1485', '1486', '1487', '1488', '1489'])]</field>
             <field name="note">Här redovisas betalningar samt obetalda fakturor för varor och tjänster som regelmässigt redovisas som lager men där prestationen ännu inte erhållits</field>
         </record>
-        <record id="type_Kundfordringar" model="account.account.type">
+        <record id="account.data_account_type_receivable" model="account.account.type">
             <field name="name">Kundfordringar</field>
             <field name="element_name">Kundfordringar</field>
             <field name="type">receivable</field>
@@ -506,7 +506,7 @@
             <field name="account_range">[('code', 'in', [u'1573', u'1673'])]</field>
             <field name="note">Här redovisas kortfristiga fordringar på övriga företag som det finns ett ägarintresse i, inklusive kundfordringar</field>
         </record>
-        <record id="type_OvrigaFordringarKortfristiga" model="account.account.type">
+        <record id="account.data_account_type_current_assets" model="account.account.type">
             <field name="name">Övriga kortfristga fordringar</field>
             <field name="element_name">OvrigaFordringarKortfristiga</field>
             <field name="type">other</field>
@@ -551,7 +551,7 @@
             <field name="account_range">[('code', 'in', ['1810', '1811', '1812', '1813', '1814', '1815', '1816', '1817', '1818', '1819', '1820', '1821', '1822', '1823', '1824', '1825', '1826', '1827', '1828', '1829', '1830', '1831', '1832', '1833', '1834', '1835', '1836', '1837', '1838', '1839', '1880', '1881', '1882', '1883', '1884', '1885', '1886', '1887', '1888', '1889', '1890', '1891', '1892', '1893', '1894', '1895', '1896', '1897', '1898', '1899'])]</field>
             <field name="note">Här redovisas innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under rubriken Omsättningstillgångar</field>
         </record>
-        <record id="type_KassaBankExklRedovisningsmedel" model="account.account.type">
+        <record id="account.data_account_type_liquidity" model="account.account.type">
             <field name="name">Kassa och bank exklusive redovisningsmedel</field>
             <field name="element_name">KassaBankExklRedovisningsmedel</field>
             <field name="type">liquidity</field>
@@ -569,7 +569,7 @@
             <field name="account_range">[('code', 'in', ['1990', '1991', '1992', '1993', '1994', '1995', '1996', '1997', '1998', '1999'])]</field>
             <field name="note">Här redovisas medel som mottagits för annans räkning med redovisningsskyldighet</field>
         </record>
-        <record id="type_Aktiekapital" model="account.account.type">
+        <record id="account.data_account_type_equity" model="account.account.type">
             <field name="name">Aktiekapital</field>
             <field name="element_name">Aktiekapital</field>
             <field name="type">other</field>
@@ -704,7 +704,7 @@
             <field name="account_range">[('code', 'in', ['2330', '2331', '2332', '2333', '2334', '2335', '2336', '2337', '2338', '2339'])]</field>
             <field name="note">Här redovisas den del av en utnyttjad kredit som bedöms vara en långfristig finansiering</field>
         </record>
-        <record id="type_OvrigaLangfristigaSkulderKreditinstitut" model="account.account.type">
+        <record id="account.data_account_type_non_current_liabilities" model="account.account.type">
             <field name="name">Övriga långfristiga skulder till kreditinstitut</field>
             <field name="element_name">OvrigaLangfristigaSkulderKreditinstitut</field>
             <field name="type">other</field>
@@ -749,7 +749,7 @@
             <field name="account_range">[('code', 'in', ['2390', '2391', '2392', '2393', '2394', '2395', '2396', '2397', '2398', '2399'])]</field>
             <field name="note"/>
         </record>
-        <record id="type_CheckrakningskreditKortfristig" model="account.account.type">
+        <record id="account.data_account_type_credit_card" model="account.account.type">
             <field name="name">Kortfristig checkräkningskredit </field>
             <field name="element_name">CheckrakningskreditKortfristig</field>
             <field name="type">other</field>
@@ -767,7 +767,7 @@
             <field name="account_range">[('code', 'in', ['2410', '2411', '2412', '2413', '2414', '2415', '2416', '2417', '2418', '2419'])]</field>
             <field name="note"/>
         </record>
-        <record id="type_ForskottFranKunder" model="account.account.type">
+        <record id="account.data_account_type_prepayments" model="account.account.type">
             <field name="name">Förskott från kunder</field>
             <field name="element_name">ForskottFranKunder</field>
             <field name="type">other</field>
@@ -794,7 +794,7 @@
             <field name="account_range">[('code', 'in', ['2450', '2451', '2452', '2453', '2454', '2455', '2456', '2457', '2458', '2459'])]</field>
             <field name="note">Här redovisas fakturerade men ej upparbetade intäkter för uppdrag till fast pris enligt huvudregeln</field>
         </record>
-        <record id="type_Leverantorsskulder" model="account.account.type">
+        <record id="account.data_account_type_payable" model="account.account.type">
             <field name="name">Leverantörsskulder</field>
             <field name="element_name">Leverantorsskulder</field>
             <field name="type">payable</field>
@@ -848,7 +848,7 @@
             <field name="account_range">[('code', 'in', ['2510', '2511', '2512', '2513', '2514', '2515', '2516', '2517', '2518', '2519'])]</field>
             <field name="note">Här redovisas aktuella skatteskulder bestående av beräknad och/eller fastställd skuld för innevarande och tidigare räkenskapsår , inkomstskatt, fastighetsskatt eller motsvarande, särskild löneskatt på pensionskostnaden, samt avkastningsskatt minskad med Fskatteinbetalningar till skattekontot</field>
         </record>
-        <record id="type_OvrigaKortfristigaSkulder" model="account.account.type">
+        <record id="account.data_account_type_current_liabilities" model="account.account.type">
             <field name="name">Övriga kortfristiga skulder</field>
             <field name="element_name">OvrigaKortfristigaSkulder</field>
             <field name="type">other</field>

@@ -472,44 +472,6 @@ class account_account_type(models.Model):
     report_type = fields.Selection(selection=[('r', u'Resultaträkning'), ('b', u'Balansräkning')], string='Report Type')
 
     # key: element_name
-    # value: external_id
-    external_id_exchange_dict = {
-        'Kundfordringar': 'account.data_account_type_receivable',
-        'Leverantorsskulder': 'account.data_account_type_payable',
-        'KassaBankExklRedovisningsmedel': 'account.data_account_type_liquidity',
-        'CheckrakningskreditKortfristig': 'account.data_account_type_credit_card',
-        'OvrigaFordringarKortfristiga': 'account.data_account_type_current_assets',
-        'KoncessionerPatentLicenserVarumarkenLiknandeRattigheter': 'account.data_account_type_non_current_assets',
-        'ForskottFranKunder': 'account.data_account_type_prepayments',
-        'MaskinerAndraTekniskaAnlaggningar': 'account.data_account_type_fixed_assets',
-        'OvrigaKortfristigaSkulder': 'account.data_account_type_current_liabilities',
-        'OvrigaLangfristigaSkulderKreditinstitut': 'account.data_account_type_non_current_liabilities',
-        'Aktiekapital': 'account.data_account_type_equity',
-        'AretsResultat': 'account.data_unaffected_earnings',
-        'OvrigaRorelseintakter': 'account.data_account_type_other_income',
-        'Nettoomsattning': 'account.data_account_type_revenue',
-        'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': 'account.data_account_type_depreciation',
-        'OvrigaRorelsekostnader': 'account.data_account_type_expenses',
-        'HandelsvarorKostnader': 'account.data_account_type_direct_costs',
-    }
-
-    # Rewrite attributes to account type names from core(account)
-    @api.model
-    def _set_external_id(self):
-        for k,v in self.external_id_exchange_dict.items():
-            ref = self.env.ref('l10n_se.type_%s' %k)
-            self.env.ref(v).write({
-                'name': ref.name, # this doesn't work
-                'type': ref.type,
-                'element_name': ref.element_name,
-                'main_type': ref.main_type,
-                'report_type': ref.report_type,
-                'account_range': ref.account_range,
-                'note': ref.note,
-            })
-            ref.unlink()
-
-    # key: element_name
     # value: name
     name_exchange_dict = {
         'Kundfordringar': u'Kundfordringar',
