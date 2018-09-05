@@ -151,6 +151,7 @@ def print_xml(sheet_list):
                 field_report_type = ET.SubElement(record, "field", name="report_type").text = l.get('report_type')
                 field_account_range = ET.SubElement(record, "field", name="account_range").text = str(l.get('account_range'))
                 field_note = ET.SubElement(record, "field", name="note").text = l.get('note')
+        ET.SubElement(data, 'function', name='_change_name', model="account.account.type")
         return odoo
     xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')

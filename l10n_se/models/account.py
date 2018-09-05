@@ -493,6 +493,12 @@ class account_account_type(models.Model):
         'HandelsvarorKostnader': u'Kostnad för sålda handelsvaror',
     }
 
+    # Change account type names from core(account)
+    @api.model
+    def _change_name(self):
+        for k,v in self.name_exchange_dict.items():
+            self.env['account.account.type'].search([('element_name', '=', k)]).write({'name': v})
+
     @api.model
     def set_account_type(self):
         for t in self.env['account.account.type'].search([]):
@@ -512,12 +518,6 @@ class account_account_type(models.Model):
         # ~ sql = "UPDATE account_account SET reconcile = true WHERE id IN %s;"
         # ~ env.cr.execute(sql, [tuple(ids)])
         # ~ o.write({'type': 'payable'})
-
-    # Change account type names from core(account)
-    @api.model
-    def _change_name(self):
-        for k,v in self.name_exchange_dict.items():
-            self.env['account.account.type'].search([('element_name', '=', k)]).write({'name': v})
 
     @api.multi
     def get_account_range(self):
