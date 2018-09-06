@@ -70,8 +70,6 @@ class AccountBankStatementImport(models.TransientModel):
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
 
-
-
         seb = parser.parse()
         for s in seb.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
@@ -138,6 +136,7 @@ class AccountBankStatementImport(models.TransientModel):
         _logger.debug("res: %s" % seb.statements)
         #~ raise Warning(seb.statements)
         return seb.account_currency, seb.account_number, seb.statements
+
 
 class account_bank_statement(osv.osv):
     _inherit = 'account.bank.statement.line'
