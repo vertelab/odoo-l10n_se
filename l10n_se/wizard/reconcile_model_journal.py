@@ -1,7 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2012-2016 Vertel (<http://www.vertel.se>).
+#    Odoo, Open Source Management Solution
+#    Copyright (C) 2004-2017 Vertel (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,8 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
-import import_chart_of_account
-import reconcile_model_journal
+import logging
+_logger = logging.getLogger(__name__)
+
+class wizard_reconcile_model_journal(models.TransientModel):
+    _name = 'wizard.reconcile.model.journal'
+
+    journal_id = fields.Many2one(comodel_name='account.journal', string='Journal', help='')
+
+    @api.multi
+    def set_journal(self):
+        if self.journal_id:
+            for id in self._context.get('active_ids', []):
+                self.env['account.reconcile.model'].browse(id).journal_id = self.journal_id
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
