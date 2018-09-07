@@ -38,11 +38,24 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
         msg += 'Set type:\n%s' %'\t'.join(t_list)
     raise Warning(msg)</field>
         </record>
-        <record id="ir_values_po_line_tags" model="ir.values">
+        <record id="ir_values_set_account_type" model="ir.values">
             <field name="name">Set Account Type</field>
             <field name="model">ir.actions.server</field>
             <field name="key2">client_action_multi</field>
             <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se.set_account_type')"/>
+        </record>
+        <record id="update_account_account" model="ir.actions.server">
+            <field name="name">Uppdatera kontoplan</field>
+            <field name="model_id" ref="base.model_ir_actions_server"/>
+            <field name="state">code</field>
+            <field name="code">for template in env['account.account.template'].search([]):
+    if not env['account.account'].search([('code', '=', template.code)]):
+        env['account.account'].create({
+            'name': template.name,
+            'code': template.code,
+            'user_type_id': template.user_type_id.id,
+            'note': template.note,
+        })</field>
         </record>
     </data>
 </odoo>

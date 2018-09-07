@@ -3911,6 +3911,13 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
     </record>
+    <record id="K1_4519_2017" model="account.account.template">
+      <field name="name">Inköp av varor från annat EU-land, slask</field>
+      <field name="code">4519</field>
+      <field name="user_type_id" ref="l10n_se.type_RavarorFornodenheterKostnader"/>
+      <field name="chart_template_id" ref="chart_template_K1_2017"/>
+      <field name="note"></field>
+    </record>
     <record id="K1_4531_2017" model="account.account.template">
       <field name="name">Inköp av tjänster från ett land utanför EU, 25 % moms</field>
       <field name="code">4531</field>
@@ -11876,6 +11883,13 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+    </record>
+    <record id="K2_4519_2017" model="account.account.template">
+      <field name="name">Inköp av varor från annat EU-land, slask</field>
+      <field name="code">4519</field>
+      <field name="user_type_id" ref="l10n_se.type_RavarorFornodenheterKostnader"/>
+      <field name="chart_template_id" ref="chart_template_K2_2017"/>
+      <field name="note"></field>
     </record>
     <record id="K2_4531_2017" model="account.account.template">
       <field name="name">Inköp av tjänster från ett land utanför EU, 25 % moms</field>
@@ -19843,6 +19857,13 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
     </record>
+    <record id="K3_4519_2017" model="account.account.template">
+      <field name="name">Inköp av varor från annat EU-land, slask</field>
+      <field name="code">4519</field>
+      <field name="user_type_id" ref="l10n_se.type_RavarorFornodenheterKostnader"/>
+      <field name="chart_template_id" ref="chart_template_K3_2017"/>
+      <field name="note"></field>
+    </record>
     <record id="K3_4531_2017" model="account.account.template">
       <field name="name">Inköp av tjänster från ett land utanför EU, 25 % moms</field>
       <field name="code">4531</field>
@@ -27808,6 +27829,13 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
+    </record>
+    <record id="K4_4519_2017" model="account.account.template">
+      <field name="name">Inköp av varor från annat EU-land, slask</field>
+      <field name="code">4519</field>
+      <field name="user_type_id" ref="l10n_se.type_RavarorFornodenheterKostnader"/>
+      <field name="chart_template_id" ref="chart_template_K4_2017"/>
+      <field name="note"></field>
     </record>
     <record id="K4_4531_2017" model="account.account.template">
       <field name="name">Inköp av tjänster från ett land utanför EU, 25 % moms</field>

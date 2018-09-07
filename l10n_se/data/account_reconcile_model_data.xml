@@ -27,6 +27,27 @@
             <field name="tax_id" search="[('name', '=', 'Ii')]"/>
             <field name="amount">100.0</field>
         </record>
+        <!-- stämma av import av varor 25% moms: Import av varor, 25 % moms (MBBUIi) -> Inköp av varor från annat EU-land, slask (U1MBBUI) -> Inköp av varor från annat EU-land, slask -->
+        <record id="reconcile_model_4545_mbbui1" model="account.reconcile.model">
+            <field name="name">Import av varor, 25 % moms (MBBUIi)</field>
+            <field name="account_id" search="[('code', '=', '4545')]"/>
+            <field name="account_type">procentage</field>
+            <field name="tax_id" search="[('name', '=', 'MBBUI1')]"/>
+            <field name="amount">100.0</field>
+        </record>
+        <record id="reconcile_model_4519_u1mbbui" model="account.reconcile.model">
+            <field name="name">Inköp av varor från annat EU-land, slask (U1MBBUI)</field>
+            <field name="account_id" search="[('code', '=', '4519')]"/>
+            <field name="account_type">procentage</field>
+            <field name="tax_id" search="[('name', '=', 'U1MBBUI')]"/>
+            <field name="amount">100.0</field>
+        </record>
+        <record id="reconcile_model_4519" model="account.reconcile.model">
+            <field name="name">Inköp av varor från annat EU-land, slask</field>
+            <field name="account_id" search="[('code', '=', '4519')]"/>
+            <field name="account_type">procentage</field>
+            <field name="amount">100.0</field>
+        </record>
         <record id="reconcile_model_5400" model="account.reconcile.model">
             <field name="name">Förbrukningsvaror</field>
             <field name="account_id" search="[('code', '=', '5400')]"/>
