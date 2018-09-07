@@ -19,16 +19,14 @@
 #
 ##############################################################################
 {
-    'name': 'SEB Format Bank Statements Import',
+    'name': 'Purchase Products for Swedish accounting',
     'version': '10.0.0.1.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['account_voucher', 'l10n_se_account_bank_statement_import'],
-    'external_dependencies': {
-        'python': ['xlrd'],
-    },
+    'depends': ['sale', 'purchase', 'hr_expense', 'l10n_se'],
+    'data': ['data/products.xml'],
     'installable': 'True',
     'application': 'False',
 }
