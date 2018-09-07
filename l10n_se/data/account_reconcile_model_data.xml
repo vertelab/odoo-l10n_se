@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="reconcile_model_1251" model="account.reconcile.model">
-            <field name="name">Datorer, företaget </field>
+            <field name="name">Datorer, företaget</field>
             <field name="account_id" search="[('code', '=', '1251')]"/>
             <field name="account_type">procentage</field>
             <field name="tax_id" search="[('name', '=', 'Ii')]"/>
@@ -15,7 +15,7 @@
             <field name="amount">100.0</field>
         </record>
         <record id="reconcile_model_2893" model="account.reconcile.model">
-            <field name="name">Skulder till närstående personer, kortfristig del </field>
+            <field name="name">Skulder till närstående personer, kortfristig del</field>
             <field name="account_id" search="[('code', '=', '2893')]"/>
             <field name="account_type">procentage</field>
             <field name="amount">100.0</field>
@@ -157,7 +157,7 @@
             <field name="amount">100.0</field>
         </record>
         <record id="reconcile_model_8410" model="account.reconcile.model">
-            <field name="name">Räntekostnader för långfristiga skulder </field>
+            <field name="name">Räntekostnader för långfristiga skulder</field>
             <field name="account_id" search="[('code', '=', '8410')]"/>
             <field name="account_type">procentage</field>
             <field name="amount">100.0</field>
