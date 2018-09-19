@@ -7,15 +7,10 @@ from xlrd.sheet import Sheet
 
 import os
 
-#wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'Kontohändelser.xlsx'))
-wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'Kontohandelser.xlsx'))
+wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'Zettle-Report-2018-07-22-2018-08-21.xls'))
 
-
-print wb.nsheets
-
-ws = wb.sheet_by_name('Sheet1')
+ws = wb.sheet_by_name('Sheet0')
 ws = wb.sheet_by_index(0)
-
 
 #~ print ws.cell(0,0),ws.ncols,ws.nrows,ws.cell(3,10).value
 
@@ -24,15 +19,13 @@ ws = wb.sheet_by_index(0)
         #~ for c in ws.row(r):
             #~ print c.value
 
-
-
 class Iterator(object):
     def __init__(self, data):
         self.row = 0
         self.data = data
         self.rows = data.nrows - 3
         self.header = [c.value.lower() for c in data.row(8)]
-    
+
     def __iter__(self):
         return self
 

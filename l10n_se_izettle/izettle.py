@@ -23,7 +23,6 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 import base64
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -32,6 +31,7 @@ from xlrd.book import Book
 from xlrd.sheet import Sheet
 
 import sys
+
 
 class IzettleTransaktionsrapportType(object):
     """Parser for iZettle Kontohändelser import files."""
@@ -43,8 +43,8 @@ class IzettleTransaktionsrapportType(object):
         except XLRDError, e:
             _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
             raise ValueError(e)
-        if not (self.data.cell(10,0).value[:22] == u'Betalningsförmedlare:' and self.data.cell(10,2).value[:10] == u'iZettle AB'):
-            _logger.error(u'Row 0 %s (was looking for iZettle) %s %s' % (self.data.cell(10,0).value[:22],self.data.cell(10,2).value[:10],self.data.row(3)))
+        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
+            _logger.error(u'Row 0 %s (was looking for Betalningsmottagare) %s %s' % (self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(3,2)))
             raise ValueError(u'This is not a iZettle Report')
 
         self.nrows = self.data.nrows - 17
@@ -56,38 +56,32 @@ class IzettleTransaktionsrapportType(object):
 
         self.account_currency = 'SEK'
         self.header = [c.value.lower() for c in self.data.row(16)]
-        self.account_number = self.data.cell(6,0).value
-        self.name = self.data.cell(0,0).value[15:30]
+        self.account_number = self.data.cell(13,2).value
+        self.name = self.data.cell(5,2).value
 
         self.current_statement = BankStatement()
-        self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+        self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account =  self.account_number
         self.current_statement.statement_id = 'iZettle %s' % self.data.cell(3,2).value
         self.current_statement.start_balance = 0.0
-        for t in iZettleIterator(self.data,header_row=17):
+        for t in IzettleIterator(self.data, header_row=16):
             transaction = self.current_statement.create_transaction()
-            transaction.transferred_amount = float(t['Netto'])
-            self.current_statement.end_balance += float(t['Netto'])
-            transaction.eref = t['Kvittonummer'].strip()
-            transaction.name = '%s %s' % (t['Korttyp'].strip(),t['Sista siffror'].strip())
-            transaction.note = 'Moms %s\nAvgift %s\n%s %s' (t['Moms (25.0%)'].strip(),t['Avgift'].strip(),t['Korttyp'].strip(),t['Sista siffror'].strip())
-            transaction.value_date = t[u'Datum'] # bokföringsdatum,valutadatum
-            transaction.unique_import_id = t['Kvittonummer'].strip()
-            transaction.remote_owner = t['text/mottagare'].strip()
-            #~ transaction.message
-            #self.current_statement.end_balance =
+            transaction.transferred_amount = float(t['netto'])
+            self.current_statement.end_balance += float(t['netto'])
+            transaction.ref = t['kvittonummer']
+            transaction.name = '%s %s' % (t['korttyp'], t['sista siffror'])
+            transaction.note = 'Moms %s\nAvgift %s\n%s %s' (t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), str(t['sista siffror']).strip())
+            transaction.date = t[u'datum']
+            transaction.unique_import_id = t['kvittonummer']
 
         self.statements.append(self.current_statement)
-#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
         return self
 
 
-
-
 class IzettleIterator(object):
-    def __init__(self, data,header_row=8):
-        self.row = header_row + 1 # First data-row
+    def __init__(self, data,header_row=16):
+        self.row = header_row + 1
         self.data = data
         self.header = [c.value.lower() for c in data.row(header_row)]
 
