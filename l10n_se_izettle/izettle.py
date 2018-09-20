@@ -69,11 +69,11 @@ class IzettleTransaktionsrapportType(object):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['netto'])
             self.current_statement.end_balance += float(t['netto'])
-            transaction.ref = t['kvittonummer']
-            transaction.name = '%s %s' % (t['korttyp'], t['sista siffror'])
-            transaction.note = 'Moms %s\nAvgift %s\n%s %s' (t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), str(t['sista siffror']).strip())
-            transaction.date = t[u'datum']
-            transaction.unique_import_id = t['kvittonummer']
+            transaction.eref = int(t['kvittonummer'])
+            transaction.name = '%s %s' % (t['korttyp'].strip(),t['sista siffror'].strip())
+            transaction.note = 'Moms %s\nAvgift %s\n%s %s' % (t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), t['sista siffror'].strip())
+            transaction.value_date = t[u'datum']
+            transaction.unique_import_id = int(t['kvittonummer'])
 
         self.statements.append(self.current_statement)
         return self
@@ -89,7 +89,7 @@ class IzettleIterator(object):
         return self
 
     def next(self):
-        if self.row >= self.data.nrows:
+        if self.row >= self.data.nrows - 3:
             raise StopIteration
         r = self.data.row(self.row)
         self.row += 1
