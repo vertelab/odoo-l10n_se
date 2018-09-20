@@ -29,6 +29,7 @@
     'external_dependencies': {
         'python': ['xlrd'],
     },
+    'data': ['account_reconcile_model_data.xml'],
     'installable': 'True',
     'application': 'False',
 }

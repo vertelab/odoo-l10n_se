@@ -68,6 +68,7 @@ class IzettleTransaktionsrapportType(object):
         for t in IzettleIterator(self.data, header_row=16):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['netto'])
+            transaction.original_amount = float(t['totalt'])
             self.current_statement.end_balance += float(t['netto'])
             transaction.eref = int(t['kvittonummer'])
             transaction.name = '%s %s' % (t['korttyp'].strip(),t['sista siffror'].strip())

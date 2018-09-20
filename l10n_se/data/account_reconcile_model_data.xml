@@ -49,7 +49,7 @@
             <field name="amount">100.0</field>
         </record>
         <record id="reconcile_model_5400" model="account.reconcile.model">
-            <field name="name">Förbrukningsvaror</field>
+            <field name="name">Förbrukningsinventarier</field>
             <field name="account_id" search="[('code', '=', '5400')]"/>
             <field name="account_type">procentage</field>
             <field name="tax_id" search="[('name', '=', 'Ii')]"/>

@@ -63,6 +63,16 @@ class BankTransaction(dict):
         self['amount'] = transferred_amount
 
     @property
+    def original_amount(self):
+        """property getter"""
+        return self['original_amount']
+
+    @original_amount.setter
+    def original_amount(self, original_amount):
+        """property setter"""
+        self['original_amount'] = original_amount
+
+    @property
     def eref(self):
         """property getter"""
         return self['ref']

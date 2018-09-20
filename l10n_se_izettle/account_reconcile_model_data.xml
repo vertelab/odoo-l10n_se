@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="reconcile_model_izettle" model="account.reconcile.model">
+            <field name="name">iZettle</field>
+            <field name="account_id" search="[('code', '=', '6570')]"/>
+            <field name="account_type">procentage</field>
+            <field name="amount">100.0</field>
+        </record>
+    </data>
+</odoo>

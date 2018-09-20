@@ -34,7 +34,7 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountBankStatementImport(models.TransientModel):
-    """Add seb method to account.bank.statement.import."""
+    """Add iZettle method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
     @api.model
@@ -66,46 +66,16 @@ class AccountBankStatementImport(models.TransientModel):
                 if partner_id:
                     t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner_id[0].commercial_partner_id.id
-                fnr = '-'.join(fakt.findall(t['name']))
-                invoice = None
                 d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
                 d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
-                vouchers = self.env['account.voucher'].search([('date','>',d1),('date','<',d2), ('account_id', '=', account.id)])
-                voucher = None
-                if len(vouchers) > 0:
-                    voucher_partner = vouchers.filtered(lambda v: v.partner_id == partner_id and round(v.amount, -1) == round(t['amount'], -1))
-                    if len(voucher_partner) > 0:
-                        voucher = voucher_partner[0]
-                    else:
-                        voucher = vouchers.filtered(lambda v: round(v.amount, -1) == round(t['amount'], -1))[0] if vouchers.filtered(lambda v: round(v.amount, -1) == round(t['amount'], -1)) else None
-                if not invoice or not voucher:  # match with account.move
-                    line = self.env['account.move'].search([('date','>',d1),('date','<',d2)]).mapped('line_ids').filtered(lambda l: l.account_id == account and round(l.debit-l.credit, -1) == round(t['amount'], -1))
-                    if len(line)>0:
-                        if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
-                            line[0].move_id.date = t['date']
-                        move = line.mapped('move_id')[0] if len(line)>0 else None
-                        if move:
-                            t['journal_entry_id'] = move.id
-                            for line in move.line_ids:
-                                move_line_ids.append(line)
-                            t['voucher_id'] = self.env['account.voucher'].search([('move_id', '=', move.id)]).id if self.env['account.voucher'].search([('move_id', '=', move.id)]) else None
-                elif voucher:   # match with account.voucher
-                    if voucher.move_id.state == 'draft' and voucher.move_id.date != t['date']:
-                        voucher.move_id.date = t['date']
-                    if voucher.state == 'draft' and voucher.date != t['date']:
-                        voucher.date = t['date']
-                    t['journal_entry_id'] = voucher.move_id.id
-                    for line in voucher.move_id.line_ids:
+                line = self.env['account.move.line'].search([('move_id.date', '=', t['date']), ('balance', '=', t['original_amount']), ('name', '=', str(t['ref']))])
+                if len(line) > 0:
+                    if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
+                        line[0].move_id.date = t['date']
+                    t['journal_entry_id'] = line[0].move_id.id
+                    for line in line[0].move_id.line_ids:
                         move_line_ids.append(line)
-                    t['voucher_id'] = voucher.id
-                elif invoice:   # match with account.invoice
-                    line = invoice.payment_ids.filtered(lambda l: l.date > d1 and l.date < d2 and round(l.debit-l.credit, -1) == round(t['amount'], -1))
-                    if len(line) > 0:
-                        if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
-                            line[0].move_id.date = t['date']
-                        t['journal_entry_id'] = line[0].move_id.id
-                        for line in line[0].move_id.line_ids:
-                            move_line_ids.append(line)
+            # ~ _logger.warn('<<<<<<<<< %s' %move_line_ids)
             s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
         _logger.debug("res: %s" % izettle.statements)
