@@ -7,7 +7,7 @@ from xlrd.sheet import Sheet
 
 import os
 
-wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'Zettle-Report-2018-07-22-2018-08-21.xls'))
+wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), u'iZettle-Report-2018-07-22-2018-08-21.xls'))
 
 ws = wb.sheet_by_name('Sheet0')
 ws = wb.sheet_by_index(0)

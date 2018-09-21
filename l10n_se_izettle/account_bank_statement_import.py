@@ -75,7 +75,6 @@ class AccountBankStatementImport(models.TransientModel):
                     t['journal_entry_id'] = line[0].move_id.id
                     for line in line[0].move_id.line_ids:
                         move_line_ids.append(line)
-            # ~ _logger.warn('<<<<<<<<< %s' %move_line_ids)
             s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
         _logger.debug("res: %s" % izettle.statements)
