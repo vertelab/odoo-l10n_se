@@ -72,7 +72,7 @@ class IzettleTransaktionsrapportType(object):
             self.current_statement.end_balance += float(t['netto'])
             transaction.eref = int(t['kvittonummer'])
             transaction.name = '%s %s' % (t['korttyp'].strip(),t['sista siffror'].strip())
-            transaction.note = 'Moms %s\nAvgift %s\n%s %s' % (t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), t['sista siffror'].strip())
+            transaction.note = 'Totalt: %s\nMoms: %s\nAvgift: %s\n%s %s' % (float(t['totalt']), t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), t['sista siffror'].strip())
             transaction.value_date = t[u'datum']
             transaction.unique_import_id = int(t['kvittonummer'])
 

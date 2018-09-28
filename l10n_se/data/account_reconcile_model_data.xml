@@ -20,6 +20,13 @@
             <field name="account_type">procentage</field>
             <field name="amount">100.0</field>
         </record>
+        <record id="reconcile_model_3000" model="account.reconcile.model">
+            <field name="name">Försäljning inom Sverige</field>
+            <field name="account_id" search="[('code', '=', '3000')]"/>
+            <field name="account_type">procentage</field>
+            <field name="tax_id" search="[('name', '=', 'MP1i')]"/>
+            <field name="amount">100.0</field>
+        </record>
         <record id="reconcile_model_4000" model="account.reconcile.model">
             <field name="name">Inköp av varor från Sverige</field>
             <field name="account_id" search="[('code', '=', '4000')]"/>

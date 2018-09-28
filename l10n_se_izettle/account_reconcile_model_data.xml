@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="reconcile_model_izettle" model="account.reconcile.model">
-            <field name="name">iZettle</field>
+            <field name="name">iZettle avgift</field>
             <field name="account_id" search="[('code', '=', '6570')]"/>
             <field name="account_type">procentage</field>
             <field name="amount">100.0</field>
