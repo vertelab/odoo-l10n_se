@@ -30,12 +30,12 @@ class account_account(models.Model):
     @api.multi
     def sum_period(self):
         self.ensure_one()
-        return round(sum([a.balance for a in self.get_movelines()]))
+        return round(sum([a.balance for a in self.with_context(self._context).get_movelines()]))
 
     @api.multi
     def get_movelines(self):
         self.ensure_one()
-        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda l: l.account_id.id == self.id)
+        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda l: l.account_id.id == self.id and l.move_id.journal_id.id not in l._context.get('nix_journal_ids', []))
 
 
 class account_tax(models.Model):

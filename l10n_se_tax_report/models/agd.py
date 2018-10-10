@@ -180,6 +180,7 @@ class account_agd_declaration(models.Model):
             'accounting_yearend': self.accounting_yearend,
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
+            'nix_journal_ids': [self.env.ref('l10n_se_tax_report.agd_journal').id]
         }
 
         ##

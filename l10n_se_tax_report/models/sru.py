@@ -131,6 +131,7 @@ class account_sru_declaration(models.Model):
             'accounting_yearend': self.accounting_yearend,
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
+            'nix_journal_ids': [] # TODO: vilka journaler ska nixas?
         }
 
         ##
