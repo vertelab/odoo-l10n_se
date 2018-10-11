@@ -125,6 +125,22 @@ class BankTransaction(dict):
     def note(self, note):
         self['note'] = note
 
+    @property
+    def bg_account(self):
+        return self['bg_account']
+
+    @note.setter
+    def bg_account(self, bg_account):
+        self['bg_account'] = bg_account
+
+    @property
+    def bg_serial_number(self):
+        return self['bg_serial_number']
+
+    @note.setter
+    def bg_serial_number(self, bg_serial_number):
+        self['bg_serial_number'] = bg_serial_number
+
     def __init__(self):
         """Define and initialize attributes.
 
@@ -156,6 +172,8 @@ class BankTransaction(dict):
         self.storno_retry = False
         # If True, make cancelled debit eligible for a next direct debit run
         self.data = ''  # Raw data from which the transaction has been parsed
+        self.bg_account = ''
+        self.bg_serial_number = ''
 
 
 class BankStatement(dict):
@@ -231,6 +249,16 @@ class BankStatement(dict):
         """property setter"""
         self['date'] = date
 
+    @property
+    def bg_serial_number(self):
+        """property getter"""
+        return self['bg_serial_number']
+
+    @date.setter
+    def bg_serial_number(self, bg_serial_number):
+        """property setter"""
+        self['bg_serial_number'] = bg_serial_number
+
     def create_transaction(self):
         """Create and append transaction.
 
@@ -292,3 +320,83 @@ class AccountBankStatementImport(models.TransientModel):
                 new_statements = parse_result
             statements += new_statements
         return statements
+
+    @api.model
+    def bank_statement_auto_reconcile_bg(self, statement, statement_line, bg_account, bg_serial_number):
+        statement_bg = self.env['account.bank.statement'].search([('journal_id.default_debit_account_id.name', '=', bg_account), ('bg_serial_number' , '=', bg_serial_number)])
+        if len(statement_bg) == 1 and statement_line.amount == statement_bg.balance_end_real:
+            entry = self.env['account.move'].create({
+                'journal_id': statement.journal_id.id,
+                'ref': statement_line.ref,
+                'date': statement.date,
+                'period_id': statement.period_id,
+            })
+            if entry:
+                move_line_list = []
+                if statement_line.amount > 0:
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg_line.name,
+                        'account_id': statement_bg_line.statement_id.journal_id.default_debit_account_id.id,
+                        'debit': 0.0,
+                        'credit': statement_bg_line.amount,
+                        'move_id': entry.id,
+                    }))
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg_line.name,
+                        'account_id': statement.journal_id.default_debit_account_id.id,
+                        'debit': statement_bg_line.amount,
+                        'credit': 0.0,
+                        'move_id': entry.id,
+                    }))
+                else:
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg_line.name,
+                        'account_id': statement_bg_line.statement_id.journal_id.default_debit_account_id.id,
+                        'debit': statement_bg_line.amount,
+                        'credit': 0.0,
+                        'move_id': entry.id,
+                    }))
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg_line.name,
+                        'account_id': statement.journal_id.default_debit_account_id.id,
+                        'debit': 0.0,
+                        'credit': statement_bg_line.amount,
+                        'move_id': entry.id,
+                    }))
+                entry.write({
+                    'line_ids': move_line_list,
+                })
+                statement_line.journal_entry_ids = (6, _, [entry.id])
+
+    # TODO: NoneType object is iterable
+    @api.model
+    def _create_bank_statements(self, stmts_vals):
+        res = super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals)
+        statement_ids = res[0]
+        if len(statement_ids) > 0:
+            for statement in self.env['account.bank.statement'].browse(statement_ids):
+                for statement_line in statement.line_ids:
+                    if statement_line.bg_account and statement_line.bg_serial_number:
+                        self.bank_statement_auto_reconcile_bg(statement, statement_line, bg_account, bg_serial_number)
+
+
+
+class AccountBankStatement(models.Model):
+    _inherit = 'account.bank.statement'
+
+    start_balance_calc = fields.Float(compute='_start_end_balance')
+    end_balance_calc = fields.Float(compute='_start_end_balance')
+    def _start_end_balance(self):
+        start_date = self.period_id.fiscalyear_id.date_start
+        statement_start_date = self.line_ids.sorted(key=lambda l: l.date)[0].date
+        statement_end_date = self.line_ids.sorted(key=lambda l: l.date)[-1].date
+        self.start_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', start_date), ('date', '<', statement_start_date), ('account_id', '=', self.journal_id.default_debit_account_id.id)]).mapped('balance'))
+        self.end_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', statement_start_date), ('date', '<=', statement_end_date), ('account_id', '=', self.journal_id.default_debit_account_id.id)]).mapped('balance')) + self.start_balance_calc
+
+    bg_serial_number = fields.Char(string='BG serial number')
+
+class AccountBankStatementLine(models.Model):
+    _inherit = "account.bank.statement.line"
+
+    bg_account = fields.Char(string='BG Account')
+    bg_serial_number = fields.Char(string='BG Serial Number')

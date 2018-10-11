@@ -380,6 +380,7 @@ class BgMaxParser(object):
             #    self.current_statement.local_currency = avsnitt.header.get('valuta').strip() or avsnitt.footer.get('valuta').strip()
             if not current_statement.statement_id:
                 current_statement.statement_id = '%sBM %s' % (current_statement.local_account.replace('-', ''), avsnitt.footer.get('inslopnummer'))
+                current_statement.bg_serial_number = avsnitt.footer.get('inslopnummer')
             current_statement.account_no = avsnitt.footer.get('mottagarbankkonto').lstrip('0')
 
             for ins in avsnitt.ins:

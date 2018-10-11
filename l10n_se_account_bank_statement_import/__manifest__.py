@@ -27,8 +27,7 @@
     'website': 'http://vertel.se',
     'category': 'Banking addons',
     'depends': ['account_bank_statement_import'],
-    'data': [
-    ],
+    'data': ['bank_statement_view.xml'],
     'summary': 'Swedish Account Bank Statement Import',
     'description': """
         """,

@@ -75,6 +75,11 @@ class SEBTransaktionsrapportType1(object):
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
             transaction.remote_owner = t['text/mottagare'].strip()
+            if transaction.name.startswith('Bg'):
+                string = ' '.join(transaction.name.split())
+                transaction.bg_account = string.split(' ')[1]
+                transaction.bg_serial_number = string.split(' ')[2]
+
             #~ transaction.message
             #self.current_statement.end_balance =
 
@@ -125,8 +130,6 @@ class SEBTransaktionsrapportType2(object):
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
             transaction.remote_owner = t['text / mottagare'].strip()
-            #~ transaction.message
-            #self.current_statement.end_balance =
 
         self.statements.append(self.current_statement)
 #        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
