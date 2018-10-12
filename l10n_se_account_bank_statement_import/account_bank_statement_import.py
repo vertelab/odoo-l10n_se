@@ -323,62 +323,68 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def bank_statement_auto_reconcile_bg(self, statement, statement_line, bg_account, bg_serial_number):
+        ''' Auto reconcile statement line with bg statement, create account.move. Match with bg serial number and amount '''
         statement_bg = self.env['account.bank.statement'].search([('journal_id.default_debit_account_id.name', '=', bg_account), ('bg_serial_number' , '=', bg_serial_number)])
         if len(statement_bg) == 1 and statement_line.amount == statement_bg.balance_end_real:
             entry = self.env['account.move'].create({
                 'journal_id': statement.journal_id.id,
-                'ref': statement_line.ref,
+                'ref': '%s - %s' %(statement.name, statement_line.ref),
                 'date': statement.date,
-                'period_id': statement.period_id,
+                'period_id': statement.period_id.id,
             })
             if entry:
                 move_line_list = []
-                if statement_line.amount > 0:
+                if statement_line.amount > 0: # bg is positive, transfer amount from bg account to company main account
+                    # bg account
                     move_line_list.append((0, 0, {
-                        'name': statement_bg_line.name,
-                        'account_id': statement_bg_line.statement_id.journal_id.default_debit_account_id.id,
+                        'name': statement_bg.name,
+                        'account_id': statement_bg.journal_id.default_debit_account_id.id,
                         'debit': 0.0,
-                        'credit': statement_bg_line.amount,
+                        'credit': statement_line.amount,
                         'move_id': entry.id,
                     }))
+                    # company main account
                     move_line_list.append((0, 0, {
-                        'name': statement_bg_line.name,
+                        'name': statement_bg.name,
                         'account_id': statement.journal_id.default_debit_account_id.id,
-                        'debit': statement_bg_line.amount,
+                        'debit': statement_line.amount,
                         'credit': 0.0,
                         'move_id': entry.id,
                     }))
-                else:
+                else: # bg is negtive, transfer amount from company main account to bg account
+                    # company main account
                     move_line_list.append((0, 0, {
-                        'name': statement_bg_line.name,
-                        'account_id': statement_bg_line.statement_id.journal_id.default_debit_account_id.id,
-                        'debit': statement_bg_line.amount,
-                        'credit': 0.0,
-                        'move_id': entry.id,
-                    }))
-                    move_line_list.append((0, 0, {
-                        'name': statement_bg_line.name,
+                        'name': statement_bg.name,
                         'account_id': statement.journal_id.default_debit_account_id.id,
                         'debit': 0.0,
-                        'credit': statement_bg_line.amount,
+                        'credit': statement_line.amount,
+                        'move_id': entry.id,
+                    }))
+                    # bg account
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg.name,
+                        'account_id': statement_bg.journal_id.default_debit_account_id.id,
+                        'debit': statement_line.amount,
+                        'credit': 0.0,
                         'move_id': entry.id,
                     }))
                 entry.write({
                     'line_ids': move_line_list,
                 })
-                statement_line.journal_entry_ids = (6, _, [entry.id])
+                statement_line.journal_entry_ids = [(6, _, [entry.id])]
+                entry.post()
 
-    # TODO: NoneType object is iterable
     @api.model
     def _create_bank_statements(self, stmts_vals):
+        ''' Override create method, do auto reconcile after statement created. '''
         res = super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals)
         statement_ids = res[0]
         if len(statement_ids) > 0:
             for statement in self.env['account.bank.statement'].browse(statement_ids):
                 for statement_line in statement.line_ids:
-                    if statement_line.bg_account and statement_line.bg_serial_number:
-                        self.bank_statement_auto_reconcile_bg(statement, statement_line, bg_account, bg_serial_number)
-
+                    if statement_line.bg_account and statement_line.bg_serial_number: # this is a bg line
+                        self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
+        return res
 
 
 class AccountBankStatement(models.Model):
