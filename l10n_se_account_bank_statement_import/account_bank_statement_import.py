@@ -322,6 +322,20 @@ class AccountBankStatementImport(models.TransientModel):
         return statements
 
     @api.model
+    def _create_bank_statements(self, stmts_vals):
+        ''' Override create method, do auto reconcile after statement created. '''
+        res = super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals)
+        statement_ids = res[0]
+        if len(statement_ids) > 0:
+            for statement in self.env['account.bank.statement'].browse(statement_ids):
+                for statement_line in statement.line_ids:
+                    if statement_line.bg_account and statement_line.bg_serial_number: # this is a bg line
+                        self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
+                    else: # searching invoices
+                        self.bank_statement_auto_reconcile_invoice(statement, statement_line, statement_line.name, statement_line.date, statement_line.amount)
+        return res
+
+    @api.model
     def bank_statement_auto_reconcile_bg(self, statement, statement_line, bg_account, bg_serial_number):
         ''' Auto reconcile statement line with bg statement, create account.move. Match with bg serial number and amount '''
         statement_bg = self.env['account.bank.statement'].search([('journal_id.default_debit_account_id.name', '=', bg_account), ('bg_serial_number' , '=', bg_serial_number)])
@@ -371,20 +385,26 @@ class AccountBankStatementImport(models.TransientModel):
                 entry.write({
                     'line_ids': move_line_list,
                 })
-                statement_line.journal_entry_ids = [(6, _, [entry.id])]
+                entry.statement_line_id = statement_line.id
                 entry.post()
 
     @api.model
-    def _create_bank_statements(self, stmts_vals):
-        ''' Override create method, do auto reconcile after statement created. '''
-        res = super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals)
-        statement_ids = res[0]
-        if len(statement_ids) > 0:
-            for statement in self.env['account.bank.statement'].browse(statement_ids):
-                for statement_line in statement.line_ids:
-                    if statement_line.bg_account and statement_line.bg_serial_number: # this is a bg line
-                        self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
-        return res
+    def bank_statement_auto_reconcile_invoice(self, statement, statement_line, partner_name, invoice_date, amount):
+        ''' Create account.move. Match with account.move created by invoice '''
+        partner = self.env['res.partner'].search([('name', 'ilike', partner_name), ('supplier', '=', True)])
+        domain = [('amount_total', '=', -amount), ('period_id', '=', self.env['account.period'].date2period(statement_line.date).id)]
+        if partner:
+            domain += [('partner_id', '=', partner.id)]
+        invoice = self.env['account.invoice'].search(domain)
+        if invoice and len(invoice) == 1:
+            if invoice.residual < invoice.amount_total: # at least one payment created for this invoice
+                # ~ for line in self.env['account.move.line'].search([('invoice_id', '=', invoice.id)]).filtered(lambda l: not l.statement_line_id):
+                    # ~ if line.credit == statement_line.amount:
+                        # ~ line.move_id.statement_line_id = statement_line.id
+                # TODO: find a method to get payment move that account module does. "Open Payment" button
+                invoice.move_id.statement_line_id = statement_line.id
+                for line in invoice.move_id.line_ids.filtered(lambda l: l.full_reconcile_id == True):
+                    line.full_reconcile_id.reconciled_line_ids.filtered(lambda l: l.id != line.id).move_id.statement_line_id = statement_line.id
 
 
 class AccountBankStatement(models.Model):
