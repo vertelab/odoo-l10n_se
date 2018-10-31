@@ -18,7 +18,7 @@
 #
 ##############################################################################
 from odoo import api,models,fields, _
-from .paypal import PaypalTransaktionsrapportType as Parser
+from .dibs import DibsTransaktionsrapportType as Parser
 import base64
 import re
 from datetime import timedelta
@@ -27,7 +27,7 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountBankStatementImport(models.TransientModel):
-    """Add PayPal method to account.bank.statement.import."""
+    """Add DIBS method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
     @api.model
@@ -40,14 +40,14 @@ class AccountBankStatementImport(models.TransientModel):
         files = [data_file]
 
         try:
-            _logger.info(u"Try parsing with PayPal Report file.")
+            _logger.info(u"Try parsing with DIBS Report file.")
             parser = Parser(base64.b64decode(self.data_file))
         except ValueError:
-            _logger.info(u"Statement file was not a PayPal Report file.")
+            _logger.info(u"Statement file was not a DIBS Report file.")
             return super(AccountBankStatementImport, self)._parse_file(data_file)
 
-        paypal = parser.parse()
-        for s in paypal.statements:
+        dibs = parser.parse()
+        for s in dibs.statements:
             move_line_ids = []
             currency = self.env['res.currency'].search([('name','=', s['currency_code'])])
             for t in s['transactions']:
@@ -67,8 +67,8 @@ class AccountBankStatementImport(models.TransientModel):
                         move_line_ids.append(line)
             s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
-        _logger.debug("res: %s" % paypal.statements)
-        return paypal.account_currency, paypal.account_number, paypal.statements
+        _logger.debug("res: %s" % dibs.statements)
+        return dibs.account_currency, dibs.account_number, dibs.statements
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

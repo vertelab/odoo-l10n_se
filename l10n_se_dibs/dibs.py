@@ -26,42 +26,34 @@ from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_im
 import logging
 _logger = logging.getLogger(__name__)
 
-from xlrd import open_workbook, XLRDError
-from xlrd.book import Book
-from xlrd.sheet import Sheet
-
 import sys
-import csv
 import tempfile
 
 
-class PaypalTransaktionsrapportType(object):
-    """Parser for PayPal Kontohändelser import files."""
+class DibsTransaktionsrapportType(object):
+    """Parser for DIBS Kontohändelser import files."""
 
     def __init__(self, data_file):
         try:
-            rows = []
             fp = tempfile.TemporaryFile()
             fp.write(data_file)
             fp.seek(0)
-            reader = csv.DictReader(fp)
-            for row in reader:
-                rows.append(row)
+            rows = fp.readlines()
             fp.close()
             self.data = rows
         except IOError as e:
-            _logger.error(u'Could not read CSV file')
+            _logger.error(u'Could not read DIBS file')
             raise ValueError(e)
-        if 'To Email Address' not in self.data[0].keys() or 'Transaction ID' not in self.data[0].keys() or 'Invoice Number' not in self.data[0].keys():
-            _logger.error(u'Row 0 was looking for "To Email Address", "Transaction ID" and "Invoice Number".')
-            raise ValueError(u'This is not a PayPal Report')
+        if 'Transaktionsrapport' not in self.data[0].split(' ')[0] or 'Transaktionsperiod:' != self.data[4]:
+            _logger.error(u'Row 0 was looking for "Transaktionsrapport", and "Transaktionsperiod".')
+            raise ValueError(u'This is not a DIBS Report')
 
         self.nrows = len(self.data)
         self.header = []
         self.statements = []
 
     def parse(self):
-        """Parse PayPal transaktionsrapport bank statement file contents."""
+        """Parse DIBS transaktionsrapport bank statement file contents."""
         self.paypal_identity = self.data[0].get('To Email Address')
         self.header = self.data[0].keys()
         self.account_currency = 'SEK'
@@ -71,7 +63,7 @@ class PaypalTransaktionsrapportType(object):
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account =  self.account_number
-        self.current_statement.statement_id = 'PayPal %s - %s' % (self.data[0].get('Date'), self.data[-1].get('Date'))
+        self.current_statement.statement_id = 'DIBS %s - %s' % (self.data[0].get('Date'), self.data[-1].get('Date'))
         self.current_statement.start_balance = 0.0
         # ~ for t in PaypalIterator(self.data, self.nrows, self.header, header_row=0):
         for t in self.data:
@@ -95,23 +87,5 @@ class PaypalTransaktionsrapportType(object):
 
         self.statements.append(self.current_statement)
         return self
-
-
-# ~ class PaypalIterator(object):
-    # ~ def __init__(self, data, nrows, header, header_row=1):
-        # ~ self.row = header_row + 1
-        # ~ self.nrows = nrows
-        # ~ self.data = data
-        # ~ self.header = header
-
-    # ~ def __iter__(self):
-        # ~ return self
-
-    # ~ def next(self):
-        # ~ if self.row >= self.nrows - 1:
-            # ~ raise StopIteration
-        # ~ r = self.data[(self.row)]
-        # ~ self.row += 1
-        # ~ return {self.header[n]: r[n].value for n in range(len(self.header))}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
