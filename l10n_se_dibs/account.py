@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2013-2016 Vertel AB <http://vertel.se>
-#
+#    Copyright (C) 2013-2018 Vertel AB <http://vertel.se>
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
 #    by the Free Software Foundation, either version 3 of the License, or
@@ -27,7 +26,8 @@ class account_journal(models.Model):
     _inherit = 'account.journal'
 
     is_dibs = fields.Boolean(string='Is DIBS')
-    dibs_identity = fields.Char(string='DIBS Identity')
+    dibs_user = fields.Char(string='DIBS sftp user')
+    dibs_pw = fields.Char(string='DIBS sftp pw')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

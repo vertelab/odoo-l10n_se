@@ -41,6 +41,7 @@ class DibsTransaktionsrapportType(object):
             rows = fp.readlines()
             fp.close()
             self.data = rows
+            raise Warning(rows)
         except IOError as e:
             _logger.error(u'Could not read DIBS file')
             raise ValueError(e)

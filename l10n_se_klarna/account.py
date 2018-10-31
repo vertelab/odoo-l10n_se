@@ -26,8 +26,10 @@ _logger = logging.getLogger(__name__)
 class account_journal(models.Model):
     _inherit = 'account.journal'
 
-    is_paypal = fields.Boolean(string='Is PayPal')
-    paypal_identity = fields.Char(string='PayPal Identity')
+    is_klarna = fields.Boolean(string='Is Klarna')
+    klarna_user = fields.Char(string='Klarna sftp user')
+    klarna_pw = fields.Char(string='Klarna sftp pw')
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

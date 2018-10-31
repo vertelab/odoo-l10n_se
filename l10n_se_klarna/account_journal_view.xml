@@ -2,14 +2,14 @@
 <openerp>
     <data>
         <record id="view_account_journal_form" model="ir.ui.view">
-            <field name="name">Account Journal Form inherited l10n_se_dibs</field>
+            <field name="name">Account Journal Form inherited l10n_se_klarna</field>
             <field name="model">account.journal</field>
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
                 <field name="account_control_ids" position="after">
-                    <field name="is_dibs" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
-                    <field name="dibs_user" attrs="{'invisible': [('is_dibs', '=', False)]}"/>
-                    <field name="dibs_pw" attrs="{'invisible': [('is_dibs', '=', False)]}"/>
+                    <field name="is_klarna" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
+                    <field name="klarna_user" attrs="{'invisible': [('is_klarna', '=', False),('type', '!=', 'bank')]}"/>
+                    <field name="klarna_pw" attrs="{'invisible': [('is_klarna', '=', False),('type', '!=', 'bank')]}"/>
                 </field>
             </field>
         </record>
