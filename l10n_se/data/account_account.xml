@@ -61,8 +61,7 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
             <field name="name">Force reconcile</field>
             <field name="model_id" ref="account.model_account_move_line"/>
             <field name="state">code</field>
-            <field name="code">for o in object.browse(context.get('active_ids', [])):
-    o.reconciled = True</field>
+            <field name="code"></field>
         </record>
         <record id="ir_values_reconcile_account_move_line" model="ir.values">
             <field name="model_id" ref="account.model_account_move_line" />
