@@ -69,24 +69,24 @@ class DibsTransaktionsrapportType(object):
 
     def parse(self):
         """Parse DIBS transaktionsrapport bank statement file contents."""
-        def date_format(date):
-            d = date.replace(' \n', '')
-            formated_date = '%s-%s-%s' %(d[6:10], d[3:5], d[:2])
+        def date_format(date, start_date):
+            d = date.strip().replace('\n', '')
             try:
-                datetime.datetime.strptime(formated_date, '%Y-%m-%d')
-                return formated_date
+                datetime.datetime.strptime(d, '%d/%m-%Y kl. %H:%M:%S')
+                return '%s-%s-%s' %(d[6:10], d[3:5], d[:2])
             except ValueError:
                 _logger.error('%s has en error date format' %date)
-            return '1970-01-01'
+            d = start_date.replace(' \n', '')
+            return '%s-%s-%s' %(d[6:10], d[3:5], d[:2])
 
-        self.dibs_user = self.data[0][self.data[0].find('(')+1 : self.data[0].find(')')].split(' ')[0]
         self.account_currency = 'SEK'
-        self.account_number = '00000'
+        self.account_number = self.data[0][self.data[0].find('(')+1 : self.data[0].find(')')].split(' ')[0]
 
         self.current_statement = BankStatement()
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account =  self.account_number
+        start_date = self.data[5].split('kl.')[0].split(':')[1].strip()
         self.current_statement.statement_id = 'DIBS %s %s - %s %s' %(self.data[5].split('kl.')[0].split(':')[1].strip(), self.data[5].split('kl.')[1].strip(), self.data[6].split('kl.')[0].split(':')[1].strip(), self.data[6].split('kl.')[1].strip())
         self.current_statement.start_balance = 0.0
         for t in self.data[9:]:
@@ -96,7 +96,7 @@ class DibsTransaktionsrapportType(object):
             ordernr = values[0]
             transactionsnr = values[1]
             cardtype = values[5]
-            debpoint = date_format(values[6])
+            debpoint = date_format(values[6], start_date)
             if currency == 'EUR':
                 eur = request.env['res.currency'].search([('name','=', 'EUR')])
                 amount = round(float(values[2]) / eur.rate, 2)

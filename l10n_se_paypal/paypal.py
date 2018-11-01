@@ -62,10 +62,9 @@ class PaypalTransaktionsrapportType(object):
 
     def parse(self):
         """Parse PayPal transaktionsrapport bank statement file contents."""
-        self.paypal_identity = self.data[0].get('To Email Address')
         self.header = self.data[0].keys()
         self.account_currency = 'SEK'
-        self.account_number = '0000'
+        self.account_number = self.data[0].get('To Email Address')
 
         self.current_statement = BankStatement()
         self.current_statement.date = fields.Date.today()
