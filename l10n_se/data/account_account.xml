@@ -73,29 +73,36 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
             <field name="model">account.move.line</field>
         </record>
         <record id="action_without_attachment_account_move" model="ir.actions.server">
-            <field name="name">Without attachement</field>
+            <field name="name">Untrackable Transactions</field>
             <field name="model_id" ref="account.model_account_move"/>
             <field name="state">code</field>
             <field name="code">move_ids = context.get('active_ids', [])
-without_attachment_move_ids = []
+untrackable_move_ids = []
 attach_obj = env['ir.attachment']
+invoice_obj = env['account.invoice']
+voucher_obj = env['account.voucher']
 for move in move_ids:
-    if not attach_obj.search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move)]):
-        without_attachment_move_ids.append(move)
+    attachment = attach_obj.search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move)])
+    invoice = invoice_obj.search([('move_id', '=', move)])
+    voucher = voucher_obj.search([('move_id', '=', move)])
+    move_obj = env['account.move'].browse(move)
+    if not attachment and not invoice and not voucher and not move_obj.payment_order_id:
+        untrackable_move_ids.append(move)
 action = {
     'type': 'ir.actions.act_window',
     'res_model': 'account.move',
     'view_type': 'form',
     'view_mode': 'tree,form',
-    'domain': [('id', 'in', without_attachment_move_ids)],
+    'domain': [('id', 'in', untrackable_move_ids)],
     'target': 'current',
+    'limit': 50000,
     'context': {},
 }
 </field>
         </record>
         <record id="ir_values_without_attachment_account_move" model="ir.values">
             <field name="model_id" ref="account.model_account_move" />
-            <field name="name">Without attachement</field>
+            <field name="name">Untrackable Transactions</field>
             <field name="key2">client_action_multi</field>
             <field name="value" eval="'ir.actions.server,' +str(ref('l10n_se.action_without_attachment_account_move'))" />
             <field name="key">action</field>
