@@ -454,6 +454,25 @@ class AccountBankStatement(models.Model):
                 untrackable_move_ids |= move
         return untrackable_move_ids
 
+    # ~ @api.model
+    # ~ def _search_untrackable_journal_entries_count(self, operator, value):
+        # ~ self.env.cr.execute("select distinct move_id from account_invoice;")
+        # ~ move_ids = [d['move_id'] for d in self.env.cr.dictfetchall()]
+        # ~ self.env.cr.execute("select distinct move_id from account_voucher;")
+        # ~ move_ids += [d['move_id'] for d in self.env.cr.dictfetchall()]
+        # ~ self.env.cr.execute("select distinct res_id from ir_attachment where type='binary' and res_model='account.move';")
+        # ~ move_ids += [d['res_id'] for d in self.env.cr.dictfetchall()]
+        # ~ self.env.cr.execute("select id from account_move where payment_order_id is not null;")
+        # ~ move_ids += [d['id'] for d in self.env.cr.dictfetchall()]
+        # ~ move_ids = list(set(move_ids))
+        # ~ if operator == '=':
+            # ~ if value == 0:
+                # ~ return [('line_ids.journal_entry_ids', 'in', move_ids)]
+        # ~ if operator == '!=':
+            # ~ if value == 0:
+                # ~ return [('line_ids.journal_entry_ids', 'not in', move_ids)]
+        # ~ raise Warning('Not implemented')
+
 
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
