@@ -22,12 +22,29 @@ from odoo import models, fields, api, _
 from odoo.http import request
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
+import datetime
 
 import logging
 _logger = logging.getLogger(__name__)
 
 import sys
 import tempfile
+
+CURRENCIES = {
+    '208': u'Danska Kronor (DKK)',
+    '978': u'Euro (EUR)',
+    '840': u'US Dollar $ (USD)',
+    '826': u'Engelska Pund £ (GBP)',
+    '752': u'Svenska Kronor (SEK)',
+    '036': u'Australiensiska Dollar (AUD)',
+    '124': u'Kanadensiska Dollar (CAD)',
+    '352': u'Isländska Kronor (ISK)',
+    '392': u'Japanska Yen (JPY)',
+    '554': u'New Zealändska Dollar (NZD)',
+    '578': u'Norska Kronor (NOK)',
+    '756': u'Schweiziska Franc (CHF)',
+    '949': u'Turkiska Lire (TRY)',
+}
 
 
 class DibsTransaktionsrapportType(object):
@@ -41,50 +58,67 @@ class DibsTransaktionsrapportType(object):
             rows = fp.readlines()
             fp.close()
             self.data = rows
-            raise Warning(rows)
         except IOError as e:
             _logger.error(u'Could not read DIBS file')
             raise ValueError(e)
-        if 'Transaktionsrapport' not in self.data[0].split(' ')[0] or 'Transaktionsperiod:' != self.data[4]:
-            _logger.error(u'Row 0 was looking for "Transaktionsrapport", and "Transaktionsperiod".')
+        if ('Transaktionsrapport' not in self.data[0].split(' ')) or (self.data[4] != 'Transaktionsperiod:\n') or ('Ordernr' not in self.data[8].split(',')):
+            _logger.error(u'Row 0 was looking for "Transaktionsrapport", "Transaktionsperiod" and "Ordernr".')
             raise ValueError(u'This is not a DIBS Report')
 
-        self.nrows = len(self.data)
-        self.header = []
         self.statements = []
 
     def parse(self):
         """Parse DIBS transaktionsrapport bank statement file contents."""
-        self.paypal_identity = self.data[0].get('To Email Address')
-        self.header = self.data[0].keys()
+        def date_format(date):
+            d = date.replace(' \n', '')
+            formated_date = '%s-%s-%s' %(d[6:10], d[3:5], d[:2])
+            try:
+                datetime.datetime.strptime(formated_date, '%Y-%m-%d')
+                return formated_date
+            except ValueError:
+                _logger.error('%s has en error date format' %date)
+            return '1970-01-01'
+
+        self.dibs_user = self.data[0][self.data[0].find('(')+1 : self.data[0].find(')')].split(' ')[0]
         self.account_currency = 'SEK'
-        self.account_number = '0000'
+        self.account_number = '00000'
 
         self.current_statement = BankStatement()
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account =  self.account_number
-        self.current_statement.statement_id = 'DIBS %s - %s' % (self.data[0].get('Date'), self.data[-1].get('Date'))
+        self.current_statement.statement_id = 'DIBS %s %s - %s %s' %(self.data[5].split('kl.')[0].split(':')[1].strip(), self.data[5].split('kl.')[1].strip(), self.data[6].split('kl.')[0].split(':')[1].strip(), self.data[6].split('kl.')[1].strip())
         self.current_statement.start_balance = 0.0
-        # ~ for t in PaypalIterator(self.data, self.nrows, self.header, header_row=0):
-        for t in self.data:
-            if t['Currency'] == 'EUR':
+        for t in self.data[9:]:
+            values = t.split(',')
+            curr = CURRENCIES.get(values[3], '')
+            currency = curr[curr.find('(')+1 : curr.find(')')].split(' ')[0]
+            ordernr = values[0]
+            transactionsnr = values[1]
+            cardtype = values[5]
+            debpoint = date_format(values[6])
+            if currency == 'EUR':
                 eur = request.env['res.currency'].search([('name','=', 'EUR')])
-                t['Gross'] = round(float(t['Gross'].replace(',', '')) / eur.rate, 2)
-                t['Fee'] = round(float(t['Fee'].replace(',', '')) / eur.rate, 2)
-                t['Net'] = round(float(t['Net'].replace(',', '')) / eur.rate, 2)
+                amount = round(float(values[2]) / eur.rate, 2)
+                fee_text = values[4]
+                fee = round(float(fee_text.replace('??', '0.00')) / eur.rate, 2) # TODO: Unkown fee?
+            elif currency == 'USD':
+                usd = request.env['res.currency'].search([('name','=', 'USD')])
+                amount = round(float(values[2]) / usd.rate, 2)
+                fee_text = values[4]
+                fee = round(float(fee_text.replace('??', '0.00')) / usd.rate, 2)
             else:
-                t['Gross'] = float(t['Gross'].replace(',', ''))
-                t['Fee'] = float(t['Fee'].replace(',', ''))
-                t['Net'] = float(t['Net'].replace(',', ''))
+                amount = float(values[2])
+                fee_text = values[4]
+                fee = float(fee_text.replace('??', '0.00'))
             transaction = self.current_statement.create_transaction()
-            transaction.transferred_amount = t['Gross']
-            self.current_statement.end_balance += t['Gross']
-            transaction.eref = (t['Invoice Number'])
-            transaction.name = '%s (%s)' % (t['Name'].strip(), t['From Email Address'].strip())
-            transaction.note = 'Brutto: %s\nAvgift: %s\nNetto: %s\nTransaction ID: %s' % (t['Gross'], t['Fee'], t['Net'], t['Transaction ID'])
-            transaction.value_date = '%s-%s-%s' %(t['Date'][-4:], t['Date'][3:5], t['Date'][0:2])
-            transaction.unique_import_id = t['Invoice Number']
+            transaction.transferred_amount = amount + fee
+            self.current_statement.end_balance += amount + fee
+            transaction.eref = ordernr
+            transaction.name = '%s (%s)' % (ordernr, transactionsnr)
+            transaction.note = 'Belopp: %s\nAvgift: %s\nTransaction ID: %s' % (amount, fee_text, transactionsnr)
+            transaction.value_date = debpoint
+            transaction.unique_import_id = ordernr
 
         self.statements.append(self.current_statement)
         return self

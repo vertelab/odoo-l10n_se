@@ -80,6 +80,11 @@ class PaypalTransaktionsrapportType(object):
                 t['Gross'] = round(float(t['Gross'].replace(',', '')) / eur.rate, 2)
                 t['Fee'] = round(float(t['Fee'].replace(',', '')) / eur.rate, 2)
                 t['Net'] = round(float(t['Net'].replace(',', '')) / eur.rate, 2)
+            elif t['Currency'] == 'USD':
+                usd = request.env['res.currency'].search([('name','=', 'USD')])
+                t['Gross'] = round(float(t['Gross'].replace(',', '')) / usd.rate, 2)
+                t['Fee'] = round(float(t['Fee'].replace(',', '')) / usd.rate, 2)
+                t['Net'] = round(float(t['Net'].replace(',', '')) / usd.rate, 2)
             else:
                 t['Gross'] = float(t['Gross'].replace(',', ''))
                 t['Fee'] = float(t['Fee'].replace(',', ''))
