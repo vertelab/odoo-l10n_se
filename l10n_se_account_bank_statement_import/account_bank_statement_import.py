@@ -333,6 +333,7 @@ class AccountBankStatementImport(models.TransientModel):
                         self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
                     else: # searching invoices
                         self.bank_statement_auto_reconcile_invoice(statement, statement_line, statement_line.name, statement_line.date, statement_line.amount)
+                statement.period_id = self.env['account.period'].date2period(statement.date)
         return res
 
     @api.model
