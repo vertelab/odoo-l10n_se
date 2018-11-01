@@ -413,6 +413,7 @@ class AccountBankStatement(models.Model):
 
     start_balance_calc = fields.Float(compute='_start_end_balance')
     end_balance_calc = fields.Float(compute='_start_end_balance')
+    @api.one
     def _start_end_balance(self):
         start_date = self.period_id.fiscalyear_id.date_start
         statement_start_date = self.line_ids.sorted(key=lambda l: l.date)[0].date
@@ -421,6 +422,38 @@ class AccountBankStatement(models.Model):
         self.end_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', statement_start_date), ('date', '<=', statement_end_date), ('account_id', '=', self.journal_id.default_debit_account_id.id)]).mapped('balance')) + self.start_balance_calc
 
     bg_serial_number = fields.Char(string='BG serial number')
+    untrackable_journal_entries_count = fields.Integer(compute='_untrackable_journal_entries_count', string='Untrackable Entries')
+    @api.one
+    def _untrackable_journal_entries_count(self):
+        self.untrackable_journal_entries_count = len(self.get_untrackable_journal_entries())
+
+    @api.multi
+    def button_untrackable_journal_entries(self):
+        untrackable_move_ids = self.get_untrackable_journal_entries()
+        return {
+            'name': _('Untrackable Entries'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', untrackable_move_ids.mapped('id'))],
+            'target': 'current',
+            'limit': 300,
+            'context': {},
+        }
+
+    @api.multi
+    def get_untrackable_journal_entries(self):
+        untrackable_move_ids = self.env['account.move'].browse()
+        for line in self.line_ids:
+            move = self.env['account.move'].search([('statement_line_id', '=', line.id)])
+            attachment = self.env['ir.attachment'].search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move.id)])
+            invoice = self.env['account.invoice'].search([('move_id', '=', move.id)])
+            voucher = self.env['account.voucher'].search([('move_id', '=', move.id)])
+            if not attachment and not invoice and not voucher and not move.payment_order_id:
+                untrackable_move_ids |= move
+        return untrackable_move_ids
+
 
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"

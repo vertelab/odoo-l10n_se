@@ -89,6 +89,7 @@ for move in move_ids:
     if not attachment and not invoice and not voucher and not move_obj.payment_order_id:
         untrackable_move_ids.append(move)
 action = {
+    'name': 'Untrackable Entries',
     'type': 'ir.actions.act_window',
     'res_model': 'account.move',
     'view_type': 'form',
