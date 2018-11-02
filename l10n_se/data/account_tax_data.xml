@@ -278,7 +278,7 @@
             <field name="account_id" ref="chart2645"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
-        
+
         <!-- 48 ??? -->
         <record id="rtfeu" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
@@ -777,38 +777,55 @@
     </data>
     <data>
         <record id="update_account_tax" model="ir.actions.server">
-            <field name="name">Update account tax</field>
+            <field name="name">Uppdatera skatter</field>
             <field name="model_id" ref="base.model_ir_actions_server"/>
             <field name="state">code</field>
             <field name="condition">True</field>
             <field name="code">for template in env['account.tax.template'].search([]):
     account_tax = env['account.tax'].search([('name', '=', template.name)])
-    if account_tax:
-        account_tax.write({
-            'description': template.description,
-            'amount_type': template.amount_type,
-            'amount': template.amount,
-            'price_include': template.price_include,
-            'type_tax_use': template.type_tax_use,
-            'account_id': template.account_id.id,
-            'refund_account_id': template.refund_account_id.id,
-            'tax_group_id': template.tax_group_id.id,
-            'children_tax_ids': [(6, 0, template.children_tax_ids.mapped('id'))] if len(template.children_tax_ids) > 0 else None,
-        })
-    else:
-        env['account.tax'].create({
-            'name': template.name,
-            'description': template.description,
-            'amount_type': template.amount_type,
-            'amount': template.amount,
-            'price_include': template.price_include,
-            'type_tax_use': template.type_tax_use,
-            'account_id': template.account_id.id,
-            'refund_account_id': template.refund_account_id.id,
-            'tax_group_id': template.tax_group_id.id,
-            'children_tax_ids': [(6, 0, template.children_tax_ids.mapped('id'))] if len(template.children_tax_ids) > 0 else None,
-        })
+    try:
+        if not account_tax:
+            account_tax = env['account.tax'].create({
+                'name': template.name,
+                'amount_type': template.amount_type,
+                'type_tax_use': template.type_tax_use,
+                'tax_group_id': template.tax_group_id.id,
+                'account_id': env['account.account'].search([('code', '=', template.account_id.code)]).id,
+                'refund_account_id': env['account.account'].search([('code', '=', template.refund_account_id.code)]).id,
+                'amount': template.amount,
+                'description': template.description,
+                'price_include': template.price_include,
+            })
+            if account_tax.amount_type == 'group':
+                children_taxs = template.children_tax_ids.mapped('name')
+                if len(children_taxs) > 0:
+                    account_tax.children_tax_ids = [(6, 0, env['account.tax'].search([('name', 'in', children_taxs)]).mapped('id'))]
+        else:
+            account_tax.write({
+                'amount_type': template.amount_type,
+                'type_tax_use': template.type_tax_use,
+                'tax_group_id': template.tax_group_id.id,
+                'account_id': env['account.account'].search([('code', '=', template.account_id.code)]).id,
+                'refund_account_id': env['account.account'].search([('code', '=', template.refund_account_id.code)]).id,
+                'amount': template.amount,
+                'description': template.description,
+                'price_include': template.price_include,
+            })
+            if account_tax.amount_type == 'group':
+                children_taxs = template.children_tax_ids.mapped('name')
+                if len(children_taxs) > 0:
+                    account_tax.children_tax_ids = [(6, 0, env['account.tax'].search([('name', 'in', children_taxs)]).mapped('id'))]
+    except:
+        log('Fel att konvertera template: %s till konto: %s' %(template, account_tax))
             </field>
+        </record>
+        <record id="ir_values_update_account_tax" model="ir.values">
+            <field name="model_id" ref="base.model_ir_actions_server" />
+            <field name="name">Uppdatera skatter</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,' +str(ref('l10n_se.update_account_tax'))" />
+            <field name="key">action</field>
+            <field name="model">ir.actions.server</field>
         </record>
 
     </data>

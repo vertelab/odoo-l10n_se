@@ -49,13 +49,30 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
             <field name="model_id" ref="base.model_ir_actions_server"/>
             <field name="state">code</field>
             <field name="code">for template in env['account.account.template'].search([]):
-    if not env['account.account'].search([('code', '=', template.code)]):
+    account = env['account.account'].search([('code', '=', template.code)])
+    if not account:
         env['account.account'].create({
             'name': template.name,
             'code': template.code,
             'user_type_id': template.user_type_id.id,
             'note': template.note,
-        })</field>
+        })
+    else:
+        account.write({
+            'name': template.name,
+            'code': template.code,
+            'user_type_id': template.user_type_id.id,
+            'note': template.note,
+        })
+            </field>
+        </record>
+        <record id="ir_values_update_account_account" model="ir.values">
+            <field name="model_id" ref="base.model_ir_actions_server" />
+            <field name="name">Uppdatera kontoplan</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,' +str(ref('l10n_se.update_account_account'))" />
+            <field name="key">action</field>
+            <field name="model">ir.actions.server</field>
         </record>
         <record id="action_reconcile_account_move_line" model="ir.actions.server">
             <field name="name">Force reconcile</field>
