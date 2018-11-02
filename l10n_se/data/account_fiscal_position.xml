@@ -701,7 +701,272 @@ else:
         fpos_trade_eu_tax_balance_tfeu12.id,
         fpos_trade_eu_tax_balance_tfeu6.id,
     ])]
-            </field>
+if not fpos_trade_world:
+    fpos_trade_world = env['account.fiscal.position'].create({
+        'name': u'Handel utanför EU',
+    })
+    fpos_trade_world_tax_mp1 = env['account.fiscal.position.tax'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'MP1')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'E')]).id
+    })
+    fpos_trade_world_tax_mp2 = env['account.fiscal.position.tax'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'MP2')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'E')]).id
+    })
+    fpos_trade_world_tax_mp3 = env['account.fiscal.position.tax'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'MP3')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'E')]).id
+    })
+    fpos_trade_world_tax_i = env['account.fiscal.position.tax'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'I')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'MBBUI1')]).id
+    })
+    fpos_trade_world_tax_i12 = env['account.fiscal.position.tax'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'I12')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'MBBUI2')]).id
+    })
+    fpos_trade_world_tax_i6 = env['account.fiscal.position.tax'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'I6')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'MBBUI3')]).id
+    })
+    fpos_trade_world_acc_3000 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '3000')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+    })
+    fpos_trade_world_acc_3001 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '3001')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+    })
+    fpos_trade_world_acc_3002 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '3002')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+    })
+    fpos_trade_world_acc_3003 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '3003')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+    })
+    fpos_trade_world_acc_3004 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '3004')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+    })
+    fpos_trade_world_acc_4000 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '4000')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '4545')]).id
+    })
+    fpos_trade_world_acc_4001 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '4001')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '4545')]).id
+    })
+    fpos_trade_world_acc_4002 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '4002')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '4546')]).id
+    })
+    fpos_trade_world_acc_4003 = env['account.fiscal.position.account'].create({
+        'position_id': fpos_trade_world.id,
+        'account_src_id': env['account.account'].search([('code', '=', '4003')]).id,
+        'account_dest_id': env['account.account'].search([('code', '=', '4547')]).id
+    })
+    fpos_trade_world_tax_balance_mbbui1 = env['account.fiscal.position.tax.balance'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'MBBUI1')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'U1MBBUI')]).id
+    })
+    fpos_trade_world_tax_balance_mbbui2 = env['account.fiscal.position.tax.balance'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'MBBUI2')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'U2MBBUI')]).id
+    })
+    fpos_trade_world_tax_balance_mbbui3 = env['account.fiscal.position.tax.balance'].create({
+        'position_id': fpos_trade_world.id,
+        'tax_src_id': env['account.tax'].search([('name', '=', 'MBBUI3')]).id,
+        'tax_dest_id': env['account.tax'].search([('name', '=', 'U3MBBUI')]).id
+    })
+    fpos_trade_world.tax_ids = [(6, False, [
+        fpos_trade_world_tax_mp1.id,
+        fpos_trade_world_tax_mp2.id,
+        fpos_trade_world_tax_mp3.id,
+        fpos_trade_world_tax_i.id,
+        fpos_trade_world_tax_i12.id,
+        fpos_trade_world_tax_i6.id,
+    ])]
+    fpos_trade_world.account_ids = [(6, False, [
+        fpos_trade_world_acc_3000.id,
+        fpos_trade_world_acc_3001.id,
+        fpos_trade_world_acc_3002.id,
+        fpos_trade_world_acc_3003.id,
+        fpos_trade_world_acc_3004.id,
+        fpos_trade_world_acc_4000.id,
+        fpos_trade_world_acc_4001.id,
+        fpos_trade_world_acc_4002.id,
+        fpos_trade_world_acc_4003.id,
+    ])]
+    fpos_trade_world.tax_balance_ids = [(6, False, [
+        fpos_trade_world_tax_balance_mbbui1.id,
+        fpos_trade_world_tax_balance_mbbui2.id,
+        fpos_trade_world_tax_balance_mbbui3.id,
+    ])]
+else:
+    fpos_trade_world.write({
+        'name': u'Handel utanför EU',
+    })
+    fpos_trade_world_tax_mp1 = env['account.fiscal.position.tax'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'MP1')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'E')]).id)])
+    fpos_trade_world_tax_mp2 = env['account.fiscal.position.tax'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'MP2')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'E')]).id)])
+    fpos_trade_world_tax_mp3 = env['account.fiscal.position.tax'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'MP3')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'E')]).id)])
+    fpos_trade_world_tax_i = env['account.fiscal.position.tax'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'I')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'MBBUI1')]).id)])
+    fpos_trade_world_tax_i12 = env['account.fiscal.position.tax'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'I12')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'MBBUI2')]).id)])
+    fpos_trade_world_tax_i6 = env['account.fiscal.position.tax'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'I6')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'MBBUI3')]).id)])
+    fpos_trade_world_acc_3000 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '3000')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '3105')]).id)])
+    fpos_trade_world_acc_3001 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '3001')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '3105')]).id)])
+    fpos_trade_world_acc_3002 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '3002')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '3105')]).id)])
+    fpos_trade_world_acc_3003 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '3003')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '3105')]).id)])
+    fpos_trade_world_acc_3004 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '3004')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '3105')]).id)])
+    fpos_trade_world_acc_4000 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '4000')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '4545')]).id)])
+    fpos_trade_world_acc_4001 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '4001')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '4545')]).id)])
+    fpos_trade_world_acc_4002 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '4002')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '4546')]).id)])
+    fpos_trade_world_acc_4003 = env['account.fiscal.position.account'].search([('position_id', '=', fpos_trade_world.id), ('account_src_id', '=', env['account.account'].search([('code', '=', '4003')]).id), ('account_dest_id', '=', env['account.account'].search([('name', '=', '4547')]).id)])
+    fpos_trade_world_tax_balance_mbbui1 = env['account.fiscal.position.tax.balance'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'MBBUI1')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'U1MBBUI')]).id)])
+    fpos_trade_world_tax_balance_mbbui2 = env['account.fiscal.position.tax.balance'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'MBBUI2')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'U2MBBUI')]).id)])
+    fpos_trade_world_tax_balance_mbbui3 = env['account.fiscal.position.tax.balance'].search([('position_id', '=', fpos_trade_world.id), ('tax_src_id', '=', env['account.tax'].search([('name', '=', 'MBBUI3')]).id), ('tax_dest_id', '=', env['account.tax'].search([('name', '=', 'U3MBBUI')]).id)])
+    if not fpos_trade_world_tax_mp1:
+        fpos_trade_world_tax_mp1 = env['account.fiscal.position.tax'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'MP1')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'E')]).id
+        })
+    if not fpos_trade_world_tax_mp2:
+        fpos_trade_world_tax_mp2 = env['account.fiscal.position.tax'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'MP2')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'E')]).id
+        })
+    if not fpos_trade_world_tax_mp3:
+        fpos_trade_world_tax_mp3 = env['account.fiscal.position.tax'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'MP3')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'E')]).id
+        })
+    if not fpos_trade_world_tax_i:
+        fpos_trade_world_tax_i = env['account.fiscal.position.tax'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'I')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'MBBUI1')]).id
+        })
+    if not fpos_trade_world_tax_i12:
+        fpos_trade_world_tax_i12 = env['account.fiscal.position.tax'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'I12')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'MBBUI2')]).id
+        })
+    if not fpos_trade_world_tax_i6:
+        fpos_trade_world_tax_i6 = env['account.fiscal.position.tax'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'I6')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'MBBUI3')]).id
+        })
+    if not fpos_trade_world_acc_3000:
+        fpos_trade_world_acc_3000 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '3000')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+        })
+    if not fpos_trade_world_acc_3001:
+        fpos_trade_world_acc_3001 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '3001')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+        })
+    if not fpos_trade_world_acc_3003:
+        fpos_trade_world_acc_3003 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '3003')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+        })
+    if not fpos_trade_world_acc_3004:
+        fpos_trade_world_acc_3004 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '3004')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '3105')]).id
+        })
+    if not fpos_trade_world_acc_4000:
+        fpos_trade_world_acc_4000 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '4000')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '4545')]).id
+        })
+    if not fpos_trade_world_acc_4001:
+        fpos_trade_world_acc_4001 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '4001')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '4545')]).id
+        })
+    if not fpos_trade_world_acc_4002:
+        fpos_trade_world_acc_4002 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '4002')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '4546')]).id
+        })
+    if not fpos_trade_world_acc_4003:
+        fpos_trade_world_acc_4003 = env['account.fiscal.position.account'].create({
+            'position_id': fpos_trade_world.id,
+            'account_src_id': env['account.account'].search([('code', '=', '4003')]).id,
+            'account_dest_id': env['account.account'].search([('code', '=', '4547')]).id
+        })
+    if not fpos_trade_world_tax_balance_mbbui1:
+        fpos_trade_world_tax_balance_mbbui1 = env['account.fiscal.position.tax.balance'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'MBBUI1')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'U1MBBUI1')]).id
+        })
+    if not fpos_trade_world_tax_balance_mbbui2:
+        fpos_trade_world_tax_balance_mbbui2 = env['account.fiscal.position.tax.balance'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'MBBUI2')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'U2MBBUI1')]).id
+        })
+    if not fpos_trade_world_tax_balance_mbbui3:
+        fpos_trade_world_tax_balance_mbbui3 = env['account.fiscal.position.tax.balance'].create({
+            'position_id': fpos_trade_world.id,
+            'tax_src_id': env['account.tax'].search([('name', '=', 'MBBUI3')]).id,
+            'tax_dest_id': env['account.tax'].search([('name', '=', 'U3MBBUI1')]).id
+        })
+    fpos_trade_world.tax_ids = [(6, False, [
+        fpos_trade_world_tax_mp1.id,
+        fpos_trade_world_tax_mp2.id,
+        fpos_trade_world_tax_mp3.id,
+        fpos_trade_world_tax_i.id,
+        fpos_trade_world_tax_i12.id,
+        fpos_trade_world_tax_i6.id,
+    ])]
+    fpos_trade_world.account_ids = [(6, False, [
+        fpos_trade_world_acc_3000.id,
+        fpos_trade_world_acc_3001.id,
+        fpos_trade_world_acc_3002.id,
+        fpos_trade_world_acc_3003.id,
+        fpos_trade_world_acc_3004.id,
+        fpos_trade_world_acc_4000.id,
+        fpos_trade_world_acc_4001.id,
+        fpos_trade_world_acc_4002.id,
+        fpos_trade_world_acc_4003.id,
+    ])]
+    fpos_trade_world.tax_balance_ids = [(6, False, [
+        fpos_trade_world_tax_balance_mbbui1.id,
+        fpos_trade_world_tax_balance_mbbui2.id,
+        fpos_trade_world_tax_balance_mbbui3.id,
+    ])]</field>
         </record>
         <record id="ir_values_copy_account_fiscal_position" model="ir.values">
             <field name="model_id" ref="base.model_ir_actions_server" />
