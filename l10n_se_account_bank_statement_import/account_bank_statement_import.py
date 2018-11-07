@@ -448,8 +448,8 @@ class AccountBankStatement(models.Model):
         for line in self.line_ids:
             move = self.env['account.move'].search([('statement_line_id', '=', line.id)])
             attachment = self.env['ir.attachment'].search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move.id)])
-            invoice = self.env['account.invoice'].search([('move_id', '=', move.id)])
-            voucher = self.env['account.voucher'].search([('move_id', '=', move.id)])
+            invoice = self.env['account.invoice'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
+            voucher = self.env['account.voucher'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
             if not attachment and not invoice and not voucher and not move.payment_order_id:
                 untrackable_move_ids |= move
         return untrackable_move_ids
