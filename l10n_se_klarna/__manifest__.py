@@ -29,7 +29,7 @@
     'external_dependencies': {
         'python': ['xlrd'],
     },
-    'data': ['account_journal_view.xml','account_data.xml']
+    'data': ['account_journal_view.xml','account_data.xml'],
     'installable': 'True',
     'application': 'False',
 }
