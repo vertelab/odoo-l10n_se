@@ -162,7 +162,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" eval="[(6, 0, [])]"/>
-            <field name="account_ids" search="[('code', 'in', ['4535', '4536', '4537', '4538', '6424', '6500', '6530', '6540', '6550', '6590'])]"/> <!-- 4538 = momsfri??? -->
+            <field name="account_ids" search="[('code', 'in', ['4535', '4536', '4537', '4538'])]"/> <!-- 4538 = momsfri??? -->
         </record>
         <record id="22" model="account.financial.report">
             <field name="name">22. Inköp av tjänster från land utanför EU</field>
@@ -193,6 +193,7 @@
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'ITIS')]"/>
             <field name="account_ids" eval="[(6, 0, [])]"/>
+            <!-- '6424', '6500', '6530', '6540', '6550', '6590' -->
         </record>
         <!-- column D -->
         <record id="d" model="account.financial.report">
