@@ -63,6 +63,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" eval="[(6, 0, [])]"/>
             <field name="account_ids" search="[('code', 'in', ['3000', '3001', '3002', '3003', '3510', '3511', '3518', '3520', '3540', '3550', '3560', '3561', '3562', '3563', '3570', '3590', '3600', '3610', '3611', '3612', '3613', '3619', '3620', '3730', '3731', '3732', '3740'])]"/>
         </record>
         <record id="6" model="account.financial.report">
@@ -73,6 +74,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'MU1')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="7" model="account.financial.report">
             <field name="name">7. Beskattningsunderlag vid vinstmarginalbeskattning</field>
@@ -82,6 +84,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'MBBU')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="8" model="account.financial.report">
             <field name="name">8. Hyresinkomster vid frivillig skattskyldighet</field>
@@ -91,6 +94,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'MPFF')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <!-- column B -->
         <record id="b" model="account.financial.report">
@@ -109,6 +113,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['MP1', 'MP1i'])]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="11" model="account.financial.report">
             <field name="name">11. Utgående moms 12%</field>
@@ -118,6 +123,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['MP2', 'MP2i'])]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="12" model="account.financial.report">
             <field name="name">12. Utgående moms 6%</field>
@@ -127,6 +133,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['MP3', 'MP3i'])]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <!-- column C -->
         <record id="c" model="account.financial.report">
@@ -144,6 +151,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" eval="[(6, 0, [])]"/>
             <field name="account_ids" search="[('code', 'in', ['4515', '4516', '4517', '4518'])]"/> <!-- 4518 = momsfri??? -->
         </record>
         <record id="21" model="account.financial.report">
@@ -153,6 +161,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" eval="[(6, 0, [])]"/>
             <field name="account_ids" search="[('code', 'in', ['4535', '4536', '4537', '4538', '6424', '6500', '6530', '6540', '6550', '6590'])]"/> <!-- 4538 = momsfri??? -->
         </record>
         <record id="22" model="account.financial.report">
@@ -163,6 +172,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids"  search="[('name', '=', 'TFFU')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="23" model="account.financial.report">
             <field name="name">23. Inköp av varor i Sverige</field>
@@ -172,6 +182,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'IVIS')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="24" model="account.financial.report">
             <field name="name">24. Inköp av tjänster i Sverige</field>
@@ -181,6 +192,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'ITIS')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <!-- column D -->
         <record id="d" model="account.financial.report">
@@ -199,6 +211,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['U1MI', 'RTFEU'])]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="31" model="account.financial.report">
             <field name="name">31. Utgående moms 12%</field>
@@ -208,6 +221,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['U2MI', 'RTFEU12'])]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="32" model="account.financial.report">
             <field name="name">32. Utgående moms 6%</field>
@@ -217,6 +231,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['U3MI', 'RTFEU6'])]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <!-- column H -->
         <record id="h" model="account.financial.report">
@@ -233,6 +248,7 @@
             <field name="parent_id" ref="l10n_se_tax_report.h"/>
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
+            <field name="tax_ids" eval="[(6, 0, [])]"/>
             <field name="account_ids" search="[('code', 'in', ['4545', '4546', '4547'])]"/>
             <field name="style_overwrite" eval="4"/>
         </record>
@@ -253,6 +269,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U1MBBUI')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="61" model="account.financial.report">
             <field name="name">61. Utgående moms 12 %</field>
@@ -262,6 +279,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U2MBBUI')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="62" model="account.financial.report">
             <field name="name">62. Utgående moms 6 %</field>
@@ -271,6 +289,7 @@
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'U3MBBUI')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <!-- column E -->
         <record id="e" model="account.financial.report">
@@ -288,6 +307,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="-1"/>
             <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" eval="[(6, 0, [])]"/>
             <field name="account_ids" search="[('code', 'in', ['3106', '3108'])]"/>
         </record>
         <record id="36" model="account.financial.report">
@@ -297,6 +317,7 @@
             <field name="type">accounts</field>
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
+            <field name="tax_ids" eval="[(6, 0, [])]"/>
             <field name="account_ids" search="[('code', '=', '3105')]"/>
         </record>
         <record id="37" model="account.financial.report">
@@ -307,6 +328,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', '3VEU')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="38" model="account.financial.report">
             <field name="name">38. Mellanmans försäljning av varor vid trepartshandel</field>
@@ -316,6 +338,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', '3FEU')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="39" model="account.financial.report">
             <field name="name">39. Försäjning av tjänster när köparen är skatteskyldig i EU</field>
@@ -325,6 +348,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'FTEU')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="40" model="account.financial.report">
             <field name="name">40. Övrig försäljning av tjänster omsatta i utlandet</field>
@@ -334,6 +358,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'OTTU')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="41" model="account.financial.report">
             <field name="name">41. Försäljning när köparen är skatteskyldig i Sverige</field>
@@ -343,6 +368,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'OMSS')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <record id="42" model="account.financial.report">
             <field name="name">42. Övrig försäljning m.m</field>
@@ -352,6 +378,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'MF')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <!-- column F -->
         <record id="f" model="account.financial.report">
@@ -370,6 +397,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i', 'VFEU', 'VFEU12', 'VFEU6', 'MBBUI1', 'MBBUI2', 'MBBUI3', 'TFEU', 'TFEU12', 'TFEU6'])]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
         <!-- column G -->
         <record id="g" model="account.financial.report">
@@ -388,6 +416,7 @@
             <field name="sign" eval="1"/>
             <field name="style_overwrite" eval="4"/>
             <field name="tax_ids" search="[('name', '=', 'MomsBetala')]"/>
+            <field name="account_ids" eval="[(6, 0, [])]"/>
         </record>
     </data>
 

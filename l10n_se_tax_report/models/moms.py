@@ -172,7 +172,6 @@ class account_declaration(models.Model):
     @api.model
     def get_next_periods(self,length=3):
         last_declaration = self.search([],order='date_stop desc',limit=1)
-        _logger.warn('get_netx_period date_stop %s >>> %s | %s' % (last_declaration.date_stop,self.search([],order='date_stop asc').mapped('name'),self.search([],order='date_stop desc').mapped('name')))
         return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None, int(self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.vat_declaration_frequency', default=str(length))))
 
     @api.one

@@ -99,38 +99,12 @@ class account_financial_report(models.Model):
 
     @api.multi
     def get_moveline_ids(self):
-        _logger.warn('financial report %s',self)
-        for account in self.account_ids:
-            _logger.warn('account: %s --> %s (%s)' % (account.code,account.with_context(self._context).get_movelines(),self._context))
-            _logger.warn('account: %s >>> %s' % (account.code,[l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()]))
-
-        for tax in self.tax_ids:
-            _logger.warn('tax: %s' % tax.name)
-            _logger.warn(tax.with_context(self._context).get_taxlines())
         return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()]))
 
     @api.multi
     def get_taxlines(self):
-        _logger.warn(self.name)
-        _logger.warn(self._context)
-        for tax in self.tax_ids:
-            _logger.warn('tax: %s' % tax.name)
-            _logger.warn(tax.with_context(self._context).get_taxlines())
         lines = [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()]
         return self.env['account.move.line'].browse(lines)
-
-    @api.model
-    def create(self, vals):
-        res = super(account_financial_report, self).create(vals)
-        res.account_ids |= res.tax_ids.mapped('children_tax_ids').mapped('account_id') | res.tax_ids.mapped('account_id')
-        return res
-
-    @api.multi
-    def write(self, vals):
-        res = super(account_financial_report, self).write(vals)
-        if 'tax_ids' in vals:
-            self.account_ids |= self.tax_ids.mapped('children_tax_ids').mapped('account_id') | self.tax_ids.mapped('account_id')
-        return res
 
 
 class ReportFinancial(models.AbstractModel):
