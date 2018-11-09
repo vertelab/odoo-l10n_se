@@ -1,14 +1,25 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
 <data>
-
+    
+    <!-- K2 Trade with Sweden -->
+    <record id="k2_fpos_trade_swe" model="account.fiscal.position.template">
+        <field name="name">Handel inom Sverige</field>
+        <field name="chart_template_id" ref="chart_template_K2_2017"/>
+        <field name="auto_apply" eval="True"/>
+        <field name="country_id" ref="base.se"/>
+    </record>
+    
     <!-- K2 Trade with EU -->
     <record id="k2_fpos_trade_eu" model="account.fiscal.position.template">
         <field name="name">Handel med EU</field>
-        <field name="chart_template_id" ref="chart_template_K2_2017" />
+        <field name="chart_template_id" ref="chart_template_K2_2017"/>
         <field name="note">Reverse charge, intracommunity supply of goods</field>
+        <field name="auto_apply" eval="True"/>
+        <field name="vat_required" eval="True"/>
+        <field name="country_group_id" ref="base.europe"/>
     </record>
-
+    
     <!-- K2 Trade with EU tax lines -->
     <record id="k2_fpos_trade_eu_tax_mp1" model="account.fiscal.position.tax.template">
         <field name="position_id" ref="k2_fpos_trade_eu"/>
@@ -166,6 +177,7 @@
         <field name="name">Handel utanför EU</field>
         <field name="chart_template_id" ref="chart_template_K2_2017" />
         <field name="note"></field>
+        <field name="auto_apply" eval="True"/>
     </record>
 
     <!-- K2 Trade with world tax lines -->

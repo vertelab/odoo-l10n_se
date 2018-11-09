@@ -89,10 +89,16 @@ class AccountFiscalPositionTaxBalance(models.Model):
          'A tax balance fiscal position could be defined only one time on same taxes.')
     ]
 
-class AccountFiscalPosition(models.Model):
+class AccountFiscalPositionTemplate(models.Model):
     _inherit = 'account.fiscal.position.template'
 
     tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance.template', 'position_id', string='Tax Balance Mapping', copy=True)
+    auto_apply = fields.Boolean(string='Detect Automatically', help="Apply automatically this fiscal position.")
+    vat_required = fields.Boolean(string='VAT required', help="Apply only if partner has a VAT number.")
+    country_id = fields.Many2one('res.country', string='Country',
+        help="Apply only if delivery or invoicing country match.")
+    country_group_id = fields.Many2one('res.country.group', string='Country Group',
+        help="Apply only if delivery or invocing country match the group.")
 
 class AccountFiscalPositionTaxBalanceTemplate(models.Model):
     _name = 'account.fiscal.position.tax.balance.template'
@@ -381,7 +387,6 @@ class account_chart_template(models.Model):
             :param company_id: company_id selected from wizard.multi.charts.accounts.
             :returns: True
         """
-        _logger.warn('\n\ngenerate_fiscal_position\n')
         res = super(account_chart_template, self).generate_fiscal_position(tax_template_ref, acc_template_ref, company)
         positions = self.env['account.fiscal.position.template'].search([('chart_template_id', '=', self.id)])
         for position in positions:
@@ -394,6 +399,10 @@ class account_chart_template(models.Model):
                     'tax_dest_id': balance.tax_dest_id and tax_template_ref[balance.tax_dest_id.id] or False,
                     'position_id': new_fp.id
                 })
+            new_fp.auto_apply = position.auto_apply
+            new_fp.vat_required = position.vat_required
+            new_fp.country_id = position.country_id
+            new_fp.country_group_id = position.country_group_id
         return res
 
 class account_account_template(models.Model):
