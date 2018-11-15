@@ -799,7 +799,7 @@
             if account_tax.amount_type == 'group':
                 children_taxs = template.children_tax_ids.mapped('name')
                 if len(children_taxs) > 0:
-                    account_tax.children_tax_ids = [(6, 0, env['account.tax'].search([('name', 'in', children_taxs)]).mapped('id'))]
+                    account_tax.write({'children_tax_ids': [(6, 0, env['account.tax'].search([('name', 'in', children_taxs)]).mapped('id'))]})
         else:
             account_tax.write({
                 'amount_type': template.amount_type,
@@ -814,7 +814,7 @@
             if account_tax.amount_type == 'group':
                 children_taxs = template.children_tax_ids.mapped('name')
                 if len(children_taxs) > 0:
-                    account_tax.children_tax_ids = [(6, 0, env['account.tax'].search([('name', 'in', children_taxs)]).mapped('id'))]
+                    account_tax.write({'children_tax_ids': [(6, 0, env['account.tax'].search([('name', 'in', children_taxs)]).mapped('id'))]})
     except:
         log('Fel att konvertera template: %s till konto: %s' %(template, account_tax))
             </field>
