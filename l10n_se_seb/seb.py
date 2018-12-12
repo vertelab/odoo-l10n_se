@@ -78,7 +78,7 @@ class SEBTransaktionsrapportType1(object):
             if transaction.name.startswith('Bg'):
                 string = ' '.join(transaction.name.split())
                 transaction.bg_account = string.split(' ')[1]
-                transaction.bg_serial_number = string.split(' ')[2]
+                transaction.bg_serial_number = string.split(' ')[2] if len(string.split(' ')) == 3 else ''
 
             #~ transaction.message
             #self.current_statement.end_balance =
