@@ -32,9 +32,9 @@ class ResPartnerBank(models.Model):
     @api.multi
     def _compute_acc_type(self):
         for bank in self:
-            if re.match('\d{3,4}-\d{4}', bank.acc_number):
+            if bank.acc_number and re.match('\d{3,4}-\d{4}', bank.acc_number):
                 bank.acc_type = 'bankgiro'
-            elif re.match('\d{5,7}-\d{1}', bank.acc_number):
+            elif bank.acc_number and re.match('\d{5,7}-\d{1}', bank.acc_number):
                 bank.acc_type = 'plusgiro'
             else:
                 super(ResPartnerBank, bank)._compute_acc_type()
