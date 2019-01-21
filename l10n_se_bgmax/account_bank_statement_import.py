@@ -21,6 +21,7 @@
 ##############################################################################
 from odoo import api, models, _, fields
 from .bgmax import BgMaxParser as Parser
+from .bgmax import BgMaxGenerator as BgMaxGen
 import re
 from datetime import timedelta
 from odoo.exceptions import Warning
@@ -155,3 +156,17 @@ class AccountBankStatementImport(models.TransientModel):
         account_number = statements[0].get('account_number')
         account_number = account_number[:4] + account_number[4:].lstrip('0')
         return currency_code, account_number, statements
+
+
+class account_payment_order(models.Model):
+    _inherit = 'account.payment.order'
+
+    @api.one
+    def create_bgmax(self):
+        bggen = BgMaxGen()
+        bg_account = self.env['res.partner.bank'].search([('partner_id', '=', self.env.user.company_id.partner_id.id)])
+        if len(bg_account) > 0:
+            bg_account = bg_account[0].acc_number.replace('-', '').replace(' ', '')
+        else:
+            bg_account = '0000000000'
+        bggen.generate(self, bg_account, self.env.user.company_id)

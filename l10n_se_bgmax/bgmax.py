@@ -23,6 +23,7 @@ import unicodedata
 import re
 from datetime import datetime
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
+from odoo.exceptions import Warning
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -467,3 +468,76 @@ class BgMaxParser(object):
         #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
 
         return self.statements
+
+
+class BgMaxGenerator(object):
+
+    def generate(self, record, bg_account, company):
+        s = """{open_post}\n""".format(open_post = self.get_open_post(record, bg_account)) # post 11
+        # valfri post 12 finns inte här.
+        s += """{title_post}\n""".format(title_post = self.get_title_post(record)) # post 13
+        for line in record.payment_line_ids:
+            s += """{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
+            s += """{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
+            s += """{payment_post}\n""".format(payment_post = self.get_payment_post(line)) # post 14
+            # avdragspost 15 finns inte här
+            # kreditfakturaspost 16/17 finns inte här
+        s += """{end_post}\n""".format(end_post = self.get_end_post(record, bg_account)) # post 29
+        f = open('/tmp/BANKGIROINBETALNINGAR%s1.txt' %datetime.today().strftime('%Y-%m-%d'), 'w')
+        f.write(s)
+        f.close()
+
+    def get_open_post(self, record, bg_account):
+        return u"""11{bg_account}{write_date}LEVERANTÖRSBETALNINGAR{payment_date}{reserv1}{currency_code}{reserv2}""".format(
+            bg_account = '%010d' % int(bg_account),
+            write_date = record.write_date.replace(' ', '').replace('-', '').replace(':', '')[2:],
+            payment_date = record.date_generated.replace(' ', '').replace('-', '').replace(':', '')[2:],
+            reserv1 = ''.ljust(13),
+            currency_code = 'SEK',
+            reserv2 = ''.ljust(18)
+        )
+
+    def get_title_post(self, record):
+        return u"""13{title}{title_amount}{reserv}""".format(
+            title = record.name.ljust(25),
+            title_amount = 'BELOPP'.rjust(12),
+            reserv = ''.ljust(41)
+        )
+
+    def get_payment_name_post(self, line):
+        return """26{reserv}{receiver_bankgiro} {receiver_name}{extra_info}""".format(
+            reserv = '0000',
+            receiver_bankgiro = line.bank_line_id.name.replace('L', '').ljust(5),
+            receiver_name = line.partner_id.name.ljust(35),
+            extra_info = ''.ljust(33)
+        )
+
+    def get_payment_address_post(self, line):
+        return """27{reserv1}{receiver_bankgiro} {receiver_name}{receiver_zip}{receiver_city}{reserv2}""".format(
+            reserv1 = '0000',
+            receiver_bankgiro = line.bank_line_id.name.replace('L', '').ljust(5),
+            receiver_name = line.partner_id.street.ljust(35) if line.partner_id.street else ''.ljust(35),
+            receiver_zip = line.partner_id.zip.replace(' ', '').ljust(5) if line.partner_id.zip else '00000',
+            receiver_city = line.partner_id.city.ljust(20) if line.partner_id.city else ''.ljust(20),
+            reserv2 = ''.ljust(8)
+        )
+
+    def get_payment_post(self, line):
+        return """14{receiver_bankgiro} {ocr}{amount}{payment_date}{reserv}{info}""".format(
+            # ~ receiver_bankgiro = '%010d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')),
+            receiver_bankgiro = '%09d' % int(line.bank_line_id.name.replace('L', '')),
+            ocr = line.name.ljust(25),
+            amount = '%012d' % int(line.amount_currency * 100),
+            payment_date = line.date.replace('-', '')[2:],
+            reserv = ''.ljust(5),
+            info = ''.ljust(20)
+        )
+
+    def get_end_post(self, record, bg_account):
+        return """29{bg_account}{line_count}{line_total}{negative}{reserv}""".format(
+            bg_account = '%010d' % int(bg_account),
+            line_count = '%08d' % len(record.payment_line_ids),
+            line_total = '%012d' % sum(record.payment_line_ids.mapped('amount_currency')),
+            negative = ' ',
+            reserv = ''.ljust(47)
+        )
