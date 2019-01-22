@@ -493,8 +493,8 @@ class BgMaxGenerator(object):
     def get_open_post(self, record, bg_account):
         return u"""11{bg_account}{write_date}LEVERANTÖRSBETALNINGAR{payment_date}{reserv1}{currency_code}{reserv2}""".format(
             bg_account = '%010d' % int(bg_account),
-            write_date = record.write_date.replace(' ', '').replace('-', '').replace(':', '')[2:],
-            payment_date = record.date_generated.replace(' ', '').replace('-', '').replace(':', '')[2:],
+            write_date = record.write_date.replace(' ', '').replace('-', '').replace(':', '')[2:8],
+            payment_date = record.date_generated.replace(' ', '').replace('-', '').replace(':', '')[2:8],
             reserv1 = ''.ljust(13),
             currency_code = 'SEK',
             reserv2 = ''.ljust(18)
@@ -502,7 +502,7 @@ class BgMaxGenerator(object):
 
     def get_title_post(self, record):
         return u"""13{title}{title_amount}{reserv}""".format(
-            title = record.name.ljust(25),
+            title = record.name[:25].ljust(25),
             title_amount = 'BELOPP'.rjust(12),
             reserv = ''.ljust(41)
         )
@@ -531,7 +531,7 @@ class BgMaxGenerator(object):
             reserv1 = '0000',
             receiver_bankgiro = line.bank_line_id.name.ljust(5),
             receiver_name = line.partner_id.street.ljust(35) if line.partner_id.street else ''.ljust(35),
-            receiver_zip = line.partner_id.zip.replace(' ', '').ljust(5) if line.partner_id.zip else '00000',
+            receiver_zip = line.partner_id.zip.replace(' ', '').replace('SE', '').replace('-', '').ljust(5) if line.partner_id.zip else '00000',
             receiver_city = line.partner_id.city.ljust(20) if line.partner_id.city else ''.ljust(20),
             reserv2 = ''.ljust(8)
         )
@@ -542,7 +542,7 @@ class BgMaxGenerator(object):
             receiver_bankgiro = '%09d' % int(line.bank_line_id.name),
             ocr = line.communication.ljust(25),
             amount = '%012d' % int(line.amount_currency * 100),
-            payment_date = line.date.replace('-', '')[2:],
+            payment_date = line.date.replace('-', '')[2:8],
             reserv = ''.ljust(5),
             info = ''.ljust(20)
         )
