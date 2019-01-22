@@ -168,7 +168,7 @@ class account_payment_order(models.Model):
     @api.one
     def create_bgmax(self):
         bggen = BgMaxGen()
-        bg_account = self.env['res.partner.bank'].search([('partner_id', '=', self.env.user.company_id.partner_id.id)])
+        bg_account = self.env['res.partner.bank'].search([('partner_id', '=', self.env.user.company_id.partner_id.id), ('acc_type', '=', 'bankgiro')])
         if len(bg_account) > 0:
             bg_account = bg_account[0].acc_number.replace('-', '').replace(' ', '')
         else:
