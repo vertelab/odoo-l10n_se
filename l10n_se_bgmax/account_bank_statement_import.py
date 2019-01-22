@@ -21,7 +21,9 @@
 import logging
 from openerp import api,models, _, fields
 from .bgmax import BgMaxParser as Parser
+from .bgmax import BgMaxGenerator as BgMaxGen
 import re
+import base64
 from datetime import timedelta
 from openerp.exceptions import Warning
 
@@ -215,3 +217,24 @@ class account_bank_statement_line(models.Model):
             #~ domain.append(('partner_id', '=', st_line.partner_id.id))
         #~ _logger.warn('>>>>>> domain: %s' %domain)
         #~ return domain
+
+
+class payment_order(models.Model):
+    _inherit = 'payment.order'
+
+    @api.one
+    def create_bgmax(self):
+        bggen = BgMaxGen()
+        bg_account = self.env['res.partner.bank'].search([('partner_id', '=', self.env.user.company_id.partner_id.id), ('state', '=', 'bg')])
+        if len(bg_account) > 0:
+            bg_account = bg_account[0].acc_number.replace('-', '').replace(' ', '')
+        else:
+            bg_account = '0000000000'
+        data = bggen.generate(self, bg_account, self.env.user.company_id)
+        self.env['ir.attachment'].create({
+            'type': 'binary',
+            'name': 'BANKGIROINBETALNINGAR%s1.txt' % fields.Date.today(),
+            'datas': base64.b64encode(data),
+            'res_model': self._name,
+            'res_id': self.id,
+        })

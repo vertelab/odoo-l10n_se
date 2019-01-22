@@ -351,4 +351,10 @@ class account_fiscal_position(models.Model):
 
     name = fields.Char(string='Fiscal Position', required=True, translate=True)
 
+
+class ResPartnerBank(models.Model):
+    _inherit = 'res.partner.bank'
+
+    clearing_number = fields.Char(string='Clearing Number')
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

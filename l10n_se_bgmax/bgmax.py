@@ -474,3 +474,91 @@ class BgMaxParser(object):
         #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
 
         return self.statements
+
+
+class BgMaxGenerator(object):
+
+    def generate(self, record, bg_account, company):
+        s = """{open_post}\n""".format(open_post = self.get_open_post(record, bg_account)) # post 11
+        # valfri post 12 finns inte här.
+        s += """{title_post}\n""".format(title_post = self.get_title_post(record)) # post 13
+        for line in record.line_ids:
+            if line.bank_id.state == 'bg':
+                s += """{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
+                s += """{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
+            else:
+                s += """{payment_account_number_post}\n""".format(payment_account_number_post = self.get_payment_account_number_post(line)) # post 40
+            s += """{payment_post}\n""".format(payment_post = self.get_payment_post(line)) # post 14
+            # avdragspost 15 finns inte här
+            # kreditfakturaspost 16/17 finns inte här
+        s += """{end_post}\n""".format(end_post = self.get_end_post(record, bg_account)) # post 29
+        return s
+        # ~ f = open('/tmp/BANKGIROINBETALNINGAR%s1.txt' %datetime.today().strftime('%Y-%m-%d'), 'w')
+        # ~ f.write(s)
+        # ~ f.close()
+
+    def get_open_post(self, record, bg_account):
+        return u"""11{bg_account}{write_date}LEVERANTÖRSBETALNINGAR{payment_date}{reserv1}{currency_code}{reserv2}""".format(
+            bg_account = '%010d' % int(bg_account),
+            write_date = record.write_date.replace(' ', '').replace('-', '').replace(':', '')[2:8],
+            payment_date = record.date_scheduled.replace(' ', '').replace('-', '').replace(':', '')[2:8] if (record.date_prefered and record.date_scheduled) else record.write_date,
+            reserv1 = ''.ljust(13),
+            currency_code = 'SEK',
+            reserv2 = ''.ljust(18)
+        )
+
+    def get_title_post(self, record):
+        return u"""13{title}{title_amount}{reserv}""".format(
+            title = record.reference[:25].upper().ljust(25),
+            title_amount = 'BELOPP'.rjust(12),
+            reserv = ''.ljust(41)
+        )
+
+    def get_payment_account_number_post(self, line):
+        return """40{reserv1}{receiver_payment_number} {receiver_clearing_number}{receiver_account_number}{id_payment}{code4salary}{reserv2}""".format(
+            reserv1 = '0000',
+            receiver_payment_number = '%05d' % int(line.name),
+            receiver_clearing_number = '%04d' % int(line.bank_id.clearing_number.replace('-', '').replace(' ', '')[:4]) if line.bank_id.clearing_number else '0000',
+            receiver_account_number = '%012d' % int(line.bank_id.acc_number.replace('-', '').replace(' ', '')) if line.bank_id.acc_number else '000000000000',
+            id_payment = ''.ljust(12),
+            code4salary = ' ',
+            reserv2 = ''.ljust(39),
+        )
+
+    def get_payment_name_post(self, line):
+        return """26{reserv}{receiver_bankgiro} {receiver_name}{extra_info}""".format(
+            reserv = '0000',
+            receiver_bankgiro = '%05d' % int(line.name),
+            receiver_name = line.partner_id.name.upper().ljust(35),
+            extra_info = ''.ljust(33)
+        )
+
+    def get_payment_address_post(self, line):
+        return """27{reserv1}{receiver_bankgiro} {receiver_name}{receiver_zip}{receiver_city}{reserv2}""".format(
+            reserv1 = '0000',
+            receiver_bankgiro = '%05d' % int(line.name),
+            receiver_name = line.partner_id.street.upper().ljust(35) if line.partner_id.street else ''.ljust(35),
+            receiver_zip = line.partner_id.zip.replace(' ', '').replace('SE', '').replace('-', '').ljust(5) if line.partner_id.zip else '00000',
+            receiver_city = line.partner_id.city.upper().ljust(20) if line.partner_id.city else ''.ljust(20),
+            reserv2 = ''.ljust(8)
+        )
+
+    def get_payment_post(self, line):
+        return """14{receiver_bankgiro} {ocr}{amount}{payment_date}{reserv}{info}""".format(
+            # ~ receiver_bankgiro = '%010d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')),
+            receiver_bankgiro = '%09d' % int(line.name),
+            ocr = line.communication.ljust(25),
+            amount = '%012d' % int(line.amount_currency * 100),
+            payment_date = line.date.replace('-', '')[2:8],
+            reserv = ''.ljust(5),
+            info = ''.ljust(20)
+        )
+
+    def get_end_post(self, record, bg_account):
+        return """29{bg_account}{line_count}{line_total}{negative}{reserv}""".format(
+            bg_account = '%010d' % int(bg_account),
+            line_count = '%08d' % len(record.line_ids),
+            line_total = '%012d' % sum(record.line_ids.mapped('amount_currency')),
+            negative = ' ',
+            reserv = ''.ljust(47)
+        )
