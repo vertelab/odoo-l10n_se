@@ -511,8 +511,8 @@ class BgMaxGenerator(object):
         return """40{reserv1}{receiver_payment_number} {receiver_clearing_number}{receiver_account_number}{id_payment}{code4salary}{reserv2}""".format(
             reserv1 = '0000',
             receiver_payment_number = line.bank_line_id.name.ljust(5),
-            receiver_clearing_number = '%04d' % line.partner_bank_id.clearing_number if line.partner_bank_id.clearing_number else '0000',
-            receiver_account_number = '%012d' % line.partner_bank_id.acc_number.replace('-', '').replace(' ', '') if line.partner_bank_id.acc_number else '000000000000',
+            receiver_clearing_number = '%04d' % int(line.partner_bank_id.clearing_number.replace('-', '').replace(' ', '')) if line.partner_bank_id.clearing_number else '0000',
+            receiver_account_number = '%012d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')) if line.partner_bank_id.acc_number else '000000000000',
             id_payment = ''.ljust(12),
             code4salary = ' ',
             reserv2 = ''.ljust(39),
