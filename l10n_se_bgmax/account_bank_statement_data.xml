@@ -15,6 +15,19 @@
             <field name="website">http://www.bankgirot.se</field>
             <field name="image" type="base64" file="l10n_se_bgmax/static/src/img/bankgirot-logo.png"/>
         </record>
+        <record id="action_generate_bgmax_file" model="ir.actions.server">
+            <field name="name">Generate BGMax file</field>
+            <field name="model_id" ref="account_payment_order.model_account_payment_order"/>
+            <field name="state">code</field>
+            <field name="code">if len(record.payment_line_ids) &gt; 0:
+    record.create_bgmax()</field>
+        </record>
+        <record id="ir_values_generate_bgmax_file" model="ir.values">
+            <field name="name">Generate BGMax file</field>
+            <field name="model">account.payment.order</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se_bgmax.action_generate_bgmax_file')"/>
+        </record>
         <function model="account.payment.order" name="_set_bank_payment_line_seq" />
     </data>
 </odoo>

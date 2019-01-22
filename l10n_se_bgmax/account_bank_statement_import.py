@@ -23,6 +23,7 @@ from odoo import api, models, _, fields
 from .bgmax import BgMaxParser as Parser
 from .bgmax import BgMaxGenerator as BgMaxGen
 import re
+import base64
 from datetime import timedelta
 from odoo.exceptions import Warning
 
@@ -173,4 +174,11 @@ class account_payment_order(models.Model):
             bg_account = bg_account[0].acc_number.replace('-', '').replace(' ', '')
         else:
             bg_account = '0000000000'
-        bggen.generate(self, bg_account, self.env.user.company_id)
+        data = bggen.generate(self, bg_account, self.env.user.company_id)
+        self.env['ir.attachment'].create({
+            'type': 'binary',
+            'name': 'BANKGIROINBETALNINGAR%s1.txt' % fields.Date.today(),
+            'datas': base64.b64encode(data),
+            'res_model': self._name,
+            'res_id': self.id,
+        })

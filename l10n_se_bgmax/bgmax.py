@@ -486,9 +486,10 @@ class BgMaxGenerator(object):
             # avdragspost 15 finns inte här
             # kreditfakturaspost 16/17 finns inte här
         s += """{end_post}\n""".format(end_post = self.get_end_post(record, bg_account)) # post 29
-        f = open('/tmp/BANKGIROINBETALNINGAR%s1.txt' %datetime.today().strftime('%Y-%m-%d'), 'w')
-        f.write(s)
-        f.close()
+        return s
+        # ~ f = open('/tmp/BANKGIROINBETALNINGAR%s1.txt' %datetime.today().strftime('%Y-%m-%d'), 'w')
+        # ~ f.write(s)
+        # ~ f.close()
 
     def get_open_post(self, record, bg_account):
         return u"""11{bg_account}{write_date}LEVERANTÖRSBETALNINGAR{payment_date}{reserv1}{currency_code}{reserv2}""".format(
