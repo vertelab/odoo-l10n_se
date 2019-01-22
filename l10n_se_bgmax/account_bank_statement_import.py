@@ -161,6 +161,10 @@ class AccountBankStatementImport(models.TransientModel):
 class account_payment_order(models.Model):
     _inherit = 'account.payment.order'
 
+    @api.model
+    def _set_bank_payment_line_seq(self):
+        self.env.ref('account_payment_order.bank_payment_line_seq').sudo().write({'prefix': ''})
+
     @api.one
     def create_bgmax(self):
         bggen = BgMaxGen()

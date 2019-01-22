@@ -15,5 +15,6 @@
             <field name="website">http://www.bankgirot.se</field>
             <field name="image" type="base64" file="l10n_se_bgmax/static/src/img/bankgirot-logo.png"/>
         </record>
+        <function model="account.payment.order" name="_set_bank_payment_line_seq" />
     </data>
 </odoo>

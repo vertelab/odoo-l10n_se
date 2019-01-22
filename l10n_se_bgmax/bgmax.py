@@ -477,8 +477,11 @@ class BgMaxGenerator(object):
         # valfri post 12 finns inte här.
         s += """{title_post}\n""".format(title_post = self.get_title_post(record)) # post 13
         for line in record.payment_line_ids:
-            s += """{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
-            s += """{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
+            if line.partner_bank_id.acc_type == 'bankgiro':
+                s += """{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
+                s += """{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
+            else:
+                s += """{payment_account_number_post}\n""".format(payment_account_number_post = self.get_payment_account_number_post(line)) # post 40
             s += """{payment_post}\n""".format(payment_post = self.get_payment_post(line)) # post 14
             # avdragspost 15 finns inte här
             # kreditfakturaspost 16/17 finns inte här
@@ -504,10 +507,21 @@ class BgMaxGenerator(object):
             reserv = ''.ljust(41)
         )
 
+    def get_payment_account_number_post(self, line):
+        return """40{reserv1}{receiver_payment_number} {receiver_clearing_number}{receiver_account_number}{id_payment}{code4salary}{reserv2}""".format(
+            reserv1 = '0000',
+            receiver_payment_number = line.bank_line_id.name.ljust(5),
+            receiver_clearing_number = '%04d' % line.partner_bank_id.clearing_number if line.partner_bank_id.clearing_number else '0000',
+            receiver_account_number = '%012d' % line.partner_bank_id.acc_number.replace('-', '').replace(' ', '') if line.partner_bank_id.acc_number else '000000000000',
+            id_payment = ''.ljust(12),
+            code4salary = ' ',
+            reserv2 = ''.ljust(39),
+        )
+
     def get_payment_name_post(self, line):
         return """26{reserv}{receiver_bankgiro} {receiver_name}{extra_info}""".format(
             reserv = '0000',
-            receiver_bankgiro = line.bank_line_id.name.replace('L', '').ljust(5),
+            receiver_bankgiro = line.bank_line_id.name.ljust(5),
             receiver_name = line.partner_id.name.ljust(35),
             extra_info = ''.ljust(33)
         )
@@ -515,7 +529,7 @@ class BgMaxGenerator(object):
     def get_payment_address_post(self, line):
         return """27{reserv1}{receiver_bankgiro} {receiver_name}{receiver_zip}{receiver_city}{reserv2}""".format(
             reserv1 = '0000',
-            receiver_bankgiro = line.bank_line_id.name.replace('L', '').ljust(5),
+            receiver_bankgiro = line.bank_line_id.name.ljust(5),
             receiver_name = line.partner_id.street.ljust(35) if line.partner_id.street else ''.ljust(35),
             receiver_zip = line.partner_id.zip.replace(' ', '').ljust(5) if line.partner_id.zip else '00000',
             receiver_city = line.partner_id.city.ljust(20) if line.partner_id.city else ''.ljust(20),
@@ -525,8 +539,8 @@ class BgMaxGenerator(object):
     def get_payment_post(self, line):
         return """14{receiver_bankgiro} {ocr}{amount}{payment_date}{reserv}{info}""".format(
             # ~ receiver_bankgiro = '%010d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')),
-            receiver_bankgiro = '%09d' % int(line.bank_line_id.name.replace('L', '')),
-            ocr = line.name.ljust(25),
+            receiver_bankgiro = '%09d' % int(line.bank_line_id.name),
+            ocr = line.communication.ljust(25),
             amount = '%012d' % int(line.amount_currency * 100),
             payment_date = line.date.replace('-', '')[2:],
             reserv = ''.ljust(5),
