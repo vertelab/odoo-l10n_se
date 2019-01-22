@@ -494,7 +494,7 @@ class BgMaxGenerator(object):
         return u"""11{bg_account}{write_date}LEVERANTÖRSBETALNINGAR{payment_date}{reserv1}{currency_code}{reserv2}""".format(
             bg_account = '%010d' % int(bg_account),
             write_date = record.write_date.replace(' ', '').replace('-', '').replace(':', '')[2:8],
-            payment_date = record.date_generated.replace(' ', '').replace('-', '').replace(':', '')[2:8],
+            payment_date = record.date_generated.replace(' ', '').replace('-', '').replace(':', '')[2:8] if record.date_generated else record.write_date,
             reserv1 = ''.ljust(13),
             currency_code = 'SEK',
             reserv2 = ''.ljust(18)
@@ -502,7 +502,7 @@ class BgMaxGenerator(object):
 
     def get_title_post(self, record):
         return u"""13{title}{title_amount}{reserv}""".format(
-            title = record.name[:25].ljust(25),
+            title = record.name[:25].upper().ljust(25),
             title_amount = 'BELOPP'.rjust(12),
             reserv = ''.ljust(41)
         )
@@ -522,7 +522,7 @@ class BgMaxGenerator(object):
         return """26{reserv}{receiver_bankgiro} {receiver_name}{extra_info}""".format(
             reserv = '0000',
             receiver_bankgiro = '%05d' % int(line.bank_line_id.name),
-            receiver_name = line.partner_id.name.ljust(35),
+            receiver_name = line.partner_id.name.upper().ljust(35),
             extra_info = ''.ljust(33)
         )
 
@@ -530,9 +530,9 @@ class BgMaxGenerator(object):
         return """27{reserv1}{receiver_bankgiro} {receiver_name}{receiver_zip}{receiver_city}{reserv2}""".format(
             reserv1 = '0000',
             receiver_bankgiro = '%05d' % int(line.bank_line_id.name),
-            receiver_name = line.partner_id.street.ljust(35) if line.partner_id.street else ''.ljust(35),
+            receiver_name = line.partner_id.street.upper().ljust(35) if line.partner_id.street else ''.ljust(35),
             receiver_zip = line.partner_id.zip.replace(' ', '').replace('SE', '').replace('-', '').ljust(5) if line.partner_id.zip else '00000',
-            receiver_city = line.partner_id.city.ljust(20) if line.partner_id.city else ''.ljust(20),
+            receiver_city = line.partner_id.city.upper().ljust(20) if line.partner_id.city else ''.ljust(20),
             reserv2 = ''.ljust(8)
         )
 
