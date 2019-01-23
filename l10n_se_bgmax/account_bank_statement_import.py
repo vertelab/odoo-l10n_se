@@ -178,7 +178,7 @@ class account_payment_order(models.Model):
         self.env['ir.attachment'].create({
             'type': 'binary',
             'name': 'BANKGIROINBETALNINGAR%s1.txt' % fields.Date.today(),
-            'datas': base64.b64encode(data),
+            'datas': base64.b64encode(data.encode('iso8859-1', 'replace')),
             'res_model': self._name,
             'res_id': self.id,
         })

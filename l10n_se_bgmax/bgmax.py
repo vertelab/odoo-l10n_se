@@ -474,21 +474,21 @@ class BgMaxParser(object):
 class BgMaxGenerator(object):
 
     def generate(self, record, bg_account, company):
-        s = """{open_post}\n""".format(open_post = self.get_open_post(record, bg_account)) # post 11
+        s = u"""{open_post}\n""".format(open_post = self.get_open_post(record, bg_account)) # post 11
         # valfri post 12 finns inte här.
-        s += """{title_post}\n""".format(title_post = self.get_title_post(record)) # post 13
+        s += u"""{title_post}\n""".format(title_post = self.get_title_post(record)) # post 13
         for line in record.payment_line_ids:
             if not line.partner_bank_id:
                 raise Warning(_('Please define bank account to: %s' % line.partner_id.name))
             if line.partner_bank_id.acc_type == 'bankgiro':
-                s += """{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
-                s += """{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
+                s += u"""{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
+                s += u"""{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
             else:
-                s += """{payment_account_number_post}\n""".format(payment_account_number_post = self.get_payment_account_number_post(line)) # post 40
-            s += """{payment_post}\n""".format(payment_post = self.get_payment_post(line)) # post 14
+                s += u"""{payment_account_number_post}\n""".format(payment_account_number_post = self.get_payment_account_number_post(line)) # post 40
+            s += u"""{payment_post}\n""".format(payment_post = self.get_payment_post(line)) # post 14
             # avdragspost 15 finns inte här
             # kreditfakturaspost 16/17 finns inte här
-        s += """{end_post}\n""".format(end_post = self.get_end_post(record, bg_account)) # post 29
+        s += u"""{end_post}\n""".format(end_post = self.get_end_post(record, bg_account)) # post 29
         return s
         # ~ f = open('/tmp/BANKGIROINBETALNINGAR%s1.txt' %datetime.today().strftime('%Y-%m-%d'), 'w')
         # ~ f.write(s)
@@ -514,7 +514,7 @@ class BgMaxGenerator(object):
     def get_payment_account_number_post(self, line):
         if not line.partner_bank_id.clearing_number:
             raise Warning(_('Please define clearing number for: %s' % line.partner_id.name))
-        return """40{reserv1}{receiver_payment_number} {receiver_clearing_number}{receiver_account_number}{id_payment}{code4salary}{reserv2}""".format(
+        return u"""40{reserv1}{receiver_payment_number} {receiver_clearing_number}{receiver_account_number}{id_payment}{code4salary}{reserv2}""".format(
             reserv1 = '0000',
             receiver_payment_number = '%05d' % int(line.bank_line_id.name),
             receiver_clearing_number = '%04d' % int(line.partner_bank_id.clearing_number.replace('-', '').replace(' ', '')),
@@ -533,7 +533,7 @@ class BgMaxGenerator(object):
         )
 
     def get_payment_address_post(self, line):
-        return """27{reserv1}{receiver_bankgiro} {receiver_name}{receiver_zip}{receiver_city}{reserv2}""".format(
+        return u"""27{reserv1}{receiver_bankgiro} {receiver_name}{receiver_zip}{receiver_city}{reserv2}""".format(
             reserv1 = '0000',
             receiver_bankgiro = '%05d' % int(line.bank_line_id.name),
             receiver_name = line.partner_id.street.upper().ljust(35) if line.partner_id.street else ''.ljust(35),
@@ -543,7 +543,7 @@ class BgMaxGenerator(object):
         )
 
     def get_payment_post(self, line):
-        return """14{receiver_bankgiro} {ocr}{amount}{payment_date}{reserv}{info}""".format(
+        return u"""14{receiver_bankgiro} {ocr}{amount}{payment_date}{reserv}{info}""".format(
             # ~ receiver_bankgiro = '%010d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')),
             receiver_bankgiro = '%09d' % int(line.bank_line_id.name),
             ocr = line.communication.ljust(25) or ''.ljust(25),
@@ -554,7 +554,7 @@ class BgMaxGenerator(object):
         )
 
     def get_end_post(self, record, bg_account):
-        return """29{bg_account}{line_count}{line_total}{negative}{reserv}""".format(
+        return u"""29{bg_account}{line_count}{line_total}{negative}{reserv}""".format(
             bg_account = '%010d' % int(bg_account),
             line_count = '%08d' % len(record.payment_line_ids),
             line_total = '%012d' % sum(record.payment_line_ids.mapped('amount_currency')),
