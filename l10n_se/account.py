@@ -357,4 +357,20 @@ class ResPartnerBank(models.Model):
 
     clearing_number = fields.Char(string='Clearing Number')
 
+
+class payment_order_create(models.TransientModel):
+
+    _inherit = 'payment.order.create'
+
+    # Override search entries and added domain:
+    # 1. account.move has journal type "purchase"
+    # 2. remove account.move.line are already related to payment.line
+    @api.multi
+    def search_entries(self):
+        res = super(payment_order_create, self).search_entries()
+        domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('credit', '>', 0), ('account_id.reconcile', '=', True), ('move_id.journal_id.type', '=', 'purchase'), ('id', 'not in', self.env['payment.line'].search([]).mapped('move_line_id').mapped('id'))]
+        domain = domain + ['|', ('date_maturity', '<=', self.duedate), ('date_maturity', '=', False)]
+        res['context']['line_ids'] = self.env['account.move.line'].search(domain).mapped('id')
+        return res
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
