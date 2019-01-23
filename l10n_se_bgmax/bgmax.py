@@ -23,6 +23,7 @@ import unicodedata
 import re
 from datetime import datetime
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
+from odoo import models, fields, api, _
 from odoo.exceptions import Warning
 
 import logging
@@ -477,6 +478,8 @@ class BgMaxGenerator(object):
         # valfri post 12 finns inte här.
         s += """{title_post}\n""".format(title_post = self.get_title_post(record)) # post 13
         for line in record.payment_line_ids:
+            if not line.partner_bank_id:
+                raise Warning(_('Please define bank account to: %s' % line.partner_id.name))
             if line.partner_bank_id.acc_type == 'bankgiro':
                 s += """{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
                 s += """{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
@@ -509,11 +512,13 @@ class BgMaxGenerator(object):
         )
 
     def get_payment_account_number_post(self, line):
+        if not line.partner_bank_id.clearing_number:
+            raise Warning(_('Please define clearing number for: %s' % line.partner_id.name))
         return """40{reserv1}{receiver_payment_number} {receiver_clearing_number}{receiver_account_number}{id_payment}{code4salary}{reserv2}""".format(
             reserv1 = '0000',
             receiver_payment_number = '%05d' % int(line.bank_line_id.name),
-            receiver_clearing_number = '%04d' % int(line.partner_bank_id.clearing_number.replace('-', '').replace(' ', '')) if line.partner_bank_id.clearing_number else '0000',
-            receiver_account_number = '%012d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')) if line.partner_bank_id.acc_number else '000000000000',
+            receiver_clearing_number = '%04d' % int(line.partner_bank_id.clearing_number.replace('-', '').replace(' ', '')),
+            receiver_account_number = '%012d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')),
             id_payment = ''.ljust(12),
             code4salary = ' ',
             reserv2 = ''.ljust(39),
@@ -541,7 +546,7 @@ class BgMaxGenerator(object):
         return """14{receiver_bankgiro} {ocr}{amount}{payment_date}{reserv}{info}""".format(
             # ~ receiver_bankgiro = '%010d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')),
             receiver_bankgiro = '%09d' % int(line.bank_line_id.name),
-            ocr = line.communication.ljust(25),
+            ocr = line.communication.ljust(25) or ''.ljust(25),
             amount = '%012d' % int(line.amount_currency * 100),
             payment_date = line.date.replace('-', '')[2:8],
             reserv = ''.ljust(5),
