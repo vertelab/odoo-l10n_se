@@ -359,7 +359,6 @@ class ResPartnerBank(models.Model):
 
 
 class payment_order_create(models.TransientModel):
-
     _inherit = 'payment.order.create'
 
     # Override search entries and added domain:
