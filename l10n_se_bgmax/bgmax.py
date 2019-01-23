@@ -20,7 +20,8 @@
 ##############################################################################
 
 # git clone -b 8.0 https://github.com/OCA/bank-statement-import.git
-
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 import unicodedata
 import re
 from datetime import datetime
@@ -483,6 +484,8 @@ class BgMaxGenerator(object):
         # valfri post 12 finns inte här.
         s += """{title_post}\n""".format(title_post = self.get_title_post(record)) # post 13
         for line in record.line_ids:
+            if not line.bank_id:
+                raise Warning(_('Please define bank account to: %s' % line.partner_id.name))
             if line.bank_id.state == 'bg':
                 s += """{payment_name_post}\n""".format(payment_name_post = self.get_payment_name_post(line)) # post 26
                 s += """{payment_address_post}\n""".format(payment_address_post = self.get_payment_address_post(line)) # post 27
@@ -515,11 +518,13 @@ class BgMaxGenerator(object):
         )
 
     def get_payment_account_number_post(self, line):
+        if not line.bank_id.clearing_number:
+            raise Warning(_('Please define clearing number for: %s' % line.partner_id.name))
         return """40{reserv1}{receiver_payment_number} {receiver_clearing_number}{receiver_account_number}{id_payment}{code4salary}{reserv2}""".format(
             reserv1 = '0000',
             receiver_payment_number = '%05d' % int(line.name),
-            receiver_clearing_number = '%04d' % int(line.bank_id.clearing_number.replace('-', '').replace(' ', '')[:4]) if line.bank_id.clearing_number else '0000',
-            receiver_account_number = '%012d' % int(line.bank_id.acc_number.replace('-', '').replace(' ', '')) if line.bank_id.acc_number else '000000000000',
+            receiver_clearing_number = '%04d' % int(line.bank_id.clearing_number.replace('-', '').replace(' ', '')[:4]),
+            receiver_account_number = '%012d' % int(line.bank_id.acc_number.replace('-', '').replace(' ', '')),
             id_payment = ''.ljust(12),
             code4salary = ' ',
             reserv2 = ''.ljust(39),
@@ -547,7 +552,7 @@ class BgMaxGenerator(object):
         return """14{receiver_bankgiro} {ocr}{amount}{payment_date}{reserv}{info}""".format(
             # ~ receiver_bankgiro = '%010d' % int(line.partner_bank_id.acc_number.replace('-', '').replace(' ', '')),
             receiver_bankgiro = '%09d' % int(line.name),
-            ocr = line.communication.ljust(25),
+            ocr = line.communication.ljust(25) or ''.ljust(25),
             amount = '%012d' % int(line.amount_currency * 100),
             payment_date = line.date.replace('-', '')[2:8],
             reserv = ''.ljust(5),
