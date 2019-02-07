@@ -57,6 +57,7 @@
             <group string="Arbetsgivardeklaration" col="2">
               <field name="date" />
               <field name="period_start" string="Period" domain="[('fiscalyear_id', '=', fiscalyear_id),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" />
+              <field name="avsandare" />
               <field name="ag_betala" />
               <field name="move_id" />
               <field name="eskd_file" />
