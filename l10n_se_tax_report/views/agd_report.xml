@@ -57,7 +57,6 @@
             <group string="Arbetsgivardeklaration" col="2">
               <field name="date" />
               <field name="period_start" string="Period" domain="[('fiscalyear_id', '=', fiscalyear_id),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" />
-              <field name="avsandare" />
               <field name="ag_betala" />
               <field name="move_id" />
               <field name="eskd_file" />
@@ -86,6 +85,9 @@
                     <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines" />
                   </tree>
                 </field>
+              </page>
+              <page string="Payslips">
+                <field name="payslip_ids" nolabel="1" />
               </page>
             </notebook>
           </sheet>

@@ -11,7 +11,8 @@
                         <field name="agd_journal" />
                         <field name="moms_journal" />
                         <field name="accounting_method" />
-                        <field name="vat_declaration_frequency" />                        
+                        <field name="vat_declaration_frequency" />
+                        <field name="ag_contact" widget="many2many_tags" />
                     </group>
                 </group>
             </field>

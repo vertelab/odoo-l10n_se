@@ -442,4 +442,11 @@
         </record>
     </data>
 
+    <data>
+        <record id="agd_avsandare" model="ir.config_parameter">
+            <field name="key">l10n_se_tax_report.agd_avsandare</field>
+            <field name="value">{'programnamn': 'Odoo 10.0', 'organisationsnummer': '5569363707', 'tk_name': 'Haojun Zou', 'tk_phone': '013-9919480', 'tk_email': u'support@vertel.se', 'tk_street': 'Strandgatan 2', 'tk_street2': '', 'tk_zip': '58226', 'tk_city': u'Linköping'}</field>
+        </record>
+    </data>
+
 </odoo>
