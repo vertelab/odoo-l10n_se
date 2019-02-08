@@ -399,11 +399,11 @@ class account_agd_declaration(models.Model):
                     iu_bilersattning = etree.SubElement(iu_iu, ns + 'Bilersattning')
                     iu_bilersattning.set('faltkod', '050')
                     iu_bilersattning.text = '1'
-                # ~ nettil = str(int(round(sum(slip.line_ids.filtered(lambda l: l.category_id == self.env.ref('l10n_se_hr_payroll.hr_salary_rule_category-NETTIL').id).mapped('total')))))
+                # ~ nettil = str(int(round(sum(slip.line_ids.with_context(nettil=self.env.ref('l10n_se_hr_payroll.hr_salary_rule_category-NETTIL')).filtered(lambda l: l.category_id == l._context.get('nettil')).mapped('total')))))
                 # ~ if nettil > 0:
-                    # ~ iu_bilersattning = etree.SubElement(iu_iu, ns + 'Bilersattning')
-                    # ~ iu_bilersattning.set('faltkod', '050')
-                    # ~ iu_bilersattning.text = '1'
+                    # ~ iu_kontantersattningejulagsa = etree.SubElement(iu_iu, ns + 'KontantErsattningEjUlagSA')
+                    # ~ iu_kontantersattningejulagsa.set('faltkod', '131')
+                    # ~ iu_kontantersattningejulagsa.text = nettil
             return skatteverket
 
         def schema_validate(xml):
