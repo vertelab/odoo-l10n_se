@@ -264,6 +264,7 @@ class account_agd_declaration(models.Model):
         # ~ self.eskd_file = base64.b64encode(xml)
 
         ### new version of agd from February 2019
+        ### https://skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/tekniskbeskrivningochtesttjanst/tekniskbeskrivning114.4.2cf1b5cd163796a5c8ba79b.html
 
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
         def parse_xml(recordsets):
@@ -276,7 +277,7 @@ class account_agd_declaration(models.Model):
                 None: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1",
             }
             ns = '{%s}' %namespaces['agd']
-            company_registry = self.env.user.company_id.company_registry.replace('-', '')
+            company_registry = '16' + self.env.user.company_id.company_registry.replace('-', '')
             attrib={'{%s}schemaLocation' % namespaces['xsi']: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1 http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd", 'omrade': 'Arbetsgivardeklaration'}
             skatteverket = etree.Element('Skatteverket', attrib=attrib, nsmap=namespaces)
             avsandare = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_avsandare')
@@ -287,7 +288,7 @@ class account_agd_declaration(models.Model):
             agd_programnamn = etree.SubElement(agd_avsandare, ns + 'Programnamn')
             agd_programnamn.text = avsandare_dict.get('programnamn', '')
             agd_organisationsnummer = etree.SubElement(agd_avsandare, ns + 'Organisationsnummer')
-            agd_organisationsnummer.text = avsandare_dict.get('organisationsnummer', '')
+            agd_organisationsnummer.text = '16' + avsandare_dict.get('organisationsnummer', '')
 
             agd_tekniskKontaktperson = etree.SubElement(agd_avsandare, ns + 'TekniskKontaktperson')
             agd_tekniskKontaktperson_agd_name = etree.SubElement(agd_tekniskKontaktperson, ns + 'Namn')
@@ -316,15 +317,17 @@ class account_agd_declaration(models.Model):
             if not arbetsgivarekontaktperson:
                 raise Warning(_(u'Please configurate arbetsgivare kontaktperson'))
             for ak in self.env['res.partner'].browse(eval(arbetsgivarekontaktperson)):
-                agd_kontaktperson = etree.SubElement(agd_blankettgemensamt, ns + 'Kontaktperson')
+                agd_kontaktperson = etree.SubElement(agd_arbetsgivare, ns + 'Kontaktperson')
                 agd_kontaktperson_agd_name = etree.SubElement(agd_kontaktperson, ns + 'Namn')
                 agd_kontaktperson_agd_name.text = ak.name
                 agd_kontaktperson_agd_telefon = etree.SubElement(agd_kontaktperson, ns + 'Telefon')
                 agd_kontaktperson_agd_telefon.text = ak.phone or ak.mobile or ''
                 agd_kontaktperson_agd_epostadress = etree.SubElement(agd_kontaktperson, ns + 'Epostadress')
                 agd_kontaktperson_agd_epostadress.text = ak.email or ''
+                if not ak.function:
+                    raise Warning(_('Please fill the function for partner: %s') % ak.name)
                 agd_kontaktperson_agd_sakomrade = etree.SubElement(agd_kontaktperson, ns + 'Sakomrade')
-                agd_kontaktperson_agd_sakomrade.text = ak.function or ''
+                agd_kontaktperson_agd_sakomrade.text = ak.function
 
             # Uppgift 1 HU
             period = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
@@ -396,9 +399,38 @@ class account_agd_declaration(models.Model):
                     iu_bilersattning = etree.SubElement(iu_iu, ns + 'Bilersattning')
                     iu_bilersattning.set('faltkod', '050')
                     iu_bilersattning.text = '1'
+                # ~ nettil = sum(slip.line_ids.filtered(lambda l: l.category_id == self.env.ref('l10n_se_hr_payroll.hr_salary_rule_category-NETTIL').id).mapped('total'))
+                # ~ if nettil > 0:
+                    # ~ iu_bilersattning = etree.SubElement(iu_iu, ns + 'Bilersattning')
+                    # ~ iu_bilersattning.set('faltkod', '050')
+                    # ~ iu_bilersattning.text = '1'
             return skatteverket
-        xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="UTF-8", standalone="no")
-        # ~ raise Warning('\n\n%s\n\n' %xml)
+
+        def schema_validate(xml):
+            # Läs in schema. Skatteverkets är extra kinkig för att den är två
+            # dokument (en import av arbetsgivardeklaration_component_1.1.xsd är
+            # angiven i arbetsgivardeklaration_1.1.xsd).
+            # Troligtvis kan vi lägga upp filerna lokalt i stället, så slipper vi
+            # hämta dem från skatteverket.se varje gång.
+            schema_root = etree.parse('http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd', base_url='http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/')
+            schema = etree.XMLSchema(schema_root)
+
+            # ~ # Validera ett dokument som du skapat
+            # ~ root = etree.Element('<foobar><foo>bar</foo></foobr>')
+            # ~ schema.validate(root) # True eller False
+
+            # ~ # Validera dokument vid inläsning från en sträng
+            parser = etree.XMLParser(schema = schema)
+            etree.fromstring(xml, parser)
+            # ~ try:
+                # ~ root = etree.fromstring(doc_str, parser)
+                # ~ # Om du kommer hit så gick det bra
+            # ~ except:
+                # ~ # Dokumentet validerade ej
+
+        xml = parse_xml(tax_account)
+        xml = etree.tostring(xml, pretty_print=True, encoding="UTF-8", standalone=False)
+        schema_validate(xml)
         self.eskd_file = base64.b64encode(xml)
 
         ##
