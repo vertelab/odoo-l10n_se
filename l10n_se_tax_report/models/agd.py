@@ -387,19 +387,19 @@ class account_agd_declaration(models.Model):
                 iu_kontantersattningulagag.text = ''
                 bl = slip.line_ids.filtered(lambda l: l.code == 'bl')
                 if bl:
-                    iu_kontantersattningulagag.text = str(int(round(bl.total)))
+                    iu_kontantersattningulagag.text = str(int(round(sum(bl.mapped('total')))))
                 iu_avdrprelskatt = etree.SubElement(iu_iu, ns + 'AvdrPrelSkatt')
                 iu_avdrprelskatt.set('faltkod', '001')
                 iu_avdrprelskatt.text = ''
                 prej = slip.line_ids.filtered(lambda l: l.code == 'prej')
                 if prej:
-                    iu_avdrprelskatt.text = str(int(round(prej.total)))
+                    iu_avdrprelskatt.text = str(int(round(sum(prej.mapped('total')))))
                 resmil = slip.line_ids.filtered(lambda l: l.code == 'resmil')
                 if resmil:
                     iu_bilersattning = etree.SubElement(iu_iu, ns + 'Bilersattning')
                     iu_bilersattning.set('faltkod', '050')
                     iu_bilersattning.text = '1'
-                # ~ nettil = sum(slip.line_ids.filtered(lambda l: l.category_id == self.env.ref('l10n_se_hr_payroll.hr_salary_rule_category-NETTIL').id).mapped('total'))
+                # ~ nettil = str(int(round(sum(slip.line_ids.filtered(lambda l: l.category_id == self.env.ref('l10n_se_hr_payroll.hr_salary_rule_category-NETTIL').id).mapped('total')))))
                 # ~ if nettil > 0:
                     # ~ iu_bilersattning = etree.SubElement(iu_iu, ns + 'Bilersattning')
                     # ~ iu_bilersattning.set('faltkod', '050')
