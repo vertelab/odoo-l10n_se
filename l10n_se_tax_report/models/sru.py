@@ -48,71 +48,108 @@ class account_sru_declaration(models.Model):
     r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     report_id = fields.Many2one(comodel_name="account.financial.report")
     sru_betala = fields.Float()
+    tillgangar = fields.Integer(string='Tillgångar', compute='_tillgangar_skulder', store=True)
+    eget_kapital_skulder = fields.Integer(string='Eget kapital och skulder', compute='_tillgangar_skulder', store=True)
 
     @api.one
     def _line_ids(self):
         self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
         self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
 
+    @api.one
+    @api.depends('period_start', 'period_stop')
+    def _tillgangar_skulder(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        afr_obj = self.env['account.financial.report']
+        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
+        if b_afr:
+            tillgangar = afr_obj.search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
+            if tillgangar:
+                tillgangar_children = afr_obj.search([('parent_id', 'child_of', tillgangar.id)])
+                sum_tillgangar = 0
+                for line in tillgangar_children:
+                    sum_tillgangar += int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                self.tillgangar = sum_tillgangar
+            else:
+                self.tillgangar = 0
+            eget_kapital_skulder = afr_obj.search([('name', '=', u'Eget kapital och skulder')])
+            if eget_kapital_skulder:
+                eget_kapital_skulder_children = afr_obj.search([('parent_id', 'child_of', eget_kapital_skulder.id)])
+                sum_eget_kapital_skulder = 0
+                for line in eget_kapital_skulder_children:
+                    sum_eget_kapital_skulder += int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                self.eget_kapital_skulder = sum_eget_kapital_skulder
+            else:
+                self.eget_kapital_skulder = 0
+        else:
+            self.tillgangar = 0
+            self.eget_kapital_skulder = 0
+
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
             # ~ self.accounting_yearend = (self.period_start == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-            self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop) + timedelta(days=12))
-            self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
+            self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop))
+            self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start, short=False))
 
-    @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
-    def _vat(self):
-        for decl in self:
-            if decl.period_start:
-                ctx = {
-                    'period_start': decl.period_start.id,
-                    'period_stop': decl.period_stop.id,
-                    'accounting_yearend': decl.accounting_yearend,
-                    'accounting_method': decl.accounting_method,
-                    'target_move': decl.target_move,
-                }
-                decl.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-                decl.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-                decl.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
+    # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
+    # ~ def _vat(self):
+        # ~ for decl in self:
+            # ~ if decl.period_start:
+                # ~ ctx = {
+                    # ~ 'period_start': decl.period_start.id,
+                    # ~ 'period_stop': decl.period_stop.id,
+                    # ~ 'accounting_yearend': decl.accounting_yearend,
+                    # ~ 'accounting_method': decl.accounting_method,
+                    # ~ 'target_move': decl.target_move,
+                # ~ }
+                # ~ decl.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+                # ~ decl.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+                # ~ decl.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
 
-    SumSkAvdr    = fields.Float(compute='_vat')
-    SumAvgBetala = fields.Float(compute='_vat')
-    ag_betala  = fields.Float(compute='_vat')
+    # ~ SumSkAvdr    = fields.Float(compute='_vat')
+    # ~ SumAvgBetala = fields.Float(compute='_vat')
+    # ~ ag_betala  = fields.Float(compute='_vat')
 
-    @api.multi
-    def show_SumSkAvdr(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('VAT Ag'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            'context': {},
-        })
-        return action
-    @api.multi
+    # ~ @api.multi
+    # ~ def show_SumSkAvdr(self):
+        # ~ ctx = {
+                # ~ 'period_start': self.period_start.id,
+                # ~ 'period_stop': self.period_stop.id,
+                # ~ 'accounting_yearend': self.accounting_yearend,
+                # ~ 'accounting_method': self.accounting_method,
+                # ~ 'target_move': self.target_move,
+            # ~ }
+        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        # ~ action.update({
+            # ~ 'display_name': _('VAT Ag'),
+            # ~ 'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            # ~ 'context': {},
+        # ~ })
+        # ~ return action
+    # ~ @api.multi
 
-    def show_SumAvgBetala(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('VAT Ag'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            'context': {},
-        })
-        return action
+    # ~ def show_SumAvgBetala(self):
+        # ~ ctx = {
+                # ~ 'period_start': self.period_start.id,
+                # ~ 'period_stop': self.period_stop.id,
+                # ~ 'accounting_yearend': self.accounting_yearend,
+                # ~ 'accounting_method': self.accounting_method,
+                # ~ 'target_move': self.target_move,
+            # ~ }
+        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        # ~ action.update({
+            # ~ 'display_name': _('VAT Ag'),
+            # ~ 'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            # ~ 'context': {},
+        # ~ })
+        # ~ return action
 
     @api.one
     def do_draft(self):
@@ -141,6 +178,13 @@ class account_sru_declaration(models.Model):
             'nix_journal_ids': [] # TODO: vilka journaler ska nixas?
         }
 
+        # create year end entries
+        # ~ xxxx
+        # ~ 2090 skillnad mellan tillgångar och skulder
+
+        # ~ 2099 -10000 (vinst)
+        # ~ 8099 10000
+
         ##
         ####  Create report lines
         ##
@@ -153,7 +197,7 @@ class account_sru_declaration(models.Model):
         if b_afr:
             b_lines = afr_obj.search([('parent_id', 'child_of', b_afr.id)])
             for line in b_lines:
-                self.env['account.declaration.line'].create({
+                l = self.env['account.declaration.line'].create({
                     'sru_declaration_id': self.id,
                     'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
                     'name': line.name,
@@ -162,11 +206,10 @@ class account_sru_declaration(models.Model):
                     'is_b': True,
                     'is_r': False,
                 })
-
         if r_afr:
             r_lines = afr_obj.search([('parent_id', 'child_of', r_afr.id)])
             for line in r_lines:
-                self.env['account.declaration.line'].create({
+                l = self.env['account.declaration.line'].create({
                     'sru_declaration_id': self.id,
                     'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
                     'name': line.name,
@@ -175,7 +218,6 @@ class account_sru_declaration(models.Model):
                     'is_b': False,
                     'is_r': True,
                 })
-
 
         ##
         #### Mark Used moves

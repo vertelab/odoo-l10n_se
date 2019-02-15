@@ -38,6 +38,8 @@ class ImportBalanceAndResultReports(models.TransientModel):
     data = fields.Binary('File', required=True)
     message = fields.Text(string='Message', readonly=True)
 
+    resultatrakning_neg_sign = ['3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.17', '3.18', '3.22', '3.24', '3.25']
+
     @api.multi
     def send_form(self):
         def parse_domain(dl):
@@ -220,16 +222,16 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 'parent_id': parent.id,
                 'type': 'accounts',
                 'sequence': sequence,
-                'sign': 1,
+                'sign': -1 if (values['code'] in self.resultatrakning_neg_sign) else 1,
                 'sru': values['code'],
                 'display_detail': 'no_detail',
                 'account_ids': [(6, 0, [a.id for a in accounts])],
             }
-            for code in values['field_codes']:
-                if not code['sign'] or code['sign'] == '+':
-                    vals['field_code'] = code['code']
-                elif code['sign'] == '-':
-                    vals['field_code_neg'] = code['code']
+            # ~ for code in values['field_codes']:
+                # ~ if not code['sign'] or code['sign'] == '+':
+                    # ~ vals['field_code'] = code['code']
+                # ~ elif code['sign'] == '-':
+                    # ~ vals['field_code_neg'] = code['code']
             account = self.env['account.financial.report'].create(vals)
 
         def create_heading(values, parent, sequence):
