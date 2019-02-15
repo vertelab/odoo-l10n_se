@@ -28,19 +28,19 @@ from datetime import datetime, timedelta
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
-    _inherits = {'account.declaration': 'declaration_id'}
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
     _report_name = 'SRU'
 
     line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
     def _period_start(self):
-        return  self.get_next_periods(length=12)[0]
+        return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     def _period_stop(self):
-        return  self.get_next_periods(length=12)[1]
+        return  self.get_next_periods()[1]
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="sru_declaration_id")
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="sru_declaration_id")
@@ -234,10 +234,24 @@ class account_sru_declaration(models.Model):
                 raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
     @api.model
-    def get_next_periods(self,length=1):
-        last_declaration = self.search([],order='date_stop desc',limit=1)
-        _logger.warn('get_netx_period date_stop %s >>> %s | %s' % (last_declaration.date_stop,self.search([],order='date_stop asc').mapped('date_stop'),self.search([],order='date_stop desc').mapped('name')))
-        return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
+    def get_next_periods(self):
+        last_declaration = self.search([], order='date_stop desc', limit=1)
+        if not last_declaration:
+            last_year = str(int(fields.Date.today()[:4]) - 1)
+            fiscalyear = self.env['account.fiscalyear'].search([('code', '=', last_year)])
+            if not fiscalyear:
+                raise Warning(_('Please add fiscal year for %s') %last_year)
+            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %last_year), ('date_stop', '=', '%s-01-31' %last_year), ('special', '=', False)])
+            stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %last_year), ('date_stop', '=', '%s-12-31' %last_year)])
+            return [start_period, stop_period]
+        else:
+            next_year = str(int(last_declaration.date_stop.date_start[:4]) + 1)
+            fiscalyear = self.env['account.fiscalyear'].search([('code', '=', next_year)])
+            if not fiscalyear:
+                raise Warning(_('Please add fiscal year for %s') %start_date[:4])
+            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %next_year), ('date_stop', '=', '%s-01-31' %next_year), ('special', '=', False)])
+            stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %next_year), ('date_stop', '=', '%s-12-31' %next_year)])
+            return [start_period, stop_period]
 
 
 class account_move(models.Model):

@@ -111,6 +111,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 if isinstance(text, float):
                     return None, [('code', '=', str(int(text)))], None
                 txt = text.replace(' ', '')
+                txt = txt.replace(u'`', '')
                 txt = txt.replace(u'–', '-')
                 if txt[0] in ('+', '-'):
                     sign = txt[0]
@@ -160,7 +161,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                                 'name': row[2].value,
                                 'domains': [domain],
                                 'field_codes': [{
-                                    'code': int(row[0].value),
+                                    'code': int(row[0].value) if row[0].value != '' else '',
                                     'sign': sign,
                                     'domain': domain,
                                 }]
@@ -173,7 +174,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                                 errors.append(error)
                             if row[0].value:
                                 account['field_codes'].append({
-                                    'code': int(row[0].value),
+                                    'code': int(row[0].value) if row[0].value != '' else '',
                                     'sign': sign,
                                     'domain': domain,
                                 })
