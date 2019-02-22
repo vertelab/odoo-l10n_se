@@ -71,6 +71,7 @@
                             <group>
                                 <field name="tillgangar" />
                                 <field name="eget_kapital_skulder" />
+                                <field name="fritt_eget_kapital" />
                             </group>
                             <group col="4">
                                 <field name="sru_betala" />

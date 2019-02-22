@@ -48,8 +48,13 @@ class account_sru_declaration(models.Model):
     r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     report_id = fields.Many2one(comodel_name="account.financial.report")
     sru_betala = fields.Float()
-    tillgangar = fields.Integer(string='Tillgångar', compute='_tillgangar_skulder', store=True)
-    eget_kapital_skulder = fields.Integer(string='Eget kapital och skulder', compute='_tillgangar_skulder', store=True)
+    tillgangar = fields.Integer(string='Tillgångar')
+    eget_kapital_skulder = fields.Integer(string='Eget kapital och skulder')
+    fritt_eget_kapital = fields.Integer(string='Fritt eget kapital')
+    arets_intakt = fields.Integer(string='Årets intäkt')
+    arets_kostnad = fields.Integer(string='Årets kostnad')
+    arets_resultat = fields.Integer(string='Årets resultat')
+    infosru = fields.Binary(string='INFO.SRU')
 
     @api.one
     def _line_ids(self):
@@ -57,8 +62,7 @@ class account_sru_declaration(models.Model):
         self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
 
     @api.one
-    @api.depends('period_start', 'period_stop')
-    def _tillgangar_skulder(self):
+    def calc_tillgangar_skulder(self):
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
@@ -90,66 +94,15 @@ class account_sru_declaration(models.Model):
         else:
             self.tillgangar = 0
             self.eget_kapital_skulder = 0
+        self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
+
+    # TODO: gör samma räkning på resultaträkning och skriv in fälten: arets_intakt, arets_kostnad och arets_resultat
 
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
-            # ~ self.accounting_yearend = (self.period_start == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop))
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start, short=False))
-
-    # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
-    # ~ def _vat(self):
-        # ~ for decl in self:
-            # ~ if decl.period_start:
-                # ~ ctx = {
-                    # ~ 'period_start': decl.period_start.id,
-                    # ~ 'period_stop': decl.period_stop.id,
-                    # ~ 'accounting_yearend': decl.accounting_yearend,
-                    # ~ 'accounting_method': decl.accounting_method,
-                    # ~ 'target_move': decl.target_move,
-                # ~ }
-                # ~ decl.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-                # ~ decl.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-                # ~ decl.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
-
-    # ~ SumSkAvdr    = fields.Float(compute='_vat')
-    # ~ SumAvgBetala = fields.Float(compute='_vat')
-    # ~ ag_betala  = fields.Float(compute='_vat')
-
-    # ~ @api.multi
-    # ~ def show_SumSkAvdr(self):
-        # ~ ctx = {
-                # ~ 'period_start': self.period_start.id,
-                # ~ 'period_stop': self.period_stop.id,
-                # ~ 'accounting_yearend': self.accounting_yearend,
-                # ~ 'accounting_method': self.accounting_method,
-                # ~ 'target_move': self.target_move,
-            # ~ }
-        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        # ~ action.update({
-            # ~ 'display_name': _('VAT Ag'),
-            # ~ 'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            # ~ 'context': {},
-        # ~ })
-        # ~ return action
-    # ~ @api.multi
-
-    # ~ def show_SumAvgBetala(self):
-        # ~ ctx = {
-                # ~ 'period_start': self.period_start.id,
-                # ~ 'period_stop': self.period_stop.id,
-                # ~ 'accounting_yearend': self.accounting_yearend,
-                # ~ 'accounting_method': self.accounting_method,
-                # ~ 'target_move': self.target_move,
-            # ~ }
-        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        # ~ action.update({
-            # ~ 'display_name': _('VAT Ag'),
-            # ~ 'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            # ~ 'context': {},
-        # ~ })
-        # ~ return action
 
     @api.one
     def do_draft(self):
@@ -167,15 +120,15 @@ class account_sru_declaration(models.Model):
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        if self.state in ['draft']:
-            self.state = 'done'
+        # ~ if self.state in ['draft']:
+            # ~ self.state = 'done'
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
             'accounting_yearend': self.accounting_yearend,
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
-            'nix_journal_ids': [] # TODO: vilka journaler ska nixas?
+            'nix_journal_ids': []
         }
 
         # create year end entries
@@ -194,30 +147,24 @@ class account_sru_declaration(models.Model):
         afr_obj = self.env['account.financial.report']
         b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
         r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
-        if b_afr:
-            b_lines = afr_obj.search([('parent_id', 'child_of', b_afr.id)])
-            for line in b_lines:
-                l = self.env['account.declaration.line'].create({
-                    'sru_declaration_id': self.id,
-                    'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
+
+        def create_lines(afr, dec):
+            afr_obj = self.env['account.financial.report']
+            lines = afr_obj.search([('parent_id', 'child_of', afr.id)])
+            for line in lines:
+                self.env['account.declaration.line'].create({
+                    'sru_declaration_id': dec.id,
+                    'balance': int(abs(sum([a.with_context(ctx).sum_period() for a in afr_obj.search([('parent_id', 'child_of', line.id)]).mapped('account_ids')]))),
                     'name': line.name,
                     'level': line.level,
                     'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
                     'is_b': True,
                     'is_r': False,
                 })
+        if b_afr:
+            create_lines(b_afr, self)
         if r_afr:
-            r_lines = afr_obj.search([('parent_id', 'child_of', r_afr.id)])
-            for line in r_lines:
-                l = self.env['account.declaration.line'].create({
-                    'sru_declaration_id': self.id,
-                    'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
-                    'name': line.name,
-                    'level': line.level,
-                    'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
-                    'is_b': False,
-                    'is_r': True,
-                })
+            create_lines(r_afr, self)
 
         ##
         #### Mark Used moves
@@ -227,30 +174,45 @@ class account_sru_declaration(models.Model):
             # ~ move.agd_declaration_id = self.id
 
         ##
-        #### Create eSDK-file
+        #### Create INFO.SRU
         ##
 
-        # ~ tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
-        # ~ def parse_xml(recordsets):
-            # ~ root = etree.Element('eSKDUpload', Version="6.0")
-            # ~ orgnr = etree.SubElement(root, 'OrgNr')
-            # ~ orgnr.text = self.env.user.company_id.company_registry
-            # ~ ag = etree.SubElement(root, 'Ag')
-            # ~ period = etree.SubElement(ag, 'Period')
-            # ~ period.text = self.period.date_start[:4] + self.period.date_start[5:7]
-            # ~ for tag in TAGS:
-                # ~ tax = etree.SubElement(ag, tag)
-                # ~ acc = self.env['account.tax'].search([('name', '=', tag)])
-                # ~ if acc:
-                    # ~ tax.text = str(int(abs(acc.with_context(ctx).sum_period)))
-                # ~ else:
-                    # ~ tax.text = '0'
-            # ~ free_text = etree.SubElement(ag, 'TextUpplysningAg')
-            # ~ free_text.text = self.free_text or ''
-            # ~ return root
-        # ~ xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
-        # ~ xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
-        # ~ self.eskd_file = base64.b64encode(xml)
+        def _parse():
+            data = u'''#DATABESKRIVNING_START
+#PRODUKT SRU
+#MEDIAID Får användas av uppgiftslämnaren för exempelvis
+numrering av filer. Lagras ej i skattedatabasen. Ej
+obligatorisk.
+#SKAPAD <Datum> Datum för framställande av uppgifterna.
+Anges på formen ÅÅÅÅMMDD.
+<Tid> Klockslag för framställande av uppgifterna. Anges
+på formen TTMMSS. Ej obligatorisk.
+#PROGRAM <Program> Framställande program. Ej obligatorisk.
+#FILNAMN <FilNamn> Namn på den fil där blankettblocken finns
+redovisade. Filen ska heta BLANKETTER.SRU.
+#DATABESKRIVNING_SLUT
+#MEDIELEV_START
+#ORGNR <OrgNr> Uppgiftslämnarens person-/organisations-
+/samordningsnummer. Anges på formen
+SSÅÅMMDDNNNK.
+#NAMN <Namn> Uppgiftslämnarens namn.
+#ADRESS <UtdelningsAdr> Uppgiftslämnarens utdelningsadress.
+Ej obligatorisk.
+#POSTNR <PostNr> Uppgiftslämnarens postnummer.
+#POSTORT <PostOrt> Uppgiftslämnarens postort.
+SKV269 Utgåva 24
+7 (15)#AVDELNING <Avdelning> Kontaktpersonens avdelning eller liknande.
+Ej obligatorisk.
+#KONTAKT <Kontakt> Kontaktperson. Ej obligatorisk.
+#EMAIL <Email> Kontaktpersonens emailadress. Ej obligatorisk.
+#TELEFON <Telefon> Kontaktpersonens telefonnummer.
+Ej obligatorisk.
+#FAX <Fax> Kontaktpersonens telefaxnummer.
+Ej obligatorisk.
+#MEDIELEV_SLUT'''
+            return data
+        # encoding="ISO-8859-1"
+        self.infosru = base64.b64encode(_parse())
 
         ##
         #### Create move
