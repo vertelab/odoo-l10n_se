@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+      
+    <menuitem id="menu_sie" name="SIE" parent="account.menu_finance_configuration" sequence="50" />
+      
+    <!--account move-->
+    <record model="ir.actions.server" id="dropdown_export_move">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account.model_account_move" />
+      <field name="state">code</field>
+      <field name="condition" eval="True" />
+      <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
+    </record>
+    <record model="ir.values" id="export_sie_move">
+      <field name="name">Export SIE</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.sie</field>
+      <field name="model">account.move</field>
+      <field name="key2">client_action_multi</field>
+      <field name="value" eval="'ir.actions.server,%d' % dropdown_export_move" />
+    </record>
+    <!--account_period-->
+    <record model="ir.actions.server" id="dropdown_export_period">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account_period.model_account_period" />
+      <field name="state">code</field>
+      <field name="condition" eval="True" />
+      <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
+    </record>
+    <record model="ir.values" id="export_sie_period">
+      <field name="name">Export SIE</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.sie</field>
+      <field name="model">account_period.period</field>
+      <field name="key2">client_action_multi</field>
+      <field name="value" eval="'ir.actions.server,%d' % dropdown_export_period" />
+    </record>
+    <!--account_fiscal_year-->
+    <record model="ir.actions.server" id="dropdown_export_fiscalyear">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account_period.model_account_fiscalyear" />
+      <field name="state">code</field>
+      <field name="condition" eval="True" />
+      <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
+    </record>
+    <record model="ir.values" id="export_sie_fiscalyear">
+      <field name="name">Export SIE</field>
+      <field name="model">account_period.fiscalyear</field>
+      <field name="key2">client_action_multi</field>
+      <field name="value" eval="'ir.actions.server,%d' % dropdown_export_fiscalyear" />
+    </record>
+    <!--account_journal-->
+    <record model="ir.actions.server" id="dropdown_export_journal">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account.model_account_journal" />
+      <field name="state">code</field>
+      <field name="condition" eval="True" />
+      <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
+    </record>
+    <record model="ir.values" id="export_sie_journal">
+      <field name="name">Export SIE</field>
+      <field name="model">account.journal</field>
+      <field name="key2">client_action_multi</field>
+      <field name="value" eval="'ir.actions.server,%d' % dropdown_export_journal" />
+    </record>
+    <record id="action_wizard_account_journal_sie" model="ir.actions.act_window">
+      <field name="name">Export journal SIE</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.sie</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+    <menuitem action="action_wizard_account_journal_sie" id="menu_wizard_account_journal_sie" parent="l10n_se_sie.menu_sie" />
+    <!--account_account-->
+    <record model="ir.actions.server" id="dropdown_export_account">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account.model_account_account" />
+      <field name="state">code</field>
+      <field name="condition" eval="True" />
+      <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
+    </record>
+    <record model="ir.values" id="export_sie_account">
+      <field name="name">Export SIE</field>
+      <field name="model">account.account</field>
+      <field name="key2">client_action_multi</field>
+      <field name="value" eval="'ir.actions.server,%d' % dropdown_export_account" />
+    </record>
+    <!-- export sie form-->
+    <record id="wizard_account_sie" model="ir.ui.view">
+      <field name="name">Export SIE-files</field>
+      <field name="model">account.sie</field>
+      <field name="arch" type="xml">
+        <form string="Export SIE-files">
+          <field name="state" invisible="1" />
+          <notebook states="choose">
+            <page string="Export" states="choose">
+              <group col="3">
+                <field name="date_start" />
+                <field name="date_stop" nolabel="1" />
+              </group>
+              <group>
+                <field name="fiscalyear_ids" />
+                <field name="period_ids" widget="many2many_tags" />
+                <field name="journal_ids" widget="many2many_tags" />
+                <field name="partner_ids" widget="many2many_tags" />
+                <field name="account_ids" widget="many2many_tags" />
+              </group>
+            </page>
+            <page string="Import" states="choose">
+              <group rowspan="4" string="File to upload">
+                <field name="data" />
+              </group>
+              <field name="show_account_lines" invisible="1"/>
+              <div>
+                <group string="Import Accounts">
+                  <field name="accounts_type"/>
+                  <field name="accounts_user_type"/>
+                  <field name="accounts_parent_id"/>
+                </group>
+                <field name="account_line_ids">
+                  <tree editable="bottom">
+                    <field name="checked"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="user_type"/>
+                    <field name="parent_id"/>
+                  </tree>
+                </field>
+                <button string="Create Accounts" name="create_accounts" type="object" class="oe_highlight"/>
+              </div>
+            </page>
+          </notebook>
+          <div states="get">
+            <h2>Export Complete</h2>
+            <p>
+              Here is the exported sie-file:
+              <field name="sie_file" readonly="1" filename="filename" />
+               <field name="filename" readonly="1" invisible="1"/>
+            </p>
+          </div>
+          <footer states="choose">
+            <button string="Send" name="send_form" type="object" class="oe_highlight" />
+            or
+            <button string="Cancel" special="cancel" class="oe_link" />
+          </footer>
+          <footer states="get">
+            <button special="cancel" string="Close" type="object" />
+          </footer>
+        </form>
+      </field>
+    </record>
+    <record id="action_wizard_account_sie" model="ir.actions.act_window">
+      <field name="name">Export/import SIE-files</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.sie</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+    <menuitem action="action_wizard_account_sie" id="menu_wizard_account_sie" parent="l10n_se_sie.menu_sie" />
+  </data>
+</openerp>
