@@ -121,9 +121,9 @@ class AccountBankStatementImport(models.TransientModel):
         try:
             _logger.debug("Try parsing with bgmax.")
             statements = parser.parse(data_file)
-        except ValueError, e:
-            _logger.error("Error in BgMax file. (%s)", e)
-            raise Warning("Error in BgMax file. (%s)" % e)
+        # ~ except ValueError, e:
+            # ~ _logger.error("Error in BgMax file. (%s)", e)
+            # ~ raise Warning("Error in BgMax file. (%s)" % e)
         except Exception,e:
             # Not a BgMax file, returning super will call next candidate:
             _logger.info("Statement file was not a BgMax file. (%s)", e)

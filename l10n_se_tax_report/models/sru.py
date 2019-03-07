@@ -28,84 +28,81 @@ from datetime import datetime, timedelta
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
-    _inherits = {'account.declaration': 'declaration_id'}
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
     _report_name = 'SRU'
 
-    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
+    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete='cascade', required=True)
     def _period_start(self):
-        return  self.get_next_periods(length=12)[0]
-    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
+        return  self.get_next_periods()[0]
+    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True, default=_period_start)
     def _period_stop(self):
-        return  self.get_next_periods(length=12)[1]
-    period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
-    move_ids = fields.One2many(comodel_name='account.move',inverse_name="sru_declaration_id")
-    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="sru_declaration_id")
+        return  self.get_next_periods()[1]
+    period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True, default=_period_stop)
+    move_ids = fields.One2many(comodel_name='account.move', inverse_name='sru_declaration_id')
+    line_ids = fields.One2many(comodel_name='account.declaration.line', inverse_name='sru_declaration_id')
+    b_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
+    r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     report_id = fields.Many2one(comodel_name="account.financial.report")
     sru_betala = fields.Float()
+    tillgangar = fields.Integer(string='Tillgångar')
+    eget_kapital_skulder = fields.Integer(string='Eget kapital och skulder')
+    fritt_eget_kapital = fields.Integer(string='Fritt eget kapital')
+    arets_intakt = fields.Integer(string='Årets intäkt')
+    arets_kostnad = fields.Integer(string='Årets kostnad')
+    arets_resultat = fields.Integer(string='Årets resultat')
+    infosru = fields.Binary(string='INFO.SRU')
+
+    @api.one
+    def _line_ids(self):
+        self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
+        self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
+
+    @api.one
+    def calc_tillgangar_skulder(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        afr_obj = self.env['account.financial.report']
+        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
+        if b_afr:
+            tillgangar = afr_obj.search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
+            if tillgangar:
+                tillgangar_children = afr_obj.search([('parent_id', 'child_of', tillgangar.id)])
+                sum_tillgangar = 0
+                for line in tillgangar_children:
+                    sum_tillgangar += int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                self.tillgangar = sum_tillgangar
+            else:
+                self.tillgangar = 0
+            eget_kapital_skulder = afr_obj.search([('name', '=', u'Eget kapital och skulder')])
+            if eget_kapital_skulder:
+                eget_kapital_skulder_children = afr_obj.search([('parent_id', 'child_of', eget_kapital_skulder.id)])
+                sum_eget_kapital_skulder = 0
+                for line in eget_kapital_skulder_children:
+                    sum_eget_kapital_skulder += int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                self.eget_kapital_skulder = sum_eget_kapital_skulder
+            else:
+                self.eget_kapital_skulder = 0
+        else:
+            self.tillgangar = 0
+            self.eget_kapital_skulder = 0
+        self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
+
+    # TODO: gör samma räkning på resultaträkning och skriv in fälten: arets_intakt, arets_kostnad och arets_resultat
 
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
-            # ~ self.accounting_yearend = (self.period_start == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-            self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop) + timedelta(days=12))
-            self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
-
-    @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
-    def _vat(self):
-        for decl in self:
-            if decl.period_start:
-                ctx = {
-                    'period_start': decl.period_start.id,
-                    'period_stop': decl.period_stop.id,
-                    'accounting_yearend': decl.accounting_yearend,
-                    'accounting_method': decl.accounting_method,
-                    'target_move': decl.target_move,
-                }
-                decl.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-                decl.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-                decl.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
-
-    SumSkAvdr    = fields.Float(compute='_vat')
-    SumAvgBetala = fields.Float(compute='_vat')
-    ag_betala  = fields.Float(compute='_vat')
-
-    @api.multi
-    def show_SumSkAvdr(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('VAT Ag'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            'context': {},
-        })
-        return action
-    @api.multi
-
-    def show_SumAvgBetala(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('VAT Ag'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            'context': {},
-        })
-        return action
+            self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop))
+            self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start, short=False))
 
     @api.one
     def do_draft(self):
@@ -123,130 +120,179 @@ class account_sru_declaration(models.Model):
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        if self.state in ['draft']:
-            self.state = 'done'
+        # ~ if self.state in ['draft']:
+            # ~ self.state = 'done'
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
             'accounting_yearend': self.accounting_yearend,
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
-            'nix_journal_ids': [] # TODO: vilka journaler ska nixas?
+            'nix_journal_ids': []
         }
+
+        # create year end entries
+        # ~ xxxx
+        # ~ 2090 skillnad mellan tillgångar och skulder
+
+        # ~ 2099 -10000 (vinst)
+        # ~ 8099 10000
 
         ##
         ####  Create report lines
         ##
 
-        for line in self.report_id._get_children_by_order():
-            self.env['account.declaration.line'].create({
-                'sru_declaration_id': self.id,
-                'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
-                'name': line.name,
-                'level': line.level,
-                'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
-                })
+        sru_lines = self.env['account.declaration.line'].search([('sru_declaration_id', '=', self.id)])
+        sru_lines.unlink()
+        afr_obj = self.env['account.financial.report']
+        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
+        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
 
-        return
+        def create_lines(afr, dec):
+            afr_obj = self.env['account.financial.report']
+            lines = afr_obj.search([('parent_id', 'child_of', afr.id)])
+            for line in lines:
+                self.env['account.declaration.line'].create({
+                    'sru_declaration_id': dec.id,
+                    'balance': int(abs(sum([a.with_context(ctx).sum_period() for a in afr_obj.search([('parent_id', 'child_of', line.id)]).mapped('account_ids')]))),
+                    'name': line.name,
+                    'level': line.level,
+                    'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
+                    'is_b': True,
+                    'is_r': False,
+                })
+        if b_afr:
+            create_lines(b_afr, self)
+        if r_afr:
+            create_lines(r_afr, self)
 
         ##
         #### Mark Used moves
         ##
 
-
-
-        for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
-            move.agd_declaration_id = self.id
+        # ~ for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
+            # ~ move.agd_declaration_id = self.id
 
         ##
-        #### Create eSDK-file
+        #### Create INFO.SRU
         ##
 
-        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
-        def parse_xml(recordsets):
-            root = etree.Element('eSKDUpload', Version="6.0")
-            orgnr = etree.SubElement(root, 'OrgNr')
-            orgnr.text = self.env.user.company_id.company_registry
-            ag = etree.SubElement(root, 'Ag')
-            period = etree.SubElement(ag, 'Period')
-            period.text = self.period.date_start[:4] + self.period.date_start[5:7]
-            for tag in TAGS:
-                tax = etree.SubElement(ag, tag)
-                acc = self.env['account.tax'].search([('name', '=', tag)])
-                if acc:
-                    tax.text = str(int(abs(acc.with_context(ctx).sum_period)))
-                else:
-                    tax.text = '0'
-            free_text = etree.SubElement(ag, 'TextUpplysningAg')
-            free_text.text = self.free_text or ''
-            return root
-        xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
-        xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
-        self.eskd_file = base64.b64encode(xml)
+        def _parse():
+            data = u'''#DATABESKRIVNING_START
+#PRODUKT SRU
+#MEDIAID Får användas av uppgiftslämnaren för exempelvis
+numrering av filer. Lagras ej i skattedatabasen. Ej
+obligatorisk.
+#SKAPAD <Datum> Datum för framställande av uppgifterna.
+Anges på formen ÅÅÅÅMMDD.
+<Tid> Klockslag för framställande av uppgifterna. Anges
+på formen TTMMSS. Ej obligatorisk.
+#PROGRAM <Program> Framställande program. Ej obligatorisk.
+#FILNAMN <FilNamn> Namn på den fil där blankettblocken finns
+redovisade. Filen ska heta BLANKETTER.SRU.
+#DATABESKRIVNING_SLUT
+#MEDIELEV_START
+#ORGNR <OrgNr> Uppgiftslämnarens person-/organisations-
+/samordningsnummer. Anges på formen
+SSÅÅMMDDNNNK.
+#NAMN <Namn> Uppgiftslämnarens namn.
+#ADRESS <UtdelningsAdr> Uppgiftslämnarens utdelningsadress.
+Ej obligatorisk.
+#POSTNR <PostNr> Uppgiftslämnarens postnummer.
+#POSTORT <PostOrt> Uppgiftslämnarens postort.
+SKV269 Utgåva 24
+7 (15)#AVDELNING <Avdelning> Kontaktpersonens avdelning eller liknande.
+Ej obligatorisk.
+#KONTAKT <Kontakt> Kontaktperson. Ej obligatorisk.
+#EMAIL <Email> Kontaktpersonens emailadress. Ej obligatorisk.
+#TELEFON <Telefon> Kontaktpersonens telefonnummer.
+Ej obligatorisk.
+#FAX <Fax> Kontaktpersonens telefaxnummer.
+Ej obligatorisk.
+#MEDIELEV_SLUT'''
+            return data
+        # encoding="ISO-8859-1"
+        self.infosru = base64.b64encode(_parse())
 
         ##
         #### Create move
         ##
 
         #TODO check all warnings
-        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
-        agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
-        if not agd_journal_id:
-            raise Warning('Konfigurera din arbetsgivardeklaration journal!')
-        else:
-            agd_journal = self.env['account.journal'].browse(int(agd_journal_id))
-            skattekonto = agd_journal.default_debit_account_id
-            if len(kontoskatte) > 0 and skattekonto:
-                total = 0.0
-                entry = self.env['account.move'].create({
-                    'journal_id': agd_journal.id,
-                    'period_id': self.period.id,
-                    'date': fields.Date.today(),
-                    'ref': u'Arbetsgivardeklaration',
-                })
-                if entry:
-                    move_line_list = []
-                    for k in kontoskatte:
-                        credit = k.with_context(ctx).sum_period()
-                        if credit != 0.0:
-                            move_line_list.append((0, 0, {
-                                'name': k.name,
-                                'account_id': k.id,
-                                'debit': credit,
-                                'credit': 0.0,
-                                'move_id': entry.id,
-                            }))
-                            total += credit
-                    move_line_list.append((0, 0, {
-                        'name': skattekonto.name,
-                        'account_id': skattekonto.id,
-                        'partner_id': self.env.ref('base.res_partner-SKV').id,
-                        'debit': 0.0,
-                        'credit': total,
-                        'move_id': entry.id,
-                    }))
-                    entry.write({
-                        'line_ids': move_line_list,
-                    })
-                    self.write({'move_id': entry.id}) # wizard disappeared
-            else:
-                raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+        # ~ tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
+        # ~ kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
+        # ~ agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
+        # ~ if not agd_journal_id:
+            # ~ raise Warning('Konfigurera din arbetsgivardeklaration journal!')
+        # ~ else:
+            # ~ agd_journal = self.env['account.journal'].browse(int(agd_journal_id))
+            # ~ skattekonto = agd_journal.default_debit_account_id
+            # ~ if len(kontoskatte) > 0 and skattekonto:
+                # ~ total = 0.0
+                # ~ entry = self.env['account.move'].create({
+                    # ~ 'journal_id': agd_journal.id,
+                    # ~ 'period_id': self.period.id,
+                    # ~ 'date': fields.Date.today(),
+                    # ~ 'ref': u'Arbetsgivardeklaration',
+                # ~ })
+                # ~ if entry:
+                    # ~ move_line_list = []
+                    # ~ for k in kontoskatte:
+                        # ~ credit = k.with_context(ctx).sum_period()
+                        # ~ if credit != 0.0:
+                            # ~ move_line_list.append((0, 0, {
+                                # ~ 'name': k.name,
+                                # ~ 'account_id': k.id,
+                                # ~ 'debit': credit,
+                                # ~ 'credit': 0.0,
+                                # ~ 'move_id': entry.id,
+                            # ~ }))
+                            # ~ total += credit
+                    # ~ move_line_list.append((0, 0, {
+                        # ~ 'name': skattekonto.name,
+                        # ~ 'account_id': skattekonto.id,
+                        # ~ 'partner_id': self.env.ref('base.res_partner-SKV').id,
+                        # ~ 'debit': 0.0,
+                        # ~ 'credit': total,
+                        # ~ 'move_id': entry.id,
+                    # ~ }))
+                    # ~ entry.write({
+                        # ~ 'line_ids': move_line_list,
+                    # ~ })
+                    # ~ self.write({'move_id': entry.id}) # wizard disappeared
+            # ~ else:
+                # ~ raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
     @api.model
-    def get_next_periods(self,length=1):
-        last_declaration = self.search([],order='date_stop desc',limit=1)
-        _logger.warn('get_netx_period date_stop %s >>> %s | %s' % (last_declaration.date_stop,self.search([],order='date_stop asc').mapped('date_stop'),self.search([],order='date_stop desc').mapped('name')))
-        return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
+    def get_next_periods(self):
+        last_declaration = self.search([], order='date_stop desc', limit=1)
+        if not last_declaration:
+            last_year = str(int(fields.Date.today()[:4]) - 1)
+            fiscalyear = self.env['account.fiscalyear'].search([('code', '=', last_year)])
+            if not fiscalyear:
+                raise Warning(_('Please add fiscal year for %s') %last_year)
+            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %last_year), ('date_stop', '=', '%s-01-31' %last_year), ('special', '=', False)])
+            stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %last_year), ('date_stop', '=', '%s-12-31' %last_year)])
+            return [start_period, stop_period]
+        else:
+            next_year = str(int(last_declaration.date_stop.date_start[:4]) + 1)
+            fiscalyear = self.env['account.fiscalyear'].search([('code', '=', next_year)])
+            if not fiscalyear:
+                raise Warning(_('Please add fiscal year for %s') %start_date[:4])
+            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %next_year), ('date_stop', '=', '%s-01-31' %next_year), ('special', '=', False)])
+            stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %next_year), ('date_stop', '=', '%s-12-31' %next_year)])
+            return [start_period, stop_period]
 
 
 class account_move(models.Model):
     _inherit = 'account.move'
 
-    sru_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+    sru_declaration_id = fields.Many2one(comodel_name='account.agd.declaration')
 
 
 class account_declaration_line(models.Model):
     _inherit = 'account.declaration.line'
 
-    sru_declaration_id = fields.Many2one(comodel_name="account.sru.declaration")
+    is_b = fields.Boolean(string='Är Balansräkning')
+    is_r = fields.Boolean(string='Är Resultaträkning')
+    sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')

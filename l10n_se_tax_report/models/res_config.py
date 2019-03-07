@@ -30,6 +30,7 @@ class account_config_settings(models.TransientModel):
     moms_journal = fields.Many2one(comodel_name='account.journal', string='Momsdeklaration journal')
     accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     vat_declaration_frequency = fields.Selection(selection=[(1, 'Month'), (3, 'Quarter'),(12, 'Year')], default=3,string='Skattedeklarationsfrekvens',help="Hur stor är momsdeklarationsperioden?")
+    ag_contact = fields.Many2many(comodel_name='res.partner', string='Arbetsgivare kontaktperson', domain=[('is_company', '=', False)])
 
     @api.multi
     def set_custom_parameters(self):
@@ -42,6 +43,8 @@ class account_config_settings(models.TransientModel):
             config_parameters.set_param(key="l10n_se_tax_report.accounting_method", value=str(self.accounting_method))
         if self.vat_declaration_frequency:
             config_parameters.set_param(key="l10n_se_tax_report.vat_declaration_frequency", value=str(self.vat_declaration_frequency))
+        if self.ag_contact:
+            config_parameters.set_param(key="l10n_se_tax_report.ag_contact", value=str(self.ag_contact.mapped('id')))
 
     @api.model
     def get_default_custom_parameters(self, fields=None):
@@ -51,6 +54,7 @@ class account_config_settings(models.TransientModel):
             'moms_journal': int(icp.get_param(key='l10n_se_tax_report.moms_journal', default='0')) or False,
             'accounting_method': icp.get_param(key='l10n_se_tax_report.accounting_method', default='invoice') or False,
             'vat_declaration_frequency': int(icp.get_param(key='l10n_se_tax_report.vat_declaration_frequency', default='3')) or False,
+            'ag_contact': eval(icp.get_param(key='l10n_se_tax_report.ag_contact', default='[]')) or False,
         }
 
 

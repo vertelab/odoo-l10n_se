@@ -86,6 +86,9 @@
                   </tree>
                 </field>
               </page>
+              <page string="Payslips">
+                <field name="payslip_ids" nolabel="1" />
+              </page>
             </notebook>
           </sheet>
           <div class="oe_chatter">
