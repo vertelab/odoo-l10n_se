@@ -62,7 +62,7 @@ class account_sru_declaration(models.Model):
         self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
 
     @api.one
-    def calc_tillgangar_skulder(self):
+    def calc_fritt_eget_kapital(self):
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
@@ -75,19 +75,19 @@ class account_sru_declaration(models.Model):
         if b_afr:
             tillgangar = afr_obj.search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
             if tillgangar:
-                tillgangar_children = afr_obj.search([('parent_id', 'child_of', tillgangar.id)])
+                tillgangar_children = afr_obj.search([('parent_id', 'child_of', tillgangar.id), ('type', '=', 'accounts')])
                 sum_tillgangar = 0
                 for line in tillgangar_children:
-                    sum_tillgangar += int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                    sum_tillgangar += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
                 self.tillgangar = sum_tillgangar
             else:
                 self.tillgangar = 0
             eget_kapital_skulder = afr_obj.search([('name', '=', u'Eget kapital och skulder')])
             if eget_kapital_skulder:
-                eget_kapital_skulder_children = afr_obj.search([('parent_id', 'child_of', eget_kapital_skulder.id)])
+                eget_kapital_skulder_children = afr_obj.search([('parent_id', 'child_of', eget_kapital_skulder.id), ('type', '=', 'accounts')])
                 sum_eget_kapital_skulder = 0
                 for line in eget_kapital_skulder_children:
-                    sum_eget_kapital_skulder += int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                    sum_eget_kapital_skulder += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
                 self.eget_kapital_skulder = sum_eget_kapital_skulder
             else:
                 self.eget_kapital_skulder = 0
@@ -96,7 +96,29 @@ class account_sru_declaration(models.Model):
             self.eget_kapital_skulder = 0
         self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
 
-    # TODO: gör samma räkning på resultaträkning och skriv in fälten: arets_intakt, arets_kostnad och arets_resultat
+    @api.one
+    def calc_arets_resultat(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        afr_obj = self.env['account.financial.report']
+        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
+        if r_afr:
+            arets_intakt_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
+            arets_kostnad_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
+            arets_intakt = 0
+            arets_kostnad = 0
+            for ai in arets_intakt_ids:
+                arets_intakt += int(abs(sum([a.with_context(ctx).sum_period() for a in ai.account_ids])) or 0.0)
+            for ak in arets_kostnad_ids:
+                arets_kostnad += int(abs(sum([a.with_context(ctx).sum_period() for a in ak.account_ids])) or 0.0)
+            self.arets_intakt = arets_intakt
+            self.arets_kostnad = arets_kostnad
+            self.arets_resultat = arets_intakt - arets_kostnad
 
     @api.onchange('period_start')
     def onchange_period_start(self):
@@ -150,11 +172,11 @@ class account_sru_declaration(models.Model):
 
         def create_lines(afr, dec):
             afr_obj = self.env['account.financial.report']
-            lines = afr_obj.search([('parent_id', 'child_of', afr.id)])
+            lines = afr_obj.search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
             for line in lines:
                 self.env['account.declaration.line'].create({
                     'sru_declaration_id': dec.id,
-                    'balance': int(abs(sum([a.with_context(ctx).sum_period() for a in afr_obj.search([('parent_id', 'child_of', line.id)]).mapped('account_ids')]))),
+                    'balance': int(abs(sum([a.with_context(ctx).sum_period() for a in afr_obj.search([('parent_id', 'child_of', line.id), ('type', '=', 'accounts')]).mapped('account_ids')]))),
                     'name': line.name,
                     'level': line.level,
                     'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
