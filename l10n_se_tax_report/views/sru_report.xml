@@ -68,19 +68,19 @@
                                 <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '>=', period_start),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" nolabel="1" />
                             </group>
                             <newline />
-                            <group string="Fritt eget kapital" col="4">
-                                <button name="calc_fritt_eget_kapital" string="Beräkna fritt eget kapital" type="object" class="oe_highlight" title="Det kan ta tid" states="draft,confirmed" />
-                                <newline />
-                                <field name="tillgangar" />
-                                <field name="eget_kapital_skulder" />
-                                <field name="fritt_eget_kapital" />
-                            </group>
                             <group string="Årets resultat" col="4">
                                 <button name="calc_arets_resultat" string="Beräkna årets resultat" type="object" class="oe_highlight" title="Det kan ta tid" states="draft,confirmed" />
                                 <newline />
                                 <field name="arets_intakt" />
                                 <field name="arets_kostnad" />
                                 <field name="arets_resultat" />
+                            </group>
+                            <group string="Fritt eget kapital" col="4">
+                                <button name="calc_fritt_eget_kapital" string="Beräkna fritt eget kapital" type="object" class="oe_highlight" title="Det kan ta tid" states="draft,confirmed" />
+                                <newline />
+                                <field name="tillgangar" />
+                                <field name="eget_kapital_skulder" />
+                                <field name="fritt_eget_kapital" />
                             </group>
                             <newline />
                             <group col="4">
