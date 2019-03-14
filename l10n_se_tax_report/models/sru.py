@@ -47,7 +47,6 @@ class account_sru_declaration(models.Model):
     b_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     report_id = fields.Many2one(comodel_name="account.financial.report")
-    sru_betala = fields.Float()
     arets_intakt = fields.Integer(string='Årets intäkt')
     arets_kostnad = fields.Integer(string='Årets kostnad')
     arets_resultat = fields.Integer(string='Årets resultat')
@@ -55,6 +54,9 @@ class account_sru_declaration(models.Model):
     eget_kapital_skulder = fields.Integer(string='Eget kapital och skulder')
     fritt_eget_kapital = fields.Integer(string='Fritt eget kapital')
     infosru = fields.Binary(string='INFO.SRU')
+    infosru_file_name = fields.Char(string='File Name', default='INFO.SRU')
+    datasru = fields.Binary(string='BLANKETTER.SRU')
+    datasru_file_name = fields.Char(string='File Name', default='BLANKETTER.SRU')
 
     @api.one
     def _line_ids(self):
@@ -176,8 +178,8 @@ class account_sru_declaration(models.Model):
                 self.write({'move_id': entry.id})
 
     # Uppdaterar bokslut verifikat, skillnad mellan tillgångar och skulder
-    # ~ positiv eget kapital: 8899 (D) 2099 (K)
-    # ~ negativ eget kapital: 2099 (D) 8899 (K)
+    # ~ positiv eget kapital: 8899 (D) 2090 (K)
+    # ~ negativ eget kapital: 2090 (D) 8899 (K)
 
     @api.one
     def calc_fritt_eget_kapital(self):
@@ -212,8 +214,8 @@ class account_sru_declaration(models.Model):
         else:
             self.tillgangar = 0
             self.eget_kapital_skulder = 0
-        self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder + self.arets_resultat
-        fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
+        self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
+        fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder + self.arets_resultat
         journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
         if journal:
             entry = self.move_id
@@ -230,7 +232,7 @@ class account_sru_declaration(models.Model):
             if arets_resultat_konto_2090 and arets_resultat_konto_8899:
                 line_2090 = entry.line_ids.filtered(lambda l: l.account_id.code == '2090')
                 line_8899 = entry.line_ids.filtered(lambda l: l.account_id.code == '8899')
-                if fritt_eget_kapital >= 0: # vinst
+                if fritt_eget_kapital >= 0: # positiv
                     if line_8899:
                         move_line_list.append((1, line_8899[0].id, {
                             'name': arets_resultat_konto_8899.name,
@@ -263,7 +265,7 @@ class account_sru_declaration(models.Model):
                             'credit': float(abs(fritt_eget_kapital)),
                             'move_id': entry.id,
                         }))
-                else: # förlust
+                else: # negativ
                     if line_2090:
                         move_line_list.append((1, line_2090[0].id, {
                             'name': arets_resultat_konto_2090.name,
@@ -344,7 +346,7 @@ class account_sru_declaration(models.Model):
         b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
         r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
 
-        def create_lines(afr, dec):
+        def create_lines(afr, dec, is_b=False, is_r=False):
             afr_obj = self.env['account.financial.report']
             lines = afr_obj.search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
             for line in lines:
@@ -354,110 +356,52 @@ class account_sru_declaration(models.Model):
                     'name': line.name,
                     'level': line.level,
                     'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
-                    'is_b': True,
-                    'is_r': False,
+                    'is_b': is_b,
+                    'is_r': is_r,
                 })
         if b_afr:
-            create_lines(b_afr, self)
+            create_lines(b_afr, self, is_b=True)
         if r_afr:
-            create_lines(r_afr, self)
-
-        ##
-        #### Mark Used moves
-        ##
-
-        # ~ for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
-            # ~ move.agd_declaration_id = self.id
+            create_lines(r_afr, self, is_r=True)
 
         ##
         #### Create INFO.SRU
         ##
 
-        def _parse():
+        def _parse_infosru():
             data = u'''#DATABESKRIVNING_START
 #PRODUKT SRU
-#MEDIAID Får användas av uppgiftslämnaren för exempelvis
-numrering av filer. Lagras ej i skattedatabasen. Ej
-obligatorisk.
-#SKAPAD <Datum> Datum för framställande av uppgifterna.
-Anges på formen ÅÅÅÅMMDD.
-<Tid> Klockslag för framställande av uppgifterna. Anges
-på formen TTMMSS. Ej obligatorisk.
-#PROGRAM <Program> Framställande program. Ej obligatorisk.
-#FILNAMN <FilNamn> Namn på den fil där blankettblocken finns
-redovisade. Filen ska heta BLANKETTER.SRU.
+#MEDIAID
+#SKAPAD {create_datetime}
+#PROGRAM Odoo 10.0
+#FILNAMN BLANKETTER.SRU
 #DATABESKRIVNING_SLUT
 #MEDIELEV_START
-#ORGNR <OrgNr> Uppgiftslämnarens person-/organisations-
-/samordningsnummer. Anges på formen
-SSÅÅMMDDNNNK.
-#NAMN <Namn> Uppgiftslämnarens namn.
-#ADRESS <UtdelningsAdr> Uppgiftslämnarens utdelningsadress.
-Ej obligatorisk.
-#POSTNR <PostNr> Uppgiftslämnarens postnummer.
-#POSTORT <PostOrt> Uppgiftslämnarens postort.
-SKV269 Utgåva 24
-7 (15)#AVDELNING <Avdelning> Kontaktpersonens avdelning eller liknande.
-Ej obligatorisk.
-#KONTAKT <Kontakt> Kontaktperson. Ej obligatorisk.
-#EMAIL <Email> Kontaktpersonens emailadress. Ej obligatorisk.
-#TELEFON <Telefon> Kontaktpersonens telefonnummer.
-Ej obligatorisk.
-#FAX <Fax> Kontaktpersonens telefaxnummer.
-Ej obligatorisk.
-#MEDIELEV_SLUT'''
+#ORGNR 16{org_number}
+#NAMN {company_name}
+#ADRESS {company_address}
+#POSTNR {company_zip}
+#POSTORT {company_city}
+#AVDELNING
+#KONTAKT
+#EMAIL {company_email}
+#TELEFON {company_phone}
+#FAX {company_fax}
+#MEDIELEV_SLUT'''.format(
+    create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
+    org_number = self.env.user.company_id.company_registry.replace('-', ''),
+    company_name = self.env.user.company_id.name,
+    company_address = self.env.user.company_id.street or self.env.user.company_id.street2,
+    company_zip = self.env.user.company_id.zip or '',
+    company_city = self.env.user.company_id.city or '',
+    company_email = self.env.user.company_id.email or '',
+    company_phone = self.env.user.company_id.phone or '',
+    company_fax = self.env.user.company_id.fax or '',
+)
             return data
         # encoding="ISO-8859-1"
-        self.infosru = base64.b64encode(_parse())
-
-        ##
-        #### Create move
-        ##
-
-        #TODO check all warnings
-        # ~ tax_accounts = self.env['account.tax'].with_context({'period_id': self.period.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        # ~ kontoskatte = self.env['account.account'].with_context({'period_from': self.period.id, 'period_to': self.period.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
-        # ~ agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
-        # ~ if not agd_journal_id:
-            # ~ raise Warning('Konfigurera din arbetsgivardeklaration journal!')
-        # ~ else:
-            # ~ agd_journal = self.env['account.journal'].browse(int(agd_journal_id))
-            # ~ skattekonto = agd_journal.default_debit_account_id
-            # ~ if len(kontoskatte) > 0 and skattekonto:
-                # ~ total = 0.0
-                # ~ entry = self.env['account.move'].create({
-                    # ~ 'journal_id': agd_journal.id,
-                    # ~ 'period_id': self.period.id,
-                    # ~ 'date': fields.Date.today(),
-                    # ~ 'ref': u'Arbetsgivardeklaration',
-                # ~ })
-                # ~ if entry:
-                    # ~ move_line_list = []
-                    # ~ for k in kontoskatte:
-                        # ~ credit = k.with_context(ctx).sum_period()
-                        # ~ if credit != 0.0:
-                            # ~ move_line_list.append((0, 0, {
-                                # ~ 'name': k.name,
-                                # ~ 'account_id': k.id,
-                                # ~ 'debit': credit,
-                                # ~ 'credit': 0.0,
-                                # ~ 'move_id': entry.id,
-                            # ~ }))
-                            # ~ total += credit
-                    # ~ move_line_list.append((0, 0, {
-                        # ~ 'name': skattekonto.name,
-                        # ~ 'account_id': skattekonto.id,
-                        # ~ 'partner_id': self.env.ref('base.res_partner-SKV').id,
-                        # ~ 'debit': 0.0,
-                        # ~ 'credit': total,
-                        # ~ 'move_id': entry.id,
-                    # ~ }))
-                    # ~ entry.write({
-                        # ~ 'line_ids': move_line_list,
-                    # ~ })
-                    # ~ self.write({'move_id': entry.id}) # wizard disappeared
-            # ~ else:
-                # ~ raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+        self.infosru = base64.b64encode(_parse_infosru())
+        # TODO: create data file
 
     @api.model
     def get_next_periods(self):

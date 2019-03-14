@@ -84,11 +84,13 @@
                             </group>
                             <newline />
                             <group col="4">
-                                <field name="sru_betala" />
                                 <field name="move_id" />
-                                <span />
-                                <span />
-                                <field name="eskd_file" />
+                                <newline />
+                                <field name="infosru" filename="infosru_file_name" />
+                                <field name="infosru_file_name" invisible="1"/>
+                                <newline />
+                                <field name="datasru" filename="datasru_file_name" />
+                                <field name="datasru_file_name" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -140,7 +142,6 @@
                     <field name="name" />
                     <field name="date" />
                     <field name="fiscalyear_id" />
-                    <field name="sru_betala" />
                     <field name="state" />
                 </tree>
             </field>
