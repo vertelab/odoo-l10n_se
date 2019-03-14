@@ -61,6 +61,10 @@ class account_sru_declaration(models.Model):
         self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
         self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
 
+    # Skapar bokslut verifikat
+    # ~ via vinst:   8999 (D) 2099 (K)
+    # ~ via förlust: 2099 (D) 8999 (K)
+
     @api.one
     def calc_arets_resultat(self):
         ctx = {
@@ -91,7 +95,7 @@ class account_sru_declaration(models.Model):
                 entry = self.env['account.move'].create({
                     'journal_id': journal.id,
                     'period_id': self.period_stop.id,
-                    'date': fields.Date.today(),
+                    'date': self.period_stop.date_stop,
                     'ref': u'Bokslut',
                 })
             move_line_list = []
@@ -100,44 +104,80 @@ class account_sru_declaration(models.Model):
             if arets_resultat_konto_2099 and arets_resultat_konto_8999:
                 line_2099 = entry.line_ids.filtered(lambda l: l.account_id.code == '2099')
                 line_8999 = entry.line_ids.filtered(lambda l: l.account_id.code == '8999')
-                if line_2099:
-                    line_2099.unlink() # TODO: this will make the entry unbalanced!! must fix
-                if line_8999:
-                    line_8999.unlink()
                 if self.arets_resultat >= 0: # vinst
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_8999.name,
-                        'account_id': arets_resultat_konto_8999.id,
-                        'debit': float(abs(self.arets_resultat)),
-                        'credit': 0.0,
-                        'move_id': entry.id,
-                    }))
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_2099.name,
-                        'account_id': arets_resultat_konto_2099.id,
-                        'debit': 0.0,
-                        'credit': float(abs(self.arets_resultat)),
-                        'move_id': entry.id,
-                    }))
+                    if line_8999:
+                        move_line_list.append((1, line_8999[0].id, {
+                            'name': arets_resultat_konto_8999.name,
+                            'account_id': arets_resultat_konto_8999.id,
+                            'debit': float(abs(self.arets_resultat)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_8999.name,
+                            'account_id': arets_resultat_konto_8999.id,
+                            'debit': float(abs(self.arets_resultat)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    if line_2099:
+                        move_line_list.append((1, line_2099[0].id, {
+                            'name': arets_resultat_konto_2099.name,
+                            'account_id': arets_resultat_konto_2099.id,
+                            'debit': 0.0,
+                            'credit': float(abs(self.arets_resultat)),
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_2099.name,
+                            'account_id': arets_resultat_konto_2099.id,
+                            'debit': 0.0,
+                            'credit': float(abs(self.arets_resultat)),
+                            'move_id': entry.id,
+                        }))
                 else: # förlust
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_2099.name,
-                        'account_id': arets_resultat_konto_2099.id,
-                        'debit': float(abs(self.arets_resultat)),
-                        'credit': 0.0,
-                        'move_id': entry.id,
-                    }))
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_8999.name,
-                        'account_id': arets_resultat_konto_8999.id,
-                        'debit': 0.0,
-                        'credit': float(abs(self.arets_resultat)),
-                        'move_id': entry.id,
-                    }))
+                    if line_2099:
+                        move_line_list.append((1, line_2099[0].id, {
+                            'name': arets_resultat_konto_2099.name,
+                            'account_id': arets_resultat_konto_2099.id,
+                            'debit': float(abs(self.arets_resultat)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_2099.name,
+                            'account_id': arets_resultat_konto_2099.id,
+                            'debit': float(abs(self.arets_resultat)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    if line_8999:
+                        move_line_list.append((1, line_8999[0].id, {
+                            'name': arets_resultat_konto_8999.name,
+                            'account_id': arets_resultat_konto_8999.id,
+                            'debit': 0.0,
+                            'credit': float(abs(self.arets_resultat)),
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_8999.name,
+                            'account_id': arets_resultat_konto_8999.id,
+                            'debit': 0.0,
+                            'credit': float(abs(self.arets_resultat)),
+                            'move_id': entry.id,
+                        }))
                 entry.write({
                     'line_ids': move_line_list,
                 })
                 self.write({'move_id': entry.id})
+
+    # Uppdaterar bokslut verifikat, skillnad mellan tillgångar och skulder
+    # ~ positiv eget kapital: 8899 (D) 2099 (K)
+    # ~ negativ eget kapital: 2099 (D) 8899 (K)
 
     @api.one
     def calc_fritt_eget_kapital(self):
@@ -172,7 +212,8 @@ class account_sru_declaration(models.Model):
         else:
             self.tillgangar = 0
             self.eget_kapital_skulder = 0
-        self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
+        self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder + self.arets_resultat
+        fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
         journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
         if journal:
             entry = self.move_id
@@ -180,7 +221,7 @@ class account_sru_declaration(models.Model):
                 entry = self.env['account.move'].create({
                     'journal_id': journal.id,
                     'period_id': self.period_stop.id,
-                    'date': fields.Date.today(),
+                    'date': self.period_stop.date_stop,
                     'ref': u'Bokslut',
                 })
             move_line_list = []
@@ -189,42 +230,72 @@ class account_sru_declaration(models.Model):
             if arets_resultat_konto_2090 and arets_resultat_konto_8899:
                 line_2090 = entry.line_ids.filtered(lambda l: l.account_id.code == '2090')
                 line_8899 = entry.line_ids.filtered(lambda l: l.account_id.code == '8899')
-                if line_2090:
-                    line_2090.move_id = None
-                    line_2090.unlink()
-                if line_8899:
-                    line_8899.move_id = None
-                    line_8899.unlink()
-                if self.arets_resultat >= 0: # vinst
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_8899.name,
-                        'account_id': arets_resultat_konto_8899.id,
-                        'debit': float(abs(self.fritt_eget_kapital)),
-                        'credit': 0.0,
-                        'move_id': entry.id,
-                    }))
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_2090.name,
-                        'account_id': arets_resultat_konto_2090.id,
-                        'debit': 0.0,
-                        'credit': float(abs(self.fritt_eget_kapital)),
-                        'move_id': entry.id,
-                    }))
+                if fritt_eget_kapital >= 0: # vinst
+                    if line_8899:
+                        move_line_list.append((1, line_8899[0].id, {
+                            'name': arets_resultat_konto_8899.name,
+                            'account_id': arets_resultat_konto_8899.id,
+                            'debit': float(abs(fritt_eget_kapital)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_8899.name,
+                            'account_id': arets_resultat_konto_8899.id,
+                            'debit': float(abs(fritt_eget_kapital)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    if line_2090:
+                        move_line_list.append((1, line_2090[0].id, {
+                            'name': arets_resultat_konto_2090.name,
+                            'account_id': arets_resultat_konto_2090.id,
+                            'debit': 0.0,
+                            'credit': float(abs(fritt_eget_kapital)),
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_2090.name,
+                            'account_id': arets_resultat_konto_2090.id,
+                            'debit': 0.0,
+                            'credit': float(abs(fritt_eget_kapital)),
+                            'move_id': entry.id,
+                        }))
                 else: # förlust
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_2090.name,
-                        'account_id': arets_resultat_konto_2090.id,
-                        'debit': float(abs(self.fritt_eget_kapital)),
-                        'credit': 0.0,
-                        'move_id': entry.id,
-                    }))
-                    move_line_list.append((0, 0, {
-                        'name': arets_resultat_konto_8899.name,
-                        'account_id': arets_resultat_konto_8899.id,
-                        'debit': 0.0,
-                        'credit': float(abs(self.fritt_eget_kapital)),
-                        'move_id': entry.id,
-                    }))
+                    if line_2090:
+                        move_line_list.append((1, line_2090[0].id, {
+                            'name': arets_resultat_konto_2090.name,
+                            'account_id': arets_resultat_konto_2090.id,
+                            'debit': float(abs(fritt_eget_kapital)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_2090.name,
+                            'account_id': arets_resultat_konto_2090.id,
+                            'debit': float(abs(fritt_eget_kapital)),
+                            'credit': 0.0,
+                            'move_id': entry.id,
+                        }))
+                    if line_8899:
+                        move_line_list.append((1, line_8899[0].id, {
+                            'name': arets_resultat_konto_8899.name,
+                            'account_id': arets_resultat_konto_8899.id,
+                            'debit': 0.0,
+                            'credit': float(abs(fritt_eget_kapital)),
+                            'move_id': entry.id,
+                        }))
+                    else:
+                        move_line_list.append((0, 0, {
+                            'name': arets_resultat_konto_8899.name,
+                            'account_id': arets_resultat_konto_8899.id,
+                            'debit': 0.0,
+                            'credit': float(abs(fritt_eget_kapital)),
+                            'move_id': entry.id,
+                        }))
                 entry.write({
                     'line_ids': move_line_list,
                 })
@@ -262,13 +333,6 @@ class account_sru_declaration(models.Model):
             'target_move': self.target_move,
             'nix_journal_ids': []
         }
-
-        # create year end entries
-        # ~ 8899
-        # ~ 2090 skillnad mellan tillgångar och skulder
-
-        # ~ 2099 -10000 (vinst)
-        # ~ 8099 10000
 
         ##
         ####  Create report lines
