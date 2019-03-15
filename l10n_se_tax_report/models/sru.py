@@ -358,24 +358,10 @@ class account_sru_declaration(models.Model):
         #### Create BLANKETTER.SRU
         ##
 
-        def _parse_datasru():
-            data = u'''#BLANKETT  <BlankettTyp> Anger vilket blankettblock
-som avses.
-Vid inlämning får värden enligt kolumnen ”Blankettblock” i
-tabell 1, se ref[1]. Endast versaler, ”-” och siffror är
-tillåtna.
-#IDENTITET <OrgNr> Person-/organisations-/samordningsnummer för
-den som uppgifterna avser. Anges på formen
-SSÅÅMMDDNNNK.
-<DatFramst> Datum för framställande av uppgifterna.
-Anges på formen SSÅÅMMDD.
-<TidFramst> Klockslag för framställande av uppgifterna.
-Anges på formen TTMMSS.
-#NAMN <Namn> Uppgiftslämnarens namn. Om
-uppgiften lämnas kommer den att finnas på mottag-
-ningskvittensen. Längden på fältet får vara högst 250
-tecken långt, dock används endast position 1 - 25 på
-mottagningskvittensen.
+        def _parse_datasru(): # TODO: vad 2018P1 betyder? Vi måste få in fältkod så kan vi fylla på värde i #UPPGIFT
+            data = u'''#BLANKETT INK2S-2018P1
+#IDENTITET {org_number} {create_datetime}
+#NAMN {company_name}
 #UPPGIFT <FältKod> Den fältkod som finns angiven i fältnamns-
 tabellen för respektive blankettblock. Med några få
 undantag så är det fältkoder som finns på respektive
@@ -384,20 +370,13 @@ gäller att en fältkod får förekomma endast en gång per
 blankettblock. #UPPGIFT får inte vara blank utan ska
 innehålla en fältkod och värde.
 <FältVärde> Det värde som ska redovisas för fältkoden.
-#SYSTEMINFO Får användas av uppgiftslämnaren för egna interna upp-
-gifter. Endast en post får lämnas. Läses ej av
+#SYSTEMINFO Odoo 10.0
 Skatteverket.
-#BLANKETTSLUT Markerar att blankettblocket slutar.
+#BLANKETTSLUT
 #FIL_SLUT'''.format(
-    create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     org_number = self.env.user.company_id.company_registry.replace('-', ''),
+    create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     company_name = self.env.user.company_id.name,
-    company_address = self.env.user.company_id.street or self.env.user.company_id.street2,
-    company_zip = self.env.user.company_id.zip or '',
-    company_city = self.env.user.company_id.city or '',
-    company_email = self.env.user.company_id.email or '',
-    company_phone = self.env.user.company_id.phone or '',
-    company_fax = self.env.user.company_id.fax or '',
 )
             return data
         # encoding="ISO-8859-1"
