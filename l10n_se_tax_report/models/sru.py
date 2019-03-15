@@ -29,6 +29,10 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+# OBS justering: account.financial.report 3.6, tar bort alla konto som tillhör till 3.5.
+# Bokslut verifikat måste ha samma rlenskapsår som deklarationen, Target moves ska vara alla post, bokslutsperiod ska vara ikryssad.
+
+
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
     _inherits = {'account.declaration.line.id': 'line_id'}
@@ -64,8 +68,8 @@ class account_sru_declaration(models.Model):
         self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
 
     # Skapar bokslut verifikat
-    # ~ via vinst:   8999 (D) 2099 (K)
-    # ~ via förlust: 2099 (D) 8999 (K)
+    # via vinst:   8999 (D) 2099 (K)
+    # via förlust: 2099 (D) 8999 (K)
 
     @api.one
     def calc_arets_resultat(self):
@@ -77,14 +81,14 @@ class account_sru_declaration(models.Model):
             'target_move': self.target_move,
         }
         r_lines = self.line_ids.filtered(lambda l: l.is_r == True)
-        if len(r_lines) == 0:
-            afr_obj = self.env['account.financial.report']
-            r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
-            if r_afr:
-                arets_intakt_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
-                arets_kostnad_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
-                arets_intakt = 0
-                arets_kostnad = 0
+        afr_obj = self.env['account.financial.report']
+        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
+        if r_afr:
+            arets_intakt_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
+            arets_kostnad_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
+            arets_intakt = 0
+            arets_kostnad = 0
+            if len(r_lines) == 0: # do a calculate
                 for ai in arets_intakt_ids:
                     arets_intakt += int(abs(sum([a.with_context(ctx).sum_period() for a in ai.account_ids])) or 0.0)
                 for ak in arets_kostnad_ids:
@@ -139,13 +143,18 @@ class account_sru_declaration(models.Model):
                                 'line_ids': move_line_list,
                             })
                             self.write({'move_id': entry.id})
-        else:
-            # read value from lines
-            raise Warning(r_lines)
+            else: # read value from lines
+                sum_arets_intakt = sum_arets_kostnad = 0
+                for li in r_lines.with_context(r_afr=r_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('r_afr') and l.afr_id.sru not in ['3.24', '3.26', '3.27']):
+                    if li.afr_id.sign == 1:
+                        sum_arets_intakt += li.balance
+                    if li.afr_id.sign == -1:
+                        sum_arets_kostnad += li.balance
+                self.arets_resultat = sum_arets_intakt - sum_arets_kostnad
 
     # Uppdaterar bokslut verifikat, skillnad mellan tillgångar och skulder
-    # ~ positiv eget kapital: 8899 (D) 2090 (K)
-    # ~ negativ eget kapital: 2090 (D) 8899 (K)
+    # positiv eget kapital: 8899 (D) 2090 (K)
+    # negativ eget kapital: 2090 (D) 8899 (K)
 
     @api.one
     def calc_fritt_eget_kapital(self):
@@ -157,82 +166,87 @@ class account_sru_declaration(models.Model):
             'target_move': self.target_move,
         }
         b_lines = self.line_ids.filtered(lambda l: l.is_b == True)
-        if len(b_lines) == 0:
-            afr_obj = self.env['account.financial.report']
-            b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
-            if b_afr:
-                tillgangar = afr_obj.search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
-                if tillgangar:
-                    tillgangar_children = afr_obj.search([('parent_id', 'child_of', tillgangar.id), ('type', '=', 'accounts')])
-                    sum_tillgangar = 0
-                    for line in tillgangar_children:
-                        sum_tillgangar += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
-                    self.tillgangar = sum_tillgangar
-                else:
-                    self.tillgangar = 0
-                eget_kapital_skulder = afr_obj.search([('name', '=', u'Eget kapital och skulder')])
-                if eget_kapital_skulder:
-                    eget_kapital_skulder_children = afr_obj.search([('parent_id', 'child_of', eget_kapital_skulder.id), ('type', '=', 'accounts')])
-                    sum_eget_kapital_skulder = 0
-                    for line in eget_kapital_skulder_children:
-                        sum_eget_kapital_skulder += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
-                    self.eget_kapital_skulder = sum_eget_kapital_skulder
-                else:
-                    self.eget_kapital_skulder = 0
-            else:
-                self.tillgangar = 0
-                self.eget_kapital_skulder = 0
-            fritt_eget_kapital = self.fritt_eget_kapital = self.tillgangar - self.eget_kapital_skulder
-            if fritt_eget_kapital != 0: # if fritt_eget_kapital is not 0, update year end entry
-                journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
-                if journal:
-                    entry = self.move_id
-                    if not entry:
-                        entry = self.env['account.move'].create({
-                            'journal_id': journal.id,
-                            'period_id': self.period_stop.id,
-                            'date': self.period_stop.date_stop,
-                            'ref': u'Bokslut',
-                        })
-                    move_line_list = []
-                    arets_resultat_konto_2090 = self.env['account.account'].search([('code', '=', '2090')], limit=1)
-                    arets_resultat_konto_8899 = self.env['account.account'].search([('code', '=', '8899')], limit=1)
-                    if arets_resultat_konto_2090 and arets_resultat_konto_8899:
-                        line_2090 = entry.line_ids.filtered(lambda l: l.account_id.code == '2090')
-                        line_8899 = entry.line_ids.filtered(lambda l: l.account_id.code == '8899')
-                        if line_2090:
-                            line_2090_operator = 1
-                            line_2090_id = line_2090[0].id
-                        else:
-                            line_2090_operator = 0
-                            line_2090_id = 0
-                        if line_8899:
-                            line_8899_operator = 1
-                            line_8899_id = line_8899[0].id
-                        else:
-                            line_8899_operator = 0
-                            line_8899_id = 0
-                        move_line_list.append((line_8899_operator, line_8899_id, {
-                            'name': arets_resultat_konto_8899.name,
-                            'account_id': arets_resultat_konto_8899.id,
-                            'debit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
-                            'credit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((line_2090_operator, line_2090_id, {
-                            'name': arets_resultat_konto_2090.name,
-                            'account_id': arets_resultat_konto_2090.id,
-                            'debit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
-                            'credit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
-                            'move_id': entry.id,
-                        }))
-                        entry.write({
-                            'line_ids': move_line_list,
-                        })
-                        self.write({'move_id': entry.id})
-        else:
-            # read value from lines
-            raise Warning(b_lines)
+        afr_obj = self.env['account.financial.report']
+        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
+        if b_afr:
+            if len(b_lines) == 0: # do a calculate
+                def calc_kapital():
+                    tillgangar = afr_obj.search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
+                    if tillgangar:
+                        tillgangar_children = afr_obj.search([('parent_id', 'child_of', tillgangar.id), ('type', '=', 'accounts')])
+                        sum_tillgangar = 0
+                        for line in tillgangar_children:
+                            sum_tillgangar += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                        self.tillgangar = sum_tillgangar
+                    else:
+                        self.tillgangar = 0
+                    eget_kapital_skulder = afr_obj.search([('name', '=', u'Eget kapital och skulder')])
+                    if eget_kapital_skulder:
+                        eget_kapital_skulder_children = afr_obj.search([('parent_id', 'child_of', eget_kapital_skulder.id), ('type', '=', 'accounts')])
+                        sum_eget_kapital_skulder = 0
+                        for line in eget_kapital_skulder_children:
+                            sum_eget_kapital_skulder += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                        self.eget_kapital_skulder = sum_eget_kapital_skulder
+                    else:
+                        self.eget_kapital_skulder = 0
+                    return self.tillgangar - self.eget_kapital_skulder
+                fritt_eget_kapital = calc_kapital() # get difference
+                if fritt_eget_kapital != 0: # if fritt_eget_kapital is not 0, update year end entry
+                    journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
+                    if journal:
+                        entry = self.move_id
+                        if not entry:
+                            entry = self.env['account.move'].create({
+                                'journal_id': journal.id,
+                                'period_id': self.period_stop.id,
+                                'date': self.period_stop.date_stop,
+                                'ref': u'Bokslut',
+                            })
+                        move_line_list = []
+                        arets_resultat_konto_2090 = self.env['account.account'].search([('code', '=', '2090')], limit=1)
+                        arets_resultat_konto_8899 = self.env['account.account'].search([('code', '=', '8899')], limit=1)
+                        if arets_resultat_konto_2090 and arets_resultat_konto_8899:
+                            line_2090 = entry.line_ids.filtered(lambda l: l.account_id.code == '2090')
+                            line_8899 = entry.line_ids.filtered(lambda l: l.account_id.code == '8899')
+                            if line_2090:
+                                line_2090_operator = 1
+                                line_2090_id = line_2090[0].id
+                            else:
+                                line_2090_operator = 0
+                                line_2090_id = 0
+                            if line_8899:
+                                line_8899_operator = 1
+                                line_8899_id = line_8899[0].id
+                            else:
+                                line_8899_operator = 0
+                                line_8899_id = 0
+                            move_line_list.append((line_8899_operator, line_8899_id, {
+                                'name': arets_resultat_konto_8899.name,
+                                'account_id': arets_resultat_konto_8899.id,
+                                'debit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
+                                'credit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
+                                'move_id': entry.id,
+                            }))
+                            move_line_list.append((line_2090_operator, line_2090_id, {
+                                'name': arets_resultat_konto_2090.name,
+                                'account_id': arets_resultat_konto_2090.id,
+                                'debit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
+                                'credit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
+                                'move_id': entry.id,
+                            }))
+                            entry.write({
+                                'line_ids': move_line_list,
+                            })
+                            self.write({'move_id': entry.id})
+                self.fritt_eget_kapital = calc_kapital() # redo calculate so it will be balanced
+            else: # read value from lines
+                sum_tillgangar = sum_eget_kapital_skulder = 0
+                for li in b_lines.with_context(b_afr=b_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('b_afr')):
+                    if li.afr_id.sign == 1:
+                        sum_tillgangar += li.balance
+                    if li.afr_id.sign == -1:
+                        sum_eget_kapital_skulder += li.balance
+                self.fritt_eget_kapital = sum_tillgangar - sum_eget_kapital_skulder
 
     @api.onchange('period_start')
     def onchange_period_start(self):
@@ -285,7 +299,7 @@ class account_sru_declaration(models.Model):
                     'sru_declaration_id': dec.id,
                     'afr_id': line.id,
                     'balance': int(abs(balance)),
-                    'sign': '1' if balance >= 0.0 else '-1',
+                    'sign': 1 if balance >= 0.0 else -1,
                     'name': line.name,
                     'level': line.level,
                     'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
@@ -294,10 +308,10 @@ class account_sru_declaration(models.Model):
                 })
                 # take care of 3.26 and 3.27
                 if line.sru == '3.26': # vinst rad
-                    if sru_line.sign == '-1': # är förlust, vinst rad ska vara 0
+                    if sru_line.sign == -1: # är förlust, vinst rad ska vara 0
                         sru_line.balance = 0
                 if line.sru == '3.27': # förlust rad
-                    if sru_line.sign == '1': # är vinst, förlust rad ska vara 0
+                    if sru_line.sign == 1: # är vinst, förlust rad ska vara 0
                         sru_line.balance = 0
         if b_afr:
             create_lines(b_afr, self, is_b=True)
@@ -330,6 +344,53 @@ class account_sru_declaration(models.Model):
 #MEDIELEV_SLUT'''.format(
     create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     org_number = self.env.user.company_id.company_registry.replace('-', ''),
+    company_name = self.env.user.company_id.name.upper(),
+    company_address = self.env.user.company_id.street.upper() or self.env.user.company_id.street2.upper(),
+    company_zip = self.env.user.company_id.zip or '',
+    company_city = self.env.user.company_id.city.upper() or '',
+    company_email = self.env.user.company_id.email.upper() or '',
+    company_phone = self.env.user.company_id.phone or '',
+    company_fax = self.env.user.company_id.fax or '',
+)
+            return data
+
+        ##
+        #### Create BLANKETTER.SRU
+        ##
+
+        def _parse_datasru():
+            data = u'''#BLANKETT  <BlankettTyp> Anger vilket blankettblock
+som avses.
+Vid inlämning får värden enligt kolumnen ”Blankettblock” i
+tabell 1, se ref[1]. Endast versaler, ”-” och siffror är
+tillåtna.
+#IDENTITET <OrgNr> Person-/organisations-/samordningsnummer för
+den som uppgifterna avser. Anges på formen
+SSÅÅMMDDNNNK.
+<DatFramst> Datum för framställande av uppgifterna.
+Anges på formen SSÅÅMMDD.
+<TidFramst> Klockslag för framställande av uppgifterna.
+Anges på formen TTMMSS.
+#NAMN <Namn> Uppgiftslämnarens namn. Om
+uppgiften lämnas kommer den att finnas på mottag-
+ningskvittensen. Längden på fältet får vara högst 250
+tecken långt, dock används endast position 1 - 25 på
+mottagningskvittensen.
+#UPPGIFT <FältKod> Den fältkod som finns angiven i fältnamns-
+tabellen för respektive blankettblock. Med några få
+undantag så är det fältkoder som finns på respektive
+blankett. Förutom ev. regel som anges i fältnamnstabellen
+gäller att en fältkod får förekomma endast en gång per
+blankettblock. #UPPGIFT får inte vara blank utan ska
+innehålla en fältkod och värde.
+<FältVärde> Det värde som ska redovisas för fältkoden.
+#SYSTEMINFO Får användas av uppgiftslämnaren för egna interna upp-
+gifter. Endast en post får lämnas. Läses ej av
+Skatteverket.
+#BLANKETTSLUT Markerar att blankettblocket slutar.
+#FIL_SLUT'''.format(
+    create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
+    org_number = self.env.user.company_id.company_registry.replace('-', ''),
     company_name = self.env.user.company_id.name,
     company_address = self.env.user.company_id.street or self.env.user.company_id.street2,
     company_zip = self.env.user.company_id.zip or '',
@@ -341,7 +402,7 @@ class account_sru_declaration(models.Model):
             return data
         # encoding="ISO-8859-1"
         # ~ self.infosru = base64.b64encode(_parse_infosru())
-        # TODO: create data file
+        # ~ self.datasru = base64.b64encode(_parse_datasru())
 
     @api.model
     def get_next_periods(self):
@@ -377,4 +438,4 @@ class account_declaration_line(models.Model):
     is_r = fields.Boolean(string='Är Resultaträkning')
     sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
     afr_id = fields.Many2one(comodel_name='account.financial.report', string='Finansiella rapporter ID')
-    sign = fields.Selection([('1', '1'), ('-1', '-1')], string='Sign')
+    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign')

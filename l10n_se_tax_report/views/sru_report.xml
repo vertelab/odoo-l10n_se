@@ -111,7 +111,9 @@
                                 <field name="b_line_ids" nolabel="1">
                                     <tree create="0" delete="0" edit="0" editable="top">
                                         <field name="name" />
+<!--
                                         <field name="sign" />
+-->
                                         <field name="balance" />
                                         <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines" />
                                     </tree>
@@ -121,7 +123,9 @@
                                 <field name="r_line_ids" nolabel="1">
                                     <tree create="0" delete="0" edit="0" editable="top">
                                         <field name="name" />
+<!--
                                         <field name="sign" />
+-->
                                         <field name="balance" />
                                         <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines" />
                                     </tree>
