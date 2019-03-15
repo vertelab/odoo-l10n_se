@@ -99,7 +99,7 @@
                 <field name="line_ids" nolabel="1">
                   <tree create='0' delete='0' edit='0' editable='top'>
                     <field name="name" />
-                    <field name='balance' />
+                    <field name="balance" />
                     <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines" />
                   </tree>
                 </field>
@@ -185,6 +185,8 @@
                 <field name="type" />
                 <field name="balance" />
                 <field name="level" />
+                <field name="afr_id" />
+                <field name="sign" />
               </group>
             </group>
             <notebook>
