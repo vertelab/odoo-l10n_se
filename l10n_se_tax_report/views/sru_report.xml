@@ -11,6 +11,7 @@
                         <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
                         <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
                         <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
+                        <button name="regenerate_sru_files" string="Regenerate SRU" type="object" class="oe_highlight" />
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
@@ -111,9 +112,6 @@
                                 <field name="b_line_ids" nolabel="1">
                                     <tree create="0" delete="0" edit="0" editable="top">
                                         <field name="name" />
-<!--
-                                        <field name="sign" />
--->
                                         <field name="balance" />
                                         <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines" />
                                     </tree>
@@ -123,11 +121,17 @@
                                 <field name="r_line_ids" nolabel="1">
                                     <tree create="0" delete="0" edit="0" editable="top">
                                         <field name="name" />
-<!--
-                                        <field name="sign" />
--->
                                         <field name="balance" />
                                         <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Övrigarader">
+                                <field name="line_ids" nolabel="1">
+                                    <tree create="1" delete="1" edit="1" editable="bottom">
+                                        <field name="name" />
+                                        <field name="balance" />
+                                        <field name="afr_id" />
                                     </tree>
                                 </field>
                             </page>

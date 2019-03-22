@@ -318,12 +318,15 @@ class account_sru_declaration(models.Model):
         if r_afr:
             create_lines(r_afr, self, is_r=True)
 
-        ##
-        #### Create INFO.SRU
-        ##
+        # encoding="ISO-8859-1"
+        self.infosru = base64.b64encode(self._parse_infosru(self))
+        self.datasru = base64.b64encode(self._parse_datasru(self))
+        if self.state in ['draft']:
+            self.state = 'done'
 
-        def _parse_infosru():
-            data = u'''#DATABESKRIVNING_START
+    # Create INFO.SRU
+    def _parse_infosru(self, declaration):
+        data = u'''#DATABESKRIVNING_START
 #PRODUKT SRU
 #SKAPAD {create_datetime}
 #PROGRAM Odoo 10.0
@@ -347,46 +350,54 @@ class account_sru_declaration(models.Model):
     company_email = self.env.user.company_id.email or '',
     company_phone = self.env.user.company_id.phone or ''
 )
-            return data
+        return data
 
-        ##
-        #### Create BLANKETTER.SRU
-        ##
-
-        def get_sru_fields():
-            u = []
-            for l in self.b_line_ids | self.r_line_ids:
-                if l.balance:
-                    if l.sign == 1:
-                        u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
-                    else:
-                        if l.afr_id.field_code_neg:
-                            u.append('#UPPGIFT %s %s' %(l.afr_id.field_code_neg, l.balance))
-                        else:
+    # Create BLANKETTER.SRU
+    @api.model
+    def _parse_datasru(self, declaration): # 2: K2 företag, R: kolumn 2.1 - 3.27, P4: bokslut period kvartal 4
+        def get_ink2r_blankett():
+            def get_uppgift():
+                u = []
+                for l in declaration.b_line_ids | declaration.r_line_ids:
+                    if l.balance:
+                        if l.sign == 1:
                             u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
-            return '\n'.join(u)
-
-
-        def _parse_datasru(): # TODO: vad 2018P1 betyder?
-            data = u'''#BLANKETT INK2R-{year}P4
+                        else:
+                            if l.afr_id.field_code_neg:
+                                u.append('#UPPGIFT %s %s' %(l.afr_id.field_code_neg, l.balance))
+                            else:
+                                u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
+                return '\n'.join(u)
+            blankett = u'''#BLANKETT INK2R-{year}P4
 #IDENTITET 16{org_number} {create_datetime}
 #NAMN {company_name}
 {uppgift}
 #SYSTEMINFO Odoo 10.0
-#BLANKETTSLUT
-#FIL_SLUT'''.format(
-    year = self.fiscalyear_id.code,
+#BLANKETTSLUT'''.format(
+    year = declaration.fiscalyear_id.code,
     org_number = self.env.user.company_id.company_registry.replace('-', ''),
     create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     company_name = self.env.user.company_id.name,
-    uppgift = get_sru_fields()
+    uppgift = get_uppgift()
 )
-            return data
-        # encoding="ISO-8859-1"
-        self.infosru = base64.b64encode(_parse_infosru())
-        self.datasru = base64.b64encode(_parse_datasru())
-        if self.state in ['draft']:
-            self.state = 'done'
+            return blankett
+
+        def get_ink2s_blankett():
+            return '' # TODO: INK2S BLANKETT
+
+        data = u'''{ink2r_blankett}
+{ink2s_blankett}
+#FIL_SLUT'''.format(
+    ink2r_blankett = get_ink2r_blankett(),
+    ink2s_blankett = get_ink2s_blankett()
+)
+        return data
+
+    @api.one
+    def regenerate_sru_files(self):
+        if self.b_line_ids and self.r_line_ids:
+            self.infosru = base64.b64encode(self._parse_infosru(self))
+            self.datasru = base64.b64encode(self._parse_datasru(self))
 
     @api.model
     def get_next_periods(self):
