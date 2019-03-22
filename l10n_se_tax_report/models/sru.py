@@ -52,7 +52,7 @@ class account_sru_declaration(models.Model):
     line_ids = fields.One2many(comodel_name='account.declaration.line', inverse_name='sru_declaration_id')
     b_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
-    report_id = fields.Many2one(comodel_name="account.financial.report")
+    report_id = fields.Many2one(comodel_name="account.financial.report", required=True)
     arets_intakt = fields.Integer(string='Årets intäkt')
     arets_kostnad = fields.Integer(string='Årets kostnad')
     arets_resultat = fields.Integer(string='Årets resultat')
@@ -84,7 +84,7 @@ class account_sru_declaration(models.Model):
         }
         r_lines = self.line_ids.filtered(lambda l: l.is_r == True)
         afr_obj = self.env['account.financial.report']
-        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
+        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
         if r_afr:
             arets_intakt_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
             arets_kostnad_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
@@ -169,7 +169,7 @@ class account_sru_declaration(models.Model):
         }
         b_lines = self.line_ids.filtered(lambda l: l.is_b == True)
         afr_obj = self.env['account.financial.report']
-        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
+        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
         if b_afr:
             if len(b_lines) == 0: # do a calculate
                 def calc_kapital():
@@ -287,8 +287,8 @@ class account_sru_declaration(models.Model):
         sru_lines = self.env['account.declaration.line'].search([('sru_declaration_id', '=', self.id)])
         sru_lines.unlink()
         afr_obj = self.env['account.financial.report']
-        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING')])
-        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING')])
+        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
+        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
 
         def create_lines(afr, dec, is_b=False, is_r=False):
             afr_obj = self.env['account.financial.report']
