@@ -227,11 +227,11 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 'display_detail': 'no_detail',
                 'account_ids': [(6, 0, [a.id for a in accounts])],
             }
-            # ~ for code in values['field_codes']:
-                # ~ if not code['sign'] or code['sign'] == '+':
-                    # ~ vals['field_code'] = code['code']
-                # ~ elif code['sign'] == '-':
-                    # ~ vals['field_code_neg'] = code['code']
+            for code in values['field_codes']:
+                if not code['sign'] or code['sign'] == '+':
+                    vals['field_code'] = str(code['code'])
+                elif code['sign'] == '-':
+                    vals['field_code_neg'] = str(code['code'])
             account = self.env['account.financial.report'].create(vals)
 
         def create_heading(values, parent, sequence):

@@ -29,8 +29,10 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-# OBS justering: account.financial.report 3.6, tar bort alla konto som tillhör till 3.5.
-# Bokslut verifikat måste ha samma rlenskapsår som deklarationen, Target moves ska vara alla post, bokslutsperiod ska vara ikryssad.
+# https://www.skatteverket.se/download/18.353fa3f313ec5f91b95111e/1370004596423/SKV269_20_8.pdf
+# https://srumaker.se/
+# OBS justering: account.financial.report 3.6, tar bort alla konto som tillhör till 3.5. VIKTIGT!!!
+# Bokslut verifikat måste ha samma räkenskapsår som deklarationen, Target moves ska vara alla post, bokslutsperiod ska vara ikryssad.
 
 
 class account_sru_declaration(models.Model):
@@ -267,11 +269,9 @@ class account_sru_declaration(models.Model):
             move.sru_declaration_id = None
 
     @api.one
-    def calculate(self): # make a short cut to print financial report
+    def calculate(self):
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        # ~ if self.state in ['draft']:
-            # ~ self.state = 'done'
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
@@ -325,7 +325,6 @@ class account_sru_declaration(models.Model):
         def _parse_infosru():
             data = u'''#DATABESKRIVNING_START
 #PRODUKT SRU
-#MEDIAID
 #SKAPAD {create_datetime}
 #PROGRAM Odoo 10.0
 #FILNAMN BLANKETTER.SRU
@@ -336,21 +335,17 @@ class account_sru_declaration(models.Model):
 #ADRESS {company_address}
 #POSTNR {company_zip}
 #POSTORT {company_city}
-#AVDELNING
-#KONTAKT
 #EMAIL {company_email}
 #TELEFON {company_phone}
-#FAX {company_fax}
 #MEDIELEV_SLUT'''.format(
     create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     org_number = self.env.user.company_id.company_registry.replace('-', ''),
-    company_name = self.env.user.company_id.name.upper(),
-    company_address = self.env.user.company_id.street.upper() or self.env.user.company_id.street2.upper(),
+    company_name = self.env.user.company_id.name,
+    company_address = self.env.user.company_id.street or self.env.user.company_id.street2,
     company_zip = self.env.user.company_id.zip or '',
-    company_city = self.env.user.company_id.city.upper() or '',
-    company_email = self.env.user.company_id.email.upper() or '',
-    company_phone = self.env.user.company_id.phone or '',
-    company_fax = self.env.user.company_id.fax or '',
+    company_city = self.env.user.company_id.city or '',
+    company_email = self.env.user.company_id.email or '',
+    company_phone = self.env.user.company_id.phone or ''
 )
             return data
 
@@ -358,30 +353,40 @@ class account_sru_declaration(models.Model):
         #### Create BLANKETTER.SRU
         ##
 
-        def _parse_datasru(): # TODO: vad 2018P1 betyder? Vi måste få in fältkod så kan vi fylla på värde i #UPPGIFT
-            data = u'''#BLANKETT INK2S-2018P1
-#IDENTITET {org_number} {create_datetime}
+        def get_sru_fields():
+            u = []
+            for l in self.b_line_ids | self.r_line_ids:
+                if l.balance:
+                    if l.sign == 1:
+                        u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
+                    else:
+                        if l.afr_id.field_code_neg:
+                            u.append('#UPPGIFT %s %s' %(l.afr_id.field_code_neg, l.balance))
+                        else:
+                            u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
+            return '\n'.join(u)
+
+
+        def _parse_datasru(): # TODO: vad 2018P1 betyder?
+            data = u'''#BLANKETT INK2R-{year}P4
+#IDENTITET 16{org_number} {create_datetime}
 #NAMN {company_name}
-#UPPGIFT <FältKod> Den fältkod som finns angiven i fältnamns-
-tabellen för respektive blankettblock. Med några få
-undantag så är det fältkoder som finns på respektive
-blankett. Förutom ev. regel som anges i fältnamnstabellen
-gäller att en fältkod får förekomma endast en gång per
-blankettblock. #UPPGIFT får inte vara blank utan ska
-innehålla en fältkod och värde.
-<FältVärde> Det värde som ska redovisas för fältkoden.
+{uppgift}
 #SYSTEMINFO Odoo 10.0
-Skatteverket.
 #BLANKETTSLUT
 #FIL_SLUT'''.format(
+    year = self.fiscalyear_id.code,
     org_number = self.env.user.company_id.company_registry.replace('-', ''),
     create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     company_name = self.env.user.company_id.name,
+    uppgift = get_sru_fields()
 )
             return data
         # encoding="ISO-8859-1"
-        # ~ self.infosru = base64.b64encode(_parse_infosru())
-        # ~ self.datasru = base64.b64encode(_parse_datasru())
+        self.infosru = base64.b64encode(_parse_infosru())
+        self.datasru = base64.b64encode(_parse_datasru())
+        if self.state in ['draft']:
+            self.state = 'done'
 
     @api.model
     def get_next_periods(self):
