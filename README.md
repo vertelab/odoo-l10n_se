@@ -8,7 +8,7 @@ l10n_se 	|
 l10n_se_account_bank_statement_import 	|
 l10n_se_account_payment_order 	|
 l10n_se_bank |
-l10n_se_bgmax |	Banggirocentralen
+l10n_se_bgmax |	Bankgirocentralen
 l10n_se_budget |	
 l10n_se_dibs |	
 l10n_se_hr_expense | 	
