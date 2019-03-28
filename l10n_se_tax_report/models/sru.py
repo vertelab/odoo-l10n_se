@@ -52,6 +52,7 @@ class account_sru_declaration(models.Model):
     line_ids = fields.One2many(comodel_name='account.declaration.line', inverse_name='sru_declaration_id')
     b_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
+    other_line_ids = fields.One2many(comodel_name='account.declaration.line', search='_search_other_line_ids', compute='_compute_other_line_ids', inverse='_write_other_line_ids')
     report_id = fields.Many2one(comodel_name="account.financial.report", required=True)
     arets_intakt = fields.Integer(string='Årets intäkt', readonly=True)
     arets_kostnad = fields.Integer(string='Årets kostnad', readonly=True)
@@ -68,6 +69,18 @@ class account_sru_declaration(models.Model):
     def _line_ids(self):
         self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
         self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
+
+    @api.model
+    def _search_other_line_ids(self, operator, value):
+        return ['&', '&', ('is_b', '=', False), ('is_r', '=', False), ('line_ids', operator, value)]
+
+    @api.one
+    def _compute_other_line_ids(self):
+        self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)
+
+    @api.one
+    def _write_other_line_ids(self):
+        self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
 
     # Skapar bokslut verifikat
     # via vinst:   8999 (D) 2099 (K)

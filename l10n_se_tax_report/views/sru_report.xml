@@ -16,24 +16,6 @@
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box" name="buttons">
-<!--
-                            <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_SumSkAvdr" context="{'default_partner_id': active_id}">
-                                <div class="o_form_field o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field name="SumSkAvdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                                    </span>
-                                    <span class="o_stat_text">SumSkAvdr</span>
-                                </div>
-                            </button>
-                            <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_SumAvgBetala" context="{'default_partner_id': active_id}">
-                                <div class="o_form_field o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field name="SumAvgBetala" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                                    </span>
-                                    <span class="o_stat_text">SumAvgBetala</span>
-                                </div>
-                            </button>
--->
                             <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries" context="{'default_partner_id': active_id}">
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
@@ -127,7 +109,7 @@
                                 </field>
                             </page>
                             <page string="Övrigarader">
-                                <field name="line_ids" nolabel="1">
+                                <field name="other_line_ids" nolabel="1">
                                     <tree create="1" delete="1" edit="1" editable="bottom">
                                         <field name="name" />
                                         <field name="balance" />
