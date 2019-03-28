@@ -23,6 +23,55 @@ from odoo import api, fields, models, _
 import logging
 _logger = logging.getLogger(__name__)
 
+
+# [0] när det är positiv/ja, [1] när det är negativ/nej
+INK2S_MAPPING = {
+    '4.1': ['7650', ''],
+    '4.2': ['7750', ''],
+    '4.3a': ['7651', ''],
+    '4.3b': ['7652', ''],
+    '4.3c': ['7653', ''],
+    '4.6a': ['7654', ''],
+    '4.6c': ['7655', ''],
+    '4.7b': ['7656', ''],
+    '4.7d': ['7657', ''],
+    '4.7e': ['7658', ''],
+    '4.8b': ['7659', ''],
+    '4.8c': ['7660', ''],
+    '4.10': ['7661', '7760'],
+    '4.12': ['7662', ''],
+    '4.13': ['7663', '7762'],
+    '4.6e': ['7665', ''],
+    '4.9': ['7666', '7765'],
+    '4.6d': ['7667', ''],
+    '4.6b': ['7668', ''],
+    '4.15': ['7670', ''],
+    '4.14b': ['7671', ''],
+    '4.14c': ['7672', ''],
+    '4.4a': ['7751', ''],
+    '4.5a': ['7752', ''],
+    '4.5b': ['7753', ''],
+    '4.5c': ['7754', ''],
+    '4.7a': ['7755', ''],
+    '4.7c': ['7756', ''],
+    '4.7f': ['7757', ''],
+    '4.8a': ['7758', ''],
+    '4.8d': ['7759', ''],
+    '4.11': ['7761', ''],
+    '4.14a': ['7763', ''],
+    '4.4b': ['7764', ''],
+    '4.16': ['7770', ''],
+    '4.17': ['8020', ''],
+    '4.18': ['8021', ''],
+    '4.21': ['8022', ''],
+    '4.19': ['8023', ''],
+    '4.20': ['8026', ''],
+    '4.22': ['8028', ''],
+    u'Uppdragstagare (t.ex. redovisningskonsult) har biträtt vid upprättandet av årsredovisningen': ['8040', '8041'],
+    u'Årsredovisningen har varit föremål för revision': ['8044', '8045'],
+}
+
+
 #~ https://www.skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/hurlamnarjagarbetsgivardeklaration/saharfyllerduirutaforruta.4.3810a01c150939e893f18e43.html
 class account_account(models.Model):
     _inherit = 'account.account'
@@ -105,6 +154,13 @@ class account_financial_report(models.Model):
     def get_taxlines(self):
         lines = [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()]
         return self.env['account.move.line'].browse(lines)
+
+    @api.onchange('sru')
+    def onchange_sru(self):
+        field_codes = INK2S_MAPPING.get(self.sru)
+        if field_codes:
+            self.field_code = field_codes[0]
+            self.field_code_neg = field_codes[1]
 
 
 class ReportFinancial(models.AbstractModel):

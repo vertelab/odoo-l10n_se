@@ -60,9 +60,9 @@ class account_sru_declaration(models.Model):
     tillgangar = fields.Integer(string='Tillgångar', readonly=True)
     eget_kapital_skulder = fields.Integer(string='Eget kapital och skulder', readonly=True)
     fritt_eget_kapital = fields.Integer(string='Fritt eget kapital', readonly=True)
-    infosru = fields.Binary(string='INFO.SRU')
+    infosru = fields.Binary(string='INFO.SRU', readonly=True)
     infosru_file_name = fields.Char(string='File Name', default='INFO.SRU')
-    datasru = fields.Binary(string='BLANKETTER.SRU')
+    datasru = fields.Binary(string='BLANKETTER.SRU', readonly=True)
     datasru_file_name = fields.Char(string='File Name', default='BLANKETTER.SRU')
 
     @api.one
@@ -368,19 +368,20 @@ class account_sru_declaration(models.Model):
     # Create BLANKETTER.SRU
     @api.model
     def _parse_datasru(self, declaration): # 2: K2 företag, R: kolumn 2.1 - 3.27, P4: bokslut period kvartal 4
-        def get_ink2r_blankett():
-            def get_uppgift():
-                u = []
-                for l in declaration.b_line_ids | declaration.r_line_ids:
-                    if l.balance:
-                        if l.sign == 1:
-                            u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
+        def get_uppgift(declaration_line_ids):
+            u = []
+            for l in declaration_line_ids:
+                if l.balance:
+                    if l.sign == 1:
+                        u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
+                    else:
+                        if l.afr_id.field_code_neg:
+                            u.append('#UPPGIFT %s %s' %(l.afr_id.field_code_neg, l.balance))
                         else:
-                            if l.afr_id.field_code_neg:
-                                u.append('#UPPGIFT %s %s' %(l.afr_id.field_code_neg, l.balance))
-                            else:
-                                u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
-                return '\n'.join(u)
+                            u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
+            return '\n'.join(u)
+
+        def get_ink2r_blankett():
             blankett = u'''#BLANKETT INK2R-{year}P4
 #IDENTITET 16{org_number} {create_datetime}
 #NAMN {company_name}
@@ -391,15 +392,30 @@ class account_sru_declaration(models.Model):
     org_number = self.env.user.company_id.company_registry.replace('-', ''),
     create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     company_name = self.env.user.company_id.name,
-    uppgift = get_uppgift()
+    uppgift = get_uppgift(declaration.b_line_ids | declaration.r_line_ids)
 )
             return blankett
 
         def get_ink2s_blankett():
-            return '' # TODO: INK2S BLANKETT
+            uppgift = get_uppgift(declaration.other_line_ids)
+            if len(uppgift) > 0:
+                blankett = u'''#BLANKETT INK2S-{year}P4
+#IDENTITET 16{org_number} {create_datetime}
+#NAMN {company_name}
+{uppgift}
+#SYSTEMINFO Odoo 10.0
+#BLANKETTSLUT'''.format(
+    year = declaration.fiscalyear_id.code,
+    org_number = self.env.user.company_id.company_registry.replace('-', ''),
+    create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
+    company_name = self.env.user.company_id.name,
+    uppgift = uppgift
+)
+                return '\n%s' % blankett
+            else:
+                return ''
 
-        data = u'''{ink2r_blankett}
-{ink2s_blankett}
+        data = u'''{ink2r_blankett}{ink2s_blankett}
 #FIL_SLUT'''.format(
     ink2r_blankett = get_ink2r_blankett(),
     ink2s_blankett = get_ink2s_blankett()
@@ -446,4 +462,8 @@ class account_declaration_line(models.Model):
     is_r = fields.Boolean(string='Är Resultaträkning')
     sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
     afr_id = fields.Many2one(comodel_name='account.financial.report', string='Finansiella rapporter ID')
-    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign')
+    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign', default=1)
+
+    @api.onchange('afr_id')
+    def afr_onchange(self):
+        self.name = self.afr_id.name

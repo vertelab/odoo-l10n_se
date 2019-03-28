@@ -112,8 +112,9 @@
                                 <field name="other_line_ids" nolabel="1">
                                     <tree create="1" delete="1" edit="1" editable="bottom">
                                         <field name="name" />
-                                        <field name="balance" />
                                         <field name="afr_id" />
+                                        <field name="sign" />
+                                        <field name="balance" />
                                     </tree>
                                 </field>
                             </page>
