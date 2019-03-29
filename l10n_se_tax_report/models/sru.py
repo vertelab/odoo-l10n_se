@@ -30,7 +30,8 @@ _logger = logging.getLogger(__name__)
 
 
 # https://www.skatteverket.se/download/18.353fa3f313ec5f91b95111e/1370004596423/SKV269_20_8.pdf
-# https://srumaker.se/
+# https://srumaker.se
+# https://beta.srumaker.se
 # OBS justering: account.financial.report 3.6, tar bort alla konto som tillhör till 3.5. VIKTIGT!!!
 # Bokslut verifikat måste ha samma räkenskapsår som deklarationen, Target moves ska vara alla post, bokslutsperiod ska vara ikryssad.
 
@@ -64,6 +65,8 @@ class account_sru_declaration(models.Model):
     infosru_file_name = fields.Char(string='File Name', default='INFO.SRU')
     datasru = fields.Binary(string='BLANKETTER.SRU', readonly=True)
     datasru_file_name = fields.Char(string='File Name', default='BLANKETTER.SRU')
+    upplysningar_1 = fields.Boolean(string='Uppdragstagare (t.ex. redovisningskonsult) har biträtt vid upprättandet av årsredovisningen')
+    upplysningar_2 = fields.Boolean(string='Årsredovisningen har varit föremål för revision')
 
     @api.one
     def _line_ids(self):
@@ -381,6 +384,21 @@ class account_sru_declaration(models.Model):
                             u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
             return '\n'.join(u)
 
+        def get_skott(declaration_line_ids):
+            skott = 0
+            for l in declaration_line_ids:
+                if l.balance:
+                    if l.afr_id.sign == 1:
+                        skott += l.balance
+                    else:
+                        skott -= l.balance
+            if skott > 0:
+                return '#UPPGIFT 7670 %s' %skott
+            if skott < 0:
+                return '#UPPGIFT 7770 %s' %skott
+            else:
+                return ''
+
         def get_ink2r_blankett():
             blankett = u'''#BLANKETT INK2R-{year}P4
 #IDENTITET 16{org_number} {create_datetime}
@@ -398,18 +416,25 @@ class account_sru_declaration(models.Model):
 
         def get_ink2s_blankett():
             uppgift = get_uppgift(declaration.other_line_ids)
+            skott = get_skott(declaration.other_line_ids)
             if len(uppgift) > 0:
                 blankett = u'''#BLANKETT INK2S-{year}P4
 #IDENTITET 16{org_number} {create_datetime}
 #NAMN {company_name}
 {uppgift}
+{skott}
+{upplysningar_1}
+{upplysningar_2}
 #SYSTEMINFO Odoo 10.0
 #BLANKETTSLUT'''.format(
     year = declaration.fiscalyear_id.code,
     org_number = self.env.user.company_id.company_registry.replace('-', ''),
     create_datetime = fields.Datetime.now().replace('-', '').replace(':', ''),
     company_name = self.env.user.company_id.name,
-    uppgift = uppgift
+    uppgift = uppgift,
+    skott = skott,
+    upplysningar_1 = '#UPPGIFT 8040 X' if self.upplysningar_1 else '#UPPGIFT 8041 X',
+    upplysningar_2 = '#UPPGIFT 8044 X' if self.upplysningar_2 else '#UPPGIFT 8045 X'
 )
                 return '\n%s' % blankett
             else:
@@ -462,7 +487,7 @@ class account_declaration_line(models.Model):
     is_r = fields.Boolean(string='Är Resultaträkning')
     sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
     afr_id = fields.Many2one(comodel_name='account.financial.report', string='Finansiella rapporter ID')
-    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign', default=1)
+    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign', default=1, help='Visar balans resultat positiv eller negativ, är INTE samma sign som på finansiella rapport.')
 
     @api.onchange('afr_id')
     def afr_onchange(self):

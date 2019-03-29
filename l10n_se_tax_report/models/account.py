@@ -67,8 +67,6 @@ INK2S_MAPPING = {
     '4.19': ['8023', ''],
     '4.20': ['8026', ''],
     '4.22': ['8028', ''],
-    u'Uppdragstagare (t.ex. redovisningskonsult) har biträtt vid upprättandet av årsredovisningen': ['8040', '8041'],
-    u'Årsredovisningen har varit föremål för revision': ['8044', '8045'],
 }
 
 

@@ -117,6 +117,10 @@
                                         <field name="balance" />
                                     </tree>
                                 </field>
+                                <group string="Upplysningar om årsredovisningen">
+                                    <field name="upplysningar_1" />
+                                    <field name="upplysningar_2" />
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
