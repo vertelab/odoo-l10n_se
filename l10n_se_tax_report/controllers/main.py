@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2017 Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2019 Vertel AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,9 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields, api, _
+from odoo import http
+from odoo.http import request
+import werkzeug
 
-import models
-import wizard
-import controllers
+import logging
+_logger = logging.getLogger(__name__)
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+class Main(http.Controller):
+
+    @http.route(['/account/report/arsredovisning/<model("account.sru.declaration"):declaration>',], type='http', auth='user', website=True)
+    def arsredovisning(self, declaration, **post):
+        period = '%s - %s' %(declaration.period_start.date_start, declaration.period_stop.date_stop)
+        return request.render('l10n_se_tax_report.arsredovisning', {
+                'period': period,
+            })
