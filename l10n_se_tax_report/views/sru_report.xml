@@ -87,9 +87,6 @@
                                     <field name="accounting_yearend" attrs="{'invisible': [('accounting_method', '!=', 'cash')],'readonly': [('state', '!=','draft')]} " />
                                 </group>
                             </page>
-                            <page string="Upplysningstext">
-                                <field name="free_text" nolabel="1" attrs="{'readonly': [('state', '!=','draft')]}" />
-                            </page>
                             <page string="Balansräkningsader">
                                 <field name="b_line_ids" nolabel="1">
                                     <tree create="0" delete="0" edit="0" editable="top">
@@ -108,7 +105,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Övrigarader">
+                            <page string="Övriga rader">
                                 <field name="other_line_ids" nolabel="1">
                                     <tree create="1" delete="1" edit="1" editable="bottom">
                                         <field name="name" />
