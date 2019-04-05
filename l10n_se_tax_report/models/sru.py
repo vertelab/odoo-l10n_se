@@ -473,6 +473,16 @@ class account_sru_declaration(models.Model):
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %next_year), ('date_stop', '=', '%s-12-31' %next_year)])
             return [start_period, stop_period]
 
+    @api.multi
+    def report_resultatrakning(self, sru_codes):
+        self.ensure_one()
+        return self.r_line_ids.with_context(sru_codes=sru_codes).filtered(lambda l: l.afr_id.sru in l._context.get('sru_codes') and l.balance != 0)
+
+    @api.multi
+    def report_sum_resultatrakning(self, sru_codes):
+        self.ensure_one()
+        return sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in self.report_resultatrakning(sru_codes)])
+
 
 class account_move(models.Model):
     _inherit = 'account.move'
@@ -492,3 +502,7 @@ class account_declaration_line(models.Model):
     @api.onchange('afr_id')
     def afr_onchange(self):
         self.name = self.afr_id.name
+
+    @api.multi
+    def report_adl_get_balance(self):
+        return self.balance * (1 if self.afr_id.sign == 1 else -1)
