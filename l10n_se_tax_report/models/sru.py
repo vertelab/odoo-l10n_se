@@ -28,7 +28,6 @@ from datetime import datetime, timedelta
 import logging
 _logger = logging.getLogger(__name__)
 
-
 # https://www.skatteverket.se/download/18.353fa3f313ec5f91b95111e/1370004596423/SKV269_20_8.pdf
 # https://srumaker.se
 # https://beta.srumaker.se
@@ -465,7 +464,7 @@ class account_sru_declaration(models.Model):
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %last_year), ('date_stop', '=', '%s-12-31' %last_year)])
             return [start_period, stop_period]
         else:
-            next_year = str(int(last_declaration.date_stop.date_start[:4]) + 1)
+            next_year = str(int(last_declaration.period_stop.date_start[:4]) + 1)
             fiscalyear = self.env['account.fiscalyear'].search([('code', '=', next_year)])
             if not fiscalyear:
                 raise Warning(_('Please add fiscal year for %s') %start_date[:4])
@@ -474,14 +473,98 @@ class account_sru_declaration(models.Model):
             return [start_period, stop_period]
 
     @api.multi
-    def report_resultatrakning(self, sru_codes):
+    def report_resultatrakning_structure(self):
+        structure = [
+            {
+                u'Rörelseintäkter, lagerförändringar m.m.': {
+                    u'Summa rörelseintäkter, lagerförändringar m.m.': ['3.1', '3.2', '3.3', '3.4']
+                }
+            },
+            {
+                u'Rörelsekostnader': {
+                    u'Summa rörelsekostnader': ['3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
+                }
+            },
+            {
+                u'Rörelseresultat': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
+            },
+            {
+                u'Finansiella poster': {
+                    u'Summa finansiella poster': ['3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22']
+                }
+            },
+            {
+                u'Resultat efter finansiella poster': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22']
+            },
+            {
+                u'Bokslutsdispositioner': {
+                    u'Summa finansiella poster': ['3.23', '3.24']
+                }
+            },
+            {
+                u'Resultat före skatt': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22', '3.23', '3.24']
+            },
+            {
+                u'Skatter': {
+                    u'Skatt på årets resultat': ['3.25']
+                }
+            },
+            {
+                u'Årets resultat': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22', '3.23', '3.24', '3.25']
+            },
+        ]
+        self.ensure_one()
+        result = []
+        for s in structure:
+            if isinstance(s.items()[0][1], dict):
+                result.append({
+                    'name': s.items()[0][0],
+                    'value': self.env['account.declaration.line'].browse()
+                })
+                result.append({
+                    'name': s.items()[0][1].items()[0][0],
+                    'value': self.r_line_ids.with_context(sru_codes=s.items()[0][1].items()[0][1]).filtered(lambda l: l.afr_id.sru in l._context.get('sru_codes') and l.balance != 0)
+                })
+            if isinstance(s.items()[0][1], list):
+                result.append({
+                    'name': s.items()[0][0],
+                    'value': self.r_line_ids.with_context(sru_codes=s.items()[0][1]).filtered(lambda l: l.afr_id.sru in l._context.get('sru_codes') and l.balance != 0)
+                })
+        return result
+
+    @api.multi
+    def report_resultatrakning(self, name):
+        srus = {
+            'rorelseintakter_lagerforandringar_m_m': ['3.1', '3.2', '3.3', '3.4'],
+            'rorelsekostnader': ['3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14'],
+            'rorelseresultat': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14'],
+            'finansiella_poster': ['3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22'],
+            'resultat_efter_finansiella_poster': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22'],
+            'bokslutsdispositioner': ['3.23', '3.24'],
+            'resultat_fore_skatt': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22', '3.23', '3.24'],
+            'skatt_pa_arets_resultat': ['3.25'],
+            'arets_resultat': ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15', '3.16', '3.17', '3.18', '3.19', '3.20', '3.21', '3.22', '3.23', '3.24', '3.25']
+        }
+        return self.report_result_value(srus[name])
+
+    @api.multi
+    def report_balansrakning(self, name):
+        # TODO: fixa balansräkning sru kod
+        srus = {
+            'bundet_eget_kapital': ['2.27'],
+        }
+        return self.report_result_value(srus[name])
+
+    @api.multi
+    def report_result_value(self, sru_codes):
         self.ensure_one()
         return self.r_line_ids.with_context(sru_codes=sru_codes).filtered(lambda l: l.afr_id.sru in l._context.get('sru_codes') and l.balance != 0)
 
     @api.multi
-    def report_sum_resultatrakning(self, sru_codes):
+    def report_sum_resultatrakning(self, name):
         self.ensure_one()
-        return sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in self.report_resultatrakning(sru_codes)])
+        s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in self.report_resultatrakning(name)])
+        return s if s != 0 else ''
 
 
 class account_move(models.Model):
