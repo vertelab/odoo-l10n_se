@@ -108,6 +108,7 @@
             <field name="SumSkAvdr"/>
             <field name="SumAvgBetala"/>
             <field name="ag_betala"/>
+            <field name="eskd_file"/>
             <field name="state"/>
     </tree>
     </field>
