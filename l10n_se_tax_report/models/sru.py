@@ -472,6 +472,7 @@ class account_sru_declaration(models.Model):
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %next_year), ('date_stop', '=', '%s-12-31' %next_year)])
             return [start_period, stop_period]
 
+    # not in use
     @api.multi
     def report_resultatrakning_structure(self):
         structure = [
@@ -548,14 +549,6 @@ class account_sru_declaration(models.Model):
         return self.report_result_value(srus[name])
 
     @api.multi
-    def report_balansrakning(self, name):
-        # TODO: fixa balansräkning sru kod
-        srus = {
-            'bundet_eget_kapital': ['2.27'],
-        }
-        return self.report_result_value(srus[name])
-
-    @api.multi
     def report_result_value(self, sru_codes):
         self.ensure_one()
         return self.r_line_ids.with_context(sru_codes=sru_codes).filtered(lambda l: l.afr_id.sru in l._context.get('sru_codes') and l.balance != 0)
@@ -565,6 +558,40 @@ class account_sru_declaration(models.Model):
         self.ensure_one()
         s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in self.report_resultatrakning(name)])
         return s if s != 0 else ''
+
+    @api.model
+    def find_balansrakning(self, name):
+        financial_report_lst = {
+            u'anlaggningstillgangar': self.env['account.financial.report'].search([('name', '=', u'Anläggningstillgångar')]),
+            u'omsattningstillgangar': self.env['account.financial.report'].search([('name', '=', u'Omsättningstillgångar')]),
+            u'eget_kapital': self.env['account.financial.report'].search([('name', '=', u'Eget kapital')]),
+            u'obeskattade_reserver': self.env['account.financial.report'].search([('name', '=', u'Obeskattade reserver')]),
+            u'avsattningar': self.env['account.financial.report'].search([('name', '=', u'Avsättningar')]),
+            u'langfristiga_skulder': self.env['account.financial.report'].search([('name', '=', u'Långfristiga skulder (förfaller senare än 12 månader från balansdagen)')]),
+            u'kortfristiga_skulder': self.env['account.financial.report'].search([('name', '=', u'Kortfristiga skulder (förfaller inom 12 månader från balansdagen)')]),
+            u'eget_kapital_och_skulder': self.env['account.financial.report'].search([('name', '=', u'Eget kapital och skulder')])
+        }
+        return financial_report_lst.get(name)
+
+    @api.multi
+    def report_balansrakning(self, name):
+        parent_afr = self.find_balansrakning(name)
+        if parent_afr:
+            fr_children = self.env['account.financial.report'].search([('id', 'child_of', parent_afr.id)])
+            res = []
+            for b_line in self.b_line_ids.with_context(fr_children=fr_children).filtered(lambda b: b.balance != 0 and b.afr_id in b._context.get('fr_children')):
+                res.append(b_line)
+            return res
+
+    @api.multi
+    def report_sum_balansrakning(self, name):
+        self.ensure_one()
+        parent_afr = self.find_balansrakning(name)
+        if parent_afr:
+            children_afr_lines = self.env['account.financial.report'].search([('id', 'child_of', parent_afr.id)])
+            lines = self.b_line_ids.with_context(children_afr_lines=children_afr_lines).filtered(lambda l: l.afr_id in l._context.get('children_afr_lines') and l.balance != 0)
+            s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in lines])
+            return s if s != 0 else ''
 
 
 class account_move(models.Model):
