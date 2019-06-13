@@ -138,7 +138,25 @@ class account_declaration(models.Model):
     def onchange_period_stop(self):
         if self.period_stop:
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
-            self.date = fields.Date.to_string(fields.Date.from_string(self.period_stop.date_stop) + timedelta(days=12))
+            d = fields.Date.from_string(self.period_stop.date_stop)
+            intDay = 12
+            intMonth = d.month + 2
+            intYear = d.year
+            if intMonth == 13:
+                intMonth = 1
+                intYear = intYear + 1
+            # 17 = winter and summer.
+            if intMonth == 1 or intMonth == 8:
+                intDay = 17
+
+            # create the new date:
+            newdate = datetime(intYear, intMonth, intDay)
+            if newdate.weekday() == 5:
+                newdate + timedelta(days=2)
+            if newdate.weekday() == 6:
+                newdate + timedelta(days=1)
+            
+            self.date = fields.Date.to_string(newdate)
             self.name = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
 
     @api.one
@@ -233,7 +251,6 @@ class account_declaration(models.Model):
                 vals['name'] = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(vals.get('period_start')),self.env['account.period'].period2month(vals.get('period_stop')))
             else:
                 vals['name'] = '%s %s' % (self._report_name,self.env['account.period'].period2month(vals.get('period_start')))
-            vals['date'] = fields.Date.to_string(fields.Date.from_string(self.env['account.period'].browse(vals['period_stop']).date_stop) + timedelta(days=12))
             vals['accounting_yearend'] = (self.env['account.period'].browse(vals['period_stop']) == self.env['account.fiscalyear'].browse(vals.get('fiscalyear_id')).period_ids[-1] if vals.get('fiscalyear_id') else None)
         res = super(account_declaration, self).create(vals)
         if vals.get('date'):
