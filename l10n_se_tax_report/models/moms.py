@@ -113,7 +113,7 @@ class account_declaration(models.Model):
     _report_name = 'Moms'
 
     name = fields.Char()
-    date = fields.Date(help="Planned date, date when to report Skatteverket or do the declaration. Usually monday second week after period, but check calendar at Skatteverket")
+    date = fields.Date(help="Planned date, date when to report to the Skatteverket or do the declaration. Usually Monday second week after period, but check calendar at Skatteverket. (January and August differ.)")
     state = fields.Selection(selection=[('draft','Draft'),('confirmed','Confirmed'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
     def _fiscalyear_id(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
@@ -375,7 +375,7 @@ class account_vat_declaration(models.Model):
     @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+            raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
         if self.state in ['draft']:
             self.state = 'confirmed'
         ctx = {
@@ -447,6 +447,7 @@ class account_vat_declaration(models.Model):
         ##
 
         #TODO check all warnings
+        #_logger.warning('<<<<<<<<<<<<<< attachment_to_img >>>>>>>>: %s' % attachment.datas)
 
         moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
         if not moms_journal_id:
@@ -466,26 +467,44 @@ class account_vat_declaration(models.Model):
                 if entry:
                     move_line_list = []
                     moms_diff = 0.0
-                    for k in self.env.ref('l10n_se_tax_report.48').mapped('account_ids'): # kollar på 2640 konton, ingående moms
-                        credit = k.with_context(ctx).sum_period()
+                    
+                    move_line_dict = {}
+                    for k in self.env.ref('l10n_se_tax_report.48').mapped('tax_ids'): # kollar på 2640 konton, ingående moms
+                        # ~ _logger.warning('<<<<< VALUES: k = %s %s' % (k.name, k.with_context(ctx).get_taxlines().mapped('account_id') ))
+                        for account in k.with_context(ctx).get_taxlines().mapped('account_id'):
+
+                            # ~ _logger.warning('<<<<< VALUES: account = %s' % account)
+                            move_line_dict[account.name] = {'account_id': account.id, 'credit': account.with_context(ctx).sum_period() } 
+ 
+                    for account_name in move_line_dict.keys():
                         move_line_list.append((0, 0, {
-                            'name': k.name,
-                            'account_id': k.id,
-                            'credit': credit,
+                            'name': account_name,
+                            'account_id': move_line_dict[account_name]['account_id'],
+                            'credit': move_line_dict[account_name]['credit'],
                             'debit': 0.0,
                             'move_id': entry.id,
                         }))
-                        moms_diff -= credit
-                    for k in set([a for row in [10,11,12,30,31,32,60,61,62] for a in self.env.ref('l10n_se_tax_report.%s' % row).mapped('account_ids')]): # kollar på 26xx konton, utgående moms
-                        debit = abs(k.with_context(ctx).sum_period())
+                        moms_diff -= move_line_dict[account_name]['credit']
+                    # ~ _logger.warning('<<<<< VALUES: moms_diff %s' % moms_diff)
+                    move_line_dict = {}
+                    for k in set([a for row in [10,11,12,30,31,32,60,61,62] for a in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')]): # kollar på 26xx konton, utgående moms
+                        # ~ _logger.warning('<<<<< VALUES: k = %s' % k)
+                        for account in k.with_context(ctx).get_taxlines().mapped('account_id'):
+
+                            move_line_dict[account.name] = {'account_id': account.id, 'debit': abs(account.with_context(ctx).sum_period()) }
+                            
+                    for account_name in move_line_dict.keys():
+
                         move_line_list.append((0, 0, {
-                            'name': k.name,
-                            'account_id': k.id,
-                            'debit': debit,
+                            'name': account_name,
+                            'account_id': move_line_dict[account_name]['account_id'],
+                            'debit': move_line_dict[account_name]['debit'],
                             'credit': 0.0,
                             'move_id': entry.id,
                         }))
-                        moms_diff += debit
+                        moms_diff += move_line_dict[account_name]['debit']
+                    # ~ _logger.warning('<<<<< VALUES: moms_diff %s' % moms_diff)
+
                     if self.vat_momsbetala < 0.0: # momsfordran, moms ska få tillbaka
                         move_line_list.append((0, 0, {
                             'name': momsfordran.name,
@@ -536,9 +555,14 @@ class account_vat_declaration(models.Model):
                             'credit': self.vat_momsbetala,
                             'move_id': entry.id,
                         }))
+                    # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
+                    _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
+                        # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
                         oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
                         oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
+                        # ~ test of öresavrundning.
+                        # ~ _logger.warning('<<<<< VALUES: oresavrundning = %s oresavrundning_amount = %s' % (oresavrundning, oresavrundning_amount))
                         move_line_list.append((0, 0, {
                             'name': oresavrundning.name,
                             'account_id': oresavrundning.id,
