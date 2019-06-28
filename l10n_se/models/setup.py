@@ -24,9 +24,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 
-fromp openerp import netsvc
-from openerp import pooler
-from openerp.osv import fields, osv
+from odoo import netsvc
+from odoo import pooler
+from odoo.osv import fields, osv
 #import decimal_precision as dp
 from tools.translate import _
 

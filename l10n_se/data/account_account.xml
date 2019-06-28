@@ -38,12 +38,14 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
         msg += 'Set type:\n%s' %'\t'.join(t_list)
     raise Warning(msg)</field>
         </record>
-        <record id="ir_values_set_account_type" model="ir.values">
+<!--
+        <record id="ir_default_set_account_type" model="ir.default">
             <field name="name">Set Account Type</field>
             <field name="model">ir.actions.server</field>
             <field name="key2">client_action_multi</field>
             <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se.set_account_type')"/>
         </record>
+-->
         <record id="update_account_account" model="ir.actions.server">
             <field name="name">Uppdatera kontoplan</field>
             <field name="model_id" ref="base.model_ir_actions_server"/>
@@ -66,7 +68,8 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
         })
             </field>
         </record>
-        <record id="ir_values_update_account_account" model="ir.values">
+<!--
+        <record id="ir_default_update_account_account" model="ir.default">
             <field name="model_id" ref="base.model_ir_actions_server" />
             <field name="name">Uppdatera kontoplan</field>
             <field name="key2">client_action_multi</field>
@@ -74,13 +77,15 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
             <field name="key">action</field>
             <field name="model">ir.actions.server</field>
         </record>
+-->
         <record id="action_reconcile_account_move_line" model="ir.actions.server">
             <field name="name">Force reconcile</field>
             <field name="model_id" ref="account.model_account_move_line"/>
             <field name="state">code</field>
             <field name="code"></field>
         </record>
-        <record id="ir_values_reconcile_account_move_line" model="ir.values">
+<!--
+        <record id="ir_default_reconcile_account_move_line" model="ir.default">
             <field name="model_id" ref="account.model_account_move_line" />
             <field name="name">Force reconcile</field>
             <field name="key2">client_action_multi</field>
@@ -88,6 +93,7 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
             <field name="key">action</field>
             <field name="model">account.move.line</field>
         </record>
+-->
         <record id="action_without_attachment_account_move" model="ir.actions.server">
             <field name="name">Untrackable Transactions</field>
             <field name="model_id" ref="account.model_account_move"/>
@@ -117,7 +123,8 @@ action = {
 }
 </field>
         </record>
-        <record id="ir_values_without_attachment_account_move" model="ir.values">
+<!--
+        <record id="ir_default_without_attachment_account_move" model="ir.default">
             <field name="model_id" ref="account.model_account_move" />
             <field name="name">Untrackable Transactions</field>
             <field name="key2">client_action_multi</field>
@@ -125,5 +132,6 @@ action = {
             <field name="key">action</field>
             <field name="model">account.move</field>
         </record>
+-->
     </data>
 </odoo>

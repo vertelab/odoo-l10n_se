@@ -84,4 +84,4 @@ class account_rules(object):
 
 if __name__ == '__main__':
     R = account_rules()
-    print R.fields
+    print(R.fields)

@@ -69,6 +69,7 @@
             </field>
         </record>
 
+<!--
         <record id="view_account_financial_report_form" model="ir.ui.view">
             <field name="name">account.financial.report.form.inherited.l10n_se</field>
             <field name="model">account.financial.report</field>
@@ -82,6 +83,7 @@
                 </field>
             </field>
         </record>
+-->
 
         <!-- Chart of Accounts Templates -->
 <!--

@@ -342,7 +342,8 @@
                     'position_id': tmp.id
                 })</field>
         </record>
-        <record id="ir_values_copy_account_fiscal_position" model="ir.values">
+<!--
+        <record id="ir_default_copy_account_fiscal_position" model="ir.default">
             <field name="model_id" ref="base.model_ir_actions_server" />
             <field name="name">Generera skatteregion</field>
             <field name="key2">client_action_multi</field>
@@ -350,6 +351,7 @@
             <field name="key">action</field>
             <field name="model">ir.actions.server</field>
         </record>
+-->
     </data>
 
 </odoo>

@@ -24,7 +24,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 
-from openerp.osv import osv
+from odoo.osv import osv
 
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -41,10 +41,10 @@ _logger = logging.getLogger(__name__)
 
 
 
-class account_bank_accounts_wizard(models.TransientModel):
-    _inherit='account.bank.accounts.wizard'
+# ~ class account_bank_accounts_wizard(models.TransientModel):
+    # ~ _inherit='account.bank.accounts.wizard'
 
-    account_type = fields.Selection(selection_add=[('bg','Bankgiro'),('pg','Plusgiro')])
+    # ~ account_type = fields.Selection(selection_add=[('bg','Bankgiro'),('pg','Plusgiro')])
 
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
@@ -159,102 +159,102 @@ class AccountInvoice(models.Model):
                 # ~ })
                 # ~ done_taxes.append(tax.id)
         # ~ return res
-class wizard_multi_charts_accounts(models.TransientModel):
-    """
-        defaults for 4 digits in chart of accounts
-     """
-    _inherit='wizard.multi.charts.accounts'
+# ~ class wizard_multi_charts_accounts(models.TransientModel):
+    # ~ """
+        # ~ defaults for 4 digits in chart of accounts
+     # ~ """
+    # ~ _inherit='wizard.multi.charts.accounts'
 
-    code_digits = fields.Integer(default=4)
-    bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
+    # ~ code_digits = fields.Integer(default=4)
+    # ~ bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
-    @api.multi
-    def execute(self):
-        res = super(wizard_multi_charts_accounts, self).execute()
-        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
-        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
-        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
-        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
-        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
-        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
-        personalskatt = self.env['account.account'].search([('code', '=', '2710')])
-        account_values = {
-            'UlagAvgHel': {'account_id': loner_till_tjansteman_7210.id, 'refund_account_id': loner_till_tjansteman_7210.id},
-            'UlagVXLon': {'account_id': lon_vaxa_stod_tjansteman.id, 'refund_account_id': lon_vaxa_stod_tjansteman.id},
-            'UlagAvgAldersp': {'account_id': loner_till_tjansteman_16_36.id, 'refund_account_id': loner_till_tjansteman_16_36.id},
-            'UlagAlderspSkLon': {'account_id': loner_till_tjansteman_6_15.id, 'refund_account_id': loner_till_tjansteman_6_15.id},
-            'AvgHel': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
-            'AvgVXLon': {'account_id': avrakning_sarskild_loneskatt.id, 'refund_account_id': avrakning_sarskild_loneskatt.id},
-            'AvgAldersp': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
-            'AvgAlderspSkLon': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
-            'AgPre': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
-            'SkAvdrLon': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
-        }
-        for k,v in account_values.items():
-            self.env['account.tax'].search([('name', '=', k)]).write(v)
-        return res
+    # ~ @api.multi
+    # ~ def execute(self):
+        # ~ res = super(wizard_multi_charts_accounts, self).execute()
+        # ~ loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
+        # ~ lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
+        # ~ loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
+        # ~ loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
+        # ~ avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
+        # ~ avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
+        # ~ personalskatt = self.env['account.account'].search([('code', '=', '2710')])
+        # ~ account_values = {
+            # ~ 'UlagAvgHel': {'account_id': loner_till_tjansteman_7210.id, 'refund_account_id': loner_till_tjansteman_7210.id},
+            # ~ 'UlagVXLon': {'account_id': lon_vaxa_stod_tjansteman.id, 'refund_account_id': lon_vaxa_stod_tjansteman.id},
+            # ~ 'UlagAvgAldersp': {'account_id': loner_till_tjansteman_16_36.id, 'refund_account_id': loner_till_tjansteman_16_36.id},
+            # ~ 'UlagAlderspSkLon': {'account_id': loner_till_tjansteman_6_15.id, 'refund_account_id': loner_till_tjansteman_6_15.id},
+            # ~ 'AvgHel': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+            # ~ 'AvgVXLon': {'account_id': avrakning_sarskild_loneskatt.id, 'refund_account_id': avrakning_sarskild_loneskatt.id},
+            # ~ 'AvgAldersp': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+            # ~ 'AvgAlderspSkLon': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+            # ~ 'AgPre': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
+            # ~ 'SkAvdrLon': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
+        # ~ }
+        # ~ for k,v in account_values.items():
+            # ~ self.env['account.tax'].search([('name', '=', k)]).write(v)
+        # ~ return res
 
-    def X_create_bank_journals_from_o2m(self, obj_wizard, company_id, acc_template_ref):
-        '''
-        This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
-        wizard.
+    # ~ def X_create_bank_journals_from_o2m(self, obj_wizard, company_id, acc_template_ref):
+        # ~ '''
+        # ~ This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
+        # ~ wizard.
 
-        :param obj_wizard: the current wizard that generates the COA from the templates.
-        :param company_id: the id of the company for which the wizard is running.
-        :param acc_template_ref: the dictionary containing the mapping between the ids of account templates and the ids
-            of the accounts that have been generated from them.
-        :return: True
-        '''
-        obj_acc = self.env['account.account']
-        obj_journal = self.env['account.journal']
-        code_digits = obj_wizard.code_digits
+        # ~ :param obj_wizard: the current wizard that generates the COA from the templates.
+        # ~ :param company_id: the id of the company for which the wizard is running.
+        # ~ :param acc_template_ref: the dictionary containing the mapping between the ids of account templates and the ids
+            # ~ of the accounts that have been generated from them.
+        # ~ :return: True
+        # ~ '''
+        # ~ obj_acc = self.env['account.account']
+        # ~ obj_journal = self.env['account.journal']
+        # ~ code_digits = obj_wizard.code_digits
 
-        # Build a list with all the data to process
-        journal_data = []
-        if obj_wizard.bank_accounts_id:
-            for acc in obj_wizard.bank_accounts_id:
-                vals = {
-                    'acc_name': acc.acc_name,
-                    'account_type': acc.account_type,
-                    'currency_id': acc.currency_id.id,
-                }
-                journal_data.append(vals)
-        ref_acc_bank = obj_wizard.chart_template_id.bank_account_view_id
-        if journal_data and not ref_acc_bank.code:
-            raise osv.except_osv(_('Configuration Error !'), _('The bank account defined on the selected chart of accounts hasn\'t a code.'))
+        # ~ # Build a list with all the data to process
+        # ~ journal_data = []
+        # ~ if obj_wizard.bank_accounts_id:
+            # ~ for acc in obj_wizard.bank_accounts_id:
+                # ~ vals = {
+                    # ~ 'acc_name': acc.acc_name,
+                    # ~ 'account_type': acc.account_type,
+                    # ~ 'currency_id': acc.currency_id.id,
+                # ~ }
+                # ~ journal_data.append(vals)
+        # ~ ref_acc_bank = obj_wizard.chart_template_id.bank_account_view_id
+        # ~ if journal_data and not ref_acc_bank.code:
+            # ~ raise osv.except_osv(_('Configuration Error !'), _('The bank account defined on the selected chart of accounts hasn\'t a code.'))
 
-        current_num = 1
-        for line in journal_data:
-            # Seek the next available number for the account code
-            while True:
-                new_code = str(ref_acc_bank.code[0:code_digits-len(str(current_num))].ljust(code_digits-len(str(current_num)), '0')) + str(current_num)
-                ids = obj_acc.search(cr, uid, [('code', '=', new_code), ('company_id', '=', company_id)])
-                if not ids:
-                    break
-                else:
-                    current_num += 1
-            # Create the default debit/credit accounts for this bank journal
-            vals = self._prepare_bank_account(cr, uid, line, new_code, acc_template_ref, ref_acc_bank, company_id, context=context)
-            default_account_id  = obj_acc.create(cr, uid, vals, context=context)
+        # ~ current_num = 1
+        # ~ for line in journal_data:
+            # ~ # Seek the next available number for the account code
+            # ~ while True:
+                # ~ new_code = str(ref_acc_bank.code[0:code_digits-len(str(current_num))].ljust(code_digits-len(str(current_num)), '0')) + str(current_num)
+                # ~ ids = obj_acc.search(cr, uid, [('code', '=', new_code), ('company_id', '=', company_id)])
+                # ~ if not ids:
+                    # ~ break
+                # ~ else:
+                    # ~ current_num += 1
+            # ~ # Create the default debit/credit accounts for this bank journal
+            # ~ vals = self._prepare_bank_account(cr, uid, line, new_code, acc_template_ref, ref_acc_bank, company_id, context=context)
+            # ~ default_account_id  = obj_acc.create(cr, uid, vals, context=context)
 
-            #create the bank journal
-            vals_journal = self._prepare_bank_journal(cr, uid, line, current_num, default_account_id, company_id, context=context)
-            obj_journal.create(cr, uid, vals_journal)
-            current_num += 1
-        return True
+            # ~ #create the bank journal
+            # ~ vals_journal = self._prepare_bank_journal(cr, uid, line, current_num, default_account_id, company_id, context=context)
+            # ~ obj_journal.create(cr, uid, vals_journal)
+            # ~ current_num += 1
+        # ~ return True
 
-    @api.model
-    def default_get(self, fields):
-        res = super(wizard_multi_charts_accounts, self).default_get(fields)
-        if 'bank_accounts_id' in fields:
-            company_id = res.get('company_id') or False
-            if company_id:
-                company = self.env['res.company'].browse(company_id)
-                ba_list = [{'acc_name': _('Kalle Cash'), 'account_type': 'cash'}]
-                for ba in company.bank_ids:
-                    ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.acc_type}]
-                res.update({'bank_account_id': ba_list})
-        return res
+    # ~ @api.model
+    # ~ def default_get(self, fields):
+        # ~ res = super(wizard_multi_charts_accounts, self).default_get(fields)
+        # ~ if 'bank_accounts_id' in fields:
+            # ~ company_id = res.get('company_id') or False
+            # ~ if company_id:
+                # ~ company = self.env['res.company'].browse(company_id)
+                # ~ ba_list = [{'acc_name': _('Kalle Cash'), 'account_type': 'cash'}]
+                # ~ for ba in company.bank_ids:
+                    # ~ ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.acc_type}]
+                # ~ res.update({'bank_account_id': ba_list})
+        # ~ return res
 
 class account_chart_template(models.Model):
     """
@@ -568,10 +568,10 @@ class account_account_type(models.Model):
         return self.env.ref(user_type) if user_type else None
 
 
-class account_financial_report(models.Model):
-    _inherit = 'account.financial.report'
+# ~ class account_financial_report(models.Model):
+    # ~ _inherit = 'account.financial.report'
 
-    element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
-    version_name = fields.Char(string='Version Name', help='This name is from import file.')
+    # ~ element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+    # ~ version_name = fields.Char(string='Version Name', help='This name is from import file.')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

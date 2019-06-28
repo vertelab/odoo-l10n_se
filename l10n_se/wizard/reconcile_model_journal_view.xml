@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+<!--
     <data>
         <act_window id="action_wizard_reconcile_model_journal" name="Set Journal" res_model="wizard.reconcile.model.journal" src_model="account.reconcile.model" view_mode="form" target="new" multi="True" />
         <record id="wizard_reconcile_model_journal_form" model="ir.ui.view">
@@ -19,4 +20,5 @@
             </field>
         </record>
     </data>
+-->
 </odoo>

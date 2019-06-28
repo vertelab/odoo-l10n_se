@@ -32,6 +32,7 @@
         <record id="chart_template_general" model="account.chart.template">
             <field name="name">General</field>
             <field name="transfer_account_id" ref="chart1955" />
+            <field name="transfer_account_code_prefix">1955</field>
             <field name="currency_id" ref="base.SEK" />
             <field name="cash_account_code_prefix">1910</field>
             <field name="bank_account_code_prefix">1930</field>
@@ -921,6 +922,7 @@
       -->
     </record>
   </data>
+<!--
   <data>
     <record id="base.res_partner-SKV" model="res.partner">
       <field name="company_id" ref="base.main_company" />
@@ -929,4 +931,5 @@
       <field name="is_company">False</field>
     </record>
   </data>
+-->
 </odoo>

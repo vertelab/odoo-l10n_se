@@ -819,7 +819,8 @@
         log('Fel att konvertera template: %s till konto: %s' %(template, account_tax))
             </field>
         </record>
-        <record id="ir_values_update_account_tax" model="ir.values">
+<!--
+        <record id="ir_default_update_account_tax" model="ir.default">
             <field name="model_id" ref="base.model_ir_actions_server" />
             <field name="name">Uppdatera skatter</field>
             <field name="key2">client_action_multi</field>
@@ -827,6 +828,7 @@
             <field name="key">action</field>
             <field name="model">ir.actions.server</field>
         </record>
+-->
 
     </data>
 </odoo>

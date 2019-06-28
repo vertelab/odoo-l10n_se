@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from odoo.osv import osv, fields
 
 class account_vat_declaration(osv.osv_memory):
     _name = 'account.vat.declaration'

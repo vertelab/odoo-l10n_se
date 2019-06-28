@@ -5,6 +5,7 @@
       <field name="name">K1 - Mindre verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="chart1955"/>
+      <field name="transfer_account_code_prefix">1955</field>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>
       <field name="bank_account_code_prefix">193</field>
@@ -7978,6 +7979,7 @@ skattskyldighet, 25 % moms</field>
       <field name="name">K2 - Små till medelstora verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="chart1955"/>
+      <field name="transfer_account_code_prefix">1955</field>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>
       <field name="bank_account_code_prefix">193</field>
@@ -15951,6 +15953,7 @@ skattskyldighet, 25 % moms</field>
       <field name="name">K3 - Medelstora till större verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="chart1955"/>
+      <field name="transfer_account_code_prefix">1955</field>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>
       <field name="bank_account_code_prefix">193</field>
@@ -23924,6 +23927,7 @@ skattskyldighet, 25 % moms</field>
       <field name="name">K4 - större verksamheter / publika företag</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="transfer_account_id" ref="chart1955"/>
+      <field name="transfer_account_code_prefix">1955</field>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>
       <field name="bank_account_code_prefix">193</field>
