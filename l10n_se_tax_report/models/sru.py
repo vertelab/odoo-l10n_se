@@ -84,9 +84,8 @@ class account_sru_declaration(models.Model):
     def _write_other_line_ids(self):
         self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
 
-    @api.onchange('period_stop')
-    def onchange_period_stop(self):
-        if self.period_stop:
+    @api.one
+    def set_date_and_name(self):
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
             if d.month >= 1 and d.month <= 4:
@@ -102,19 +101,20 @@ class account_sru_declaration(models.Model):
                 newdate = datetime(d.year+1, 7, 1)
                 self.date = fields.Date.to_string(newdate)
 
-        # ~ IMPORTANT DATES FROM SKATTEVERKET.SE
-        # ~ 12 = 1 juli
-        # ~ 01-04 = från 7 september, 2 november
-        # ~ 05-06 = från 7 september, 15 december
-        # ~ 07-08 = 2 mars
-        # ~ 09-12 = från 3 februari - 1 juli
-        
             # ~ NAME OF SRU FILE
             self.name = '%s %s' % (self._report_name, self.fiscalyear_id.name )
 
-                # ~ self.name = '%s %s/%s' % (self._report_name, yearFrom, yearTo)
+    @api.onchange('fiscalyear_id')
+    def onchange_fiscalyear_id(self):
+        if self.fiscalyear_id:
+            self.period_start = self.fiscalyear_id.period_ids[0]
+            self.period_stop  = self.fiscalyear_id.period_ids[-1]
+            self.set_date_and_name()
 
-
+    @api.onchange('period_stop')
+    def onchange_period_stop(self):
+        if self.period_stop:
+            self.set_date_and_name()
 
     # Skapar bokslut verifikat
     # via vinst:   8999 (D) 2099 (K)
@@ -297,11 +297,6 @@ class account_sru_declaration(models.Model):
                         sum_eget_kapital_skulder += li.balance
                 self.fritt_eget_kapital = sum_tillgangar - sum_eget_kapital_skulder
 
-    @api.onchange('period_start')
-    def onchange_period_start(self):
-        if self.period_start:
-            self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop))
-            self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start, short=False))
 
     @api.one
     def do_draft(self):
@@ -499,7 +494,7 @@ class account_sru_declaration(models.Model):
             next_year = str(int(last_declaration.period_stop.date_start[:4]) + 1)
             fiscalyear = self.env['account.fiscalyear'].search([('code', '=', next_year)])
             if not fiscalyear:
-                raise Warning(_('Please add fiscal year for %s') %start_date[:4])
+                raise Warning(_('Please add fiscal year for %s') %next_year)
             start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %next_year), ('date_stop', '=', '%s-01-31' %next_year), ('special', '=', False)])
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %next_year), ('date_stop', '=', '%s-12-31' %next_year)])
             return [start_period, stop_period]
