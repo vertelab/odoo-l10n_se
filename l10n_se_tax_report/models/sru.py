@@ -84,6 +84,38 @@ class account_sru_declaration(models.Model):
     def _write_other_line_ids(self):
         self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
 
+    @api.onchange('period_stop')
+    def onchange_period_stop(self):
+        if self.period_stop:
+            self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
+            d = fields.Date.from_string(self.period_stop.date_stop)
+            if d.month >= 1 and d.month <= 4:
+                newdate = self.next_monday(datetime(d.year, 11 ,1) )
+                self.date = fields.Date.to_string(newdate)
+            if d.month >= 5 and d.month <= 6:
+                newdate = datetime(d.year, 12, 15)
+                self.date = fields.Date.to_string(newdate)
+            if d.month >= 7 and d.month <= 8:
+                newdate = self.next_monday(datetime(d.year+1, 3 ,1) )
+                self.date = fields.Date.to_string(newdate)
+            if d.month >= 9 and d.month <= 12:
+                newdate = datetime(d.year+1, 7, 1)
+                self.date = fields.Date.to_string(newdate)
+
+        # ~ IMPORTANT DATES FROM SKATTEVERKET.SE
+        # ~ 12 = 1 juli
+        # ~ 01-04 = från 7 september, 2 november
+        # ~ 05-06 = från 7 september, 15 december
+        # ~ 07-08 = 2 mars
+        # ~ 09-12 = från 3 februari - 1 juli
+        
+            # ~ NAME OF SRU FILE
+            self.name = '%s %s' % (self._report_name, self.fiscalyear_id.name )
+
+                # ~ self.name = '%s %s/%s' % (self._report_name, yearFrom, yearTo)
+
+
+
     # Skapar bokslut verifikat
     # via vinst:   8999 (D) 2099 (K)
     # via förlust: 2099 (D) 8999 (K)

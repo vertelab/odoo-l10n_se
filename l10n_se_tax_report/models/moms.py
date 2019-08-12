@@ -136,20 +136,22 @@ class account_declaration(models.Model):
 
     @api.onchange('period_stop')
     def onchange_period_stop(self):
-        if self.period_stop:
+        raise Warning(self._name)
+        if self.period_stop and self._name == 'account.declaration':
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
             intDay = 12
             intMonth = d.month + 2
             intYear = d.year
-            if intMonth == 13:
-                intMonth = 1
+            if intMonth > 12:
+                intMonth -= 12
                 intYear = intYear + 1
             # 17 = winter and summer.
             if intMonth == 1 or intMonth == 8:
                 intDay = 17
 
             # create the new date:
+            # ~ raise Warning(intMonth)
             newdate = datetime(intYear, intMonth, intDay)
             if newdate.weekday() == 5:
                 newdate + timedelta(days=2)
@@ -271,6 +273,12 @@ class account_declaration(models.Model):
                 s.event_id.unlink()
             res = super(account_declaration,s).unlink()
         return res
+
+    @api.model
+    def next_monday(self, date, day = 0):
+        return date + timedelta(days=(day-date.weekday()+7)%7)
+     # ~ onDay = lambda date, day: date + datetime.timedelta(days=(day-date.weekday()+7)%7)
+
 
 class account_declaration_line_id(models.Model):
     _name = 'account.declaration.line.id'
