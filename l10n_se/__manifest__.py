@@ -83,7 +83,7 @@
         #~ 'data/account.tax.code.template.csv',
         #~ 'data/account.tax.template-after.csv',
         #~ 'data/res.partner.bank.type.csv',
-        #~ 'data/res_country_data.xml',
+        # ~ 'data/res_country_data.xml',
         #~ 'views/account_report.xml',
         #~ 'views/account_vat_view.xml',
         'views/account_view.xml',

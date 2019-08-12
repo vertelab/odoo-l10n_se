@@ -11,28 +11,11 @@
                         <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
                         <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
                         <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
+                        <button name="regenerate_sru_files" string="Regenerate SRU" type="object" class="oe_highlight" />
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box" name="buttons">
-<!--
-                            <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_SumSkAvdr" context="{'default_partner_id': active_id}">
-                                <div class="o_form_field o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field name="SumSkAvdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                                    </span>
-                                    <span class="o_stat_text">SumSkAvdr</span>
-                                </div>
-                            </button>
-                            <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_SumAvgBetala" context="{'default_partner_id': active_id}">
-                                <div class="o_form_field o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field name="SumAvgBetala" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                                    </span>
-                                    <span class="o_stat_text">SumAvgBetala</span>
-                                </div>
-                            </button>
--->
                             <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries" context="{'default_partner_id': active_id}">
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
@@ -68,17 +51,29 @@
                                 <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '>=', period_start),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" nolabel="1" />
                             </group>
                             <newline />
-                            <group>
+                            <group string="Årets resultat" col="4">
+                                <button name="calc_arets_resultat" string="Beräkna årets resultat" type="object" class="oe_highlight" title="Det kan ta tid" states="draft,confirmed" />
+                                <newline />
+                                <field name="arets_intakt" />
+                                <field name="arets_kostnad" />
+                                <field name="arets_resultat" />
+                            </group>
+                            <group string="Fritt eget kapital" col="4">
+                                <button name="calc_fritt_eget_kapital" string="Beräkna fritt eget kapital" type="object" class="oe_highlight" title="Det kan ta tid" states="draft,confirmed" />
+                                <newline />
                                 <field name="tillgangar" />
                                 <field name="eget_kapital_skulder" />
                                 <field name="fritt_eget_kapital" />
                             </group>
+                            <newline />
                             <group col="4">
-                                <field name="sru_betala" />
                                 <field name="move_id" />
-                                <span />
-                                <span />
-                                <field name="eskd_file" />
+                                <newline />
+                                <field name="infosru" filename="infosru_file_name" />
+                                <field name="infosru_file_name" invisible="1"/>
+                                <newline />
+                                <field name="datasru" filename="datasru_file_name" />
+                                <field name="datasru_file_name" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -91,9 +86,6 @@
                                     <field name="accounting_method" attrs="{'readonly': [('state', '!=','draft')]}" />
                                     <field name="accounting_yearend" attrs="{'invisible': [('accounting_method', '!=', 'cash')],'readonly': [('state', '!=','draft')]} " />
                                 </group>
-                            </page>
-                            <page string="Upplysningstext">
-                                <field name="free_text" nolabel="1" attrs="{'readonly': [('state', '!=','draft')]}" />
                             </page>
                             <page string="Balansräkningsader">
                                 <field name="b_line_ids" nolabel="1">
@@ -113,6 +105,20 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="Övriga rader">
+                                <field name="other_line_ids" nolabel="1">
+                                    <tree create="1" delete="1" edit="1" editable="bottom">
+                                        <field name="name" />
+                                        <field name="afr_id" />
+                                        <field name="sign" />
+                                        <field name="balance" />
+                                    </tree>
+                                </field>
+                                <group string="Upplysningar om årsredovisningen">
+                                    <field name="upplysningar_1" />
+                                    <field name="upplysningar_2" />
+                                </group>
+                            </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
@@ -130,7 +136,6 @@
                     <field name="name" />
                     <field name="date" />
                     <field name="fiscalyear_id" />
-                    <field name="sru_betala" />
                     <field name="state" />
                 </tree>
             </field>

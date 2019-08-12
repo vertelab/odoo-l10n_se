@@ -429,7 +429,8 @@ class account_agd_declaration(models.Model):
                 # ~ # Dokumentet validerade ej
 
         xml = parse_xml(tax_account)
-        xml = etree.tostring(xml, pretty_print=True, encoding="UTF-8", standalone=False)
+        # ~ xml = etree.tostring(xml, pretty_print=True, encoding="UTF-8", standalone=False)
+        xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + etree.tostring(xml, pretty_print=True, encoding="UTF-8")
         schema_validate(xml)
         self.eskd_file = base64.b64encode(xml)
 

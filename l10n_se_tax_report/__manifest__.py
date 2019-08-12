@@ -29,7 +29,7 @@ Taxes for financial report
      """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
-    'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar'],
+    'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','report_glabels', 'report_py3o'],
     'data': [
         'data/account_data.xml',
         'data/account_financial.xml',
@@ -41,7 +41,7 @@ Taxes for financial report
         'views/moms_report.xml',
         'views/agd_report.xml',
         'views/sru_report.xml',
-
+        'report/report.xml',
         # ~ 'account_invoice_demo.xml',
         'security/ir.model.access.csv',
     ],
