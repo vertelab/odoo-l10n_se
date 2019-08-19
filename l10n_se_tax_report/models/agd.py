@@ -82,6 +82,7 @@ class account_agd_declaration(models.Model):
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
     _report_name = 'Agd'
+    _order = 'date desc'
 
     line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
     def _period_start(self):
@@ -92,24 +93,14 @@ class account_agd_declaration(models.Model):
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="agd_declaration_id")
     payslip_ids = fields.Many2many(comodel_name='hr.payslip', string='Payslips', compute='_payslip_ids')
 
-    # ~ @api.one
     @api.onchange('period_start')
     def _payslip_ids(self):
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_start.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-            'nix_journal_ids': [self.env.ref('l10n_se_tax_report.agd_journal').id]
-        }
-        slips = self.env['hr.payslip'].browse()
-        for aml in self.env['account.move.line'].search([('id', 'in', self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).get_taxlines().mapped('id'))]):
-            slip = self.env['hr.payslip'].search([('move_id', '=', aml.move_id.id)])
-            if slip:
-                slips |= slip
+        slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
         self.payslip_ids = slips.mapped('id')
-        _logger.warn('jakob ***  payslip ')
+        self.move_ids = []
+        for move in slips.mapped('move_id'):
+            move.agd_declaration_id = self.id
+        # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
         
     @api.multi
     def show_journal_entries(self):
@@ -136,7 +127,7 @@ class account_agd_declaration(models.Model):
             self.date = fields.Date.to_string(fields.Date.from_string(self.period_start.date_stop) + timedelta(days=12))
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
-    @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
+    # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
     def _vat(self):
         for decl in self:
             if decl.period_start:
@@ -192,6 +183,7 @@ class account_agd_declaration(models.Model):
     @api.one
     def do_draft(self):
         super(account_agd_declaration, self).do_draft()
+        self.slip_ids = []
         for move in self.move_ids:
             move.agd_declaration_id = None
 
@@ -207,6 +199,9 @@ class account_agd_declaration(models.Model):
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
         if self.state in ['draft']:
             self.state = 'confirmed'
+            
+            
+            
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_start.id,
@@ -215,6 +210,12 @@ class account_agd_declaration(models.Model):
             'target_move': self.target_move,
             'nix_journal_ids': [self.env.ref('l10n_se_tax_report.agd_journal').id]
         }
+
+        self._vat()
+        # ~ self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+        # ~ self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+        # ~ self.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
+
 
         ##
         ####  Create report lines

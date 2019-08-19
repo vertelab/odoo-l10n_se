@@ -111,6 +111,7 @@ class account_declaration(models.Model):
     _name = 'account.declaration'
     _inherit = ['mail.thread']
     _report_name = 'Moms'
+    _order = 'date asc'
 
     name = fields.Char()
     date = fields.Date(help="Planned date, date when to report to the Skatteverket or do the declaration. Usually Monday second week after period, but check calendar at Skatteverket. (January and August differ.)")
