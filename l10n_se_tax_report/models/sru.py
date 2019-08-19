@@ -50,8 +50,21 @@ class account_sru_declaration(models.Model):
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True, default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move', inverse_name='sru_declaration_id')
     line_ids = fields.One2many(comodel_name='account.declaration.line', inverse_name='sru_declaration_id')
+    @api.one
+    def _line_ids(self):
+        self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
+        self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
     b_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
+    @api.model
+    def _search_other_line_ids(self, operator, value):
+        return ['&', '&', ('is_b', '=', False), ('is_r', '=', False), ('line_ids', operator, value)] 
+    @api.one
+    def _compute_other_line_ids(self):
+        self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)    
+    @api.one
+    def _write_other_line_ids(self):
+        self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
     other_line_ids = fields.One2many(comodel_name='account.declaration.line', search='_search_other_line_ids', compute='_compute_other_line_ids', inverse='_write_other_line_ids')
     report_id = fields.Many2one(comodel_name="account.financial.report", required=True)
     arets_intakt = fields.Integer(string='Årets intäkt', readonly=True)
@@ -68,24 +81,7 @@ class account_sru_declaration(models.Model):
     upplysningar_2 = fields.Boolean(string='Årsredovisningen har varit föremål för revision')
 
     @api.one
-    def _line_ids(self):
-        self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
-        self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
-
-    @api.model
-    def _search_other_line_ids(self, operator, value):
-        return ['&', '&', ('is_b', '=', False), ('is_r', '=', False), ('line_ids', operator, value)]
-
-    @api.one
-    def _compute_other_line_ids(self):
-        self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)
-
-    @api.one
-    def _write_other_line_ids(self):
-        self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
-
-    @api.one
-    def set_date_and_name(self):
+    def _set_date_and_name(self):
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
             if d.month >= 1 and d.month <= 4:
@@ -109,12 +105,12 @@ class account_sru_declaration(models.Model):
         if self.fiscalyear_id:
             self.period_start = self.fiscalyear_id.period_ids[0]
             self.period_stop  = self.fiscalyear_id.period_ids[-1]
-            self.set_date_and_name()
+            self._set_date_and_name()
 
     @api.onchange('period_stop')
     def onchange_period_stop(self):
         if self.period_stop:
-            self.set_date_and_name()
+            self._set_date_and_name()
 
     # Skapar bokslut verifikat
     # via vinst:   8999 (D) 2099 (K)
@@ -130,11 +126,10 @@ class account_sru_declaration(models.Model):
             'target_move': self.target_move,
         }
         r_lines = self.line_ids.filtered(lambda l: l.is_r == True)
-        afr_obj = self.env['account.financial.report']
-        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
+        r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
         if r_afr:
-            arets_intakt_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
-            arets_kostnad_ids = afr_obj.search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
+            arets_intakt_ids = self.env['account.financial.report'].search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
+            arets_kostnad_ids = self.env['account.financial.report'].search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
             arets_intakt = 0
             arets_kostnad = 0
             if len(r_lines) == 0: # do a calculate
@@ -215,23 +210,22 @@ class account_sru_declaration(models.Model):
             'target_move': self.target_move,
         }
         b_lines = self.line_ids.filtered(lambda l: l.is_b == True)
-        afr_obj = self.env['account.financial.report']
-        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
+        b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
         if b_afr:
             if len(b_lines) == 0: # do a calculate
                 def calc_kapital():
-                    tillgangar = afr_obj.search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
+                    tillgangar = self.env['account.financial.report'].search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
                     if tillgangar:
-                        tillgangar_children = afr_obj.search([('parent_id', 'child_of', tillgangar.id), ('type', '=', 'accounts')])
+                        tillgangar_children = self.env['account.financial.report'].search([('parent_id', 'child_of', tillgangar.id), ('type', '=', 'accounts')])
                         sum_tillgangar = 0
                         for line in tillgangar_children:
                             sum_tillgangar += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
                         self.tillgangar = sum_tillgangar
                     else:
                         self.tillgangar = 0
-                    eget_kapital_skulder = afr_obj.search([('name', '=', u'Eget kapital och skulder')])
+                    eget_kapital_skulder = self.env['account.financial.report'].search([('name', '=', u'Eget kapital och skulder')])
                     if eget_kapital_skulder:
-                        eget_kapital_skulder_children = afr_obj.search([('parent_id', 'child_of', eget_kapital_skulder.id), ('type', '=', 'accounts')])
+                        eget_kapital_skulder_children = self.env['account.financial.report'].search([('parent_id', 'child_of', eget_kapital_skulder.id), ('type', '=', 'accounts')])
                         sum_eget_kapital_skulder = 0
                         for line in eget_kapital_skulder_children:
                             sum_eget_kapital_skulder += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
@@ -328,15 +322,21 @@ class account_sru_declaration(models.Model):
 
         sru_lines = self.env['account.declaration.line'].search([('sru_declaration_id', '=', self.id)])
         sru_lines.unlink()
-        afr_obj = self.env['account.financial.report']
-        b_afr = afr_obj.search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
-        r_afr = afr_obj.search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
+        b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
+        r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
 
         def create_lines(afr, dec, is_b=False, is_r=False):
-            afr_obj = self.env['account.financial.report']
-            lines = afr_obj.search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
+            lines = self.env['account.financial.report'].search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
             for line in lines:
-                balance = sum([a.with_context(ctx).sum_period() for a in afr_obj.search([('parent_id', 'child_of', line.id), ('type', '=', 'accounts')]).mapped('account_ids')])
+                move_line_ids = line.with_context(ctx).get_moveline_ids()
+                period_ids = self.env['account.period'].get_period_ids(self.period_start,self.period_stop)
+                grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id','in',period_ids)],['balance','account_id'],['account_id'])
+                raise Warning(grouped_lines)
+                _logger.debug('SRU line %s %s' % (line.name,grouped_lines))
+
+                balance = sum(self.env['account.move.line'].read(move_line_ids,{'balance'}))
+                # ~ balance = sum([a.with_context(ctx).sum_period() for a in self.env['account.financial.report'].search([('parent_id', 'child_of', line.id), ('type', '=', 'accounts')]).mapped('account_ids')])
+                _logger.debug('SRU line %s %s' % (line.name,balance))
                 sru_line = self.env['account.declaration.line'].create({
                     'sru_declaration_id': dec.id,
                     'afr_id': line.id,
@@ -344,7 +344,7 @@ class account_sru_declaration(models.Model):
                     'sign': 1 if balance >= 0.0 else -1,
                     'name': line.name,
                     'level': line.level,
-                    'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
+                    'move_line_ids': [(6, 0, move_line_ids)],
                     'is_b': is_b,
                     'is_r': is_r,
                 })
