@@ -92,7 +92,8 @@ class account_agd_declaration(models.Model):
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="agd_declaration_id")
     payslip_ids = fields.Many2many(comodel_name='hr.payslip', string='Payslips', compute='_payslip_ids')
 
-    @api.one
+    # ~ @api.one
+    @api.onchange('period_start')
     def _payslip_ids(self):
         ctx = {
             'period_start': self.period_start.id,
@@ -108,7 +109,8 @@ class account_agd_declaration(models.Model):
             if slip:
                 slips |= slip
         self.payslip_ids = slips.mapped('id')
-
+        _logger.warn('jakob ***  payslip ')
+        
     @api.multi
     def show_journal_entries(self):
         ctx = {
