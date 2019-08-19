@@ -128,19 +128,19 @@ class account_agd_declaration(models.Model):
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
+    @api.one
     def _vat(self):
-        for decl in self:
-            if decl.period_start:
-                ctx = {
-                    'period_start': decl.period_start.id,
-                    'period_stop': decl.period_start.id,
-                    'accounting_yearend': decl.accounting_yearend,
-                    'accounting_method': decl.accounting_method,
-                    'target_move': decl.target_move,
-                }
-                decl.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-                decl.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-                decl.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
+        if self.period_start:
+            ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_start.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
+            self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+            self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+            self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
 
     SumSkAvdr    = fields.Float(compute='_vat')
     SumAvgBetala = fields.Float(compute='_vat')
@@ -200,7 +200,12 @@ class account_agd_declaration(models.Model):
         if self.state in ['draft']:
             self.state = 'confirmed'
             
-            
+        slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
+        self.payslip_ids = slips.mapped('id')
+        self.move_ids = []
+        for move in slips.mapped('move_id'):
+            move.agd_declaration_id = self.id
+
             
         ctx = {
             'period_start': self.period_start.id,
@@ -216,7 +221,7 @@ class account_agd_declaration(models.Model):
         # ~ self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
         # ~ self.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
 
-
+        # ~ raise Warning(self.env.ref('l10n_se_tax_report.agd_report_UlagAvgHel').with_context(ctx).get_moveline_ids() )
         ##
         ####  Create report lines
         ##
@@ -237,11 +242,11 @@ class account_agd_declaration(models.Model):
         #### Mark Used moves
         ##
 
-        for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
-            if not move.agd_declaration_id:
-                move.agd_declaration_id = self.id
-            else:
-                raise Warning(_('Move %s is already assigned to %s' % (move.name, move.agd_declaration_id.name)))
+        # ~ for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
+            # ~ if not move.agd_declaration_id:
+                # ~ move.agd_declaration_id = self.id
+            # ~ else:
+                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.agd_declaration_id.name)))
 
         ##
         #### Create eSDK-file

@@ -145,6 +145,11 @@ class account_financial_report(models.Model):
         return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
 
     @api.multi
+    def sum_period(self):
+        _logger.warn('sum_period context %s' %self._context )
+        return sum([a.with_context(self._context).sum_period() for a in self.account_ids])
+
+    @api.multi
     def get_moveline_ids(self):
         return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()]))
 
