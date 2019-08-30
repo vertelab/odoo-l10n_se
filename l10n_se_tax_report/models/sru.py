@@ -34,37 +34,41 @@ _logger = logging.getLogger(__name__)
 # OBS justering: account.financial.report 3.6, tar bort alla konto som tillhör till 3.5. VIKTIGT!!!
 # Bokslut verifikat måste ha samma räkenskapsår som deklarationen, Target moves ska vara alla post, bokslutsperiod ska vara ikryssad.
 
+class account_declaration_line(models.Model):
+    _inherit = 'account.declaration.line'
+    
+    is_b = fields.Boolean(string='Är Balansräkning')
+    is_r = fields.Boolean(string='Är Resultaträkning')
+    sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
+    afr_id = fields.Many2one(comodel_name='account.financial.report', string='Finansiella rapporter ID')
+    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign', default=1, help='Visar balans resultat positiv eller negativ, är INTE samma sign som på finansiella rapport.')
+    
+    @api.onchange('afr_id')
+    def afr_onchange(self):
+        self.name = self.afr_id and self.afr_id.name or ''
+    
+    @api.multi
+    def report_adl_get_balance(self):
+        return self.balance * (1 if self.afr_id.sign == 1 else -1)
 
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
-    _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
+    _description = 'SRU Declaration Report'
     _report_name = 'SRU'
-
-    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete='cascade', required=True)
+    
     def _period_start(self):
         return  self.get_next_periods()[0]
-    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True, default=_period_start)
+    
     def _period_stop(self):
         return  self.get_next_periods()[1]
+    
+    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True, default=_period_start)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True, default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move', inverse_name='sru_declaration_id')
     line_ids = fields.One2many(comodel_name='account.declaration.line', inverse_name='sru_declaration_id')
-    @api.one
-    def _line_ids(self):
-        self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
-        self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
     b_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
     r_line_ids = fields.One2many(comodel_name='account.declaration.line', compute='_line_ids')
-    @api.model
-    def _search_other_line_ids(self, operator, value):
-        return ['&', '&', ('is_b', '=', False), ('is_r', '=', False), ('line_ids', operator, value)] 
-    @api.one
-    def _compute_other_line_ids(self):
-        self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)    
-    @api.one
-    def _write_other_line_ids(self):
-        self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
     other_line_ids = fields.One2many(comodel_name='account.declaration.line', search='_search_other_line_ids', compute='_compute_other_line_ids', inverse='_write_other_line_ids')
     report_id = fields.Many2one(comodel_name="account.financial.report", required=True)
     arets_intakt = fields.Integer(string='Årets intäkt', readonly=True)
@@ -79,7 +83,24 @@ class account_sru_declaration(models.Model):
     datasru_file_name = fields.Char(string='File Name', default='BLANKETTER.SRU')
     upplysningar_1 = fields.Boolean(string='Uppdragstagare (t.ex. redovisningskonsult) har biträtt vid upprättandet av årsredovisningen')
     upplysningar_2 = fields.Boolean(string='Årsredovisningen har varit föremål för revision')
-
+    
+    @api.one
+    def _line_ids(self):
+        self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
+        self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
+    
+    @api.model
+    def _search_other_line_ids(self, operator, value):
+        return ['&', '&', ('is_b', '=', False), ('is_r', '=', False), ('line_ids', operator, value)] 
+    
+    @api.one
+    def _compute_other_line_ids(self):
+        self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)    
+    
+    @api.one
+    def _write_other_line_ids(self):
+        self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
+    
     @api.one
     def _set_date_and_name(self):
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
@@ -325,22 +346,26 @@ class account_sru_declaration(models.Model):
         b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
         r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
         
-        period_ids = self.env['account.period'].get_period_ids(self.period_start,self.period_stop)
-        grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id','in',period_ids)],['balance','account_id'],['account_id'])
+        period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
+        grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
         # ~ accounts = {'%s' % g['account_id']: g['balance'] for g in grouped_lines}
-        move_line_ids = line.with_context(ctx).get_moveline_ids()
-        raise Warning(move_line_ids)
+        
+        
+        
+        raise Warning(str(grouped_lines))
 
         def create_lines(afr, dec, is_b=False, is_r=False):
             lines = self.env['account.financial.report'].search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
             for line in lines:
                 
-                period_ids = self.env['account.period'].get_period_ids(self.period_start,self.period_stop)
+                move_line_ids = line.with_context(ctx).get_moveline_ids()
+                
+                period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
                 _logger.debug('SRU line %s %s' % (line.name,'pelle'))
 
-                balance = sum(self.env['account.move.line'].read(move_line_ids,{'balance'}))
+                balance = sum(self.env['account.move.line'].read(move_line_ids, {'balance'}))
                 # ~ balance = sum([a.with_context(ctx).sum_period() for a in self.env['account.financial.report'].search([('parent_id', 'child_of', line.id), ('type', '=', 'accounts')]).mapped('account_ids')])
-                _logger.debug('SRU line %s %s' % (line.name,balance))
+                _logger.debug('SRU line %s %s' % (line.name, balance))
                 sru_line = self.env['account.declaration.line'].create({
                     'sru_declaration_id': dec.id,
                     'afr_id': line.id,
@@ -624,26 +649,7 @@ class account_sru_declaration(models.Model):
             s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in lines])
             return s if s != 0 else ''
 
-
 class account_move(models.Model):
     _inherit = 'account.move'
 
     sru_declaration_id = fields.Many2one(comodel_name='account.agd.declaration')
-
-
-class account_declaration_line(models.Model):
-    _inherit = 'account.declaration.line'
-
-    is_b = fields.Boolean(string='Är Balansräkning')
-    is_r = fields.Boolean(string='Är Resultaträkning')
-    sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
-    afr_id = fields.Many2one(comodel_name='account.financial.report', string='Finansiella rapporter ID')
-    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign', default=1, help='Visar balans resultat positiv eller negativ, är INTE samma sign som på finansiella rapport.')
-
-    @api.onchange('afr_id')
-    def afr_onchange(self):
-        self.name = self.afr_id.name
-
-    @api.multi
-    def report_adl_get_balance(self):
-        return self.balance * (1 if self.afr_id.sign == 1 else -1)

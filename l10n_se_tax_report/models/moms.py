@@ -110,22 +110,26 @@ NAMEMAPPING = OrderedDict([
 class account_declaration(models.Model):
     _name = 'account.declaration'
     _inherit = ['mail.thread']
-    _report_name = 'Moms'
+    _description = 'Declaration Report'
+    _report_name = 'Declaration Report'
     _order = 'date asc'
-
+    
+    def _fiscalyear_id(self):
+        return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
+    
+    def _period_start(self):
+        return  self.get_next_periods()[0]
+    
+    def _accounting_method(self):
+        return  self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
+    
     name = fields.Char()
     date = fields.Date(help="Planned date, date when to report to the Skatteverket or do the declaration. Usually Monday second week after period, but check calendar at Skatteverket. (January and August differ.)")
     state = fields.Selection(selection=[('draft','Draft'),('confirmed','Confirmed'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
-    def _fiscalyear_id(self):
-        return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string=u'Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
-    def _period_start(self):
-        return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_start)
     target_move = fields.Selection(selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')], default='posted',string='Target Moves')
-    def _accounting_method(self):
-        return  self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
     accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default=_accounting_method,string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     accounting_yearend = fields.Boolean(string="Bokslutsperiod",help="I bokslutsperioden skall även utestående fordringar ingå i momsredovisningen vid kontantmetoden")
     free_text = fields.Text(string='Upplysningstext')
@@ -286,18 +290,24 @@ class account_declaration_line_id(models.Model):
 
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
-    _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
+    _description = 'Moms Declaration Report'
     _report_name = 'Moms'
-
-    line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
+    
     def _period_start(self):
         return  self.get_next_periods()[0]
-    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
+    
     def _period_stop(self):
         return  self.get_next_periods()[1]
+    
+    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
-
+    vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
+    vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
+    vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
+    move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
+    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="vat_declaration_id")
+    
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
         for decl in self:
@@ -312,12 +322,7 @@ class account_vat_declaration(models.Model):
                 decl.vat_momsingavdr = round(sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])) * -1.0
                 decl.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
                 decl.vat_momsbetala = decl.vat_momsutg + decl.vat_momsingavdr
-    vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
-    vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
-    vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat", help='Avläsning av skattekonto.')
-    move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
-    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="vat_declaration_id")
-
+    
     @api.multi
     def show_journal_entries(self):
         ctx = {
@@ -590,7 +595,7 @@ class account_vat_declaration(models.Model):
 class account_declaration_line(models.Model):
     _name = 'account.declaration.line'
 
-    declaration_id = fields.Many2one(comodel_name="account.declaration.line.id", string='Declatation')
+    declaration_id = fields.Many2one(comodel_name="account.declaration.line.id", string='Declaration')
     move_line_ids = fields.Many2many(comodel_name="account.move.line", string='Move Lines')
     # ~ report_id = fields.Many2one(comodel_name="account.financial.report")
     account_type = fields.Char(string='Account Type')
@@ -599,6 +604,7 @@ class account_declaration_line(models.Model):
     name = fields.Char(string='Name')
     level = fields.Integer(string='Level')
     move_ids = fields.Many2many(comodel_name='account.move')
+    vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
 
     @api.multi
     def show_move_lines(self):
@@ -609,13 +615,12 @@ class account_declaration_line(models.Model):
         })
         return action
 
-
 class account_move(models.Model):
     _inherit = 'account.move'
-
+    
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
     full_reconcile_id = fields.Many2one(comodel_name='account.full.reconcile')
-
+    
     @api.model
     def get_movelines(self):
         #TODO:Undantag icke fodringsverifikat
@@ -657,9 +662,3 @@ class account_move(models.Model):
     @api.model
     def get_move(self):
         return self.get_movelines().mapped('move_id')
-
-
-class account_declaration_line(models.Model):
-    _inherit = 'account.declaration.line'
-
-    vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
