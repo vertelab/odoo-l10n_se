@@ -347,18 +347,18 @@ class account_sru_declaration(models.Model):
         r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
         
         period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
-        grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
+        # ~ grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
         # ~ accounts = {'%s' % g['account_id']: g['balance'] for g in grouped_lines}
         
+        all_move_lines = self.env['account.move'].with_context(self._context).get_movelines()        
         
-        
-        raise Warning(str(grouped_lines))
+        # ~ raise Warning(str(grouped_lines))
 
         def create_lines(afr, dec, is_b=False, is_r=False):
             lines = self.env['account.financial.report'].search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
             for line in lines:
                 
-                move_line_ids = line.with_context(ctx).get_moveline_ids()
+                move_line_ids = line.with_context(ctx).get_moveline_ids(all_move_lines)
                 
                 period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
                 _logger.debug('SRU line %s %s' % (line.name,'pelle'))
