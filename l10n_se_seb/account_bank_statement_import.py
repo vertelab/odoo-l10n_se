@@ -137,8 +137,9 @@ class AccountBankStatement(models.Model):
     bg_serial_number = fields.Char(string='BG serial number')
 
 
-class account_bank_statement(osv.osv):
-    _inherit = 'account.bank.statement.line'
+class account_bank_statement(models.Model):
+    _inherit = "account.bank.statement.line"
+    _order = "statement_id desc, sequence, id desc"
 
     def Xget_move_lines_for_reconciliation_by_statement_line_id(self, cr, uid, st_line_id, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
         """ Bridge between the web client reconciliation widget and get_move_lines_for_reconciliation (which expects a browse record) """
@@ -147,9 +148,10 @@ class account_bank_statement(osv.osv):
         if additional_domain is None:
             additional_domain = []
         st_line = self.browse(cr, uid, st_line_id, context=context)
+        raise Warning(st_line)
         return self.get_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids, str, offset, limit, count, additional_domain, context=context)
 
-    def Xget_move_lines_for_reconciliation(self, cr, uid, st_line, excluded_ids=None, str=False, offset=0, limit=None, count=False, additional_domain=None, context=None):
+    def get_move_lines_for_reconciliation(self, excluded_ids=None, str=False, offset=0, limit=None, additional_domain=None, overlook_partner=False ):
         """ Find the move lines that could be used to reconcile a statement line. If count is true, only returns the count.
 
             :param st_line: the browse record of the statement line
@@ -157,14 +159,17 @@ class account_bank_statement(osv.osv):
             :param boolean count: just return the number of records
             :param tuples list additional_domain: additional domain restrictions
         """
-        _logger.warn('st_line: %s' % st_line)
-        _logger.warn('st_line.name: %s' % st_line.name)
-        _logger.warn('st_line.currency_id: %s' % st_line.currency_id)
+        lines = super(account_bank_statement, self).get_move_lines_for_reconciliation( excluded_ids, str, offset, limit, additional_domain, overlook_partner)
+        _logger.warn('lines: %s' % lines)
+        # ~ _logger.warn('st_line.name: %s' % st_line.name)
+        # ~ _logger.warn('st_line.currency_id: %s' % st_line.currency_id)
         _logger.warn('excluded_ids: %s' % excluded_ids)
         _logger.warn('str: %s' % str)
         _logger.warn('limit: %s' % limit)
         _logger.warn('additional_domain: %s' % additional_domain)
-        mv_line_pool = self.pool.get('account.move.line')
+        # ~ mv_line_pool = self.pool.get('account.move.line')
+        return lines
+        
         domain = self._domain_move_lines_for_reconciliation(cr, uid, st_line, excluded_ids=excluded_ids, str=str, additional_domain=additional_domain, context=context)
         _logger.warn('domain: %s' % domain)
         # Get move lines ; in case of a partial reconciliation, only keep one line (the first whose amount is greater than

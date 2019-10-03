@@ -109,7 +109,7 @@ class account_agd_declaration(models.Model):
             if slip:
                 slips |= slip
         self.payslip_ids = slips.mapped('id')
-        _logger.warn('jakob ***  payslip ')
+        # ~ _logger.warn('jakob ***  payslip ')
         
     @api.multi
     def show_journal_entries(self):
