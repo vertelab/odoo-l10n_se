@@ -80,9 +80,10 @@ class account_account(models.Model):
         return round(sum([a.balance for a in self.with_context(self._context).get_movelines()]))
 
     @api.multi
-    def get_movelines(self):
+    def get_movelines(self, move_lines=None):
         self.ensure_one()
-        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda l: l.account_id.id == self.id and l.move_id.journal_id.id not in l._context.get('nix_journal_ids', []))
+        move_lines = self.env['account.move'].with_context(self._context).get_movelines()
+        return move_lines.filtered(lambda l: l.account_id.id == self.id and l.move_id.journal_id.id not in l._context.get('nix_journal_ids', []))
 
 
 class account_tax(models.Model):
@@ -121,8 +122,9 @@ class account_tax(models.Model):
             #~ self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
 
     @api.multi
-    def get_taxlines(self):
-        return self.env['account.move'].with_context(self._context).get_movelines().filtered(lambda r: r.tax_line_id in self)
+    def get_taxlines(self, move_lines=None):
+        move_lines = move_lines or self.env['account.move'].with_context(self._context)
+        return move_lines.get_movelines().filtered(lambda r: r.tax_line_id in self)
 
     @api.model
     def get_taxtable(self):
@@ -145,8 +147,13 @@ class account_financial_report(models.Model):
         return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
 
     @api.multi
-    def get_moveline_ids(self):
-        return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines()]))
+    def sum_period(self):
+        _logger.warn('sum_period context %s' %self._context )
+        return sum([a.with_context(self._context).sum_period() for a in self.account_ids])
+
+    @api.multi
+    def get_moveline_ids(self, move_lines=None):
+        return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines(move_lines)] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines(move_lines)]))
 
     @api.multi
     def get_taxlines(self):
