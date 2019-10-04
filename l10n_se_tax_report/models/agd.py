@@ -97,14 +97,13 @@ class account_agd_declaration(models.Model):
     def _payslip_ids(self):
         slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
         self.payslip_ids = slips.mapped('id')
-<<<<<<< HEAD
+
         # ~ _logger.warn('jakob ***  payslip ')
-=======
+
         self.move_ids = []
         for move in slips.mapped('move_id'):
             move.agd_declaration_id = self.id
         # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
->>>>>>> 988cd210f84a4e5c76e8295462f95c5b6cf18b5a
         
     @api.multi
     def show_journal_entries(self):
@@ -203,14 +202,14 @@ class account_agd_declaration(models.Model):
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
         if self.state in ['draft']:
             self.state = 'confirmed'
-            
+
         slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
         self.payslip_ids = slips.mapped('id')
         self.move_ids = []
         for move in slips.mapped('move_id'):
             move.agd_declaration_id = self.id
 
-            
+
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_start.id,
