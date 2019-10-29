@@ -31,37 +31,10 @@ _logger = logging.getLogger(__name__)
 
 # order must be correct
 TAGS = [
-    'LonBrutto',        #50: Avgiftspliktig bruttolön utom förmåner
-    'Forman',           #51: Avgiftspliktiga förmåner
-    'AvdrKostn',        #52: Avdrag för utgifter
-    'SumUlagAvg',       #53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt
-    'UlagAvgHel',       #55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - 61 - 65 - 69)
-    'AvgHel',           #56: (san) 31,42% av #55
-    'UlagAvgAldersp',   #59:  sap  Arbetsgivaravgift för 66-80 år
-    'AvgAldersp',       #60: (sap) 16,36% av #59
-    'UlagAlderspSkLon', #57??
-    'AvgAlderspSkLon',  #58??
-    # ~ 'UlagSkLonSarsk',   #61:  sapx Särskild löneskatt för 81 år eller äldre
-    # ~ 'SkLonSarsk',       #62: (sapx)6,15% av #61
-    # ~ 'UlagAvgAmbassad',  #65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt på vissa försäkringar m.m.
-    # ~ 'AvgAmbassad',      #66: Se uträkningsruta
-    # ~ 'KodAmerika',       #67: Kod USA, Kanada, Québec m.fl.
-    # ~ 'UlagAvgAmerika',   #69:
-    # ~ 'AvgAmerika',       #70: Se uträkningsruta
-    'UlagStodForetag',  #73: Forskning och utveckling
-    'AvdrStodForetag',  #74: Avdrag 10%, dock högst 230000 kr
-    'UlagStodUtvidgat', #75: Regionalt stöd för vissa branscher i stödområde
-    'AvdrStodUtvidgat', #76: Avdrag 10%, dock högst 7100 kr
-    'SumAvgBetala',     #78: Summa arbetsgivaravgifter
-    'UlagSkAvdrLon',    #81: Lön och förmåner inkl. SINK
-    'SkAvdrLon',        #82: Från lön och förmåner
-    # ~ 'UlagSkAvdrPension',#83: Pension, livränta, försäkringsersättning inkl. SINK
-    # ~ 'SkAvdrPension',    #84: Från pension m.m.
-    # ~ 'UlagSkAvdrRanta',  #85: Ränta och utdelning
-    # ~ 'SkAvdrRanta',      #86: Från ränta och utdelning
-    'UlagSumSkAvdr',    #87: Summa underlag för skatteanvdrag
-    'SumSkAvdr',        #88: Summa avdragen skatt
-    # ~ 'SjukLonKostnEhs'   #99: Summa arbetsgivaravgifter och avdragen skatt att betala
+    'Supplied Goods',
+    'Triangulation'
+    'Services Supplied'
+    
 ]
 
 TAGS_NEW = {
@@ -500,13 +473,28 @@ class account_periodic_compilation(models.Model):
         return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
 
 
-class account_move(models.Model):
-    _inherit = 'account.move'
+class account_invoice(models.Model):
+    _inherit = 'account.invoice'
 
-    agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+    periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
+    @api.one
+    @api.depends('total_amount')
+    def _periodic_compilation(self):
+        self.pc_supplied_goods = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+        self.pc_triangulation = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+        self.pc_services_supplied = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+    pc_supplied_goods = fields.Float(string='Supplied Goods',compute='_periodic_compilation',help="Value of supplies of goods")
+    pc_triangulation  = fields.Float(string='Triangulation',compute='_periodic_compilation',help="Value of a triangulation")
+    pc_services_supplied  = fields.Float(string='Services Supplied',compute='_periodic_compilation',help="Value of services supplied")
+    pc_purchasers_vat = fields.Char(string="",relation='partner_id.vat')
+
+# ~ class account_move(models.Model):
+    # ~ _inherit = 'account.move'
+
+    # ~ agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
 
 
-class account_declaration_line(models.Model):
-    _inherit = 'account.declaration.line'
+# ~ class account_declaration_line(models.Model):
+    # ~ _inherit = 'account.declaration.line'
 
-    agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+    # ~ agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
