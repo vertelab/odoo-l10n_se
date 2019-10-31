@@ -144,6 +144,7 @@ class account_financial_report(models.Model):
     @api.multi
     def sum_tax_period(self):
         _logger.warn('sum_tax_period context %s' %self._context )
+        _logger.warn('sum_tax_period context %s' % self.env['account.period'].get_period_ids(self.env['account.period'].browse(23) ,self.env['account.period'].browse(23) ) )
         return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
 
     @api.multi

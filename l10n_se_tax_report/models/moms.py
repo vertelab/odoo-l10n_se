@@ -141,7 +141,7 @@ class account_declaration(models.Model):
 
     @api.onchange('period_stop')
     def onchange_period_stop(self):
-        raise Warning(self._name)
+        # ~ raise Warning(self._name)
         if self.period_stop and self._name == 'account.declaration':
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
