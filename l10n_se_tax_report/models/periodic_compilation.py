@@ -158,16 +158,16 @@ class account_periodic_compilation(models.Model):
 
     @api.one
     def do_draft(self):
-        super(account_agd_declaration, self).do_draft()
-        self.slip_ids = []
-        for move in self.move_ids:
-            move.agd_declaration_id = None
-
+        for invoice in self.env['account.invoice'].search([( 'periodic_compilation_id', '=', self.id  )]):
+            invoice.periodic_compilation_id = None
+        self.line_ids.unlink()
+        self.state='draft'
+        
     @api.one
     def do_cancel(self):
-        super(account_agd_declaration, self).do_draft()
-        for move in self.move_ids:
-            move.agd_declaration_id = None
+        for invoice in self.invoice_ids:
+            for move in self.move_ids:
+                move.agd_declaration_id = None
 
     @api.one
     def calculate(self): # make a short cut to print financial report
@@ -176,6 +176,8 @@ class account_periodic_compilation(models.Model):
         if self.state in ['draft']:
             self.state = 'confirmed'
 
+        raise Warning ('%s  --------  %s' %  ( self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]), self.env['account.period'].get_period_ids(self.period_start, self.period_stop) ))
+            
         for invoice in self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]):
             
             invoice.periodic_compilation_id = self
@@ -198,259 +200,6 @@ class account_periodic_compilation(models.Model):
                     'partner_id': invoice.partner_id.id
                 })
 
-
-        ##
-        #### Mark Used moves
-        ##
-
-        # ~ for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
-            # ~ if not move.agd_declaration_id:
-                # ~ move.agd_declaration_id = self.id
-            # ~ else:
-                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.agd_declaration_id.name)))
-
-        ##
-        #### Create eSDK-file
-        ##
-
-        # ~ tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
-        # ~ def parse_xml(recordsets):
-            # ~ root = etree.Element('eSKDUpload', Version="6.0")
-            # ~ orgnr = etree.SubElement(root, 'OrgNr')
-            # ~ orgnr.text = self.env.user.company_id.company_registry
-            # ~ ag = etree.SubElement(root, 'Ag')
-            # ~ period = etree.SubElement(ag, 'Period')
-            # ~ period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            # ~ for row in TAGS:
-                # ~ line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-                # ~ tax = etree.SubElement(ag, row)
-                # ~ tax.text = str(int(abs((line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign))) or '0'
-            # ~ free_text = etree.SubElement(ag, 'TextUpplysningAg')
-            # ~ free_text.text = self.free_text or ''
-            # ~ return root
-        # ~ xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
-        # ~ xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
-        # ~ self.eskd_file = base64.b64encode(xml)
-
-        ### new version of agd from February 2019
-        ### https://skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/tekniskbeskrivningochtesttjanst/tekniskbeskrivning114.4.2cf1b5cd163796a5c8ba79b.html
-
-        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
-        def parse_xml(recordsets):
-            def get_tax_value(tax):
-                line = self.env.ref('l10n_se_tax_report.agd_report_%s' % tax)
-                return str(int(abs((line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign))) or '0'
-            namespaces = {
-                'agd': "http://xmls.skatteverket.se/se/skatteverket/da/komponent/schema/1.1",
-                'xsi': "http://www.w3.org/2001/XMLSchema-instance",
-                None: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1",
-            }
-            ns = '{%s}' %namespaces['agd']
-            company_registry = '16' + self.env.user.company_id.company_registry.replace('-', '')
-            attrib={'{%s}schemaLocation' % namespaces['xsi']: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1 http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd", 'omrade': 'Arbetsgivardeklaration'}
-            skatteverket = etree.Element('Skatteverket', attrib=attrib, nsmap=namespaces)
-            avsandare = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_avsandare')
-            if not avsandare:
-                raise Warning(_(u'Please configurate avsändare'))
-            avsandare_dict = eval(avsandare)
-            agd_avsandare = etree.SubElement(skatteverket, ns + 'Avsandare')
-            agd_programnamn = etree.SubElement(agd_avsandare, ns + 'Programnamn')
-            agd_programnamn.text = avsandare_dict.get('programnamn', '')
-            agd_organisationsnummer = etree.SubElement(agd_avsandare, ns + 'Organisationsnummer')
-            agd_organisationsnummer.text = '16' + avsandare_dict.get('organisationsnummer', '')
-
-            agd_tekniskKontaktperson = etree.SubElement(agd_avsandare, ns + 'TekniskKontaktperson')
-            agd_tekniskKontaktperson_agd_name = etree.SubElement(agd_tekniskKontaktperson, ns + 'Namn')
-            agd_tekniskKontaktperson_agd_name.text = avsandare_dict.get('tk_name', '')
-            agd_tekniskKontaktperson_agd_telefon = etree.SubElement(agd_tekniskKontaktperson, ns + 'Telefon')
-            agd_tekniskKontaktperson_agd_telefon.text = avsandare_dict.get('tk_phone', '')
-            agd_tekniskKontaktperson_agd_epostadress = etree.SubElement(agd_tekniskKontaktperson, ns + 'Epostadress')
-            agd_tekniskKontaktperson_agd_epostadress.text = avsandare_dict.get('tk_email', '')
-            agd_tekniskKontaktperson_agd_utdelningsadress1 = etree.SubElement(agd_tekniskKontaktperson, ns + 'Utdelningsadress1')
-            agd_tekniskKontaktperson_agd_utdelningsadress1.text = avsandare_dict.get('tk_street', '')
-            if avsandare_dict.get('tk_street2', ''):
-                agd_tekniskKontaktperson_agd_utdelningsadress2 = etree.SubElement(agd_tekniskKontaktperson, ns + 'Utdelningsadress2')
-                agd_tekniskKontaktperson_agd_utdelningsadress2.text = avsandare_dict.get('tk_street2', '')
-            agd_tekniskKontaktperson_agd_postnummer = etree.SubElement(agd_tekniskKontaktperson, ns + 'Postnummer')
-            agd_tekniskKontaktperson_agd_postnummer.text = avsandare_dict.get('tk_zip', '')
-            agd_tekniskKontaktperson_agd_postort = etree.SubElement(agd_tekniskKontaktperson, ns + 'Postort')
-            agd_tekniskKontaktperson_agd_postort.text = avsandare_dict.get('tk_city', '')
-
-            agd_skapad = etree.SubElement(agd_avsandare, ns + 'Skapad')
-            agd_skapad.text = fields.Datetime.now().replace(' ', 'T')
-            agd_blankettgemensamt = etree.SubElement(skatteverket, ns + 'Blankettgemensamt')
-            agd_arbetsgivare = etree.SubElement(agd_blankettgemensamt, ns + 'Arbetsgivare')
-            agd_agregistreradid = etree.SubElement(agd_arbetsgivare, ns + 'AgRegistreradId')
-            agd_agregistreradid.text = company_registry
-            arbetsgivarekontaktperson = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.ag_contact')
-            if not arbetsgivarekontaktperson:
-                raise Warning(_(u'Please configurate arbetsgivare kontaktperson'))
-            for ak in self.env['res.partner'].browse(eval(arbetsgivarekontaktperson)):
-                agd_kontaktperson = etree.SubElement(agd_arbetsgivare, ns + 'Kontaktperson')
-                agd_kontaktperson_agd_name = etree.SubElement(agd_kontaktperson, ns + 'Namn')
-                agd_kontaktperson_agd_name.text = ak.name
-                agd_kontaktperson_agd_telefon = etree.SubElement(agd_kontaktperson, ns + 'Telefon')
-                agd_kontaktperson_agd_telefon.text = ak.phone or ak.mobile or ''
-                agd_kontaktperson_agd_epostadress = etree.SubElement(agd_kontaktperson, ns + 'Epostadress')
-                agd_kontaktperson_agd_epostadress.text = ak.email or ''
-                if not ak.function:
-                    raise Warning(_('Please fill the function for partner: %s') % ak.name)
-                agd_kontaktperson_agd_sakomrade = etree.SubElement(agd_kontaktperson, ns + 'Sakomrade')
-                agd_kontaktperson_agd_sakomrade.text = ak.function
-
-            # Uppgift 1 HU
-            period = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            hu_blankett = etree.SubElement(skatteverket, ns + 'Blankett')
-            hu_arendeinformation = etree.SubElement(hu_blankett, ns + 'Arendeinformation')
-            hu_arendeagare = etree.SubElement(hu_arendeinformation, ns + 'Arendeagare')
-            hu_arendeagare.text = company_registry
-            hu_priod = etree.SubElement(hu_arendeinformation, ns + 'Period')
-            hu_priod.text = period
-            hu_blankettinnehall = etree.SubElement(hu_blankett, ns + 'Blankettinnehall')
-            hu_hu = etree.SubElement(hu_blankettinnehall, ns + 'HU')
-            hu_arbetsgivarehugroup = etree.SubElement(hu_hu, ns + 'ArbetsgivareHUGROUP')
-            hu_agregistreradid = etree.SubElement(hu_arbetsgivarehugroup, ns + 'AgRegistreradId')
-            hu_agregistreradid.set('faltkod', '201')
-            hu_agregistreradid.text = company_registry
-            hu_redovisningsperiod = etree.SubElement(hu_hu, ns + 'RedovisningsPeriod')
-            hu_redovisningsperiod.set('faltkod', '006')
-            hu_redovisningsperiod.text = period
-            hu_summaarbavgslf = etree.SubElement(hu_hu, ns + 'SummaArbAvgSlf')
-            hu_summaarbavgslf.set('faltkod', TAGS_NEW.get('SummaArbAvgSlf'))
-            hu_summaarbavgslf.text = get_tax_value('SumAvgBetala')
-            hu_summaskatteavdr = etree.SubElement(hu_hu, ns + 'SummaSkatteavdr')
-            hu_summaskatteavdr.set('faltkod', TAGS_NEW.get('SummaSkatteavdr'))
-            hu_summaskatteavdr.text = get_tax_value('SumSkAvdr')
-
-            # Uppgift IU
-            seq = 1
-            for slip in self.payslip_ids:
-                iu_blankett = etree.SubElement(skatteverket, ns + 'Blankett')
-                iu_arendeinformation = etree.SubElement(iu_blankett, ns + 'Arendeinformation')
-                iu_arendeagare = etree.SubElement(iu_arendeinformation, ns + 'Arendeagare')
-                iu_arendeagare.text = company_registry
-                iu_priod = etree.SubElement(iu_arendeinformation, ns + 'Period')
-                iu_priod.text = period
-                iu_blankettinnehall = etree.SubElement(iu_blankett, ns + 'Blankettinnehall')
-                iu_iu = etree.SubElement(iu_blankettinnehall, ns + 'IU')
-                iu_arbetsgivareiugroup = etree.SubElement(iu_iu, ns + 'ArbetsgivareIUGROUP')
-                iu_agregistreradid = etree.SubElement(iu_arbetsgivareiugroup, ns + 'AgRegistreradId')
-                iu_agregistreradid.set('faltkod', '201')
-                iu_agregistreradid.text = company_registry
-                iu_betalningsmottagareiugroup = etree.SubElement(iu_iu, ns + 'BetalningsmottagareIUGROUP')
-                iu_betalningsmottagareidinvoice = etree.SubElement(iu_betalningsmottagareiugroup, ns + 'BetalningsmottagareIDChoice')
-                iu_betalningsmottagarid = etree.SubElement(iu_betalningsmottagareidinvoice, ns + 'BetalningsmottagarId')
-                iu_betalningsmottagarid.set('faltkod', '215')
-                iu_betalningsmottagarid.text = ''
-                if slip.contract_id and slip.contract_id.employee_id.identification_id:
-                    iu_betalningsmottagarid.text = slip.contract_id.employee_id.identification_id.replace('-', '')
-                iu_redovisningsperiod = etree.SubElement(iu_iu, ns + 'RedovisningsPeriod')
-                iu_redovisningsperiod.set('faltkod', '006')
-                iu_redovisningsperiod.text = period
-                iu_specifikationsnummer = etree.SubElement(iu_iu, ns + 'Specifikationsnummer')
-                iu_specifikationsnummer.set('faltkod', '570')
-                iu_specifikationsnummer.text = str(seq).zfill(3)
-                seq += 1
-                iu_kontantersattningulagag = etree.SubElement(iu_iu, ns + 'KontantErsattningUlagAG')
-                iu_kontantersattningulagag.set('faltkod', '011')
-                iu_kontantersattningulagag.text = ''
-                bl = slip.line_ids.filtered(lambda l: l.code == 'bl')
-                if bl:
-                    iu_kontantersattningulagag.text = str(int(round(sum(bl.mapped('total')))))
-                iu_avdrprelskatt = etree.SubElement(iu_iu, ns + 'AvdrPrelSkatt')
-                iu_avdrprelskatt.set('faltkod', '001')
-                iu_avdrprelskatt.text = ''
-                prej = slip.line_ids.filtered(lambda l: l.code == 'prej')
-                if prej:
-                    iu_avdrprelskatt.text = str(int(round(sum(prej.mapped('total')))))
-                resmil = slip.line_ids.filtered(lambda l: l.code == 'resmil')
-                if resmil:
-                    iu_bilersattning = etree.SubElement(iu_iu, ns + 'Bilersattning')
-                    iu_bilersattning.set('faltkod', '050')
-                    iu_bilersattning.text = '1'
-                # ~ nettil = str(int(round(sum(slip.line_ids.with_context(nettil=self.env.ref('l10n_se_hr_payroll.hr_salary_rule_category-NETTIL')).filtered(lambda l: l.category_id == l._context.get('nettil')).mapped('total')))))
-                # ~ if nettil > 0:
-                    # ~ iu_kontantersattningejulagsa = etree.SubElement(iu_iu, ns + 'KontantErsattningEjUlagSA')
-                    # ~ iu_kontantersattningejulagsa.set('faltkod', '131')
-                    # ~ iu_kontantersattningejulagsa.text = nettil
-            return skatteverket
-
-        def schema_validate(xml):
-            # Läs in schema. Skatteverkets är extra kinkig för att den är två
-            # dokument (en import av arbetsgivardeklaration_component_1.1.xsd är
-            # angiven i arbetsgivardeklaration_1.1.xsd).
-            # Troligtvis kan vi lägga upp filerna lokalt i stället, så slipper vi
-            # hämta dem från skatteverket.se varje gång.
-            schema_root = etree.parse('http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd', base_url='http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/')
-            schema = etree.XMLSchema(schema_root)
-
-            # ~ # Validera ett dokument som du skapat
-            # ~ root = etree.Element('<foobar><foo>bar</foo></foobr>')
-            # ~ schema.validate(root) # True eller False
-
-            # ~ # Validera dokument vid inläsning från en sträng
-            parser = etree.XMLParser(schema = schema)
-            etree.fromstring(xml, parser)
-            # ~ try:
-                # ~ root = etree.fromstring(doc_str, parser)
-                # ~ # Om du kommer hit så gick det bra
-            # ~ except:
-                # ~ # Dokumentet validerade ej
-
-        xml = parse_xml(tax_account)
-        # ~ xml = etree.tostring(xml, pretty_print=True, encoding="UTF-8", standalone=False)
-        xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + etree.tostring(xml, pretty_print=True, encoding="UTF-8")
-        schema_validate(xml)
-        self.eskd_file = base64.b64encode(xml)
-
-        ##
-        #### Create move
-        ##
-
-        #TODO check all warnings
-        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period_start.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_start.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
-        agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
-        if not agd_journal_id:
-            raise Warning('Konfigurera din arbetsgivardeklaration journal!')
-        else:
-            agd_journal = self.env['account.journal'].browse(int(agd_journal_id))
-            skattekonto = agd_journal.default_debit_account_id
-            if len(kontoskatte) > 0 and skattekonto:
-                total = 0.0
-                entry = self.env['account.move'].create({
-                    'journal_id': agd_journal.id,
-                    'period_id': self.period_start.id,
-                    'date': fields.Date.today(),
-                    'ref': u'Arbetsgivardeklaration',
-                })
-                if entry:
-                    move_line_list = []
-                    for k in kontoskatte:
-                        credit = k.with_context(ctx).sum_period()
-                        if credit != 0.0:
-                            move_line_list.append((0, 0, {
-                                'name': k.name,
-                                'account_id': k.id,
-                                'debit': int(round(abs(credit))),
-                                'credit': 0.0,
-                                'move_id': entry.id,
-                            }))
-                            total += credit
-                    move_line_list.append((0, 0, {
-                        'name': skattekonto.name,
-                        'account_id': skattekonto.id,
-                        'partner_id': self.env.ref('base.res_partner-SKV').id,
-                        'debit': 0.0,
-                        'credit': int(round(abs(total))),
-                        'move_id': entry.id,
-                    }))
-                    entry.write({
-                        'line_ids': move_line_list,
-                    })
-                    self.write({'move_id': entry.id})
-            else:
-                raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
 
     @api.model
     def get_next_periods(self,length=1):
@@ -483,6 +232,7 @@ class account_declaration_line(models.Model):
     _inherit = 'account.declaration.line'
 
     pc_declaration_id = fields.Many2one(comodel_name="account.periodic.compilation")
+    partner_id = fields.Many2one(comodel_name="res.partner")
 
     # ~ pc_supplied_goods = fields.Float(string='Supplied Goods',help="Value of supplies of goods")
     # ~ pc_triangulation  = fields.Float(string='Triangulation',help="Value of a triangulation")
@@ -491,5 +241,6 @@ class account_declaration_line(models.Model):
     pc_supplied_goods = fields.Float(string='Levererade varor',help="Value of supplies of goods")
     pc_triangulation  = fields.Float(string='Triangulering',help="Value of a triangulation")
     pc_services_supplied  = fields.Float(string='Tillhandahållna tjänster',help="Value of services supplied")
-    pc_purchasers_vat = fields.Char(string="Skatt / VAT",relation='partner_id.vat')
+    pc_purchasers_vat = fields.Char(string="Skatt / VAT",related='partner_id.vat')
+    pc_name = fields.Char(string="Name",related='partner_id.name')
 

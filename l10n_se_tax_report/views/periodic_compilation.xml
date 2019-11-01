@@ -76,7 +76,7 @@
                             <page string="Rader">
                                 <field name="line_ids" nolabel="1">
                                     <tree create='0' delete='0' edit='0' editable='top'>
-                                        <field name="name" />
+                                        <field name="pc_name" />
                                         <field name="pc_purchasers_vat" />
                                         <field name="pc_supplied_goods" />
                                         <field name="pc_triangulation" />
