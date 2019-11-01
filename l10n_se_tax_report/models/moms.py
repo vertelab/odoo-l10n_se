@@ -162,7 +162,7 @@ class account_declaration(models.Model):
                 newdate + timedelta(days=2)
             if newdate.weekday() == 6:
                 newdate + timedelta(days=1)
-            
+            _logger.warn('newdate = %s' % newdate)
             self.date = fields.Date.to_string(newdate)
             self.name = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
 

@@ -53,7 +53,8 @@ class account_periodic_compilation(models.Model):
     _name = 'account.periodic.compilation'
     _inherits = {'account.declaration.line.id': 'line_id'}
     _inherit = 'account.declaration'
-    _report_name = 'PeriodicCompilation'
+    # ~ _report_name = 'Periodic Compilation'
+    _report_name = 'Periodisk sammanställning'
     _order = 'date desc'
 
     line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
@@ -175,43 +176,28 @@ class account_periodic_compilation(models.Model):
         if self.state in ['draft']:
             self.state = 'confirmed'
 
-        slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
-        self.payslip_ids = slips.mapped('id')
-        self.move_ids = []
-        for move in slips.mapped('move_id'):
-            move.agd_declaration_id = self.id
-
-
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_start.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-            'nix_journal_ids': [self.env.ref('l10n_se_tax_report.agd_journal').id]
-        }
-
-        self._vat()
-        # ~ self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-        # ~ self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-        # ~ self.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
-
-        # ~ raise Warning(self.env.ref('l10n_se_tax_report.agd_report_UlagAvgHel').with_context(ctx).get_moveline_ids() )
-        ##
-        ####  Create report lines
-        ##
-
-        for row in TAGS:
-            line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-            if not line:
-                raise Warning(_('Report line missing %' % row))
-            self.env['account.declaration.line'].create({
-                'agd_declaration_id': self.id,
-                'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
-                'name': line.name,
-                'level': line.level,
-                'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
+        for invoice in self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]):
+            
+            invoice.periodic_compilation_id = self
+            
+            pc_supplied_goods = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'VTEU' in line.invoice_line_tax_ids.mapped('name') ])
+            pc_triangulation = sum([line.price_subtotal for line in invoice.invoice_line_ids if '3FEU' in line.invoice_line_tax_ids.mapped('name') ])
+            pc_services_supplied = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'FTEU' in line.invoice_line_tax_ids.mapped('name') ])
+            
+            if invoice.partner_id in self.line_ids.mapped('partner_id'):
+                line = self.line_ids.filtered( lambda l: l.partner_id == invoice.partner_id )
+                line.pc_supplied_goods += pc_supplied_goods
+                line.pc_triangulation += pc_triangulation
+                line.pc_services_supplied += pc_services_supplied
+            else:
+                self.env['account.declaration.line'].create({
+                    'periodic_compilation_id': self.id,
+                    'pc_supplied_goods': pc_supplied_goods,
+                    'pc_triangulation': pc_triangulation,
+                    'pc_services_supplied': pc_services_supplied,
+                    'partner_id': invoice.partner_id.id
                 })
+
 
         ##
         #### Mark Used moves
@@ -476,16 +462,16 @@ class account_invoice(models.Model):
     _inherit = 'account.invoice'
 
     periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
-    @api.one
-    @api.depends('total_amount')
-    def _periodic_compilation(self):
-        self.pc_supplied_goods = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
-        self.pc_triangulation = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
-        self.pc_services_supplied = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
-    pc_supplied_goods = fields.Float(string='Supplied Goods',compute='_periodic_compilation',help="Value of supplies of goods")
-    pc_triangulation  = fields.Float(string='Triangulation',compute='_periodic_compilation',help="Value of a triangulation")
-    pc_services_supplied  = fields.Float(string='Services Supplied',compute='_periodic_compilation',help="Value of services supplied")
-    pc_purchasers_vat = fields.Char(string="VAT",relation='partner_id.vat')
+    # ~ @api.one
+    # ~ @api.depends('amount_total')
+    # ~ def _periodic_compilation(self):
+        # ~ self.pc_supplied_goods = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+        # ~ self.pc_triangulation = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+        # ~ self.pc_services_supplied = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+    # ~ pc_supplied_goods = fields.Float(string='Supplied Goods',compute='_periodic_compilation',help="Value of supplies of goods")
+    # ~ pc_triangulation  = fields.Float(string='Triangulation',compute='_periodic_compilation',help="Value of a triangulation")
+    # ~ pc_services_supplied  = fields.Float(string='Services Supplied',compute='_periodic_compilation',help="Value of services supplied")
+    # ~ pc_purchasers_vat = fields.Char(string="VAT",relation='partner_id.vat')
 
 class account_move(models.Model):
     _inherit = 'account.move'
@@ -497,3 +483,13 @@ class account_declaration_line(models.Model):
     _inherit = 'account.declaration.line'
 
     pc_declaration_id = fields.Many2one(comodel_name="account.periodic.compilation")
+
+    # ~ pc_supplied_goods = fields.Float(string='Supplied Goods',help="Value of supplies of goods")
+    # ~ pc_triangulation  = fields.Float(string='Triangulation',help="Value of a triangulation")
+    # ~ pc_services_supplied  = fields.Float(string='Services Supplied',help="Value of services supplied")
+    # ~ pc_purchasers_vat = fields.Char(string="VAT",relation='partner_id.vat')
+    pc_supplied_goods = fields.Float(string='Levererade varor',help="Value of supplies of goods")
+    pc_triangulation  = fields.Float(string='Triangulering',help="Value of a triangulation")
+    pc_services_supplied  = fields.Float(string='Tillhandahållna tjänster',help="Value of services supplied")
+    pc_purchasers_vat = fields.Char(string="Skatt / VAT",relation='partner_id.vat')
+
