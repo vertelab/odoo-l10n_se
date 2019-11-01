@@ -34,7 +34,6 @@ TAGS = [
     'Supplied Goods',
     'Triangulation'
     'Services Supplied'
-    
 ]
 
 TAGS_NEW = {
@@ -473,28 +472,28 @@ class account_periodic_compilation(models.Model):
         return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
 
 
-# ~ class account_invoice(models.Model):
-    # ~ _inherit = 'account.invoice'
+class account_invoice(models.Model):
+    _inherit = 'account.invoice'
 
-    # ~ periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
-    # ~ @api.one
-    # ~ @api.depends('total_amount')
-    # ~ def _periodic_compilation(self):
-        # ~ self.pc_supplied_goods = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
-        # ~ self.pc_triangulation = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
-        # ~ self.pc_services_supplied = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
-    # ~ pc_supplied_goods = fields.Float(string='Supplied Goods',compute='_periodic_compilation',help="Value of supplies of goods")
-    # ~ pc_triangulation  = fields.Float(string='Triangulation',compute='_periodic_compilation',help="Value of a triangulation")
-    # ~ pc_services_supplied  = fields.Float(string='Services Supplied',compute='_periodic_compilation',help="Value of services supplied")
-    # ~ pc_purchasers_vat = fields.Char(string="",relation='partner_id.vat')
+    periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
+    @api.one
+    @api.depends('total_amount')
+    def _periodic_compilation(self):
+        self.pc_supplied_goods = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+        self.pc_triangulation = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+        self.pc_services_supplied = sum([self.line_ids.filtered(lambda l: 32 in l.tax_ids.mapped('id')).mapped('total')])
+    pc_supplied_goods = fields.Float(string='Supplied Goods',compute='_periodic_compilation',help="Value of supplies of goods")
+    pc_triangulation  = fields.Float(string='Triangulation',compute='_periodic_compilation',help="Value of a triangulation")
+    pc_services_supplied  = fields.Float(string='Services Supplied',compute='_periodic_compilation',help="Value of services supplied")
+    pc_purchasers_vat = fields.Char(string="VAT",relation='partner_id.vat')
 
-# ~ class account_move(models.Model):
-    # ~ _inherit = 'account.move'
+class account_move(models.Model):
+    _inherit = 'account.move'
 
-    # ~ agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+    pc_declaration_id = fields.Many2one(comodel_name="account.periodic.compilation")
 
 
-# ~ class account_declaration_line(models.Model):
-    # ~ _inherit = 'account.declaration.line'
+class account_declaration_line(models.Model):
+    _inherit = 'account.declaration.line'
 
-    # ~ agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
+    pc_declaration_id = fields.Many2one(comodel_name="account.periodic.compilation")
