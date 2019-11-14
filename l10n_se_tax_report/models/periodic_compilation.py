@@ -233,7 +233,8 @@ class account_declaration_line(models.Model):
 
     pc_declaration_id = fields.Many2one(comodel_name="account.periodic.compilation")
     partner_id = fields.Many2one(comodel_name="res.partner")
-
+    
+    ## TRANSLATION
     # ~ pc_supplied_goods = fields.Float(string='Supplied Goods',help="Value of supplies of goods")
     # ~ pc_triangulation  = fields.Float(string='Triangulation',help="Value of a triangulation")
     # ~ pc_services_supplied  = fields.Float(string='Services Supplied',help="Value of services supplied")
