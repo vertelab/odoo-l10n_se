@@ -62,39 +62,45 @@ class account_periodic_compilation(models.Model):
         return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
-    move_ids = fields.One2many(comodel_name='account.move',inverse_name="agd_declaration_id")
-    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="agd_declaration_id")
-    payslip_ids = fields.Many2many(comodel_name='hr.payslip', string='Payslips', compute='_payslip_ids')
+    invoice_ids = fields.One2many(comodel_name='account.invoice',inverse_name="periodic_compilation_id")
+    line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="periodic_compilation_id")
+    move_ids = fields.One2many(comodel_name='account.move',inverse_name="periodic_compilation_id")
+    
+    @api.one
+    def _invoice_ids_count(self):
+        self.invoice_ids_count = len(self.invoice_ids)
+    invoice_ids_count = fields.Integer(compute='_invoice_ids_count')
 
-    @api.onchange('period_start')
-    def _payslip_ids(self):
-        slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
-        self.payslip_ids = slips.mapped('id')
+
+    # ~ @api.onchange('period_start')
+    # ~ def _invoice_ids(self):
+        # ~ slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
+        # ~ self.payslip_ids = slips.mapped('id')
 
         # ~ _logger.warn('jakob ***  payslip ')
 
-        self.move_ids = []
-        for move in slips.mapped('move_id'):
-            move.agd_declaration_id = self.id
+        # ~ self.move_ids = []
+        # ~ for move in slips.mapped('move_id'):
+            # ~ move.agd_declaration_id = self.id
         # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
         
-    @api.multi
-    def show_journal_entries(self):
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_start.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
-        action.update({
-            'display_name': _('Verifikat'),
-            'domain': [('id', 'in', self.move_ids.mapped('id'))],
-            'context': ctx,
-        })
-        return action
-
+    # ~ @api.multi
+    # ~ def show_journal_entries(self):
+        # ~ ctx = {
+            # ~ 'period_start': self.period_start.id,
+            # ~ 'period_stop': self.period_start.id,
+            # ~ 'accounting_yearend': self.accounting_yearend,
+            # ~ 'accounting_method': self.accounting_method,
+            # ~ 'target_move': self.target_move,
+        # ~ }
+        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        # ~ action.update({
+            # ~ 'display_name': _('Verifikat'),
+            # ~ 'domain': [('id', 'in', self.move_ids.mapped('id'))],
+            # ~ 'context': ctx,
+        # ~ })
+        # ~ return action
+        
     @api.onchange('period_start')
     def onchange_period_start(self):
         if self.period_start:
@@ -166,8 +172,7 @@ class account_periodic_compilation(models.Model):
     @api.one
     def do_cancel(self):
         for invoice in self.invoice_ids:
-            for move in self.move_ids:
-                move.agd_declaration_id = None
+            invoice.periodic_compilation_id = None
 
     @api.one
     def calculate(self): # make a short cut to print financial report
@@ -176,35 +181,68 @@ class account_periodic_compilation(models.Model):
         if self.state in ['draft']:
             self.state = 'confirmed'
 
-        raise Warning ('%s  --------  %s' %  ( self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]), self.env['account.period'].get_period_ids(self.period_start, self.period_stop) ))
-            
+        # ~ raise Warning ('%s  --------  %s' %  ( self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]), self.env['account.period'].get_period_ids(self.period_start, self.period_stop) ))
+        
+        partner_ids = []
+        
         for invoice in self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]):
-            
-            invoice.periodic_compilation_id = self
             
             pc_supplied_goods = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'VTEU' in line.invoice_line_tax_ids.mapped('name') ])
             pc_triangulation = sum([line.price_subtotal for line in invoice.invoice_line_ids if '3FEU' in line.invoice_line_tax_ids.mapped('name') ])
             pc_services_supplied = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'FTEU' in line.invoice_line_tax_ids.mapped('name') ])
             
-            if invoice.partner_id in self.line_ids.mapped('partner_id'):
-                line = self.line_ids.filtered( lambda l: l.partner_id == invoice.partner_id )
-                line.pc_supplied_goods += pc_supplied_goods
-                line.pc_triangulation += pc_triangulation
-                line.pc_services_supplied += pc_services_supplied
-            else:
-                self.env['account.declaration.line'].create({
-                    'periodic_compilation_id': self.id,
-                    'pc_supplied_goods': pc_supplied_goods,
-                    'pc_triangulation': pc_triangulation,
-                    'pc_services_supplied': pc_services_supplied,
-                    'partner_id': invoice.partner_id.id
-                })
+            # ~ raise Warning( 'pc_supplied_goods = %s, pc_triangulation = %s, pc_services_supplied = %s' % (pc_supplied_goods, pc_triangulation, pc_services_supplied ) )
+            _logger.warn("\n\n\n\n\n\n\n pc_supplied_goods :: %s" % pc_supplied_goods)
+            _logger.warn("\n\n1111 hellooo :: %s %s" % (invoice.partner_id , self.line_ids.mapped('partner_id') ) )
 
+            if (pc_supplied_goods + pc_triangulation + pc_services_supplied) > 0:         
+                invoice.periodic_compilation_id = self.id
+            
+                if invoice.partner_id.id in partner_ids:
+                    _logger.warn("\n\n22222 hellooo :: ")
+                    line = self.line_ids.filtered( lambda l: l.partner_id == invoice.partner_id )
+                    _logger.warn("\n\n22222 hellooo :: %s %s" % (line , self.line_ids ))
+                    line.pc_supplied_goods += pc_supplied_goods
+                    line.pc_triangulation += pc_triangulation
+                    line.pc_services_supplied += pc_services_supplied
+                    # ~ _logger.warn("\n\n\n\n\n\n\n line.pc_supplied_goods :: %s" % line.pc_supplied_goods)
+                else:
+                    self.env['account.declaration.line'].create({
+                        'periodic_compilation_id': self.id,
+                        'pc_supplied_goods': pc_supplied_goods,
+                        'pc_triangulation': pc_triangulation,
+                        'pc_services_supplied': pc_services_supplied,
+                        'partner_id': invoice.partner_id.id
+                    })
+                    partner_ids.append(invoice.partner_id.id)
+
+                _logger.warn("\n\n333333 hellooo :: ")
+                # ~ _logger.warn("\n\n\n\n\n\n\n pc_supplied_goods :: %s" % pc_supplied_goods)
 
     @api.model
     def get_next_periods(self,length=1):
         last_declaration = self.search([],order='date_stop desc',limit=1)
         return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
+
+    @api.multi
+    def show_invoices(self):
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_invoice_tree1')
+        action.update({
+            'display_name': _('Invoices'),
+            'domain': [('periodic_compilation_id', '=', self.id )],
+            'context': {},
+        })
+        return action
+
+    @api.multi
+    def show_invoice_lines(self):
+        action = self.env['ir.actions.act_window'].for_xml_id('l10n_se_tax_report', 'action_invoice_line')
+        # ~ action.update({
+            # ~ 'display_name': _('Invoices'),
+            # ~ 'domain': [('invoice_id.periodic_compilation_id', '=', self.id )],
+            # ~ 'context': {},
+        # ~ })
+        return action
 
 
 class account_invoice(models.Model):
@@ -225,13 +263,13 @@ class account_invoice(models.Model):
 class account_move(models.Model):
     _inherit = 'account.move'
 
-    pc_declaration_id = fields.Many2one(comodel_name="account.periodic.compilation")
+    periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
 
 
 class account_declaration_line(models.Model):
     _inherit = 'account.declaration.line'
 
-    pc_declaration_id = fields.Many2one(comodel_name="account.periodic.compilation")
+    periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
     partner_id = fields.Many2one(comodel_name="res.partner")
     
     ## TRANSLATION
@@ -245,3 +283,14 @@ class account_declaration_line(models.Model):
     pc_purchasers_vat = fields.Char(string="Skatt / VAT",related='partner_id.vat')
     pc_name = fields.Char(string="Name",related='partner_id.name')
 
+    @api.multi
+    def show_invoice_lines(self):
+        action = self.env['ir.actions.act_window'].for_xml_id('l10n_se_tax_report', 'action_invoice_line')
+        # ~ action.update({
+            # ~ 'display_name': _('Verifikat'),
+            # ~ 'domain': [('id', 'in', self.move_ids.mapped('id'))],
+            # ~ 'context': ctx,
+        # ~ })
+        return action
+        
+        
