@@ -237,13 +237,12 @@ class account_periodic_compilation(models.Model):
     @api.multi
     def show_invoice_lines(self):
         action = self.env['ir.actions.act_window'].for_xml_id('l10n_se_tax_report', 'action_invoice_line')
-        # ~ action.update({
-            # ~ 'display_name': _('Invoices'),
-            # ~ 'domain': [('invoice_id.periodic_compilation_id', '=', self.id )],
-            # ~ 'context': {},
-        # ~ })
+        action.update({
+            'display_name': _('Invoices'),
+            'domain': [('invoice_id.periodic_compilation_id', '=', self.id )],
+            'context': {},
+        })
         return action
-
 
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
@@ -286,11 +285,11 @@ class account_declaration_line(models.Model):
     @api.multi
     def show_invoice_lines(self):
         action = self.env['ir.actions.act_window'].for_xml_id('l10n_se_tax_report', 'action_invoice_line')
-        # ~ action.update({
-            # ~ 'display_name': _('Verifikat'),
-            # ~ 'domain': [('id', 'in', self.move_ids.mapped('id'))],
-            # ~ 'context': ctx,
-        # ~ })
+        action.update({
+            'display_name': _('Verifikat'),
+            'domain': [('invoice_id', 'in', self.periodic_compilation_id.invoice_ids.mapped('id')), ('partner_id', '=' ,self.partner_id.id,)],
+            'context': '',
+        })
         return action
         
         
