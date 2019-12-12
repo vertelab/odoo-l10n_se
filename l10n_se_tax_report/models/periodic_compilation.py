@@ -264,6 +264,12 @@ class account_move(models.Model):
 
     periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
 
+class account_invoice_line(models.Model):
+    _inherit = 'account.invoice.line'
+
+    pc_vat = fields.Char(string='VAT', related='invoice_id.partner_id.vat')
+
+
 
 class account_declaration_line(models.Model):
     _inherit = 'account.declaration.line'

@@ -199,6 +199,8 @@
             <field name="arch" type="xml">
                 <tree string="Invoice Line">
                     <field name="name"/>
+
+                    <field name="pc_vat"/>
 <!--
                     <field name="account_id" groups="account.group_account_user"/>
 -->
