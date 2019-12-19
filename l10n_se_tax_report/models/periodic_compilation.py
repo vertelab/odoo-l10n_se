@@ -192,16 +192,16 @@ class account_periodic_compilation(models.Model):
             pc_services_supplied = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'FTEU' in line.invoice_line_tax_ids.mapped('name') ])
             
             # ~ raise Warning( 'pc_supplied_goods = %s, pc_triangulation = %s, pc_services_supplied = %s' % (pc_supplied_goods, pc_triangulation, pc_services_supplied ) )
-            _logger.warn("\n\n\n\n\n\n\n pc_supplied_goods :: %s" % pc_supplied_goods)
-            _logger.warn("\n\n1111 hellooo :: %s %s" % (invoice.partner_id , self.line_ids.mapped('partner_id') ) )
+            # ~ _logger.warn("\n\n\n\n\n\n\n pc_supplied_goods :: %s" % pc_supplied_goods)
+            # ~ _logger.warn("\n\n1111 hellooo :: %s %s" % (invoice.partner_id , self.line_ids.mapped('partner_id') ) )
 
             if (pc_supplied_goods + pc_triangulation + pc_services_supplied) > 0:         
                 invoice.periodic_compilation_id = self.id
             
                 if invoice.partner_id.id in partner_ids:
-                    _logger.warn("\n\n22222 hellooo :: ")
+                    # ~ _logger.warn("\n\n22222 hellooo :: ")
                     line = self.line_ids.filtered( lambda l: l.partner_id == invoice.partner_id )
-                    _logger.warn("\n\n22222 hellooo :: %s %s" % (line , self.line_ids ))
+                    # ~ _logger.warn("\n\n22222 hellooo :: %s %s" % (line , self.line_ids ))
                     line.pc_supplied_goods += pc_supplied_goods
                     line.pc_triangulation += pc_triangulation
                     line.pc_services_supplied += pc_services_supplied
@@ -216,7 +216,7 @@ class account_periodic_compilation(models.Model):
                     })
                     partner_ids.append(invoice.partner_id.id)
 
-                _logger.warn("\n\n333333 hellooo :: ")
+                # ~ _logger.warn("\n\n333333 hellooo :: ")
                 # ~ _logger.warn("\n\n\n\n\n\n\n pc_supplied_goods :: %s" % pc_supplied_goods)
 
     @api.model

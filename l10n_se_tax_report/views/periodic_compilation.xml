@@ -21,7 +21,7 @@
                     <sheet>
                         <div class="oe_right oe_button_box" name="buttons">
                             <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines">
-                            <!-- <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines" context="{'default_partner_id': active_id}"> -->
+                                <!-- <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines" context="{'default_partner_id': active_id}"> -->
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
                                         <!--
@@ -198,22 +198,21 @@
             <field name="model">account.invoice.line</field>
             <field name="arch" type="xml">
                 <tree string="Invoice Line">
-                    <field name="name"/>
-
-                    <field name="pc_vat"/>
-<!--
-                    <field name="account_id" groups="account.group_account_user"/>
--->
-                    <field name="quantity"/>
-<!--
-                    <field name="uom_id" groups="product.group_uom"/>
--->
-                    <field name="price_unit"/>
-<!--
-                    <field name="discount" groups="base.group_no_one"/>
--->
-                    <field name="price_subtotal"/>
-                    <field name="currency_id" invisible="1"/>
+                    <field name="name" />
+                    <field name="pc_vat" />
+                    <!--
+                         <field name="account_id" groups="account.group_account_user"/>
+                    -->
+                    <field name="quantity" />
+                    <!--
+                         <field name="uom_id" groups="product.group_uom"/>
+                    -->
+                    <field name="price_unit" />
+                    <!--
+                         <field name="discount" groups="base.group_no_one"/>
+                    -->
+                    <field name="price_subtotal" />
+                    <field name="currency_id" invisible="1" />
                 </tree>
             </field>
         </record>
