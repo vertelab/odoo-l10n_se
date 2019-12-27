@@ -132,6 +132,7 @@ class account_agd_declaration(models.Model):
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
     @api.one
+    @api.depends('period_start')
     def _vat(self):
         if self.period_start:
             ctx = {
@@ -145,9 +146,9 @@ class account_agd_declaration(models.Model):
             self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
             self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
 
-    SumSkAvdr    = fields.Float(compute='_vat')
-    SumAvgBetala = fields.Float(compute='_vat')
-    ag_betala  = fields.Float(compute='_vat')
+    SumSkAvdr    = fields.Float(compute='_vat', store=True)
+    SumAvgBetala = fields.Float(compute='_vat', store=True)
+    ag_betala  = fields.Float(compute='_vat', store=True)
 
     @api.multi
     def show_SumSkAvdr(self):
