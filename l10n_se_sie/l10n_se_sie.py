@@ -86,6 +86,7 @@ class account_sie(models.TransientModel):
             if fy == year:
                 return i
             i += 1
+        return i
         raise Warning("Couldn't get RAR code.")
             
     
@@ -94,32 +95,32 @@ class account_sie(models.TransientModel):
         self.sie_file = self.data
     sie_file = fields.Binary(compute='_data')
     
-    @api.one
-    @api.onchange('accounts_type')
-    def onchange_accounts_type(self):
-        for line in self.account_line_ids:
-            if line.checked:
-                line.type = self.accounts_type
+    # ~ @api.one
+    # ~ @api.onchange('accounts_type')
+    # ~ def onchange_accounts_type(self):
+        # ~ for line in self.account_line_ids:
+            # ~ if line.checked:
+                # ~ line.type = self.accounts_type
     
-    @api.one
-    @api.onchange('accounts_user_type')
-    def onchange_accounts_user_type(self):
-        for line in self.account_line_ids:
-            if line.checked:
-                line.user_type = self.accounts_user_type
+    # ~ @api.one
+    # ~ @api.onchange('accounts_user_type')
+    # ~ def onchange_accounts_user_type(self):
+        # ~ for line in self.account_line_ids:
+            # ~ if line.checked:
+                # ~ line.user_type = self.accounts_user_type
     
-    @api.one
-    @api.onchange('accounts_parent_id')
-    def onchange_accounts_parent_id(self):
-        for line in self.account_line_ids:
-            if line.checked:
-                line.parent_id = self.accounts_parent_id
+    # ~ @api.one
+    # ~ @api.onchange('accounts_parent_id')
+    # ~ def onchange_accounts_parent_id(self):
+        # ~ for line in self.account_line_ids:
+            # ~ if line.checked:
+                # ~ line.parent_id = self.accounts_parent_id
     
-    @api.one
-    @api.onchange('data')
-    def onchange_data(self):
-        if self.data:
-            self.check_import_file(check_periods=False)
+    # ~ @api.one
+    # ~ @api.onchange('data')
+    # ~ def onchange_data(self):
+        # ~ if self.data:
+            # ~ self.check_import_file(check_periods=False)
             
     @api.model
     def cleanse_with_fire(self, data):
@@ -291,12 +292,8 @@ class account_sie(models.TransientModel):
                 year_list.add(ver.period_id.fiscalyear_id)
             return year_list
         def get_accounts(ver_ids):
-            account_list = set()
-            for ver in ver_ids:
-                for line in ver.line_id:
-                #for l in ver.line_id for ver in ver_ids]]:
-                    account_list.add(line.account_id)
-            return account_list
+            return list(set(ver_ids.mapped('line_ids.account_id')))
+            
 
         if len(self) > 0:
             sie_form = self[0]
@@ -337,7 +334,7 @@ class account_sie(models.TransientModel):
                 str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.replace('-','')), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_uid.login))
                 #~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), self.escape_sie_string('' if ver.name == '/' else ver.name), self.escape_sie_string(ver.date.replace('-','')), self.escape_sie_string(self.fix_empty(ver.narration)), self.escape_sie_string(ver.create_uid.login))
                 #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
-                for trans in ver.line_id:
+                for trans in ver.line_ids:
                     str += '#TRANS %s {} %s %s "%s" %s %s\n' % (self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit, self.escape_sie_string(trans.date.replace('-','')), self.escape_sie_string(self.fix_empty(trans.name)), trans.quantity, self.escape_sie_string(trans.create_uid.login))
                     if trans.account_id.code not in ub:
                         ub[trans.account_id.code] = 0.0
