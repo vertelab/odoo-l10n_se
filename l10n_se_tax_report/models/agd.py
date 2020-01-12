@@ -441,6 +441,7 @@ class account_agd_declaration(models.Model):
                 # ~ # Dokumentet validerade ej
 
         xml = parse_xml(tax_account)
+        _logger.info('AGD XML %s' % etree.tostring(xml, pretty_print=True, encoding="UTF-8"))
         # ~ xml = etree.tostring(xml, pretty_print=True, encoding="UTF-8", standalone=False)
         xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + etree.tostring(xml, pretty_print=True, encoding="UTF-8")
         schema_validate(xml)
