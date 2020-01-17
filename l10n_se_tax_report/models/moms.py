@@ -488,7 +488,7 @@ class account_vat_declaration(models.Model):
                         for account in k.with_context(ctx).get_taxlines().mapped('account_id'):
 
                             # ~ _logger.warning('<<<<< VALUES: account = %s' % account)
-                            move_line_dict[account.name] = {'account_id': account.id, 'credit': account.with_context(ctx).sum_period() } 
+                            move_line_dict[account.name] = {'account_id': account.id, abs('credit': account.with_context(ctx).sum_period()) } 
  
                     for account_name in move_line_dict.keys():
                         move_line_list.append((0, 0, {
