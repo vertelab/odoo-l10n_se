@@ -390,8 +390,8 @@ class account_sru_declaration(models.Model):
             create_lines(r_afr, self, is_r=True)
 
         # encoding="ISO-8859-1"
-        self.infosru = base64.b64encode(self._parse_infosru(self))
-        self.datasru = base64.b64encode(self._parse_datasru(self))
+        self.infosru = base64.b64encode(self._parse_infosru(self).encode('utf-8'))
+        self.datasru = base64.b64encode(self._parse_datasru(self).encode('utf-8'))
         if self.state in ['draft']:
             self.state = 'done'
 

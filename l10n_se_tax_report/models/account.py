@@ -143,13 +143,12 @@ class account_financial_report(models.Model):
 
     @api.multi
     def sum_tax_period(self):
-        _logger.warn('sum_tax_period context %s' %self._context )
-        _logger.warn('sum_tax_period context %s' % self.env['account.period'].get_period_ids(self.env['account.period'].browse(23) ,self.env['account.period'].browse(23) ) )
+        # _logger.warn('sum_tax_period context %s' %self._context )
         return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
 
     @api.multi
     def sum_period(self):
-        _logger.warn('sum_period context %s' %self._context )
+        # _logger.warn('sum_period context %s' %self._context )
         return sum([a.with_context(self._context).sum_period() for a in self.account_ids])
 
     @api.multi
@@ -176,8 +175,8 @@ class ReportFinancial(models.AbstractModel):
         res = super(ReportFinancial, self)._compute_report_balance(reports)
         if res.keys()[0] == self.env.ref('l10n_se_tax_report.root').id: # make sure the first line is momsrapport
             ctx = {
-                'period_from': self.env['account.period'].date2period(self._context.get('date_from')).id,
-                'period_to': self.env['account.period'].date2period(self._context.get('date_to')).id
+                'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
+                'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
             }
             for i in res.keys()[1:]:
                 afr = self.env['account.financial.report'].browse(i)
@@ -188,8 +187,17 @@ class ReportFinancial(models.AbstractModel):
                         res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
         if res.keys()[0] == self.env.ref('l10n_se_tax_report.agd_report').id: # make sure the first line is agdrapport
             ctx = {
-                'period_from': self.env['account.period'].date2period(self._context.get('date_from')).id,
-                'period_to': self.env['account.period'].date2period(self._context.get('date_to')).id
+                'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
+                'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
+            }
+            for i in res.keys()[1:]:
+                afr = self.env['account.financial.report'].browse(i)
+                if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
+                    res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
+        if res.keys()[0] == self.env.ref('l10n_se_tax_report.eu_moss').id: # make sure the first line is eu moss report
+            ctx = {
+                'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
+                'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
             }
             for i in res.keys()[1:]:
                 afr = self.env['account.financial.report'].browse(i)
