@@ -39,7 +39,7 @@
     MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
 -->
 
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="root" model="account.financial.report">
             <field name="name">Momsrapport</field>
             <field name="sequence">0</field>
@@ -441,6 +441,15 @@
             <field name="name">Accouning Report</field>
         </record>
     </data>
+
+    <data noupdate="1">
+        <record id="eu_moss" model="account.financial.report">
+            <field name="name">EU MOSS VAT</field>
+            <field name="sequence">0</field>
+            <field name="type">sum</field>
+            <field name="sign" eval="1"></field>
+        </record>
+    <data>
 
     <data>
         <record id="agd_avsandare" model="ir.config_parameter">
