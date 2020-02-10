@@ -20,7 +20,7 @@
 
 
 {
-    'name': 'Nordbanken Format Bank Statements Import',
+    'name': 'Nordea Format Bank Statements Import',
     'version': '10.0.0.1.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
@@ -31,7 +31,7 @@
 
     #'demo': ['l10n_se_sie_demo.xml'],
     'external_dependencies': {
-        'python': ['xlrd'],
+        'python': ['csv'],
     },
 
     'installable': 'True',
