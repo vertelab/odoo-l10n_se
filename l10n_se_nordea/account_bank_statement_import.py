@@ -2,7 +2,7 @@
 """Add process_camt method to account.bank.statement.import."""
 ##############################################################################
 #
-#    Copyright (C) 2015-2016 Vertel AB <http://vertel.se>
+#    Copyright (C) 2015-2020 Vertel AB <http://vertel.se>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -20,7 +20,7 @@
 ##############################################################################
 import logging
 from odoo import api,models, _
-from .nordbanken import NordbankenTransaktionsrapport as Parser
+from .nordea import NordeaTransaktionsrapport as Parser
 import cStringIO
 import uuid
 
@@ -28,19 +28,20 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountBankStatementImport(models.TransientModel):
-    """Add process_bgmax method to account.bank.statement.import."""
+    """Add nordea method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
     @api.model
     def _parse_file(self, data_file):
         """Parse a Nordbanken transaktionsrapport  file."""
+        _logger.warn('Parse %s' % data_file)
         try:
-            _logger.debug("Try parsing with nordbanken_transaktioner.")
+            _logger.debug("Try parsing with nordea_transaktioner.")
             parser = Parser(data_file)
-            nordbanken = parser.parse()
+            nordea = parser.parse()
         except ValueError:
             # Not a Nordbanken file, returning super will call next candidate:
-            _logger.error("Statement file was not a Nordbanken Transaktionsrapport file.",exc_info=True)
+            _logger.error("Statement file was not a Nordea Transaktionsrapport file.",exc_info=True)
             return super(AccountBankStatementImport, self)._parse_file(data_file)
 
 
@@ -50,7 +51,8 @@ class AccountBankStatementImport(models.TransientModel):
         transactions = []
         total_amt = 0.00
         try:
-            for transaction in nordbanken:
+            for transaction in nordea:
+                _logger.error('%s' % transaction)
                 bank_account_id = partner_id = False
                 ref = ''
                 if transaction['referens']:
@@ -64,7 +66,7 @@ class AccountBankStatementImport(models.TransientModel):
                     'name': ref + (transaction['text'] and ': ' + transaction['text'] or ''),
                     'ref': transaction['referens'],
                     'amount': transaction['belopp'],
-                    'unique_import_id': 'nordbanken %s %s' % (nordbanken.account.name[29:52], transaction['radnr']),
+                    'unique_import_id': 'nordea %s %s' % (nordea.account.name[29:52], transaction['radnr']),
                     'bank_account_id': bank_account_id or None,
                     'partner_id': partner_id or None,
                 }
@@ -79,13 +81,13 @@ class AccountBankStatementImport(models.TransientModel):
             ))
 
         vals_bank_statement = {
-            'name': nordbanken.account.name,
+            'name': nordea.account.name,
             'transactions': transactions,
-            'balance_start': nordbanken.account.balance_start,
+            'balance_start': nordea.account.balance_start,
             'balance_end_real':
-                float(nordbanken.account.balance_start) + total_amt,
+                float(nordea.account.balance_start) + total_amt,
         }
-        return nordbanken.account.currency, nordbanken.account.number, [
+        return nordea.account.currency, nordea.account.number, [
             vals_bank_statement]
 
 
