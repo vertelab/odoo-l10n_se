@@ -4,6 +4,7 @@
     <record id="chart_template_K1_2017" model="account.chart.template">
       <field name="name">K1 - Mindre verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
+      <field name="transfer_account_code_prefix">X</field>
       <field name="transfer_account_id" ref="chart1955"/>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>
@@ -7977,6 +7978,7 @@ skattskyldighet, 25 % moms</field>
     <record id="chart_template_K2_2017" model="account.chart.template">
       <field name="name">K2 - Små till medelstora verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
+            <field name="transfer_account_code_prefix">X</field>
       <field name="transfer_account_id" ref="chart1955"/>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>
@@ -15950,6 +15952,7 @@ skattskyldighet, 25 % moms</field>
     <record id="chart_template_K3_2017" model="account.chart.template">
       <field name="name">K3 - Medelstora till större verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
+            <field name="transfer_account_code_prefix">X</field>
       <field name="transfer_account_id" ref="chart1955"/>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>
@@ -23923,6 +23926,7 @@ skattskyldighet, 25 % moms</field>
     <record id="chart_template_K4_2017" model="account.chart.template">
       <field name="name">K4 - större verksamheter / publika företag</field>
       <field name="parent_id" ref="chart_template_general"/>
+            <field name="transfer_account_code_prefix">X</field>
       <field name="transfer_account_id" ref="chart1955"/>
       <field name="currency_id" ref="base.SEK"/>
       <field name="cash_account_code_prefix">191</field>

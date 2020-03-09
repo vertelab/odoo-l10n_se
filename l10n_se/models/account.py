@@ -41,10 +41,10 @@ _logger = logging.getLogger(__name__)
 
 
 
-class account_bank_accounts_wizard(models.TransientModel):
-    _inherit='account.bank.accounts.wizard'
+# ~ class account_bank_accounts_wizard(models.TransientModel):
+    # ~ _inherit='account.bank.accounts.wizard'
 
-    account_type = fields.Selection(selection_add=[('bg','Bankgiro'),('pg','Plusgiro')])
+    # ~ account_type = fields.Selection(selection_add=[('bg','Bankgiro'),('pg','Plusgiro')])
 
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
@@ -163,10 +163,10 @@ class wizard_multi_charts_accounts(models.TransientModel):
     """
         defaults for 4 digits in chart of accounts
      """
-    _inherit='wizard.multi.charts.accounts'
+    X_inherit='wizard.multi.charts.accounts'
 
     code_digits = fields.Integer(default=4)
-    bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
+    # ~ bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
     @api.multi
     def execute(self):
@@ -568,10 +568,10 @@ class account_account_type(models.Model):
         return self.env.ref(user_type) if user_type else None
 
 
-class account_financial_report(models.Model):
-    _inherit = 'account.financial.report'
+# ~ class account_financial_report(models.Model):
+    # ~ _inherit = 'account.financial.report'
 
-    element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
-    version_name = fields.Char(string='Version Name', help='This name is from import file.')
+    # ~ element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+    # ~ version_name = fields.Char(string='Version Name', help='This name is from import file.')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

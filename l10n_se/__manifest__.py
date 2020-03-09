@@ -76,7 +76,7 @@
         'data/account_account_type.xml',
         'data/account_chart_template.xml',
         'data/account_chart_template_k23.xml',
-        'data/account_chart_template_data.yml',
+        # ~ 'data/account_chart_template_data.yml',
         'data/account_tax_data.xml',
         'data/account_fiscal_position.xml',
         # ~ 'data/account_financial_report.xml',
@@ -95,10 +95,10 @@
         'security/ir.model.access.csv',
         # ~ 'wizard/import_chart_of_account.xml',
     ],
-    'demo_xml' : [
-        'demo/account_chart.yml',
-        'demo/l10n_se_demo.xml'
-    ],
+    # ~ 'demo_xml' : [
+        # ~ 'demo/account_chart.yml',
+        # ~ 'demo/l10n_se_demo.xml'
+    # ~ ],
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
