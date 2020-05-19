@@ -20,20 +20,20 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
-
 import logging
 _logger = logging.getLogger(__name__)
 
 import csv
-
 import os
 
-csvfile = open('bokf_test.skv')
+# ~ csvfile = open('bokf_test.skv')
+#csvfile = open('testbank.txt')
 
-reader = csv.DictReader(csvfile)
+# ~ reader = csv.DictReader(csvfile)
+# ~ _logger.info('reader is working...')
 
-#print reader
-#print list(csv.reader(csvfile))
+# ~ print reader
+# ~ print list(csv.reader(csvfile))
 
 try:
     from xlrd import open_workbook, XLRDError
@@ -45,6 +45,34 @@ except:
 class HandelsbankenTransaktionsrapport(object):
     """Parser for Handelsbanken Transaktions import files (CSV)."""
     
+    def __init__(self, data_file):
+        _logger.error('Parser %s' % data_file)
+        
+        try:
+            rows = []
+            fp = tempfile.TemporaryFile()
+            fp.write(data_file)
+            fp.seek(0)
+            reader = csv.DictReader(fp,delimiter=";")
+            for row in reader:
+                rows.append(row)
+            fp.close()
+            self.data = rows
+        except IOError as e:
+            _logger.error(u'Could not read CSV file')
+            raise ValueError(e)
+        _logger.error('%s' % self.data[0].keys())
+        if not self.data[0].keys() == ['Avs\xc3\xa4ndare', 'Mottagare', '\xef\xbb\xbfBokf\xc3\xb6ringsdag', 'Belopp', 'Valuta', 'Namn', 'Saldo', 'Meddelande', 'Typ', 'Rubrik']:
+            _logger.error(u'Row 0 was looking for "To Email Address", "Transaction ID" and "Invoice Number".')
+            raise ValueError('This is not a Nordbanken Transaktionsrapport')
+
+        self.nrows = len(self.data)
+        self.header = []
+        self.statements = []
+
+ 
+ ##############################################################################
+ 
     def __init__(self, data_file):
         self.row = 0
         try:
@@ -64,10 +92,18 @@ class HandelsbankenTransaktionsrapport(object):
             raise ValueError('This is not a Handelsbanken Transaktionsrapport')
         
         header = {
-            'valutadag': 'date',
-            'referens': 'payee',
-            'text': 'memo',
-            'belopp': 'amount',
+            # 'valutadag': 'date',
+            # 'referens': 'payee',
+            # 'text': 'memo',
+            # 'belopp': 'amount',
+            # ~ 'Bokföringsdag': 'date',
+            # ~ 'Referense': 'payee',
+            # ~ 'text': 'memo',
+            # ~ 'l10n_se': 'amount',
+            'Valutadag': 'date',
+            'Referens': 'payee',
+            'Insättning/Uttag': 'memo',
+            'Bokfört saldo': 'amount',
             }
              
         #_logger.error('t: %s' % [t.keys() for t in SwedbankIterator(self.data)])
