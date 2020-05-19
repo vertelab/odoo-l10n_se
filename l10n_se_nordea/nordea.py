@@ -65,11 +65,9 @@ class NordeaTransaktionsrapport(object):
         # ~ self.balance_end_real = float(self.data.cell(self.data.nrows - 1,11).value)
         # ~ self.balance_end = 0.0
 
-
     def parse(self):
         """Parse Nordea bank statement file contents."""
         return NordeaIterator(self.data,len(self.data),['Avs\xc3\xa4ndare', 'Mottagare', '\xef\xbb\xbfBokf\xc3\xb6ringsdag', 'Belopp', 'Valuta', 'Namn', 'Saldo', 'Meddelande', 'Typ', 'Rubrik'])
-       
        
 
 class NordeaIterator(object):
