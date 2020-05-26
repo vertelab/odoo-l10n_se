@@ -25,6 +25,7 @@ _logger = logging.getLogger(__name__)
 
 import csv
 import os
+import tempfile
 
 # ~ csvfile = open('bokf_test.skv')
 #csvfile = open('testbank.txt')
@@ -35,12 +36,7 @@ import os
 # ~ print reader
 # ~ print list(csv.reader(csvfile))
 
-try:
-    from xlrd import open_workbook, XLRDError
-    from xlrd.book import Book
-    from xlrd.sheet import Sheet
-except:
-    _logger.info('xlrd not installed.')
+
 
 class HandelsbankenTransaktionsrapport(object):
     """Parser for Handelsbanken Transaktions import files (CSV)."""
@@ -53,8 +49,9 @@ class HandelsbankenTransaktionsrapport(object):
             fp = tempfile.TemporaryFile()
             fp.write(data_file)
             fp.seek(0)
-            reader = csv.DictReader(fp,delimiter=";")
+            reader = csv.DictReader(fp,delimiter="\t")
             for row in reader:
+                _logger.warn('My row %s' % row)
                 rows.append(row)
             fp.close()
             self.data = rows
@@ -62,36 +59,41 @@ class HandelsbankenTransaktionsrapport(object):
             _logger.error(u'Could not read CSV file')
             raise ValueError(e)
         _logger.error('%s' % self.data[0].keys())
-        if not self.data[0].keys() == ['Avs\xc3\xa4ndare', 'Mottagare', '\xef\xbb\xbfBokf\xc3\xb6ringsdag', 'Belopp', 'Valuta', 'Namn', 'Saldo', 'Meddelande', 'Typ', 'Rubrik']:
-            _logger.error(u'Row 0 was looking for "To Email Address", "Transaction ID" and "Invoice Number".')
-            raise ValueError('This is not a Nordbanken Transaktionsrapport')
+        if not (self.data[0].get('Valutadag') and self.data[0].get('Ins\xe4ttning/Uttag') and self.data[0].get('Kontor') and self.data[0].get('Datum intervall')):
+            _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
+            raise ValueError('This is not a Handelsbanken Transaktionsrapport')
 
         self.nrows = len(self.data)
         self.header = []
         self.statements = []
 
- 
- ##############################################################################
- 
-    def __init__(self, data_file):
-        self.row = 0
-        try:
-            self.data = open_workbook(file_contents=data_file).sheet_by_name('Transaktionsrapport')
-        except XLRDError, e:
-            raise ValueError(e)                
-        self.rows = self.data.nrows - 3
-        _logger.error('Row 2 %s' % self.data.row(1))
-        self.header = [c.value.lower() for c in self.data.row(1)]
-        self.balance_start = float(self.data.cell(2,11).value) - float(self.data.cell(2,10).value)
-        self.balance_end_real = float(self.data.cell(self.data.nrows - 1,11).value)
-        self.balance_end = 0.0
-
     def parse(self):
         """Parse handelsbanken bank statement file contents."""
-        if not self.data.cell(0,0).value[:21] == '* Transaktionsrapport':
-            raise ValueError('This is not a Handelsbanken Transaktionsrapport')
-        
+        if not (self.data[0].get('Valutadag') and self.data[0].get('Ins\xe4ttning/Uttag') and self.data[0].get('Kontor') and self.data[0].get('Datum intervall')):
+
+        # ~ if not self.data[0].keys() == ['Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta','Kontoförande kontor','Datum intervall','Kontor','Bokföringsdag','Reskontradag','Valutadag','Referens','Insättning/Uttag','Bokfört saldo','Aktuellt saldo','Valutadagssaldo','Referens Swish','Avsändar-id Swish']:
+            _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
+            raise ValueError('This is not a Handelsbanken Transaktionsrapport')        
         header = {
+                'Kontohavare': None,
+                'Kontonr': None,
+                'IBAN': None,
+                'BIC': None,
+                'Kontoform': None,
+                'Valuta': None,
+                'Kontoförande kontor': None,
+                'Datum intervall': None,
+                'Kontor': None,
+                'Bokföringsdag': 'date',
+                'Reskontradag': None,
+                'Valutadag': None,
+                'Referens': 'memo',
+                'Insättning/Uttag': 'memo',
+                'Bokfört saldo': 'amount',
+                'Aktuellt saldo': None,
+                'Valutadagssaldo': None,
+                'Referens Swish': None,
+                'Avsändar-id Swish': None
             # 'valutadag': 'date',
             # 'referens': 'payee',
             # 'text': 'memo',
@@ -100,10 +102,10 @@ class HandelsbankenTransaktionsrapport(object):
             # ~ 'Referense': 'payee',
             # ~ 'text': 'memo',
             # ~ 'l10n_se': 'amount',
-            'Valutadag': 'date',
-            'Referens': 'payee',
-            'Insättning/Uttag': 'memo',
-            'Bokfört saldo': 'amount',
+            #'Valutadag': 'date',
+            #'Referens': 'payee',
+            #'Insättning/Uttag': 'memo',
+            #'Bokfört saldo': 'amount',
             }
              
         #_logger.error('t: %s' % [t.keys() for t in SwedbankIterator(self.data)])
@@ -119,15 +121,15 @@ class HandelsbankenIterator(object):
     def __init__(self, data):
         self.row = 0
         self.data = data
-        self.rows = data.nrows - 2
-        self.header = [c.value.lower() for c in data.row(1)]
+        self.rows = len(data) - 2
+        self.header = data.keys()
         self.account = account()
-        self.account.routing_number = self.data.row(2)[2].value
-        self.account.balance_start = self.data.row(2)[11].value
-        self.account.balance_end = self.data.row(data.nrows-1)[11].value
-        self.account.currency = self.data.row(2)[4].value
-        self.account.number = self.data.row(2)[1].value + self.data.row(2)[2].value
-        self.account.name = self.data.cell(0,0).value
+        self.account.routing_number = self.data[1]['Konto']
+        self.account.balance_start = self.data[-1]['Bokfört saldo']
+        self.account.balance_end = self.data[1]['Aktuellt saldo']
+        self.account.currency = self.data[1]['Valuta']
+        self.account.number = self.data[1]['Konto']
+        self.account.name = self.data[1]['Konto']
 
     def __iter__(self):
         return self
@@ -135,9 +137,9 @@ class HandelsbankenIterator(object):
     def next(self):
         if self.row >= self.rows:
             raise StopIteration
-        r = self.data.row(self.row + 2)
+        r = self.data[self.row + 2]
         self.row += 1
-        return {self.header[n]: r[n].value for n in range(len(self.header))}
+        return {n: r[n] for n in self.header}
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
