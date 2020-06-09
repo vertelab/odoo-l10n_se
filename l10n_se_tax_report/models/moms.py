@@ -23,7 +23,7 @@ from odoo import models, fields, api, _
 from lxml import etree
 import base64
 from collections import OrderedDict
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning, UserError
 import time
 from datetime import datetime, timedelta
 
@@ -386,6 +386,12 @@ class account_vat_declaration(models.Model):
         for move in self.move_ids:
             move.vat_declaration_id = None
 
+    @api.multi
+    def test_function(self):
+        return True
+        
+
+
     @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
@@ -424,7 +430,12 @@ class account_vat_declaration(models.Model):
             if not move.vat_declaration_id:
                 move.vat_declaration_id = self.id
             else:
-                raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name)))
+                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name)))
+                # ~ 2020-05-29
+                # ~ https://www.odoo.com/forum/help-1/question/how-can-i-use-redirect-warning-118516
+                # ~ raise UserError(_('your warning message')), self.test_function()
+                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name) ))
+                _logger.warn(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name) ))
 
         for move in self.move_ids:
             move.full_reconcile_id = move.line_ids.mapped('full_reconcile_id')[0].id if len(move.line_ids.mapped('full_reconcile_id')) > 0 else None
