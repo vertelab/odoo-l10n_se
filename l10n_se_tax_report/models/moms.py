@@ -308,6 +308,7 @@ class account_vat_declaration(models.Model):
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="vat_declaration_id")
     
+    
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
         for decl in self:
@@ -631,6 +632,7 @@ class account_move(models.Model):
     
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
     full_reconcile_id = fields.Many2one(comodel_name='account.full.reconcile')
+    year_end_move = fields.Boolean(string='Year End Move', default = False)
     
     @api.model
     def get_movelines(self):
@@ -651,9 +653,12 @@ class account_move(models.Model):
             moves = self.env['account.move'].search(domain)
             if self._context.get('accounting_yearend'):
                 lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
+                for move in moves:
+                    move.year_end_move = True
             else:
                 moves_19 = self.env['account.move'].search(domain).mapped('line_ids').filtered(lambda l: l.account_id.code[:2] in ['19','28']).mapped('move_id')
-                reconciled_lines = moves_19.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').filtered(lambda m: m.period_id.date_start <= self.env['account.period'].browse(period_stop).date_start).mapped('line_ids') # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax utom betalningar i framtiden
+                # ~ raise Warning(moves_19.mapped('name'))
+                reconciled_lines = moves_19.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').filtered(lambda m: m.year_end_move == False and m.period_id.date_start <= self.env['account.period'].browse(period_stop).date_start).mapped('line_ids') # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax utom betalningar i framtiden
                 lines = reconciled_lines | moves_19.mapped('line_ids').filtered(lambda l: l.tax_ids != False) # Alla 19x account.move.line med tax_line_id
 
             #~ lines = self.env['account.move'].search(domain)
