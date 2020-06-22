@@ -20,7 +20,7 @@
 
 from . import account
 #~ import res_company
-#~ import res_partner
+from . import res_partner
 #~ import account_vat
 #import setup
 
