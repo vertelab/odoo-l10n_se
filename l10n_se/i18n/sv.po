@@ -159,11 +159,6 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #. module: l10n_se
-#: model_terms:ir.ui.view,arch_db:l10n_se.view_partners_form_se1
-msgid "City"
-msgstr "Stad"
-
-#. module: l10n_se
 #: model:ir.model.fields,field_description:l10n_se.field_wizard_multi_charts_accounts__code_digits
 msgid "Code Digits"
 msgstr ""
@@ -781,11 +776,6 @@ msgstr ""
 #, python-format
 msgid "Website"
 msgstr ""
-
-#. module: l10n_se
-#: model_terms:ir.ui.view,arch_db:l10n_se.view_partners_form_se1
-msgid "ZIP"
-msgstr "Postnummer"
 
 #. module: l10n_se
 #: model:ir.model,name:l10n_se.model_import_chart_template
