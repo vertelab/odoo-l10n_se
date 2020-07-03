@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        
+  
         <record id="view_partners_form_se1" model="ir.ui.view">
                 <field name="name">view.res.partner.form.se1</field>
                 <field name="model">res.partner</field>
@@ -10,14 +10,11 @@
                     <field name="vat" position="after">
                         <field name="company_registry" attrs="{'invisible': [('is_company','=',False)]}"/>
                     </field>
-                    <field name="state_id" position="replace"/>
-                    <field name="zip" position="replace"/>
-                    <field name="city" position="replace">
-                        <field name="zip" placeholder="ZIP" style="width: 20%"/>                        
-                        <field name="city" placeholder="City" style="width: 40%" />
-                        
-                        <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%" options="{&quot;no_open&quot;: True}" on_change="onchange_state(state_id)" attrs="{ 'invisible': [('country_id','!=','us')]}"/>
-                        
+                    <field name="state_id" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </field>
+                    <field name="city" position="before">
+                        <field name="zip" position="move"/>
                     </field>
                 </field>
         </record>
