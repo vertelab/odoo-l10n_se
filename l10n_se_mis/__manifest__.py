@@ -29,7 +29,7 @@
     'external_dependencies': {
         'python': ['xlrd'],
     },
-    'data': ['data/mis_financial_report.xml']
+    'data': ['data/mis_financial_report.xml'],
     'installable': 'True',
     'application': 'False',
 }
