@@ -175,15 +175,40 @@ for r in r_lst:
     
 
 def mis_xml(r_lst,b_lst):
-    def create_recs(data,record_id,name,desc,seq):
+    def create_recs(data,record_id,main_record,name,desc,main_desc,lst,seq):
+        ## Sub report
+        record = ET.SubElement(data, 'record', id='%s' % record_id, model="mis.report")
+        ET.SubElement(record, "field", name="name").text = main_desc
+
+        kpi = ET.SubElement(data, 'record', id='mis_main_kpi_%s_%s' % (name,name), model="mis.report.kpi")
+        ET.SubElement(kpi, "field", name="report_id",ref="%s" % main_record)
+        ET.SubElement(kpi, "field", name="name").text = name
+        ET.SubElement(kpi, "field", name="description").text = desc
+        ET.SubElement(kpi, "field", name="style_id", ref="report_style_4")
+        ET.SubElement(kpi, "field", name="auto_expand_accounts").text = 'True'
+        ET.SubElement(kpi, "field", name="auto_expand_accounts_style_id", ref="report_style_2")
+        ET.SubElement(kpi, "field", name="budgetable").text = 'True'
+        ET.SubElement(kpi, "field", name="sequence").text = seq
+        kpiexp = ET.SubElement(data, 'record', id='mis_main_kpi_exp_%s_%s' % (name,name), model="mis.report.kpi.expression")
+        ET.SubElement(kpiexp, "field", name="kpi_id", ref='mis_main_kpi_%s_%s' % (name,name))
+        ET.SubElement(kpiexp, "field", name="name").text = '%s.%s' % (name,name)
+
+
+
+        ## Kpi
+        
+        
         kpi = ET.SubElement(data, 'record', id='mis_kpi_%s' % record_id, model="mis.report.kpi")
         ET.SubElement(kpi, "field", name="report_id",ref="%s" % record_id)
         ET.SubElement(kpi, "field", name="name").text = name
         ET.SubElement(kpi, "field", name="description").text = desc
         ET.SubElement(kpi, "field", name="auto_expand_accounts").text = 'True'
-        # ~ ET.SubElement(record, "field", name="auto_expand_accounts_style_id", ref="mis_report_expenses_style2")
+        ET.SubElement(kpi, "field", name="auto_expand_accounts_style_id", ref="report_style_2")
         ET.SubElement(kpi, "field", name="budgetable").text = 'True'
         ET.SubElement(kpi, "field", name="sequence").text = seq
+        
+        ## Subreport
+        
         record =ET.SubElement(data, 'record', id='sub%s' % record_id, model="mis.report.subreport")
         ET.SubElement(record, "field", name="name").text = name
         ET.SubElement(record, "field", name="subreport_id", ref="%s" % record_id)
@@ -192,95 +217,65 @@ def mis_xml(r_lst,b_lst):
         kpiexpmain = ET.SubElement(data, 'record', id='mis_kpi_main_%s' % record_id, model="mis.report.kpi.expression")
         ET.SubElement(kpiexpmain, "field", name="kpi_id", ref='mis_kpi_%s' % record_id)
         account = []
-        for rec in r_lst:
+        for rec in lst:
             if rec.get('parent_id') == record_id and rec.get('account_ids'):
                 kpi = ET.SubElement(data, 'record', id='%s' % rec['element_name'], model="mis.report.kpi")
                 ET.SubElement(kpi, "field", name="report_id",ref="%s" % record_id)
                 ET.SubElement(kpi, "field", name="name").text = rec['element_name']
                 ET.SubElement(kpi, "field", name="description").text = rec['name']
                 ET.SubElement(kpi, "field", name="auto_expand_accounts").text = 'True'
-                # ~ ET.SubElement(record, "field", name="auto_expand_accounts_style_id", ref="mis_report_expenses_style2")
+                ET.SubElement(kpi, "field", name="auto_expand_accounts_style_id", ref="report_style_2")
                 ET.SubElement(kpi, "field", name="budgetable").text = 'True'
                 ET.SubElement(kpi, "field", name="sequence").text = seq
                 kpiexp = ET.SubElement(data, 'record', id='mis_kpi_exp_%s' % rec['element_name'], model="mis.report.kpi.expression")
                 ET.SubElement(kpiexp, "field", name="kpi_id", ref='%s' % rec['element_name'])
                 ET.SubElement(kpiexp, "field", name="name").text = 'balp%s%s' % ([int(a) for a in rec.get('account_ids')],' * -1' if rec['sign'] == '-1' else '') 
                 account.append(rec['element_name'])
-        # ~ ET.SubElement(kpiexpmain, "field", name="name").text = ' + '.join(account)
-
-    def create_recs_main(data,record_id,name,desc,seq):
-        kpi = ET.SubElement(data, 'record', id='mis_kpi_%s' % record_id, model="mis.report.kpi")
-        ET.SubElement(kpi, "field", name="report_id",ref="%s" % record_id)
-        ET.SubElement(kpi, "field", name="name").text = name
-        ET.SubElement(kpi, "field", name="description").text = desc
-        ET.SubElement(kpi, "field", name="auto_expand_accounts").text = 'True'
-        # ~ ET.SubElement(record, "field", name="auto_expand_accounts_style_id", ref="mis_report_expenses_style2")
-        ET.SubElement(kpi, "field", name="budgetable").text = 'True'
-        ET.SubElement(kpi, "field", name="sequence").text = seq
-        record =ET.SubElement(data, 'record', id='sub%s' % record_id, model="mis.report.subreport")
-        ET.SubElement(record, "field", name="name").text = name
-        ET.SubElement(record, "field", name="subreport_id", ref="%s" % record_id)
-        ET.SubElement(record, "field", name="report_id", ref="report_rr")    
-
-        kpiexpmain = ET.SubElement(data, 'record', id='mis_kpi_main_%s' % record_id, model="mis.report.kpi.expression")
-        ET.SubElement(kpiexpmain, "field", name="kpi_id", ref='mis_kpi_%s' % record_id)
-        account = []
-        for rec in r_lst:
-            if rec.get('parent_id') == record_id and rec.get('account_ids'):
-                kpi = ET.SubElement(data, 'record', id='%s' % rec['element_name'], model="mis.report.kpi")
-                ET.SubElement(kpi, "field", name="report_id",ref="%s" % record_id)
-                ET.SubElement(kpi, "field", name="name").text = rec['element_name']
-                ET.SubElement(kpi, "field", name="description").text = rec['name']
-                ET.SubElement(kpi, "field", name="auto_expand_accounts").text = 'True'
-                # ~ ET.SubElement(record, "field", name="auto_expand_accounts_style_id", ref="mis_report_expenses_style2")
-                ET.SubElement(kpi, "field", name="budgetable").text = 'True'
-                ET.SubElement(kpi, "field", name="sequence").text = seq
-                kpiexp = ET.SubElement(data, 'record', id='mis_kpi_exp_%s' % rec['element_name'], model="mis.report.kpi.expression")
-                ET.SubElement(kpiexp, "field", name="kpi_id", ref='%s' % rec['element_name'])
-                ET.SubElement(kpiexp, "field", name="name").text = 'balp%s%s' % ([int(a) for a in rec.get('account_ids')],' * -1' if rec['sign'] == '-1' else '') 
-                account.append(rec['element_name'])
-
-
+        ET.SubElement(kpiexpmain, "field", name="name").text = ' + '.join(account)
 
     odoo = ET.Element('odoo')
     data = ET.SubElement(odoo, 'data')
 
+    style = ET.SubElement(data, 'record', id='report_style_1', model="mis.report.style")
+    ET.SubElement(style, "field", name="name").text = u'Style for money'
+    ET.SubElement(style, "field", name="prefix_inherit", eval="False")
+    ET.SubElement(style, "field", name="suffix_inherit", eval="False")
+    ET.SubElement(style, "field", name="suffix_inherit",).text = "SEK"
+    ET.SubElement(style, "field", name="dp_inherit", eval="False")
+    ET.SubElement(style, "field", name="dp").text = "2"
 
-    record_rr = ET.SubElement(data, 'record', id='report_rr', model="mis.report")
-    ET.SubElement(record_rr, "field", name="name").text = u'Resultaträkning'
+    style = ET.SubElement(data, 'record', id='report_style_2', model="mis.report.style")
+    ET.SubElement(style, "field", name="name").text = u'Style account'
+    ET.SubElement(style, "field", name="indent_level_inherit", eval="False")
+    ET.SubElement(style, "field", name="indent_level",).text = "1"
+    ET.SubElement(style, "field", name="font_style_inherit", eval="False")
+    ET.SubElement(style, "field", name="font_style").text = 'italic'
+
+    style = ET.SubElement(data, 'record', id='report_style_3', model="mis.report.style")
+    ET.SubElement(style, "field", name="name").text = u'Style total'
+    ET.SubElement(style, "field", name="background_color_inherit", eval="False")
+    ET.SubElement(style, "field", name="background_color",).text = "#967C8B"
+    ET.SubElement(style, "field", name="color_inherit", eval="False")
+    ET.SubElement(style, "field", name="color",).text = "#FFFFFF"
+    ET.SubElement(style, "field", name="font_weight_inherit", eval="False")
+    ET.SubElement(style, "field", name="font_weight").text = 'bold'
+
+    style = ET.SubElement(data, 'record', id='report_style_4', model="mis.report.style")
+    ET.SubElement(style, "field", name="name").text = u'Style bold'
+    ET.SubElement(style, "field", name="font_weight_inherit", eval="False")
+    ET.SubElement(style, "field", name="font_weight").text = 'bold'
+
+    report_rr = ET.SubElement(data, 'record', id='report_rr', model="mis.report")
+    ET.SubElement(report_rr, "field", name="name").text = u'Resultaträkning'
     # ~ field_style_id = ET.SubElement(record, "field", name="style_id", ref='mis_report_expenses_style1"')
     
-    record = ET.SubElement(data, 'record', id='RorelsensIntakterLagerforandringarMmAbstract', model="mis.report")
-    ET.SubElement(record, "field", name="name").text = u'Intäkter'
-    create_recs(data,'RorelsensIntakterLagerforandringarMmAbstract','netto',u'Nettoomsättning','1')
-    
-    record = ET.SubElement(data, 'record', id='RorelsekostnaderAbstract', model="mis.report")
-    ET.SubElement(record, "field", name="name").text = u'Kostnader'
-    create_recs(data,'RorelsekostnaderAbstract','kost','Kostnader','2')
-
-    record = ET.SubElement(data, 'record', id='ResultatrakningKostnadsslagsindeladAbstract', model="mis.report")
-    ET.SubElement(record, "field", name="name").text = u'Kostnadsslag'
-    create_recs(data,'ResultatrakningKostnadsslagsindeladAbstract','kostslag','Kostnadsslag','3')
-   
-    record = ET.SubElement(data, 'record', id='RorelseresultatAbstract', model="mis.report")
-    ET.SubElement(record, "field", name="name").text = u'Resultat'
-    create_recs(data,'RorelseresultatAbstract','resultat','Resultat','4')
-
-
-    record = ET.SubElement(data, 'record', id='FinansiellaPosterAbstract', model="mis.report")
-    ET.SubElement(record, "field", name="name").text = u'Finansiella poster'
-    create_recs(data,'FinansiellaPosterAbstract','fin','Finansiella poster','5')
-
-    record = ET.SubElement(data, 'record', id='BokslutsdispositionerAbstract', model="mis.report")
-    ET.SubElement(record, "field", name="name").text = u'Bokslutsdispositioner'
-    create_recs(data,'BokslutsdispositionerAbstract','bokdisp','Bokslutsdispositioner','6')
-
-    record = ET.SubElement(data, 'record', id='SkatterAbstract', model="mis.report")
-    ET.SubElement(record, "field", name="name").text = u'Skatt'
-    create_recs(data,'SkatterAbstract','skatt','Skatter','7')
-
-
-
+    create_recs(data,'RorelsensIntakterLagerforandringarMmAbstract','report_rr','netto',u'Nettoomsättning',u'Intäkter',r_lst,'1')
+    create_recs(data,'RorelsekostnaderAbstract','report_rr','kost',u'Kostnader','Kostnader',r_lst,'2')
+    create_recs(data,'ResultatrakningKostnadsslagsindeladAbstract','report_rr','kostslag',u'Kostnadsslag',u'Kostnadsslag',r_lst,'3')
+    create_recs(data,'RorelseresultatAbstract','report_rr','resultat',u'Resultat',u'Resultat',r_lst,'4')
+    create_recs(data,'FinansiellaPosterAbstract','report_rr','fin',u'Finansiella poster',u'Finansiella poster',r_lst,'5')
+    create_recs(data,'BokslutsdispositionerAbstract','report_rr','bokdisp',u'Bokslutsdispositioner',u'Bokslutsdispositioner',r_lst,'6')
+    create_recs(data,'SkatterAbstract','report_rr','skatt',u'Skatter',u'Skatt',r_lst,'7')
 
     xml = minidom.parseString(ET.tostring(odoo)).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
