@@ -41,16 +41,6 @@ r_parents = {
     'AretsResultat': 'ResultatrakningKostnadsslagsindeladAbstract',
 }
 
-# ~ r_title = [ {'RorelseresultatAbstract':('Rörelseresultat',[
-               # ~ {'RorelsensIntakterLagerforandringarMmAbstract':('Rörelseintäkter, lagerförändringar m.m.',[('Nettoomsattning','Nettoomsättning'),('ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning','Förändringar av lager av produkter i arbete, färdiga varor och pågående arbeten för annans räkning'),('AktiveratArbeteEgenRakning','Aktiverat arbete för egen räkning'),('OvrigaRorelseintakter','Övriga rörelseintäkter')])}
-               # ~ {'RorelseintakterLagerforandringarMm':('Summa rörelseintäkter, lagerförändringar m.m.','Nettoomsattning + ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning + AktiveratArbeteEgenRakning + OvrigaRorelseintakter'')}
-            # ~ ])},
-            # ~ {'RorelsekostnaderAbstract':('Rörelsekostnader':[
-                # ~ {'RavarorFornodenheterKostnader':('Kostnad för förbrukning av råvaror och förnödenheter',)}
-                
-            # ~ ])}
-            # ~ ]
-
 b_element_name = 9
 b_title = 11
 b_sign = 12
@@ -153,7 +143,7 @@ def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, 
     for row in range(1, sheet.nrows):
         if sheet.cell(row, account_type).value == 'BFNAR' or sheet.cell(row, account_type).value == '':
             lst.append({
-                'name': sheet.cell(row, title).value,
+                'name': sheet.cell(row, title).value.replace('(Presentation)',''),
                 'type': 'sum',
                 'element_name': sheet.cell(row, element_name).value[:32],
                 'parent_id': "%s" %(parents.get(sheet.cell(row, element_name).value) if parents.get(sheet.cell(row, element_name).value) else ''),
@@ -176,11 +166,6 @@ def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, 
 
 read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
 read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
-
-r_par = {}
-for r in b_lst:
-    # ~ print r['name'],r['element_name'], r['type'], r['parent_id']
-    r_par[r['parent_id']] = ''
 
 
 def mis_xml(r_lst,b_lst):
@@ -272,12 +257,14 @@ def mis_xml(r_lst,b_lst):
     ET.SubElement(style, "field", name="suffix",).text = "SEK"
 
     style = ET.SubElement(data, 'record', id='report_style_5', model="mis.report.style")
-    ET.SubElement(style, "field", name="name").text = u'Style bold'
+    ET.SubElement(style, "field", name="name").text = u'Style bold sum'
     ET.SubElement(style, "field", name="font_weight_inherit", eval="False")
     ET.SubElement(style, "field", name="indent_level",).text = "0"
     ET.SubElement(style, "field", name="font_weight").text = 'bold'
-    ET.SubElement(style, "field", name="font_style_inherit", eval="False")
-    ET.SubElement(style, "field", name="font_style").text = 'italic'
+    # ~ ET.SubElement(style, "field", name="font_style_inherit", eval="False")
+    # ~ ET.SubElement(style, "field", name="font_style").text = 'italic'
+    ET.SubElement(style, "field", name="font_size_inherit", eval="False")
+    ET.SubElement(style, "field", name="font_size").text = 'medium'
     ET.SubElement(style, "field", name="prefix_inherit", eval="False")
     ET.SubElement(style, "field", name="suffix_inherit", eval="False")
     ET.SubElement(style, "field", name="suffix",).text = "SEK"
@@ -370,9 +357,6 @@ def mis_xml(r_lst,b_lst):
         if rec['parent_id'] == '':
             continue
 
-
-
-
         if rec['element_name'] =='RorelseresultatAbstract':
             create_title(data,rec,'report_br',None,'report_style_3','%s' % seq)
 
@@ -394,6 +378,9 @@ def mis_xml(r_lst,b_lst):
 # ~ 15 Förbättringsutgifter på annans fastighet ForbattringsutgifterAnnansFastig account
 # ~ 16 Övriga materiella anläggningstillgångar OvrigaMateriellaAnlaggningstillg account
 # ~ 17 Pågående nyanläggningar och förskott avseende materiella anläggningstillgångar PagaendeNyanlaggningarForskottMa account
+
+        elif rec['element_name'] =='MateriellaAnlaggningstillgangar':  # Dublett med 13
+            continue
 # ~ 18 Materiella anläggningstillgångar MateriellaAnlaggningstillgangar account
 
 # ~ 19 Finansiella anläggningstillgångar (Presentation) FinansiellaAnlaggningstillgangar title
@@ -408,7 +395,14 @@ def mis_xml(r_lst,b_lst):
 # ~ 28 Andra långfristiga fordringar AndraLangfristigaFordringar account
 # ~ 29 Finansiella anläggningstillgångar FinansiellaAnlaggningstillgangar account
 
+        elif rec['element_name'] =='Anlaggningstillgangar':
+            create_title(data,rec,'report_br','KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+ \
+            ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+ \
+            PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordringarIntresseforetagGemensa+ \
+            AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FinansiellaAnlaggningstillgangar',
+            'report_style_5','%s' % seq)
 # ~ 30 Anläggningstillgångar Anlaggningstillgangar title
+
 
 # ~ 31 Omsättningstillgångar (Presentation) OmsattningstillgangarAbstract title
 # ~ 32 Varulager m.m. (Presentation) VarulagerMmAbstract title
@@ -427,6 +421,8 @@ def mis_xml(r_lst,b_lst):
 # ~ 45 Övriga kortfristga fordringar OvrigaFordringarKortfristiga account
 # ~ 46 Upparbetad men ej fakturerad intäkt UpparbetadEjFaktureradIntakt account
 # ~ 47 Förutbetalda kostnader och upplupna intäkter ForutbetaldaKostnaderUpplupnaInt account
+        elif rec['element_name'] =='KortfristigaFordringar':  # Dublett med 41 och 45
+            continue
 # ~ 48 Kortfristiga fordringar KortfristigaFordringar account
 
 
@@ -437,8 +433,19 @@ def mis_xml(r_lst,b_lst):
 # ~ 53 Kassa och bank (Presentation) KassaBankAbstract title
 # ~ 54 Kassa och bank exklusive redovisningsmedel KassaBankExklRedovisningsmedel account
 # ~ 55 Redovisningsmedel Redovisningsmedel account
+        elif rec['element_name'] =='KassaBank':
+                create_title(data,rec,'report_br','KassaBankExklRedovisningsmedel+Redovisningsmedel','report_style_5','%s' % seq)
+
 # ~ 56 Kassa och bank KassaBank title
+        elif rec['element_name'] =='Omsattningstillgangar':
+            create_title(data,rec,'report_br','LagerRavarorFornodenheter+LagerVarorUnderTillverkning+LagerFardigaVarorHandelsvaror+OvrigaLagertillgangar+PagaendeArbetenAnnansRakningOmsa+ \
+                ForskottTillLeverantorer+VarulagerMm+Kundfordringar+FordringarKoncernforetagKortfris+FordringarIntresseforetagGemensa+OvrigaFordringarKortfristiga+UpparbetadEjFaktureradIntakt+ \
+                ForutbetaldaKostnaderUpplupnaInt+AndelarKoncernforetagKortfristig+OvrigaKortfristigaPlaceringar+KortfristigaPlaceringar+KassaBank',
+            'report_style_5','%s' % seq)
+
 # ~ 57 Omsättningstillgångar Omsattningstillgangar title
+        elif rec['element_name'] =='Tillgangar':
+                create_title(data,rec,'report_br','Anlaggningstillgangar+Omsattningstillgangar','report_style_5','%s' % seq)
 # ~ 58 Tillgångar Tillgangar title
 
 
@@ -449,23 +456,42 @@ def mis_xml(r_lst,b_lst):
 # ~ 63 Ej registrerat aktiekapital EjRegistreratAktiekapital account
 # ~ 64 Uppskrivningsfond Uppskrivningsfond account
 # ~ 65 Reservfond Reservfond account
+        elif rec['element_name'] =='BundetEgetKapital':
+                create_title(data,rec,'report_br','Aktiekapital+EjRegistreratAktiekapital+Uppskrivningsfond+Reservfond','report_style_5','%s' % seq)
 # ~ 66 Bundet eget kapital BundetEgetKapital title
+
 # ~ 67 Fritt eget kapital (Presentation) FrittEgetKapitalAbstract title
+
 # ~ 68 Överkursfond Overkursfond account
 # ~ 69 Balanserat resultat BalanseratResultat account
+
+
 # ~ 70 Årets resultat i balansräkningen AretsResultatEgetKapital account
+        elif rec['element_name'] =='FrittEgetKapital':
+                create_title(data,rec,'report_br','Overkursfond+BalanseratResultat+AretsResultatEgetKapital','report_style_5','%s' % seq)
 # ~ 71 Fritt eget kapital FrittEgetKapital title
+        elif rec['element_name'] =='EgetKapital':
+                create_title(data,rec,'report_br','FrittEgetKapital+BundetEgetKapital','report_style_5','%s' % seq)
 # ~ 72 Eget kapital EgetKapital title
+
+
 # ~ 73 Obeskattade reserver (Presentation) ObeskattadeReserverAbstract title
 # ~ 74 Periodiseringsfonder Periodiseringsfonder account
 # ~ 75 Ackumulerade överavskrivningar AckumuleradeOveravskrivningar account
 # ~ 76 Övriga obeskattade reserver OvrigaObeskattadeReserver account
+        elif rec['element_name'] =='ObeskattadeReserver':  # Dublett med 08, 103, 104, 105 
+            continue
 # ~ 77 Obeskattade reserver ObeskattadeReserver account
 # ~ 78 Avsättningar (Presentation) AvsattningarAbstract title
 # ~ 79 Avsättningar för pensioner och liknande förpliktelser enligt lagen (1967:531) om tryggande av pensionsutfästelse m.m. AvsattningarPensionerLiknandeFor account
 # ~ 80 Övriga avsättningar för pensioner och liknande förpliktelser OvrigaAvsattningarPensionerLikna account
 # ~ 81 Övriga avsättningar OvrigaAvsattningar account
+        elif rec['element_name'] =='Avsattningar':
+                create_title(data,rec,'report_br','Periodiseringsfonder+AckumuleradeOveravskrivningar+OvrigaObeskattadeReserver+ \
+                AvsattningarPensionerLiknandeFor+OvrigaAvsattningarPensionerLikna+OvrigaAvsattningar','report_style_5','%s' % seq)
 # ~ 82 Avsättningar Avsattningar title
+
+
 # ~ 83 Långfristiga skulder (Presentation) LangfristigaSkulderAbstract title
 # ~ 84 Obligationslån Obligationslan account
 # ~ 85 Långfristig checkräkningskredit CheckrakningskreditLangfristig account
@@ -489,15 +515,23 @@ def mis_xml(r_lst,b_lst):
 # ~ 103 Skatteskulder Skatteskulder account
 # ~ 104 Övriga kortfristiga skulder OvrigaKortfristigaSkulder account
 # ~ 105 Upplupna kostnader och förutbetalda intäkter UpplupnaKostnaderForutbetaldaInt account
+        elif rec['element_name'] =='KortfristigaSkulder':  # Dublett med 08, 103, 104, 105 
+            continue
 # ~ 106 Kortfristiga skulder KortfristigaSkulder account
+
+        elif rec['element_name'] =='EgetKapitalSkulder':
+            create_title(data,rec,'report_br', 'Obligationslan+CheckrakningskreditLangfristig+OvrigaLangfristigaSkulderKrediti+ \
+                    SkulderKoncernforetagLangfristig+SkulderIntresseforetagGemensamtS+SkulderOvrigaForetagAgarintresse+OvrigaLangfristigaSkulder+ \
+                    LangfristigaSkulder+CheckrakningskreditKortfristig+OvrigaKortfristigaSkulderKrediti+ForskottFranKunder+ \
+                    PagaendeArbetenAnnansRakningKort+FaktureradEjUpparbetadIntakt+Leverantorsskulder+Vaxelskulder+SkulderKoncernforetagKortfristig+ \
+                    SkulderOvrigaForetagAgarintresse+Skatteskulder+OvrigaKortfristigaSkulder+UpplupnaKostnaderForutbetaldaInt',
+                'report_style_5' ,'%s' % seq)
 # ~ 107 Eget kapital och skulder EgetKapitalSkulder title
-
-
 
         elif rec.get('account_ids'):
             print seq,rec['name'],rec['element_name'],'account'
             create_recs(data,rec,'report_br','%s' % seq)
-        else:    
+        else:
             print seq,rec['name'],rec['element_name'],'title'
             create_title(data,rec,'report_br',None,'report_style_4','%s' % seq)
 
@@ -507,5 +541,5 @@ def mis_xml(r_lst,b_lst):
         f.write(xml.encode('utf-8'))
     print 'Finished'
 
-mis_xml(r_lst, b_lst)
 
+mis_xml(r_lst, b_lst)
