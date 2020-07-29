@@ -350,22 +350,30 @@ class account_sru_declaration(models.Model):
         # ~ grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
         # ~ accounts = {'%s' % g['account_id']: g['balance'] for g in grouped_lines}
         
-        all_move_lines = self.env['account.move'].with_context(self._context).get_movelines()        
+        # ~ all_move_lines = self.env['account.move'].with_context(self._context).get_movelines()
+        period_ids.append(self.period_start.id)
+        all_move_lines = self.env['account.move'].search([('period_id','in',period_ids)]).mapped('line_ids')
+        for ml in all_move_lines:
+            ml.sru_declaration_id = self.id
         
-        # ~ raise Warning(str(grouped_lines))
+        # ~ raise Warning('%s' % all_move_lines)
 
-        def create_lines(afr, dec, is_b=False, is_r=False):
+        def create_lines(afr, dec, ml=None,is_b=False, is_r=False):
             lines = self.env['account.financial.report'].search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
             for line in lines:
                 
-                move_line_ids = line.with_context(ctx).get_moveline_ids(all_move_lines)
+                # ~ move_line_ids = line.with_context(ctx).get_moveline_ids(all_move_lines)
                 
-                period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
-                _logger.debug('SRU line %s %s' % (line.name,'pelle'))
-
-                balance = sum(self.env['account.move.line'].read(move_line_ids, {'balance'}))
+                move_line_ids = ml.filtered(lambda m: line.tax_ids & m.tax_ids or m.account_id in line.account_ids)
+                ml = ml - move_line_ids
+                
+                
+                # ~ period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
+                _logger.warn('SRU line %s %s' % (line.name,move_line_ids))
+                # ~ balance = sum(self.env['account.move.line'].read(move_line_ids, {'balance'}))
+                balance = sum(move_line_ids.mapped('balance'))
                 # ~ balance = sum([a.with_context(ctx).sum_period() for a in self.env['account.financial.report'].search([('parent_id', 'child_of', line.id), ('type', '=', 'accounts')]).mapped('account_ids')])
-                _logger.debug('SRU line %s %s' % (line.name, balance))
+                _logger.warn('SRU line %s %s' % (line.name, balance))
                 sru_line = self.env['account.declaration.line'].create({
                     'sru_declaration_id': dec.id,
                     'afr_id': line.id,
@@ -373,7 +381,7 @@ class account_sru_declaration(models.Model):
                     'sign': 1 if balance >= 0.0 else -1,
                     'name': line.name,
                     'level': line.level,
-                    'move_line_ids': [(6, 0, move_line_ids)],
+                    'move_line_ids': [(6, 0, move_line_ids.mapped('id'))],
                     'is_b': is_b,
                     'is_r': is_r,
                 })
@@ -384,10 +392,11 @@ class account_sru_declaration(models.Model):
                 if line.sru == '3.27': # förlust rad
                     if sru_line.sign == 1: # är vinst, förlust rad ska vara 0
                         sru_line.balance = 0
+            return ml
         if b_afr:
-            create_lines(b_afr, self, is_b=True)
+            create_lines(b_afr, self, ml=all_move_lines,is_b=True,is_r=False)
         if r_afr:
-            create_lines(r_afr, self, is_r=True)
+            create_lines(r_afr, self, ml=all_move_lines,is_b=False,is_r=True)
 
         # encoding="ISO-8859-1"
         self.infosru = base64.b64encode(self._parse_infosru(self).encode('utf-8'))
@@ -649,7 +658,25 @@ class account_sru_declaration(models.Model):
             s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in lines])
             return s if s != 0 else ''
 
+    @api.multi
+    def show_journal_entries(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        action.update({
+            'display_name': _('Verifikat'),
+            'domain': [('id', 'in', self.move_ids.mapped('id'))],
+            'context': ctx,
+        })
+        return action
+
+
 class account_move(models.Model):
     _inherit = 'account.move'
 
-    sru_declaration_id = fields.Many2one(comodel_name='account.agd.declaration')
+    sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
