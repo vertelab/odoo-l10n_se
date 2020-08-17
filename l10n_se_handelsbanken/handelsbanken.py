@@ -49,7 +49,7 @@ class HandelsbankenTransaktionsrapport(object):
             fp = tempfile.TemporaryFile()
             fp.write(data_file)
             fp.seek(0)
-            reader = csv.DictReader(fp,delimiter="\t")
+            reader = csv.DictReader(fp,delimiter=";")
             for row in reader:
                 _logger.warn('My row %s' % row)
                 rows.append(row)
@@ -59,7 +59,12 @@ class HandelsbankenTransaktionsrapport(object):
             _logger.error(u'Could not read CSV file')
             raise ValueError(e)
         _logger.error('%s' % self.data[0].keys())
-        if not (self.data[0].get('Valutadag') and self.data[0].get('Ins\xe4ttning/Uttag') and self.data[0].get('Kontor') and self.data[0].get('Datum intervall')):
+        # ~ Kontohavare;Kontonr;IBAN;BIC;Kontoform;Valuta;Kontoförande kontor;Datum intervall;Kontor;Bokföringsdag;Reskontradag;Valutadag;Referens;
+        # ~ Insättning/Uttag;Bokfört saldo;Aktuellt saldo;Valutadagssaldo;Referens Swish;Avsändar-id Swish;
+        
+        if not ( 'Valutadag' in self.data[0].keys() and 'Reskontradag' in self.data[0].keys() and 'Kontor' in self.data[0].keys() and 'Datum intervall' in self.data[0].keys()):
+            _logger.error( "valuta: %s , Reskonstra %s, Kontor %s , Datum %s %s" % (self.data[0].get('Valutadag') , self.data[0].get('Reskontradag'), self.data[0].get('Kontor'), self.data[0].get('Datum intervall'), self.data[0]) ) 
+                        
             _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
             raise ValueError('This is not a Handelsbanken Transaktionsrapport')
 
@@ -69,11 +74,13 @@ class HandelsbankenTransaktionsrapport(object):
 
     def parse(self):
         """Parse handelsbanken bank statement file contents."""
-        if not (self.data[0].get('Valutadag') and self.data[0].get('Ins\xe4ttning/Uttag') and self.data[0].get('Kontor') and self.data[0].get('Datum intervall')):
-
-        # ~ if not self.data[0].keys() == ['Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta','Kontoförande kontor','Datum intervall','Kontor','Bokföringsdag','Reskontradag','Valutadag','Referens','Insättning/Uttag','Bokfört saldo','Aktuellt saldo','Valutadagssaldo','Referens Swish','Avsändar-id Swish']:
-            _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
-            raise ValueError('This is not a Handelsbanken Transaktionsrapport')        
+        if not ( 'Valutadag' in self.data[0].keys() and 'Reskontradag' in self.data[0].keys() and 'Kontor' in self.data[0].keys() and 'Datum intervall' in self.data[0].keys()):
+        # ~ if not (self.data[0].get('Valutadag') and self.data[0].get('Reskontradag') and self.data[0].get('Kontor') and self.data[0].get('Datum intervall')):
+        # ~ if not (self.data[0].get('Valutadag') ):
+            # ~ if not self.data[0].keys() == ['Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta','Kontoförande kontor','Datum intervall','Kontor','Bokföringsdag','Reskontradag','Valutadag','Referens','Insättning/Uttag','Bokfört saldo','Aktuellt saldo','Valutadagssaldo','Referens Swish','Avsändar-id Swish']:
+            # ~ _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
+            raise ValueError('This is not a Handelsbanken Transaktionsrapport')
+       
         header = {
                 'Kontohavare': None,
                 'Kontonr': None,
@@ -81,19 +88,19 @@ class HandelsbankenTransaktionsrapport(object):
                 'BIC': None,
                 'Kontoform': None,
                 'Valuta': None,
-                'Kontoförande kontor': None,
+                u'Kontoförande kontor': None,
                 'Datum intervall': None,
                 'Kontor': None,
-                'Bokföringsdag': 'date',
+                u'Bokföringsdag': 'date',
                 'Reskontradag': None,
                 'Valutadag': None,
                 'Referens': 'memo',
-                'Insättning/Uttag': 'memo',
-                'Bokfört saldo': 'amount',
+                u'Insättning/Uttag': 'memo',
+                u'Bokfört saldo': 'amount',
                 'Aktuellt saldo': None,
                 'Valutadagssaldo': None,
                 'Referens Swish': None,
-                'Avsändar-id Swish': None
+                u'Avsändar-id Swish': None
             # 'valutadag': 'date',
             # 'referens': 'payee',
             # 'text': 'memo',
@@ -117,19 +124,22 @@ class HandelsbankenTransaktionsrapport(object):
 class account(object):
     pass
 
+# ~ Kontohavare;Kontonr;IBAN;BIC;Kontoform;Valuta;Kontoförande kontor;Datum intervall;Kontor;Bokföringsdag;Reskontradag;
+# ~ Valutadag;Referens;Insättning/Uttag;Bokfört saldo;Aktuellt saldo;Valutadagssaldo;Referens Swish;Avsändar-id Swish;
+
 class HandelsbankenIterator(object):
     def __init__(self, data):
         self.row = 0
         self.data = data
         self.rows = len(data) - 2
-        self.header = data.keys()
+        self.header = data[0].keys()
         self.account = account()
-        self.account.routing_number = self.data[1]['Konto']
-        self.account.balance_start = self.data[-1]['Bokfört saldo']
-        self.account.balance_end = self.data[1]['Aktuellt saldo']
+        self.account.routing_number = self.data[1]['Kontonr']
+        self.account.balance_start = self.data[1]['Aktuellt saldo']
+        self.account.balance_end = self.data[-1]['Aktuellt saldo']
         self.account.currency = self.data[1]['Valuta']
-        self.account.number = self.data[1]['Konto']
-        self.account.name = self.data[1]['Konto']
+        self.account.number = self.data[1]['Kontonr']
+        self.account.name = self.data[1]['Kontonr']
 
     def __iter__(self):
         return self
