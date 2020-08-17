@@ -35,12 +35,12 @@ class AccountBankStatementImport(models.TransientModel):
     def _parse_file(self, data_file):
         """Parse a Handelsbanken transaktionsrapport  file."""
         try:
-            _logger.debug("Try parsing with nordbanken_transaktioner.")
+            _logger.debug("Try parsing with handelsbanken_transaktioner.")
             parser = Parser(data_file)
-            nordbanken = parser.parse()
+            handelsbanken = parser.parse()
         except ValueError:
             # Not a Handelsbanken file, returning super will call next candidate:
-            _logger.error("Statement file was not a Nordbanken Transaktionsrapport file.",exc_info=True)
+            _logger.error("Statement file was not a Handelsbanken Transaktionsrapport file.",exc_info=True)
             return super(AccountBankStatementImport, self)._parse_file(data_file)
 
 
@@ -50,38 +50,47 @@ class AccountBankStatementImport(models.TransientModel):
         transactions = []
         total_amt = 0.00
         try:
-            for transaction in nordbanken:
+            for transaction in handelsbanken:
                 bank_account_id = partner_id = False
                 ref = ''
-                if transaction['referens']:
-                    ref = transaction['referens'].strip()
+                if transaction['Referens']:
+                    ref = transaction['Referens'].strip()
                     partner_id = self.env['res.partner'].search(['|','|','|',('name','ilike',ref),('ref','ilike',ref),('name','ilike',ref.split(' ')[0]),('ref','ilike',ref.split(' ')[0])])
                     if partner_id:
                         bank_account_id = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].id or None
                         partner_id = partner_id[0].commercial_partner_id.id
+                # ~ Kontohavare;Kontonr;IBAN;BIC;Kontoform;Valuta;Kontoförande kontor;Datum intervall;Kontor;Bokföringsdag;
+                # ~ Reskontradag;Valutadag;Referens;Insättning/Uttag;Bokfört saldo;Aktuellt saldo;Valutadagssaldo;Referens Swish;Avsändar-id Swish;
+
                 vals_line = {
-                    'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
-                    'name': ref + (transaction['text'] and ': ' + transaction['text'] or ''),
-                    'ref': transaction['referens'],
-                    'amount': transaction['belopp'],
-                    'unique_import_id': 'nordbanken %s %s' % (nordbanken.account.name[29:52], transaction['radnr']),
+                    # ~ 'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
+                    # ~ 'name': ref + (transaction['text'] and ': ' + transaction['text'] or ''),
+                    # ~ 'ref': transaction['referens'],
+                    # ~ 'amount': transaction['belopp'],
+                    # ~ 'unique_import_id': 'handelsbanken %s %s' % (handelsbanken.account.name[29:52], transaction['radnr']),
+                    # ~ 'bank_account_id': bank_account_id or None,
+                    # ~ 'partner_id': partner_id or None,
+                    'date': transaction[u'Bokföringsdag'],  # bokfdag, transdag, valutadag
+                    'name': ref + (transaction['Kontohavare'] and ': ' + transaction['Kontonr'] or ''),
+                    'ref': transaction['Referens'],
+                    'amount': transaction[u'Bokfört saldo'],
+                    'unique_import_id': 'handelsbanken %s %s' % (handelsbanken.account.name[29:52], transaction['Kontonr']),
                     'bank_account_id': bank_account_id or None,
                     'partner_id': partner_id or None,
                 }
                 if not vals_line['name']:
-                    vals_line['name'] = transaction['produkt'].capitalize()
-                total_amt += float(transaction['belopp'])
+                    vals_line['name'] = transaction['Kontohavare'].capitalize()
+                total_amt += float(transaction[u'Insättning/Uttag'])
                 transactions.append(vals_line)
         except Exception, e:
             raise Warning(_(
                 "The following problem occurred during import. "
                 "The file might not be valid.\n\n %s" % e.message
             ))
-
         vals_bank_statement = {
-            'name': nordbanken.account.name,
+            'name': handelsbanken.account.name,
             'transactions': transactions,
-            'balance_start': nordbanken.account.balance_start,
+            'balance_start': handelsbanken.account.balance_start,
             'balance_end_real':
                 float(handelsbanken.account.balance_start) + total_amt,
         }
