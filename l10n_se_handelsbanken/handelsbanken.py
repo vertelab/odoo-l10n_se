@@ -51,14 +51,14 @@ class HandelsbankenTransaktionsrapport(object):
             fp.seek(0)
             reader = csv.DictReader(fp,delimiter=";")
             for row in reader:
-                _logger.warn('My row %s' % row)
+                # ~ _logger.warn('My row %s' % row)
                 rows.append(row)
             fp.close()
             self.data = rows
         except IOError as e:
             _logger.error(u'Could not read CSV file')
             raise ValueError(e)
-        _logger.error('%s' % self.data[0].keys())
+        _logger.error('self.data[0].keys() = %s' % self.data[0].keys())
         # ~ Kontohavare;Kontonr;IBAN;BIC;Kontoform;Valuta;Kontoförande kontor;Datum intervall;Kontor;Bokföringsdag;Reskontradag;Valutadag;Referens;
         # ~ Insättning/Uttag;Bokfört saldo;Aktuellt saldo;Valutadagssaldo;Referens Swish;Avsändar-id Swish;
         
@@ -131,7 +131,7 @@ class HandelsbankenIterator(object):
     def __init__(self, data):
         self.row = 0
         self.data = data
-        self.rows = len(data) - 2
+        self.rows = len(data) - 1
         self.header = data[0].keys()
         self.account = account()
         self.account.routing_number = self.data[1]['Kontonr']
@@ -147,7 +147,7 @@ class HandelsbankenIterator(object):
     def next(self):
         if self.row >= self.rows:
             raise StopIteration
-        r = self.data[self.row + 2]
+        r = self.data[self.row + 1]
         self.row += 1
         return {n: r[n] for n in self.header}
 

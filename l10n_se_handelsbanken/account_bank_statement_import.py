@@ -61,6 +61,9 @@ class AccountBankStatementImport(models.TransientModel):
                         partner_id = partner_id[0].commercial_partner_id.id
                 # ~ Kontohavare;Kontonr;IBAN;BIC;Kontoform;Valuta;Kontoförande kontor;Datum intervall;Kontor;Bokföringsdag;
                 # ~ Reskontradag;Valutadag;Referens;Insättning/Uttag;Bokfört saldo;Aktuellt saldo;Valutadagssaldo;Referens Swish;Avsändar-id Swish;
+                _logger.error('Transaction :: %s' % transaction['Referens'])
+                _logger.error('Transaction :: %s' % transaction['Bokforingsdag'])
+                _logger.error('Transaction :: %s' % transaction)
 
                 vals_line = {
                     # ~ 'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
@@ -70,11 +73,11 @@ class AccountBankStatementImport(models.TransientModel):
                     # ~ 'unique_import_id': 'handelsbanken %s %s' % (handelsbanken.account.name[29:52], transaction['radnr']),
                     # ~ 'bank_account_id': bank_account_id or None,
                     # ~ 'partner_id': partner_id or None,
-                    'date': transaction[u'Bokföringsdag'],  # bokfdag, transdag, valutadag
+                    'date': transaction[u'Bokforingsdag'],  # bokfdag, transdag, valutadag
                     'name': ref + (transaction['Kontohavare'] and ': ' + transaction['Kontonr'] or ''),
                     'ref': transaction['Referens'],
                     'amount': transaction[u'Bokfört saldo'],
-                    'unique_import_id': 'handelsbanken %s %s' % (handelsbanken.account.name[29:52], transaction['Kontonr']),
+                    'unique_import_id': 'handelsbanken %s %s' % (transaction['Kontoform'], transaction['Kontonr']),
                     'bank_account_id': bank_account_id or None,
                     'partner_id': partner_id or None,
                 }
