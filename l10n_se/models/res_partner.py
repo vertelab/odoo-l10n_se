@@ -28,18 +28,20 @@ _logger = logging.getLogger(__name__)
 class res_partner(models.Model):
     _inherit = 'res.partner'
 
+    company_registry = fields.Char(compute="_company_registry", inverse='_set_company_registry', string='Company Registry', size=11, readonly=False)
+
     @api.depends('vat')
     def _company_registry(self):
         for partner in self:
             if partner.vat and re.match('SE[0-9]{10}01', partner.vat):
                 partner.company_registry = "%s-%s" % (partner.vat[2:8],partner.vat[8:-2])
+
     @api.depends('company_registry')
     def _set_company_registry(self):
         for partner in self:
             if not partner.company_registry: continue
-            if not partner.company_registry[6] == '-': continue
+            # Matcha korrekt orgnr
+            if not re.match('[0-9]{6}-[0-9]{4}', partner.company_registry): continue
             partner.vat = 'SE' + partner.company_registry[:6] + partner.company_registry[7:] + '01'
-
-    company_registry = fields.Char(compute="_company_registry",inverse='_set_company_registry',string='Company Registry', size=11,readonly=False)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

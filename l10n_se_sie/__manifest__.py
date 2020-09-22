@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015-2019 Vertel (<http://www.vertel.se>).
+#    Copyright (C) 2015-2020 Vertel AB (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,7 +24,7 @@
     'version': '0.2',
     'category': 'Localization/Account Charts',
     'description': """ Sweden - Chart of accounts  """,
-    'author': 'Vertel',
+    'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
 
     'depends': ['account_period','l10n_se'],
