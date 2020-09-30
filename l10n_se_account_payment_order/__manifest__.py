@@ -23,7 +23,7 @@
     'name': 'Swedish Payment Order Configuration',
     'version': '10.0.1',
     'license': 'AGPL-3',
-    'author': ' Vertel AB',
+    'author': 'Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
     'depends': ['account_payment_order', 'l10n_se'],
