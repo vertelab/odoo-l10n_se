@@ -22,7 +22,7 @@
     'name': 'Purchase Products for Swedish accounting',
     'version': '10.0.0.1.0',
     'license': 'AGPL-3',
-    'author': ' Vertel AB',
+    'author': 'Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
     'depends': ['sale', 'purchase', 'hr_expense', 'l10n_se'],
