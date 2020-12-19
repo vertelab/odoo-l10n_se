@@ -95,6 +95,7 @@
         'wizard/reconcile_model_journal_view.xml',
         'security/ir.model.access.csv',
         # ~ 'wizard/import_chart_of_account.xml',
+        'data/res.country.state.csv',
     ],
     # ~ 'demo_xml' : [
         # ~ 'demo/account_chart.yml',
