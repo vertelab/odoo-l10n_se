@@ -450,11 +450,7 @@ class AccountBankStatement(models.Model):
             attachment = self.env['ir.attachment'].search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move.id)])
             invoice = self.env['account.invoice'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
             voucher = self.env['account.voucher'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
-            reconciled_bg = False
-            for ml in move.line_ids:
-                bg_statement = self.env['account.bank.statement'].search([('is_bg', '=', True), ('name', '=', ml.name), '|', ('line_ids.amount', '=', ml.balance), ('line_ids.amount', '=', -ml.balance)])
-                reconciled_bg = True if len(bg_statement) > 0 else False
-            if not attachment and not invoice and not voucher and not reconciled_bg and not move.payment_order_id:
+            if not attachment and not invoice and not voucher and not move.payment_order_id:
                 untrackable_move_ids |= move
         _logger.warn('anders: untrackable_move_ids %s' % untrackable_move_ids.mapped('name'))
         return untrackable_move_ids

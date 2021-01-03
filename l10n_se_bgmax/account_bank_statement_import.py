@@ -109,6 +109,19 @@ class account_bank_statement(models.Model):
         self.create_bg_move()
         return res
 
+    @api.multi
+    def get_untrackable_journal_entries(self):
+        untrackable_move_ids = super(account_bank_statement,self).get_untrackable_journal_entries() or self.env['account.move'].browse()
+        for line in self.line_ids:
+            move = self.env['account.move'].search([('statement_line_id', '=', line.id)])
+            for ml in move.line_ids:
+                bg_statement = self.env['account.bank.statement'].search([('is_bg', '=', True), ('name', '=', ml.name), '|', ('line_ids.amount', '=', ml.balance), ('line_ids.amount', '=', -ml.balance)])
+                reconciled_bg = True if len(bg_statement) > 0 else False
+            if not reconciled_bg:
+                untrackable_move_ids |= move
+        _logger.warn('anders: untrackable_move_ids %s (bg)' % untrackable_move_ids.mapped('name'))
+        return untrackable_move_ids
+
 
 class AccountBankStatementImport(models.TransientModel):
     """Add process_bgmax method to account.bank.statement.import."""
