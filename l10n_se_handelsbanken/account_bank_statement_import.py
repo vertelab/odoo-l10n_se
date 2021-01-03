@@ -18,6 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import hashlib
+
 import logging
 from odoo import api,models, _
 from .handelsbanken import HandelsbankenTransaktionsrapport as Parser
@@ -50,7 +52,7 @@ class AccountBankStatementImport(models.TransientModel):
         transactions = []
         total_amt = 0.00
         try:
-            for transaction in handelsbanken:
+            for index, transaction in enumerate(handelsbanken):
                 bank_account_id = partner_id = False
                 ref = ''
                 if transaction['Referens']:
@@ -76,8 +78,11 @@ class AccountBankStatementImport(models.TransientModel):
                     'date': transaction[u'Bokforingsdag'],  # bokfdag, transdag, valutadag
                     'name': ref + (transaction['Kontohavare'] and ': ' + transaction['Kontonr'] or ''),
                     'ref': transaction['Referens'],
-                    'amount': transaction[u'Bokfört saldo'],
-                    'unique_import_id': 'handelsbanken %s %s' % (transaction['Kontoform'], transaction['Kontonr']),
+                    #'amount': transaction[u'Bokfört saldo'],
+                    'amount': transaction[u'Insättning/Uttag'],
+                    #'unique_import_id': 'handelsbanken %s %s' % (transaction['Kontoform'], transaction['Kontonr']),
+                    # Making an unique string to satisfy Odoo as we have no real unique data to identify a transaction
+                    'unique_import_id': hashlib.md5(''.join((str(index), str(transaction[u'Bokforingsdag']), str(transaction[u'Insättning/Uttag'])))).hexdigest(),
                     'bank_account_id': bank_account_id or None,
                     'partner_id': partner_id or None,
                 }
@@ -85,7 +90,8 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['name'] = transaction['Kontohavare'].capitalize()
                 total_amt += float(transaction[u'Insättning/Uttag'])
                 transactions.append(vals_line)
-        except Exception, e:
+        except KeyError, e:
+        #except Exception, e:
             raise Warning(_(
                 "The following problem occurred during import. "
                 "The file might not be valid.\n\n %s" % e.message
