@@ -20,7 +20,7 @@
 
 
 {
-    'name': 'Nordbanken Format Bank Statements Import',
+    'name': 'Handelsbanken Format Bank Statements Import',
     'version': '10.0.0.1.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',

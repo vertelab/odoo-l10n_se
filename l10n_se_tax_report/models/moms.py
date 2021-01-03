@@ -23,7 +23,7 @@ from odoo import models, fields, api, _
 from lxml import etree
 import base64
 from collections import OrderedDict
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning, UserError
 import time
 from datetime import datetime, timedelta
 
@@ -308,6 +308,7 @@ class account_vat_declaration(models.Model):
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="vat_declaration_id")
     
+    
     @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
     def _vat(self):
         for decl in self:
@@ -386,6 +387,12 @@ class account_vat_declaration(models.Model):
         for move in self.move_ids:
             move.vat_declaration_id = None
 
+    @api.multi
+    def test_function(self):
+        return True
+        
+
+
     @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
@@ -424,7 +431,12 @@ class account_vat_declaration(models.Model):
             if not move.vat_declaration_id:
                 move.vat_declaration_id = self.id
             else:
-                raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name)))
+                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name)))
+                # ~ 2020-05-29
+                # ~ https://www.odoo.com/forum/help-1/question/how-can-i-use-redirect-warning-118516
+                # ~ raise UserError(_('your warning message')), self.test_function()
+                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name) ))
+                _logger.warn(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name) ))
 
         for move in self.move_ids:
             move.full_reconcile_id = move.line_ids.mapped('full_reconcile_id')[0].id if len(move.line_ids.mapped('full_reconcile_id')) > 0 else None
@@ -620,6 +632,7 @@ class account_move(models.Model):
     
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
     full_reconcile_id = fields.Many2one(comodel_name='account.full.reconcile')
+    year_end_move = fields.Boolean(string='Year End Move', default = False)
     
     @api.model
     def get_movelines(self):
@@ -640,9 +653,12 @@ class account_move(models.Model):
             moves = self.env['account.move'].search(domain)
             if self._context.get('accounting_yearend'):
                 lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped('line_ids')
+                for move in moves:
+                    move.year_end_move = True
             else:
                 moves_19 = self.env['account.move'].search(domain).mapped('line_ids').filtered(lambda l: l.account_id.code[:2] in ['19','28']).mapped('move_id')
-                reconciled_lines = moves_19.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').filtered(lambda m: m.period_id.date_start <= self.env['account.period'].browse(period_stop).date_start).mapped('line_ids') # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax utom betalningar i framtiden
+                # ~ raise Warning(moves_19.mapped('name'))
+                reconciled_lines = moves_19.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').filtered(lambda m: m.year_end_move == False and m.period_id.date_start <= self.env['account.period'].browse(period_stop).date_start).mapped('line_ids') # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax utom betalningar i framtiden
                 lines = reconciled_lines | moves_19.mapped('line_ids').filtered(lambda l: l.tax_ids != False) # Alla 19x account.move.line med tax_line_id
 
             #~ lines = self.env['account.move'].search(domain)
