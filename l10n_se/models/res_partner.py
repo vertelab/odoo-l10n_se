@@ -28,7 +28,12 @@ _logger = logging.getLogger(__name__)
 class res_partner(models.Model):
     _inherit = 'res.partner'
 
-    company_registry = fields.Char(compute="_company_registry", inverse='_set_company_registry', string='Company Registry', size=11, readonly=False)
+    company_registry = fields.Char(compute="_company_registry",
+                                   inverse='_set_company_registry',
+                                   string='Company Registry',
+                                   size=11,
+                                   readonly=False,
+                                   store=True)
 
     @api.depends('vat')
     def _company_registry(self):
