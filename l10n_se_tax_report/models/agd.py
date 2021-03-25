@@ -25,6 +25,10 @@ import base64
 from odoo.exceptions import Warning
 import time
 from datetime import datetime, timedelta
+
+# ~ from six import string_types
+# ~ from tools.translate import _
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -289,6 +293,8 @@ class account_agd_declaration(models.Model):
                 None: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1",
             }
             ns = '{%s}' %namespaces['agd']
+            # 2021-03-25 Om du får felmeddelande och kommer hit laddar du saker i fel ordning!
+            # Gå till "Bolag" och fyll i Org nr och moms nr. :-)
             company_registry = '16' + self.env.user.company_id.company_registry.replace('-', '')
             attrib={'{%s}schemaLocation' % namespaces['xsi']: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1 http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd", 'omrade': 'Arbetsgivardeklaration'}
             skatteverket = etree.Element('Skatteverket', attrib=attrib, nsmap=namespaces)
