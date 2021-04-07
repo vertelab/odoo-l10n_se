@@ -11,7 +11,7 @@
             <field name="city">Stockholm</field>
             <field name="zip">123 45</field>
             <field name="country_id" ref="base.se"/>
-            <field name="street">Fjollträskgatan 123</field>
+            <field name="street">Majorsgatan 123</field>
             <field name="email">datanbutiken@yourcompany.example.com</field>
             <field name="phone">123 - 456 78 90</field>
             <field name="website"></field>
@@ -26,7 +26,7 @@
             <field name="city">Stockholm</field>
             <field name="zip">123 45</field>
             <field name="country_id" ref="base.se"/>
-            <field name="street">Fjollträskgatan 456</field>
+            <field name="street">Kaptensgatan 456</field>
             <field name="email">tegelomurbruk@yourcompany.example.com</field>
             <field name="phone">123 - 098 76 54</field>
             <field name="website"></field>
