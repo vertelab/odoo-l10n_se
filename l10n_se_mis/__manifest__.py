@@ -30,6 +30,9 @@
         'python': ['xlrd'],
     },
     'data': ['data/mis_financial_report.xml'],
+    'demo_xml' : [
+        'demo/l10n_se_demo.xml'
+    ],
     'installable': 'True',
     'application': 'False',
 }
