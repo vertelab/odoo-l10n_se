@@ -1,0 +1,7 @@
+py3o.formats
+py3o.template
+# IMPORTANT!!
+# Make this install!
+# sudo apt install wkhtmltopdf
+#
+# https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781785884887/10/ch10lvl1sec70/installing-wkhtmltopdf

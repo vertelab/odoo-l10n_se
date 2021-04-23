@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- 2021-03-18 If you see this text in an error, install OCA MIS Builder -->
+        <!-- https://github.com/OCA/mis-builder/ -->
         <record id="report_rr" model="mis.report">
             <field name="name">Resultaträkning</field>
         </record>
