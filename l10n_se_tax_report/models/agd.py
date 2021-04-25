@@ -85,8 +85,10 @@ class account_agd_declaration(models.Model):
     _order = 'date desc'
 
     line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
+
     def _period_start(self):
         return  self.get_next_periods()[0]
+
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="agd_declaration_id")
@@ -105,7 +107,6 @@ class account_agd_declaration(models.Model):
             move.agd_declaration_id = self.id
         # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
         
-    @api.multi
     def show_journal_entries(self):
         ctx = {
             'period_start': self.period_start.id,
@@ -131,7 +132,6 @@ class account_agd_declaration(models.Model):
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
-    @api.one
     @api.depends('period_start')
     def _vat(self):
         if self.period_start:
@@ -146,11 +146,10 @@ class account_agd_declaration(models.Model):
             self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
             self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
 
-    SumSkAvdr    = fields.Float(compute='_vat', store=True)
+    SumSkAvdr = fields.Float(compute='_vat', store=True)
     SumAvgBetala = fields.Float(compute='_vat', store=True)
-    ag_betala  = fields.Float(compute='_vat', store=True)
+    ag_betala = fields.Float(compute='_vat', store=True)
 
-    @api.multi
     def show_SumSkAvdr(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -167,7 +166,6 @@ class account_agd_declaration(models.Model):
         })
         return action
 
-    @api.multi
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -184,20 +182,17 @@ class account_agd_declaration(models.Model):
         })
         return action
 
-    @api.one
     def do_draft(self):
         super(account_agd_declaration, self).do_draft()
         self.slip_ids = []
         for move in self.move_ids:
             move.agd_declaration_id = None
 
-    @api.one
     def do_cancel(self):
         super(account_agd_declaration, self).do_draft()
         for move in self.move_ids:
             move.agd_declaration_id = None
 
-    @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
@@ -209,7 +204,6 @@ class account_agd_declaration(models.Model):
         self.move_ids = []
         for move in slips.mapped('move_id'):
             move.agd_declaration_id = self.id
-
 
         ctx = {
             'period_start': self.period_start.id,
@@ -239,8 +233,8 @@ class account_agd_declaration(models.Model):
                 'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
                 'name': line.name,
                 'level': line.level,
-                'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
-                })
+                'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
+            })
 
         ##
         #### Mark Used moves

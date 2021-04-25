@@ -18,7 +18,7 @@
 #
 ##############################################################################
 from odoo import models, fields, api, _
-# ~ from odoo.exceptions import Warning,UserError
+from odoo.exceptions import Warning, UserError
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -42,15 +42,14 @@ class AccountBudgetPost(models.Model):
 class CrossoveredBudgetLines(models.Model):
     _inherit = "crossovered.budget.lines"
 
-    @api.multi
     def _compute_practical_amount(self):
         for line in self:
             result = 0.0
             acc_ids = line.general_budget_id.account_ids | self.env['account.account'].search([('user_type_id','in',line.general_budget_id.user_type_ids.mapped('id'))])
             if not acc_ids:
-                raise UserError(_("XXThe Budget '%s' has no accounts!") % ustr(line.general_budget_id.name))
-            date_to = self.env.context.get('wizard_date_to',line.date_to) 
-            date_from = self.env.context.get('wizard_date_from',line.date_from)
+                raise UserError(_("XXThe Budget '%s' has no accounts!") % (line.general_budget_id.name))
+            date_to = self.env.context.get('wizard_date_to', line.date_to)
+            date_from = self.env.context.get('wizard_date_from', line.date_from)
             # ~ period_id = self.env.context.get('wizard_period_id',line.period_id)
             period_id = None
             if line.analytic_account_id.id:

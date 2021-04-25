@@ -20,12 +20,12 @@
 ##############################################################################
 {
     'name': 'iZettle Format Bank Statements Import',
-    'version': '8.0.0.1.0',
+    'version': '14.0.0.1.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['account_voucher', 'l10n_se_account_bank_statement_import'],
+    'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {
         'python': ['xlrd'],
     },

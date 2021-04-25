@@ -36,9 +36,5 @@ class Iterator(object):
         self.row += 1
         return {self.header[n]: r[n].value for n in range(len(self.header))}
 
-print Iterator(ws).header
-
-for r in Iterator(ws):
-    print r
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

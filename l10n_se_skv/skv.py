@@ -40,7 +40,7 @@ class SKVTransaktionsrapportType1(object):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
             raise ValueError(e)
         if not (self.data.cell(0,0).value[:13] == u'Företagsnamn:' and self.data.cell(3,0).value[:11] == u'Sökbegrepp:'):

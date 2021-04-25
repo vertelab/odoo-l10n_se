@@ -23,7 +23,7 @@ from .klarna import KlarnaTransaktionsrapportType as Parser
 import base64
 import re
 
-from openerp.osv import osv
+from odoo.osv import osv
 
 from StringIO import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2

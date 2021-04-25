@@ -24,12 +24,12 @@ import re
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
     clearing_number = fields.Char(string='Clearing Number')
 
-    @api.multi
     def _compute_acc_type(self):
         for bank in self:
             if bank.acc_number and re.match('\d{3,4}-\d{4}', bank.acc_number):

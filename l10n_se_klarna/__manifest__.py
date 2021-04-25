@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Klarna Format Bank Statements Import',
-    'version': '10.0.0.1',
+    'version': '14.0.0.1',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
@@ -29,7 +29,7 @@
     'external_dependencies': {
         'python': ['xlrd'],
     },
-    'data': ['account_journal_view.xml','account_data.xml'],
+    'data': ['account_journal_view.xml', 'account_data.xml'],
     'installable': 'True',
     'application': 'False',
 }

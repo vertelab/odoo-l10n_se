@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_finance_periodical_processing" name="Periodic Processing" parent="account.menu_finance" sequence="13" groups="account.group_account_user,account.group_account_manager"/>
+
+</odoo>
+

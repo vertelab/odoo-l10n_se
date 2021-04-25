@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    odoo, Open Source Management Solution
 #    Copyright (C) 2012 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,12 @@
 
 import os
 
-import openerp
-from openerp import SUPERUSER_ID, tools
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp.tools.safe_eval import safe_eval as eval
-from openerp.tools import image_resize_image
+import odoo
+from odoo import SUPERUSER_ID, tools
+from odoo.osv import fields, osv
+from odoo.tools.translate import _
+from odoo.tools.safe_eval import safe_eval as eval
+from odoo.tools import image_resize_image
 
 class res_company(osv.osv):
     _inherit = "res.company"

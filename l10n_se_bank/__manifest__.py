@@ -21,7 +21,7 @@
 {
     'name': 'Swedish Bank Accounts',
     'description': """Adds support for swedish bank account formats.""",
-    'version': '10.0.0.1.0',
+    'version': '14.0.0.1.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',

@@ -18,6 +18,6 @@
 #
 ##############################################################################
 
-import change_chart_of_account
+from . import change_chart_of_account
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

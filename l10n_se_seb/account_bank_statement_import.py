@@ -25,7 +25,7 @@ from .seb import SEBTransaktionsrapportType3 as Parser3
 import base64
 import re
 
-from openerp.osv import osv
+from odoo.osv import osv
 
 from StringIO import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2

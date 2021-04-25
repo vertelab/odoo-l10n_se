@@ -21,12 +21,12 @@
 
 {
     'name': 'BgMax Format Bank Statements Import',
-    'version': '10.0.1',
+    'version': '14.0.1',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['account_period', 'l10n_se_account_bank_statement_import', 'l10n_se_bank', 'l10n_se_account_payment_order'],
+    'depends': ['l10n_se_account_bank_statement_import', 'l10n_se_bank', 'l10n_se_account_payment_order'],
     'data': [
         'account_bank_statement_data.xml',
         'account_bank_statement_view.xml',

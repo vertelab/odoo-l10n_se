@@ -7,10 +7,6 @@
             <field name="purchase_ok" eval="True"/>
             <field name="can_be_expensed" eval="True"/>
             <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '5400')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '5400')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'Ii')]" model="account.tax" />
         </record>
         <record id="it_tjanster" model="product.template">
             <field name="name">IT-tjänster</field>
@@ -18,76 +14,6 @@
             <field name="purchase_ok" eval="True"/>
             <field name="can_be_expensed" eval="True"/>
             <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '6540')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '6540')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'Ii')]" model="account.tax" />
-        </record>
-        <record id="datakommunikation" model="product.template">
-            <field name="name">Datakommunikation</field>
-            <field name="sale_ok" eval="False"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="can_be_expensed" eval="True"/>
-            <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '6230')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '6230')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'Ii')]" model="account.tax" />
-        </record>
-        <record id="arbetsklader_och_skyddsmaterial" model="product.template">
-            <field name="name">Arbetskläder och skyddsmaterial</field>
-            <field name="sale_ok" eval="False"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="can_be_expensed" eval="True"/>
-            <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '5480')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '5480')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'Ii')]" model="account.tax" />
-        </record>
-        <record id="ersattningar_for_bidrag_till_arbetsklader " model="product.template">
-            <field name="name">Ersättningar för/bidrag till arbetskläder </field>
-            <field name="sale_ok" eval="False"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="can_be_expensed" eval="True"/>
-            <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '7316')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '7316')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'Ii')]" model="account.tax" />
-        </record>
-        <record id="utbildning" model="product.template">
-            <field name="name">Utbildning</field>
-            <field name="sale_ok" eval="False"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="can_be_expensed" eval="True"/>
-            <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '7610')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '7610')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'Ii')]" model="account.tax" />
-        </record>
-        <record id="personalrepresentation" model="product.template">
-            <field name="name">Personalrepresentation</field>
-            <field name="sale_ok" eval="False"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="can_be_expensed" eval="True"/>
-            <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '7630')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '7630')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'I12i')]" model="account.tax" />
-        </record>
-        <record id="ovriga_personalkostnader" model="product.template">
-            <field name="name">Övriga Personalkostnader</field>
-            <field name="sale_ok" eval="False"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="can_be_expensed" eval="True"/>
-            <field name="type">consu</field>
-            <field name="route_ids" eval="[(5, 0, 0)]"/>
-            <field name="property_account_income_id" search="[('code', '=', '7690')]" model="account.account" />
-            <field name="property_account_expense_id" search="[('code', '=', '7690')]" model="account.account" />
-            <field name="supplier_taxes_id" search="[('name', '=', 'Ii')]" model="account.tax" />
         </record>
     </data>
 </odoo>

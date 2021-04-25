@@ -166,16 +166,14 @@ class account_declaration(models.Model):
             self.date = fields.Date.to_string(newdate)
             self.name = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
 
-    @api.one
     def _move_ids_count(self):
         self.move_ids_count = len(self.move_ids)
     move_ids_count = fields.Integer(compute='_move_ids_count')
-    @api.one
+
     def _payment_ids_count(self):
         self.payment_ids_count = len(self.get_payment_orders())
     payment_ids_count = fields.Integer(compute='_payment_ids_count')
 
-    @api.multi
     def get_payment_orders(self):
         payment_order = []
         if self.move_id:
@@ -185,7 +183,6 @@ class account_declaration(models.Model):
                     payment_order.append(line.order_id.id)
         return payment_order
 
-    @api.multi
     def show_payment_orders(self):
         action = self.env['ir.actions.act_window'].for_xml_id('account_payment_order', 'account_payment_order_outbound_action')
         action.update({
@@ -199,7 +196,6 @@ class account_declaration(models.Model):
         last_declaration = self.search([],order='date_stop desc',limit=1)
         return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None, int(self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.vat_declaration_frequency', default=str(length))))
 
-    @api.one
     def do_draft(self):
         if self.move_id and self.move_id.state != 'draft':
             raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
@@ -212,7 +208,6 @@ class account_declaration(models.Model):
         self.eskd_file = None
         self.state = 'draft'
 
-    @api.one
     def do_cancel(self):
         if self.move_id and self.move_id.state != 'draft':
             raise Warning('Deklarationen är bokförd, kan inte avbryta i detta läge')
@@ -222,15 +217,12 @@ class account_declaration(models.Model):
         self.eskd_file = None
         self.state = 'canceled'
 
-    @api.one
     def do_done(self):
         self.state = 'done'
 
-    @api.one
     def calculate(self): # make a short cut to print financial report
         pass
 
-    @api.one
     def create_event(self):
         #TODO create bokförings categ_ids
         if self.event_id and self.date:
@@ -264,14 +256,12 @@ class account_declaration(models.Model):
             res.create_event()
         return res
 
-    @api.multi
     def write(self,values):
         res = super(account_declaration,self).write(values)
         if values.get('date'):
             self.create_event()
         return res
 
-    @api.multi
     def unlink(self):
         for s in self:
             if s.event_id:
@@ -323,7 +313,6 @@ class account_vat_declaration(models.Model):
                 decl.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
                 decl.vat_momsbetala = decl.vat_momsutg + decl.vat_momsingavdr
     
-    @api.multi
     def show_journal_entries(self):
         ctx = {
             'period_start': self.period_start.id,
@@ -340,7 +329,6 @@ class account_vat_declaration(models.Model):
         })
         return action
 
-    @api.multi
     def show_momsingavdr(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -357,7 +345,6 @@ class account_vat_declaration(models.Model):
         })
         return action
 
-    @api.multi
     def show_momsutg(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -374,19 +361,16 @@ class account_vat_declaration(models.Model):
         })
         return action
 
-    @api.one
     def do_draft(self):
         super(account_vat_declaration, self).do_draft()
         for move in self.move_ids:
             move.vat_declaration_id = None
 
-    @api.one
     def do_cancel(self):
         super(account_vat_declaration, self).do_draft()
         for move in self.move_ids:
             move.vat_declaration_id = None
 
-    @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
@@ -590,7 +574,8 @@ class account_vat_declaration(models.Model):
                     })
                     self.write({'move_id': entry.id})
             else:
-                raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
+                raise Warning(_('momsskuld: %s, momsfordran: %s, skattekonto: %s') %(momsskuld, momsfordran, skattekonto))
+                # raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
 class account_declaration_line(models.Model):
     _name = 'account.declaration.line'
@@ -606,11 +591,10 @@ class account_declaration_line(models.Model):
     move_ids = fields.Many2many(comodel_name='account.move')
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
 
-    @api.multi
     def show_move_lines(self):
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
         action.update({
-            'display_name': _('%s') %self.name,
+            'display_name': _('%s') % self.name,
             'domain': [('id', 'in', self.move_line_ids.mapped('id'))],
         })
         return action

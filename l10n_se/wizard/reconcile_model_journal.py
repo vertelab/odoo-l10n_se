@@ -18,8 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -29,7 +29,6 @@ class wizard_reconcile_model_journal(models.TransientModel):
 
     journal_id = fields.Many2one(comodel_name='account.journal', string='Journal', help='')
 
-    @api.multi
     def set_journal(self):
         if self.journal_id:
             for id in self._context.get('active_ids', []):

@@ -13,7 +13,7 @@
                     <span> </span>(<field name="end_balance_calc" class="oe_inline"/>)
                 </field>
                 <div class="oe_button_box" position="inside">
-                    <button class="oe_stat_button" name="button_untrackable_journal_entries" type="object" attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-question">
+                    <button class="oe_stat_button" name="button_untrackable_journal_entries" type="object" icon="fa-question">
                         <field name="untrackable_journal_entries_count" string="Untrackable Journal Entries" widget="statinfo"/>
                     </button>
                 </div>

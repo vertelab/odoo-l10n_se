@@ -40,7 +40,7 @@ class KlarnaTransaktionsrapportType(object):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
             raise ValueError(e)
         if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
@@ -81,7 +81,7 @@ class KlarnaTransaktionsrapportType(object):
 
 
 class KlarnaIterator(object):
-    def __init__(self, data,header_row=16):
+    def __init__(self, data, header_row=16):
         self.row = header_row + 1
         self.data = data
         self.header = [c.value.lower() for c in data.row(header_row)]

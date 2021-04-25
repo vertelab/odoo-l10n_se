@@ -19,9 +19,8 @@
 #
 ##############################################################################
 import logging
-from odoo import api,models, _
+from odoo import api, models, _
 from .swedbank import SwedbankTransaktionsrapport as Parser
-import cStringIO
 import uuid
 
 _logger = logging.getLogger(__name__)
@@ -72,7 +71,7 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['name'] = transaction['produkt'].capitalize()
                 total_amt += float(transaction['belopp'])
                 transactions.append(vals_line)
-        except Exception, e:
+        except Exception as e:
             raise Warning(_(
                 "The following problem occurred during import. "
                 "The file might not be valid.\n\n %s" % e.message

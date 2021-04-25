@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution, third party addon
+#    odoo, Open Source Management Solution, third party addon
 #    Copyright (C) 2018- Vertel AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,6 @@ class year_end_wizard(models.TransientModel):
         self.cost = self.get_cost_income().get('cost', 0.0)
         self.income = self.get_cost_income().get('income', 0.0)
 
-    @api.multi
     def create_entry(self):
         if self.fiscalyear_id:
             cost = self.get_cost_income().get('cost', 0.0)

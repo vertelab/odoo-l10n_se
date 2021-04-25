@@ -18,14 +18,11 @@
 #
 ##############################################################################
 import logging
-from odoo import api,models,fields, _
+from odoo import api, models, fields, _
 from .izettle import IzettleTransaktionsrapportType as Parser
 import base64
 import re
 
-from openerp.osv import osv
-
-from StringIO import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
 from datetime import timedelta
 

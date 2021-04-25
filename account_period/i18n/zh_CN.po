@@ -1,0 +1,380 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_period
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0-20171007\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-12 12:26+0000\n"
+"PO-Revision-Date: 2017-12-12 12:26+0000\n"
+"Last-Translator: Javvis <jarvis@odoomod.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_period
+#: model:ir.actions.act_window,help:account_period.action_account_period_tree
+msgid ""
+"A period is a fiscal period of time during which accounting entries should "
+"be recorded for accounting related activities. Monthly period is the norm "
+"but depending on your countries or company needs, you could also have "
+"quarterly periods. Closing a period will make it impossible to record new "
+"accounting entries, all new entries should then be made on the following "
+"open period. Close a period when you do not want to record new entries and "
+"want to lock this period for tax related calculation."
+msgstr "会计期间是对会计记录人为规定的时间段。一般按月分期，按贵公司所在国家的需要也可以按季度分期。关闭的会计期间不能继续记账，只能记账在后面的会计期间。如果希望不能创建新的凭证或发生税额变动请关闭会计期间。"
+
+#. module: account_period
+#: model:ir.model,name:account_period.model_account_move
+msgid "Account Entry"
+msgstr "会计分录"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_period_form
+msgid "Account Period"
+msgstr "会计期间"
+
+#. module: account_period
+#: model:ir.model,name:account_period.model_account_period
+msgid "Account period"
+msgstr "会计期间"
+
+#. module: account_period
+#: model:ir.actions.act_window,help:account_period.action_account_period
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Click to add a fiscal period.\n"
+"              </p><p>\n"
+"                An accounting period typically is a month or a quarter. It\n"
+"                usually corresponds to the periods of the tax declaration.\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n单击添加一个会计期间.\n</p><p>\n会计期间通常是一个月或一个季度。它通常对应纳税申报的期间。\n</p>\n            "
+
+#. module: account_period
+#: model:ir.actions.act_window,help:account_period.action_account_period
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Click to add a fiscal period.\n"
+"              </p><p>\n"
+"                An accounting period typically is a month or a quarter. It\n"
+"                usually corresponds to the periods of the tax declaration.\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n单击添加一个会计期间.\n</p><p>\n会计期间通常是一个月或一个季度。它通常对应纳税申报的期间。\n</p>\n            "
+
+#. module: account_period
+#: model:ir.actions.act_window,help:account_period.action_account_fiscalyear
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new fiscal year.\n"
+"              </p><p>\n"
+"                Define your company's financial year according to your needs. A\n"
+"                financial year is a period at the end of which a company's\n"
+"                accounts are made up (usually 12 months). The financial year is\n"
+"                usually referred to by the date in which it ends. For example,\n"
+"                if a company's financial year ends November 30, 2011, then\n"
+"                everything between December 1, 2010 and November 30, 2011\n"
+"                would be referred to as FY 2011.\n"
+"              </p>\n"
+"            "
+msgstr "单击建立新的会计年度.\n              </p><p>\n                根据需要定义公司的会计年度。会计年度通常是公司的账户最后结转的期间，通常是12个月。会计年度通常和结束日期有关。例如，假如一个公司的会计年度结束在2011年11月30日，那么在2010年30月1日至1年2011月12日的每一个交易会被记录到2011会计年度。              </p>\n            "
+
+#. module: account_period
+#: model:ir.actions.act_window,name:account_period.action_account_period_tree
+#: model:ir.ui.menu,name:account_period.menu_action_account_period_close_tree
+msgid "Close a Period"
+msgstr "关闭一个期间"
+
+#. module: account_period
+#: selection:account.fiscalyear,state:0
+#: selection:account.period,state:0
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+msgid "Closed"
+msgstr "已关闭"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_code
+#: model:ir.model.fields,field_description:account_period.field_account_period_code
+msgid "Code"
+msgstr "代码"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_company_id
+#: model:ir.model.fields,field_description:account_period.field_account_period_company_id
+msgid "Company"
+msgstr "公司"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
+msgid "Create 3 Months Periods"
+msgstr "创建季度期间"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
+msgid "Create Monthly Periods"
+msgstr "创建月度期间"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_create_uid
+#: model:ir.model.fields,field_description:account_period.field_account_period_create_uid
+msgid "Created by"
+msgstr "创建人"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_create_date
+#: model:ir.model.fields,field_description:account_period.field_account_period_create_date
+msgid "Created on"
+msgstr "创建时间"
+
+#. module: account_period
+#: model:ir.actions.act_window,help:account_period.action_account_fiscalyear
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new fiscal year.\n"
+"              </p><p>\n"
+"                Define your company's financial year according to your needs. A\n"
+"                financial year is a period at the end of which a company's\n"
+"                accounts are made up (usually 12 months). The financial year is\n"
+"                usually referred to by the date in which it ends. For example,\n"
+"                if a company's financial year ends November 30, 2011, then\n"
+"                everything between December 1, 2010 and November 30, 2011\n"
+"                would be referred to as FY 2011.\n"
+"              </p>\n"
+"            "
+msgstr "单击建立新的会计年度.\n              </p><p>\n                根据需要定义公司的会计年度。会计年度通常是公司的账户最后结转的期间，通常是12个月。会计年度通常和结束日期有关。例如，假如一个公司的会计年度结束在2011年11月30日，那么在2010年30月1日至1年2011月12日的每一个交易会被记录到2011会计年度。              </p>\n            "
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_display_name
+#: model:ir.model.fields,field_description:account_period.field_account_period_display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_period_form
+msgid "Duration"
+msgstr "持续时间"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_date_stop
+msgid "End Date"
+msgstr "结束日期"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_period_date_stop
+msgid "End of Period"
+msgstr "期间结束"
+
+#. module: account_period
+#: code:addons/account_period/models/account_period.py:139
+#: code:addons/account_period/models/account_period.py:141
+#, python-format
+msgid "Error!"
+msgstr "错误！"
+
+#. module: account_period
+#: model:ir.model,name:account_period.model_account_fiscalyear
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_name
+#: model:ir.model.fields,field_description:account_period.field_account_period_fiscalyear_id
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+msgid "Fiscal Year"
+msgstr "会计年度"
+
+#. module: account_period
+#: model:ir.actions.act_window,name:account_period.action_account_fiscalyear
+#: model:ir.ui.menu,name:account_period.menu_action_account_fiscalyear
+msgid "Fiscal Years"
+msgstr "会计年度"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
+msgid "Fiscal year"
+msgstr "会计年度"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_tree
+msgid "Fiscalyear"
+msgstr "会计年度"
+
+#. module: account_period
+#: code:addons/account_period/models/account_fiscalyear.py:93
+#: code:addons/account_period/models/account_period.py:94
+#, python-format
+msgid "Go to the configuration panel"
+msgstr "至配置面板"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+msgid "Group By"
+msgstr "分组"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_id
+#: model:ir.model.fields,field_description:account_period.field_account_period_id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_period
+#: model:ir.model,name:account_period.model_account_move_line
+msgid "Journal Item"
+msgstr "日记账项目"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear___last_update
+#: model:ir.model.fields,field_description:account_period.field_account_period___last_update
+msgid "Last Modified on"
+msgstr "最后修改日"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_write_uid
+#: model:ir.model.fields,field_description:account_period.field_account_period_write_uid
+msgid "Last Updated by"
+msgstr "最后更新人"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_write_date
+#: model:ir.model.fields,field_description:account_period.field_account_period_write_date
+msgid "Last Updated on"
+msgstr "最后更新时间"
+
+#. module: account_period
+#: selection:account.fiscalyear,state:0
+#: selection:account.period,state:0
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+msgid "Open"
+msgstr "开放"
+
+#. module: account_period
+#: code:addons/account_period/models/account_fiscalyear.py:40
+#, python-format
+msgid "Opening Period"
+msgstr "开帐期间"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_period_special
+msgid "Opening/Closing Period"
+msgstr "开帐/关账期间"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_move_line_period_id
+#: model:ir.model.fields,field_description:account_period.field_account_move_period_id
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
+#: model:ir.ui.view,arch_db:account_period.view_account_period_search
+#: model:ir.ui.view,arch_db:account_period.view_account_period_tree
+msgid "Period"
+msgstr "期间"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_period_name
+msgid "Period Name"
+msgstr "期间名称"
+
+#. module: account_period
+#: model:ir.ui.menu,name:account_period.menu_finance_periodical_processing
+msgid "Periodic Processing"
+msgstr "期末处理"
+
+#. module: account_period
+#: model:ir.actions.act_window,name:account_period.action_account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_period_ids
+#: model:ir.ui.menu,name:account_period.menu_action_account_period
+#: model:ir.ui.menu,name:account_period.next_id_23
+msgid "Periods"
+msgstr "期间"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+msgid "Search Fiscalyear"
+msgstr "搜索会计年度"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_period_search
+msgid "Search Period"
+msgstr "搜索会计期间"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_date_start
+msgid "Start Date"
+msgstr "开始日期"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_period_date_start
+msgid "Start of Period"
+msgstr "会计期间开始于"
+
+#. module: account_period
+#: code:addons/account_period/models/account_period.py:141
+#, python-format
+msgid "Start period should precede then end period."
+msgstr "开始期间应在结束期间前。"
+
+#. module: account_period
+#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_state
+#: model:ir.model.fields,field_description:account_period.field_account_period_state
+#: model:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+msgid "Status"
+msgstr "状态"
+
+#. module: account_period
+#: code:addons/account_period/models/account_fiscalyear.py:92
+#, python-format
+msgid ""
+"There is no period defined for this date: %s.\n"
+"Please go to Configuration/Periods and configure a fiscal year."
+msgstr "该日期：%s。不在已定义的期间内。\n请在配置/期间配置会计年度。"
+
+#. module: account_period
+#: code:addons/account_period/models/account_period.py:93
+#, python-format
+msgid ""
+"There is no period defined for this date: %s.\n"
+"Please go to Configuration/Periods."
+msgstr "该日期：%s。 不在已定义的期间内。\n请在配置/期间配置会计期间"
+
+#. module: account_period
+#: model:ir.model.fields,help:account_period.field_account_period_special
+msgid "These periods can overlap."
+msgstr "这会计期间可以重叠"
+
+#. module: account_period
+#: code:addons/account_period/models/account_period.py:124
+#, python-format
+msgid ""
+"This journal already contains items for this period, therefore you cannot "
+"modify its company field."
+msgstr "分类账已经包含了这个会计区间的项目，因此您不嫩修改它的公司字段"
+
+#. module: account_period
+#: model:ir.ui.view,arch_db:account_period.view_account_period_search
+msgid "To Close"
+msgstr "待关闭"
+
+#. module: account_period
+#: code:addons/account_period/models/account_period.py:101
+#: code:addons/account_period/models/account_period.py:124
+#, python-format
+msgid "Warning!"
+msgstr "警告！"
+
+#. module: account_period
+#: model:ir.model.fields,help:account_period.field_account_period_state
+msgid ""
+"When monthly periods are created. The status is 'Draft'. At the end of "
+"monthly period it is in 'Done' status."
+msgstr "会计月度新建时，状态为“草稿”；会计月度结束时，状态为“完成”。"
+
+#. module: account_period
+#: code:addons/account_period/models/account_period.py:102
+#, python-format
+msgid "You can not re-open a period which belongs to closed fiscal year"
+msgstr "您不能重新打开属于一个已关闭的会计年度的会计区间"
+
+#. module: account_period
+#: code:addons/account_period/models/account_period.py:139
+#, python-format
+msgid "You should choose the periods that belong to the same company."
+msgstr "您要选择属于同一个公司的会计区间"
+

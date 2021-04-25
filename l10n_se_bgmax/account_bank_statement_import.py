@@ -54,7 +54,6 @@ class account_bank_statement(models.Model):
                 bank_account_id = bank_account_ids[0]
         return bank_account_id
 
-    @api.multi
     def create_bg_move(self):
         for statement in self:
             if statement.is_bg and not statement.move_id:
@@ -103,60 +102,59 @@ class account_bank_statement(models.Model):
             #~ 'context': {}
         #~ }
 
-    @api.multi
     def button_confirm_bank(self):
         res = super(account_bank_statement, self).button_confirm_bank()
         self.create_bg_move()
         return res
 
 
-class AccountBankStatementImport(models.TransientModel):
-    """Add process_bgmax method to account.bank.statement.import."""
-    _inherit = 'account.bank.statement.import'
-
-    @api.model
-    def _parse_file(self, data_file):
-        """Parse a BgMax  file."""
-        parser = Parser()
-        try:
-            _logger.debug("Try parsing with bgmax.")
-            statements = parser.parse(data_file)
-        # ~ except ValueError, e:
-            # ~ _logger.error("Error in BgMax file. (%s)", e)
-            # ~ raise Warning("Error in BgMax file. (%s)" % e)
-        except Exception,e:
-            # Not a BgMax file, returning super will call next candidate:
-            _logger.info("Statement file was not a BgMax file. (%s)", e)
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
-
-        fakt = re.compile('\d+')  # Pattern to find invoice numbers
-        for s in statements:
-            for t in s['transactions']:
-                partner = None
-                if t.get('account_number',None):
-                    partner = self.env['res.partner.bank'].search([('acc_number','ilike',t['account_number'])],limit=1).mapped('partner_id')
-                if not partner:
-                    vat = 'SE%s01' % t['partner_name'][2:]
-                    name1 = t['partner_name'].strip()
-                    name2 = name1.upper().replace(' AB','').replace('AKTIEBOLAG','').replace(' HB','').replace('HANDELSBOLAG','').replace(' KB','').replace('KOMMANDITBOLAG','').replace('FIRMA','').strip()
-                    partner = self.env['res.partner'].search(['|','|',('name','ilike',name1),('name','ilike',name2),('vat','=',vat)],limit=1)
-                if partner:
-                    if t['account_number'] and not partner.bank_ids:
-                        partner.bank_ids = [(0,False,{'acc_number': t['account_number'],'state': 'bg'})]
-                    t['account_number'] = partner.bank_ids and partner.bank_ids[0].acc_number or ''
-                    t['partner_id'] = partner.id
-                else:
-                    fnr = '-'.join(fakt.findall(t['name']))
-                    if fnr:
-                        invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
-                        if invoice:
-                            t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
-                            t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
-                _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
-        currency_code = statements[0].get('currency_code')
-        account_number = statements[0].get('account_number')
-        account_number = account_number[:4] + account_number[4:].lstrip('0')
-        return currency_code, account_number, statements
+# class AccountBankStatementImport(models.TransientModel):
+#     """Add process_bgmax method to account.bank.statement.import."""
+#     _inherit = 'account.bank.statement.import'
+#
+#     @api.model
+#     def _parse_file(self, data_file):
+#         """Parse a BgMax  file."""
+#         parser = Parser()
+#         try:
+#             _logger.debug("Try parsing with bgmax.")
+#             statements = parser.parse(data_file)
+#         # ~ except ValueError, e:
+#             # ~ _logger.error("Error in BgMax file. (%s)", e)
+#             # ~ raise Warning("Error in BgMax file. (%s)" % e)
+#         except Exception as e:
+#             # Not a BgMax file, returning super will call next candidate:
+#             _logger.info("Statement file was not a BgMax file. (%s)", e)
+#             return super(AccountBankStatementImport, self)._parse_file(data_file)
+#
+#         fakt = re.compile('\d+')  # Pattern to find invoice numbers
+#         for s in statements:
+#             for t in s['transactions']:
+#                 partner = None
+#                 if t.get('account_number',None):
+#                     partner = self.env['res.partner.bank'].search([('acc_number','ilike',t['account_number'])],limit=1).mapped('partner_id')
+#                 if not partner:
+#                     vat = 'SE%s01' % t['partner_name'][2:]
+#                     name1 = t['partner_name'].strip()
+#                     name2 = name1.upper().replace(' AB','').replace('AKTIEBOLAG','').replace(' HB','').replace('HANDELSBOLAG','').replace(' KB','').replace('KOMMANDITBOLAG','').replace('FIRMA','').strip()
+#                     partner = self.env['res.partner'].search(['|','|',('name','ilike',name1),('name','ilike',name2),('vat','=',vat)],limit=1)
+#                 if partner:
+#                     if t['account_number'] and not partner.bank_ids:
+#                         partner.bank_ids = [(0,False,{'acc_number': t['account_number'],'state': 'bg'})]
+#                     t['account_number'] = partner.bank_ids and partner.bank_ids[0].acc_number or ''
+#                     t['partner_id'] = partner.id
+#                 else:
+#                     fnr = '-'.join(fakt.findall(t['name']))
+#                     if fnr:
+#                         invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
+#                         if invoice:
+#                             t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
+#                             t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
+#                 _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
+#         currency_code = statements[0].get('currency_code')
+#         account_number = statements[0].get('account_number')
+#         account_number = account_number[:4] + account_number[4:].lstrip('0')
+#         return currency_code, account_number, statements
 
 
 class account_payment_order(models.Model):
@@ -166,7 +164,6 @@ class account_payment_order(models.Model):
     def _set_bank_payment_line_seq(self):
         self.env.ref('account_payment_order.bank_payment_line_seq').sudo().write({'prefix': ''})
 
-    @api.one
     def create_bgmax(self):
         bggen = BgMaxGen()
         bg_account = self.env['res.partner.bank'].search([('partner_id', '=', self.env.user.company_id.partner_id.id), ('acc_type', '=', 'bankgiro')])

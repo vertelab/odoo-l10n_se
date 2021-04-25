@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    odoo, Open Source Management Solution
 #    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from odoo.osv import osv, fields
 
 class account_vat_declaration(osv.osv_memory):
     _name = 'account.vat.declaration'

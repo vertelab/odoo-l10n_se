@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution, third party addon
+#    odoo, Open Source Management Solution, third party addon
 #    Copyright (C) 2004-2015 Vertel AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify

@@ -26,7 +26,6 @@
                     </group>
                     <footer>
                         <button name="create_entry" string="Create Entry" type="object" class="oe_highlight"/>
-                        or
                         <button string="Avbryt" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
@@ -37,7 +36,6 @@
             <field name="name">Year End Entry</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">year.end.wizard</field>
-            <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="l10n_se_yearend_report.view_account_year_end"/>
             <field name="target">new</field>

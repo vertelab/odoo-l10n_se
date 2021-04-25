@@ -26,12 +26,11 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountConfigSettings(models.TransientModel):
-    _inherit = 'account.config.settings'
+    _inherit = 'res.config.settings'
 
     payment_account_ids = fields.Many2many(comodel_name='account.account', relation='payment_account', string='Payment Accounts', help='Accounts should include in payment')
     nix_payment_account_ids = fields.Many2many(comodel_name='account.account', relation='nix_payment_account', string='Payment Accounts Nix', help='Accounts should not include in payment')
 
-    @api.one
     def set_account_payment_order(self):
         conf = self.env['ir.config_parameter']
         conf.set_param('l10n_se_account_payment_order.payment_account_ids', self.payment_account_ids.mapped('id'))
@@ -52,7 +51,6 @@ class AccountConfigSettings(models.TransientModel):
 class AccountPaymentLineCreate(models.TransientModel):
     _inherit = 'account.payment.line.create'
 
-    @api.multi
     def _prepare_move_line_domain(self):
         conf = self.env['ir.config_parameter']
         res = super(AccountPaymentLineCreate, self)._prepare_move_line_domain()

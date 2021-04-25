@@ -38,7 +38,7 @@ class SwedbankTransaktionsrapport(object):
         try:
             # ~ self.data = open_workbook(file_contents=data_file).sheet_by_name('Transaktionsrapport')
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             raise ValueError(e)
         self.rows = self.data.nrows - 3
         _logger.error('Row 2 %s' % self.data.row(1))

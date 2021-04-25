@@ -40,7 +40,7 @@ class IzettleTransaktionsrapportType(object):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
             raise ValueError(e)
         if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):

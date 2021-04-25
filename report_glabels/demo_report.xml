@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <report string="Sample Glabels" id="action_glabels_sample_report" model="res.partner" report_type="glabels" name="report_glabels.glabels_sample_report" />
+    <record id="action_glabels_sample_report" model="ir.actions.report">
+      <field name="glabels_template" type="base64" file="report_glabels/sample.glabels" />
+    </record>
+  </data>
+</odoo>

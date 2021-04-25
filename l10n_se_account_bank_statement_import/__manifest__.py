@@ -21,12 +21,12 @@
 
 {
     'name': 'Swedish Account Bank Statement Import',
-    'version': '10.0.1',
+    'version': '14.0.1',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['account_bank_statement_import', 'account_period'],
+    'depends': ['account'],
     'data': ['bank_statement_view.xml'],
     'summary': 'Swedish Account Bank Statement Import',
     'description': """

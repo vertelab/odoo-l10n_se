@@ -30,9 +30,6 @@ import os
 
 wb = open_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Transaktionsrapport.xls'))
 
-
-print wb.nsheets
-
 ws = wb.sheet_by_name('Transaktionsrapport')
 #ws = wb.sheet(1)
 
@@ -62,10 +59,5 @@ class Iterator(object):
         r = self.data.row(self.row + 3)
         self.row += 1
         return {self.header[n]: r[n].value for n in range(len(self.header))}
-
-
-
-for r in Iterator(ws):
-    print r
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

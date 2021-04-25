@@ -34,6 +34,7 @@ _logger = logging.getLogger(__name__)
 # OBS justering: account.financial.report 3.6, tar bort alla konto som tillhör till 3.5. VIKTIGT!!!
 # Bokslut verifikat måste ha samma räkenskapsår som deklarationen, Target moves ska vara alla post, bokslutsperiod ska vara ikryssad.
 
+
 class account_declaration_line(models.Model):
     _inherit = 'account.declaration.line'
     
@@ -47,9 +48,9 @@ class account_declaration_line(models.Model):
     def afr_onchange(self):
         self.name = self.afr_id and self.afr_id.name or ''
     
-    @api.multi
     def report_adl_get_balance(self):
         return self.balance * (1 if self.afr_id.sign == 1 else -1)
+
 
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
@@ -84,7 +85,6 @@ class account_sru_declaration(models.Model):
     upplysningar_1 = fields.Boolean(string='Uppdragstagare (t.ex. redovisningskonsult) har biträtt vid upprättandet av årsredovisningen')
     upplysningar_2 = fields.Boolean(string='Årsredovisningen har varit föremål för revision')
     
-    @api.one
     def _line_ids(self):
         self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
         self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
@@ -93,15 +93,12 @@ class account_sru_declaration(models.Model):
     def _search_other_line_ids(self, operator, value):
         return ['&', '&', ('is_b', '=', False), ('is_r', '=', False), ('line_ids', operator, value)] 
     
-    @api.one
     def _compute_other_line_ids(self):
         self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)    
     
-    @api.one
     def _write_other_line_ids(self):
         self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
     
-    @api.one
     def _set_date_and_name(self):
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
@@ -137,7 +134,6 @@ class account_sru_declaration(models.Model):
     # via vinst:   8999 (D) 2099 (K)
     # via förlust: 2099 (D) 8999 (K)
 
-    @api.one
     def calc_arets_resultat(self):
         ctx = {
             'period_start': self.period_start.id,
@@ -221,7 +217,6 @@ class account_sru_declaration(models.Model):
     # positiv eget kapital: 8899 (D) 2090 (K)
     # negativ eget kapital: 2090 (D) 8899 (K)
 
-    @api.one
     def calc_fritt_eget_kapital(self):
         ctx = {
             'period_start': self.period_start.id,
@@ -313,19 +308,16 @@ class account_sru_declaration(models.Model):
                 self.fritt_eget_kapital = sum_tillgangar - sum_eget_kapital_skulder
 
 
-    @api.one
     def do_draft(self):
         super(account_sru_declaration, self).do_draft()
         for move in self.move_ids:
             move.sru_declaration_id = None
 
-    @api.one
     def do_cancel(self):
         super(account_sru_declaration, self).do_draft()
         for move in self.move_ids:
             move.sru_declaration_id = None
 
-    @api.one
     def calculate(self):
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
@@ -502,7 +494,6 @@ class account_sru_declaration(models.Model):
 )
         return data
 
-    @api.one
     def regenerate_sru_files(self):
         if self.b_line_ids and self.r_line_ids:
             self.infosru = base64.b64encode(self._parse_infosru(self))
@@ -529,7 +520,6 @@ class account_sru_declaration(models.Model):
             return [start_period, stop_period]
 
     # not in use
-    @api.multi
     def report_resultatrakning_structure(self):
         structure = [
             {
@@ -589,7 +579,6 @@ class account_sru_declaration(models.Model):
                 })
         return result
 
-    @api.multi
     def report_resultatrakning(self, name):
         srus = {
             'rorelseintakter_lagerforandringar_m_m': ['3.1', '3.2', '3.3', '3.4'],
@@ -604,12 +593,10 @@ class account_sru_declaration(models.Model):
         }
         return self.report_result_value(srus[name])
 
-    @api.multi
     def report_result_value(self, sru_codes):
         self.ensure_one()
         return self.r_line_ids.with_context(sru_codes=sru_codes).filtered(lambda l: l.afr_id.sru in l._context.get('sru_codes') and l.balance != 0)
 
-    @api.multi
     def report_sum_resultatrakning(self, name):
         self.ensure_one()
         s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in self.report_resultatrakning(name)])
@@ -629,7 +616,6 @@ class account_sru_declaration(models.Model):
         }
         return financial_report_lst.get(name)
 
-    @api.multi
     def report_balansrakning(self, name):
         parent_afr = self.find_balansrakning(name)
         if parent_afr:
@@ -639,7 +625,6 @@ class account_sru_declaration(models.Model):
                 res.append(b_line)
             return res
 
-    @api.multi
     def report_sum_balansrakning(self, name):
         self.ensure_one()
         parent_afr = self.find_balansrakning(name)

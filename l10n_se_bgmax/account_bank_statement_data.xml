@@ -3,8 +3,6 @@
     <data>
         <record id="bgc" model="res.partner">
             <field name="name">Bankgirot</field>
-            <field name="supplier">1</field>
-            <field eval="0" name="customer"/>
             <field name="is_company">1</field>
             <field name="city">Stockholm</field>
             <field name="zip">10519</field>
@@ -13,7 +11,6 @@
             <field name="email"></field>
             <field name="phone">08-725 60 00</field>
             <field name="website">http://www.bankgirot.se</field>
-            <field name="image" type="base64" file="l10n_se_bgmax/static/src/img/bankgirot-logo.png"/>
         </record>
         <record id="action_generate_bgmax_file" model="ir.actions.server">
             <field name="name">Generate BGMax file</field>
@@ -22,12 +19,12 @@
             <field name="code">if len(record.payment_line_ids) &gt; 0:
     record.create_bgmax()</field>
         </record>
-        <record id="ir_values_generate_bgmax_file" model="ir.values">
-            <field name="name">Generate BGMax file</field>
-            <field name="model">account.payment.order</field>
-            <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se_bgmax.action_generate_bgmax_file')"/>
-        </record>
+<!--        <record id="ir_values_generate_bgmax_file" model="ir.values">-->
+<!--            <field name="name">Generate BGMax file</field>-->
+<!--            <field name="model">account.payment.order</field>-->
+<!--            <field name="key2">client_action_multi</field>-->
+<!--            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se_bgmax.action_generate_bgmax_file')"/>-->
+<!--        </record>-->
         <function model="account.payment.order" name="_set_bank_payment_line_seq" />
     </data>
 </odoo>

@@ -7,7 +7,7 @@
            <field name="sale_ok" eval="False"/>
            <field name="can_be_expensed" eval="True"/>
            <field name="type">consu</field>
-           <field name="categ_id" ref="hr_expense.cat_expense"/>
+           <field name="categ_id" ref="product.cat_expense"/>
            <field name="property_account_expense_id" search="[('code', '=', '5831')]"/>
         </record>
 
@@ -16,7 +16,7 @@
            <field name="sale_ok" eval="False"/>
            <field name="can_be_expensed" eval="True"/>
            <field name="type">consu</field>
-           <field name="categ_id" ref="hr_expense.cat_expense"/>
+           <field name="categ_id" ref="product.cat_expense"/>
            <field name="property_account_expense_id" search="[('code', '=', '5810')]"/>
         </record>
 
@@ -25,7 +25,7 @@
            <field name="sale_ok" eval="False"/>
            <field name="can_be_expensed" eval="True"/>
            <field name="type">consu</field>
-           <field name="categ_id" ref="hr_expense.cat_expense"/>
+           <field name="categ_id" ref="product.cat_expense"/>
            <field name="standard_price">18.5</field>
            <field name="property_account_expense_id" search="[('code', '=', '5890')]"/>
         </record>
@@ -35,7 +35,7 @@
            <field name="sale_ok" eval="False"/>
            <field name="can_be_expensed" eval="True"/>
            <field name="type">consu</field>
-           <field name="categ_id" ref="hr_expense.cat_expense"/>
+           <field name="categ_id" ref="product.cat_expense"/>
            <field name="standard_price">230.0</field>
            <field name="property_account_expense_id" search="[('code', '=', '7321')]"/>
         </record>
@@ -45,7 +45,7 @@
            <field name="sale_ok" eval="False"/>
            <field name="can_be_expensed" eval="True"/>
            <field name="type">consu</field>
-           <field name="categ_id" ref="hr_expense.cat_expense"/>
+           <field name="categ_id" ref="product.cat_expense"/>
            <field name="property_account_expense_id" search="[('code', '=', '5616')]"/>
         </record>
 

@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
-from cStringIO import StringIO
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning, RedirectWarning
-from openerp import http
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning, RedirectWarning
+from odoo import http
 import base64
-import tempfile
-from werkzeug.datastructures import Headers
-from werkzeug.wrappers import Response
-import re
-import codecs
 
-import openerp
+import odoo
 
 import logging
 _logger = logging.getLogger(__name__)
+
 
 class account_sie_account(models.TransientModel):
     _name = 'account.sie.account'
@@ -78,7 +73,6 @@ class account_sie(models.TransientModel):
               "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
     accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent', domain=[('type','=','view')])
     
-    @api.multi
     def _get_rar_code(self, fy):
         self.ensure_one()
         i = 0
@@ -87,10 +81,9 @@ class account_sie(models.TransientModel):
                 return i
             i += 1
         return i
-        raise Warning("Couldn't get RAR code.")
+        # raise Warning("Couldn't get RAR code.")
             
     
-    @api.one
     def _data(self):
         self.sie_file = self.data
     sie_file = fields.Binary(compute='_data')
@@ -135,7 +128,6 @@ class account_sie(models.TransientModel):
         _logger.debug(data)
         return data
     
-    @api.multi
     def check_import_file(self, data=None, check_periods=True):
         self.ensure_one()
         if data or self.data: # IMPORT TRIGGERED
@@ -155,7 +147,6 @@ class account_sie(models.TransientModel):
                     raise Warning("Missing period/fiscal year for %s - %s." % (missing_period[0], missing_period[1]))
             return checked
     
-    @api.multi
     def create_accounts(self):
         self.ensure_one()
         for line in self.account_line_ids:
@@ -234,7 +225,6 @@ class account_sie(models.TransientModel):
             i += 1
         return res
     
-    @api.multi
     def send_form(self):
         self.ensure_one()
         if self.data: # IMPORT TRIGGERED
@@ -282,8 +272,6 @@ class account_sie(models.TransientModel):
             'target': 'new',
         }
 
-
-    @api.multi
     def make_sie(self, ver_ids):
 
         def get_fiscalyears(ver_ids):
@@ -310,7 +298,7 @@ class account_sie(models.TransientModel):
 
         str = ''
         str += '#FLAGGA 0\n'
-        str += '#PROGRAM "Odoo" %s\n' % openerp.service.common.exp_version()['server_serie']
+        str += '#PROGRAM "Odoo" %s\n' % odoo.service.common.exp_version()['server_serie']
         str += '#FORMAT PC8\n' # ,Anger vilken teckenuppsattning som anvants
         str += '#GEN %s\n'% fields.Date.today().replace('-','')
         str += '#SIETYP 4\n'
@@ -383,7 +371,6 @@ class account_sie(models.TransientModel):
             'target': 'new',
         }
     # if narration is null, return empty string instead of parsing to False
-    @api.multi
     def fix_empty(self, narration):
         if(narration):
             return narration
@@ -399,7 +386,6 @@ class account_sie(models.TransientModel):
         Typ 4 Transaktioner. Identisk med typ 3, men innehåller även samtliga verifikationer för räkenskapsåret. Detta filformat kan användas för export av årets grundboksnoteringar till ett program för transaktionsanalys
         Typ 4i Transaktioner. Innehåller endast verifikationer. Filformatet används när ett försystem, t ex ett löneprogram eller ett faktureringsprogram ska generera bokföringsorder för inläsning i bokföringssystemet.
         '''
-    @api.multi
     def import_sie(self):
         sie_form = self[0]
         raise Warning(sie_form.data)
@@ -462,7 +448,6 @@ class account_sie(models.TransientModel):
                         missing_period[1] = line[3]
         return missing_period
     
-    @api.multi
     def _import_ver(self, data):
         self.ensure_one()
         journal_types = []

@@ -21,13 +21,13 @@
 
 {
     'name': 'l10n_se Budget',
-    'version': '1.0',
+    'version': '14.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Accouting',
-    'depends': ['account_budget','l10n_se'],
-    'data': ['account_budget_view.xml','account_budget_data.xml'],
+    'depends': ['account_budget', 'l10n_se'],
+    'data': ['account_budget_view.xml', 'account_budget_data.xml'],
     'application': 'False',
     'summary': 'Some predefined budgets',
     'description': """

@@ -1,2 +1,2 @@
-import account
-import account_bank_statement_import
+from . import account
+# from . import account_bank_statement_import

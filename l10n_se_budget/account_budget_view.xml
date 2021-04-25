@@ -8,13 +8,13 @@
             <field name="inherit_id" ref="account_budget.view_budget_post_form"/>
             <field name="arch" type="xml">
                 <notebook position="inside">
-                        <page string="Account Type">
-                            <field name="user_type_ids">
-                                <tree>
-                                    <field name="name"/>
-                                </tree>
-                            </field>
-                        </page>                
+                    <page string="Account Type">
+                        <field name="user_type_ids">
+                            <tree>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
                 </notebook>
             </field>
         </record>

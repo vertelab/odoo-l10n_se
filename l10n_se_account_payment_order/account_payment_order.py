@@ -28,7 +28,6 @@ _logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
-    @api.multi
     def generate_move(self):
         """
         Override original method. create seperated move for each partner bank

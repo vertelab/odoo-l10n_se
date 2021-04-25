@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution, third party addon
+#    odoo, Open Source Management Solution, third party addon
 #    Copyright (C) 2004-2015 Vertel AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp import http
-from openerp.http import request
-from openerp import SUPERUSER_ID
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import http
+from odoo.http import request
+from odoo import SUPERUSER_ID
 from datetime import datetime
 import werkzeug
 import pytz
@@ -30,8 +30,8 @@ import re
 import base64
 from fnmatch import fnmatch,fnmatchcase
 from lxml import etree
-import openerp.tools as tools
-import openerp.tools.misc as misc
+import odoo.tools as tools
+import odoo.tools.misc as misc
 from tempfile import TemporaryFile
 
 try:
@@ -55,7 +55,6 @@ class import_chart_of_account(models.TransientModel):
     data_normal = fields.Binary('BAS Normal')
     data_simplified = fields.Binary('BAS K1 simplified')
    
-    @api.multi
     def send_form(self,):
         chart = self[0]
         #_logger.warning('data %s b64 %s ' % (account.data,base64.decodestring(account.data)))

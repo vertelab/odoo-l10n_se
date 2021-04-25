@@ -2,25 +2,25 @@
 <odoo>
     <data>
 
-        <record id="view_account_financial_report_form" model="ir.ui.view">
-            <field name="name">account.financial.report.form.inherited.l10n_se_tax_report</field>
-            <field name="model">account.financial.report</field>
-            <field name="inherit_id" ref="account.view_account_financial_report_form"/>
-            <field name="arch" type="xml">
-                <field name="account_ids" position="after">
-                    <field name="tax_ids" attrs="{'invisible': [('type', '!=', 'accounts')]}"/>
-                </field>
-                <notebook position="inside">
-                    <page string="SRU">
-                        <group>
-                            <field name="sru"/>
-                            <field name="field_code"/>
-                            <field name="field_code_neg"/>
-                        </group>
-                    </page>
-                </notebook>
-            </field>
-        </record>
+<!--        <record id="view_account_financial_report_form" model="ir.ui.view">-->
+<!--            <field name="name">account.financial.report.form.inherited.l10n_se_tax_report</field>-->
+<!--            <field name="model">account.financial.report</field>-->
+<!--            <field name="inherit_id" ref="account.view_account_financial_report_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <field name="account_ids" position="after">-->
+<!--                    <field name="tax_ids" attrs="{'invisible': [('type', '!=', 'accounts')]}"/>-->
+<!--                </field>-->
+<!--                <notebook position="inside">-->
+<!--                    <page string="SRU">-->
+<!--                        <group>-->
+<!--                            <field name="sru"/>-->
+<!--                            <field name="field_code"/>-->
+<!--                            <field name="field_code_neg"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                </notebook>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <record id="view_tax_form" model="ir.ui.view">
             <field name="name">account.tax.form.inherited.l10n_se_tax_report</field>

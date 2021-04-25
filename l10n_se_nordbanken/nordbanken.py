@@ -29,8 +29,6 @@ _logger = logging.getLogger(__name__)
 
 import csv
 
-import os
-
 csvfile = open('bokf_test.skv')
 
 reader = csv.DictReader(csvfile)
@@ -54,7 +52,7 @@ class NordbankenTransaktionsrapport(object):
         self.row = 0
         try:
             self.data = open_workbook(file_contents=data_file).sheet_by_name('Transaktionsrapport')
-        except XLRDError, e:
+        except XLRDError as e:
             raise ValueError(e)                
         self.rows = self.data.nrows - 3
         _logger.error('Row 2 %s' % self.data.row(1))

@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'PayPal Format Bank Statements Import',
-    'version': '10.0.0.1',
+    'version': '14.0.0.1',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',

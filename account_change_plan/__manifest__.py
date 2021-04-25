@@ -21,7 +21,7 @@
 
 {
     'name': 'Change Accounting Plan',
-    'version': '1.0',
+    'version': '14.0',
     'category': 'Localization/Account Charts',
     'description': """
 
@@ -29,9 +29,9 @@
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'category': 'Localization',
-    'depends': ['account',],
+    'depends': ['account'],
     'init_xml': [],
-    'data': ['wizard/change_chart_of_account.xml',],
+    'data': ['wizard/change_chart_of_account.xml'],
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

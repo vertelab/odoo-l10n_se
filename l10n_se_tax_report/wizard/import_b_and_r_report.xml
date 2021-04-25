@@ -14,7 +14,6 @@
                 </group>
                 <footer>
                     <button name="send_form" string="Import" type="object" class="oe_highlight"/>
-                    or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
             </form>
@@ -25,7 +24,6 @@
         <field name="name">Import SRU connections</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">account.financial.report.balance_result.import</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

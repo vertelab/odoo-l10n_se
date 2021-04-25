@@ -21,7 +21,7 @@
 
 {
     'name': 'Swedish Expense Tracker',
-    'version': '1.0',
+    'version': '14.0',
     'license': 'AGPL-3',
     'author': ' Vertel AB',
     'website': 'http://vertel.se',

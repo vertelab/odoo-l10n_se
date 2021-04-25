@@ -27,10 +27,10 @@
     'author': 'Vertel',
     'website': 'http://www.vertel.se',
 
-    'depends': ['account_period','l10n_se'],
-    'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
+    'depends': ['account_period', 'l10n_se'],
+    'data': ['l10n_se_sie_view.xml', 'account_view.xml', 'l10n_se_sie_data.xml'],
   
-    'demo': ['l10n_se_sie_demo.xml'],
+    # 'demo': ['l10n_se_sie_demo.xml'],
 
     'installable': 'True',
     'application': 'False',

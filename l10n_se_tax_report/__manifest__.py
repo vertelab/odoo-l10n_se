@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Sweden - Account Tax Report',
-    'version': '1.0',
+    'version': '14.0',
     'category': 'Report',
     'description': """
 Swedish accounting Tax Report
@@ -29,10 +29,10 @@ Taxes for financial report
      """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
-    'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','report_glabels', 'report_py3o','l10n_se_hr_payroll_account', 'account'],
+    'depends': ['l10n_se', 'account_period', 'account_payment_order', 'calendar', 'report_glabels', 'report_py3o', 'account'],
     'data': [
         'data/account_data.xml',
-        'data/account_financial.xml',
+        # 'data/account_financial.xml',
         'views/account_view.xml',
         'views/res_config_view.xml',
         'wizard/glabel_report.xml',

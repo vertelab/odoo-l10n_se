@@ -21,7 +21,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">wizard.object.usage</field>
         <field name="view_id" ref="form_wizard_object_usage"/>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
@@ -37,7 +36,6 @@
             <field name="name">Update accounting plan</field>
             <field name="model_id" ref="base.model_ir_actions_server"/>
             <field name="state">code</field>
-            <field name="condition">True</field>
             <field name="code">### These values must be specified by the user. ###
 company_id = env['res.company'].browse(1)
 chart_template_id = env.ref('l10n_se.chart_template_K3_2017')

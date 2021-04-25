@@ -24,7 +24,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 
-from openerp.osv import osv
+from odoo.osv import osv
 
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -51,7 +51,6 @@ class AccountFiscalPosition(models.Model):
 
     tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id', string='Tax Balance Mapping', copy=True)
 
-    @api.multi
     def get_map_balance_row(self, values):
         if not values.get('tax_line_id'):
             return
@@ -168,7 +167,6 @@ class wizard_multi_charts_accounts(models.TransientModel):
     code_digits = fields.Integer(default=4)
     bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
 
-    @api.multi
     def execute(self):
         res = super(wizard_multi_charts_accounts, self).execute()
         loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
@@ -377,7 +375,6 @@ class account_chart_template(models.Model):
                     #~ if ws.cell_value(l,2) > 0:
                         #~ break
 
-    @api.multi
     def generate_fiscal_position(self, tax_template_ref, acc_template_ref, company):
         """ This method generate Fiscal Position, Fiscal Position Accounts and Fiscal Position Taxes from templates.
 
@@ -528,7 +525,6 @@ class account_account_type(models.Model):
         # ~ env.cr.execute(sql, [tuple(ids)])
         # ~ o.write({'type': 'payable'})
 
-    @api.multi
     def get_account_range(self):
         self.ensure_one()
         return self.env['account.account'].search(eval(self.account_range))

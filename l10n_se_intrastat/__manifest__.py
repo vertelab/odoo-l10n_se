@@ -21,7 +21,7 @@
 
 {
     'name': 'Sweden - Intrastat',
-    'version': '1.0',
+    'version': '14.0',
     'category': 'Accounting',
     'description': """""",
     'author': 'Vertel AB',
