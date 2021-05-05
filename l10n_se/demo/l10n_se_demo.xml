@@ -78,10 +78,15 @@
             <field name="description_sale">Bärbar. 200 GB RAM / 2TB disk.</field>
         </record>
         <!-- INSTALL DEMO DATABASE WITH TEST DATA -->
+        <!-- 1. MIS builder-->
+        <!-- 1. Bokföring [account_accountant] | 2. Fakturering [account] -->
+        <!-- 2. Reinstall Bokföring [account_accountant]                  -->
+        <!-- 3. Försäljning [sale]                -->
+
         <!-- 1. Faktura a.k.a. "sale_expense".    -->
         <!-- 2. An error message will show.  -->
         <!-- 3. Click OK and install Faktura a.k.a. "sale_expense" one more time. -->
-        <!-- 4. Imstall MIS, Swedish MIS report a.k.a. "l10n_se_mis".        -->
+        <!-- 4. Install MIS, Swedish MIS report a.k.a. "l10n_se_mis".        -->
         <!-- 5. Install Sweden accounting, a.k.a. "l10n_se".                 -->
         <!--  * "Choose Accounting Template", select "K2" when asked -->
         <!--  ***  ***  ***  ***  ***  ***  ***  ***  ***  ***  ***  -->
