@@ -90,88 +90,87 @@
         <!-- 5. Install Sweden accounting, a.k.a. "l10n_se".                 -->
         <!--  * "Choose Accounting Template", select "K2" when asked -->
         <!--  ***  ***  ***  ***  ***  ***  ***  ***  ***  ***  ***  -->
-
 <!--        <record id="product.service_delivery_product_template" model="product.template">-->
 <!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
 <!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
 <!--        </record>-->
-<!--        <record id="product.product_product_3_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        <record id="product.product_product_16_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; some text &ndash;&gt;-->
-<!--        <record id="product.product_delivery_01_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        <record id="product.membership_2_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; some text &ndash;&gt;-->
-<!--        <record id="product.product_product_5_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        <record id="product.product_product_5b_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        <record id="product.product_product_7_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        <record id="product.product_product_9_product_template" model="product.template">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; iPad Retina Display (Vit, 16 GB) &ndash;&gt;-->
-<!--        <record id="product.product_product_4" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        <record id="product.consu_delivery_01" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; Laptop E5023 &ndash;&gt;-->
-<!--        <record id="product.product_product_25" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; Datacard &ndash;&gt;-->
-<!--        <record id="product.product_delivery_02" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; 24-portars switch &ndash;&gt;-->
-<!--        <record id="product.product_delivery_01" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; Liten Server &ndash;&gt;-->
-<!--        <record id="product.consu_delivery_02" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
+        <record id="product.product_product_3_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <record id="product.product_product_16_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- some text -->
+        <record id="product.product_delivery_01_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <record id="product.membership_2_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- some text -->
+        <record id="product.product_product_5_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <record id="product.product_product_5b_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <record id="product.product_product_7_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <record id="product.product_product_9_product_template" model="product.template">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- iPad Retina Display (Vit, 16 GB) -->
+        <record id="product.product_product_4" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <record id="product.consu_delivery_01" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- Laptop E5023 -->
+        <record id="product.product_product_25" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- Datacard -->
+        <record id="product.product_delivery_02" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- 24-portars switch -->
+        <record id="product.product_delivery_01" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- Liten Server -->
+        <record id="product.consu_delivery_02" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
 
-<!--        <record id="product.product_product_27" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; GAP Analysis Service &ndash;&gt;-->
-<!--        <record id="product.product_product_1" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
-<!--        &lt;!&ndash; Support Service &ndash;&gt;-->
-<!--        <record id="product.product_product_2" model="product.product">-->
-<!--            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>-->
-<!--            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>-->
-<!--        </record>-->
+        <record id="product.product_product_27" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- GAP Analysis Service -->
+        <record id="product.product_product_1" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
+        <!-- Support Service -->
+        <record id="product.product_product_2" model="product.product">
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.i'),))]"/>
+        </record>
     </data>
 </odoo>
