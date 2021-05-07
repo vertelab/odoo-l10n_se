@@ -28,7 +28,7 @@ import werkzeug
 import pytz
 import re
 import base64
-from fnmatch import fnmatch,fnmatchcase
+from fnmatch import fnmatch, fnmatchcase
 from lxml import etree
 import openerp.tools as tools
 import openerp.tools.misc as misc
