@@ -70,8 +70,8 @@
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'category': 'Localization',
-    'depends': ['account_period', 'base_vat', 'l10n_se_mis'],
-    'init_xml': [],
+    'depends': ['base_vat', 'l10n_se_mis'],
+    # 'depends': ['account_period', 'base_vat', 'l10n_se_mis'],
     'data': [
         'data/account_account_type.xml',
         'data/account_chart_template.xml',
@@ -97,10 +97,10 @@
         # ~ 'wizard/import_chart_of_account.xml',
         'data/res.country.state.csv',
     ],
-    # ~ 'demo_xml' : [
-        # ~ 'demo/account_chart.yml',
-        # ~ 'demo/l10n_se_demo.xml'
-    # ~ ],
+    'demo' : [
+        # 'demo/account_chart.yml',
+        'demo/l10n_se_demo.xml'
+    ],
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

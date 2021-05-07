@@ -210,6 +210,6 @@ for l in ln:
                     li.append(str(i))
         print_utf8(f,{'t':l.get('t'),'f':l.get('f'),'b':l.get('b'),'k':li,'d':d,'ut':ut})
     else:
-        print 'ERROR: ------ %s ------' %l.get('k')
+        print('ERROR: ------ %s ------' %l.get('k'))
 f.write(']\n')
 f.close()
