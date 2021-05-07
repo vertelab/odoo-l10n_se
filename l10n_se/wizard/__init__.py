@@ -18,7 +18,7 @@
 #
 ##############################################################################
 
-import import_chart_of_account
-import reconcile_model_journal
+from . import import_chart_of_account
+from . import reconcile_model_journal
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -29,7 +29,8 @@ from lxml import etree
 
 import click
 from xlrd import open_workbook
-from account_rules import account_rules as Rule
+# from .account_rules import account_rules as Rule
+
 
 
 def record(parent, id, model):

@@ -157,7 +157,6 @@ def print_xml(sheet_list):
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
     with open("../data/account_account_type.xml", "w") as f:
         f.write(xml.encode('utf-8'))
-    print 'Finished'
 
 print_xml([r_lst, b_lst])
 
