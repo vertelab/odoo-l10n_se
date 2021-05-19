@@ -83,173 +83,257 @@
             <field name="label">Inköp av varor från annat EU-land, 25 % (VFEU)</field>
         </record>
 
-<!--        <record id="reconcile_model_4519_u1mi" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Inköp av varor från annat EU-land, slask (U1MI)</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.u1mi')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Inköp av varor från annat EU-land, slask (U1MI)</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_4519" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Inköp av varor från annat EU-land, slask</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Inköp av varor från annat EU-land, slask</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_5400" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Förbrukningsinventarier</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Förbrukningsinventarier</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_5480" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Arbetskläder och skyddsmaterial</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Arbetskläder och skyddsmaterial</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_5810" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Biljetter</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Biljetter</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_5831" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Kost och logi i Sverige</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.i12i')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Kost och logi i Sverige</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_5900" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Reklam och PR (gruppkonto)</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Reklam och PR (gruppkonto)</field>-->
-<!--        </record>-->
+        <record id="reconcile_model_4519_u1mi" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Inköp av varor från annat EU-land, slask (U1MI)</field>
+        </record>
 
-<!--        <record id="reconcile_model_6071" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Representation, avdragsgill</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.i12i')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Representation, avdragsgill</field>-->
-<!--        </record>-->
+        <record id="reconcile_model_4519_u1mi_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_4519_u1mi"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.u1mi')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Inköp av varor från annat EU-land, slask (U1MI)</field>
+        </record>
 
-<!--        <record id="reconcile_model_6200" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Tele och post (gruppkonto)</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Tele och post (gruppkonto)</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_6230" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Datakommunikation</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Datakommunikation</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_6310" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Företagsförsäkringar</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Företagsförsäkringar</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_6540" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">IT-tjänster</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">IT-tjänster</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_6550" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Konsultarvoden</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Konsultarvoden</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_6570" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Bankkostnader</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Bankkostnader</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_6910" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Licensavgifter och royalties</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Licensavgifter och royalties</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_6992" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Övriga externa kostnader, ej avdragsgilla</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Övriga externa kostnader, ej avdragsgilla</field>-->
-<!--        </record>-->
+        <record id="reconcile_model_4519" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Inköp av varor från annat EU-land, slask</field>
+        </record>
 
-<!--        <record id="reconcile_model_6993" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Lämnade bidrag och gåvor</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Lämnade bidrag och gåvor</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_7621" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Sjuk- och hälsovård, avdragsgill</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Sjuk- och hälsovård, avdragsgill</field>-->
-<!--        </record>-->
-<!--        <record id="reconcile_model_8410" model="account.reconcile.model.template">-->
-<!--            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>-->
-<!--            <field name="name">Räntekostnader för långfristiga skulder</field>-->
-<!--            <field name="account_id" search="[('code', '=', '1251')]"/>-->
-<!--            <field name="amount_string">100.0</field>-->
-<!--            <field name="amount_type">percentage</field>-->
-<!--            <field name="label">Räntekostnader för långfristiga skulder</field>-->
-<!--        </record>-->
+        <record id="reconcile_model_4519_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_4519"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Inköp av varor från annat EU-land, slask</field>
+        </record>
+
+        <record id="reconcile_model_5400" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Förbrukningsinventarier</field>
+        </record>
+        <record id="reconcile_model_5400_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_5400"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Förbrukningsinventarier</field>
+        </record>
+
+        <record id="reconcile_model_5480" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Arbetskläder och skyddsmaterial</field>
+        </record>
+        <record id="reconcile_model_5480_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_5480"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Arbetskläder och skyddsmaterial</field>
+        </record>
+
+        <record id="reconcile_model_5810" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Biljetter</field>
+        </record>
+
+        <record id="reconcile_model_5810_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_5810"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Biljetter</field>
+        </record>
+
+        <record id="reconcile_model_5831" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Kost och logi i Sverige</field>
+        </record>
+        <record id="reconcile_model_5831_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_5831"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.i12i')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Kost och logi i Sverige</field>
+        </record>
+
+        <record id="reconcile_model_5900" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Reklam och PR (gruppkonto)</field>
+        </record>
+        <record id="reconcile_model_5900_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_5900"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Reklam och PR (gruppkonto)</field>
+        </record>
+
+        <record id="reconcile_model_6071" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Representation, avdragsgill</field>
+        </record>
+
+        <record id="reconcile_model_6071_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6071"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.i12i')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Representation, avdragsgill</field>
+        </record>
+
+         <record id="reconcile_model_6200" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Tele och post (gruppkonto)</field>
+        </record>
+        <record id="reconcile_model_6200_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6200"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Tele och post (gruppkonto)</field>
+        </record>
+
+        <record id="reconcile_model_6230" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Datakommunikation</field>
+        </record>
+        <record id="reconcile_model_6230_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6230"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Datakommunikation</field>
+        </record>
+
+        <record id="reconcile_model_6310" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Företagsförsäkringar</field>
+        </record>
+
+        <record id="reconcile_model_6310_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6310"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Företagsförsäkringar</field>
+        </record>
+        <record id="reconcile_model_6540" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">IT-tjänster</field>
+        </record>
+
+        <record id="reconcile_model_6540_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6540"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">IT-tjänster</field>
+        </record>
+
+        <record id="reconcile_model_6550" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Konsultarvoden</field>
+        </record>
+
+        <record id="reconcile_model_6550_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6550"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Konsultarvoden</field>
+        </record>
+
+        <record id="reconcile_model_6570" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Bankkostnader</field>
+        </record>
+
+        <record id="reconcile_model_6570_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6570"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Bankkostnader</field>
+        </record>
+
+        <record id="reconcile_model_6910" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Licensavgifter och royalties</field>
+        </record>
+
+        <record id="reconcile_model_6910_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6910"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Licensavgifter och royalties</field>
+        </record>
+
+        <record id="reconcile_model_6992" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Övriga externa kostnader, ej avdragsgilla</field>
+        </record>
+
+        <record id="reconcile_model_6992_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6992"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Övriga externa kostnader, ej avdragsgilla</field>
+        </record>
+
+        <record id="reconcile_model_6993" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Lämnade bidrag och gåvor</field>
+        </record>
+
+        <record id="reconcile_model_6993_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_6993"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Lämnade bidrag och gåvor</field>
+        </record>
+
+        <record id="reconcile_model_7621" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Sjuk- och hälsovård, avdragsgill</field>
+        </record>
+
+        <record id="reconcile_model_7621_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_7621"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="tax_ids" eval="[(6, 0, [ref('l10n_se_extended.ii')])]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Sjuk- och hälsovård, avdragsgill</field>
+        </record>
+
+        <record id="reconcile_model_8410" model="account.reconcile.model.template">
+            <field name="chart_template_id" ref="l10n_se_extended.chart_template_K2_2017"/>
+            <field name="name">Räntekostnader för långfristiga skulder</field>
+        </record>
+
+        <record id="reconcile_model_8410_line" model="account.reconcile.model.line.template">
+            <field name="model_id" ref="l10n_se_extended.reconcile_model_8410"/>
+            <field name="account_id" search="[('code', '=', '1251')]"/>
+            <field name="amount_string">100.0</field>
+            <field name="amount_type">percentage</field>
+            <field name="label">Räntekostnader för långfristiga skulder</field>
+        </record>
     </data>
 </odoo>
