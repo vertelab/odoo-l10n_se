@@ -70,36 +70,26 @@
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'category': 'Localization',
-    'depends': ['account_period', 'base_vat', 'l10n_se_mis'],
+    'depends': ['account_period', 'base_vat', 'product', 'account'],
     'init_xml': [],
     'data': [
-        'data/account_account_type.xml',
-        'data/account_chart_template.xml',
-        'data/account_chart_template_k23.xml',
-        # ~ 'data/account_chart_template_data.yml',
-        'data/account_tax_data.xml',
-        'data/account_fiscal_position.xml',
-        # ~ 'data/account_financial_report.xml',
-        #~ 'data/account.tax.code.template.csv',
-        #~ 'data/account.tax.template-after.csv',
-        #~ 'data/res.partner.bank.type.csv',
-        # ~ 'data/res_country_data.xml',
-        #~ 'views/account_report.xml',
-        #~ 'views/account_vat_view.xml',
+
         'views/account_view.xml',
-        'views/res_partner_view.xml',
-        'data/account_account.xml',
-        'data/account_tax_template_hr_data.xml',
+        'data/l10n_se_account_chart_template.xml',
+        'data/account_account_type.xml',
+        'data/account_account_template_data.xml',
+        'data/account_tax_data.xml',
+        'data/account_account_template_wt_tax_data.xml',
+        'data/fiscal_position_data.xml',
+        'data/l10n_se_account_chart_post_data.xml',
         'data/account_reconcile_model_data.xml',
-        'data/mis_financial_report.xml',
-        'wizard/reconcile_model_journal_view.xml',
         'security/ir.model.access.csv',
-        # ~ 'wizard/import_chart_of_account.xml',
+
     ],
-    # ~ 'demo_xml' : [
-        # ~ 'demo/account_chart.yml',
-        # ~ 'demo/l10n_se_demo.xml'
-    # ~ ],
+    'demo': [
+        'demo/load_account_chart_template_data.xml',
+        'demo/l10n_se_demo.xml'
+    ],
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

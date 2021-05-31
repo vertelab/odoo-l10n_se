@@ -40,11 +40,17 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class AccountJournal(models.Model):
+    _inherit = 'account.journal'
 
-# ~ class account_bank_accounts_wizard(models.TransientModel):
-    # ~ _inherit='account.bank.accounts.wizard'
+    type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')])
 
-    # ~ account_type = fields.Selection(selection_add=[('bg','Bankgiro'),('pg','Plusgiro')])
+
+# class account_bank_accounts_wizard(models.TransientModel):
+#     _inherit = 'account.bank.accounts.wizard'
+#
+#     account_type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')])
+
 
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
@@ -73,6 +79,7 @@ class AccountFiscalPosition(models.Model):
                 'tax_ids': values.get('tax_ids'), # Looks like it will contain any previous taxes that will be included in the base value for this tax
             }
 
+
 class AccountFiscalPositionTaxBalance(models.Model):
     _name = 'account.fiscal.position.tax.balance'
     _description = 'Taxes Balance Fiscal Position'
@@ -89,6 +96,7 @@ class AccountFiscalPositionTaxBalance(models.Model):
          'A tax balance fiscal position could be defined only one time on same taxes.')
     ]
 
+
 class AccountFiscalPositionTemplate(models.Model):
     _inherit = 'account.fiscal.position.template'
 
@@ -99,6 +107,7 @@ class AccountFiscalPositionTemplate(models.Model):
         help="Apply only if delivery or invoicing country match.")
     country_group_id = fields.Many2one('res.country.group', string='Country Group',
         help="Apply only if delivery or invocing country match the group.")
+
 
 class AccountFiscalPositionTaxBalanceTemplate(models.Model):
     _name = 'account.fiscal.position.tax.balance.template'
@@ -115,6 +124,7 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
          'unique (position_id,tax_src_id)',
          'A tax balance fiscal position could be defined only one time on same taxes.')
     ]
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -135,137 +145,117 @@ class AccountInvoice(models.Model):
         _logger.warn('res: %s' % res)
         return res
 
-        # ~ # keep track of taxes already processed
-        # ~ done_taxes = []
-        # ~ # loop the invoice.tax.line in reversal sequence
-        # ~ for tax_line in sorted(self.tax_line_ids, key=lambda x: -x.sequence):
-            # ~ if tax_line.amount:
-                # ~ tax = tax_line.tax_id
-                # ~ if tax.amount_type == "group":
-                    # ~ for child_tax in tax.children_tax_ids:
-                        # ~ done_taxes.append(child_tax.id)
-                # ~ res.append({
-                    # ~ 'invoice_tax_line_id': tax_line.id,
-                    # ~ 'tax_line_id': tax_line.tax_id.id,
-                    # ~ 'type': 'tax',
-                    # ~ 'name': tax_line.name,
-                    # ~ 'price_unit': tax_line.amount,
-                    # ~ 'quantity': 1,
-                    # ~ 'price': tax_line.amount,
-                    # ~ 'account_id': tax_line.account_id.id,
-                    # ~ 'account_analytic_id': tax_line.account_analytic_id.id,
-                    # ~ 'invoice_id': self.id,
-                    # ~ 'tax_ids': [(6, 0, list(done_taxes))] if tax_line.tax_id.include_base_amount else []
-                # ~ })
-                # ~ done_taxes.append(tax.id)
-        # ~ return res
-class wizard_multi_charts_accounts(models.TransientModel):
-    """
-        defaults for 4 digits in chart of accounts
-     """
-    X_inherit='wizard.multi.charts.accounts'
 
-    code_digits = fields.Integer(default=4)
-    # ~ bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard',inverse_name='bank_account_id',string='Cash and Banks', help="Bank (och kontant) som även har journal",required=True)
+# class wizard_multi_charts_accounts(models.TransientModel):
+#     """
+#         defaults for 4 digits in chart of accounts
+#      """
+#     _inherit = 'wizard.multi.charts.accounts'
+#
+#     code_digits = fields.Integer(default=4)
+    # bank_accounts_id = fields.One2many(comodel_name='account.bank.accounts.wizard', inverse_name='bank_account_id',
+    #                                    string='Cash and Banks', help="Bank (och kontant) som även har journal",
+    #                                    required=True)
 
-    @api.multi
-    def execute(self):
-        res = super(wizard_multi_charts_accounts, self).execute()
-        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
-        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
-        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
-        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
-        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
-        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
-        personalskatt = self.env['account.account'].search([('code', '=', '2710')])
-        account_values = {
-            'UlagAvgHel': {'account_id': loner_till_tjansteman_7210.id, 'refund_account_id': loner_till_tjansteman_7210.id},
-            'UlagVXLon': {'account_id': lon_vaxa_stod_tjansteman.id, 'refund_account_id': lon_vaxa_stod_tjansteman.id},
-            'UlagAvgAldersp': {'account_id': loner_till_tjansteman_16_36.id, 'refund_account_id': loner_till_tjansteman_16_36.id},
-            'UlagAlderspSkLon': {'account_id': loner_till_tjansteman_6_15.id, 'refund_account_id': loner_till_tjansteman_6_15.id},
-            'AvgHel': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
-            'AvgVXLon': {'account_id': avrakning_sarskild_loneskatt.id, 'refund_account_id': avrakning_sarskild_loneskatt.id},
-            'AvgAldersp': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
-            'AvgAlderspSkLon': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
-            'AgPre': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
-            'SkAvdrLon': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
-        }
-        for k,v in account_values.items():
-            self.env['account.tax'].search([('name', '=', k)]).write(v)
-        return res
+    # @api.multi
+    # def execute(self):
+    #     res = super(wizard_multi_charts_accounts, self).execute()
+    #     loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
+    #     lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
+    #     loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
+    #     loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
+    #     avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
+    #     avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
+    #     personalskatt = self.env['account.account'].search([('code', '=', '2710')])
+    #     account_values = {
+    #         'UlagAvgHel': {'account_id': loner_till_tjansteman_7210.id, 'refund_account_id': loner_till_tjansteman_7210.id},
+    #         'UlagVXLon': {'account_id': lon_vaxa_stod_tjansteman.id, 'refund_account_id': lon_vaxa_stod_tjansteman.id},
+    #         'UlagAvgAldersp': {'account_id': loner_till_tjansteman_16_36.id, 'refund_account_id': loner_till_tjansteman_16_36.id},
+    #         'UlagAlderspSkLon': {'account_id': loner_till_tjansteman_6_15.id, 'refund_account_id': loner_till_tjansteman_6_15.id},
+    #         'AvgHel': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+    #         'AvgVXLon': {'account_id': avrakning_sarskild_loneskatt.id, 'refund_account_id': avrakning_sarskild_loneskatt.id},
+    #         'AvgAldersp': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+    #         'AvgAlderspSkLon': {'account_id': avrakning_lagstadgade_sociala_avgifter.id, 'refund_account_id': avrakning_lagstadgade_sociala_avgifter.id},
+    #         'AgPre': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
+    #         'SkAvdrLon': {'account_id': personalskatt.id, 'refund_account_id': personalskatt.id},
+    #     }
+    #     for k,v in account_values.items():
+    #         self.env['account.tax'].search([('name', '=', k)]).write(v)
+    #     return res
+    #
+    # def X_create_bank_journals_from_o2m(self, obj_wizard, company_id, acc_template_ref):
+    #     '''
+    #     This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
+    #     wizard.
+    #
+    #     :param obj_wizard: the current wizard that generates the COA from the templates.
+    #     :param company_id: the id of the company for which the wizard is running.
+    #     :param acc_template_ref: the dictionary containing the mapping between the ids of account templates and the ids
+    #         of the accounts that have been generated from them.
+    #     :return: True
+    #     '''
+    #     obj_acc = self.env['account.account']
+    #     obj_journal = self.env['account.journal']
+    #     code_digits = obj_wizard.code_digits
+    #
+    #     # Build a list with all the data to process
+    #     journal_data = []
+    #     if obj_wizard.bank_accounts_id:
+    #         for acc in obj_wizard.bank_accounts_id:
+    #             vals = {
+    #                 'acc_name': acc.acc_name,
+    #                 'account_type': acc.account_type,
+    #                 'currency_id': acc.currency_id.id,
+    #             }
+    #             journal_data.append(vals)
+    #     ref_acc_bank = obj_wizard.chart_template_id.bank_account_view_id
+    #     if journal_data and not ref_acc_bank.code:
+    #         raise osv.except_osv(_('Configuration Error !'), _('The bank account defined on the selected chart of accounts hasn\'t a code.'))
+    #
+    #     current_num = 1
+    #     for line in journal_data:
+    #         # Seek the next available number for the account code
+    #         while True:
+    #             new_code = str(ref_acc_bank.code[0:code_digits-len(str(current_num))].ljust(code_digits-len(str(current_num)), '0')) + str(current_num)
+    #             ids = obj_acc.search([('code', '=', new_code), ('company_id', '=', company_id)])
+    #             if not ids:
+    #                 break
+    #             else:
+    #                 current_num += 1
+    #         # Create the default debit/credit accounts for this bank journal
+    #         vals = self._prepare_bank_account(line, new_code, acc_template_ref, ref_acc_bank, company_id)
+    #         default_account_id = obj_acc.create(vals)
+    #
+    #         #create the bank journal
+    #         vals_journal = self._prepare_bank_journal(line, current_num, default_account_id, company_id)
+    #         obj_journal.create(vals_journal)
+    #         current_num += 1
+    #     return True
+    #
+    # @api.model
+    # def default_get(self, fields):
+    #     res = super(wizard_multi_charts_accounts, self).default_get(fields)
+    #     if 'bank_accounts_id' in fields:
+    #         company_id = res.get('company_id') or False
+    #         if company_id:
+    #             company = self.env['res.company'].browse(company_id)
+    #             ba_list = [{'acc_name': _('Kalle Cash'), 'account_type': 'cash'}]
+    #             for ba in company.bank_ids:
+    #                 ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.acc_type}]
+    #             res.update({'bank_account_id': ba_list})
+    #     return res
 
-    def X_create_bank_journals_from_o2m(self, obj_wizard, company_id, acc_template_ref):
-        '''
-        This function creates bank journals and its accounts for each line encoded in the field bank_accounts_id of the
-        wizard.
-
-        :param obj_wizard: the current wizard that generates the COA from the templates.
-        :param company_id: the id of the company for which the wizard is running.
-        :param acc_template_ref: the dictionary containing the mapping between the ids of account templates and the ids
-            of the accounts that have been generated from them.
-        :return: True
-        '''
-        obj_acc = self.env['account.account']
-        obj_journal = self.env['account.journal']
-        code_digits = obj_wizard.code_digits
-
-        # Build a list with all the data to process
-        journal_data = []
-        if obj_wizard.bank_accounts_id:
-            for acc in obj_wizard.bank_accounts_id:
-                vals = {
-                    'acc_name': acc.acc_name,
-                    'account_type': acc.account_type,
-                    'currency_id': acc.currency_id.id,
-                }
-                journal_data.append(vals)
-        ref_acc_bank = obj_wizard.chart_template_id.bank_account_view_id
-        if journal_data and not ref_acc_bank.code:
-            raise osv.except_osv(_('Configuration Error !'), _('The bank account defined on the selected chart of accounts hasn\'t a code.'))
-
-        current_num = 1
-        for line in journal_data:
-            # Seek the next available number for the account code
-            while True:
-                new_code = str(ref_acc_bank.code[0:code_digits-len(str(current_num))].ljust(code_digits-len(str(current_num)), '0')) + str(current_num)
-                ids = obj_acc.search(cr, uid, [('code', '=', new_code), ('company_id', '=', company_id)])
-                if not ids:
-                    break
-                else:
-                    current_num += 1
-            # Create the default debit/credit accounts for this bank journal
-            vals = self._prepare_bank_account(cr, uid, line, new_code, acc_template_ref, ref_acc_bank, company_id, context=context)
-            default_account_id  = obj_acc.create(cr, uid, vals, context=context)
-
-            #create the bank journal
-            vals_journal = self._prepare_bank_journal(cr, uid, line, current_num, default_account_id, company_id, context=context)
-            obj_journal.create(cr, uid, vals_journal)
-            current_num += 1
-        return True
-
-    @api.model
-    def default_get(self, fields):
-        res = super(wizard_multi_charts_accounts, self).default_get(fields)
-        if 'bank_accounts_id' in fields:
-            company_id = res.get('company_id') or False
-            if company_id:
-                company = self.env['res.company'].browse(company_id)
-                ba_list = [{'acc_name': _('Kalle Cash'), 'account_type': 'cash'}]
-                for ba in company.bank_ids:
-                    ba_list += [{'acc_name': ba.acc_number, 'account_type': ba.acc_type}]
-                res.update({'bank_account_id': ba_list})
-        return res
 
 class account_chart_template(models.Model):
     """
         defaults for 4 digits in chart of accounts
      """
-    _inherit='account.chart.template'
+    _inherit = 'account.chart.template'
 
     code_digits = fields.Integer(default=4)
     bas_sru = fields.Binary(string="BAS SRU")
     bas_chart = fields.Binary(string="BAS Chart of Account")
-    bas_k2 = fields.Boolean(string='Ej K2',default=True)
+    bas_k2 = fields.Boolean(string='Ej K2', default=True)
     bas_basic = fields.Boolean(string='Endast grundläggande konton',default=True)
 
     @api.onchange('bas_chart')
@@ -281,23 +271,16 @@ class account_chart_template(models.Model):
         nbr_lines = ws.nrows
         user_type = 'account.data_account_type_asset'
 
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','1000'),('code','<','9999')]).unlink()
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','10'),('code','<','99')]).unlink()
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id),('code','>','1'),('code','<','9')]).unlink()
-        #~ self.env['account.account.template'].search([('chart_template_id', '=',self.id)]).unlink()
-        _logger.warn('Accounts %s' % self.env['account.account.template'].search([('code','like','%.0')]))
-        self.env['account.account.template'].search([('code','like','%.0')]).unlink()
-        #~ self.env['account.account.template'].search([('code','>','10'),('code','<','99')]).unlink()
-        #~ self.env['account.account.template'].search([('code','>','1'),('code','<','9')]).unlink()
-        #~ self.env['account.account.template'].search([]).unlink()
+        _logger.warn('Accounts %s' % self.env['account.account.template'].search([('code', 'like', '%.0')]))
+        self.env['account.account.template'].search([('code', 'like', '%.0')]).unlink()
 
-        return
-        for l in range(0,ws.nrows):
-            if ws.cell_value(l,2) == 1 or ws.cell_value(l,2) in range(10,20) or ws.cell_value(l,2) in range(1000,1999) :
+        # return
+        for l in range(0, ws.nrows):
+            if ws.cell_value(l, 2) == 1 or ws.cell_value(l, 2) in range(10, 20) or ws.cell_value(l, 2) in range(1000, 1999):
                 user_type = 'account.data_account_type_asset'
-            if ws.cell_value(l,2) in range(15,26) or ws.cell_value(l,2) in range(1500,1599) :
+            if ws.cell_value(l, 2) in range(15,26) or ws.cell_value(l,2) in range(1500,1599) :
                 user_type = 'account.data_account_type_receivable'
-            if ws.cell_value(l,2) in range(1900,1999):
+            if ws.cell_value(l, 2) in range(1900,1999):
                 user_type = 'account.data_account_type_bank'
             if ws.cell_value(l,2) == 1910:
                 user_type = 'account.data_account_type_cash'
@@ -324,9 +307,6 @@ class account_chart_template(models.Model):
             if ws.cell_value(l,2) in [89] or ws.cell_value(l,2) in range(8900,9000):
                     user_type = 'account.data_account_type_expense'
 
-
-
-
             if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass
                 last_account_class = self.env['account.account.template'].create({
                     'code': ws.cell_value(l,2),
@@ -335,7 +315,7 @@ class account_chart_template(models.Model):
                     'type': 'view',
                     'chart_template_id': self.id,
                   })
-            if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in ['30-34','40-45']: # kontogrupp
+            if ws.cell_value(l, 2) in range(10,99) or ws.cell_value(l,2) in ['30-34','40-45']: # kontogrupp
                 last_account_group = self.env['account.account.template'].create(
                     {
                         'code': ws.cell_value(l,2),
@@ -365,8 +345,8 @@ class account_chart_template(models.Model):
                         'parent_id':last_account_group.id,
                         'user_type': self.env.ref(user_type).id,
                         'chart_template_id': self.id,
-                        'bas_k34': True if  ws.cell_value(l,4) == not_k2 else False,
-                        'bas_basic': True if ws.cell_value(l,4) == basic_code else False,
+                        'bas_k34': True if  ws.cell_value(l, 4) == not_k2 else False,
+                        'bas_basic': True if ws.cell_value(l, 4) == basic_code else False,
                         })
 
             #~ if ws.cell_value(l,1) == basic_code and self.bas_basic:
@@ -405,35 +385,34 @@ class account_chart_template(models.Model):
             new_fp.country_group_id = position.country_group_id
         return res
 
+
 class account_account_template(models.Model):
     _inherit = "account.account.template"
 
+    bas_k34 = fields.Boolean(string='K3/K4', default=False)
+    bas_basic = fields.Boolean(string='Endast grundläggande konton', default=True)
 
-    bas_k34 = fields.Boolean(string='K3/K4',default=False)
-    bas_basic = fields.Boolean(string='Endast grundläggande konton',default=True)
-
-    def account2group(self,account_code):
-        if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass
-            last_account_class = self.env['account.account.template'].create({
-                'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2),
-                'name': ws.cell_value(l,3),
-                'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
-                'type': 'view',
-                'chart_template_id': chart_template_titles.id,
-                'parent_id':root_account.id,
-              })
-        if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in [u'30–34 Huvudintäkter',u"""40–
-45 """]: # kontogrupp
-            last_account_group = self.env['account.account.template'].create({
-                    'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2),
-                    'name': ws.cell_value(l,3),
-                    'type': 'view',
-                    'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
-                    'parent_id':last_account_class.id,
-                    'chart_template_id': chart_template_titles.id,
-                })
-
-        return self.env.ref(user_type) if user_type else None
+    # def account2group(self, account_code):
+    #     if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in [u'5–6']: # kontoklass
+    #         last_account_class = self.env['account.account.template'].create({
+    #             'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2),
+    #             'name': ws.cell_value(l,3),
+    #             'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
+    #             'type': 'view',
+    #             'chart_template_id': chart_template_titles.id,
+    #             'parent_id':root_account.id,
+    #           })
+    #     if ws.cell_value(l,2) in range(10,99) or ws.cell_value(l,2) in [u'30–34 Huvudintäkter',u"""40–45 """]: # kontogrupp
+    #         last_account_group = self.env['account.account.template'].create({
+    #                 'code': str(int(ws.cell_value(l,2))) if isinstance( ws.cell_value(l,2), float ) else ws.cell_value(l,2),
+    #                 'name': ws.cell_value(l,3),
+    #                 'type': 'view',
+    #                 'user_type': self.env['account.account.type'].account2user_type(ws.cell_value(l,2)).id,
+    #                 'parent_id':last_account_class.id,
+    #                 'chart_template_id': chart_template_titles.id,
+    #             })
+    #
+    #     return self.env.ref(user_type) if user_type else None
 
 class account_tax_template(models.Model):
     _inherit = 'account.tax.template'
@@ -568,10 +547,34 @@ class account_account_type(models.Model):
         return self.env.ref(user_type) if user_type else None
 
 
-# ~ class account_financial_report(models.Model):
-    # ~ _inherit = 'account.financial.report'
+# class account_financial_report(models.Model):
+#     _inherit = 'account.financial.report'
+#
+#     element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
+#     version_name = fields.Char(string='Version Name', help='This name is from import file.')
 
-    # ~ element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
-    # ~ version_name = fields.Char(string='Version Name', help='This name is from import file.')
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class Company(models.Model):
+    _inherit = 'res.company'
+
+    @api.model
+    def account_chart_func(self):
+        company = self.env.ref('base.main_company')
+        if not company.chart_template_id:
+            sek = self.env.ref('base.SEK')
+            sek.active = True
+            self.env.currency_id = sek
+            config = self.env['res.config.settings'].create({})
+            config.chart_template_id = self.env.ref('l10n_se.chart_template_K2_2017')
+            config.chart_template_id.try_loading_for_current_company()
+            config.set_values()
+            year = datetime.today().strftime("%Y")
+            fy = self.env['account.fiscalyear'].create({
+                'name': year,
+                'code': year,
+                'date_start': '%s-01-01' % year,
+                'date_stop': '%s-12-31' % year,
+                'state': 'draft',
+            })
+            fy.create_period1()
+

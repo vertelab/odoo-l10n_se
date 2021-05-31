@@ -177,9 +177,6 @@ def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, 
 read_sheet(resultatrakning, r_element_name, r_title, r_account_type, r_parents, r_credit_debit, r_lst)
 read_sheet(balansrakning, b_element_name, b_title, b_account_type, b_parents, b_credit_debit, b_lst)
 
-print r_lst
-exit
-
 r_par = {}
 for r in b_lst:
     # ~ print r['name'],r['element_name'], r['type'], r['parent_id']
@@ -430,7 +427,6 @@ def mis_xml(r_lst,b_lst):
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
     with open("../data/mis_financial_report.xml", "w") as f:
         f.write(xml.encode('utf-8'))
-    print 'Finished'
 
 mis_xml(r_lst, b_lst)
 
