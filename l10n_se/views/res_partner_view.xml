@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-        
-        <record id="view_partners_form_se1" model="ir.ui.view">
-                <field name="name">view.res.partner.form.se1</field>
-                <field name="model">res.partner</field>
-                <field name="inherit_id" ref="base.view_partner_form"/>
-                <field name="arch" type="xml">
-                    <field name="email" position="after">
-                        <field name="company_registry" attrs="{'invisible': [('is_company','=',False)]}"/>
-                    </field>
-                    <field name="state_id" position="replace"/>
-                    <field name="zip" position="replace"/>
-                    <field name="city" position="replace">
-                        <field name="zip" placeholder="ZIP" style="width: 20%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>                        
-                        <field name="city" placeholder="City" style="width: 40%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
-                        
-                        <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%" options="{&quot;no_open&quot;: True}" on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)], 'invisible': [('country_id','!=','us')]}"/>
-                        
-                    </field>
-                </field>
-        </record>
-
-    </data>
-</openerp>
+<odoo>
+    <record id="view_partners_form_se1" model="ir.ui.view">
+        <field name="name">view.res.partner.form.se1</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="company_registry" attrs="{'invisible': [('is_company','=',False)]}" />
+            </field>
+            <field name="state_id" position="replace" />
+            <field name="zip" position="replace" />
+            <field name="city" position="replace">
+                <field name="zip" placeholder="ZIP" style="width: 20%" attrs="{'readonly': [('use_parent_address','=',True)]}" />
+                <field name="city" placeholder="City" style="width: 40%" attrs="{'readonly': [('use_parent_address','=',True)]}" />
+                <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%" options="{&quot;no_open&quot;: True}" on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)], 'invisible': [('country_id','!=','us')]}" />
+            </field>
+        </field>
+    </record>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="company_registry" attrs="{'invisible': [('is_company','=',False)]}" />
+            </field>
+            <field name="zip" position="replace" />
+            <field name="city" position="replace">
+                <field name="zip" placeholder="ZIP" style="width: 20%" attrs="{'readonly': [('use_parent_address','=',True)]}" />
+                <field name="city" placeholder="City" style="width: 40%" attrs="{'readonly': [('use_parent_address','=',True)]}" />
+            </field>
+        </field>
+    </record>
+</odoo>

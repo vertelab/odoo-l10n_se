@@ -21,7 +21,7 @@
 
 {
     'name': 'Sweden - Accounting',
-    'version': '2.0',
+    'version': '14.0. 2.0',
     'category': 'Localization/Account Charts',
     'description': """Sweden - Chart of accounts
 
