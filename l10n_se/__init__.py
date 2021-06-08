@@ -19,7 +19,7 @@
 ##############################################################################
 
 from . import account_rules
-from .import models
+from . import models
 #import account
 #import res_company
 #import res_partner

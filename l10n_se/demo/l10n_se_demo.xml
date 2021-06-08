@@ -3,7 +3,7 @@
     <data noupdate="0">
         
         <record id="res_partner_1" model="res.partner">
-            <field name="name">Datanbutiken</field>
+            <field name="name">Databutiken</field>
             <field eval="[(6, 0, [ref('base.res_partner_category_13'), ref('base.res_partner_category_12')])]" name="category_id"/>
             <field name="supplier">1</field>
             <field eval="0" name="customer"/>
@@ -11,14 +11,14 @@
             <field name="city">Stockholm</field>
             <field name="zip">123 45</field>
             <field name="country_id" ref="base.se"/>
-            <field name="street">Fjollträskgatan 123</field>
+            <field name="street">Nygatan 123</field>
             <field name="email">datanbutiken@yourcompany.example.com</field>
             <field name="phone">123 - 456 78 90</field>
             <field name="website"></field>
         </record>
         
         <record id="res_partner_2" model="res.partner">
-            <field name="name">Tegel &amp; Murbruk Data AB</field>
+            <field name="name">Tegelvikens Data AB</field>
             <field eval="[(6, 0, [ref('base.res_partner_category_13'), ref('base.res_partner_category_12')])]" name="category_id"/>
             <field name="customer">1</field>
             <field eval="0" name="supplier"/>
@@ -26,7 +26,7 @@
             <field name="city">Stockholm</field>
             <field name="zip">123 45</field>
             <field name="country_id" ref="base.se"/>
-            <field name="street">Fjollträskgatan 456</field>
+            <field name="street">Solrosvägen 456</field>
             <field name="email">tegelomurbruk@yourcompany.example.com</field>
             <field name="phone">123 - 098 76 54</field>
             <field name="website"></field>

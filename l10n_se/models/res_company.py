@@ -30,7 +30,8 @@ from odoo.tools import image_resize_image
 
 class res_company(osv.osv):
     _inherit = "res.company"
-
+    company_type = fields.char('Enskild Firma eller AB', size=50, required=True),
+     
     def _get_euro(self, cr, uid, context=None):
         try:
             return self.pool.get('res.currency').search(cr, uid, [('name','=','SEK')])[0]
