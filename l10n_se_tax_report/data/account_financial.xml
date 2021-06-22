@@ -15,7 +15,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel', 'LonBrutto'])]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', 'in', ['UlagAvgHel', 'LonBrutto'])]"/>
         </record>
         <record id="agd_report_Forman" model="account.financial.report">
             <field name="name">51. Avgiftspliktiga förmåner</field>
@@ -24,7 +24,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'Forman')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'Forman')]"/>
         </record>
         <record id="agd_report_AvdrKostn" model="account.financial.report">
             <field name="name">52. Avdrag för utgifter i arbetet</field>
@@ -33,7 +33,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'AvdrKostn')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'AvdrKostn')]"/>
         </record>
         <record id="agd_report_SumUlagAvg" model="account.financial.report">
             <field name="name">53. Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt</field>
@@ -42,7 +42,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel', 'SumUlagAvg'])]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', 'in', ['UlagAvgHel', 'SumUlagAvg'])]"/>
         </record>
         <record id="agd_report_UlagAvgHel" model="account.financial.report">
             <field name="name">55. Full arbetsgivaravgift för yngre än 65 år</field>
@@ -51,7 +51,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagAvgHel')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'UlagAvgHel')]"/>
         </record>
         <record id="agd_report_AvgHel" model="account.financial.report">
             <field name="name">56. 31,42% av rad 55</field>
@@ -60,7 +60,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'AvgHel')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'AvgHel')]"/>
         </record>
         <record id="agd_report_AvgVXLon" model="account.financial.report">
             <field name="name">57. Enskild näringsidkares första anställda</field>
@@ -69,7 +69,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'AvgVXLon')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'AvgVXLon')]"/>
         </record>
         <record id="agd_report_UlagVXLon" model="account.financial.report">
             <field name="name">58. 10,21% av rad 57</field>
@@ -78,7 +78,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagVXLon')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'UlagVXLon')]"/>
         </record>
         <record id="agd_report_UlagAvgAldersp" model="account.financial.report">
             <field name="name">59. Arbetsgivaravgift för 66-79 år</field>
@@ -87,7 +87,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagAvgAldersp')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'UlagAvgAldersp')]"/>
         </record>
         <record id="agd_report_AvgAldersp" model="account.financial.report">
             <field name="name">60. 16.36% av rad 59</field>
@@ -96,7 +96,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'AvgAldersp')]"/>
+            <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'AvgAldersp')]"/>
         </record>
         <record id="agd_report_UlagAlderspSkLon" model="account.financial.report">
             <field name="name">61. Särskild löneskatt för 80 år eller äldre</field>
@@ -105,7 +105,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagAlderspSkLon')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'UlagAlderspSkLon')]"/>
         </record>
         <record id="agd_report_AvgAlderspSkLon" model="account.financial.report">
             <field name="name">62. 6,15% av rad 61</field>
@@ -114,7 +114,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'AvgAlderspSkLon')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'AvgAlderspSkLon')]"/>
         </record>
         <record id="agd_report_UlagStodForetag" model="account.financial.report">
             <field name="name">73. Forskning och utveckling</field>
@@ -123,7 +123,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagStodForetag')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'UlagStodForetag')]"/>
         </record>
         <record id="agd_report_AvdrStodForetag" model="account.financial.report">
             <field name="name">74. Avdrag forskning och utveckling</field>
@@ -132,7 +132,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'AvdrStodForetag')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'AvdrStodForetag')]"/>
         </record>
         <record id="agd_report_UlagStodUtvidgat" model="account.financial.report">
             <field name="name">75. Regionalt stöd, underlag</field>
@@ -141,7 +141,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'UlagStodUtvidgat')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'UlagStodUtvidgat')]"/>
         </record>
         <record id="agd_report_AvdrStodUtvidgat" model="account.financial.report">
             <field name="name">76. Avdrag regionalt stöd</field>
@@ -150,7 +150,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'AvdrStodUtvidgat')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'AvdrStodUtvidgat')]"/>
         </record>
         <record id="agd_report_SumAvgBetala" model="account.financial.report">
             <field name="name">78. Summa arbetsgivaravgift</field>
@@ -159,7 +159,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['AvgHel', 'UlagVXLon', 'AvgAldersp', 'AvgAlderspSkLon', 'SumAvgBetala'])]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', 'in', ['AvgHel', 'UlagVXLon', 'AvgAldersp', 'AvgAlderspSkLon', 'SumAvgBetala'])]"/>
         </record>
         <record id="agd_report_UlagSkAvdrLon" model="account.financial.report">
             <field name="name">81. Lön och förmåner</field>
@@ -168,7 +168,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel', 'UlagSkAvdrLon'])]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', 'in', ['UlagAvgHel', 'UlagSkAvdrLon'])]"/>
         </record>
         <record id="agd_report_SkAvdrLon" model="account.financial.report">
             <field name="name">82. Från lön och förmåner</field>
@@ -177,7 +177,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', '=', 'SkAvdrLon')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'SkAvdrLon')]"/>
         </record>
         <record id="agd_report_UlagSumSkAvdr" model="account.financial.report">
             <field name="name">87. Summa underlag för skatteavdrag</field>
@@ -186,7 +186,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['UlagAvgHel'])]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', 'in', ['UlagAvgHel'])]"/>
         </record>
         <record id="agd_report_SumSkAvdr" model="account.financial.report">
             <field name="name">88. Summa avdragen skatt</field>
@@ -195,7 +195,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="4"/>
-            <field name="tax_ids" search="[('name', 'in', ['SkAvdrLon', 'SumSkAvdr'])]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', 'in', ['SkAvdrLon', 'SumSkAvdr'])]"/>
         </record>
         <record id="agd_report_AgAvgPreS" model="account.financial.report">
             <field name="name">Summa avgift och skatt att betala</field>
@@ -204,7 +204,7 @@
             <field name="sign" eval="1"/>
             <field name="parent_id" ref="agd_report"/>
             <field name="style_overwrite" eval="3"/>
-            <field name="tax_ids" search="[('name', '=', 'AgAvgPreS')]"/>
+            <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'AgAvgPreS')]"/>
         </record>
     </data>
 </odoo>

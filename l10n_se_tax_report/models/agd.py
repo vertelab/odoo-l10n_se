@@ -484,7 +484,7 @@ class account_agd_declaration(models.Model):
                     move_line_list.append((0, 0, {
                         'name': skattekonto.name,
                         'account_id': skattekonto.id,
-                        'partner_id': self.env.ref('base.res_partner-SKV').id,
+                        'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
                         'debit': 0.0,
                         'credit': int(round(abs(total))),
                         'move_id': entry.id,

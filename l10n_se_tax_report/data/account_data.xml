@@ -71,7 +71,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'MU1')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'MU1')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="7" model="account.financial.report">
@@ -81,7 +81,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'MBBU')]" />
+      <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'MBBU')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="8" model="account.financial.report">
@@ -91,7 +91,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'MPFF')]" />
+      <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'MPFF')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <!-- column B -->
@@ -110,7 +110,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', 'in', ['MP1', 'MP1i'])]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['MP1', 'MP1i'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="11" model="account.financial.report">
@@ -120,7 +120,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', 'in', ['MP2', 'MP2i'])]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['MP2', 'MP2i'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="12" model="account.financial.report">
@@ -130,7 +130,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', 'in', ['MP3', 'MP3i'])]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['MP3', 'MP3i'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <!-- column C -->
@@ -149,7 +149,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" eval="[(6, 0, [])]" />
+      <field name="tax_ids" model = "account.tax.template" eval="[(6, 0, [])]" />
       <field name="account_ids" search="[('code', 'in', ['4515', '4516', '4517', '4518'])]" />
       <!-- 4518 = momsfri??? -->
     </record>
@@ -160,7 +160,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" eval="[(6, 0, [])]" />
+      <field name="tax_ids" model = "account.tax.template" eval="[(6, 0, [])]" />
       <field name="account_ids" search="[('code', 'in', ['4535', '4536', '4537', '4538'])]" />
       <!-- 4538 = momsfri??? -->
     </record>
@@ -171,7 +171,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'TFFU')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'TFFU')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="23" model="account.financial.report">
@@ -181,7 +181,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'IVIS')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'IVIS')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="24" model="account.financial.report">
@@ -191,7 +191,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'ITIS')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'ITIS')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
       <!-- '6424', '6500', '6530', '6540', '6550', '6590' -->
     </record>
@@ -211,7 +211,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', 'in', ['U1MI', 'RTFEU'])]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['U1MI', 'RTFEU'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="31" model="account.financial.report">
@@ -221,7 +221,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', 'in', ['U2MI', 'RTFEU12'])]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['U2MI', 'RTFEU12'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="32" model="account.financial.report">
@@ -231,7 +231,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', 'in', ['U3MI', 'RTFEU6'])]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['U3MI', 'RTFEU6'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <!-- column H -->
@@ -249,7 +249,7 @@
       <field name="parent_id" ref="l10n_se_tax_report.h" />
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
-      <field name="tax_ids" eval="[(6, 0, [])]" />
+      <field name="tax_ids" model = "account.tax.template" eval="[(6, 0, [])]" />
       <field name="account_ids" search="[('code', 'in', ['4545', '4546', '4547'])]" />
       <field name="style_overwrite" eval="4" />
     </record>
@@ -269,7 +269,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'U1MBBUI')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'U1MBBUI')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="61" model="account.financial.report">
@@ -279,7 +279,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'U2MBBUI')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'U2MBBUI')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="62" model="account.financial.report">
@@ -289,7 +289,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'U3MBBUI')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'U3MBBUI')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <!-- column E -->
@@ -308,7 +308,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="-1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" eval="[(6, 0, [])]" />
+      <field name="tax_ids" model = "account.tax.template" eval="[(6, 0, [])]" />
       <field name="account_ids" search="[('code', 'in', ['3106', '3108'])]" />
     </record>
     <record id="36" model="account.financial.report">
@@ -318,7 +318,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" eval="[(6, 0, [])]" />
+      <field name="tax_ids" model = "account.tax.template" eval="[(6, 0, [])]" />
       <field name="account_ids" search="[('code', '=', '3105')]" />
     </record>
     <record id="37" model="account.financial.report">
@@ -328,7 +328,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', '3VEU')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', '3VEU')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="38" model="account.financial.report">
@@ -338,7 +338,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', '3FEU')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', '3FEU')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="39" model="account.financial.report">
@@ -348,7 +348,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'FTEU')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'FTEU')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="40" model="account.financial.report">
@@ -358,7 +358,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'OTTU')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'OTTU')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="41" model="account.financial.report">
@@ -368,7 +368,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'OMSS')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'OMSS')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <record id="42" model="account.financial.report">
@@ -378,7 +378,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'MF')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'MF')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <!-- column F -->
@@ -397,7 +397,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i', 'VFEU', 'VFEU12', 'VFEU6', 'MBBUI1', 'MBBUI2', 'MBBUI3', 'TFEU', 'TFEU12', 'TFEU6'])]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i', 'VFEU', 'VFEU12', 'VFEU6', 'MBBUI1', 'MBBUI2', 'MBBUI3', 'TFEU', 'TFEU12', 'TFEU6'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
     <!-- column G -->
@@ -416,7 +416,7 @@
       <field name="type">accounts</field>
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="4" />
-      <field name="tax_ids" search="[('name', '=', 'MomsBetala')]" />
+      <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'MomsBetala')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
   </data>
@@ -454,3 +454,4 @@
     </record>
   </data>
 </odoo>
+

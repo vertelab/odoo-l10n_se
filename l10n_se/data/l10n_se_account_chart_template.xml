@@ -9,8 +9,17 @@
           <field name="bank_account_code_prefix">K2513</field>
           <field name="cash_account_code_prefix">K2516</field>
           <field name="transfer_account_code_prefix">K2517</field>
-          <field name="code_digits">5</field>
+          <field name="code_digits">4</field>
         </record>
+
+    <record id="res_partner-SKV" model="res.partner">
+      <field name="company_id" ref="base.main_company" />
+      <field name="name">Skatteverket</field>
+      <field name="tz">Europe/Stockholm</field>
+      <field name="is_company">False</field>
+    </record>
+
+
 
     </data>
 </odoo>
