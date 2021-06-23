@@ -550,7 +550,6 @@ class AccountBankStatementLine(models.Model):
     bg_account = fields.Char(string='BG Account')
     bg_serial_number = fields.Char(string='BG Serial Number')
 
-
     def get_move_lines_for_reconciliation(self, excluded_ids=None, str=False, offset=0, limit=None, additional_domain=None, overlook_partner=False):
         """ Return account.move.line records which can be used for bank statement reconciliation.
 
@@ -561,5 +560,16 @@ class AccountBankStatementLine(models.Model):
             :param additional_domain:
             :param overlook_partner:
         """
-        res = super(AccountBankStatementLine,self).get_move_lines_for_reconciliation(excluded_ids, str, offset, limit, additional_domain, overlook_partner)
-        return res.filtered(lambda line: not line.statement_id)
+        # ~ res = super(AccountBankStatementLine,self).get_move_lines_for_reconciliation(excluded_ids, str, offset, limit, additional_domain, overlook_partner)
+        # ~ return res.filtered(lambda line: not line.statement_id)
+        _logger.warn('\n ** Jakob excluded_ids=%s, str=%s, offset=%s, limit=%s, additional_domain=%s, overlook_partner=%s' % (excluded_ids, str, offset, limit, additional_domain, overlook_partner) )
+
+        # ~ odoorestart ; odootail | grep "Jakob"
+        res = super(AccountBankStatementLine,self).get_move_lines_for_reconciliation(excluded_ids, str, offset, limit, additional_domain=[('account_id.code', 'not in', ['2610', '2620', '2630','2640'])], overlook_partner=overlook_partner)
+        _logger.warn('\n ** Jakob: '.join( [" display_name %s name %s name  %s account_id %s id %s date %s balance %s statement_id %s" % (l.display_name, l.name, l.name, l.account_id, l.id, l.date, l.balance, l.statement_id) for l in res]) )
+        # ~ return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.name).sorted(lambda line: line.date)
+        # ~ return res.filtered(lambda line: line.balance)
+        # ~ return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.date, reverse = True)
+        # ~ return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.date, reverse = True)
+        return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.date, )
+

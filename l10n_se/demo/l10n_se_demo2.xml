@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-        <record id="sequence_product" model="product.product">
-            <field name="parent_id" ref="product.product_category_all"/>
-            <field name="sequence" type="int">99</field>
-        </record>
-        <!-- 2021-04-20 -->
-        <!-- https://stackoverflow.com/questions/46318009/how-to-setup-default-accounting-entries-in-odoo10 -->
         <record id="res_partner_1" model="res.partner">
             <field name="name">Databutiken</field>
             <field eval="[(6, 0, [ref('base.res_partner_category_13'), ref('base.res_partner_category_12')])]" name="category_id" />
@@ -30,7 +24,7 @@
             <field name="city">Stockholm</field>
             <field name="zip">123 45</field>
             <field name="country_id" ref="base.se" />
-            <field name="street">Hornsgatan 56</field>
+            <field name="street">Hornsgatan56</field>
             <field name="email">tegelomurbruk@yourcompany.example.com</field>
             <field name="phone">08 - 098 76 54</field>
             <field name="website" />
@@ -81,18 +75,7 @@
             <field name="property_account_expense_id" search="[('code', '=', '1251')]" />
             <field name="description_sale">Bärbar. 200 GB RAM / 2TB disk.</field>
         </record>
-        <!-- INSTALL DEMO DATABASE WITH TEST DATA -->
-        <!-- 1. MIS builder-->
-        <!-- 1. Bokföring [account_accountant] | 2. Fakturering [account] -->
-        <!-- 2. Reinstall Bokföring [account_accountant]   -->
-        <!-- 3. Försäljning [sale] -->
-        <!-- 1. Faktura a.k.a. "sale_expense".    -->
-        <!-- 2. An error message will show.  -->
-        <!-- 3. Click OK and install Faktura a.k.a. "sale_expense" one more time. -->
-        <!-- 4. Install MIS, Swedish MIS report a.k.a. "l10n_se_mis".   -->
-        <!-- 5. Install Sweden accounting, a.k.a. "l10n_se".  -->
-        <!--  * "Choose Accounting Template", select "K2" when asked -->
-        <!--  ***  ***  ***  ***  ***  ***  ***  ***  ***  ***  ***  -->
+        <!-- some text -->
         <!--
              <record id="product.service_delivery_product_template" model="product.template">
              <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
@@ -108,61 +91,58 @@
              </record>
         -->
         <!-- some text -->
-        <record id="product.product_delivery_01_product_template" model="product.template">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <record id="product.membership_2_product_template" model="product.template">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- some text -->
-        <record id="product.product_product_5_product_template" model="product.template">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <record id="product.product_product_5b_product_template" model="product.template">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <record id="product.product_product_7_product_template" model="product.template">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <record id="product.product_product_9_product_template" model="product.template">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- iPad Retina Display (Vit, 16 GB) -->
-        <record id="product.product_product_4" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <record id="product.consu_delivery_01" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- Laptop E5023 -->
-        <record id="product.product_product_25" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- Datacard -->
-        <record id="product.product_delivery_02" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- 24-portars switch -->
-        <record id="product.product_delivery_01" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- Liten Server -->
-        <record id="product.consu_delivery_02" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
         <!--
+             <record id="product.product_delivery_01_product_template" model="product.template">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.membership_2_product_template" model="product.template">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+        -->
+        <!-- some text -->
+        <!--
+             <record id="product.product_product_5_product_template" model="product.template">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.product_product_5b_product_template" model="product.template">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.product_product_7_product_template" model="product.template">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.product_product_9_product_template" model="product.template">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.product_product_25" model="product.product">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.product_product_4" model="product.product">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.consu_delivery_01" model="product.product">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.product_delivery_01" model="product.product">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.product_delivery_02" model="product.product">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
+             <record id="product.consu_delivery_02" model="product.product">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
              <record id="product.product_02" model="product.product">
              <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
              <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
@@ -171,20 +151,10 @@
              <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
              <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
              </record>
+             <record id="product.product_product_27" model="product.product">
+             <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
+             <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
+             </record>
         -->
-        <record id="product.product_product_27" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- GAP Analysis Service -->
-        <record id="product.product_product_1" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
-        <!-- Support Service -->
-        <record id="product.product_product_2" model="product.product">
-            <field name="taxes_id" eval='[(ref("l10n_se.mp1"),)]' />
-            <field name="supplier_taxes_id" eval='[(ref("l10n_se.i"),)]' />
-        </record>
     </data>
 </odoo>
