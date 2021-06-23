@@ -1,1 +1,1 @@
-xlrd
+openpyxl
