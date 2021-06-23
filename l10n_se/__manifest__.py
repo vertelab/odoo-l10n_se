@@ -70,7 +70,7 @@
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'category': 'Localization',
-    'depends': ['account_period', 'base_vat', 'product'],
+    'depends': ['account_period', 'base_vat', 'product', 'account'],
     'init_xml': [],
     'data': [
         'data/account_account_type.xml',
@@ -96,7 +96,7 @@
         # ~ 'wizard/import_chart_of_account.xml',
         # ~ 'data/mis_financial_report.xml',
     ],
-    'demo_xml' : [
+    'demo': [
         'demo/account_chart.yml',
         'demo/l10n_se_demo.xml'
     ],

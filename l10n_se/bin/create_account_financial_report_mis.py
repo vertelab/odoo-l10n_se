@@ -286,7 +286,6 @@ def mis_xml(r_lst,b_lst):
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
     with open("../data/mis_financial_report.xml", "w") as f:
         f.write(xml.encode('utf-8'))
-    print 'Finished'
 
 mis_xml(r_lst, b_lst)
 
