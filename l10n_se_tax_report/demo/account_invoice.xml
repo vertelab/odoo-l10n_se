@@ -60,7 +60,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">2</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp2')])]" />
-            <field name="account_id" search="[('code', '=', u'3001')]" />
+            <field name="account_id" search="[('code', '=', u'3002')]" />
         </record>  
               
         <record id="new_invoice_1_line_3" model="account.invoice.line">
@@ -70,7 +70,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">2</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp3')])]" />
-            <field name="account_id" search="[('code', '=', u'3001')]" />
+            <field name="account_id" search="[('code', '=', u'3003')]" />
         </record>
         
         
@@ -178,7 +178,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i')])]" />
-            <field name="account_id" search="[('code', '=', u'4000')]" />
+            <field name="account_id" search="[('code', '=', u'4001')]" />
         </record>
         
         <record id="new_invoice_3_line_2" model="account.invoice.line">
@@ -188,7 +188,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i12')])]" />
-            <field name="account_id" search="[('code', '=', u'4000')]" />
+            <field name="account_id" search="[('code', '=', u'4002')]" />
         </record>  
               
         <record id="new_invoice_3_line_3" model="account.invoice.line">
@@ -198,7 +198,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i6')])]" />
-            <field name="account_id" search="[('code', '=', u'4000')]" />
+            <field name="account_id" search="[('code', '=', u'4003')]" />
         </record>
         
         
@@ -253,7 +253,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp2')])]" />
-            <field name="account_id" search="[('code', '=', u'3001')]" />
+            <field name="account_id" search="[('code', '=', u'3002')]" />
         </record>  
               
         <record id="new_invoice_4_line_3" model="account.invoice.line">
@@ -263,7 +263,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp3')])]" />
-            <field name="account_id" search="[('code', '=', u'3001')]" />
+            <field name="account_id" search="[('code', '=', u'3003')]" />
         </record>
         
         
@@ -573,4 +573,3 @@
 
   </data>
 </odoo>
-   

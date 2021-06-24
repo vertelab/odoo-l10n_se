@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <data>
+            <record id="l10n_mis_inherit_account_moms_declaration" model="ir.ui.view">
+                  <field name="name">l10n_mis_template</field>
+                  <field name="model">account.vat.declaration</field>
+                  <field name="inherit_id" ref="l10n_se_tax_report.view_account_moms_declaration"></field>
+                    <field name="arch" type="xml">
+                    <xpath expr="//field[@name='move_id']" position="after">
+                            <field name="momsdeklaration_template"></field>
+                    </xpath>
+                  </field>
+            </record>
+     </data>
+</odoo>

@@ -29,7 +29,7 @@
     'external_dependencies': {
         'python': ['xlrd'],
     },
-    'data': ['data/mis_financial_report.xml'],
+    'data': ['data/mis_financial_report.xml','data/mis_momsdeklaration_report.xml'],
     'demo_xml' : [
         'demo/l10n_se_demo.xml'
     ],

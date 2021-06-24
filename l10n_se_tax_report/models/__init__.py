@@ -25,5 +25,6 @@ import moms
 import agd
 import sru
 import periodic_compilation
+import mis_report_generator
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
