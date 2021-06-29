@@ -49,7 +49,7 @@ Taxes for financial report
         'security/ir.model.access.csv',
     ],
     'demo_xml' : [
-        # ~ 'demo/account_invoice.yml',
+        'demo/account_invoice.yml',
         'demo/account_invoice.xml',
     ],
     'installable': 'True',
