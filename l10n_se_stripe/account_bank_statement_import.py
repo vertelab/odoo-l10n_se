@@ -38,8 +38,6 @@ class AccountBankStatementImport(models.TransientModel):
         Return array of statements for further processing.
         xlsx-files are a Zip-file, have to override
         """
-        statements = []
-        files = [data_file]
 
         try:
             _logger.info(u"Try parsing with Stripe Report file.")
@@ -48,34 +46,44 @@ class AccountBankStatementImport(models.TransientModel):
             _logger.info(u"Statement file was not a Stripe Report file.")
             return super(AccountBankStatementImport, self)._parse_file(data_file)
 
-        #fakt = re.compile('\d+')  # Pattern to find invoice numbers
 
         stripe = parser.parse()
         for s in stripe.statements:
-            currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
-            account = self.env['res.partner.bank'].search([('acc_number','=',s['account_number'])]).mapped('journal_id').mapped('default_debit_account_id')
+            currency = self.env['res.currency'].search([('name','=',s['currency_code'])])#
+            # account = self.env['res.partner.bank'].search(
+            #     [('acc_number','=',
+            #       s['account_number'])]).mapped('journal_id').mapped('default_debit_account_id')
             move_line_ids = []
             for t in s['transactions']:
+                _logger.info('parsing transaction')
                 t['currency_id'] = currency.id
-                partner_id = self.env['res.partner'].search([('email', '=', t['name'].split(',')[0])])
+                partner_id = self.env['res.partner'].search([('email', 'ilike', t['name'].split(',')[0])])
                 if partner_id:
                     t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner_id[0].commercial_partner_id.id
-                #d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
-                #d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
-                line = self.env['account.move.line'].search(
-                    [('partner_id', '=', partner_id.id),
-                     ('balance', '=', t['amount']),
-                     ('name', 'ilike', str(t['ref']))])
-                if len(line) > 0:
-                    if line[0].move_id.state == 'draft':# and line[0].move_id.date != t['date']:
-                        line[0].move_id.date = t['value_date']
+
+                if 'S' == t['ref'][0] or 'WE' == t['ref'][0:2]: # saleorder
+                    sale_order_name_splitted = t['ref'].split('-')
+                    if len(sale_order_name_splitted) > 0:
+                        sale_order_name = sale_order_name_splitted[0]
+                    else:
+                        sale_order_name = t['ref']
+
+                line = self.env['account.move.line'].search([('credit', '=', t['amount'])]).filtered(lambda l: sale_order_name in l.ref)
+
+                # ref = "A & E Connock (Perfumery & Cosmetics) Ltd (WEBS00200)"
+
+                if sale_order_name and len(line) > 0:
+                    if line[0].move_id.state == 'draft':
+                        line[0].move_id.date = t['date']
                     t['journal_entry_id'] = line[0].move_id.id
-                    for line in line[0].move_id.line_ids:
+                    for line in line[0].move_id.line_id:
                         move_line_ids.append(line)
+            if not move_line_ids:
+                return
             s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
-        _logger.debug("res: %s" % stripe.statements)
+        _logger.debug("statements %s account_number %s" % (stripe.statements, stripe.account_number))
         return stripe.account_currency, stripe.account_number, stripe.statements
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

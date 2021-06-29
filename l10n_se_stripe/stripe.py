@@ -51,17 +51,16 @@ class StripePaymentsReport(object):
 
     def parse(self):
         """Parse stripe transaktionsrapport bank statement file contents type 1."""
-        _logger.info('stripe parser')
         self.account_currency = self.data.row(1)[6].value
         self.header = [c.value.lower() for c in self.data.row(0)]
-        self.account_number = '123456789'
-        self.name = 'Stripe'#self.data.cell(5,2).value
+        self.account_number = '123456789' #Stripe account number in Odoo
+        self.name = 'Stripe'
 
         self.current_statement = BankStatement()
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account = self.account_number
-        self.current_statement.statement_id = 'stripe test'#'stipe %s - %s' % (self.data.row(1)[3], self.data.row(self.data.nrows)[3])
+        self.current_statement.statement_id = '12345' #Generate a uniqie id
         self.current_statement.start_balance = 0.0
         for t in StripeIterator(self.data, header_row=0):
             transaction = self.current_statement.create_transaction()
@@ -70,9 +69,8 @@ class StripePaymentsReport(object):
             self.current_statement.end_balance += float(t['amount'])
             transaction.eref = t['description']
             transaction.name = '%s,%s' % (t['customer email'], t['description'].strip())
-            #transaction.note = 'Totalt: %s\nMoms: %s\nAvgift: %s\n%s %s' % (float(t['totalt']), t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), t['sista siffror'].strip())
             transaction.value_date = t[u'created (utc)']
-            #transaction.unique_import_id = 999999999 #int(t['description'])
+            #transaction.unique_import_id =
             #transaction.email = t['customer email']
 
         self.statements.append(self.current_statement)
