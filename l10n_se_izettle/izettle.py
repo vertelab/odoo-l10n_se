@@ -93,7 +93,7 @@ class IzettleDagrapportType(object):
             _logger.error(u'Row 0 %s (was looking for Försäljningsrapport) %s %s' % (self.data.cell(4,0).value[:12], self.data.cell(5,0).value[:19], self.data.cell(8,0).value[:20] ))
             raise ValueError(u'This is not a iZettle Report')
 
-        self.nrows = self.data.nrows - 17
+        self.nrows = self.data.nrows - 12
         self.header = []
         self.statements = []
 
