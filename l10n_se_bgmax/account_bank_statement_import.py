@@ -22,6 +22,7 @@
 from odoo import api, models, _, fields
 from .bgmax import BgMaxParser as Parser
 from .bgmax import BgMaxGenerator as BgMaxGen
+from .bgmax import BgExcelTransactionReport as BgExcelParser
 import re
 import base64
 from datetime import timedelta
@@ -114,6 +115,7 @@ class account_bank_statement(models.Model):
         untrackable_move_ids = super(account_bank_statement,self).get_untrackable_journal_entries() or self.env['account.move'].browse()
         for line in self.line_ids:
             move = self.env['account.move'].search([('statement_line_id', '=', line.id)])
+            reconciled_bg = False
             for ml in move.line_ids:
                 bg_statement = self.env['account.bank.statement'].search([('is_bg', '=', True), ('name', '=', ml.name), '|', ('line_ids.amount', '=', ml.balance), ('line_ids.amount', '=', -ml.balance)])
                 reconciled_bg = True if len(bg_statement) > 0 else False
@@ -131,18 +133,22 @@ class AccountBankStatementImport(models.TransientModel):
     def _parse_file(self, data_file):
         """Parse a BgMax  file."""
         parser = Parser()
+        excelParser = BgExcelParser(data_file)
         try:
-            _logger.debug("Try parsing with bgmax.")
-            statements = parser.parse(data_file)
-        # ~ except ValueError, e:
-            # ~ _logger.error("Error in BgMax file. (%s)", e)
-            # ~ raise Warning("Error in BgMax file. (%s)" % e)
-        except Exception,e:
-            # Not a BgMax file, returning super will call next candidate:
-            _logger.info("Statement file was not a BgMax file. (%s)", e)
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
+            _logger.info(u"Try parsing with bgmax.")
+            statements = BgExcelParser(data_file)
+        except ValueError:
+            _logger.info(u"Statement file was not a BgMax file.")
+            try:
+                _logger.info(u"Try parsing BgMax excel document.")
+                statements = excelParser.parse()
+            except ValueError:
+                    _logger.info(u"Statement was not a BgMax excel document.")
+                    return super(AccountBankStatementImport, self)._parse_file(data_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
+        _logger.warn("row 149:")
+        _logger.warn(statements)
         for s in statements:
             for t in s['transactions']:
                 partner = None

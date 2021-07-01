@@ -21,7 +21,10 @@
 ##############################################################################
 import unicodedata
 import re
+import base64
 from datetime import datetime
+from openpyxl import load_workbook
+from io import BytesIO
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
@@ -285,7 +288,7 @@ class BgMaxIterator(BgMaxRowParser):
             self.avsnitt.append(avsnitt(rec))
             rec = self.next_rec()
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
-                _logger.warn("rec: %s" % rec)
+                #_logger.warn("rec: %s" % rec)
                 self.avsnitt[-1].add(rec)
                 rec = self.next_rec()
             if rec['type'] == '15':
@@ -561,3 +564,45 @@ class BgMaxGenerator(object):
             negative = ' ',
             reserv = ''.ljust(47)
         )
+
+
+
+class BgExcelTransactionReport(object):
+    """Generates a statment""" 
+    def __init__(self, data_file):
+        try:
+            wb = load_workbook(filename=BytesIO(data_file),read_only=True)
+            # wb = load_workbook(filename=BytesIO(base64.b64decode(data_file)))
+            ws = wb.get_sheet_names()
+        except Exception as error:
+            raise error
+            raise ValueError('This is not a Bankgiro document')
+        
+        self.data = wb.get_sheet_by_name(ws[0])
+        self.account_number = self.data.cell(5,1).value
+        self.bankgironumber = self.data.cell(5,2).value
+        
+        if self.data.cell(1,1).value.find("Hclnr:") == -1:
+            raise ValueError('This is not a Bankgiro document')
+        
+        self.balance_start = 0.0
+        self.balance_end_real = 0.0
+        self.balance_end = 0.0
+        self.transactions = []
+        self.statements = []
+        
+    def parse(self):
+        """Parse bg transaction bank statement file contents."""
+        
+
+        for index, row in enumerate(self.data.iter_rows(13, values_only=True), start=13):
+            if(index == 13):
+                th = { 'Antal': 'name', u'L\xf6pnummer': 'bg_serial_number' , 'Datum': 'date', 'Totalt belopp': 'amount'}
+                header = {c:i for i, c in enumerate(row)}
+                self.header = {th[key]:value for key, value in header.items()}
+            else:
+                self.transactions.append({key:row[self.header[key]] for key in self.header}) 
+                self.balance_end += row[3]
+                self.balance_end_real += row[3]
+
+        return [self]
