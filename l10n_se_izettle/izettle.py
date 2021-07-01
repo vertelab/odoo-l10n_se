@@ -80,17 +80,17 @@ class IzettleTransaktionsrapportType(object):
         return self
 
 class IzettleDagrapportType(object):
-    """Parser for iZettle Kontohändelser import files."""
+    """Parser for iZettle Försäljningsrapport import files."""
 
     def __init__(self, data_file):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
         except XLRDError, e:
-            _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
+            _logger.error(u'Could not read file (iZettle Försäljningsrapport.xlsx)')
             raise ValueError(e)
-        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
-            _logger.error(u'Row 0 %s (was looking for Betalningsmottagare) %s %s' % (self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(3,2)))
+        if not (self.data.cell(4,0).value[:12] == u'Företagsnamn' and self.data.cell(5,0).value[:19] == u'Organisationsnummer') and self.data.cell(8,0).value[:20] == u'Försäljningsöversikt'):
+            _logger.error(u'Row 0 %s (was looking for Försäljningsrapport) %s %s' % (self.data.cell(4,0).value[:12], self.data.cell(5,0).value[:19], self.data.cell(8,0).value[:20] ))
             raise ValueError(u'This is not a iZettle Report')
 
         self.nrows = self.data.nrows - 17
@@ -111,16 +111,16 @@ class IzettleDagrapportType(object):
         self.current_statement.local_account =  self.account_number
         self.current_statement.statement_id = 'iZettle %s' % self.data.cell(3,2).value
         self.current_statement.start_balance = 0.0
-        for t in IzettleIterator(self.data, header_row=16):
-            transaction = self.current_statement.create_transaction()
-            transaction.transferred_amount = float(t['netto'])
-            transaction.original_amount = float(t['totalt'])
-            self.current_statement.end_balance += float(t['netto'])
-            transaction.eref = int(t['kvittonummer'])
-            transaction.name = '%s %s' % (t['korttyp'].strip(),t['sista siffror'].strip())
-            transaction.note = 'Totalt: %s\nMoms: %s\nAvgift: %s\n%s %s' % (float(t['totalt']), t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), t['sista siffror'].strip())
-            transaction.value_date = t[u'datum']
-            transaction.unique_import_id = int(t['kvittonummer'])
+        # ~ for t in IzettleIterator(self.data, header_row=16):
+        transaction = self.current_statement.create_transaction()
+        transaction.transferred_amount = float(t['netto'])
+        transaction.original_amount = float(t['totalt'])
+        self.current_statement.end_balance += float(t['netto'])
+        transaction.eref = int(t['kvittonummer'])
+        transaction.name = '%s %s' % (t['korttyp'].strip(),t['sista siffror'].strip())
+        transaction.note = 'Totalt: %s\nMoms: %s\nAvgift: %s\n%s %s' % (float(t['totalt']), t['moms (25.0%)'], t['avgift'], t['korttyp'].strip(), t['sista siffror'].strip())
+        transaction.value_date = t[u'datum']
+        transaction.unique_import_id = int(t['kvittonummer'])
 
         self.statements.append(self.current_statement)
         return self
