@@ -89,7 +89,7 @@ class IzettleDagrapportType(object):
         except XLRDError, e:
             _logger.error(u'Could not read file (iZettle Försäljningsrapport.xlsx)')
             raise ValueError(e)
-        if not (self.data.cell(4,0).value[:12] == u'Företagsnamn' and self.data.cell(5,0).value[:19] == u'Organisationsnummer') and self.data.cell(8,0).value[:20] == u'Försäljningsöversikt'):
+        if not (self.data.cell(4,0).value[:12] == u'Företagsnamn' and self.data.cell(5,0).value[:19] == u'Organisationsnummer' and self.data.cell(8,0).value[:20] == u'Försäljningsöversikt'):
             _logger.error(u'Row 0 %s (was looking for Försäljningsrapport) %s %s' % (self.data.cell(4,0).value[:12], self.data.cell(5,0).value[:19], self.data.cell(8,0).value[:20] ))
             raise ValueError(u'This is not a iZettle Report')
 
@@ -109,7 +109,7 @@ class IzettleDagrapportType(object):
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account =  self.account_number
-        self.current_statement.statement_id = 'iZettle %s' % self.data.cell(3,2).value
+        self.current_statement.statement_id = 'iZettle %s' % self.data.cell(6,2).value
         self.current_statement.start_balance = 0.0
         # ~ for t in IzettleIterator(self.data, header_row=16):
         transaction = self.current_statement.create_transaction()
