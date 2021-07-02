@@ -133,22 +133,20 @@ class AccountBankStatementImport(models.TransientModel):
     def _parse_file(self, data_file):
         """Parse a BgMax  file."""
         parser = Parser()
-        excelParser = BgExcelParser(data_file)
         try:
             _logger.info(u"Try parsing with bgmax.")
-            statements = BgExcelParser(data_file)
+            statements = parser.parse(data_file)
         except ValueError:
             _logger.info(u"Statement file was not a BgMax file.")
             try:
+                excelParser = BgExcelParser(data_file)
                 _logger.info(u"Try parsing BgMax excel document.")
                 statements = excelParser.parse()
             except ValueError:
                     _logger.info(u"Statement was not a BgMax excel document.")
                     return super(AccountBankStatementImport, self)._parse_file(data_file)
 
-        fakt = re.compile('\d+')  # Pattern to find invoice numbers
-        _logger.warn("row 149:")
-        _logger.warn(statements)
+        fakt = re.compile('\d+') # Pattern to find invoice numbers
         for s in statements:
             for t in s['transactions']:
                 partner = None
@@ -159,6 +157,7 @@ class AccountBankStatementImport(models.TransientModel):
                     name1 = t['partner_name'].strip()
                     name2 = name1.upper().replace(' AB','').replace('AKTIEBOLAG','').replace(' HB','').replace('HANDELSBOLAG','').replace(' KB','').replace('KOMMANDITBOLAG','').replace('FIRMA','').strip()
                     partner = self.env['res.partner'].search(['|','|',('name','ilike',name1),('name','ilike',name2),('vat','=',vat)],limit=1)
+                    _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
                 if partner:
                     if t['account_number'] and not partner.bank_ids:
                         partner.bank_ids = [(0,False,{'acc_number': t['account_number'],'state': 'bg'})]
@@ -167,11 +166,10 @@ class AccountBankStatementImport(models.TransientModel):
                 else:
                     fnr = '-'.join(fakt.findall(t['name']))
                     if fnr:
-                        invoice = self.env['account.invoice'].search(['|',('name','ilike',fnr),('supplier_invoice_number','ilike',fnr)])
+                        invoice = self.env['account.invoice'].search([('name','ilike',fnr)])
                         if invoice:
                             t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                             t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
-                _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
         currency_code = statements[0].get('currency_code')
         account_number = statements[0].get('account_number')
         account_number = account_number[:4] + account_number[4:].lstrip('0')

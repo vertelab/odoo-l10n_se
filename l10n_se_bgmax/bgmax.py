@@ -572,19 +572,19 @@ class BgExcelTransactionReport(object):
     def __init__(self, data_file):
         try:
             wb = load_workbook(filename=BytesIO(data_file),read_only=True)
-            # wb = load_workbook(filename=BytesIO(base64.b64decode(data_file)))
             ws = wb.get_sheet_names()
-        except Exception as error:
-            raise error
+            self.data = wb.get_sheet_by_name(ws[0])
+        except Exception:
             raise ValueError('This is not a Bankgiro document')
-        
-        self.data = wb.get_sheet_by_name(ws[0])
-        self.account_number = self.data.cell(5,1).value
-        self.bankgironumber = self.data.cell(5,2).value
-        
         if self.data.cell(1,1).value.find("Hclnr:") == -1:
             raise ValueError('This is not a Bankgiro document')
-        
+
+        self.account_number = self.data.cell(5,1).value
+        self.bankgironumber = self.data.cell(5,2).value
+        self.name = str(self.account_number + str(self.data.cell(14,3).value) + str(self.data.cell(self.data.max_row,3).value))
+        date = self.data.cell(1,1).value
+        m = re.search('\d{4}-\d{2}-\d{2}', date)
+        self.statement_date = m.group(0)
         self.balance_start = 0.0
         self.balance_end_real = 0.0
         self.balance_end = 0.0
@@ -593,7 +593,12 @@ class BgExcelTransactionReport(object):
         
     def parse(self):
         """Parse bg transaction bank statement file contents."""
-        
+        current_statment = {}
+        current_statment['name'] = self.name
+        current_statment['date'] = self.statement_date
+        current_statment['currency_code'] = 'SEK'
+        current_statment['balance_start'] = self.balance_start 
+        current_statment['account_number'] = self.bankgironumber
 
         for index, row in enumerate(self.data.iter_rows(13, values_only=True), start=13):
             if(index == 13):
@@ -601,8 +606,17 @@ class BgExcelTransactionReport(object):
                 header = {c:i for i, c in enumerate(row)}
                 self.header = {th[key]:value for key, value in header.items()}
             else:
-                self.transactions.append({key:row[self.header[key]] for key in self.header}) 
+                transaction_dict = {key:row[self.header[key]] for key in self.header}
+                transaction_dict['name'] = str(row[1])
+                # transaction_dict['account_number'] = self.bankgironumber
+                transaction_dict['partner_name'] = "08979877988"
+                transaction_dict['unique_import_id'] = str(row[1])
+                self.transactions.append(transaction_dict) 
                 self.balance_end += row[3]
                 self.balance_end_real += row[3]
-
-        return [self]
+        
+        current_statment['balance_end'] = self.balance_start
+        current_statment['balance_end_real'] = self.balance_end_real
+        current_statment['transactions'] = self.transactions
+        self.statements.append(current_statment);
+        return self.statements
