@@ -8,7 +8,6 @@ _logger = logging.getLogger(__name__)
         
 class wizard_multi_charts_accounts(models.TransientModel):
     _inherit='wizard.multi.charts.accounts'
-    _description = "Wizard Multi Charts Accounts"
     
     @api.multi
     def execute(self):

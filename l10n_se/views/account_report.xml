@@ -2,19 +2,19 @@
 <openerp>
     <data>
         <report
-                auto="False"
-                id="account_vat_declarationII"
-                menu="True"
-                model="account.tax.code"
-                name="account.vat.declarationII"
-                rml="l10n_se/report/account_tax_report.rml"
-                string="Taxes Report II"/>
+            auto="False"
+            id="account_vat_declarationII"
+            menu="True"
+            model="account.tax.code"
+            name="account.vat.declarationII"
+            rml="l10n_se/report/account_tax_report.rml"
+            string="Taxes Report II"/>
 
         <menuitem
-                id="menu_tax_report"
-                name="Taxes II"
-                groups="account.group_account_user,account.group_account_manager"
-                parent="account.menu_finance_generic_reporting" sequence="3"/>
+            id="menu_tax_report"
+            name="Taxes II"
+            groups="account.group_account_user,account.group_account_manager"
+            parent="account.menu_finance_generic_reporting" sequence="3"/>
 
 
     </data>

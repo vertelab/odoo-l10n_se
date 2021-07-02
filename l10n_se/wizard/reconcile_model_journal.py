@@ -26,7 +26,6 @@ _logger = logging.getLogger(__name__)
 
 class wizard_reconcile_model_journal(models.TransientModel):
     _name = 'wizard.reconcile.model.journal'
-    _description = "Wizard Reconcile Model Journal"
 
     journal_id = fields.Many2one(comodel_name='account.journal', string='Journal', help='')
 

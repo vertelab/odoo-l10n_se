@@ -69,115 +69,115 @@
             </field>
         </record>
 
-        <!--
-                <record id="view_account_financial_report_form" model="ir.ui.view">
-                    <field name="name">account.financial.report.form.inherited.l10n_se</field>
-                    <field name="model">account.financial.report</field>
-                    <field name="inherit_id" ref="account.view_account_financial_report_form"/>
-                    <field name="arch" type="xml">
-                        <field name="name" position="after">
-                            <field name="element_name"/>
-                        </field>
-                        <field name="parent_id" position="after">
-                            <field name="version_name"/>
-                        </field>
-                    </field>
-                </record>
-        -->
+<!--
+        <record id="view_account_financial_report_form" model="ir.ui.view">
+            <field name="name">account.financial.report.form.inherited.l10n_se</field>
+            <field name="model">account.financial.report</field>
+            <field name="inherit_id" ref="account.view_account_financial_report_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="element_name"/>
+                </field>
+                <field name="parent_id" position="after">
+                    <field name="version_name"/>
+                </field>
+            </field>
+        </record>
+-->
 
         <!-- Chart of Accounts Templates -->
-        <!--
-                <record id="view_account_chart_template_form" model="ir.ui.view">
-                    <field name="name">account.chart.template.form</field>
-                    <field name="model">account.chart.template</field>
-                     <field name="inherit_id" ref="account.view_account_chart_template_form"/>
-                    <field name="arch" type="xml">
-                        <field name="complete_tax_set" position="before">
-                            <field name="bas_sru" />
-                            <field name="bas_chart" />
+<!--
+        <record id="view_account_chart_template_form" model="ir.ui.view">
+            <field name="name">account.chart.template.form</field>
+            <field name="model">account.chart.template</field>
+             <field name="inherit_id" ref="account.view_account_chart_template_form"/>
+            <field name="arch" type="xml">
+                <field name="complete_tax_set" position="before">
+                    <field name="bas_sru" />
+                    <field name="bas_chart" />
 
-                        </field>
+                </field>
 
-                    </field>
-                </record>
-
-
-
-                <record id="view_account_template_search" model="ir.ui.view">
-                    <field name="name">account.account.template.search</field>
-                    <field name="model">account.account.template</field>
-                     <field name="inherit_id" ref="account.view_account_template_search"/>
-                    <field name="arch" type="xml">
-                        <filter string="Account Type" position="after">
-                                <filter string="Chart Template" domain="[]" context="{'group_by':'chart_template_id'}"/>
-                        </filter>
+            </field>
+        </record>
 
 
-                        <search string="Search Account Templates">
-                            <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Account Template"/>
-                            <filter icon="terp-sale" string="Receivable Accounts" domain="[('type','=','receivable')]"/>
-                            <filter icon="terp-purchase" string="Payable Accounts" domain="[('type','=','payable')]"/>
-                            <field name="parent_id"/>
-                            <field name="user_type"/>
-                            <field name="type"/>
-                            <group expand="0" string="Group By">
-                                <filter string="Internal Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type'}"/>
-                                <filter string="Account Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'user_type'}"/>
-                           </group>
-                        </search>
-                    </field>
-                </record>
-        -->
+
+        <record id="view_account_template_search" model="ir.ui.view">
+            <field name="name">account.account.template.search</field>
+            <field name="model">account.account.template</field>
+             <field name="inherit_id" ref="account.view_account_template_search"/>
+            <field name="arch" type="xml">
+                <filter string="Account Type" position="after">
+                        <filter string="Chart Template" domain="[]" context="{'group_by':'chart_template_id'}"/>
+                </filter>
 
 
-        <!--
-                <record id="view_account_template_form" model="ir.ui.view">
-                    <field name="name">account.account.template.form</field>
-                    <field name="model">account.account.template</field>
-                    <field name="inherit_id" ref="account.view_account_template_search"/>
-                    <field name="arch" type="xml">
-                        <form string="Account Template">
-                            <group col="4">
-                                <field name="name"/>
-                                <field name="code"/>
-                                <newline/>
-                                <field name="parent_id"/>
-                                <field name="shortcut"/>
-                                <field name="type"/>
-                                <field name="user_type"/>
+                <search string="Search Account Templates">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Account Template"/>
+                    <filter icon="terp-sale" string="Receivable Accounts" domain="[('type','=','receivable')]"/>
+                    <filter icon="terp-purchase" string="Payable Accounts" domain="[('type','=','payable')]"/>
+                    <field name="parent_id"/>
+                    <field name="user_type"/>
+                    <field name="type"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Internal Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Account Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'user_type'}"/>
+                   </group>
+                </search>
+            </field>
+        </record>
+-->
 
-                                <field name="currency_id" groups="base.group_multi_currency"/>
-                                <field name="reconcile"/>
-                                <field name="chart_template_id"/>
-                            </group>
-                            <separator string="Default Taxes"/>
-                            <field name="tax_ids"/>
-                            <separator string="Notes"/>
-                            <field name="note" placeholder="Internal notes..."/>
-                        </form>
-                    </field>
-                </record>
 
-                <record id="view_account_template_tree" model="ir.ui.view">
-                    <field name="name">account.account.template.tree</field>
-                    <field name="model">account.account.template</field>
-                    <field name="inherit_id" ref="account.view_account_template_tree"/>
+<!--
+        <record id="view_account_template_form" model="ir.ui.view">
+            <field name="name">account.account.template.form</field>
+            <field name="model">account.account.template</field>
+            <field name="inherit_id" ref="account.view_account_template_search"/>
+            <field name="arch" type="xml">
+                <form string="Account Template">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="code"/>
+                        <newline/>
+                        <field name="parent_id"/>
+                        <field name="shortcut"/>
+                        <field name="type"/>
+                        <field name="user_type"/>
 
-                    <field name="arch" type="xml">
-                        <field name="type" position="replace">
-                            <field name="type"/>
-                        </field>
-                        <field name="user_type" position="replace">
-                            <field name="user_type"/>
-                        </field>
-                        <field name="user_type" position="after">
-                            <field name="chart_template_id"/>
-                            <field name="reconcile"/>
-                        </field>
+                        <field name="currency_id" groups="base.group_multi_currency"/>
+                        <field name="reconcile"/>
+                        <field name="chart_template_id"/>
+                    </group>
+                    <separator string="Default Taxes"/>
+                    <field name="tax_ids"/>
+                    <separator string="Notes"/>
+                    <field name="note" placeholder="Internal notes..."/>
+                </form>
+            </field>
+        </record>
 
-                    </field>
-                </record>
-        -->
+        <record id="view_account_template_tree" model="ir.ui.view">
+            <field name="name">account.account.template.tree</field>
+            <field name="model">account.account.template</field>
+            <field name="inherit_id" ref="account.view_account_template_tree"/>
+
+            <field name="arch" type="xml">
+                <field name="type" position="replace">
+                    <field name="type"/>
+                </field>
+                <field name="user_type" position="replace">
+                    <field name="user_type"/>
+                </field>
+                <field name="user_type" position="after">
+                    <field name="chart_template_id"/>
+                    <field name="reconcile"/>
+                </field>
+
+            </field>
+        </record>
+-->
 
     </data>
 </openerp>

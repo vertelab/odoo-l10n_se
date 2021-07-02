@@ -8,19 +8,16 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.view_wizard_multi_chart"/>
             <field name="arch" type="xml">
-                <data>
+              <data>
                     <xpath expr="//form/group/group/separator" position="attributes">
                         <attribute name="string">
-                            Generate Your SE Accounting Chart from a Chart Template
+                        Generate Your SE Accounting Chart from a Chart Template
                         </attribute>
                     </xpath>
                     <xpath expr="//form/group/group/label" position="attributes">
-                        <attribute name="string">Choose your company type, K1 or normal etc. SELECT 4 DIGIT ACCOUNTS.
-                            This is the same wizard that runs from Financial Management/Configuration/Financial
-                            Accounting/ Financial Accounts/Generate Chart of Accounts from a Chart Template.
-                        </attribute>
+                        <attribute name="string">Choose your company type, K1 or normal etc. SELECT 4 DIGIT ACCOUNTS.  This is the same wizard that runs from Financial Management/Configuration/Financial Accounting/ Financial Accounts/Generate Chart of Accounts from a Chart Template.</attribute>
                     </xpath>
-                </data>
+              </data>
             </field>
         </record>
 
@@ -38,8 +35,8 @@
             <field name="action_id" ref="action_wizard_multi_chart_se"/>
             <field name="sequence">10</field>
             <field name="type">once</field>
-            <field name="category_id" ref="account.category_accounting_configuration"/>
-            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]"/>
+            <field name="category_id" ref="account.category_accounting_configuration" />
+            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]" />
             <field name="state">open</field>
         </record>
 

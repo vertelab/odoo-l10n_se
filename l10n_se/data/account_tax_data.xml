@@ -349,8 +349,7 @@
             <field name="description">Utgående moms omvänd skattskyldighet, 25%</field>
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
-            <field name="type_tax_use">sale</field>
-            <!-- should be purchase, but that doesn't fit with the parent account -->
+            <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
             <field name="account_id" ref="chart2614"/>
             <field name="refund_account_id" ref="chart2614"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
@@ -362,8 +361,7 @@
             <field name="description">Utgående moms omvänd skattskyldighet, 12%</field>
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
-            <field name="type_tax_use">sale</field>
-            <!-- should be purchase, but that doesn't fit with the parent account -->
+            <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
             <field name="account_id" ref="chart2624"/>
             <field name="refund_account_id" ref="chart2624"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
@@ -375,8 +373,7 @@
             <field name="description">Utgående moms omvänd skattskyldighet, 6%</field>
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
-            <field name="type_tax_use">sale</field>
-            <!-- should be purchase, but that doesn't fit with the parent account -->
+            <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
             <field name="account_id" ref="chart2634"/>
             <field name="refund_account_id" ref="chart2634"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
@@ -436,8 +433,7 @@
             <field name="description">Utgående moms 12%</field>
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
-            <field name="type_tax_use">sale</field>
-            <!-- should be purchase, but that doesn't fit with the parent account -->
+            <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
             <field name="account_id" ref="chart2625"/>
             <field name="refund_account_id" ref="chart2625"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
@@ -449,8 +445,7 @@
             <field name="description">Utgående moms 6%</field>
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
-            <field name="type_tax_use">sale</field>
-            <!-- should be purchase, but that doesn't fit with the parent account -->
+            <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
             <field name="account_id" ref="chart2635"/>
             <field name="refund_account_id" ref="chart2635"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
@@ -650,8 +645,7 @@
             <field name="amount_type">group</field>
             <field name="type_tax_use">purchase</field>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
-            <field name="children_tax_ids"
-                   eval="[(6, 0, [ref('i'),ref('ii'),ref('i12'),ref('i12i'),ref('i6'),ref('i6i')])]"/>
+            <field name="children_tax_ids" eval="[(6, 0, [ref('i'),ref('ii'),ref('i12'),ref('i12i'),ref('i6'),ref('i6i')])]"/>
         </record>
         <record id="MomsUtg" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
@@ -661,10 +655,7 @@
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
-            <field name="children_tax_ids"
-                   eval="[(6, 0, [ref('mp1'),ref('mp1i'),ref('mp2'),ref('mp2i'),ref('mp3'),ref('mp3i'),
-                   ref('u1'),ref('u2'),ref('u3'),ref('mu1'),ref('mu2'),ref('mu3'),ref('u1mi'),ref('u2mi'),
-                   ref('u3mi'),ref('u1mbbui'),ref('u2mbbui'),ref('u3mbbui')])]"/>
+            <field name="children_tax_ids" eval="[(6, 0, [ref('mp1'),ref('mp1i'),ref('mp2'),ref('mp2i'),ref('mp3'),ref('mp3i'),ref('u1'),ref('u2'),ref('u3'),ref('mu1'),ref('mu2'),ref('mu3'),ref('u1mi'),ref('u2mi'),ref('u3mi'),ref('u1mbbui'),ref('u2mbbui'),ref('u3mbbui')])]"/>
         </record>
         <record id="MomsBetala" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
@@ -789,6 +780,7 @@
             <field name="name">Uppdatera skatter</field>
             <field name="model_id" ref="base.model_ir_actions_server"/>
             <field name="state">code</field>
+            <field name="condition">True</field>
             <field name="code">for template in env['account.tax.template'].search([]):
     account_tax = env['account.tax'].search([('name', '=', template.name)])
     try:
@@ -827,7 +819,7 @@
         log('Fel att konvertera template: %s till konto: %s' %(template, account_tax))
             </field>
         </record>
-
+                
         <record id="ir_values_update_account_tax" model="ir.actions.server">
             <field name="model_id" ref="base.model_ir_actions_server" />
             <field name="name">Uppdatera skatter</field>

@@ -21,17 +21,15 @@
 
 from openerp.osv import osv, fields
 
-
 class account_vat_declaration(osv.osv_memory):
     _name = 'account.vat.declaration'
     _description = 'Account Vat Declaration'
     _inherit = "account.common.report"
     _columns = {
         'based_on': fields.selection([('invoices', 'Invoices'),
-                                      ('payments', 'Payments'), ],
-                                     'Based on', required=True),
-        'chart_tax_id': fields.many2one('account.tax.code', 'Chart of Tax', help='Select Charts of Taxes',
-                                        required=True, domain=[('parent_id', '=', False)]),
+                                      ('payments', 'Payments'),],
+                                      'Based on', required=True),
+        'chart_tax_id': fields.many2one('account.tax.code', 'Chart of Tax', help='Select Charts of Taxes', required=True, domain = [('parent_id','=', False)]),
         'display_detail': fields.boolean('Display Detail'),
     }
 
@@ -51,18 +49,15 @@ class account_vat_declaration(osv.osv_memory):
         datas['model'] = 'account.tax.code'
         datas['form'] = self.read(cr, uid, ids, context=context)[0]
         for field in datas['form'].keys():
-            self.log(cr, uid, 1, 'l %s' % field)
+            self.log(cr,uid,1,'l %s' % field)
             if isinstance(datas['form'][field], tuple):
                 datas['form'][field] = datas['form'][field][0]
-        datas['form']['company_id'] = \
-        self.pool.get('account.tax.code').browse(cr, uid, [datas['form']['chart_tax_id']], context=context)[
-            0].company_id.id
+        datas['form']['company_id'] = self.pool.get('account.tax.code').browse(cr, uid, [datas['form']['chart_tax_id']], context=context)[0].company_id.id
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'account.vat.declarationII',
             'datas': datas,
         }
-
 
 account_vat_declaration()
 

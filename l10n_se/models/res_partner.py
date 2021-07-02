@@ -18,14 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import logging
-import re
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-
 from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import re
 
+import logging
 _logger = logging.getLogger(__name__)
-
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
@@ -41,7 +39,7 @@ class res_partner(models.Model):
     def _company_registry(self):
         for partner in self:
             if partner.vat and re.match('SE[0-9]{10}01', partner.vat):
-                partner.company_registry = "%s-%s" % (partner.vat[2:8], partner.vat[8:-2])
+                partner.company_registry = "%s-%s" % (partner.vat[2:8],partner.vat[8:-2])
 
     @api.depends('company_registry')
     def _set_company_registry(self):

@@ -19,36 +19,37 @@
 #
 ##############################################################################
 import sys
-
 sys.path.append('.')
 sys.path.append('../')
 
 
 class account_rules(object):
 
+
     def __init__(self):
 
         import account_rules_fields
 
+
         self.fields = account_rules_fields.fields
 
-    # ~ "data_account_type_receivable"
-    # ~ "data_account_type_payable"
-    # ~ "data_account_type_liquidity"
-    # ~ "data_account_type_credit_card"
-    # ~ "data_account_type_current_assets"
-    # ~ "data_account_type_non_current_assets"
-    # ~ "data_account_type_prepayments"
-    # ~ "data_account_type_fixed_assets"
-    # ~ "data_account_type_current_liabilities"
-    # ~ "data_account_type_non_current_liabilities"
-    # ~ "data_account_type_equity"
-    # ~ "data_unaffected_earnings"
-    # ~ "data_account_type_other_income"
-    # ~ "data_account_type_revenue"
-    # ~ "data_account_type_depreciation"
-    # ~ "data_account_type_expenses"
-    # ~ "data_account_type_direct_costs"
+    #~ "data_account_type_receivable"
+    #~ "data_account_type_payable"
+    #~ "data_account_type_liquidity"
+    #~ "data_account_type_credit_card"
+    #~ "data_account_type_current_assets"
+    #~ "data_account_type_non_current_assets"
+    #~ "data_account_type_prepayments"
+    #~ "data_account_type_fixed_assets"
+    #~ "data_account_type_current_liabilities"
+    #~ "data_account_type_non_current_liabilities"
+    #~ "data_account_type_equity"
+    #~ "data_unaffected_earnings"
+    #~ "data_account_type_other_income"
+    #~ "data_account_type_revenue"
+    #~ "data_account_type_depreciation"
+    #~ "data_account_type_expenses"
+    #~ "data_account_type_direct_costs"
 
     def code2user_type_id(self, code):
         for l in self.fields:
@@ -65,8 +66,7 @@ class account_rules(object):
     def code2reconcile(self, code):
         if int(code) in range(1500, 1600) or int(code) in range(2400, 2450) or int(code) == 1630:
             return True
-        elif self.code2user_type_id(code) in ['account.data_account_type_receivable',
-                                              'account.data_account_type_payable', 'data_account_type_liquidity']:
+        elif self.code2user_type_id(code) in ['account.data_account_type_receivable','account.data_account_type_payable', 'data_account_type_liquidity']:
             return True
         else:
             return False
@@ -84,5 +84,4 @@ class account_rules(object):
 
 if __name__ == '__main__':
     R = account_rules()
-    print
-    R.fields
+    print R.fields

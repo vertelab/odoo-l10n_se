@@ -9,6 +9,7 @@
       <field name="name">Export SIE</field>
       <field name="model_id" ref="account.model_account_move" />
       <field name="state">code</field>
+      <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
     <record model="ir.values" id="export_sie_move">
@@ -24,6 +25,7 @@
       <field name="name">Export SIE</field>
       <field name="model_id" ref="account_period.model_account_period" />
       <field name="state">code</field>
+      <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
     <record model="ir.values" id="export_sie_period">
@@ -39,6 +41,7 @@
       <field name="name">Export SIE</field>
       <field name="model_id" ref="account_period.model_account_fiscalyear" />
       <field name="state">code</field>
+      <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
     <record model="ir.values" id="export_sie_fiscalyear">
@@ -52,6 +55,7 @@
       <field name="name">Export SIE</field>
       <field name="model_id" ref="account.model_account_journal" />
       <field name="state">code</field>
+      <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
     <record model="ir.values" id="export_sie_journal">
@@ -74,6 +78,7 @@
       <field name="name">Export SIE</field>
       <field name="model_id" ref="account.model_account_account" />
       <field name="state">code</field>
+      <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
     <record model="ir.values" id="export_sie_account">
