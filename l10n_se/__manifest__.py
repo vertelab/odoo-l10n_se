@@ -80,12 +80,12 @@
         'data/account_tax_data.xml',
         'data/account_fiscal_position.xml',
         # ~ 'data/account_financial_report.xml',
-        #~ 'data/account.tax.code.template.csv',
-        #~ 'data/account.tax.template-after.csv',
-        #~ 'data/res.partner.bank.type.csv',
+        # ~ 'data/account.tax.code.template.csv',
+        # ~ 'data/account.tax.template-after.csv',
+        # ~ 'data/res.partner.bank.type.csv',
         # ~ 'data/res_country_data.xml',
-        #~ 'views/account_report.xml',
-        #~ 'views/account_vat_view.xml',
+        # ~ 'views/account_report.xml',
+        # ~ 'views/account_vat_view.xml',
         'views/account_view.xml',
         'views/res_partner_view.xml',
         'data/account_account.xml',
@@ -98,8 +98,8 @@
         'data/res.country.state.csv',
     ],
     # ~ 'demo_xml' : [
-        # ~ 'demo/account_chart.yml',
-        # ~ 'demo/l10n_se_demo.xml'
+    # ~ 'demo/account_chart.yml',
+    # ~ 'demo/l10n_se_demo.xml'
     # ~ ],
     'installable': 'True',
 }

@@ -19,25 +19,26 @@
 #
 ##############################################################################
 
-import os
-
 import openerp
+import os
 from openerp import SUPERUSER_ID, tools
 from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp.tools.safe_eval import safe_eval as eval
 from openerp.tools import image_resize_image
+from openerp.tools.safe_eval import safe_eval as eval
+from openerp.tools.translate import _
+
 
 class res_company(osv.osv):
     _inherit = "res.company"
 
     def _get_euro(self, cr, uid, context=None):
         try:
-            return self.pool.get('res.currency').search(cr, uid, [('name','=','SEK')])[0]
+            return self.pool.get('res.currency').search(cr, uid, [('name', '=', 'SEK')])[0]
         except:
             return False
 
-    def onchange_footer(self, cr, uid, ids, custom_footer, phone, fax, email, website, vat, company_registry, bank_ids, context=None):
+    def onchange_footer(self, cr, uid, ids, custom_footer, phone, fax, email, website, vat, company_registry, bank_ids,
+                        context=None):
         if custom_footer:
             return {}
 
@@ -49,14 +50,12 @@ class res_company(osv.osv):
         if account_names:
             bankgiro = '\n%s: %s' % ('Bankgiro', ', '.join(name for id, name in account_names))
 
-
-
         res = ' | '.join(filter(bool, [
-            phone            and '%s: %s' % (_('Phone'), phone),
-            fax              and '%s: %s' % (_('Fax'), fax),
-            email            and '%s: %s' % (_('Email'), email),
-            website          and '%s: %s' % (_('Website'), website),
-#            vat              and '%s: %s' % (_('TIN'), vat),
+            phone and '%s: %s' % (_('Phone'), phone),
+            fax and '%s: %s' % (_('Fax'), fax),
+            email and '%s: %s' % (_('Email'), email),
+            website and '%s: %s' % (_('Website'), website),
+            #            vat              and '%s: %s' % (_('TIN'), vat),
             company_registry and '%s: %s' % (_('Orgnr'), company_registry),
         ]))
         # second line: bank accounts
@@ -69,7 +68,7 @@ class res_company(osv.osv):
 
         return {'value': {'rml_footer': res, 'rml_footer_readonly': res}}
 
-res_company()
 
+res_company()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

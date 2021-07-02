@@ -3,116 +3,117 @@
     <data>
 
 
-    <record id="view_archive_config_installer" model="ir.ui.view">
-      <field name="name">archive_config.installer.view</field>
-      <field name="model">archive_config.installer</field>
-      <field name="type">form</field>
-      <field name="inherit_id" ref="base.res_config_installer"/>
-      <field name="arch" type="xml">
-          <data>
-              <form position="attributes">
-                  <attribute name="string">Directives for archives</attribute>
-              </form>
-              <separator string="title" position="attributes">
-                   <attribute name="string">Directives for archives</attribute>
-              </separator>
-              <xpath expr="//label[@string='description']" position="attributes">
-                  <attribute name="string">This is an example how you can etablish correct archives.
-                  </attribute>
-              </xpath>
-              
-       <!--       
-              <xpath expr="//button[@string='Install Modules']" position="replace">
-                <button colspan="1" icon="gtk-close" special="cancel" string="_Close" />
-                <button name="action_next" icon="gtk-go-forward"
-                        type="object" string="Next" colspan="1" />
-              </xpath>
-              <xpath expr="//button[@name='action_skip']" position="attributes">
-                <attribute name="invisible">context.get('menu',False)</attribute>
-              </xpath>
-              <xpath expr='//separator[@string="vsep"]' position='attributes'>
-                <attribute name='string'></attribute>
-                <attribute name='rowspan'>25</attribute>
-              </xpath>
-              <xpath expr='//group[field/@name="config_logo"]' position="attributes">
-                <attribute name="height">350</attribute>
-              </xpath>
-              <field name="config_logo" position="attributes">
-                <attribute name="height">300</attribute>
-                <attribute name="img_height">300</attribute>
-              </field>
-              
-    -->
-              <group colspan="8" position="replace">  
-              <group colspan="4" height="100" width="400">
-                  <group colspan="2" >
-                      <group colspan="2">
-                            <field name='linkFaqRA' widget="url" size="0" /> <newline/>
-                            <field name='linkRA' widget="url" size="0"/><newline/>
-                            <field name='linkFAB' widget="url" size="0" />
-                      </group>
-                      <newline/>
-                      <separator colspan="4" string="Direktiv för enksilda näringsidkare" />
+        <record id="view_archive_config_installer" model="ir.ui.view">
+            <field name="name">archive_config.installer.view</field>
+            <field name="model">archive_config.installer</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.res_config_installer"/>
+            <field name="arch" type="xml">
+                <data>
+                    <form position="attributes">
+                        <attribute name="string">Directives for archives</attribute>
+                    </form>
+                    <separator string="title" position="attributes">
+                        <attribute name="string">Directives for archives</attribute>
+                    </separator>
+                    <xpath expr="//label[@string='description']" position="attributes">
+                        <attribute name="string">This is an example how you can etablish correct archives.
+                        </attribute>
+                    </xpath>
 
-                      <group colspan="2">
-                            <field name='linkAnl' widget="url" size="0"/>
-                            <field name='linkBFN' widget="url" size="50"/>
-                            <field name='link28316' widget="url" size="0"/>
-                      </group>
-                      <newline/>
-                      <separator colspan="4"/>
-                      <group colspan="2">
-                            <field name='linkVer' widget="url" size="0"/>
-                            <field name='linkFaqAR' widget="url" size="0" />
-                            <button name="install_backup" icon="gtk-go-forward" type="object" string="Backup module" colspan="1" />
+                    <!--
+                           <xpath expr="//button[@string='Install Modules']" position="replace">
+                             <button colspan="1" icon="gtk-close" special="cancel" string="_Close" />
+                             <button name="action_next" icon="gtk-go-forward"
+                                     type="object" string="Next" colspan="1" />
+                           </xpath>
+                           <xpath expr="//button[@name='action_skip']" position="attributes">
+                             <attribute name="invisible">context.get('menu',False)</attribute>
+                           </xpath>
+                           <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                             <attribute name='string'></attribute>
+                             <attribute name='rowspan'>25</attribute>
+                           </xpath>
+                           <xpath expr='//group[field/@name="config_logo"]' position="attributes">
+                             <attribute name="height">350</attribute>
+                           </xpath>
+                           <field name="config_logo" position="attributes">
+                             <attribute name="height">300</attribute>
+                             <attribute name="img_height">300</attribute>
+                           </field>
 
-                      </group>
+                 -->
+                    <group colspan="8" position="replace">
+                        <group colspan="4" height="100" width="400">
+                            <group colspan="2">
+                                <group colspan="2">
+                                    <field name='linkFaqRA' widget="url" size="0"/>
+                                    <newline/>
+                                    <field name='linkRA' widget="url" size="0"/>
+                                    <newline/>
+                                    <field name='linkFAB' widget="url" size="0"/>
+                                </group>
+                                <newline/>
+                                <separator colspan="4" string="Direktiv för enksilda näringsidkare"/>
 
-                  </group>
-                  <newline/>
-              </group>
-              </group> 
-          </data>
-      </field>
-    </record>
+                                <group colspan="2">
+                                    <field name='linkAnl' widget="url" size="0"/>
+                                    <field name='linkBFN' widget="url" size="50"/>
+                                    <field name='link28316' widget="url" size="0"/>
+                                </group>
+                                <newline/>
+                                <separator colspan="4"/>
+                                <group colspan="2">
+                                    <field name='linkVer' widget="url" size="0"/>
+                                    <field name='linkFaqAR' widget="url" size="0"/>
+                                    <button name="install_backup" icon="gtk-go-forward" type="object"
+                                            string="Backup module" colspan="1"/>
+
+                                </group>
+
+                            </group>
+                            <newline/>
+                        </group>
+                    </group>
+                </data>
+            </field>
+        </record>
 
 
+        <record id="action_archive" model="ir.actions.act_window">
+            <field name="name">Setup Manual Archive Rules</field>
+            <field name="res_model">res.partner.bank</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">archive_config.installer</field>
+            <field name="view_id" ref="view_archive_config_installer"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
 
+        <!--    <menuitem
+                sequence="0"
+                parent="account.account_account_menu"
+                id="menu_action_bank_tree"
+                action="action_bank_tree"/>
+        -->
 
-    <record id="action_archive" model="ir.actions.act_window">
-        <field name="name">Setup Manual Archive Rules</field>
-        <field name="res_model">res.partner.bank</field>
-       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">archive_config.installer</field>
-      <field name="view_id" ref="view_archive_config_installer"/>
-      <field name="view_type">form</field>
-      <field name="view_mode">form</field>
-      <field name="target">new</field>
-    </record>
-
-<!--    <menuitem
-        sequence="0"
-        parent="account.account_account_menu"
-        id="menu_action_bank_tree"
-        action="action_bank_tree"/>
--->
-
-    <record id="account_archive_todo" model="ir.actions.todo">
-        <field name="action_id" ref="action_archive"/>
-        <field name="category_id" ref="account.category_accounting_configuration"/>
-        <field name="sequence">50</field>
-    </record>
+        <record id="account_archive_todo" model="ir.actions.todo">
+            <field name="action_id" ref="action_archive"/>
+            <field name="category_id" ref="account.category_accounting_configuration"/>
+            <field name="sequence">50</field>
+        </record>
 
         <record id="account.view_financial_accounts_todo" model="ir.actions.todo">
-            <field name="action_id" ref="account.action_view_financial_accounts_installer" />
-            <field name="category_id" ref="account.category_accounting_configuration" />
-            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]" />
+            <field name="action_id" ref="account.action_view_financial_accounts_installer"/>
+            <field name="category_id" ref="account.category_accounting_configuration"/>
+            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]"/>
             <field name="sequence">90</field>
         </record>
         <record id="account.review_financial_journals_todo" model="ir.actions.todo">
-            <field name="action_id" ref="account.action_review_financial_journals_installer" />
-            <field name="category_id" ref="account.category_accounting_configuration" />
-            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]" />
+            <field name="action_id" ref="account.action_review_financial_journals_installer"/>
+            <field name="category_id" ref="account.category_accounting_configuration"/>
+            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]"/>
             <field name="sequence">100</field>
         </record>
 

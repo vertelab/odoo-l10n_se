@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
 <data>
-    
+
     <!-- K2 Trade with Sweden -->
     <record id="k2_fpos_trade_swe" model="account.fiscal.position.template">
         <field name="name">Handel inom Sverige</field>
@@ -9,7 +9,7 @@
         <field name="auto_apply" eval="True"/>
         <field name="country_id" ref="base.se"/>
     </record>
-    
+
     <!-- K2 Trade with EU -->
     <record id="k2_fpos_trade_eu" model="account.fiscal.position.template">
         <field name="name">Handel med EU</field>
@@ -19,7 +19,7 @@
         <field name="vat_required" eval="True"/>
         <field name="country_group_id" ref="base.europe"/>
     </record>
-    
+
     <!-- K2 Trade with EU tax lines -->
     <record id="k2_fpos_trade_eu_tax_mp1" model="account.fiscal.position.tax.template">
         <field name="position_id" ref="k2_fpos_trade_eu"/>
@@ -176,7 +176,7 @@
     <record id="k2_fpos_trade_world" model="account.fiscal.position.template">
         <field name="name">Handel utanför EU</field>
         <field name="chart_template_id" ref="chart_template_K2_2017" />
-        <field name="note"></field>
+        <field name="note"/>
         <field name="auto_apply" eval="True"/>
     </record>
 
@@ -342,14 +342,14 @@
                     'position_id': tmp.id
                 })</field>
         </record>
-        
-                <record id="ir_values_copy_account_fiscal_position" model="ir.actions.server">
+
+        <record id="ir_values_copy_account_fiscal_position" model="ir.actions.server">
             <field name="model_id" ref="base.model_ir_actions_server" />
             <field name="name">Uppdatera skatter</field>
             <field name="state">code</field>
             <field name="code">action = model.action_copy_account_fiscal_position()</field>
         </record>
-        
+
     </data>
 
 </odoo>

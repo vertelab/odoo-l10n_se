@@ -6,7 +6,7 @@
             <field name="code">LÖN</field>
             <field name="type">general</field>
             <field name="default_debit_account_id" search="[('code', '=', '7210')]" model="account.account" />
-            <field name="default_crebit_account_id" search="[('code', '=', '7210')]" model="account.account" />
+            <field name="default_credit_account_id" search="[('code', '=', '7210')]" model="account.account" />
         </record>
         <record id="set_account_type" model="ir.actions.server">
             <field name="name">Set Account Type</field>
@@ -38,7 +38,7 @@ if len(r_list) &gt; 0 or len(t_list) &gt; 0:
         msg += 'Set type:\n%s' %'\t'.join(t_list)
     raise Warning(msg)</field>
         </record>
-        
+
         <record id="update_account_account" model="ir.actions.server">
             <field name="name">Uppdatera kontoplan</field>
             <field name="model_id" ref="base.model_ir_actions_server"/>
@@ -99,7 +99,6 @@ action = {
         <record id="ir_values_without_attachment_account_move" model="ir.actions.server">
             <field name="model_id" ref="account.model_account_move" />
             <field name="name">Untrackable Transactions</field>
-            <field name="value" eval="'ir.actions.server,' +str(ref('l10n_se.action_without_attachment_account_move'))" />
             <field name="state">code</field>
             <field name="code">action = model.action_without_attachment_account_move()</field>
         </record>

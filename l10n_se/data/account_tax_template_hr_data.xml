@@ -22,150 +22,153 @@
             <field name="sequence">10</field>
         </record>
         <record id="account_tax_code_template-eSKDUpload" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">eSKDUpload</field>
             <field name="description">Skattedeklaration</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!--
             ======= Blankett del 1
         -->
         <record id="account_tax_code_template-AgBrutU" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgBrutU</field>
             <field name="description">Bruttolön, förmåner och avdrag för utgifter</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-Forman" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">Forman</field>
             <field name="description">51: Avgiftspliktiga förmåner</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AvdrKostn" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvdrKostn</field>
             <field name="description">52: Avdrag för utgifter i arbetet</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!--
              ======= Blankett del 2
         -->
         <record id="account_tax_code_template-AgAvgU" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgAvgU</field>
             <field name="description">Underlag för arbetsgivaravgifter</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagAvgHel" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagAvgHel</field>
             <field name="description">55: Full arbetsgivaravgift för 65 år eller yngre</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagVXLon" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagVXLon</field>
             <field name="description">57: Enskild näringsidkares första anställda</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagAvgAldersp" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagAvgAldersp</field>
             <field name="description">59: Arbetsgivaravgift för 66-80 år</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagSkLonSarsk" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagSkLonSarsk</field>
             <field name="description">61: Särskild löneskatt för 81 år eller äldre</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagAvgAmbassad" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagAvgAmbassad</field>
-            <field name="description">65: Ambassader och företag utan fast driftställe i Sverige samt särskild löneskatt</field>
+            <field name="description">65: Ambassader och företag utan fast driftställe i Sverige samt särskild
+                löneskatt
+            </field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagAvgAmerika" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagAvgAmerika</field>
             <field name="description">69: USA, Kanada, Québec m.fl.</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!-- Sum field -->
         <record id="account_tax_code_template-SumUlagAvg" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SumUlagAvg</field>
             <field name="description">53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt</field>
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-UlagAvgHel'), ref('account_tax_code_template-UlagVXLon'),ref('account_tax_code_template-UlagAvgAldersp'),ref('account_tax_code_template-UlagSkLonSarsk'),ref('account_tax_code_template-UlagAvgAmbassad'),ref('account_tax_code_template-UlagAvgAmerika')])]" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
+            <field name="children_tax_ids"
+                   eval="[(6, 0, [ref('account_tax_code_template-UlagAvgHel'), ref('account_tax_code_template-UlagVXLon'),ref('account_tax_code_template-UlagAvgAldersp'),ref('account_tax_code_template-UlagSkLonSarsk'),ref('account_tax_code_template-UlagAvgAmbassad'),ref('account_tax_code_template-UlagAvgAmerika')])]"/>
         </record>
         <!--
              ======= Blankett del 3
         -->
         <record id="account_tax_code_template-AgAvgAv" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgAvgAv</field>
             <field name="description">Underlag för avdrag från arbetsgivaravgifter</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagStodForetag" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagStodForetag</field>
             <field name="description">73: Forskning och utveckling</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagStodUtvidgat" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagStodUtvidgat</field>
             <field name="description">75: Regionalt stöd, underlag</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!--
              ======= Blankett del 4
@@ -174,227 +177,230 @@
              ======= Blankett del 4a
         -->
         <record id="account_tax_code_template-AvgHel" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvgHel</field>
             <field name="description">56: Arbetsgivaravgift 31,42%</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-SumAvgBetala" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SumAvgBetala</field>
             <field name="description">78: Summa arbetsgivaravgift att betala</field>
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-AvgHel')])]" />
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-AvgHel')])]"/>
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AgAvg" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgAvg</field>
             <field name="description">Arbetsgivaravgifter</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AvgVXLon" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvgVXLon</field>
             <field name="description">58: Arbetsgivaravgift 10,21%</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AvgAldersp" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvgAldersp</field>
             <field name="description">60: Arbetsgivaravgift 16,36%</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-SkLonSarsk" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SkLonSarsk</field>
             <field name="description">62: Särskild löneskatt 6,15%</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AvgAmbassad" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvgAmbassad</field>
             <field name="description">66: (beräknas från ruta 65) HANTERAS MANUELLT</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-KodAmerika" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">KodAmerika</field>
             <field name="description">67: Kod USA, Kanada, Québec m.fl.</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AvgAmerika" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvgAmerika</field>
             <field name="description">70: (beräknas från ruta 69) HANTERAS MANUELLT</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!--
              ======= Blankett del 4b
         -->
         <record id="account_tax_code_template-AgAvd" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgAvd</field>
             <field name="description">Avdrag</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AvdrStodForetag" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvdrStodForetag</field>
             <field name="description">74: Forskning och utveckling</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AvdrStodUtvidgat" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AvdrStodUtvidgat</field>
             <field name="description">76: Regionalt stöd</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!--
              ======= Blankett del 5
         -->
         <record id="account_tax_code_template-AgAvdU" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgAvdU</field>
             <field name="description">Underlag för skatteavdrad</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagSkAvdrPension" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagSkAvdrPension</field>
             <field name="description">83: Pension, livränta, försäkringsersättning ink SINK</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagSkAvdrRanta" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagSkAvdrRanta</field>
             <field name="description">85: Ränta och utdelning</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!--
              ======= Blankett del 6
         -->
         <record id="account_tax_code_template-SkAvdrLon" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SkAvdrLon</field>
             <field name="description">82: Avdragen skatt lön</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-SkAvdrPension" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SkAvdrPension</field>
             <field name="description">84: Från pension m.m.</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-SkAvdrRanta" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SkAvdrRanta</field>
             <field name="description">86: Från ränta och utdelning</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-SumSkAvdr" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SumSkAvdr</field>
             <field name="description">88: Summa avdragen skatt att betala</field>
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-SkAvdrLon'), ref('account_tax_code_template-SkAvdrPension'),ref('account_tax_code_template-SkAvdrRanta')])]" />
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="children_tax_ids"
+                   eval="[(6, 0, [ref('account_tax_code_template-SkAvdrLon'), ref('account_tax_code_template-SkAvdrPension'),ref('account_tax_code_template-SkAvdrRanta')])]"/>
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AgAvgPreS" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgAvgPreS</field>
             <field name="description">Summa arbetsgivaravgifter och avdragen skatt att betala</field>
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-SumAvgBetala'), ref('account_tax_code_template-SumSkAvdr')])]" />
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="children_tax_ids"
+                   eval="[(6, 0, [ref('account_tax_code_template-SumAvgBetala'), ref('account_tax_code_template-SumSkAvdr')])]"/>
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-AgPre" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">AgPre</field>
             <field name="description">Avdragen skatt</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!--
              ======= Blankett del 7
         -->
         <record id="account_tax_code_template-SjukLonKostnEhs" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">SjukLonKostnEhs</field>
             <field name="description">99: Total sjuklönekostnad</field>
             <field name="amount">1.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">none</field>
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-LonBrutto" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">LonBrutto</field>
             <field name="description">50: Avgiftspliktig bruttolön</field>
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-UlagAvgHel'),ref('account_tax_code_template-UlagVXLon'),ref('account_tax_code_template-UlagAvgAldersp'),ref('account_tax_code_template-UlagSkLonSarsk'),ref('account_tax_code_template-UlagAvgAmbassad'),ref('account_tax_code_template-UlagAvgAmerika')])]" />
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="children_tax_ids"
+                   eval="[(6, 0, [ref('account_tax_code_template-UlagAvgHel'),ref('account_tax_code_template-UlagVXLon'),ref('account_tax_code_template-UlagAvgAldersp'),ref('account_tax_code_template-UlagSkLonSarsk'),ref('account_tax_code_template-UlagAvgAmbassad'),ref('account_tax_code_template-UlagAvgAmerika')])]"/>
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <!-- problem with ref('account_tax_code_template-UlagAlderspSklon'),-->
         <!--
@@ -410,23 +416,25 @@
              </record>
         -->
         <record id="account_tax_code_template-UlagSkAvdrLon" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagSkAvdrLon</field>
             <field name="description">81: Lön och förmåner ink. SINK</field>
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-LonBrutto'), ref('account_tax_code_template-Forman')])]" />
-            <field name="tax_group_id" ref="tax_group_hr" />
+            <field name="children_tax_ids"
+                   eval="[(6, 0, [ref('account_tax_code_template-LonBrutto'), ref('account_tax_code_template-Forman')])]"/>
+            <field name="tax_group_id" ref="tax_group_hr"/>
         </record>
         <record id="account_tax_code_template-UlagSumSkAvdr" model="account.tax.template">
-            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="chart_template_id" ref="chart_template_general"/>
             <field name="name">UlagSumSkAvdr</field>
             <field name="description">87: Summa underlag för skatteavdrag</field>
             <field name="amount">1.0</field>
             <field name="amount_type">group</field>
             <field name="type_tax_use">sale</field>
-            <field name="children_tax_ids" eval="[(6, 0, [ref('account_tax_code_template-UlagSkAvdrLon'), ref('account_tax_code_template-UlagSkAvdrPension'), ref('account_tax_code_template-UlagSkAvdrRanta')])]" />
+            <field name="children_tax_ids"
+                   eval="[(6, 0, [ref('account_tax_code_template-UlagSkAvdrLon'), ref('account_tax_code_template-UlagSkAvdrPension'), ref('account_tax_code_template-UlagSkAvdrRanta')])]"/>
         </record>
     </data>
 </openerp>
