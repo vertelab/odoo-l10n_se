@@ -19,7 +19,8 @@
 ##############################################################################
 import logging
 from odoo import api,models,fields, _
-from .seb import SEBTransaktionsrapportType1 as Parser
+from .seb import SEBTransaktionsrapport as Parser
+from .seb import SEBTransaktionsrapportType1 as Parser1
 from .seb import SEBTransaktionsrapportType2 as Parser2
 from .seb import SEBTransaktionsrapportType3 as Parser3
 import base64
@@ -49,24 +50,30 @@ class AccountBankStatementImport(models.TransientModel):
         files = [data_file]
 
         try:
-            _logger.info(u"Try parsing with SEB Typ 1 Kontohändelser.")
+            _logger.info(u"Try parsing with SEB Kontohändelser document.")
             parser = Parser(base64.b64decode(self.data_file))
         except ValueError:
-            # Not a SEB Type 1 file, returning super will call next candidate:
-            _logger.info(u"Statement file was not a SEB Type 1 Kontohändelse file.")
+            # Not a SEB Kontohändelser document, returning super will call next candidate:
+            _logger.info(u"Statement file was not a SEB Kontohändelser document.")
             try:
-                _logger.info(u"Try parsing with SEB Typ 2 Kontohändelser.")
-                parser = Parser2(base64.b64decode(self.data_file))
+                _logger.info(u"Try parsing with SEB Typ 1 Kontohändelser.")
+                parser = Parser1(base64.b64decode(self.data_file))
             except ValueError:
                 # Not a SEB Type 2 file, returning super will call next candidate:
-                _logger.info(u"Statement file was not a SEB Type 2 Kontohändelse file.")
+                _logger.info(u"Statement file was not a SEB Type 1 Kontohändelse file.")
                 try:
-                    _logger.info(u"Try parsing with SEB Typ 3 Kontohändelser.")
-                    parser = Parser3(base64.b64decode(self.data_file))
+                    _logger.info(u"Try parsing with SEB Typ 2 Kontohändelser.")
+                    parser = Parser2(base64.b64decode(self.data_file))
                 except ValueError:
                     # Not a SEB Type 3 file, returning super will call next candidate:
-                    _logger.info(u"Statement file was not a SEB Type 3 Kontohändelse file.")
-                    return super(AccountBankStatementImport, self)._parse_file(data_file)
+                    _logger.info(u"Statement file was not a SEB Type 2 Kontohändelse file.")
+                    try:
+                        _logger.info(u"Try parsing with SEB Typ 3 Kontohändelser.")
+                        parser = Parser3(base64.b64decode(self.data_file))
+                    except ValueError:
+                        # Not a SEB Type 3 file, returning super will call next candidate:
+                        _logger.info(u"Statement file was not a SEB Type 3 Kontohändelse file.")
+                        return super(AccountBankStatementImport, self)._parse_file(data_file)
 
         seb = parser.parse()
         for s in seb.statements:
@@ -79,8 +86,8 @@ class AccountBankStatementImport(models.TransientModel):
                 if partner_id:
                     t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner_id[0].commercial_partner_id.id
-                d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
-                d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
+                # ~ d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
+                # ~ d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
 
                 # ~ invoice = None
                 # ~ voucher = None
