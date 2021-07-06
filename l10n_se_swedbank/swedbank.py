@@ -38,8 +38,11 @@ class SwedbankTransaktionsrapport(object):
         try:
             # ~ self.data = open_workbook(file_contents=data_file).sheet_by_name('Transaktionsrapport')
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             raise ValueError(e)
+        if not self.data.cell(0,0).value[:21] == '* Transaktionsrapport':
+            raise ValueError('This is not a Swedbank Transaktionsrapport')
+        
         self.rows = self.data.nrows - 3
         _logger.error('Row 2 %s' % self.data.row(1))
         self.header = [c.value.lower() for c in self.data.row(1)]
@@ -48,9 +51,6 @@ class SwedbankTransaktionsrapport(object):
         self.balance_end = 0.0
 
     def parse(self):
-        """Parse swedbank transaktionsrapport bank statement file contents."""
-        if not self.data.cell(0,0).value[:21] == '* Transaktionsrapport':
-            raise ValueError('This is not a Swedbank Transaktionsrapport')
 
         header = {
             'valutadag': 'date',

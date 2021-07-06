@@ -38,7 +38,7 @@ class AccountBankStatementImport(models.TransientModel):
             _logger.debug("Try parsing with swedbank_transaktioner.")
             parser = Parser(data_file)
             swedbank = parser.parse()
-        except ValueError:
+        except ValueError as e:
             # Not a Swedbank file, returning super will call next candidate:
             _logger.error("Statement file was not a Swedbank Transaktionsrapport file.",exc_info=True)
             return super(AccountBankStatementImport, self)._parse_file(data_file)

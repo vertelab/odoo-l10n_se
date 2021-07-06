@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': 'BgMax Format Bank Statements Import',
     'version': '10.0.1',
@@ -57,6 +56,9 @@
 
 
         """,
+    'external_dependencies': {
+        'python': ['openpyxl'],
+    },
     'installable': 'True',
     'application': 'False',
 }

@@ -19,12 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import unicodedata
 import re
-import base64
+from io import BytesIO
 from datetime import datetime
 from openpyxl import load_workbook
-from io import BytesIO
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
@@ -574,9 +572,10 @@ class BgExcelTransactionReport(object):
             wb = load_workbook(filename=BytesIO(data_file),read_only=True)
             ws = wb.get_sheet_names()
             self.data = wb.get_sheet_by_name(ws[0])
-        except Exception:
+        # TODO?: Catch BadZipFile, IOerror, ValueError
+        except:
             raise ValueError('This is not a Bankgiro document')
-        if self.data.cell(1,1).value.find("Hclnr:") == -1:
+        if self.data.cell(3,1).value != u'Insättningsuppgift':
             raise ValueError('This is not a Bankgiro document')
 
         self.account_number = self.data.cell(5,1).value
