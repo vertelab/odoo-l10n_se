@@ -31,6 +31,7 @@
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
         </record>
         
+<!--
         <record id="new_demo_invoice_1" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP1', 'account_id': ref('l10n_se.1_chart2610'), 'amount': 1250.0})]"/> 
         </record>
@@ -42,6 +43,7 @@
         <record id="new_demo_invoice_1" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP2', 'account_id': ref('l10n_se.1_chart2620'), 'amount': 600.0})]"/>
         </record>
+-->
 
         <record id="new_invoice_1_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="new_demo_invoice_1" />
@@ -73,6 +75,36 @@
             <field name="account_id" search="[('code', '=', u'3003')]" />
         </record>
         
+        <record id="new_invoice_1_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">2</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp1')])]" />
+            <field name="account_id" search="[('code', '=', u'3001')]" />
+        </record>
+
+        <record id="new_invoice_1_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">2</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp2')])]" />
+            <field name="account_id" search="[('code', '=', u'3002')]" />
+        </record>
+
+        <record id="new_invoice_1_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">2</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp3')])]" />
+            <field name="account_id" search="[('code', '=', u'3003')]" />
+        </record>
+        
         
         
         
@@ -91,7 +123,7 @@
             <field name ="payment_term" ref="account.account_payment_term"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
-            <field name="journal_id" search="[('type', '=', u'sale')]" />
+            <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" search="[('code', '=', u'2440')]" />
@@ -99,6 +131,7 @@
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
         </record>
         
+<!--
         <record id="new_demo_invoice_2" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'I', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 12500.0})]"/> 
         </record>
@@ -108,6 +141,7 @@
         <record id="new_demo_invoice_2" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'I12', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 6000.0})]"/>
         </record>
+-->
 
         <record id="new_invoice_2_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="new_demo_invoice_2" />
@@ -126,7 +160,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i12')])]" />
-            <field name="account_id" search="[('code', '=', u'4000')]" />
+            <field name="account_id" search="[('code', '=', u'4002')]" />
         </record>  
               
         <record id="new_invoice_2_line_3" model="account.invoice.line">
@@ -136,7 +170,37 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i6')])]" />
+            <field name="account_id" search="[('code', '=', u'4003')]" />
+        </record>
+        
+        <record id="new_invoice_2_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i')])]" />
             <field name="account_id" search="[('code', '=', u'4000')]" />
+        </record>
+
+        <record id="new_invoice_2_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it12')])]" />
+            <field name="account_id" search="[('code', '=', u'4002')]" />
+        </record>
+
+        <record id="new_invoice_2_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it6')])]" />
+            <field name="account_id" search="[('code', '=', u'4003')]" />
         </record>
         
         <!--
@@ -153,7 +217,7 @@
             <field name ="payment_term" ref="account.account_payment_term"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
-            <field name="journal_id" search="[('type', '=', u'sale')]" />
+            <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" search="[('code', '=', u'2440')]" />
@@ -161,6 +225,7 @@
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
         </record>
         
+<!--
         <record id="new_demo_invoice_3" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'I', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 12500})]"/> 
         </record>
@@ -170,6 +235,7 @@
         <record id="new_demo_invoice_3" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'I12', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 6000})]"/>
         </record>
+-->
 
         <record id="new_invoice_3_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="new_demo_invoice_3" />
@@ -178,7 +244,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i')])]" />
-            <field name="account_id" search="[('code', '=', u'4001')]" />
+            <field name="account_id" search="[('code', '=', u'4000')]" />
         </record>
         
         <record id="new_invoice_3_line_2" model="account.invoice.line">
@@ -198,6 +264,36 @@
             <field name="price_unit">2500</field>
             <field name="quantity">20</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i6')])]" />
+            <field name="account_id" search="[('code', '=', u'4003')]" />
+        </record>
+        
+        <record id="new_invoice_3_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_i')])]" />
+            <field name="account_id" search="[('code', '=', u'4000')]" />
+        </record>
+
+        <record id="new_invoice_3_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it12')])]" />
+            <field name="account_id" search="[('code', '=', u'4002')]" />
+        </record>
+
+        <record id="new_invoice_3_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it6')])]" />
             <field name="account_id" search="[('code', '=', u'4003')]" />
         </record>
         
@@ -224,6 +320,7 @@
             <field name ="payment_term" ref="account.account_payment_term"/>
         </record>
         
+<!--
         <record id="new_demo_invoice_4" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP1', 'account_id': ref('l10n_se.1_chart2610'), 'amount': 12500.0})]"/> 
         </record>
@@ -235,6 +332,7 @@
         <record id="new_demo_invoice_4" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP2', 'account_id': ref('l10n_se.1_chart2620'), 'amount': 6000.0})]"/>
         </record>
+-->
         
         <record id="new_invoice_4_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
@@ -266,6 +364,36 @@
             <field name="account_id" search="[('code', '=', u'3003')]" />
         </record>
         
+        <record id="new_invoice_4_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp1')])]" />
+            <field name="account_id" search="[('code', '=', u'3001')]" />
+        </record>
+
+        <record id="new_invoice_4_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp2')])]" />
+            <field name="account_id" search="[('code', '=', u'3002')]" />
+        </record>
+
+        <record id="new_invoice_4_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">20</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp3')])]" />
+            <field name="account_id" search="[('code', '=', u'3003')]" />
+        </record>
+        
         
           <!--
             Camptocamp:Out invoice
@@ -290,9 +418,11 @@
         </record>
         
 
-        <record id="new_demo_invoice_4" model="account.invoice">
+<!--
+        <record id="new_demo_invoice_5" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VTEU', 'account_id': ref('l10n_se.1_K2_3106_2017'), 'amount': 0.0})]"/>
         </record>
+-->
         
         
         
@@ -326,6 +456,36 @@
             <field name="account_id" search="[('code', '=', u'3106')]" />
         </record>
         
+        <record id="new_invoice_5_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [])]" />
+            <field name="account_id" search="[('code', '=', u'3106')]" />
+        </record>
+
+        <record id="new_invoice_5_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_vteu')])]" />
+            <field name="account_id" search="[('code', '=', u'3106')]" />
+        </record>
+
+        <record id="new_invoice_5_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_vteu')])]" />
+            <field name="account_id" search="[('code', '=', u'3106')]" />
+        </record>
+        
           <!--
             Camptocamp:In invoice
         -->
@@ -339,7 +499,7 @@
             <field name="period_id" search="[('name', '=', '06/2021')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
-            <field name="journal_id" search="[('type', '=', u'sale')]" />
+            <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" search="[('code', '=', u'2440')]" />
@@ -348,6 +508,7 @@
             <field name ="payment_term" ref="account.account_payment_term"/>
         </record>
         
+<!--
         <record id="new_demo_invoice_6" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU12', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 9000})]"/> 
         </record>
@@ -357,6 +518,7 @@
         <record id="new_demo_invoice_6" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU6', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 4500.0})]"/>
         </record>
+-->
         
         <record id="new_invoice_6_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
@@ -375,7 +537,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">30</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_vfeu12')])]" />
-            <field name="account_id" search="[('code', '=', u'4515')]" />
+            <field name="account_id" search="[('code', '=', u'4516')]" />
         </record>  
               
         <record id="new_invoice_6_line_3" model="account.invoice.line">
@@ -385,8 +547,40 @@
             <field name="price_unit">2500</field>
             <field name="quantity">30</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_vfeu6')])]" />
+            <field name="account_id" search="[('code', '=', u'4517')]" />
+        </record>
+        
+        <record id="new_invoice_6_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [])]" />
             <field name="account_id" search="[('code', '=', u'4515')]" />
         </record>
+
+        <record id="new_invoice_6_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_tfeu12')])]" />
+            <field name="account_id" search="[('code', '=', u'4516')]" />
+        </record>
+
+        <record id="new_invoice_6_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_tfeu6')])]" />
+            <field name="account_id" search="[('code', '=', u'4517')]" />
+        </record>
+        
+        
         
           <!--
            ASUSTeK: in invoice
@@ -401,7 +595,7 @@
             <field name="period_id" search="[('name', '=', '06/2021')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
-            <field name="journal_id" search="[('type', '=', u'sale')]" />
+            <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" search="[('code', '=', u'2440')]" />
@@ -410,6 +604,7 @@
             <field name ="payment_term" ref="account.account_payment_term"/>
         </record>
         
+<!--
         <record id="new_demo_invoice_7" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MBBUI1', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 18750.0})]"/> 
         </record>
@@ -419,6 +614,7 @@
         <record id="new_demo_invoice_7" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MBBUI3', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 4500.0})]"/>
         </record>
+-->
         
         <record id="new_invoice_7_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
@@ -437,7 +633,7 @@
             <field name="price_unit">2500</field>
             <field name="quantity">30</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mbbui2')])]" />
-            <field name="account_id" search="[('code', '=', u'4545')]" />
+            <field name="account_id" search="[('code', '=', u'4546')]" />
         </record>  
               
         <record id="new_invoice_7_line_3" model="account.invoice.line">
@@ -447,7 +643,37 @@
             <field name="price_unit">2500</field>
             <field name="quantity">30</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mbbui3')])]" />
+            <field name="account_id" search="[('code', '=', u'4547')]" />
+        </record>
+        
+        <record id="new_invoice_7_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [])]" />
             <field name="account_id" search="[('code', '=', u'4545')]" />
+        </record>
+
+        <record id="new_invoice_7_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it12')])]" />
+            <field name="account_id" search="[('code', '=', u'4546')]" />
+        </record>
+
+        <record id="new_invoice_7_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">30</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it6')])]" />
+            <field name="account_id" search="[('code', '=', u'4547')]" />
         </record>
         
          <!--
@@ -471,10 +697,12 @@
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
             <field name ="payment_term" ref="account.account_payment_term"/>
         </record>
+<!--
         
         <record id="new_demo_invoice_8" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'E', 'account_id': ref('l10n_se.1_K2_3105_2017'), 'amount': 0.0})]"/> 
         </record>
+-->
         
         <record id="new_invoice_8_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
@@ -505,7 +733,36 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_e')])]" />
             <field name="account_id" search="[('code', '=', u'3105')]" />
         </record>
-        
+
+        <record id="new_invoice_8_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">50</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [])]" />
+            <field name="account_id" search="[('code', '=', u'3105')]" />
+        </record>
+
+        <record id="new_invoice_8_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">50</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_e')])]" />
+            <field name="account_id" search="[('code', '=', u'3105')]" />
+        </record>
+
+        <record id="new_invoice_8_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
+            <field name="price_unit">2500</field>
+            <field name="quantity">50</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_e')])]" />
+            <field name="account_id" search="[('code', '=', u'3105')]" />
+        </record>
         <!--
            Camptocamp:in invoice
         -->
@@ -519,7 +776,7 @@
             <field name="period_id" search="[('name', '=', '06/2021')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
-            <field name="journal_id" search="[('type', '=', u'sale')]" />
+            <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" search="[('code', '=', u'2440')]" />
@@ -528,6 +785,7 @@
             <field name ="payment_term" ref="account.account_payment_term"/>
         </record>
         
+<!--
         <record id="new_demo_invoice_9" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU12', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 3840})]"/> 
         </record>
@@ -540,6 +798,7 @@
         <record id="new_demo_invoice_9" model="account.invoice">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU6', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 1920})]"/> 
         </record>
+-->
         
         <record id="new_invoice_9_line_1" model="account.invoice.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
@@ -558,7 +817,7 @@
             <field name="price_unit">800</field>
             <field name="quantity">40</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_vfeu12')])]" />
-            <field name="account_id" search="[('code', '=', u'4515')]" />
+            <field name="account_id" search="[('code', '=', u'4516')]" />
         </record>  
               
         <record id="new_invoice_9_line_3" model="account.invoice.line">
@@ -568,8 +827,106 @@
             <field name="price_unit">800</field>
             <field name="quantity">40</field>
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_vfeu6')])]" />
+            <field name="account_id" search="[('code', '=', u'4517')]" />
+        </record>
+        
+        <record id="new_invoice_9_line_4" model="account.invoice.line">
+            <field name ="product_id" ref="product.service_order_01"/>
+            <field name="name">Prepaid Consulting</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
+            <field name="price_unit">800</field>
+            <field name="quantity">40</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [])]" />
             <field name="account_id" search="[('code', '=', u'4515')]" />
         </record>
+
+        <record id="new_invoice_9_line_5" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
+            <field name="name">Cateringtjänst</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
+            <field name="price_unit">800</field>
+            <field name="quantity">40</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_tfeu12')])]" />
+            <field name="account_id" search="[('code', '=', u'4516')]" />
+        </record>
+
+        <record id="new_invoice_9_line_6" model="account.invoice.line">
+            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
+            <field name="name">Förevisning naturområde</field>
+            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
+            <field name="price_unit">800</field>
+            <field name="quantity">40</field>
+            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_tfeu6')])]" />
+            <field name="account_id" search="[('code', '=', u'4517')]" />
+        </record>
+        
+        
+        <!--
+        function that runs the _onchange_invoice_line_ids so that the correct taxes gets calculated
+        -->
+       <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_1</value>
+        </function>
+        
+        <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_2</value>
+        </function>
+        
+        <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_3</value>
+        </function>
+        
+       <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_4</value>
+        </function>
+
+       <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_5</value>
+        </function>
+
+       <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_6</value>
+        </function>
+
+       <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_7</value>
+        </function>
+
+       <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_8</value>
+        </function>
+
+       <function
+        id = "add_tax_lines_id"
+        model = "account.invoice"       
+        name = "_demo_add_tax_lines">
+        <value>l10n_se_tax_report.new_demo_invoice_9</value>
+        </function>
+
 
   </data>
 </odoo>
