@@ -25,9 +25,14 @@
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['account_voucher', 'l10n_se_account_bank_statement_import'],
+    'depends': [
+        'account_period', 
+        'l10n_se_account_bank_statement_import', 
+        'l10n_se_bank', 
+        'l10n_se_account_payment_order',
+        'account_voucher'],
     'external_dependencies': {
-        'python': ['xlrd'],
+        'python': ['xlrd', 'openpyxl'],
     },
     'data': ['account_reconcile_model_data.xml'],
     'installable': 'True',
