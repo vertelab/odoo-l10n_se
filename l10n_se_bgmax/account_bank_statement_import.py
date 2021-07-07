@@ -153,11 +153,13 @@ class AccountBankStatementImport(models.TransientModel):
                 if t.get('account_number',None):
                     partner = self.env['res.partner.bank'].search([('acc_number','ilike',t['account_number'])],limit=1).mapped('partner_id')
                 if not partner:
-                    vat = 'SE%s01' % t['partner_name'][2:]
-                    name1 = t['partner_name'].strip()
-                    name2 = name1.upper().replace(' AB','').replace('AKTIEBOLAG','').replace(' HB','').replace('HANDELSBOLAG','').replace(' KB','').replace('KOMMANDITBOLAG','').replace('FIRMA','').strip()
-                    partner = self.env['res.partner'].search(['|','|',('name','ilike',name1),('name','ilike',name2),('vat','=',vat)],limit=1)
-                    _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
+                    if t['partner_name']:
+                        vat = 'SE%s01' % t['partner_name'][2:]
+                        name1 = t['partner_name'].strip()
+                        name2 = name1.upper().replace(' AB','').replace('AKTIEBOLAG','').replace(' HB','').replace('HANDELSBOLAG','').replace(' KB','').replace('KOMMANDITBOLAG','').replace('FIRMA','').strip()
+                        partner = self.env['res.partner'].search(['|','|',('name','ilike',name1),('name','ilike',name2),('vat','=',vat)],limit=1)
+                        _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
+                   
                 if partner:
                     if t['account_number'] and not partner.bank_ids:
                         partner.bank_ids = [(0,False,{'acc_number': t['account_number'],'state': 'bg'})]

@@ -394,8 +394,9 @@ class AccountBankStatementImport(models.TransientModel):
         ''' Create account.move. Match with account.move created by invoice '''
         partner = self.env['res.partner'].search([('name', 'ilike', partner_name), ('supplier', '=', True)])
         domain = [('amount_total', '=', -amount), ('period_id', '=', self.env['account.period'].date2period(statement_line.date).id)]
-        if partner:
-            domain += [('partner_id', '=', partner.id)]
+        # TODO: Is uncommentated code nesscerary?
+        # if partner:
+        #     domain += [('partner_id', '=', partner.id)]
         invoice = self.env['account.invoice'].search(domain)
         if invoice and len(invoice) == 1:
             if invoice.residual < invoice.amount_total: # at least one payment created for this invoice

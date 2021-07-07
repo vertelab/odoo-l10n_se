@@ -608,7 +608,7 @@ class BgExcelTransactionReport(object):
                 transaction_dict = {key:row[self.header[key]] for key in self.header}
                 transaction_dict['name'] = str(row[1])
                 # transaction_dict['account_number'] = self.bankgironumber
-                transaction_dict['partner_name'] = "08979877988"
+                transaction_dict['partner_name'] = False
                 transaction_dict['unique_import_id'] = str(row[1])
                 self.transactions.append(transaction_dict) 
                 self.balance_end += row[3]

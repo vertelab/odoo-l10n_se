@@ -69,7 +69,6 @@ class SEBTransaktionsrapport(object):
         for index, row in enumerate(self.data.iter_rows(9, values_only=True), start=9):
             if (index == 9):
                 self.header = {c:i for i, c in enumerate(row)}
-                _logger.info("Header is %s" % self.header)
             else:
                 transaction_dict = {key:row[self.header[key]] for key in self.header}
                 transaction = self.current_statement.create_transaction()
@@ -78,7 +77,6 @@ class SEBTransaktionsrapport(object):
                 transaction['date'] = transaction_dict['Valutadatum']
                 transaction['name'] = transaction_dict['Text/mottagare'].strip()
                 #transaction['unique_import_id'] = t['verifikationsnummer'].strip()
-                _logger.info(transaction)
 
         self.statements.append(self.current_statement)
         _logger.debug('Statement %s Transaktioner %s' % (self.statements,''))
