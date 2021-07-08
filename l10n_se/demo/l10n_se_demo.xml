@@ -190,7 +190,7 @@
         </record>
         
         <!--
-        Marcus nya producter
+        Some products in order to test invoices
         -->
 
         <record id="product_product_banan" model="product.product">
@@ -224,5 +224,41 @@
             <field name="property_account_income_id" ref = "l10n_se.1_chart3003"/>
             <field name="property_account_expense_id" ref = "l10n_se.1_chart4003"/>
         </record>
+        
+        <!--
+        Some services in order to test invoices
+        -->
+        <record id="product_product_catering_service" model="product.product">
+            <field name="name">Cateringtjänst</field>
+            <field name="default_code">SWETJÄNST</field>
+            <field name="categ_id" ref="product.product_category_5" />
+            <field name="standard_price">1000</field>
+            <field name="list_price">2500</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="description_sale">Exempel på cateringtjänst</field>
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp2'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.it12'),))]"/>
+            <field name="property_account_income_id" ref = "l10n_se.1_chart3002"/>
+            <field name="property_account_expense_id" ref = "l10n_se.1_chart4002"/>
+        </record>
+        
+        <record id="product_product_demonstration_nature_area" model="product.product">
+            <field name="name">Förevisning naturområde</field>
+            <field name="default_code">SWEFÖREVISNING</field>
+            <field name="categ_id" ref="product.product_category_5" />
+            <field name="standard_price">1000</field>
+            <field name="list_price">2500</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="description_sale">Exempel på förevisning naturområde</field>
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp3'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.it6'),))]"/>
+            <field name="property_account_income_id" ref = "l10n_se.1_chart3003"/>
+            <field name="property_account_expense_id" ref = "l10n_se.1_chart4003"/>
+        </record>
+        
     </data>
 </odoo>

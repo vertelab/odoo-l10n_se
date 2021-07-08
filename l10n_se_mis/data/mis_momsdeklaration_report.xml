@@ -67,7 +67,7 @@
         
         <record id="report_md_MomsUtgMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_md"/>
-            <field name="name">MomsUtgHog</field>
+            <field name="name">MomsUtgMedel</field>
             <field name="description">#11: Utgående moms 12 %</field>
             <field name="sequence">7</field>
             <field name="budgetable">True</field>

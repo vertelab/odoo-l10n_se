@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2018- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -44,9 +44,9 @@ class IzettleTransaktionsrapportXlsType(object):
         except XLRDError as e:
             _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
             raise ValueError(e)
-        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
-            _logger.error(u'Row 0 %s (was looking for Betalningsmottagare) %s %s' % (self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(3,2)))
-            raise ValueError(u'This is not a iZettle Report')
+        if not (self.data.cell(2,0).value[:12] == u'Företagsnamn' and self.data.cell(3,0).value[:19] == u'Organisationsnummer' and self.data.cell(4,0).value[:7] == u'Period:'):
+            _logger.error(u'Row 0 %s (was looking for Företagsnamn) %s %s' % (self.data.cell(2,0).value[:12], self.data.cell(3,0).value[:19], self.data.cell(4,2)))
+            raise ValueError(u'This is not an iZettle Report')
 
         self.nrows = self.data.nrows - 17
         self.header = []
