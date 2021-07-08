@@ -1,0 +1,351 @@
+1000;"Immateriella anläggningstillgångar"
+;
+"11 Byggnader och mark";
+;
+"BAS-konton";
+1110;"Byggnader"
+1130;"Mark"
+1150;"Markanläggningar"
+1180;"Pågående nyanläggningar och förskott för byggnader och mark"
+;
+"12 Maskiner och inventarier";
+;
+"BAS-konton";
+1220;"Maskiner och inventarier "
+;
+;
+1230;"Byggnads- och markinventarier"
+;
+;
+1240;"Bilar och andra transportmedel"
+;
+;
+;
+"13 Övriga anläggningstillgångar";
+;
+"BAS-konton";
+1300;"Andelar"
+;
+"14 Lager";
+;
+"BAS-konton";
+1400;"Lager"
+;
+"15 Kundfordringar ";
+;
+"BAS-konton";
+1500;"Kundfordringar "
+;
+"16 Övriga fordringar ";
+;
+"BAS-konton";
+1600;"Övriga fordringar"
+1650;"Momsfordran"
+;
+"17 Förskott till leverantörer ";
+;
+"BAS-konton";
+1700;"Förskott till leverantörer"
+;
+"19 Kassa och bank";
+;
+"BAS-konton";
+1910;"Kassa "
+1920;"PlusGiro"
+1930;"Företagskonto/checkkonto/affärskonto"
+1940;"Övriga bankkonton"
+1970;"Särskilda bankkonton "
+;
+"2 EGET KAPITAL OCH SKULDER";
+;
+"20 Eget kapital";
+;
+"BAS-konton";
+2010;"Eget kapital, delägare 1 "
+;
+;
+;
+;
+;
+;
+2020;"Eget kapital, delägare 2"
+2030;"Eget kapital, delägare 3"
+2040;"Eget kapital, delägare 4"
+2050;"Avsättning till expansionsfond"
+2060;"Ersättningsfond"
+2070;"Insatsemissioner, avbetalningsplan på skog, skogskonto, upphovsmannakonto"
+2080;"Periodiseringsfonder"
+;
+;
+;
+;
+;
+;
+;
+;
+2090;"Utjämningskonto upplysningar 1-4"
+;
+"23 Låneskulder";
+;
+"BAS-konton";
+2330;"Checkräkningskredit "
+2350;"Skulder till kreditinstitut"
+2390;"Övriga låneskulder"
+;
+"24 Skulder till leverantörer";
+;
+"BAS-konton";
+2440;"Leverantörsskulder "
+;
+"26 Moms och särskilda punktskatter";
+;
+"BAS-konton";
+2610;"Utgående moms, 25 %"
+;
+;
+;
+;
+;
+;
+2620;"Utgående moms, 12 % "
+;
+;
+;
+;
+;
+;
+2630;"Utgående moms, 6 % "
+;
+;
+;
+;
+;
+;
+2640;"Ingående moms"
+;
+;
+;
+;
+;
+2650;"Redovisningskonto för moms"
+2660;"Särskilda punktskatter"
+;
+"27 Personalens skatter, avgifter och löneavdrag";
+;
+"BAS-konton";
+2710;"Personalskatt"
+2730;"Lagstadgade/avtalade sociala avgifter och särskild löneskatt"
+;
+"29 Övriga skulder";
+;
+"BAS-konton";
+2900;"Övriga skulder"
+;
+"3 RÖRELSENS INKOMSTER/INTÄKTER";
+;
+"30-34 Huvudintäkter";
+;
+"BAS-konton";
+3000;"Försäljning och utfört arbete samt övriga momspliktiga intäkter"
+3100;"Momsfria intäkter"
+3200;"Bil- och bostadsförmån m.m."
+;
+"35 Fakturerade kostnader";
+;
+"BAS-konton";
+3500;"Fakturerade kostnader"
+;
+"37 Intäktskorrigeringar";
+;
+"BAS-konton";
+3700;"Lämnade rabatter, bonus etc."
+;
+"39 Övriga rörelseintäkter";
+;
+"BAS-konton";
+3900;"Övriga rörelseintäkter"
+3970;"Vinst vid avyttring av immateriella och materiella anläggningstillgångar"
+3980;"Erhållna bidrag"
+;
+"4 UTGIFTER/KOSTNADER FÖR VAROR, MATERIAL OCH VISSA KÖPTA TJÄNSTER";
+;
+"40-45 Inköp av varor och material";
+;
+"BAS-konton";
+4000;"Varor"
+;
+"46 Legoarbeten, underentreprenader";
+;
+"BAS-konton";
+4600;"Legoarbeten och underentreprenader"
+;
+"47 Reduktion av inköpspriser ";
+;
+"BAS-konton";
+4700;"Erhållna rabatter, bonus etc."
+;
+"49 Förändring av lager ";
+;
+"BAS-konton";
+4900;"Förändring av lager"
+;
+"5-6 ÖVRIGA EXTERNA RÖRELSEUTGIFTER/KOSTNADER";
+;
+"50 Lokalkostnader ";
+;
+"BAS-konton";
+5000;"Lokalkostnader"
+;
+"51 Fastighetskostnader ";
+;
+"BAS-konton";
+5100;"Fastighetskostnader"
+;
+"52 Hyra av anläggningstillgångar";
+;
+"BAS-konton";
+5200;"Hyra av anläggningstillgångar"
+;
+"54 Förbrukningsinventarier och förbrukningsmaterial";
+;
+"BAS-konton";
+5400;"Förbrukningsinventarier och förbrukningsmaterial"
+;
+"55 Reparation och underhåll";
+;
+"BAS-konton";
+5500;"Reparation och underhåll"
+;
+"56 Kostnader för transportmedel";
+;
+"BAS-konton";
+5600;"Kostnader för transportmedel"
+;
+5610;"Personbilskostnader"
+;
+;
+;
+;
+;
+5620;"Lastbilskostnader"
+;
+"57 Frakter och transporter";
+;
+"BAS-konton";
+5700;"Frakter och transporter"
+;
+"58 Resekostnader";
+;
+"BAS-konton";
+5800;"Resekostnader"
+;
+"59 Reklam och PR";
+;
+"BAS-konton";
+5900;"Reklam och PR"
+;
+"60 Övriga försäljningskostnader";
+;
+"BAS-konton";
+6000;"Övriga försäljningskostnader R6"
+6070;"Representation R6"
+;
+;
+"61 Kontorsmateriel och trycksaker";
+;
+"BAS-konton";
+6100;"Kontorsmateriel och trycksaker"
+;
+"62 Tele och post";
+;
+"BAS-konton";
+6200;"Tele och post"
+;
+"63 Företagsförsäkringar och övriga riskkostnader";
+;
+"BAS-konton";
+6300;"Företagsförsäkringar och övriga riskkostnader"
+6310;"Företagsförsäkringar"
+;
+"65 Övriga externa tjänster";
+;
+"BAS-konton";
+6500;"Övriga externa tjänster"
+;
+"68 Inhyrd personal";
+;
+"BAS-konton";
+6800;"Inhyrd personal"
+;
+"69 Övriga kostnader";
+;
+"BAS-konton";
+6900;"Övriga kostnader"
+6980;"Föreningsavgifter"
+;
+"7 UTGIFTER/KOSTNADER FÖR PERSONAL, AVSKRIVNINGAR M.M.";
+;
+"70 Löner till anställda";
+;
+"BAS-konton";
+7000;"Löner till anställda"
+;
+"73 Kostnadsersättningar och förmåner";
+;
+"BAS-konton";
+7300;"Kostnadsersättningar och förmåner"
+;
+"74 Pensionskostnader";
+;
+"BAS-konton";
+7400;"Pensionskostnader"
+;
+"75 Sociala och andra avgifter enligt lag och avtal";
+;
+"BAS-konton";
+7500;"Sociala och andra avgifter enligt lag och avtal"
+;
+"76 Övriga personalkostnader";
+;
+"BAS-konton";
+7600;"Övriga personalkostnader"
+;
+;
+"77 Nedskrivningar och återföring av nedskrivningar";
+;
+"BAS-konton";
+7700;"Nedskrivningar"
+;
+"78 Avskrivningar";
+;
+"BAS-konton";
+7810;"Avskrivningar på immateriella anläggningstillgångar"
+7820;"Avskrivningar på byggnader och markanläggningar"
+7830;"Avskrivningar på maskiner och inventarier "
+;
+"79 Övriga rörelsekostnader";
+;
+"BAS-konton";
+7970;"Förlust vid avyttring av immateriella och materiella anläggningstillgångar"
+7980;"Ersättningsfonder"
+;
+"8 FINANSIELLA OCH ANDRA INKOMSTER/INTÄKTER OCH UTGIFTER/ KOSTNADER";
+;
+"83 Övriga ränteintäkter och liknande resultatposter";
+;
+"BAS-konton";
+8310;"Ränteintäkter och utdelningar"
+8330;"Valutakursdifferenser på fordringar och placeringar "
+;
+"84 Räntekostnader och liknande resultatposter";
+;
+"BAS-konton";
+8410;"Räntekostnader för skulder"
+8430;"Valutakursdifferenser på skulder"
+;
+"88 Bokslutsdispositioner";
+;
+"89 Årets resultat";
+;
+"BAS-konton";
+8990;"Resultat R11"

@@ -1,0 +1,77 @@
+
+This is a working directory to build mainly accoun.account.template.cvs
+=======================================================================
+
+The swedish chart of accounts are published by www.bas.se. Every year we
+got a new slightly different standard for the Swedish chart of account.
+
+There are four types of companies covered by bas, K1 to K4 where K1 are the
+smallest often a Egen firma, Kommanditbolag, Handelsbolag or a small AB. Sometime
+called NE (Enskild näringsidkare). 
+
+AB of a certain size, Ekonomisk förening and Stiftelse usually have to use the
+"Normal" chart of account which to day are mainly for K2-companies. K3 to K4 
+are still "work-in-progress" but can start with "Normal".
+
+The smallest, K1, chart of account can be used by companies that implements
+"Kontantmetoden" or "Fakturametoden" (using sales and deptors ledgers or not) and
+using the method for simple closing.
+
+Legal reports and closing methods in Sweden are using SRU-codes, this is not 
+implemented in OpenERP. Instead we have implemented the rules and structure given
+by SRU in the programs (below).
+
+
+Minimal chart of account K1 (BAS 2015 K1)
+=========================================
+
+The origin for this chart of account are the file:
+
+Kontoplan_K1_2015_ver1.xls
+
+This is converted to csv in two steps (one for main accounts, and one for
+sub accounts). Those files are concatenated in the "alla" file.
+
+Kontoplan_K1_2015_ver1_alla.csv
+Kontoplan_K1_2015_ver1_huvudkonton.csv
+Kontoplan_K1_2015_ver1_underkonton.csv
+
+The program create_kplank1.py reads the alla-file and implements
+SRU-codes B1-B16, R1-R11 and U1-U4.
+
+The output from this program are a part of data/account.account.template.csv
+
+
+Normal chart of account K2-K4 (BAS 2015)
+========================================
+
+>>>>> Work in progress, does not function in this version <<<<<<<<<<<<<<<<<<<
+
+The origin for this chart of account are the file:
+
+Kontoplan_Normal_2015_ver1.xls
+
+This is converted to csv in two steps (one for main accounts, and one for
+sub accounts). Those files are concatenated in the "alla" file.
+
+Kontoplan_Normal_2015_alla.csv
+Kontoplan_Normal_2015_huvudkonton.csv
+Kontoplan_Normal_2015_underkontonkonton.csv
+
+The program create_kplan.py reads the alla-file and implements
+SRU-codes for Ink4-companies.
+
+
+The output from this program are a part of data/account.account.template.csv
+
+TODO
+====
+
+* The two charts should share the same account.tax.codes.template and account.tax.template
+* There are several cases that is not tested with BAS 2012 K1 for example "Omvänd moms"
+* SRU-codes for BAS 2012 are not correct implemented yet.
+* You have to change deafult currency from EUR to SEK manually for your company before you generate
+  your chart of account
+* You have to manually change the length to 4 for accounts
+* Your bank accounts that are generated gets the length of six instead of four and you are
+  given the account number.
