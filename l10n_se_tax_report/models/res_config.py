@@ -23,39 +23,39 @@ from openerp import fields, api, models, _
 import logging
 _logger = logging.getLogger(__name__)
 
-class account_config_settings(models.TransientModel):
-    _inherit = 'account.config.settings'
+# ~ class account_config_settings(models.TransientModel):
+    # ~ _inherit = 'account.config.settings'
 
-    agd_journal = fields.Many2one(comodel_name='account.journal', string='Arbetsgivardeklaration journal')
-    moms_journal = fields.Many2one(comodel_name='account.journal', string='Momsdeklaration journal')
-    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
-    vat_declaration_frequency = fields.Selection(selection=[(1, 'Month'), (3, 'Quarter'),(12, 'Year')], default=3,string='Skattedeklarationsfrekvens',help="Hur stor är momsdeklarationsperioden?")
-    ag_contact = fields.Many2many(comodel_name='res.partner', string='Arbetsgivare kontaktperson', domain=[('is_company', '=', False)])
+    # ~ agd_journal = fields.Many2one(comodel_name='account.journal', string='Arbetsgivardeklaration journal')
+    # ~ moms_journal = fields.Many2one(comodel_name='account.journal', string='Momsdeklaration journal')
+    # ~ accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
+    # ~ vat_declaration_frequency = fields.Selection(selection=[(1, 'Month'), (3, 'Quarter'),(12, 'Year')], default=3,string='Skattedeklarationsfrekvens',help="Hur stor är momsdeklarationsperioden?")
+    # ~ ag_contact = fields.Many2many(comodel_name='res.partner', string='Arbetsgivare kontaktperson', domain=[('is_company', '=', False)])
 
-    @api.multi
-    def set_custom_parameters(self):
-        config_parameters = self.env['ir.config_parameter']
-        if self.agd_journal:
-            config_parameters.set_param(key="l10n_se_tax_report.agd_journal", value=str(self.agd_journal.id))
-        if self.moms_journal:
-            config_parameters.set_param(key="l10n_se_tax_report.moms_journal", value=str(self.moms_journal.id))
-        if self.accounting_method:
-            config_parameters.set_param(key="l10n_se_tax_report.accounting_method", value=str(self.accounting_method))
-        if self.vat_declaration_frequency:
-            config_parameters.set_param(key="l10n_se_tax_report.vat_declaration_frequency", value=str(self.vat_declaration_frequency))
-        if self.ag_contact:
-            config_parameters.set_param(key="l10n_se_tax_report.ag_contact", value=str(self.ag_contact.mapped('id')))
+    # ~ @api.multi
+    # ~ def set_custom_parameters(self):
+        # ~ config_parameters = self.env['ir.config_parameter']
+        # ~ if self.agd_journal:
+            # ~ config_parameters.set_param(key="l10n_se_tax_report.agd_journal", value=str(self.agd_journal.id))
+        # ~ if self.moms_journal:
+            # ~ config_parameters.set_param(key="l10n_se_tax_report.moms_journal", value=str(self.moms_journal.id))
+        # ~ if self.accounting_method:
+            # ~ config_parameters.set_param(key="l10n_se_tax_report.accounting_method", value=str(self.accounting_method))
+        # ~ if self.vat_declaration_frequency:
+            # ~ config_parameters.set_param(key="l10n_se_tax_report.vat_declaration_frequency", value=str(self.vat_declaration_frequency))
+        # ~ if self.ag_contact:
+            # ~ config_parameters.set_param(key="l10n_se_tax_report.ag_contact", value=str(self.ag_contact.mapped('id')))
 
-    @api.model
-    def get_default_custom_parameters(self, fields=None):
-        icp = self.env['ir.config_parameter']
-        return {
-            'agd_journal': int(icp.get_param(key='l10n_se_tax_report.agd_journal', default='0')) or False,
-            'moms_journal': int(icp.get_param(key='l10n_se_tax_report.moms_journal', default='0')) or False,
-            'accounting_method': icp.get_param(key='l10n_se_tax_report.accounting_method', default='invoice') or False,
-            'vat_declaration_frequency': int(icp.get_param(key='l10n_se_tax_report.vat_declaration_frequency', default='3')) or False,
-            'ag_contact': eval(icp.get_param(key='l10n_se_tax_report.ag_contact', default='[]')) or False,
-        }
+    # ~ @api.model
+    # ~ def get_default_custom_parameters(self, fields=None):
+        # ~ icp = self.env['ir.config_parameter']
+        # ~ return {
+            # ~ 'agd_journal': int(icp.get_param(key='l10n_se_tax_report.agd_journal', default='0')) or False,
+            # ~ 'moms_journal': int(icp.get_param(key='l10n_se_tax_report.moms_journal', default='0')) or False,
+            # ~ 'accounting_method': icp.get_param(key='l10n_se_tax_report.accounting_method', default='invoice') or False,
+            # ~ 'vat_declaration_frequency': int(icp.get_param(key='l10n_se_tax_report.vat_declaration_frequency', default='3')) or False,
+            # ~ 'ag_contact': eval(icp.get_param(key='l10n_se_tax_report.ag_contact', default='[]')) or False,
+        # ~ }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

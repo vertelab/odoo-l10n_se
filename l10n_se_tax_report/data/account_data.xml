@@ -37,6 +37,7 @@
        MPI12,nn. Ingående moms bas 12 %,aMPI,a0,false,0
        MPI6,nn. Ingående moms bas 6 %,aMPI,a0,false,0
   -->
+<!--
   <data noupdate="1">
     <record id="root" model="account.financial.report">
       <field name="name">Momsrapport</field>
@@ -45,7 +46,9 @@
       <field name="sign" eval="1" />
       <field name="style_overwrite" eval="1" />
     </record>
+-->
     <!-- column A -->
+<!--
     <record id="a" model="account.financial.report">
       <field name="name">A. Momspliktig försäljning eller uttag exklusive moms</field>
       <field name="sequence">10</field>
@@ -94,7 +97,9 @@
       <field name="tax_ids" model = "account.tax.template"  search="[('name', '=', 'MPFF')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
+-->
     <!-- column B -->
+<!--
     <record id="b" model="account.financial.report">
       <field name="name">B. Utgående moms på försäljning eller uttag i ruta 5-8</field>
       <field name="sequence">20</field>
@@ -133,7 +138,9 @@
       <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['MP3', 'MP3i'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
+-->
     <!-- column C -->
+<!--
     <record id="c" model="account.financial.report">
       <field name="name">C. Momspliktiga inköp där köparen är skattskyldig</field>
       <field name="sequence">30</field>
@@ -151,7 +158,9 @@
       <field name="style_overwrite" eval="4" />
       <field name="tax_ids" model = "account.tax.template" eval="[(6, 0, [])]" />
       <field name="account_ids" search="[('code', 'in', ['4515', '4516', '4517', '4518'])]" />
+-->
       <!-- 4518 = momsfri??? -->
+<!--
     </record>
     <record id="21" model="account.financial.report">
       <field name="name">21. Inköp av tjänster från annat EU-land</field>
@@ -162,7 +171,9 @@
       <field name="style_overwrite" eval="4" />
       <field name="tax_ids" model = "account.tax.template" eval="[(6, 0, [])]" />
       <field name="account_ids" search="[('code', 'in', ['4535', '4536', '4537', '4538'])]" />
+-->
       <!-- 4538 = momsfri??? -->
+<!--
     </record>
     <record id="22" model="account.financial.report">
       <field name="name">22. Inköp av tjänster från land utanför EU</field>
@@ -193,9 +204,13 @@
       <field name="style_overwrite" eval="4" />
       <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'ITIS')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
+-->
       <!-- '6424', '6500', '6530', '6540', '6550', '6590' -->
+<!--
     </record>
+-->
     <!-- column D -->
+<!--
     <record id="d" model="account.financial.report">
       <field name="name">D. Utgående moms på inköp i ruta 20 - 24</field>
       <field name="sequence">40</field>
@@ -234,7 +249,9 @@
       <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['U3MI', 'RTFEU6'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
+-->
     <!-- column H -->
+<!--
     <record id="h" model="account.financial.report">
       <field name="name">H. Import</field>
       <field name="sequence">44</field>
@@ -253,7 +270,9 @@
       <field name="account_ids" search="[('code', 'in', ['4545', '4546', '4547'])]" />
       <field name="style_overwrite" eval="4" />
     </record>
+-->
     <!-- column I -->
+<!--
     <record id="i" model="account.financial.report">
       <field name="name">I. Utgående moms på import i rutan 50</field>
       <field name="sequence">46</field>
@@ -292,7 +311,9 @@
       <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'U3MBBUI')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
+-->
     <!-- column E -->
+<!--
     <record id="e" model="account.financial.report">
       <field name="name">E. Försäljning m.m. som är undantagen från moms</field>
       <field name="sequence">50</field>
@@ -381,7 +402,9 @@
       <field name="tax_ids" model = "account.tax.template" search="[('name', '=', 'MF')]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
+-->
     <!-- column F -->
+<!--
     <record id="f" model="account.financial.report">
       <field name="name">F. Ingående moms</field>
       <field name="sequence">60</field>
@@ -400,7 +423,9 @@
       <field name="tax_ids" model = "account.tax.template" search="[('name', 'in', ['I', 'Ii', 'I12', 'I12i', 'I6', 'I6i', 'VFEU', 'VFEU12', 'VFEU6', 'MBBUI1', 'MBBUI2', 'MBBUI3', 'TFEU', 'TFEU12', 'TFEU6'])]" />
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
+-->
     <!-- column G -->
+<!--
     <record id="g" model="account.financial.report">
       <field name="name">G. Moms att betala eller få tillbaka</field>
       <field name="sequence">90</field>
@@ -420,6 +445,7 @@
       <field name="account_ids" eval="[(6, 0, [])]" />
     </record>
   </data>
+-->
   <data>
     <record id="moms_journal" model="account.journal">
       <field name="name">Momsjournal</field>
@@ -439,6 +465,7 @@
       <field name="name">Accouning Report</field>
     </record>
   </data>
+<!--
   <data noupdate="1">
     <record id="eu_moss" model="account.financial.report">
       <field name="name">EU MOSS VAT</field>
@@ -447,6 +474,7 @@
       <field name="sign" eval="1" />
     </record>
   </data>
+-->
   <data>
     <record id="agd_avsandare" model="ir.config_parameter">
       <field name="key">l10n_se_tax_report.agd_avsandare</field>

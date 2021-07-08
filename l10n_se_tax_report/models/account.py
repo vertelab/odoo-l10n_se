@@ -133,76 +133,76 @@ class account_tax(models.Model):
 
 
 
-class account_financial_report(models.Model):
-    _inherit = 'account.financial.report'
+# ~ class account_financial_report(models.Model):
+    # ~ _inherit = 'account.financial.report'
 
-    sru = fields.Char(string='SRU Code')
-    field_code = fields.Char(string='Field Code', help="Code for Swedish electronic reporting. If Field code (Negative) has a value, Field code is only used for positive results.")
-    field_code_neg = fields.Char(string='Field Code (Negative)', help="Code for Swedish electronic reporting. Only used if result is negative. If this field has a value, Field code is only used for positive results.")
-    tax_ids = fields.Many2many(comodel_name='account.tax', string='Account Tax')
+    # ~ sru = fields.Char(string='SRU Code')
+    # ~ field_code = fields.Char(string='Field Code', help="Code for Swedish electronic reporting. If Field code (Negative) has a value, Field code is only used for positive results.")
+    # ~ field_code_neg = fields.Char(string='Field Code (Negative)', help="Code for Swedish electronic reporting. Only used if result is negative. If this field has a value, Field code is only used for positive results.")
+    # ~ tax_ids = fields.Many2many(comodel_name='account.tax', string='Account Tax')
 
-    @api.multi
-    def sum_tax_period(self):
-        # _logger.warn('sum_tax_period context %s' %self._context )
-        return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
+    # ~ @api.multi
+    # ~ def sum_tax_period(self):
+        # ~ # _logger.warn('sum_tax_period context %s' %self._context )
+        # ~ return sum([t.with_context(self._context).sum_period for t in self.tax_ids])
 
-    @api.multi
-    def sum_period(self):
-        # _logger.warn('sum_period context %s' %self._context )
-        return sum([a.with_context(self._context).sum_period() for a in self.account_ids])
+    # ~ @api.multi
+    # ~ def sum_period(self):
+        # ~ # _logger.warn('sum_period context %s' %self._context )
+        # ~ return sum([a.with_context(self._context).sum_period() for a in self.account_ids])
 
-    @api.multi
-    def get_moveline_ids(self, move_lines=None):
-        return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines(move_lines)] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines(move_lines)]))
+    # ~ @api.multi
+    # ~ def get_moveline_ids(self, move_lines=None):
+        # ~ return list(set([l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines(move_lines)] + [l.id for account in self.account_ids for l in account.with_context(self._context).get_movelines(move_lines)]))
 
-    @api.multi
-    def get_taxlines(self):
-        lines = [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()]
-        return self.env['account.move.line'].browse(lines)
+    # ~ @api.multi
+    # ~ def get_taxlines(self):
+        # ~ lines = [l.id for tax in self.tax_ids for l in tax.with_context(self._context).get_taxlines()]
+        # ~ return self.env['account.move.line'].browse(lines)
 
-    @api.onchange('sru')
-    def onchange_sru(self):
-        field_codes = INK2S_MAPPING.get(self.sru)
-        if field_codes:
-            self.field_code = field_codes[0]
-            self.field_code_neg = field_codes[1]
+    # ~ @api.onchange('sru')
+    # ~ def onchange_sru(self):
+        # ~ field_codes = INK2S_MAPPING.get(self.sru)
+        # ~ if field_codes:
+            # ~ self.field_code = field_codes[0]
+            # ~ self.field_code_neg = field_codes[1]
 
 
-class ReportFinancial(models.AbstractModel):
-    _inherit = 'report.account.report_financial'
+# ~ class ReportFinancial(models.AbstractModel):
+    # ~ _inherit = 'report.account.report_financial'
 
-    def _compute_report_balance(self, reports):
-        res = super(ReportFinancial, self)._compute_report_balance(reports)
-        if res.keys()[0] == self.env.ref('l10n_se_tax_report.root').id: # make sure the first line is momsrapport
-            ctx = {
-                'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
-                'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
-            }
-            for i in res.keys()[1:]:
-                afr = self.env['account.financial.report'].browse(i)
-                if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
-                    if afr == self.env.ref('l10n_se_tax_report.49'):
-                        res[i]['balance'] = int(round(-(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period)))
-                    elif len(afr.tax_ids) > 0:
-                        res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
-        if res.keys()[0] == self.env.ref('l10n_se_tax_report.agd_report').id: # make sure the first line is agdrapport
-            ctx = {
-                'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
-                'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
-            }
-            for i in res.keys()[1:]:
-                afr = self.env['account.financial.report'].browse(i)
-                if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
-                    res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
-        if res.keys()[0] == self.env.ref('l10n_se_tax_report.eu_moss').id: # make sure the first line is eu moss report
-            ctx = {
-                'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
-                'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
-            }
-            for i in res.keys()[1:]:
-                afr = self.env['account.financial.report'].browse(i)
-                if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
-                    res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
-        return res
+    # ~ def _compute_report_balance(self, reports):
+        # ~ res = super(ReportFinancial, self)._compute_report_balance(reports)
+        # ~ if res.keys()[0] == self.env.ref('l10n_se_tax_report.root').id: # make sure the first line is momsrapport
+            # ~ ctx = {
+                # ~ 'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
+                # ~ 'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
+            # ~ }
+            # ~ for i in res.keys()[1:]:
+                # ~ afr = self.env['account.financial.report'].browse(i)
+                # ~ if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
+                    # ~ if afr == self.env.ref('l10n_se_tax_report.49'):
+                        # ~ res[i]['balance'] = int(round(-(self.env['account.tax'].search([('name', '=', 'MomsUtg')]).with_context(ctx).sum_period + self.env['account.tax'].search([('name', '=', 'MomsIngAvdr')]).with_context(ctx).sum_period)))
+                    # ~ elif len(afr.tax_ids) > 0:
+                        # ~ res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
+        # ~ if res.keys()[0] == self.env.ref('l10n_se_tax_report.agd_report').id: # make sure the first line is agdrapport
+            # ~ ctx = {
+                # ~ 'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
+                # ~ 'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
+            # ~ }
+            # ~ for i in res.keys()[1:]:
+                # ~ afr = self.env['account.financial.report'].browse(i)
+                # ~ if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
+                    # ~ res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
+        # ~ if res.keys()[0] == self.env.ref('l10n_se_tax_report.eu_moss').id: # make sure the first line is eu moss report
+            # ~ ctx = {
+                # ~ 'period_start': self.env['account.period'].date2period(self._context.get('date_from')).id,
+                # ~ 'period_stop': self.env['account.period'].date2period(self._context.get('date_to')).id
+            # ~ }
+            # ~ for i in res.keys()[1:]:
+                # ~ afr = self.env['account.financial.report'].browse(i)
+                # ~ if afr and afr.type == 'accounts' and len(afr.tax_ids) > 0:
+                    # ~ res[i]['balance'] = int(round(abs(afr.with_context(ctx).sum_tax_period())))
+        # ~ return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -19,11 +19,13 @@
 #
 ##############################################################################
 
-import account
-import res_config
-import moms
-import agd
-import sru
-import periodic_compilation
+from . import account
+from . import res_config
+from . import moms
+from . import agd
+from . import sru
+from . import periodic_compilation
+from . import mis_report_generator
+from . import demo_invoice
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -95,6 +95,7 @@
               <page string="Upplysningstext">
                 <field name="free_text" nolabel="1" attrs="{'readonly': [('state', '!=','draft')]}" />
               </page>
+<!--
               <page string="Rader">
                 <field name="line_ids" nolabel="1">
                   <tree create='0' delete='0' edit='0' editable='top'>
@@ -104,6 +105,7 @@
                   </tree>
                 </field>
               </page>
+-->
             </notebook>
           </sheet>
           <div class="oe_chatter">
@@ -118,6 +120,7 @@
       <field name="model">account.vat.declaration</field>
       <field name="arch" type="xml">
         <search string="Search VAT Declaration">
+<!--   Something here breaks in odoo 12
           <field name="name" />
           <field name="fiscalyear_id" />
           <field name="period_start" />
@@ -130,6 +133,7 @@
             <filter string="Fiscalyear" domain="[]" context="{'group_by': 'fiscalyear_id'}" />
             <filter string="Period" domain="[]" context="{'group_by': 'period_start'}" />
           </group>
+-->
         </search>
       </field>
     </record>
