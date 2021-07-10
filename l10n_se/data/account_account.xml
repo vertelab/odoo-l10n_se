@@ -99,7 +99,6 @@ action = {
         <record id="ir_values_without_attachment_account_move" model="ir.actions.server">
             <field name="model_id" ref="account.model_account_move" />
             <field name="name">Untrackable Transactions</field>
-            <field name="value" eval="'ir.actions.server,' +str(ref('l10n_se.action_without_attachment_account_move'))" />
             <field name="state">code</field>
             <field name="code">action = model.action_without_attachment_account_move()</field>
         </record>
