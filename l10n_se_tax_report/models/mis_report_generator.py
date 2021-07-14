@@ -72,19 +72,12 @@ class account_vat_decoration(models.Model):
         matrix = self.generated_mis_report_id._compute_matrix()
         
         for row in matrix.iter_rows():
-            _logger.warning('jakmar: row : {}'.format(row.kpi))
-            _logger.warning('jakmar: row.matrix : {}'.format(row._matrix))
-            _logger.warning('jakmar: row.matrix : {}'.format(row.account_id))
-            # ~ for cell in row.iter_cells():
-                # ~ _logger.warning('jakmar: cell : {}'.format(cell))
             vals = [c.val for c in row.iter_cells()]
-            # If the vals[0] is zero it becomes a class 'odoo.addons.mis_builder.models.accounting_none.AccountingNoneType. Otherwise it's a float and should be added to the file
             if  type(vals[0]) == float and vals[0] > 0.0:
                 tax = etree.SubElement(moms, row.kpi.name)
-                # ~ Lambda is used to fix trailing zeros, like example
                 formatNumber = lambda n: n if n%1 else int(n)
                 tax.text = str(formatNumber(vals[0]))
-        
+                
         momsbetala = etree.SubElement(moms, 'MomsBetala')
         momsbetala.text = str(int(round(self.vat_momsbetala)))
         free_text = etree.SubElement(moms, 'TextUpplysningMoms')
