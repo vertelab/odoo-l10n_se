@@ -43,7 +43,7 @@ Taxes for financial report
         'views/sru_report.xml',
         'views/periodic_compilation.xml',
         'report/report.xml',
-        'views/mis_generator_view.xml',
+        # ~ 'views/mis_generator_view.xml',
         # ~ 'account_invoice_demo.xml',
         # ~ 'demo/account_invoice.xml',
         'security/ir.model.access.csv',

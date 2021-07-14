@@ -326,7 +326,6 @@ class account_vat_declaration(models.Model):
     
     @api.multi
     def show_journal_entries(self):
-        _logger.warning("jakmar: line ids {}".format(self.move_ids.mapped('id')))
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
