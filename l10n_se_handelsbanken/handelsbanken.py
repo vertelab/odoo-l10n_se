@@ -17,6 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import io
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
@@ -42,19 +43,15 @@ class HandelsbankenTransaktionsrapport(object):
     """Parser for Handelsbanken Transaktions import files (CSV)."""
     
     def __init__(self, data_file):
-        _logger.error('Parser %s' % data_file)
-        
         try:
+            file = io.StringIO(data_file.decode("utf-8"))
+            file.seek(0)
             rows = []
-            fp = tempfile.TemporaryFile()
-            fp.write(data_file)
-            fp.seek(0)
-            reader = csv.DictReader(fp,delimiter=";")
+            reader = csv.DictReader(file,delimiter=";")
             for row in reader:
-                # ~ _logger.warn('My row %s' % row)
                 rows.append(row)
-            fp.close()
             self.data = rows
+            _logger.warn(self.data[0])
         except IOError as e:
             _logger.error(u'Could not read CSV file')
             raise ValueError(e)
@@ -64,9 +61,9 @@ class HandelsbankenTransaktionsrapport(object):
         
         if not ( 'Valutadag' in self.data[0].keys() and 'Reskontradag' in self.data[0].keys() and 'Kontor' in self.data[0].keys() and 'Datum intervall' in self.data[0].keys()):
             _logger.error( "valuta: %s , Reskonstra %s, Kontor %s , Datum %s %s" % (self.data[0].get('Valutadag') , self.data[0].get('Reskontradag'), self.data[0].get('Kontor'), self.data[0].get('Datum intervall'), self.data[0]) ) 
-                        
             _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
             raise ValueError('This is not a Handelsbanken Transaktionsrapport')
+            
         self.nrows = len(self.data)
         self.header = []
         self.statements = []
@@ -150,5 +147,11 @@ class HandelsbankenIterator(object):
         self.row += 1
         return {n: r[n] for n in self.header}
 
+    def __next__(self):
+        if self.row >= self.rows:
+            raise StopIteration
+        r = self.data[self.row + 1]
+        self.row += 1
+        return {n: r[n] for n in self.header}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

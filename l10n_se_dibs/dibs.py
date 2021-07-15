@@ -61,7 +61,9 @@ class DibsTransaktionsrapportType(object):
         except IOError as e:
             _logger.error(u'Could not read DIBS file')
             raise ValueError(e)
-        if ('Transaktionsrapport' not in self.data[0].split(' ')) or (self.data[4] != 'Transaktionsperiod:\n') or ('Ordernr' not in self.data[8].split(',')):
+        # TODO: CAN'T DEBUG THIS UNTIL I HAVE TEST DATA
+        #if ('Transaktionsrapport' not in self.data[0].split(' ')) or (self.data[4] != 'Transaktionsperiod:\n') or ('Ordernr' not in self.data[8].split(',')):
+        if True:
             _logger.error(u'Row 0 was looking for "Transaktionsrapport", "Transaktionsperiod" and "Ordernr".')
             raise ValueError(u'This is not a DIBS Report')
 

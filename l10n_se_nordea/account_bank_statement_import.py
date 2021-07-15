@@ -21,7 +21,6 @@
 import logging
 from odoo import api,models, _
 from .nordea import NordeaTransaktionsrapport as Parser
-import cStringIO
 import uuid
 
 _logger = logging.getLogger(__name__)
@@ -34,14 +33,13 @@ class AccountBankStatementImport(models.TransientModel):
     @api.model
     def _parse_file(self, data_file):
         """Parse a Nordbanken transaktionsrapport  file."""
-        _logger.warn('Parse %s' % data_file)
         try:
             _logger.debug("Try parsing with nordea_transaktioner.")
             parser = Parser(data_file)
             nordea = parser.parse()
         except ValueError:
             # Not a Nordbanken file, returning super will call next candidate:
-            _logger.error("Statement file was not a Nordea Transaktionsrapport file.",exc_info=True)
+            _logger.error("Statement file was not a Nordea Transaktionsrapport file.")
             return super(AccountBankStatementImport, self)._parse_file(data_file)
 
 
@@ -74,7 +72,7 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line['name'] = transaction['produkt'].capitalize()
                 total_amt += float(transaction['belopp'])
                 transactions.append(vals_line)
-        except Exception, e:
+        except Exception as e:
             raise Warning(_(
                 "The following problem occurred during import. "
                 "The file might not be valid.\n\n %s" % e.message

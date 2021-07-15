@@ -25,7 +25,7 @@ import re
 
 from openerp.osv import osv
 
-from StringIO import StringIO
+from io import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
 from datetime import timedelta
 

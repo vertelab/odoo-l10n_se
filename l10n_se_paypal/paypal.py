@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import io
 from odoo import models, fields, api, _
 from odoo.http import request
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -40,14 +41,12 @@ class PaypalTransaktionsrapportType(object):
 
     def __init__(self, data_file):
         try:
+            file = io.StringIO(data_file.decode("utf-8"))
+            file.seek(0)
             rows = []
-            fp = tempfile.TemporaryFile()
-            fp.write(data_file)
-            fp.seek(0)
-            reader = csv.DictReader(fp)
-            for row in reader:
+            csv_reader = csv.DictReader(file)
+            for row in csv_reader:
                 rows.append(row)
-            fp.close()
             self.data = rows
         except IOError as e:
             _logger.error(u'Could not read CSV file')

@@ -44,9 +44,9 @@ class IzettleTransaktionsrapportXlsType(object):
         except XLRDError as e:
             _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
             raise ValueError(e)
-        if not (self.data.cell(2,0).value[:12] == u'Företagsnamn' and self.data.cell(3,0).value[:19] == u'Organisationsnummer' and self.data.cell(4,0).value[:7] == u'Period:'):
-            _logger.error(u'Row 0 %s (was looking for Företagsnamn) %s %s' % (self.data.cell(2,0).value[:12], self.data.cell(3,0).value[:19], self.data.cell(4,2)))
-            raise ValueError(u'This is not an iZettle Report')
+        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
+            # _logger.error(u'Row 0 {} (was looking for Betalningsmottagare) {}'.format(self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21]))
+            raise ValueError(u'This is not a iZettle Report')
 
         self.nrows = self.data.nrows - 17
         self.header = []
@@ -56,7 +56,7 @@ class IzettleTransaktionsrapportXlsType(object):
         """Parse iZettle transaktionsrapport bank statement file type 1."""
 
         self.account_currency = 'SEK'
-        self.header = [c.value.lower() for c in self.data.row(16)]
+        self.header = []
         self.account_number = self.data.cell(13,2).value
         self.name = self.data.cell(5,2).value
 
@@ -140,6 +140,13 @@ class IzettleIterator(object):
         return self
 
     def next(self):
+        if self.row >= self.data.nrows - 3:
+            raise StopIteration
+        r = self.data.row(self.row)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+
+    def __next__(self):
         if self.row >= self.data.nrows - 3:
             raise StopIteration
         r = self.data.row(self.row)

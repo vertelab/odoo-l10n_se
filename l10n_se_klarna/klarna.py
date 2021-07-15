@@ -20,7 +20,6 @@
 ##############################################################################
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-import base64
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 
 import logging
@@ -40,10 +39,11 @@ class KlarnaTransaktionsrapportType(object):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
-            _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
+        except XLRDError as e:
+            _logger.error(u'Could not read file (Klarna Kontohändelser.xlsx)')
             raise ValueError(e)
-        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
+        # TODO: WAS USING IZETTLE DATA?!?! NEED TEST DATA TO UPDATE
+        if not (self.data.cell(5,0).value[:20] == u'???:' and self.data.cell(10,0).value[:21] == u'???:'):
             _logger.error(u'Row 0 %s (was looking for Betalningsmottagare) %s %s' % (self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(3,2)))
             raise ValueError(u'This is not a Klarna Report')
 
@@ -90,6 +90,13 @@ class KlarnaIterator(object):
         return self
 
     def next(self):
+        if self.row >= self.data.nrows - 3:
+            raise StopIteration
+        r = self.data.row(self.row)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+        
+    def __next__(self):
         if self.row >= self.data.nrows - 3:
             raise StopIteration
         r = self.data.row(self.row)

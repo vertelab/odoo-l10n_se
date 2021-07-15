@@ -19,6 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from builtins import str
 import re
 from io import BytesIO
 from datetime import datetime
@@ -263,7 +264,11 @@ class BgMaxIterator(BgMaxRowParser):
     def __init__(self, data):
         self.row = -1
         #~ self.data = unicode(data,'iso8859-1').encode('utf-8').splitlines()
-        self.data = unicode(data,'iso8859-1').splitlines()
+        # Python 3 compatibility hack
+        try:
+            self.data = unicode(data,'iso8859-1').splitlines()
+        except NameError:
+            self.data = str(data,'iso8859-1').splitlines()
         self.rows = len(self.data)
         self.header = {}
         self.footer = {}
@@ -273,6 +278,28 @@ class BgMaxIterator(BgMaxRowParser):
         return self
 
     def next(self):
+        if self.row > self.rows:
+            raise StopIteration
+        rec = self.next_rec()
+        if rec['type'] == '01':
+            self.header = rec
+            rec = self.next_rec()
+        if rec['type'] == '70':
+            self.footer = rec
+            raise StopIteration()
+        if rec['type'] == '05':
+            self.avsnitt.append(avsnitt(rec))
+            rec = self.next_rec()
+            while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
+                #_logger.warn("rec: %s" % rec)
+                self.avsnitt[-1].add(rec)
+                rec = self.next_rec()
+            if rec['type'] == '15':
+                self.avsnitt[-1].footer = rec
+            return self.avsnitt[-1]
+        return rec
+    
+    def __next__(self):
         if self.row > self.rows:
             raise StopIteration
         rec = self.next_rec()
@@ -339,6 +366,7 @@ class BgMaxParser(object):
 
     def is_bgmax(self, line):
         """determine if a line is the header of a statement"""
+        line = line.decode('iso8859-1')
         if not bool(re.match(self.header_regex, line)):
             raise ValueError(
                 'File starting with %s does not seem to be a'
@@ -468,7 +496,6 @@ class BgMaxParser(object):
         #_logger.warning('transactions %s' % self.statements[0]['transactions'])
 
         #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
-
         return self.statements
 
 
