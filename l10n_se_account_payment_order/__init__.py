@@ -1,2 +1,2 @@
-import res_config
-import account_payment_order
+from . import res_config
+from . import account_payment_order

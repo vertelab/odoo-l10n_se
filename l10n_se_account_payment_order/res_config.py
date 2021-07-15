@@ -26,7 +26,7 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountConfigSettings(models.TransientModel):
-    _inherit = 'account.config.settings'
+    _inherit = 'res.config.settings'
 
     payment_account_ids = fields.Many2many(comodel_name='account.account', relation='payment_account', string='Payment Accounts', help='Accounts should include in payment')
     nix_payment_account_ids = fields.Many2many(comodel_name='account.account', relation='nix_payment_account', string='Payment Accounts Nix', help='Accounts should not include in payment')

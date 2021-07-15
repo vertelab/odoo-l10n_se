@@ -20,12 +20,12 @@
 
 from . import account_rules
 from . import models
-#import account
-#import res_company
-#import res_partner
-#import report
-#import account_vat
+#from . import account
+#from . import res_company
+#from . import res_partner
+#from . import report
+#from . import account_vat
 from . import wizard
-#import setup
+#from . import setup
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
