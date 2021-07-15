@@ -141,9 +141,16 @@ class HandelsbankenIterator(object):
         self.row += 1
         return {n: r[n] for n in self.header}
 
+    def __next__(self):
+        if self.row >= self.rows:
+            raise StopIteration
+        r = self.data[self.row + 2]
+        self.row += 1
+        return {n: r[n] for n in self.header}
+
 fil = HandelsbankenTransaktionsrapport(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Transaktioner_47494948_2020-05-10_1942-rätt.txt'))
 for r in fil:
-    print r
+    print (r)
 
 
 

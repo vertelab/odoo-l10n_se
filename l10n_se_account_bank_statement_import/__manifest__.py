@@ -29,8 +29,7 @@
     'depends': ['account_bank_statement_import', 'account_period'],
     'data': ['bank_statement_view.xml'],
     'summary': 'Swedish Account Bank Statement Import',
-    'description': """
-        """,
+    'description': """ """,
     'installable': 'True',
     'application': 'False',
 }
