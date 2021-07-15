@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': 'BgMax Format Bank Statements Import',
     'version': '10.0.1',
@@ -26,7 +25,11 @@
     'author': 'Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
-    'depends': ['account_period', 'l10n_se_account_bank_statement_import', 'l10n_se_bank', 'l10n_se_account_payment_order'],
+    'depends': [
+        'account_period', 
+        'l10n_se_account_bank_statement_import', 
+        'l10n_se_bank', 
+        'l10n_se_account_payment_order'],
     'data': [
         'account_bank_statement_data.xml',
         'account_bank_statement_view.xml',
@@ -57,6 +60,9 @@
 
 
         """,
+    'external_dependencies': {
+        'python': ['openpyxl'],
+    },
     'installable': 'True',
     'application': 'False',
 }

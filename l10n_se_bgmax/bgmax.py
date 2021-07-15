@@ -19,9 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import unicodedata
 import re
+from io import BytesIO
 from datetime import datetime
+from openpyxl import load_workbook
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
@@ -285,7 +286,7 @@ class BgMaxIterator(BgMaxRowParser):
             self.avsnitt.append(avsnitt(rec))
             rec = self.next_rec()
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
-                _logger.warn("rec: %s" % rec)
+                #_logger.warn("rec: %s" % rec)
                 self.avsnitt[-1].add(rec)
                 rec = self.next_rec()
             if rec['type'] == '15':
@@ -561,3 +562,60 @@ class BgMaxGenerator(object):
             negative = ' ',
             reserv = ''.ljust(47)
         )
+
+
+
+class BgExcelTransactionReport(object):
+    """Generates a statment""" 
+    def __init__(self, data_file):
+        try:
+            wb = load_workbook(filename=BytesIO(data_file),read_only=True)
+            ws = wb.get_sheet_names()
+            self.data = wb.get_sheet_by_name(ws[0])
+        # TODO?: Catch BadZipFile, IOerror, ValueError
+        except:
+            raise ValueError('This is not a Bankgiro document')
+        if self.data.cell(3,1).value != u'Insättningsuppgift':
+            raise ValueError('This is not a Bankgiro document')
+
+        self.account_number = self.data.cell(5,1).value
+        self.bankgironumber = self.data.cell(5,2).value
+        self.name = str(self.account_number + str(self.data.cell(14,3).value) + str(self.data.cell(self.data.max_row,3).value))
+        date = self.data.cell(1,1).value
+        m = re.search('\d{4}-\d{2}-\d{2}', date)
+        self.statement_date = m.group(0)
+        self.balance_start = 0.0
+        self.balance_end_real = 0.0
+        self.balance_end = 0.0
+        self.transactions = []
+        self.statements = []
+        
+    def parse(self):
+        """Parse bg transaction bank statement file contents."""
+        current_statment = {}
+        current_statment['name'] = self.name
+        current_statment['date'] = self.statement_date
+        current_statment['currency_code'] = 'SEK'
+        current_statment['balance_start'] = self.balance_start 
+        current_statment['account_number'] = self.bankgironumber
+
+        for index, row in enumerate(self.data.iter_rows(13, values_only=True), start=13):
+            if(index == 13):
+                th = { 'Antal': 'name', u'L\xf6pnummer': 'bg_serial_number' , 'Datum': 'date', 'Totalt belopp': 'amount'}
+                header = {c:i for i, c in enumerate(row)}
+                self.header = {th[key]:value for key, value in header.items()}
+            else:
+                transaction_dict = {key:row[self.header[key]] for key in self.header}
+                transaction_dict['name'] = str(row[1])
+                # transaction_dict['account_number'] = self.bankgironumber
+                transaction_dict['partner_name'] = False
+                transaction_dict['unique_import_id'] = str(row[1])
+                self.transactions.append(transaction_dict) 
+                self.balance_end += row[3]
+                self.balance_end_real += row[3]
+        
+        current_statment['balance_end'] = self.balance_start
+        current_statment['balance_end_real'] = self.balance_end_real
+        current_statment['transactions'] = self.transactions
+        self.statements.append(current_statment);
+        return self.statements

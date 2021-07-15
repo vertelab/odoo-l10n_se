@@ -394,8 +394,9 @@ class AccountBankStatementImport(models.TransientModel):
         ''' Create account.move. Match with account.move created by invoice '''
         partner = self.env['res.partner'].search([('name', 'ilike', partner_name), ('supplier', '=', True)])
         domain = [('amount_total', '=', -amount), ('period_id', '=', self.env['account.period'].date2period(statement_line.date).id)]
-        if partner:
-            domain += [('partner_id', '=', partner.id)]
+        # TODO: Is uncommentated code nesscerary?
+        # if partner:
+        #     domain += [('partner_id', '=', partner.id)]
         invoice = self.env['account.invoice'].search(domain)
         if invoice and len(invoice) == 1:
             if invoice.residual < invoice.amount_total: # at least one payment created for this invoice
@@ -451,11 +452,7 @@ class AccountBankStatement(models.Model):
             attachment = self.env['ir.attachment'].search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move.id)])
             invoice = self.env['account.invoice'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
             voucher = self.env['account.voucher'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
-            reconciled_bg = False
-            for ml in move.line_ids:
-                bg_statement = self.env['account.bank.statement'].search([('is_bg', '=', True), ('name', '=', ml.name), '|', ('line_ids.amount', '=', ml.balance), ('line_ids.amount', '=', -ml.balance)])
-                reconciled_bg = True if len(bg_statement) > 0 else False
-            if not attachment and not invoice and not voucher and not reconciled_bg and not move.payment_order_id:
+            if not attachment and not invoice and not voucher and not move.payment_order_id:
                 untrackable_move_ids |= move
         _logger.warn('anders: untrackable_move_ids %s' % untrackable_move_ids.mapped('name'))
         return untrackable_move_ids
@@ -554,7 +551,6 @@ class AccountBankStatementLine(models.Model):
     bg_account = fields.Char(string='BG Account')
     bg_serial_number = fields.Char(string='BG Serial Number')
 
-
     def get_move_lines_for_reconciliation(self, excluded_ids=None, str=False, offset=0, limit=None, additional_domain=None, overlook_partner=False):
         """ Return account.move.line records which can be used for bank statement reconciliation.
 
@@ -565,5 +561,16 @@ class AccountBankStatementLine(models.Model):
             :param additional_domain:
             :param overlook_partner:
         """
-        res = super(AccountBankStatementLine,self).get_move_lines_for_reconciliation(excluded_ids, str, offset, limit, additional_domain, overlook_partner)
-        return res.filtered(lambda line: not line.statement_id)
+        # ~ res = super(AccountBankStatementLine,self).get_move_lines_for_reconciliation(excluded_ids, str, offset, limit, additional_domain, overlook_partner)
+        # ~ return res.filtered(lambda line: not line.statement_id)
+        _logger.warn('\n ** Jakob excluded_ids=%s, str=%s, offset=%s, limit=%s, additional_domain=%s, overlook_partner=%s' % (excluded_ids, str, offset, limit, additional_domain, overlook_partner) )
+
+        # ~ odoorestart ; odootail | grep "Jakob"
+        res = super(AccountBankStatementLine,self).get_move_lines_for_reconciliation(excluded_ids, str, offset, limit, additional_domain=[('account_id.code', 'not in', ['2610', '2620', '2630','2640'])], overlook_partner=overlook_partner)
+        _logger.warn('\n ** Jakob: '.join( [" display_name %s name %s name  %s account_id %s id %s date %s balance %s statement_id %s" % (l.display_name, l.name, l.name, l.account_id, l.id, l.date, l.balance, l.statement_id) for l in res]) )
+        # ~ return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.name).sorted(lambda line: line.date)
+        # ~ return res.filtered(lambda line: line.balance)
+        # ~ return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.date, reverse = True)
+        # ~ return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.date, reverse = True)
+        return res.filtered(lambda line: not line.statement_id).sorted(lambda line: line.date, )
+

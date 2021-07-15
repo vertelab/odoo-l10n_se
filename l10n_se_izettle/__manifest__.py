@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2018- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2021- Vertel AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,14 +20,19 @@
 ##############################################################################
 {
     'name': 'iZettle Format Bank Statements Import',
-    'version': '8.0.0.1.0',
+    'version': '10.0.0.1.0',
     'license': 'AGPL-3',
-    'author': 'Vertel AB',
-    'website': 'http://vertel.se',
+    'author':  'Vertel AB',
+    'website': 'https://vertel.se',
     'category': 'Banking addons',
-    'depends': ['account_voucher', 'l10n_se_account_bank_statement_import'],
+    'depends': [
+        'account_period', 
+        'l10n_se_account_bank_statement_import', 
+        'l10n_se_bank', 
+        'l10n_se_account_payment_order',
+        'account_voucher'],
     'external_dependencies': {
-        'python': ['xlrd'],
+        'python': ['xlrd', 'openpyxl'],
     },
     'data': ['account_reconcile_model_data.xml'],
     'installable': 'True',

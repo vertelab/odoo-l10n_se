@@ -67,7 +67,6 @@ class HandelsbankenTransaktionsrapport(object):
                         
             _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
             raise ValueError('This is not a Handelsbanken Transaktionsrapport')
-
         self.nrows = len(self.data)
         self.header = []
         self.statements = []

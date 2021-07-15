@@ -344,8 +344,10 @@ def mis_xml(r_lst,b_lst):
 # ~ 40 Årets resultat AretsResultat account
 
         elif rec.get('account_ids'):
+            print seq,rec['name'],rec['element_name'],'account'
             create_recs(data,rec,'report_rr','%s' % seq)
         else:    
+            print seq,rec['name'],rec['element_name'],'title'
             create_title(data,rec,'report_rr',None,'report_style_4','%s' % seq)
 
     report_rr = ET.SubElement(data, 'record', id='report_br', model="mis.report")
@@ -527,14 +529,17 @@ def mis_xml(r_lst,b_lst):
 # ~ 107 Eget kapital och skulder EgetKapitalSkulder title
 
         elif rec.get('account_ids'):
+            print seq,rec['name'],rec['element_name'],'account'
             create_recs(data,rec,'report_br','%s' % seq)
         else:
+            print seq,rec['name'],rec['element_name'],'title'
             create_title(data,rec,'report_br',None,'report_style_4','%s' % seq)
 
     xml = minidom.parseString(ET.tostring(odoo)).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
     with open("../data/mis_financial_report.xml", "w") as f:
         f.write(xml.encode('utf-8'))
+    print 'Finished'
 
 
 mis_xml(r_lst, b_lst)

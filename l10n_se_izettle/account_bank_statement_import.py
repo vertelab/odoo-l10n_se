@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2013-2016 Vertel AB <http://vertel.se>
+#    Copyright (C) 2013-2021 Vertel AB <http://vertel.se>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,7 +19,8 @@
 ##############################################################################
 import logging
 from odoo import api,models,fields, _
-from .izettle import IzettleTransaktionsrapportType as Parser
+from .izettle import IzettleTransaktionsrapportXlsType as XlsParser
+from .izettle import IzettleTranskationReportXlsxType as XlsxParser
 import base64
 import re
 
@@ -47,11 +48,18 @@ class AccountBankStatementImport(models.TransientModel):
         files = [data_file]
 
         try:
-            _logger.info(u"Try parsing with iZettle Report file.")
-            parser = Parser(base64.b64decode(self.data_file))
+            _logger.info(u"Try parsing Xls iZettle Report file.")
+            parser = XlsParser(base64.b64decode(self.data_file))
         except ValueError:
+            #Not a iZettle Xls Report Document, returning super will call next canidate:
             _logger.info(u"Statement file was not a iZettle Report file.")
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
+            try: 
+                _logger.info(u"Try parsing Xlsx iZettle Report file.")
+                parser = XlsxParser(base64.b64decode(self.data_file))
+            except ValueError:
+                #Not a iZettle Xlsx Report Document, returning super will call next canidate:
+                _logger.info(u"Statment file was not a IZettle Report file.")
+                return super(AccountBankStatementImport, self)._parse_file(data_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
 
@@ -66,8 +74,8 @@ class AccountBankStatementImport(models.TransientModel):
                 if partner_id:
                     t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner_id[0].commercial_partner_id.id
-                d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
-                d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
+                # d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
+                # d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
                 line = self.env['account.move.line'].search([('move_id.date', '=', t['date']), ('balance', '=', t['original_amount']), ('name', '=', str(t['ref']))])
                 if len(line) > 0:
                     if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:

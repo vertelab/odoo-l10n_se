@@ -18,21 +18,71 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from io import BytesIO
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-import base64
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 
 
 import logging
 _logger = logging.getLogger(__name__)
 
+from openpyxl import load_workbook
 from xlrd import open_workbook, XLRDError
 from xlrd.book import Book
 from xlrd.sheet import Sheet
 
 import sys
 
+class SEBTransaktionsrapport(object):
+    """Parser for SEB Kontohändelser import files."""
+
+    def __init__(self, data_file):
+        """ Check if file can be read """
+        try:
+            wb = load_workbook(filename=BytesIO(data_file),read_only=True)
+            ws = wb.get_sheet_names()
+            self.data = wb.get_sheet_by_name(ws[0])
+        # TODO?: Catch BadZipFile, IOerror, ValueError
+        except:
+            raise ValueError(u'Could not read provided file')
+        if (self.data.cell(6,2).value != 'Saldo' and self.data.cell(6,5).value != 'Reserverat belopp'):
+            raise ValueError(u'This is not a SEB Kontohändelser document')
+
+        self.header = []
+        self.statements = []
+
+    def parse(self):
+        """Parse SEB transaktionsrapport bank statement file contents type 1."""
+        self.account_currency = 'SEK'
+        self.account_number = self.data.cell(7,1).value
+        self.name = self.data.cell(1,1).value[15:30]
+
+        self.current_statement = BankStatement()
+        self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+        self.current_statement.local_currency = self.account_currency or 'SEK'
+        self.current_statement.local_account =  self.account_number
+        self.current_statement.statement_id = '%s %s' % (self.data.cell(1,1).value[14:],self.data.cell(3,1).value[6:])
+        self.current_statement.start_balance = float(self.data.cell(self.data.max_row,6).value) - float(self.data.cell(self.data.max_row,5).value)
+        self.current_statement.end_balance = float(self.data.cell(10,5).value)
+
+        for index, row in enumerate(self.data.iter_rows(9, values_only=True), start=9):
+            if (index == 9):
+                self.header = {c:i for i, c in enumerate(row)}
+            else:
+                transaction_dict = {key:row[self.header[key]] for key in self.header}
+                transaction = self.current_statement.create_transaction()
+                transaction['amount'] = transaction_dict['Belopp']
+                transaction['account_number'] = transaction_dict['Verifikationsnummer']
+                transaction['date'] = transaction_dict['Valutadatum']
+                transaction['name'] = transaction_dict['Text/mottagare'].strip()
+                #transaction['unique_import_id'] = t['verifikationsnummer'].strip()
+
+        self.statements.append(self.current_statement)
+        _logger.debug('Statement %s Transaktioner %s' % (self.statements,''))
+        return self
+
+        
 class SEBTransaktionsrapportType1(object):
     """Parser for SEB Kontohändelser import files."""
 
@@ -40,7 +90,7 @@ class SEBTransaktionsrapportType1(object):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
             raise ValueError(e)
         if not (self.data.cell(0,0).value[:13] == u'Företagsnamn:' and self.data.cell(3,0).value[:11] == u'Sökbegrepp:'):
@@ -95,7 +145,7 @@ class SEBTransaktionsrapportType2(object):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
             raise ValueError(e)
         self.nrows = self.data.nrows - 1
@@ -143,7 +193,7 @@ class SEBTransaktionsrapportType3(object):
         try:
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
+        except XLRDError as e:
             _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
             raise ValueError(e)
         self.nrows = self.data.nrows - 1

@@ -50,6 +50,23 @@ class account_declaration_line(models.Model):
     @api.multi
     def report_adl_get_balance(self):
         return self.balance * (1 if self.afr_id.sign == 1 else -1)
+        
+    @api.one
+    def set_move_lines(self,move_lines):
+        for line in move_lines:
+            if not line.sru_line_id:
+                if line.account_id in self.afr_id.account_ids:
+                    line.sru_line_id = self.afr_id.id
+                    # ~ line.move_id.sru_declaration_id = self.sru_declaration_id.id
+                else:
+                    for tax in line.tax_ids:
+                        if tax in self.afr_id.tax_ids:
+                            line.sru_line_id = self.afr_id.id
+                            # ~ line.move_id.sru_declaration_id = self.sru_declaration_id.id
+        self.move_line_ids = [(6, 0, [l.id for l in move_lines if l.sru_line_id == self.afr_id ])]
+        self.balance = int(abs(sum(self.move_line_ids.mapped('balance'))))
+
+
 
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
@@ -325,6 +342,26 @@ class account_sru_declaration(models.Model):
         for move in self.move_ids:
             move.sru_declaration_id = None
 
+
+    @api.one
+    def re_calculate(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        
+        sru_lines = self.env['account.declaration.line'].search([('sru_declaration_id', '=', self.id)])
+        
+        period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
+        
+        all_move_lines = self.env['account.move'].with_context(ctx).get_movelines()         
+        for line in sru_lines:
+            line.set_move_lines(all_move_lines)    
+
+
     @api.one
     def calculate(self):
         if self.state not in ['draft']:
@@ -347,6 +384,7 @@ class account_sru_declaration(models.Model):
         r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
         
         period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
+        
         # ~ grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
         # ~ accounts = {'%s' % g['account_id']: g['balance'] for g in grouped_lines}
         
@@ -385,6 +423,7 @@ class account_sru_declaration(models.Model):
                     'is_b': is_b,
                     'is_r': is_r,
                 })
+                # ~ sru_line.set_move_lines(all_move_lines)
                 # take care of 3.26 and 3.27
                 if line.sru == '3.26': # vinst rad
                     if sru_line.sign == -1: # är förlust, vinst rad ska vara 0
@@ -398,7 +437,10 @@ class account_sru_declaration(models.Model):
         if r_afr:
             create_lines(r_afr, self, ml=all_move_lines,is_b=False,is_r=True)
 
+
+
         # encoding="ISO-8859-1"
+
         self.infosru = base64.b64encode(self._parse_infosru(self).encode('utf-8'))
         self.datasru = base64.b64encode(self._parse_datasru(self).encode('utf-8'))
         if self.state in ['draft']:
@@ -426,7 +468,7 @@ class account_sru_declaration(models.Model):
     company_name = self.env.user.company_id.name,
     company_address = self.env.user.company_id.street or self.env.user.company_id.street2,
     company_zip = self.env.user.company_id.zip or '',
-    company_city = self.env.user.company_id.city or '',
+    company_city = self.env.user.company_id.city.replace(u'ö','o') or '',
     company_email = self.env.user.company_id.email or '',
     company_phone = self.env.user.company_id.phone or ''
 )
@@ -680,3 +722,10 @@ class account_move(models.Model):
     _inherit = 'account.move'
 
     sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
+
+class account_move_line(models.Model):
+    _inherit = 'account.move.line'
+
+    sru_line_id = fields.Many2one(comodel_name='account.financial.report')
+
+
