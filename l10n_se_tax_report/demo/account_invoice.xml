@@ -1,14 +1,63 @@
 <odoo>
   <data>
-      
 <!--
-      <function model="account.invoice" name="create_demo_invoice"
-            eval="[[ref('l10n_se.res_partner_2'), [ref('l10n_se.product_product_bok'),ref('l10n_se.product_product_1'),ref('l10n_se.product_product_')]]]"/>
+-
+  Set tax report system parameters
+-
 -->
+    <record id = "demo_param_moms_journal" model="ir.config_parameter">
+        <field name = "key">l10n_se_tax_report.moms_journal</field>
+        <field name = "value">placeholder</field>
+    </record>
 
-
-
+    <function
+        id = "set_value_to_ir.config_parameter"
+        model = "ir.config_parameter"       
+        name = "_set_value_to_ir_config_parameter">
+        <value>l10n_se_tax_report.demo_param_moms_journal</value>
+    </function>
         
+    <record id = "demo_param_accounting_method" model="ir.config_parameter">
+        <field name = "key">l10n_se_tax_report.accounting_method</field>
+        <field name = "value">invoice</field>
+    </record>
+
+    <record id = "demo_param_vat_declaration_param" model="ir.config_parameter">
+        <field name = "key">l10n_se_tax_report.vat_declaration_param</field>
+        <field name = "value">3</field>
+    </record>
+    
+<!--
+  Prepare test partners
+-->
+    <function
+        id = "set_property_account_position_id"
+        model = "res.partner"       
+        name = "_set_property_account_position_id">
+        <value>base.res_partner_12</value>
+        <value>l10n_se.1_k2_fpos_trade_eu</value>
+    </function>
+
+    <function
+        id = "set_property_account_position_id"
+        model = "res.partner"       
+        name = "_set_property_account_position_id">
+        <value>base.res_partner_1</value>
+        <value>l10n_se.1_k2_fpos_trade_world</value>
+    </function>
+-
+  !python {model: res.partner, id: base.res_partner_10}: |
+      region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
+      if self.property_account_position_id != region:
+          self.property_account_position_id = region
+    <function
+        id = "set_property_account_position_id"
+        model = "res.partner"       
+        name = "_set_property_account_position_id">
+        <value>base.res_partner_10</value>
+        <value>l10n_se.1_k2_fpos_trade_world</value>
+    </function>
+    
 <!--
         Tegel & Murbruk Data AB: Inom svergie: out_invoice: 03-04'
 -->

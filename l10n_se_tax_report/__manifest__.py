@@ -47,7 +47,7 @@ Taxes for financial report
         'views/mis_report_view.xml',
     ],
     'demo_xml' : [
-        'demo/account_invoice.yml',
+        # ~ 'demo/account_invoice.yml',
         'demo/account_invoice.xml',
     ],
     'installable': 'True',
