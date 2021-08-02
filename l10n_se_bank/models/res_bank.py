@@ -29,6 +29,10 @@ class ResPartnerBank(models.Model):
 
     clearing_number = fields.Char(string='Clearing Number')
 
+    @api.model
+    def get_supported_account_types(self):
+        return super(ResPartnerBank, self).get_supported_account_types() + [('bankgiro', 'Bankgiro'), ('plusgiro', 'Plusgiro')]
+
     @api.multi
     def _compute_acc_type(self):
         for bank in self:
