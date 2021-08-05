@@ -88,7 +88,7 @@
     ],
     'demo': [
         'demo/load_account_chart_template_data.xml',
-        'demo/l10n_se_demo.xml'
+        'demo/l10n_se_demo.xml',
     ],
     'installable': 'True',
 }

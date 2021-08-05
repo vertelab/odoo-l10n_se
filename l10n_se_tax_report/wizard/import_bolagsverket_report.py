@@ -41,7 +41,7 @@ class ImportBolagsverketReports(models.TransientModel):
     file_name = fields.Char(string='File Name')
     xml_sheet = fields.Selection(string='Sheet', required=True, selection=[('simple', 'Simple'), ('complete', 'Complete')])
 
-    @api.multi
+    # ~ @api.multi
     def get_workbook(self, data):
         with TemporaryFile('w+') as fileobj:
             fileobj.write(base64.decodestring(data))
@@ -49,7 +49,7 @@ class ImportBolagsverketReports(models.TransientModel):
             workbook = open_workbook(file_contents=fileobj.read())
             return workbook
 
-    @api.multi
+    # ~ @api.multi
     def get_workbook_sheet_index(self, name):
         workbook = self.get_workbook(self.data)
         sheets = []
@@ -289,7 +289,7 @@ class ImportBolagsverketReports(models.TransientModel):
                     'style_overwrite': line.get('style_overwrite'),
                 })
 
-    @api.multi
+    # ~ @api.multi
     def send_form(self):
         sheet = self.xml_sheet
         workbook = self.get_workbook(self.data)

@@ -43,7 +43,11 @@ _logger = logging.getLogger(__name__)
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')])
+    type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')], ondelete = {'bg':'cascade','pg':'cascade'})
+    
+    # ~ ondelete='set null'
+    # ~ ValueError: account.journal.type: required selection fields must define an ondelete policy that implements the proper cleanup of the corresponding records upon module uninstallation. 
+    # ~ Please use one or more of the following policies: 'set default' (if the field has a default defined), 'cascade', or a single-argument callable where the argument is the recordset containing the specified option.
 
 
 # class account_bank_accounts_wizard(models.TransientModel):
@@ -57,7 +61,7 @@ class AccountFiscalPosition(models.Model):
 
     tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id', string='Tax Balance Mapping', copy=True)
 
-    @api.multi
+    # ~ @api.multi
     def get_map_balance_row(self, values):
         if not values.get('tax_line_id'):
             return
@@ -127,7 +131,8 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
 
 
 class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+    # ~ _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     @api.model
     def tax_line_move_line_get(self):
@@ -357,7 +362,7 @@ class account_chart_template(models.Model):
                     #~ if ws.cell_value(l,2) > 0:
                         #~ break
 
-    @api.multi
+    # ~ @api.multi
     def generate_fiscal_position(self, tax_template_ref, acc_template_ref, company):
         """ This method generate Fiscal Position, Fiscal Position Accounts and Fiscal Position Taxes from templates.
 
@@ -507,7 +512,7 @@ class account_account_type(models.Model):
         # ~ env.cr.execute(sql, [tuple(ids)])
         # ~ o.write({'type': 'payable'})
 
-    @api.multi
+    # ~ @api.multi
     def get_account_range(self):
         self.ensure_one()
         return self.env['account.account'].search(eval(self.account_range))
@@ -559,6 +564,7 @@ class Company(models.Model):
 
     @api.model
     def account_chart_func(self):
+        _logger.warning("jakmar, is this function called?")
         company = self.env.ref('base.main_company')
         if not company.chart_template_id:
             sek = self.env.ref('base.SEK')
@@ -566,7 +572,7 @@ class Company(models.Model):
             self.env.currency_id = sek
             config = self.env['res.config.settings'].create({})
             config.chart_template_id = self.env.ref('l10n_se.chart_template_K2_2017')
-            config.chart_template_id.try_loading_for_current_company()
+            config.chart_template_id.try_loading() 
             config.set_values()
             year = datetime.today().strftime("%Y")
             fy = self.env['account.fiscalyear'].create({

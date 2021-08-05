@@ -66,9 +66,10 @@ class account_periodic_compilation(models.Model):
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="periodic_compilation_id")
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="periodic_compilation_id")
     
-    @api.one
+    # ~ @api.one
     def _invoice_ids_count(self):
-        self.invoice_ids_count = len(self.invoice_ids)
+        for rec in self:
+            self.invoice_ids_count = len(self.invoice_ids)
     invoice_ids_count = fields.Integer(compute='_invoice_ids_count')
 
 
@@ -110,25 +111,26 @@ class account_periodic_compilation(models.Model):
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
-    @api.one
+    # ~ @api.one
     def _vat(self):
-        if self.period_start:
-            ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_start.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-            self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-            self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-            self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
+        for rec in self:
+            if self.period_start:
+                ctx = {
+                    'period_start': self.period_start.id,
+                    'period_stop': self.period_start.id,
+                    'accounting_yearend': self.accounting_yearend,
+                    'accounting_method': self.accounting_method,
+                    'target_move': self.target_move,
+                }
+                self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+                self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+                self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
 
     SumSkAvdr    = fields.Float(compute='_vat')
     SumAvgBetala = fields.Float(compute='_vat')
     ag_betala  = fields.Float(compute='_vat')
 
-    @api.multi
+    # ~ @api.multi
     def show_SumSkAvdr(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -145,7 +147,7 @@ class account_periodic_compilation(models.Model):
         })
         return action
 
-    @api.multi
+    # ~ @api.multi
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -162,19 +164,21 @@ class account_periodic_compilation(models.Model):
         })
         return action
 
-    @api.one
+    # ~ @api.one
     def do_draft(self):
-        for invoice in self.env['account.invoice'].search([( 'periodic_compilation_id', '=', self.id  )]):
-            invoice.periodic_compilation_id = None
-        self.line_ids.unlink()
-        self.state='draft'
+        for rec in self:
+            for invoice in self.env['account.move'].search([( 'periodic_compilation_id', '=', self.id  )]):
+                invoice.periodic_compilation_id = None
+            self.line_ids.unlink()
+            self.state='draft'
         
-    @api.one
+    # ~ @api.one
     def do_cancel(self):
-        for invoice in self.invoice_ids:
-            invoice.periodic_compilation_id = None
+        for rec in self:
+            for invoice in self.invoice_ids:
+                invoice.periodic_compilation_id = None
 
-    @api.one
+    # ~ @api.one
     def calculate(self): # make a short cut to print financial report
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
@@ -225,7 +229,7 @@ class account_periodic_compilation(models.Model):
         last_declaration = self.search([],order='date_stop desc',limit=1)
         return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
 
-    @api.multi
+    # ~ @api.multi
     def show_invoices(self):
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_invoice_tree1')
         action.update({
@@ -235,7 +239,7 @@ class account_periodic_compilation(models.Model):
         })
         return action
 
-    @api.multi
+    # ~ @api.multi
     def show_invoice_lines(self):
         action = self.env['ir.actions.act_window'].for_xml_id('l10n_se_tax_report', 'action_invoice_line')
         action.update({

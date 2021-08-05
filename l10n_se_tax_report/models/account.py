@@ -74,25 +74,26 @@ INK2S_MAPPING = {
 class account_account(models.Model):
     _inherit = 'account.account'
 
-    @api.multi
-    def sum_period(self):
-        self.ensure_one()
-        return round(sum([a.balance for a in self.with_context(self._context).get_movelines()]))
+    # ~ @api.multi
+    # ~ def sum_period(self):
+        # ~ self.ensure_one()
+        # ~ return round(sum([a.balance for a in self.with_context(self._context).get_movelines()]))
 
-    @api.multi
-    def get_movelines(self, move_lines=None):
-        self.ensure_one()
-        move_lines = self.env['account.move'].with_context(self._context).get_movelines()
-        return move_lines.filtered(lambda l: l.account_id.id == self.id and l.move_id.journal_id.id not in l._context.get('nix_journal_ids', []))
+    # ~ @api.multi
+    # ~ def get_movelines(self, move_lines=None):
+        # ~ self.ensure_one()
+        # ~ move_lines = self.env['account.move'].with_context(self._context).get_movelines()
+        # ~ return move_lines.filtered(lambda l: l.account_id.id == self.id and l.move_id.journal_id.id not in l._context.get('nix_journal_ids', []))
 
 
 class account_tax(models.Model):
     _inherit = 'account.tax'
 
-    @api.one
-    def _sum_period(self):
-        self.sum_period = round(sum(self.get_taxlines().filtered(lambda l: l.tax_line_id.id in [self.id] + self.children_tax_ids.mapped('id')).mapped('balance')))
-    sum_period = fields.Float(string='Period Sum', compute='_sum_period')
+    # ~ @api.one
+    # ~ def _sum_period(self):
+        # ~ for rec in self:
+            # ~ self.sum_period = round(sum(self.get_taxlines().filtered(lambda l: l.tax_line_id.id in [self.id] + self.children_tax_ids.mapped('id')).mapped('balance')))
+    # ~ sum_period = fields.Float(string='Period Sum', compute='_sum_period')
 
     #~ @api.one
     #~ def _sum_period(self):
@@ -121,7 +122,7 @@ class account_tax(models.Model):
         #~ else:
             #~ self.sum_period = sum(self.env['account.move.line'].search(domain + [('tax_line_id', '=', self.id)]).mapped('balance'))
 
-    @api.multi
+    # ~ @api.multi
     def get_taxlines(self, move_lines=None):
         move_lines = move_lines or self.env['account.move'].with_context(self._context)
         return move_lines.get_movelines().filtered(lambda r: r.tax_line_id in self)

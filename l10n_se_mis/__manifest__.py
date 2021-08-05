@@ -25,7 +25,7 @@
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'l10n',
-    'depends': ['mis_builder'],
+    'depends': ['mis_builder','mis_builder_budget'],
     'external_dependencies': {
         'python': ['xlrd'],
     },

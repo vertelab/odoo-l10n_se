@@ -34,18 +34,22 @@
         <record id="tag_g" model="account.account.tag">
             <field name="name">G. Moms att betala eller få tillbaka.</field>
             <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
         </record>
         <record id="tag_49" model="account.account.tag">
             <field name="name">49. Moms att betala ut eller få tillbaka.</field>
             <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
         </record>
         <record id="tag_a" model="account.account.tag">
             <field name="name">A. Momspliktig försäljning eller uttag exklusive moms.</field>
             <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
         </record>
         <record id="tag_5" model="account.account.tag">
             <field name="name">5. Momspliktig försäljning som inte ingår i annan ruta nedan</field>
             <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
         </record>
 
         <record id="mp1" model="account.tax.template">
@@ -55,11 +59,38 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2610" />
             <field name="refund_account_id" ref="chart2610" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2610'),
+            }),
+            ]"/>
+            
+        <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2610'),
+            }),]"/>
+
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="sequence">0</field><!-- make sure system choose it by default -->
         </record>
+
+        
         <record id="mp1i" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_K2_2017" />
             <field name="name">MP1i</field>
@@ -68,10 +99,34 @@
             <field name="amount_type">percent</field>
             <field name="price_include" eval="True" />
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2610" />
             <field name="refund_account_id" ref="chart2610" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2610'),
+            }),]"/>
+            
+        <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2610'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
+        
         <record id="mp2" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_K2_2017" />
             <field name="name">MP2</field>
@@ -79,8 +134,32 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2620" />
             <field name="refund_account_id" ref="chart2620" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2620'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2620'),
+            }),]"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="mp2i" model="account.tax.template">
@@ -91,10 +170,34 @@
             <field name="amount_type">percent</field>
             <field name="price_include" eval="True" />
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2620" />
             <field name="refund_account_id" ref="chart2620" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2620'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2620'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
+        
         <record id="mp3" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_K2_2017" />
             <field name="name">MP3</field>
@@ -102,8 +205,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2630" />
             <field name="refund_account_id" ref="chart2630" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2630'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2630'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="mp3i" model="account.tax.template">
@@ -114,8 +240,31 @@
             <field name="amount_type">percent</field>
             <field name="price_include" eval="True" />
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2630" />
             <field name="refund_account_id" ref="chart2630" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2630'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2630'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 06 -->
@@ -175,8 +324,31 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2610"/>
             <field name="refund_account_id" ref="chart2610"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2610'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2610'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 11 -->
@@ -187,8 +359,31 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2620"/>
             <field name="refund_account_id" ref="chart2620"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2620'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2620'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 12 -->
@@ -199,8 +394,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart2630"/>
             <field name="refund_account_id" ref="chart2630"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2630'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2630'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- C. -->
@@ -212,8 +430,31 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
             <field name="refund_account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="vfeu12" model="account.tax.template">
@@ -223,8 +464,31 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
             <field name="refund_account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="vfeu6" model="account.tax.template">
@@ -234,8 +498,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
             <field name="refund_account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 21 -->
@@ -246,7 +533,21 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="tfeu12" model="account.tax.template">
@@ -256,7 +557,20 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="tfeu6" model="account.tax.template">
@@ -266,7 +580,19 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
 
@@ -278,7 +604,19 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2614"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="rtfeu12" model="account.tax.template">
@@ -288,7 +626,19 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2624"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2624'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="rtfeu6" model="account.tax.template">
@@ -298,7 +648,19 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2634"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
 
@@ -341,8 +703,19 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
+<!--
             <field name="account_id" ref="chart2614"/>
-            <field name="refund_account_id" ref="chart2614"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 31 -->
@@ -353,8 +726,31 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
+<!--
             <field name="account_id" ref="chart2624"/>
             <field name="refund_account_id" ref="chart2624"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2624'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2624'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 32 -->
@@ -365,8 +761,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
+<!--
             <field name="account_id" ref="chart2634"/>
             <field name="refund_account_id" ref="chart2634"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- H. -->
@@ -378,8 +797,31 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
             <field name="refund_account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="mbbui2" model="account.tax.template">
@@ -389,8 +831,31 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
             <field name="refund_account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="mbbui3" model="account.tax.template">
@@ -400,8 +865,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2645"/>
             <field name="refund_account_id" ref="chart2645"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- I. -->
@@ -413,8 +901,31 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
+<!--
             <field name="account_id" ref="chart2615"/>
             <field name="refund_account_id" ref="chart2615"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2615'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2615'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 61 -->
@@ -425,8 +936,31 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
+<!--
             <field name="account_id" ref="chart2625"/>
             <field name="refund_account_id" ref="chart2625"/>
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2625'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2625'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- 62 -->
@@ -437,8 +971,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field> <!-- should be purchase, but that doesn't fit with the parent account -->
+<!--
             <field name="account_id" ref="chart2635"/>
             <field name="refund_account_id" ref="chart2635"/>
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2635'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2635'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- E. -->
@@ -520,8 +1077,31 @@
             <field name="amount">0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
+<!--
             <field name="account_id" ref="chart3004" />
             <field name="refund_account_id" ref="chart3004" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3004'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3004'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <!-- F. -->
@@ -532,8 +1112,31 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="sequence">0</field><!-- make sure system choose it by default -->
         </record>
@@ -544,8 +1147,31 @@
             <field name="amount">25</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="ii" model="account.tax.template">
@@ -556,8 +1182,31 @@
             <field name="amount_type">percent</field>
             <field name="price_include" eval="True" />
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="i12" model="account.tax.template">
@@ -567,8 +1216,31 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="it12" model="account.tax.template">
@@ -578,8 +1250,31 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="i12i" model="account.tax.template">
@@ -590,8 +1285,31 @@
             <field name="amount_type">percent</field>
             <field name="price_include" eval="True" />
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="i6" model="account.tax.template">
@@ -601,8 +1319,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="it6" model="account.tax.template">
@@ -612,8 +1353,31 @@
             <field name="amount">6</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+             (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="i6i" model="account.tax.template">
@@ -624,8 +1388,31 @@
             <field name="amount_type">percent</field>
             <field name="price_include" eval="True" />
             <field name="type_tax_use">purchase</field>
+<!--
             <field name="account_id" ref="chart2640" />
             <field name="refund_account_id" ref="chart2640" />
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+             (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2640'),
+            }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="MomsIngAvdr" model="account.tax.template">
@@ -699,10 +1486,35 @@
             <field name="tax_ids" eval="[(6,0,[ref('mp1')])]"/>
             <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
         </record>
+        
         <record id="mu1" model="account.tax.template">
+<!--
             <field name="account_id" ref="chart3001"/>
             <field name="refund_account_id" ref="chart3001"/>
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+             (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3001'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3001'),
+            }),]"/>
         </record>
+        
         <record id="chart3002" model="account.account.template">
             <field name="name">Försäljning inom Sverige, 12 % moms</field>
             <field name="code">3002</field>
@@ -712,8 +1524,31 @@
             <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
         </record>
         <record id="mu2" model="account.tax.template">
+<!--
             <field name="account_id" ref="chart3002"/>
             <field name="refund_account_id" ref="chart3002"/>
+-->
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3002'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3002'),
+            }),]"/>
         </record>
         <record id="chart3003" model="account.account.template">
             <field name="name">Försäljning inom Sverige, 6 % moms</field>
@@ -724,8 +1559,31 @@
             <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
         </record>
         <record id="mu3" model="account.tax.template">
+<!--
             <field name="account_id" ref="chart3003"/>
             <field name="refund_account_id" ref="chart3003"/>
+-->
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+             (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3003'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart3003'),
+            }),]"/>
         </record>
 
 

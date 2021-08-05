@@ -40,7 +40,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
 
     resultatrakning_neg_sign = ['3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.17', '3.18', '3.22', '3.24', '3.25']
 
-    @api.multi
+    # ~ @api.multi
     def send_form(self):
         def parse_domain(dl):
             """Parse a list representing a BAS string."""

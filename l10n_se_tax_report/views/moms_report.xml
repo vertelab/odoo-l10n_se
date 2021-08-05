@@ -166,7 +166,7 @@
       <field name="name">Momsdeklaration</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.vat.declaration</field>
-      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
       <field name="view_mode">tree,form,calendar</field>
       <field name="search_view_id" ref="view_moms_filter" />
     </record>
@@ -189,8 +189,12 @@
                 <field name="type" />
                 <field name="balance" />
                 <field name="level" />
+<!--
                 <field name="afr_id" />
+-->
+<!--
                 <field name="sign" />
+-->
               </group>
             </group>
             <notebook>

@@ -27,13 +27,16 @@ class account_vat_decoration(models.Model):
                 matrix = decl.generated_mis_report_id._compute_matrix()
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
+                    _logger.warning("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
                     # ~ _logger.info('jakmar name: {} value: {}'.format(row.kpi.name,vals[0]))
                     if row.kpi.name == 'MomsIngAvdr':
                         decl.vat_momsingavdr = vals[0]
                     if row.kpi.name in vat_momsutg_list_names:
                         decl.vat_momsutg  += vals[0]
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
-
+                _logger.warning("jakmar vat_momsbetala{}:".format(decl.vat_momsbetala))
+                _logger.warning("jakmar vat_momsutg:{}".format(decl.vat_momsutg))
+                _logger.warning("jakmar vat_momsingavdr:".format(decl.vat_momsingavdr))
 
         
     @api.model
@@ -104,8 +107,8 @@ class account_vat_decoration(models.Model):
                 tax.text = str(formatNumber(vals[0]))
         
         momsbetala = etree.SubElement(moms, 'MomsBetala')
-        # ~ momsbetala.text = str(int(round(self.vat_momsbetala)))
-        momsbetala.text = "funkar inte i odoo12"
+        momsbetala.text = str(int(round(self.vat_momsbetala)))
+        # ~ momsbetala.text = self.vat_momsbetala
         free_text = etree.SubElement(moms, 'TextUpplysningMoms')
         free_text.text = self.free_text or ''
         xml_byte_string = etree.tostring(root, pretty_print=True, encoding='ISO-8859-1')
@@ -116,12 +119,12 @@ class account_vat_decoration(models.Model):
         
         # ~ self.get_account_move_ids()
         
-    @api.multi
+    # ~ @api.multi
     def  show_preview(self):
         self.ensure_one()
         return self.generated_mis_report_id.preview()
     
-    @api.multi
+    # ~ @api.multi
     def get_all_account_move_ids(self, row_kpi_names):
         self.ensure_one()
         move_line_recordset = self.env['account.move.line']
@@ -140,7 +143,7 @@ class account_vat_decoration(models.Model):
         return self.get_move_ids_from_line_ids(move_line_recordset)
         
 
-    @api.multi
+    # ~ @api.multi
     def get_move_ids_from_line_ids(self,move_line_recordset):
         move_recordset = self.env['account.move']
         for line in move_line_recordset:
@@ -149,7 +152,7 @@ class account_vat_decoration(models.Model):
         return move_recordset
     
 
-    @api.multi
+    # ~ @api.multi
     def show_journal_entries_mis(self):
         move_line_recordset= self.get_all_account_move_ids([])
         move_recordset = self.get_move_ids_from_line_ids(move_line_recordset)
@@ -169,7 +172,7 @@ class account_vat_decoration(models.Model):
         return action
         
         
-    @api.multi
+    # ~ @api.multi
     def show_momsingavdr_mis(self):
         move_line_recordset= self.get_all_account_move_ids(['MomsIngAvdr'])
         ctx = {
@@ -188,7 +191,7 @@ class account_vat_decoration(models.Model):
         return action
         
         
-    @api.multi
+    # ~ @api.multi
     def show_momsutg_mis(self):
         vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
         move_line_recordset= self.get_all_account_move_ids(vat_momsutg_list_names)

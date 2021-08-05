@@ -196,8 +196,8 @@
             </field>
         </record>
         <record id="view_invoice_line_tree" model="ir.ui.view">
-            <field name="name">account.invoice.line.tree</field>
-            <field name="model">account.invoice.line</field>
+            <field name="name">account.move.line.tree</field>
+            <field name="model">account.move.line</field>
             <field name="arch" type="xml">
                 <tree string="Invoice Line">
                     <field name="name" />
@@ -220,7 +220,7 @@
         </record>
         <record id="action_invoice_line" model="ir.actions.act_window">
             <field name="name">Invoice Lines</field>
-            <field name="res_model">account.invoice.line</field>
+            <field name="res_model">account.move.line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_invoice_line_tree" />

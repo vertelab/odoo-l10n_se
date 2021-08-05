@@ -105,7 +105,7 @@ class account_agd_declaration(models.Model):
             move.agd_declaration_id = self.id
         # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
         
-    @api.multi
+    # ~ @api.multi
     def show_journal_entries(self):
         ctx = {
             'period_start': self.period_start.id,
@@ -131,26 +131,27 @@ class account_agd_declaration(models.Model):
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
-    @api.one
+    # ~ @api.one
     @api.depends('period_start')
     def _vat(self):
-        if self.period_start:
-            ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_start.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-            self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-            self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-            self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
+        for rec in self:
+            if self.period_start:
+                ctx = {
+                    'period_start': self.period_start.id,
+                    'period_stop': self.period_start.id,
+                    'accounting_yearend': self.accounting_yearend,
+                    'accounting_method': self.accounting_method,
+                    'target_move': self.target_move,
+                }
+                self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+                self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+                self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
 
     SumSkAvdr    = fields.Float(compute='_vat', store=True)
     SumAvgBetala = fields.Float(compute='_vat', store=True)
     ag_betala  = fields.Float(compute='_vat', store=True)
 
-    @api.multi
+    # ~ @api.multi
     def show_SumSkAvdr(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -167,7 +168,7 @@ class account_agd_declaration(models.Model):
         })
         return action
 
-    @api.multi
+    # ~ @api.multi
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -184,25 +185,28 @@ class account_agd_declaration(models.Model):
         })
         return action
 
-    @api.one
+    # ~ @api.one
     def do_draft(self):
-        super(account_agd_declaration, self).do_draft()
-        self.slip_ids = []
-        for move in self.move_ids:
-            move.agd_declaration_id = None
+        for rec in self:
+            super(account_agd_declaration, self).do_draft()
+            self.slip_ids = []
+            for move in self.move_ids:
+                move.agd_declaration_id = None
 
-    @api.one
+    # ~ @api.one
     def do_cancel(self):
-        super(account_agd_declaration, self).do_draft()
-        for move in self.move_ids:
-            move.agd_declaration_id = None
+        for rec in self:
+            super(account_agd_declaration, self).do_draft()
+            for move in self.move_ids:
+                move.agd_declaration_id = None
 
-    @api.one
+    # ~ @api.one
     def calculate(self): # make a short cut to print financial report
-        if self.state not in ['draft']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        if self.state in ['draft']:
-            self.state = 'confirmed'
+        for rec in self:
+            if self.state not in ['draft']:
+                raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+            if self.state in ['draft']:
+                self.state = 'confirmed'
 
         slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
         self.payslip_ids = slips.mapped('id')

@@ -168,16 +168,18 @@ class account_declaration(models.Model):
             self.date = fields.Date.to_string(newdate)
             self.name = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(self.period_start),self.env['account.period'].period2month(self.period_stop))
 
-    @api.one
+    # ~ @api.one
     def _move_ids_count(self):
-        self.move_ids_count = len(self.move_ids)
+        for rec in self:
+            self.move_ids_count = len(self.move_ids)
     move_ids_count = fields.Integer(compute='_move_ids_count')
-    @api.one
+    # ~ @api.one
     def _payment_ids_count(self):
-        self.payment_ids_count = len(self.get_payment_orders())
+        for rec in self:
+            self.payment_ids_count = len(self.get_payment_orders())
     payment_ids_count = fields.Integer(compute='_payment_ids_count')
 
-    @api.multi
+    # ~ @api.multi
     def get_payment_orders(self):
         payment_order = []
         if self.move_id:
@@ -187,7 +189,7 @@ class account_declaration(models.Model):
                     payment_order.append(line.order_id.id)
         return payment_order
 
-    @api.multi
+    # ~ @api.multi
     def show_payment_orders(self):
         action = self.env['ir.actions.act_window'].for_xml_id('account_payment_order', 'account_payment_order_outbound_action')
         action.update({
@@ -201,57 +203,62 @@ class account_declaration(models.Model):
         # ~ last_declaration = self.search([],order='date_stop desc',limit=1)
         # ~ return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None, int(self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.vat_declaration_frequency', default=str(length))))
 
-    @api.one
+    # ~ @api.one
     def do_draft(self):
-        if self.move_id and self.move_id.state != 'draft':
-            raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
-        self.line_ids.unlink()
-        if self.move_id:
-            if self.move_id.state == 'draft':
-                self.move_id.unlink()
-            else:
-                raise Warning(_('Cannot recalculate.'))
-        self.eskd_file = None
-        self.state = 'draft'
+        for rec in self:
+            if self.move_id and self.move_id.state != 'draft':
+                raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
+            self.line_ids.unlink()
+            if self.move_id:
+                if self.move_id.state == 'draft':
+                    self.move_id.unlink()
+                else:
+                    raise Warning(_('Cannot recalculate.'))
+            self.eskd_file = None
+            self.state = 'draft'
 
-    @api.one
+    # ~ @api.one
     def do_cancel(self):
-        if self.move_id and self.move_id.state != 'draft':
-            raise Warning('Deklarationen är bokförd, kan inte avbryta i detta läge')
-        # ~ self.line_ids.unlink()
-        if self.move_id:
-            self.move_id.unlink()
-        self.eskd_file = None
-        self.state = 'canceled'
+        for rec in self:
+            if self.move_id and self.move_id.state != 'draft':
+                raise Warning('Deklarationen är bokförd, kan inte avbryta i detta läge')
+            # ~ self.line_ids.unlink()
+            if self.move_id:
+                self.move_id.unlink()
+            self.eskd_file = None
+            self.state = 'canceled'
 
-    @api.one
+    # ~ @api.one
     def do_done(self):
-        self.state = 'done'
+        for rec in self:
+            self.state = 'done'
 
-    @api.one
+    # ~ @api.one
     def calculate(self): # make a short cut to print financial report
-        pass
+        for rec in self:
+            pass
 
-    @api.one
+    # ~ @api.one
     def create_event(self):
-        #TODO create bokförings categ_ids
-        if self.event_id and self.date:
-            self.event_id.write({'start': self.date, 'stop': self.date})
-        elif self.date:
-            self.event_id = self.env['calendar.event'].with_context(no_mail_to_attendees=True).create({
-                        'name': self.name,
-                        'description': 'Planned date for VAT-declaration',
-                        'start': self.date,
-                        'stop': self.date,
-                        #'start_datetime': self.date,
-                        #'stop_datetime': self.date,
-                        #'partner_ids': [(6, 0, [int(partner)])],
-                        'allday': True,
-                        'duration': 8,
-                        'categ_ids': [(6, 0, [self.env.ref('l10n_se_tax_report.categ_accounting').id])],
-                        'state': 'open',            # to block that meeting date in the calendar
-                        'privacy': 'confidential',
-                    })
+        for rec in self:
+            #TODO create bokförings categ_ids
+            if self.event_id and self.date:
+                self.event_id.write({'start': self.date, 'stop': self.date})
+            elif self.date:
+                self.event_id = self.env['calendar.event'].with_context(no_mail_to_attendees=True).create({
+                            'name': self.name,
+                            'description': 'Planned date for VAT-declaration',
+                            'start': self.date,
+                            'stop': self.date,
+                            #'start_datetime': self.date,
+                            #'stop_datetime': self.date,
+                            #'partner_ids': [(6, 0, [int(partner)])],
+                            'allday': True,
+                            'duration': 8,
+                            'categ_ids': [(6, 0, [self.env.ref('l10n_se_tax_report.categ_accounting').id])],
+                            'state': 'open',            # to block that meeting date in the calendar
+                            'privacy': 'confidential',
+                        })
 
     @api.model
     def create(self,vals):
@@ -266,14 +273,14 @@ class account_declaration(models.Model):
             res.create_event()
         return res
 
-    @api.multi
+    # ~ @api.multi
     def write(self,values):
         res = super(account_declaration,self).write(values)
         if values.get('date'):
             self.create_event()
         return res
 
-    @api.multi
+    # ~ @api.multi
     def unlink(self):
         for s in self:
             if s.event_id:
@@ -382,27 +389,30 @@ class account_vat_declaration(models.Model):
         # ~ })
         # ~ return action
 
-    @api.one
+    # ~ @api.one
     def do_draft(self):
-        super(account_vat_declaration, self).do_draft()
-        for move in self.move_ids:
-            move.vat_declaration_id = None
+        for rec in self:
+            super(account_vat_declaration, self).do_draft()
+            for move in self.move_ids:
+                move.vat_declaration_id = None
 
-    @api.one
+    # ~ @api.one
     def do_cancel(self):
-        super(account_vat_declaration, self).do_draft()
-        for move in self.move_ids:
-            move.vat_declaration_id = None
+        for rec in self:
+            super(account_vat_declaration, self).do_draft()
+            for move in self.move_ids:
+                move.vat_declaration_id = None
 
-    @api.multi
+    # ~ @api.multi
     def test_function(self):
         return True
         
 
 
-    @api.one
+    # ~ @api.one
     def comfirm_declaration(self): #Atm just moves the report from draf to Confirmend
-        self.state = 'confirmed'
+        for rec in self:
+            self.state = 'confirmed'
 
 
 class account_declaration_line(models.Model):
