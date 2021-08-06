@@ -42,7 +42,7 @@ class IzettleTransaktionsrapportXlsType(object):
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
         except XLRDError as e:
-            _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
+            _logger.error(u'Could not read file (iZettle Kontohändelser.xls)')
             raise ValueError(e)
         if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
             _logger.error(u'Row 0 %s (was looking for Betalningsmottagare) %s %s' % (self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(3,2)))
@@ -91,8 +91,8 @@ class IzettleTranskationReportXlsxType(object):
         # TODO?: Catch BadZipFile, IOerror, ValueError
         except:
             raise ValueError('This is not a iZettle xlsx document')
-        if not (self.data.cell(6,3).value == u'Personal' and self.data.cell(6,13).value == u'Streckkod'):
-            _logger.error(u'Header should contain "Personal" and "Streckkod" columns but found "{}" and "{}" instead.'.format(self.data.cell(6,3).value, self.data.cell(6,13).value))
+        if not (self.data.cell(6,1).value[:20] == u'Betalningsmottagare:' and self.data.cell(11,1).value[:21] == u'Betalningsförmedlare:'):
+            _logger.error(u'Header should contain "Betalningsmottagare" and "Betalningsförmedlare" columns but found "{}" and "{}" instead.'.format(self.data.cell(6,1).value[:20], self.data.cell(6,1).value[:21]))
             raise ValueError(u'This is not a iZettle xlsx Report')
         
         self.header = []
@@ -102,7 +102,7 @@ class IzettleTranskationReportXlsxType(object):
         """ Parse iZettle transactionsreport bank statement file type 2. """
         
         self.account_currency = 'SEK'
-        self.account_number = "556806-0734" #TODO: Change to actual sheet value? There is none currently?
+        self.account_number = self.accountnumbergenerator() #TODO: Change to actual sheet value? There is none currently?
         self.name = self.data.cell(4,3).value
 
         self.current_statement = BankStatement()
@@ -113,21 +113,33 @@ class IzettleTranskationReportXlsxType(object):
         self.current_statement.start_balance = 0.0
         self.current_statement.end_balance = 0.0
         
-        for index, row in enumerate(self.data.iter_rows(6, values_only=True), start=6):
-            if (index == 6):
+        _logger.warn(self.data.max_row)
+        
+        for index, row in enumerate(self.data.iter_rows(17, self.data.max_row-3, values_only=True), start=17):
+            if (index == 17):
                 self.header = {c:i for i, c in enumerate(row)}
+                _logger.warn(self.header)
             else:
-                transaction_dict = {key:row[self.header[key]] for key in self.header}
+                tdict = {key:row[self.header[key]] for key in self.header}
                 transaction = self.current_statement.create_transaction()
-                transaction['amount'] = transaction_dict['Slutpris (SEK)']
+                transaction['amount'] = tdict[u'Totalt']
                 transaction['account_number'] = self.account_number
-                transaction['original_amount'] = transaction_dict[u'Slutpris (SEK)']
-                transaction['date'] = transaction_dict['Tid'].strftime("%Y-%m-%d")
-                transaction['name'] = transaction_dict['Namn'].strip()
-                self.current_statement.end_balance += transaction_dict[u'Slutpris (SEK)']
+                transaction['original_amount'] = tdict[u'Totalt']
+                _logger.warn("Tid is: {}".format(tdict['Tid']))
+                transaction['date'] = tdict['Tid'].strftime("%Y-%m-%d")
+                transaction['name'] = int(tdict[u'Kvittonummer'])
+                transaction['note'] = 'Totalt: {}\nMoms: {}\nAvgift: {}\n{} {}'.format(tdict[u'Totalt'], tdict[u'Moms (25.0%)'], tdict[u'Avgift'], tdict[u'Kortutgivare'].strip(), tdict[u'Sista siffror'].strip())
+                self.current_statement.end_balance += tdict[u'Totalt']
                 
         self.statements.append(self.current_statement)
         return self
+    
+    def accountnumbergenerator(self):
+        def accn(part):
+            return ''.join([ i for i in part if i.isdigit()])
+        result = '-'.join([accn(self.data.cell(12,3).value), accn(self.data.cell(13,3).value), accn(self.data.cell(14,3).value)])
+        return result
+    
 
 class IzettleIterator(object):
     def __init__(self, data,header_row=16):
