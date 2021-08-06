@@ -46,11 +46,10 @@ Taxes for financial report
         # ~ 'account_invoice_demo.xml',
         'security/ir.model.access.csv',
         'views/mis_report_view.xml',
-        'demo/account_invoice.xml',
     ],
     'demo_xml' : [
         # ~ 'demo/account_invoice.yml',
-        # ~ 'demo/account_invoice.xml',
+        'demo/account_invoice.xml',
     ],
     'installable': 'True',
 }

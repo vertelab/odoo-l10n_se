@@ -84,7 +84,6 @@
         'data/l10n_se_account_chart_post_data.xml',
         'data/account_reconcile_model_data.xml',
         'security/ir.model.access.csv',
-
     ],
     'demo': [
         'demo/load_account_chart_template_data.xml',
