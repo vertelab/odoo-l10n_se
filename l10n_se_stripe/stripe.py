@@ -60,7 +60,8 @@ class StripePaymentsReport(object):
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account = self.account_number
-        self.current_statement.statement_id = '12345' #Generate a uniqie id
+        self.current_statement.statement_id = 'Stripe %s - %s' % (self.data.row(1)[3].value,
+                                                           self.data.row(self.data.nrows-1)[3].value) #Generate a uniqie id: first date - last date
         self.current_statement.start_balance = 0.0
         for t in StripeIterator(self.data, header_row=0):
             transaction = self.current_statement.create_transaction()

@@ -49,18 +49,15 @@ class AccountBankStatementImport(models.TransientModel):
 
         stripe = parser.parse()
         for s in stripe.statements:
-            currency = self.env['res.currency'].search([('name','=',s['currency_code'])])#
-            # account = self.env['res.partner.bank'].search(
-            #     [('acc_number','=',
-            #       s['account_number'])]).mapped('journal_id').mapped('default_debit_account_id')
+            currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
             move_line_ids = []
             for t in s['transactions']:
                 _logger.info('parsing transaction')
                 t['currency_id'] = currency.id
-                partner_id = self.env['res.partner'].search([('email', 'ilike', t['name'].split(',')[0])])
+                partner_id = self.env['res.partner'].search([('email', 'ilike', t['name'].split(',')[0])], limit=1)
                 if partner_id:
-                    t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
-                    t['partner_id'] = partner_id[0].commercial_partner_id.id
+                    t['account_number'] = partner_id.commercial_partner_id.bank_ids and partner_id.commercial_partner_id.bank_ids[0].acc_number or ''
+                    t['partner_id'] = partner_id.commercial_partner_id.id
 
                 if 'S' == t['ref'][0] or 'WE' == t['ref'][0:2]: # saleorder
                     sale_order_name_splitted = t['ref'].split('-')
@@ -70,17 +67,15 @@ class AccountBankStatementImport(models.TransientModel):
                         sale_order_name = t['ref']
 
                 line = self.env['account.move.line'].search([('credit', '=', t['amount'])]).filtered(lambda l: sale_order_name in l.ref)
-
-                # ref = "A & E Connock (Perfumery & Cosmetics) Ltd (WEBS00200)"
-
+                account_move = self.env['account.move'].search([('ref', '=', sale_order_name)])
                 if sale_order_name and len(line) > 0:
                     if line[0].move_id.state == 'draft':
                         line[0].move_id.date = t['date']
                     t['journal_entry_id'] = line[0].move_id.id
                     for line in line[0].move_id.line_id:
                         move_line_ids.append(line)
-            if not move_line_ids:
-                return
+                        _logger.info('Adding line Name: %s Amount: %s' % (line.ref, line.credit))
+
             s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
         _logger.debug("statements %s account_number %s" % (stripe.statements, stripe.account_number))
