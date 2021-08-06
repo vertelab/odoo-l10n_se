@@ -163,7 +163,7 @@ class account_vat_decoration(models.Model):
         action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
         action.update({
             'display_name': 'Verifikat',
-            'domain': [('id', 'in', move_ids.mapped('id'))],
+            'domain': [('id', 'in', move_recordset.mapped('id'))],
             'context': ctx,
         })
         return action
