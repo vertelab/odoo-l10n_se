@@ -58,16 +58,18 @@ class AccountBankStatementImport(models.TransientModel):
                 if partner_id:
                     t['account_number'] = partner_id.commercial_partner_id.bank_ids and partner_id.commercial_partner_id.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner_id.commercial_partner_id.id
+                    _logger.info(partner_id.name)
 
-                if 'S' == t['ref'][0] or 'WE' == t['ref'][0:2]: # saleorder
-                    sale_order_name_splitted = t['ref'].split('-')
-                    if len(sale_order_name_splitted) > 0:
-                        sale_order_name = sale_order_name_splitted[0]
-                    else:
-                        sale_order_name = t['ref']
-
-                line = self.env['account.move.line'].search([('credit', '=', t['amount'])]).filtered(lambda l: sale_order_name in l.ref)
-                account_move = self.env['account.move'].search([('ref', '=', sale_order_name)])
+                _logger.info('ref= {}'.format(t['ref']))
+                sale_order_name = t['ref']
+                reference = '{} ({})'.format(partner_id.name, sale_order_name)
+                _logger.info('reference= {}'.format(reference))
+                
+                
+                account_move = self.env['account.move'].search([('ref', '=', reference)])
+                line = self.env['account.move.line'].search([('ref', '=', account_move.ref)])
+                _logger.info(line)
+                _logger.info(account_move)
                 if sale_order_name and len(line) > 0:
                     if line[0].move_id.state == 'draft':
                         line[0].move_id.date = t['date']
