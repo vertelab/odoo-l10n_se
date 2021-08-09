@@ -44,8 +44,8 @@ class IzettleTransaktionsrapportXlsType(object):
         except XLRDError as e:
             _logger.error(u'Could not read file (iZettle Kontohändelser.xls)')
             raise ValueError(e)
-        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
-            _logger.error(u'Row 0 %s (was looking for Betalningsmottagare) %s %s' % (self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(3,2)))
+        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:' and self.data.cell(17,8).value == u'Korttyp'):
+            _logger.error(u'Header should contain "Betalningsmottagare:" and "Betalningsförmedlare:" and "Korttyp" columns but found "{}" and "{}" and "{}" instead.'.format(self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(17,8).value))
             raise ValueError(u'This is not a iZettle Report')
 
         self.nrows = self.data.nrows - 17
@@ -91,8 +91,8 @@ class IzettleTranskationReportXlsxType(object):
         # TODO?: Catch BadZipFile, IOerror, ValueError
         except:
             raise ValueError('This is not a iZettle xlsx document')
-        if not (self.data.cell(6,1).value[:20] == u'Betalningsmottagare:' and self.data.cell(11,1).value[:21] == u'Betalningsförmedlare:'):
-            _logger.error(u'Header should contain "Betalningsmottagare" and "Betalningsförmedlare" columns but found "{}" and "{}" instead.'.format(self.data.cell(6,1).value[:20], self.data.cell(6,1).value[:21]))
+        if not (self.data.cell(6,1).value[:20] == u'Betalningsmottagare:' and self.data.cell(11,1).value[:21] == u'Betalningsförmedlare:' and self.data.cell(17,9).value == u'Kortutgivare'):
+            _logger.error(u'Header should contain "Betalningsmottagare" and "Betalningsförmedlare" and "Kortutgivare" columns but found "{}" and "{}" and "{}" instead.'.format(self.data.cell(6,1).value[:20], self.data.cell(6,1).value[:21], self.data.cell(17,9).value))
             raise ValueError(u'This is not a iZettle xlsx Report')
         
         self.header = []
@@ -112,8 +112,6 @@ class IzettleTranskationReportXlsxType(object):
         self.current_statement.statement_id = 'iZettle %s' % self.data.cell(4,3).value
         self.current_statement.start_balance = 0.0
         self.current_statement.end_balance = 0.0
-        
-        _logger.warn(self.data.max_row)
         
         for index, row in enumerate(self.data.iter_rows(17, self.data.max_row-3, values_only=True), start=17):
             if (index == 17):
