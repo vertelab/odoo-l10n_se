@@ -30,6 +30,7 @@ from openpyxl import load_workbook
 from xlrd import open_workbook, XLRDError
 from xlrd.book import Book
 from xlrd.sheet import Sheet
+from datetime import datetime
 
 import sys
 
@@ -98,6 +99,15 @@ class IzettleXlrdTransaktionsrapportXlsxType(object):
         self.header = []
         self.statements = []
 
+    def floatHourToTime(self,fh):
+        hours, hourSeconds = divmod(fh, 1)
+        minutes, seconds = divmod(hourSeconds * 60, 1)
+        return (
+            int(hours),
+            int(minutes),
+            int(seconds * 60),
+        )
+        
     def parse(self):
         """Parse iZettle transaktionsrapport bank statement file type 1."""
 
@@ -113,7 +123,6 @@ class IzettleXlrdTransaktionsrapportXlsxType(object):
         self.current_statement.statement_id = 'iZettle %s' % self.data.cell(3,2).value
         self.current_statement.start_balance = 0.0
         for t in IzettleIterator(self.data, header_row=16):
-	    _logger.warn("Parser Transaction is: {}".format(t))
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['netto'])
             transaction.original_amount = float(t['totalt'])
@@ -121,11 +130,19 @@ class IzettleXlrdTransaktionsrapportXlsxType(object):
             transaction.eref = int(t['kvittonummer'])
             transaction.name = '%s %s' % (t['kortutgivare'].strip(),t['sista siffror'].strip())
             transaction.note = 'Totalt: %s\nMoms: %s\nAvgift: %s\n%s %s' % (float(t['totalt']), t['moms (25.0%)'], t['avgift'], t['kortutgivare'].strip(), t['sista siffror'].strip())
-            transaction.value_date = t[u'datum']
+            
+            dt = datetime.fromordinal(datetime(1900, 1, 1).toordinal() + int(t[u'datum']) - 2)
+            hour, minute, second = self.floatHourToTime(t[u'datum'] % 1)
+            dt = dt.replace(hour=hour, minute=minute, second=second)
+            _logger.warn("dt is {}".format(dt))
+            
+            transaction.value_date = dt   
             transaction.unique_import_id = int(t['kvittonummer'])
 
         self.statements.append(self.current_statement)
         return self
+    
+    
 
 class IzettleTranskationReportXlsxType(object):
     """ Parser for iZettle Kontohändelser import files. """
