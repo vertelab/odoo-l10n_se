@@ -163,10 +163,10 @@ class account_vat_decoration(models.Model):
             'accounting_method': self.accounting_method,
             'target_move': self.target_move,
         }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_move_journal_line')
         action.update({
             'display_name': 'Verifikat',
-            'domain': [('id', 'in', move_ids.mapped('id'))],
+            'domain': [('id', 'in', move_recordset.mapped('id'))],
             'context': ctx,
         })
         return action
@@ -182,7 +182,7 @@ class account_vat_decoration(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_account_moves_all_a')
         action.update({
             'display_name': 'VAT In',
             'domain': [('id', 'in', move_line_recordset.mapped('id'))],
@@ -202,7 +202,7 @@ class account_vat_decoration(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_account_moves_all_a')
         action.update({
             'display_name': 'VAT Out',
             'domain': [('id', 'in', move_line_recordset.mapped('id'))],

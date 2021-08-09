@@ -860,12 +860,12 @@ invoice_date
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="invoice_line_ids" eval="[
             (5, 0, 0),
-            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 800.0, 'quantity': 40}),
-            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 800.0, 'quantity': 40}),
-            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 800.0, 'quantity': 40}),
-            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 800.0, 'quantity': 40}),
-            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 800.0, 'quantity': 40}),
-            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 800.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 1000.0, 'quantity': 40}),
             ]"/>
         </record>
         
@@ -993,7 +993,22 @@ invoice_date
         
         <!-- Ensure the lines are consistent with the products (taxes, price, name) -->
         <!-- check_move_validity=False because the dynamic lines are computed after, it is checked later at the post function -->
+
         <function model="account.move.line" name="_onchange_product_id" context="{'check_move_validity': False}">
+            <value model="account.move.line" eval="obj().search([('move_id', 'in', [
+                ref('new_demo_invoice_1'),
+                ref('new_demo_invoice_2'),
+                ref('new_demo_invoice_3'),
+                ref('new_demo_invoice_4'),
+                ref('new_demo_invoice_5'),
+                ref('new_demo_invoice_6'),
+                ref('new_demo_invoice_7'),
+                ref('new_demo_invoice_8'),
+                ref('new_demo_invoice_9'),
+            ])]).ids"/>
+        </function>
+        
+            <function model="account.move.line" name="_onchange_mark_recompute_taxes" context="{'check_move_validity': False}">
             <value model="account.move.line" eval="obj().search([('move_id', 'in', [
                 ref('new_demo_invoice_1'),
                 ref('new_demo_invoice_2'),
