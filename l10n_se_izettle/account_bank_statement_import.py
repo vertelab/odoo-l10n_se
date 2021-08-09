@@ -82,7 +82,8 @@ class AccountBankStatementImport(models.TransientModel):
                     t['partner_id'] = partner_id[0].commercial_partner_id.id
                 # d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
                 # d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
-                line = self.env['account.move.line'].search([('move_id.date', '=', t['date']), ('balance', '=', t['original_amount']), ('name', '=', str(t['ref']))])
+                _logger.warn("T is {}".format(t))
+		line = self.env['account.move.line'].search([('move_id.date', '=', t['date']), ('balance', '=', t['original_amount']), ('name', '=', str(t['ref']))])
                 if len(line) > 0:
                     if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
                         line[0].move_id.date = t['date']
