@@ -21,6 +21,7 @@ import logging
 from odoo import api,models,fields, _
 from .izettle import IzettleTransaktionsrapportXlsType as XlsParser
 from .izettle import IzettleTranskationReportXlsxType as XlsxParser
+from .izettle import IzettleXlrdTransaktionsrapportXlsxType as XlrdParser
 import base64
 import re
 
@@ -54,12 +55,17 @@ class AccountBankStatementImport(models.TransientModel):
             #Not a iZettle Xls Report Document, returning super will call next canidate:
             _logger.info(u"Statement file was not a iZettle Report file.")
             try: 
-                _logger.info(u"Try parsing Xlsx iZettle Report file.")
-                parser = XlsxParser(base64.b64decode(self.data_file))
+                _logger.info(u'Try parsing xlsx iZettle Report file.')
+                parser = XlrdParser(base64.b64decode(self.data_file))
             except ValueError:
                 #Not a iZettle Xlsx Report Document, returning super will call next canidate:
                 _logger.info(u"Statment file was not a IZettle Report file.")
-                return super(AccountBankStatementImport, self)._parse_file(data_file)
+                try:
+                    _logger.info(u"Try parsing Xlsx iZettle Report file.")
+                    parser = XlsxParser(base64.b64decode(self.data_file))
+                except ValueError:
+                    _logger.info(u"Statment file was not a IZettle Report file.")
+                    return super(AccountBankStatementImport, self)._parse_file(data_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
 
