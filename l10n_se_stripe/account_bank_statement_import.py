@@ -61,26 +61,27 @@ class AccountBankStatementImport(models.TransientModel):
                     _logger.info(partner_id.name)
 
                 _logger.info('ref= {}'.format(t['ref']))
-                sale_order_name = t['ref']
+                sale_order_name = t['ref'][:-2]
                 reference = '{} ({})'.format(partner_id.name, sale_order_name)
-                _logger.info('reference= {}'.format(reference))
+                _logger.info('reference = {}'.format(reference))
                 
                 
                 account_move = self.env['account.move'].search([('ref', '=', reference)])
-                line = self.env['account.move.line'].search([('ref', '=', account_move.ref)])
-                _logger.info(line)
-                _logger.info(account_move)
+                line = account_move.line_id
+                # ~ _logger.info(line)
+                # ~ _logger.info(account_move)
                 if sale_order_name and len(line) > 0:
                     if line[0].move_id.state == 'draft':
                         line[0].move_id.date = t['date']
-                    t['journal_entry_id'] = line[0].move_id.id
-                    for line in line[0].move_id.line_id:
-                        move_line_ids.append(line)
-                        _logger.info('Adding line Name: %s Amount: %s' % (line.ref, line.credit))
+                    if t['amount'] == account_move.amount:
+                        t['journal_entry_id'] = line[0].move_id.id
+                    else:
+                        _logger.info('Sale order matched but amount did not')
+                    # ~ for line in line[0].move_id.line_id:
+                        # ~ move_line_ids.append(line)
 
-            s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
+            #s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
-        _logger.debug("statements %s account_number %s" % (stripe.statements, stripe.account_number))
         return stripe.account_currency, stripe.account_number, stripe.statements
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
