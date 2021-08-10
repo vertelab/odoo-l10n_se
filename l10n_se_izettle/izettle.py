@@ -46,7 +46,7 @@ class IzettleTransaktionsrapportXlsType(object):
             _logger.error(u'Could not read file (iZettle Kontohändelser.xls)')
             raise ValueError(e)
         if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:' and self.data.cell(16,8).value == u'Korttyp'):
-            _logger.error(u'Header should contain "Betalningsmottagare:" and "Betalningsförmedlare:" and "Korttyp" columns but found "{}" and "{}" and "{}" instead.'.format(self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(16,8).value))
+            _logger.error(u'Header did not contain "Betalningsmottagare:" and "Betalningsförmedlare:" and "Korttyp".')
             raise ValueError(u'This is not a iZettle Report')
 
         self.nrows = self.data.nrows - 17
@@ -92,7 +92,7 @@ class IzettleXlrdTransaktionsrapportXlsxType(object):
             _logger.error(u'Could not read file (iZettle Kontohändelser.xls)')
             raise ValueError(e)
         if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:' and self.data.cell(16,8).value == u'Kortutgivare'):
-            _logger.error(u'Header should contain "Betalningsmottagare:" and "Betalningsförmedlare:" and "Korttyp" columns but found "{}" and "{}" and "{}" instead.'.format(self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21], self.data.cell(16,8).value))
+            _logger.error(u'Header did not contain "Betalningsmottagare:" and "Betalningsförmedlare:" and "Korttyp".')
             raise ValueError(u'This is not a iZettle Report')
 
         self.nrows = self.data.nrows - 17
@@ -156,7 +156,7 @@ class IzettleTranskationReportXlsxType(object):
         except:
             raise ValueError('This is not a iZettle xlsx document')
         if not (self.data.cell(6,1).value[:20] == u'Betalningsmottagare:' and self.data.cell(11,1).value[:21] == u'Betalningsförmedlare:' and self.data.cell(17,9).value == u'Kortutgivare'):
-            _logger.error(u'Header should contain "Betalningsmottagare" and "Betalningsförmedlare" and "Kortutgivare" columns but found "{}" and "{}" and "{}" instead.'.format(self.data.cell(6,1).value[:20], self.data.cell(6,1).value[:21], self.data.cell(17,9).value))
+            _logger.error(u'Header did not contain "Betalningsmottagare" or "Betalningsförmedlare" or "Kortutgivare".')
             raise ValueError(u'This is not a iZettle xlsx Report')
         
         self.header = []
