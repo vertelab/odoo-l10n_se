@@ -360,9 +360,13 @@ class account_agd_declaration(models.Model):
                 iu_betalningsmottagareidinvoice = etree.SubElement(iu_betalningsmottagareiugroup, ns + 'BetalningsmottagareIDChoice')
                 iu_betalningsmottagarid = etree.SubElement(iu_betalningsmottagareidinvoice, ns + 'BetalningsmottagarId')
                 iu_betalningsmottagarid.set('faltkod', '215')
-                iu_betalningsmottagarid.text = slip.employee_id.identification_id
                 if slip.contract_id and slip.contract_id.employee_id.identification_id:
                     iu_betalningsmottagarid.text = slip.contract_id.employee_id.identification_id.replace('-', '')
+                else:
+                    iu_betalningsmottagarid.text = "NOT SET; UNABLE TO IDENTIFY,please set identification_id on the employe"
+                # ~ iu_betalningsmottagarid.text = slip.employee_id.identification_id
+                # ~ if slip.contract_id and slip.contract_id.employee_id.identification_id:
+                    # ~ iu_betalningsmottagarid.text = slip.contract_id.employee_id.identification_id.replace('-', '')
                 iu_redovisningsperiod = etree.SubElement(iu_iu, ns + 'RedovisningsPeriod')
                 iu_redovisningsperiod.set('faltkod', '006')
                 iu_redovisningsperiod.text = period
