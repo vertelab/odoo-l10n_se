@@ -175,6 +175,7 @@ class AccountBankStatementImport(models.TransientModel):
         currency_code = statements[0].get('currency_code')
         account_number = statements[0].get('account_number')
         account_number = account_number[:4] + account_number[4:].lstrip('0')
+        _logger.warn(statements)
         return currency_code, account_number, statements
 
 
