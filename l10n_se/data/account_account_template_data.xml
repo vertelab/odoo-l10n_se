@@ -20,6 +20,7 @@
             <field name="internal_group">expense</field>
         </record>
 
+<!--
         <record id="K2_4515_2017" model="account.account.template">
           <field name="name">Inköp av varor från annat EU-land, 25 %</field>
           <field name="code">4515</field>
@@ -27,7 +28,9 @@
           <field name="chart_template_id" ref="chart_template_K2_2017"/>
           <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
         </record>
+-->
 
+<!--
         <record id="K2_1010_2017" model="account.account.template">
           <field name="name">Utvecklingsutgifter </field>
           <field name="code">1010</field>
@@ -6676,8 +6679,10 @@
           <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
           <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
+-->
 
 
+<!--
         <record id="chart8990" model="account.account.template">
           <field name="name">Resultat</field>
           <field name="code">8990</field>
@@ -7035,5 +7040,6 @@
       <field name="chart_template_id" ref="chart_template_K2_2017" />
       <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
     </record>
+-->
     </data>
 </odoo>

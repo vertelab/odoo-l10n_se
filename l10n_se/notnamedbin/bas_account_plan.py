@@ -58,11 +58,12 @@ def mk_chart(data,type,name,year,accounts,rule):
     ke = record(data, exid, 'account.chart.template')
     field(ke, 'name', name)
     field(ke, 'parent_id', '', {'ref': 'chart_template_general'})
-    field(ke, 'transfer_account_id', '', {'ref': 'chart1955'})
+    # ~ field(ke, 'transfer_account_id', '', {'ref': 'chart1955'}) Is gone in odoo12 
     #~ field(ke, 'transfer_account_id', '', {'ref': '%s_1955_%s' % (type,year)})
     field(ke, 'currency_id', '', {'ref': 'base.SEK'})
     field(ke, 'cash_account_code_prefix', '191')
     field(ke, 'bank_account_code_prefix', '193')
+    field(ke, 'transfer_account_code_prefix', '195')
     #~ field(ke, 'property_account_receivable_id', '', {'ref': 'chart1510'})
     #~ field(ke, 'property_account_payable_id', '', {'ref': 'chart2440'})
     #~ field(ke, 'property_account_expense_categ_id', '', {'ref': 'chart4000'})
@@ -90,7 +91,7 @@ def mk_chart(data,type,name,year,accounts,rule):
             field(r, 'reconcile', '', {'eval': 'True'})
 
 @click.command()
-@click.option('--year', default=2021, help='Year for the Chart of Account.')
+@click.option('--year', default=2017, help='Year for the Chart of Account.')
 @click.argument('input', default='Kontoplan_Normal_2021.xls',type=click.File('rb'))
 @click.argument('output',default='../data/account_chart_template_k23.xml' ,type=click.File('wb'))
 

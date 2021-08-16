@@ -73,17 +73,19 @@
     'depends': ['account_period', 'base_vat', 'product', 'account'],
     'init_xml': [],
     'data': [
-
         'views/account_view.xml',
-        'data/l10n_se_account_chart_template.xml',
-        'data/account_account_type.xml',
         'data/account_account_template_data.xml',
+        'data/l10n_se_account_chart_template.xml',
+        'data/account_chart_template_k23.xml',
+        'data/account_account_type.xml',
         'data/account_tax_data.xml',
         'data/account_account_template_wt_tax_data.xml',
         'data/fiscal_position_data.xml',
         'data/l10n_se_account_chart_post_data.xml',
         'data/account_reconcile_model_data.xml',
         'security/ir.model.access.csv',
+        # ~ 'data/load_account_chart_template_data.xml',
+
     ],
     'demo': [
         'demo/load_account_chart_template_data.xml',

@@ -45,11 +45,6 @@ class AccountJournal(models.Model):
 
     type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')], ondelete = {'bg':'cascade','pg':'cascade'})
     
-    # ~ ondelete='set null'
-    # ~ ValueError: account.journal.type: required selection fields must define an ondelete policy that implements the proper cleanup of the corresponding records upon module uninstallation. 
-    # ~ Please use one or more of the following policies: 'set default' (if the field has a default defined), 'cascade', or a single-argument callable where the argument is the recordset containing the specified option.
-
-
 # class account_bank_accounts_wizard(models.TransientModel):
 #     _inherit = 'account.bank.accounts.wizard'
 #
@@ -134,21 +129,66 @@ class AccountInvoice(models.Model):
     # ~ _inherit = 'account.invoice'
     _inherit = 'account.move'
 
-    @api.model
-    def tax_line_move_line_get(self):
-        res = super(AccountInvoice, self).tax_line_move_line_get()
-        if not self.fiscal_position_id:
-            return res
-        i = 0
-        while i < len(res):
-            values = self.fiscal_position_id.get_map_balance_row(res[i])
-            _logger.warn('values: %s' % values)
-            if values:
-                i += 1
-                res.insert(i, values)
-            i += 1
-        _logger.warn('res: %s' % res)
-        return res
+    # ~ OLD function to add balance taxes, this function no longer exists in account.move, which is why it never gets called.
+    # ~ @api.model
+    # ~ def tax_line_move_line_get(self):
+        # ~ res = super(AccountInvoice, self).tax_line_move_line_get()
+        # ~ if not self.fiscal_position_id:
+            # ~ return res
+        # ~ i = 0
+        # ~ while i < len(res):
+            # ~ values = self.fiscal_position_id.get_map_balance_row(res[i])
+            # ~ _logger.warn('values: %s' % values)
+            # ~ if values:
+                # ~ i += 1
+                # ~ res.insert(i, values)
+            # ~ i += 1
+        # ~ _logger.warn('res: %s' % res)
+        # ~ return res
+
+# ~ inherited override a function from accoung.move, due to the fact that we sometimes need to add extra journal lines based on account.fisical.postion and the tax used for that line.
+
+    def action_post(self):
+        # ~ When the user presses post then we add the balance lines here if needed.
+        # ~ Skatte område/Fiscal Position
+        fiscal_position = self.fiscal_position_id
+        _logger.warning("jakmar: skatteområde: {} id:{}".format(self.fiscal_position_id.name, self.fiscal_position_id.id))
+        
+        # ~ Balance map for the current fiscal postition
+        tax_balance_map_ids = self.fiscal_position_id.tax_balance_ids
+        tax_balance_dict = {}
+        for tax_balance_map_id in tax_balance_map_ids:
+            src_tax = tax_balance_map_id.tax_src_id
+            dest_tax = tax_balance_map_id.tax_dest_id
+            
+            tax_balance_dict[src_tax.name] = dest_tax
+            _logger.warning("jakmar: tax src: {}, tax dest: {}".format(src_tax.name, dest_tax.name))
+        
+        for move_line in self.line_ids:
+            _logger.warning(f"jakmar line name:{move_line.name} tax: {move_line.tax_line_id.name}")
+            # ~ Check if a tax balance exists
+            if move_line.tax_line_id.name in tax_balance_dict:
+                vals ={
+                'name': f'Balance tax line: From: {move_line.tax_line_id.name} To: {tax_balance_dict[move_line.tax_line_id.name].name}', 
+                'move_id':move_line.move_id.id,
+                'currency_id':move_line.currency_id.id,
+                'account_id':tax_balance_dict[move_line.tax_line_id.name].invoice_repartition_line_ids.account_id.id,
+                'exclude_from_invoice_tab':True,
+                'credit':move_line.debit
+                }
+                context_copy = self.env.context.copy()
+                context_copy.update({'check_move_validity':False})
+                new_line = self.with_context(context_copy).env['account.move.line'].create(vals)  
+                new_line.write({'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id})# ~ won't set the correct tax_line_id if i try to set it during create
+                self.with_context(context_copy)._recompute_dynamic_lines()
+                
+        # ~ end of my added code
+        self._post(soft=False)
+        return False
+        
+        
+        
+        
 
 
 # class wizard_multi_charts_accounts(models.TransientModel):
@@ -564,15 +604,15 @@ class Company(models.Model):
 
     @api.model
     def account_chart_func(self):
-        _logger.warning("jakmar, is this function called?")
-        company = self.env.ref('base.main_company')
+        # ~ company = self.env.ref('base.main_company')
+        company = self.env.user.company_id
         if not company.chart_template_id:
             sek = self.env.ref('base.SEK')
             sek.active = True
             self.env.currency_id = sek
             config = self.env['res.config.settings'].create({})
             config.chart_template_id = self.env.ref('l10n_se.chart_template_K2_2017')
-            config.chart_template_id.try_loading() 
+            config.chart_template_id.try_loading()
             config.set_values()
             year = datetime.today().strftime("%Y")
             fy = self.env['account.fiscalyear'].create({
