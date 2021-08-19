@@ -17,7 +17,7 @@
       <field name="arch" type="xml">
         <form string="Momsdeklaration">
           <header>
-            <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
+            <button name="comfirm_declaration" string="Bekräfta" type="object" class="oe_highlight" states="draft" />
             <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
             <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
             <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
@@ -25,7 +25,7 @@
           </header>
           <sheet>
             <div class="oe_right oe_button_box" name="buttons">
-              <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsutg" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -33,7 +33,7 @@
                   <span class="o_stat_text">Utgående</span>
                 </div>
               </button>
-              <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_momsingavdr" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_momsingavdr_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsingavdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -41,7 +41,7 @@
                   <span class="o_stat_text">Ingående</span>
                 </div>
               </button>
-              <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="move_ids_count" />
@@ -95,6 +95,7 @@
               <page string="Upplysningstext">
                 <field name="free_text" nolabel="1" attrs="{'readonly': [('state', '!=','draft')]}" />
               </page>
+<!--
               <page string="Rader">
                 <field name="line_ids" nolabel="1">
                   <tree create='0' delete='0' edit='0' editable='top'>
@@ -104,6 +105,7 @@
                   </tree>
                 </field>
               </page>
+-->
             </notebook>
           </sheet>
           <div class="oe_chatter">
@@ -118,6 +120,7 @@
       <field name="model">account.vat.declaration</field>
       <field name="arch" type="xml">
         <search string="Search VAT Declaration">
+<!--   Something here breaks in odoo 12
           <field name="name" />
           <field name="fiscalyear_id" />
           <field name="period_start" />
@@ -130,6 +133,7 @@
             <filter string="Fiscalyear" domain="[]" context="{'group_by': 'fiscalyear_id'}" />
             <filter string="Period" domain="[]" context="{'group_by': 'period_start'}" />
           </group>
+-->
         </search>
       </field>
     </record>
@@ -162,7 +166,7 @@
       <field name="name">Momsdeklaration</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.vat.declaration</field>
-      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
       <field name="view_mode">tree,form,calendar</field>
       <field name="search_view_id" ref="view_moms_filter" />
     </record>
@@ -185,8 +189,12 @@
                 <field name="type" />
                 <field name="balance" />
                 <field name="level" />
+<!--
                 <field name="afr_id" />
+-->
+<!--
                 <field name="sign" />
+-->
               </group>
             </group>
             <notebook>

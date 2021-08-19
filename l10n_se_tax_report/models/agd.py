@@ -85,10 +85,8 @@ class account_agd_declaration(models.Model):
     _order = 'date desc'
 
     line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
-
     def _period_start(self):
         return  self.get_next_periods()[0]
-
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="agd_declaration_id")
@@ -107,6 +105,7 @@ class account_agd_declaration(models.Model):
             move.agd_declaration_id = self.id
         # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
         
+    # ~ @api.multi
     def show_journal_entries(self):
         ctx = {
             'period_start': self.period_start.id,
@@ -132,24 +131,27 @@ class account_agd_declaration(models.Model):
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
+    # ~ @api.one
     @api.depends('period_start')
     def _vat(self):
-        if self.period_start:
-            ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_start.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-            self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-            self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-            self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
+        for rec in self:
+            if self.period_start:
+                ctx = {
+                    'period_start': self.period_start.id,
+                    'period_stop': self.period_start.id,
+                    'accounting_yearend': self.accounting_yearend,
+                    'accounting_method': self.accounting_method,
+                    'target_move': self.target_move,
+                }
+                self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+                self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+                self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
 
-    SumSkAvdr = fields.Float(compute='_vat', store=True)
+    SumSkAvdr    = fields.Float(compute='_vat', store=True)
     SumAvgBetala = fields.Float(compute='_vat', store=True)
-    ag_betala = fields.Float(compute='_vat', store=True)
+    ag_betala  = fields.Float(compute='_vat', store=True)
 
+    # ~ @api.multi
     def show_SumSkAvdr(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -166,6 +168,7 @@ class account_agd_declaration(models.Model):
         })
         return action
 
+    # ~ @api.multi
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -182,28 +185,35 @@ class account_agd_declaration(models.Model):
         })
         return action
 
+    # ~ @api.one
     def do_draft(self):
-        super(account_agd_declaration, self).do_draft()
-        self.slip_ids = []
-        for move in self.move_ids:
-            move.agd_declaration_id = None
+        for rec in self:
+            super(account_agd_declaration, self).do_draft()
+            self.slip_ids = []
+            for move in self.move_ids:
+                move.agd_declaration_id = None
 
+    # ~ @api.one
     def do_cancel(self):
-        super(account_agd_declaration, self).do_draft()
-        for move in self.move_ids:
-            move.agd_declaration_id = None
+        for rec in self:
+            super(account_agd_declaration, self).do_draft()
+            for move in self.move_ids:
+                move.agd_declaration_id = None
 
+    # ~ @api.one
     def calculate(self): # make a short cut to print financial report
-        if self.state not in ['draft']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        if self.state in ['draft']:
-            self.state = 'confirmed'
+        for rec in self:
+            if self.state not in ['draft']:
+                raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+            if self.state in ['draft']:
+                self.state = 'confirmed'
 
         slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
         self.payslip_ids = slips.mapped('id')
         self.move_ids = []
         for move in slips.mapped('move_id'):
             move.agd_declaration_id = self.id
+
 
         ctx = {
             'period_start': self.period_start.id,
@@ -233,8 +243,8 @@ class account_agd_declaration(models.Model):
                 'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
                 'name': line.name,
                 'level': line.level,
-                'move_line_ids': [(6, 0, line.with_context(ctx).get_moveline_ids())],
-            })
+                'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
+                })
 
         ##
         #### Mark Used moves
@@ -250,24 +260,24 @@ class account_agd_declaration(models.Model):
         #### Create eSDK-file
         ##
 
-        # ~ tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
-        # ~ def parse_xml(recordsets):
-            # ~ root = etree.Element('eSKDUpload', Version="6.0")
-            # ~ orgnr = etree.SubElement(root, 'OrgNr')
-            # ~ orgnr.text = self.env.user.company_id.company_registry
-            # ~ ag = etree.SubElement(root, 'Ag')
-            # ~ period = etree.SubElement(ag, 'Period')
-            # ~ period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            # ~ for row in TAGS:
-                # ~ line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-                # ~ tax = etree.SubElement(ag, row)
-                # ~ tax.text = str(int(abs((line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign))) or '0'
-            # ~ free_text = etree.SubElement(ag, 'TextUpplysningAg')
-            # ~ free_text.text = self.free_text or ''
-            # ~ return root
-        # ~ xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
-        # ~ xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
-        # ~ self.eskd_file = base64.b64encode(xml)
+        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
+        def parse_xml(recordsets):
+            root = etree.Element('eSKDUpload', Version="6.0")
+            orgnr = etree.SubElement(root, 'OrgNr')
+            orgnr.text = self.env.user.company_id.company_registry
+            ag = etree.SubElement(root, 'Ag')
+            period = etree.SubElement(ag, 'Period')
+            period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
+            for row in TAGS:
+                line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
+                tax = etree.SubElement(ag, row)
+                tax.text = str(int(abs((line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign))) or '0'
+            free_text = etree.SubElement(ag, 'TextUpplysningAg')
+            free_text.text = self.free_text or ''
+            return root
+        xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
+        xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
+        self.eskd_file = base64.b64encode(xml)
 
         ### new version of agd from February 2019
         ### https://skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/tekniskbeskrivningochtesttjanst/tekniskbeskrivning114.4.2cf1b5cd163796a5c8ba79b.html
@@ -478,7 +488,7 @@ class account_agd_declaration(models.Model):
                     move_line_list.append((0, 0, {
                         'name': skattekonto.name,
                         'account_id': skattekonto.id,
-                        'partner_id': self.env.ref('base.res_partner-SKV').id,
+                        'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
                         'debit': 0.0,
                         'credit': int(round(abs(total))),
                         'move_id': entry.id,

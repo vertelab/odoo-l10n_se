@@ -34,7 +34,6 @@ _logger = logging.getLogger(__name__)
 # OBS justering: account.financial.report 3.6, tar bort alla konto som tillhör till 3.5. VIKTIGT!!!
 # Bokslut verifikat måste ha samma räkenskapsår som deklarationen, Target moves ska vara alla post, bokslutsperiod ska vara ikryssad.
 
-
 class account_declaration_line(models.Model):
     _inherit = 'account.declaration.line'
     
@@ -48,9 +47,9 @@ class account_declaration_line(models.Model):
     def afr_onchange(self):
         self.name = self.afr_id and self.afr_id.name or ''
     
+    # ~ @api.multi
     def report_adl_get_balance(self):
         return self.balance * (1 if self.afr_id.sign == 1 else -1)
-
 
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
@@ -85,21 +84,29 @@ class account_sru_declaration(models.Model):
     upplysningar_1 = fields.Boolean(string='Uppdragstagare (t.ex. redovisningskonsult) har biträtt vid upprättandet av årsredovisningen')
     upplysningar_2 = fields.Boolean(string='Årsredovisningen har varit föremål för revision')
     
+    # ~ @api.one
     def _line_ids(self):
-        self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
-        self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
+        for rec in self:
+            self.b_line_ids = self.line_ids.filtered(lambda l: l.is_b and not l.is_r)
+            self.r_line_ids = self.line_ids.filtered(lambda l: l.is_r and not l.is_b)
     
     @api.model
     def _search_other_line_ids(self, operator, value):
         return ['&', '&', ('is_b', '=', False), ('is_r', '=', False), ('line_ids', operator, value)] 
     
+    # ~ @api.one
     def _compute_other_line_ids(self):
-        self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)    
+        for rec in self:
+            self.other_line_ids = self.line_ids.filtered(lambda l: not l.is_b and not l.is_r)    
     
+    # ~ @api.one
     def _write_other_line_ids(self):
-        self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
+        for rec in self:
+            self.line_ids = self.b_line_ids | self.r_line_ids | self.other_line_ids
     
+    # ~ @api.one
     def _set_date_and_name(self):
+        for rec in self:
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
             if d.month >= 1 and d.month <= 4:
@@ -134,230 +141,248 @@ class account_sru_declaration(models.Model):
     # via vinst:   8999 (D) 2099 (K)
     # via förlust: 2099 (D) 8999 (K)
 
+    # ~ @api.one
     def calc_arets_resultat(self):
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
-        r_lines = self.line_ids.filtered(lambda l: l.is_r == True)
-        r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
-        if r_afr:
-            arets_intakt_ids = self.env['account.financial.report'].search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
-            arets_kostnad_ids = self.env['account.financial.report'].search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
-            arets_intakt = 0
-            arets_kostnad = 0
-            if len(r_lines) == 0: # do a calculate
-                for ai in arets_intakt_ids:
-                    arets_intakt += int(abs(sum([a.with_context(ctx).sum_period() for a in ai.account_ids])) or 0.0)
-                for ak in arets_kostnad_ids:
-                    arets_kostnad += int(abs(sum([a.with_context(ctx).sum_period() for a in ak.account_ids])) or 0.0)
-                self.arets_intakt = arets_intakt
-                self.arets_kostnad = arets_kostnad
-                arets_resultat = self.arets_resultat = arets_intakt - arets_kostnad
-                if self.arets_resultat != 0: # if arets_resultat is not 0, update year end entry
-                    journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
-                    if journal:
-                        entry = self.move_id
-                        if not entry:
-                            entry = self.env['account.move'].create({
-                                'journal_id': journal.id,
-                                'period_id': self.period_stop.id,
-                                'date': self.period_stop.date_stop,
-                                'ref': u'Bokslut',
-                            })
-                        move_line_list = []
-                        arets_resultat_konto_2099 = self.env['account.account'].search([('code', '=', '2099')], limit=1)
-                        arets_resultat_konto_8999 = self.env['account.account'].search([('code', '=', '8999')], limit=1)
-                        if arets_resultat_konto_2099 and arets_resultat_konto_8999:
-                            line_2099 = entry.line_ids.filtered(lambda l: l.account_id.code == '2099')
-                            line_8999 = entry.line_ids.filtered(lambda l: l.account_id.code == '8999')
-                            if line_2099:
-                                line_2099_operator = 1
-                                line_2099_id = line_2099[0].id
-                            else:
-                                line_2099_operator = 0
-                                line_2099_id = 0
-                            if line_8999:
-                                line_8999_operator = 1
-                                line_8999_id = line_8999[0].id
-                            else:
-                                line_8999_operator = 0
-                                line_8999_id = 0
-                            move_line_list.append((line_8999_operator, line_8999_id, {
-                                'name': arets_resultat_konto_8999.name,
-                                'account_id': arets_resultat_konto_8999.id,
-                                'debit': float(abs(arets_resultat)) if arets_resultat >= 0 else 0.0,
-                                'credit': 0.0 if arets_resultat >= 0 else float(abs(arets_resultat)),
-                                'move_id': entry.id,
-                            }))
-                            move_line_list.append((line_2099_operator, line_2099_id, {
-                                'name': arets_resultat_konto_2099.name,
-                                'account_id': arets_resultat_konto_2099.id,
-                                'debit': 0.0 if arets_resultat >= 0 else float(abs(arets_resultat)),
-                                'credit': float(abs(arets_resultat)) if arets_resultat >= 0 else 0.0,
-                                'move_id': entry.id,
-                            }))
-                            entry.write({
-                                'line_ids': move_line_list,
-                            })
-                            self.write({'move_id': entry.id})
-            else: # read value from lines
-                sum_arets_intakt = sum_arets_kostnad = 0
-                for li in r_lines.with_context(r_afr=r_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('r_afr') and l.afr_id.sru not in ['3.24', '3.26', '3.27']):
-                    if li.afr_id.sign == 1:
-                        sum_arets_intakt += li.balance
-                    if li.afr_id.sign == -1:
-                        sum_arets_kostnad += li.balance
-                self.arets_resultat = sum_arets_intakt - sum_arets_kostnad
+        for rec in self:
+            ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
+            r_lines = self.line_ids.filtered(lambda l: l.is_r == True)
+            r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
+            if r_afr:
+                arets_intakt_ids = self.env['account.financial.report'].search([('parent_id', 'child_of', r_afr.id), ('sign', '=', 1), ('type', '=', 'accounts')])
+                arets_kostnad_ids = self.env['account.financial.report'].search([('parent_id', 'child_of', r_afr.id), ('sign', '=', -1), ('type', '=', 'accounts')])
+                arets_intakt = 0
+                arets_kostnad = 0
+                if len(r_lines) == 0: # do a calculate
+                    for ai in arets_intakt_ids:
+                        arets_intakt += int(abs(sum([a.with_context(ctx).sum_period() for a in ai.account_ids])) or 0.0)
+                    for ak in arets_kostnad_ids:
+                        arets_kostnad += int(abs(sum([a.with_context(ctx).sum_period() for a in ak.account_ids])) or 0.0)
+                    self.arets_intakt = arets_intakt
+                    self.arets_kostnad = arets_kostnad
+                    arets_resultat = self.arets_resultat = arets_intakt - arets_kostnad
+                    if self.arets_resultat != 0: # if arets_resultat is not 0, update year end entry
+                        journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
+                        if journal:
+                            entry = self.move_id
+                            if not entry:
+                                entry = self.env['account.move'].create({
+                                    'journal_id': journal.id,
+                                    'period_id': self.period_stop.id,
+                                    'date': self.period_stop.date_stop,
+                                    'ref': u'Bokslut',
+                                })
+                            move_line_list = []
+                            arets_resultat_konto_2099 = self.env['account.account'].search([('code', '=', '2099')], limit=1)
+                            arets_resultat_konto_8999 = self.env['account.account'].search([('code', '=', '8999')], limit=1)
+                            if arets_resultat_konto_2099 and arets_resultat_konto_8999:
+                                line_2099 = entry.line_ids.filtered(lambda l: l.account_id.code == '2099')
+                                line_8999 = entry.line_ids.filtered(lambda l: l.account_id.code == '8999')
+                                if line_2099:
+                                    line_2099_operator = 1
+                                    line_2099_id = line_2099[0].id
+                                else:
+                                    line_2099_operator = 0
+                                    line_2099_id = 0
+                                if line_8999:
+                                    line_8999_operator = 1
+                                    line_8999_id = line_8999[0].id
+                                else:
+                                    line_8999_operator = 0
+                                    line_8999_id = 0
+                                move_line_list.append((line_8999_operator, line_8999_id, {
+                                    'name': arets_resultat_konto_8999.name,
+                                    'account_id': arets_resultat_konto_8999.id,
+                                    'debit': float(abs(arets_resultat)) if arets_resultat >= 0 else 0.0,
+                                    'credit': 0.0 if arets_resultat >= 0 else float(abs(arets_resultat)),
+                                    'move_id': entry.id,
+                                }))
+                                move_line_list.append((line_2099_operator, line_2099_id, {
+                                    'name': arets_resultat_konto_2099.name,
+                                    'account_id': arets_resultat_konto_2099.id,
+                                    'debit': 0.0 if arets_resultat >= 0 else float(abs(arets_resultat)),
+                                    'credit': float(abs(arets_resultat)) if arets_resultat >= 0 else 0.0,
+                                    'move_id': entry.id,
+                                }))
+                                entry.write({
+                                    'line_ids': move_line_list,
+                                })
+                                self.write({'move_id': entry.id})
+                else: # read value from lines
+                    sum_arets_intakt = sum_arets_kostnad = 0
+                    for li in r_lines.with_context(r_afr=r_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('r_afr') and l.afr_id.sru not in ['3.24', '3.26', '3.27']):
+                        if li.afr_id.sign == 1:
+                            sum_arets_intakt += li.balance
+                        if li.afr_id.sign == -1:
+                            sum_arets_kostnad += li.balance
+                    self.arets_resultat = sum_arets_intakt - sum_arets_kostnad
 
     # Uppdaterar bokslut verifikat, skillnad mellan tillgångar och skulder
     # positiv eget kapital: 8899 (D) 2090 (K)
     # negativ eget kapital: 2090 (D) 8899 (K)
 
+    # ~ @api.one
     def calc_fritt_eget_kapital(self):
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
-        b_lines = self.line_ids.filtered(lambda l: l.is_b == True)
-        b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
-        if b_afr:
-            if len(b_lines) == 0: # do a calculate
-                def calc_kapital():
-                    tillgangar = self.env['account.financial.report'].search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
-                    if tillgangar:
-                        tillgangar_children = self.env['account.financial.report'].search([('parent_id', 'child_of', tillgangar.id), ('type', '=', 'accounts')])
-                        sum_tillgangar = 0
-                        for line in tillgangar_children:
-                            sum_tillgangar += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
-                        self.tillgangar = sum_tillgangar
-                    else:
-                        self.tillgangar = 0
-                    eget_kapital_skulder = self.env['account.financial.report'].search([('name', '=', u'Eget kapital och skulder')])
-                    if eget_kapital_skulder:
-                        eget_kapital_skulder_children = self.env['account.financial.report'].search([('parent_id', 'child_of', eget_kapital_skulder.id), ('type', '=', 'accounts')])
-                        sum_eget_kapital_skulder = 0
-                        for line in eget_kapital_skulder_children:
-                            sum_eget_kapital_skulder += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
-                        self.eget_kapital_skulder = sum_eget_kapital_skulder
-                    else:
-                        self.eget_kapital_skulder = 0
-                    return self.tillgangar - self.eget_kapital_skulder
-                fritt_eget_kapital = calc_kapital() # get difference
-                if fritt_eget_kapital != 0: # if fritt_eget_kapital is not 0, update year end entry
-                    journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
-                    if journal:
-                        entry = self.move_id
-                        if not entry:
-                            entry = self.env['account.move'].create({
-                                'journal_id': journal.id,
-                                'period_id': self.period_stop.id,
-                                'date': self.period_stop.date_stop,
-                                'ref': u'Bokslut',
-                            })
-                        move_line_list = []
-                        arets_resultat_konto_2090 = self.env['account.account'].search([('code', '=', '2090')], limit=1)
-                        arets_resultat_konto_8899 = self.env['account.account'].search([('code', '=', '8899')], limit=1)
-                        if arets_resultat_konto_2090 and arets_resultat_konto_8899:
-                            line_2090 = entry.line_ids.filtered(lambda l: l.account_id.code == '2090')
-                            line_8899 = entry.line_ids.filtered(lambda l: l.account_id.code == '8899')
-                            if line_2090:
-                                line_2090_operator = 1
-                                line_2090_id = line_2090[0].id
-                            else:
-                                line_2090_operator = 0
-                                line_2090_id = 0
-                            if line_8899:
-                                line_8899_operator = 1
-                                line_8899_id = line_8899[0].id
-                            else:
-                                line_8899_operator = 0
-                                line_8899_id = 0
-                            move_line_list.append((line_8899_operator, line_8899_id, {
-                                'name': arets_resultat_konto_8899.name,
-                                'account_id': arets_resultat_konto_8899.id,
-                                'debit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
-                                'credit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
-                                'move_id': entry.id,
-                            }))
-                            move_line_list.append((line_2090_operator, line_2090_id, {
-                                'name': arets_resultat_konto_2090.name,
-                                'account_id': arets_resultat_konto_2090.id,
-                                'debit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
-                                'credit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
-                                'move_id': entry.id,
-                            }))
-                            entry.write({
-                                'line_ids': move_line_list,
-                            })
-                            self.write({'move_id': entry.id})
-                self.fritt_eget_kapital = calc_kapital() # redo calculate so it will be balanced
-            else: # read value from lines
-                sum_tillgangar = sum_eget_kapital_skulder = 0
-                for li in b_lines.with_context(b_afr=b_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('b_afr')):
-                    if li.afr_id.sign == 1:
-                        sum_tillgangar += li.balance
-                    if li.afr_id.sign == -1:
-                        sum_eget_kapital_skulder += li.balance
-                self.fritt_eget_kapital = sum_tillgangar - sum_eget_kapital_skulder
+        for rec in self:
+            ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
+            b_lines = self.line_ids.filtered(lambda l: l.is_b == True)
+            b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
+            if b_afr:
+                if len(b_lines) == 0: # do a calculate
+                    def calc_kapital():
+                        tillgangar = self.env['account.financial.report'].search([('name', '=', u'Tillgångar'), ('parent_id', '=', b_afr.id)])
+                        if tillgangar:
+                            tillgangar_children = self.env['account.financial.report'].search([('parent_id', 'child_of', tillgangar.id), ('type', '=', 'accounts')])
+                            sum_tillgangar = 0
+                            for line in tillgangar_children:
+                                sum_tillgangar += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                            self.tillgangar = sum_tillgangar
+                        else:
+                            self.tillgangar = 0
+                        eget_kapital_skulder = self.env['account.financial.report'].search([('name', '=', u'Eget kapital och skulder')])
+                        if eget_kapital_skulder:
+                            eget_kapital_skulder_children = self.env['account.financial.report'].search([('parent_id', 'child_of', eget_kapital_skulder.id), ('type', '=', 'accounts')])
+                            sum_eget_kapital_skulder = 0
+                            for line in eget_kapital_skulder_children:
+                                sum_eget_kapital_skulder += int(abs(sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0)
+                            self.eget_kapital_skulder = sum_eget_kapital_skulder
+                        else:
+                            self.eget_kapital_skulder = 0
+                        return self.tillgangar - self.eget_kapital_skulder
+                    fritt_eget_kapital = calc_kapital() # get difference
+                    if fritt_eget_kapital != 0: # if fritt_eget_kapital is not 0, update year end entry
+                        journal = self.env['account.journal'].search([('code', '=', u'Övr')], limit=1)
+                        if journal:
+                            entry = self.move_id
+                            if not entry:
+                                entry = self.env['account.move'].create({
+                                    'journal_id': journal.id,
+                                    'period_id': self.period_stop.id,
+                                    'date': self.period_stop.date_stop,
+                                    'ref': u'Bokslut',
+                                })
+                            move_line_list = []
+                            arets_resultat_konto_2090 = self.env['account.account'].search([('code', '=', '2090')], limit=1)
+                            arets_resultat_konto_8899 = self.env['account.account'].search([('code', '=', '8899')], limit=1)
+                            if arets_resultat_konto_2090 and arets_resultat_konto_8899:
+                                line_2090 = entry.line_ids.filtered(lambda l: l.account_id.code == '2090')
+                                line_8899 = entry.line_ids.filtered(lambda l: l.account_id.code == '8899')
+                                if line_2090:
+                                    line_2090_operator = 1
+                                    line_2090_id = line_2090[0].id
+                                else:
+                                    line_2090_operator = 0
+                                    line_2090_id = 0
+                                if line_8899:
+                                    line_8899_operator = 1
+                                    line_8899_id = line_8899[0].id
+                                else:
+                                    line_8899_operator = 0
+                                    line_8899_id = 0
+                                move_line_list.append((line_8899_operator, line_8899_id, {
+                                    'name': arets_resultat_konto_8899.name,
+                                    'account_id': arets_resultat_konto_8899.id,
+                                    'debit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
+                                    'credit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
+                                    'move_id': entry.id,
+                                }))
+                                move_line_list.append((line_2090_operator, line_2090_id, {
+                                    'name': arets_resultat_konto_2090.name,
+                                    'account_id': arets_resultat_konto_2090.id,
+                                    'debit': 0.0 if fritt_eget_kapital >= 0 else float(abs(fritt_eget_kapital)),
+                                    'credit': float(abs(fritt_eget_kapital)) if fritt_eget_kapital >= 0 else 0.0,
+                                    'move_id': entry.id,
+                                }))
+                                entry.write({
+                                    'line_ids': move_line_list,
+                                })
+                                self.write({'move_id': entry.id})
+                    self.fritt_eget_kapital = calc_kapital() # redo calculate so it will be balanced
+                else: # read value from lines
+                    sum_tillgangar = sum_eget_kapital_skulder = 0
+                    for li in b_lines.with_context(b_afr=b_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('b_afr')):
+                        if li.afr_id.sign == 1:
+                            sum_tillgangar += li.balance
+                        if li.afr_id.sign == -1:
+                            sum_eget_kapital_skulder += li.balance
+                    self.fritt_eget_kapital = sum_tillgangar - sum_eget_kapital_skulder
 
 
+    # ~ @api.one
     def do_draft(self):
-        super(account_sru_declaration, self).do_draft()
-        for move in self.move_ids:
-            move.sru_declaration_id = None
+        for rec in self:
+            super(account_sru_declaration, self).do_draft()
+            for move in self.move_ids:
+                move.sru_declaration_id = None
 
+    # ~ @api.one
     def do_cancel(self):
-        super(account_sru_declaration, self).do_draft()
-        for move in self.move_ids:
-            move.sru_declaration_id = None
+        for rec in self:
+            super(account_sru_declaration, self).do_draft()
+            for move in self.move_ids:
+                move.sru_declaration_id = None
 
+    # ~ @api.one
     def calculate(self):
-        if self.state not in ['draft']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
+        for rec in self:
+            if self.state not in ['draft']:
+                raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+            ctx = {
+                'period_start': self.period_start.id,
+                'period_stop': self.period_stop.id,
+                'accounting_yearend': self.accounting_yearend,
+                'accounting_method': self.accounting_method,
+                'target_move': self.target_move,
+            }
 
-        ##
-        ####  Create report lines
-        ##
+            ##
+            ####  Create report lines
+            ##
 
-        sru_lines = self.env['account.declaration.line'].search([('sru_declaration_id', '=', self.id)])
-        sru_lines.unlink()
-        b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
-        r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
-        
-        period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
-        # ~ grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
-        # ~ accounts = {'%s' % g['account_id']: g['balance'] for g in grouped_lines}
-        
-        all_move_lines = self.env['account.move'].with_context(self._context).get_movelines()        
-        
-        # ~ raise Warning(str(grouped_lines))
+            sru_lines = self.env['account.declaration.line'].search([('sru_declaration_id', '=', self.id)])
+            sru_lines.unlink()
+            b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
+            r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
+            
+            period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
+            # ~ grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
+            # ~ accounts = {'%s' % g['account_id']: g['balance'] for g in grouped_lines}
+            
+            # ~ all_move_lines = self.env['account.move'].with_context(self._context).get_movelines()
+            period_ids.append(self.period_start.id)
+            all_move_lines = self.env['account.move'].search([('period_id','in',period_ids)]).mapped('line_ids')
+            for ml in all_move_lines:
+                ml.sru_declaration_id = self.id
+            
+            # ~ raise Warning('%s' % all_move_lines)
 
-        def create_lines(afr, dec, is_b=False, is_r=False):
+        def create_lines(afr, dec, ml=None,is_b=False, is_r=False):
             lines = self.env['account.financial.report'].search([('parent_id', 'child_of', afr.id), ('type', '=', 'accounts')])
             for line in lines:
                 
-                move_line_ids = line.with_context(ctx).get_moveline_ids(all_move_lines)
+                # ~ move_line_ids = line.with_context(ctx).get_moveline_ids(all_move_lines)
                 
-                period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
-                _logger.debug('SRU line %s %s' % (line.name,'pelle'))
-
-                balance = sum(self.env['account.move.line'].read(move_line_ids, {'balance'}))
+                move_line_ids = ml.filtered(lambda m: line.tax_ids & m.tax_ids or m.account_id in line.account_ids)
+                ml = ml - move_line_ids
+                
+                
+                # ~ period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
+                _logger.warn('SRU line %s %s' % (line.name,move_line_ids))
+                # ~ balance = sum(self.env['account.move.line'].read(move_line_ids, {'balance'}))
+                balance = sum(move_line_ids.mapped('balance'))
                 # ~ balance = sum([a.with_context(ctx).sum_period() for a in self.env['account.financial.report'].search([('parent_id', 'child_of', line.id), ('type', '=', 'accounts')]).mapped('account_ids')])
-                _logger.debug('SRU line %s %s' % (line.name, balance))
+                _logger.warn('SRU line %s %s' % (line.name, balance))
                 sru_line = self.env['account.declaration.line'].create({
                     'sru_declaration_id': dec.id,
                     'afr_id': line.id,
@@ -365,7 +390,7 @@ class account_sru_declaration(models.Model):
                     'sign': 1 if balance >= 0.0 else -1,
                     'name': line.name,
                     'level': line.level,
-                    'move_line_ids': [(6, 0, move_line_ids)],
+                    'move_line_ids': [(6, 0, move_line_ids.mapped('id'))],
                     'is_b': is_b,
                     'is_r': is_r,
                 })
@@ -376,14 +401,15 @@ class account_sru_declaration(models.Model):
                 if line.sru == '3.27': # förlust rad
                     if sru_line.sign == 1: # är vinst, förlust rad ska vara 0
                         sru_line.balance = 0
+            return ml
         if b_afr:
-            create_lines(b_afr, self, is_b=True)
+            create_lines(b_afr, self, ml=all_move_lines,is_b=True,is_r=False)
         if r_afr:
-            create_lines(r_afr, self, is_r=True)
+            create_lines(r_afr, self, ml=all_move_lines,is_b=False,is_r=True)
 
         # encoding="ISO-8859-1"
-        self.infosru = base64.b64encode(self._parse_infosru(self))
-        self.datasru = base64.b64encode(self._parse_datasru(self))
+        self.infosru = base64.b64encode(self._parse_infosru(self).encode('utf-8'))
+        self.datasru = base64.b64encode(self._parse_datasru(self).encode('utf-8'))
         if self.state in ['draft']:
             self.state = 'done'
 
@@ -494,10 +520,12 @@ class account_sru_declaration(models.Model):
 )
         return data
 
+    # ~ @api.one
     def regenerate_sru_files(self):
-        if self.b_line_ids and self.r_line_ids:
-            self.infosru = base64.b64encode(self._parse_infosru(self))
-            self.datasru = base64.b64encode(self._parse_datasru(self))
+        for rec in self:
+            if self.b_line_ids and self.r_line_ids:
+                self.infosru = base64.b64encode(self._parse_infosru(self))
+                self.datasru = base64.b64encode(self._parse_datasru(self))
 
     @api.model
     def get_next_periods(self):
@@ -520,6 +548,7 @@ class account_sru_declaration(models.Model):
             return [start_period, stop_period]
 
     # not in use
+    # ~ @api.multi
     def report_resultatrakning_structure(self):
         structure = [
             {
@@ -579,6 +608,7 @@ class account_sru_declaration(models.Model):
                 })
         return result
 
+    # ~ @api.multi
     def report_resultatrakning(self, name):
         srus = {
             'rorelseintakter_lagerforandringar_m_m': ['3.1', '3.2', '3.3', '3.4'],
@@ -593,10 +623,12 @@ class account_sru_declaration(models.Model):
         }
         return self.report_result_value(srus[name])
 
+    # ~ @api.multi
     def report_result_value(self, sru_codes):
         self.ensure_one()
         return self.r_line_ids.with_context(sru_codes=sru_codes).filtered(lambda l: l.afr_id.sru in l._context.get('sru_codes') and l.balance != 0)
 
+    # ~ @api.multi
     def report_sum_resultatrakning(self, name):
         self.ensure_one()
         s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in self.report_resultatrakning(name)])
@@ -616,6 +648,7 @@ class account_sru_declaration(models.Model):
         }
         return financial_report_lst.get(name)
 
+    # ~ @api.multi
     def report_balansrakning(self, name):
         parent_afr = self.find_balansrakning(name)
         if parent_afr:
@@ -625,6 +658,7 @@ class account_sru_declaration(models.Model):
                 res.append(b_line)
             return res
 
+    # ~ @api.multi
     def report_sum_balansrakning(self, name):
         self.ensure_one()
         parent_afr = self.find_balansrakning(name)
@@ -634,7 +668,25 @@ class account_sru_declaration(models.Model):
             s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in lines])
             return s if s != 0 else ''
 
+    # ~ @api.multi
+    def show_journal_entries(self):
+        ctx = {
+            'period_start': self.period_start.id,
+            'period_stop': self.period_stop.id,
+            'accounting_yearend': self.accounting_yearend,
+            'accounting_method': self.accounting_method,
+            'target_move': self.target_move,
+        }
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        action.update({
+            'display_name': _('Verifikat'),
+            'domain': [('id', 'in', self.move_ids.mapped('id'))],
+            'context': ctx,
+        })
+        return action
+
+
 class account_move(models.Model):
     _inherit = 'account.move'
 
-    sru_declaration_id = fields.Many2one(comodel_name='account.agd.declaration')
+    sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    odoo, Open Source Management Solution, third party addon
+#    OpenERP, Open Source Management Solution, third party addon
 #    Copyright (C) 2004-2018 Vertel AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,6 @@ from tempfile import TemporaryFile
 import base64
 import sys
 import traceback
-
-import logging
-_logger = logging.getLogger(__name__)
-
 try:
     from xlrd import open_workbook
     import xml.etree.cElementTree as ET
@@ -35,6 +31,8 @@ try:
 except ImportError:
     _logger.info('project_task_planned_vehicle_import requires xlrd (pip install xlrd)')
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class ImportBolagsverketReports(models.TransientModel):
     _name = 'account.financial.report.bolagsverket.import'
@@ -43,6 +41,7 @@ class ImportBolagsverketReports(models.TransientModel):
     file_name = fields.Char(string='File Name')
     xml_sheet = fields.Selection(string='Sheet', required=True, selection=[('simple', 'Simple'), ('complete', 'Complete')])
 
+    # ~ @api.multi
     def get_workbook(self, data):
         with TemporaryFile('w+') as fileobj:
             fileobj.write(base64.decodestring(data))
@@ -50,6 +49,7 @@ class ImportBolagsverketReports(models.TransientModel):
             workbook = open_workbook(file_contents=fileobj.read())
             return workbook
 
+    # ~ @api.multi
     def get_workbook_sheet_index(self, name):
         workbook = self.get_workbook(self.data)
         sheets = []
@@ -289,6 +289,7 @@ class ImportBolagsverketReports(models.TransientModel):
                     'style_overwrite': line.get('style_overwrite'),
                 })
 
+    # ~ @api.multi
     def send_form(self):
         sheet = self.xml_sheet
         workbook = self.get_workbook(self.data)

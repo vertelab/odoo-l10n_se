@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Sweden - Account Tax Report',
-    'version': '14.0',
+    'version': '1.0',
     'category': 'Report',
     'description': """
 Swedish accounting Tax Report
@@ -29,25 +29,27 @@ Taxes for financial report
      """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
-    'depends': ['l10n_se', 'account_period', 'account_payment_order', 'calendar', 'report_glabels', 'report_py3o', 'account'],
+    # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account', 'account','report_py3o','mis_builder'],
+    'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar', 'account','mis_builder','l10n_se_hr_payroll_account'],
     'data': [
         'data/account_data.xml',
-        # 'data/account_financial.xml',
+        # ~ 'data/account_financial.xml',
         'views/account_view.xml',
         'views/res_config_view.xml',
-        'wizard/glabel_report.xml',
-        'wizard/import_b_and_r_report.xml',
-        'wizard/import_bolagsverket_report.xml',
+        # ~ 'wizard/import_b_and_r_report.xml', funkar inte i 12
+        # ~ 'wizard/import_bolagsverket_report.xml', funkar inte i 12
         'views/moms_report.xml',
         'views/agd_report.xml',
-        'views/sru_report.xml',
-        'views/periodic_compilation.xml',
+        # ~ 'views/sru_report.xml',
+        # ~ 'views/periodic_compilation.xml',
         'report/report.xml',
         # ~ 'account_invoice_demo.xml',
         'security/ir.model.access.csv',
+        'views/mis_report_view.xml',
     ],
     'demo_xml' : [
-        'demo/account_invoice.yml',
+        # ~ 'demo/account_invoice.yml',
+        'demo/account_invoice.xml',
     ],
     'installable': 'True',
 }

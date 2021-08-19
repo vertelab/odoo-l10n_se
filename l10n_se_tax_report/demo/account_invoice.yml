@@ -1,396 +1,396 @@
--
-  Set tax report system parameters
--
-  !record {model: ir.config_parameter, id: demo_param_moms_journal} :
+#~ -
+  #~ Set tax report system parameters
+#~ -
+  #~ !record {model: ir.config_parameter, id: demo_param_moms_journal} :
   
-    key: 'l10n_se_tax_report.moms_journal'
-    value: 'placeholder'
--
-  !python {model: ir.config_parameter, id: demo_param_moms_journal} :
-    self.value = str(self.env.ref('l10n_se_tax_report.moms_journal').id)
--
-  !record {model: ir.config_parameter, id: demo_param_accounting_method} :
-    key: 'l10n_se_tax_report.accounting_method'
-    value: 'invoice'
--
-  !record {model: ir.config_parameter, id: demo_param_vat_declaration_param} :
-    key: 'l10n_se_tax_report.vat_declaration_param'
-    value: '3'
--
-  Prepare test products
--
-  !record {model: product.product, id: product_service_1}:
-    name: Redovisning (från utlandet)
-    type: service
-    standard_price: 800
-    property_account_expense_id: l10n_se.1_K2_6530_2017
-    supplier_taxes_id: [l10n_se.1_tfeu]
-    purchase_ok: True
--
-  Prepare test partners
--
-  !python {model: res.partner, id: base.res_partner_12}: |
-      region = self.env.ref('l10n_se.1_k2_fpos_trade_eu')
-      if self.property_account_position_id != region:
-          self.property_account_position_id = region
--
-  !python {model: res.partner, id: base.res_partner_1}: |
-      region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
-      if self.property_account_position_id != region:
-          self.property_account_position_id = region
--
-  !python {model: res.partner, id: base.res_partner_10}: |
-      region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
-      if self.property_account_position_id != region:
-          self.property_account_position_id = region
--
-  Create demo invoices
--
-  !record {model: account.invoice, id: demo_invoice_1}:
-    partner_id: l10n_se.res_partner_2
-    #user_id: base.user_demo
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'out_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-03-14'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 2500.0
-        quantity: 2
--
-  !python {model: account.invoice, id: demo_invoice_1}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.partner_id.customer:
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-04-14',
-          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  !record {model: account.invoice, id: demo_invoice_2}:
-    partner_id: l10n_se.res_partner_1
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'in_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-03-23'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 1000.0
-        quantity: 10
--
-  !python {model: account.invoice, id: demo_invoice_2}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.partner_id.customer:
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-04-14',
-          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  !record {model: account.invoice, id: demo_invoice_3}:
-    partner_id: l10n_se.res_partner_1
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'in_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-05-01'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 1000.0
-        quantity: 20
--
-  !python {model: account.invoice, id: demo_invoice_3}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.partner_id.customer:
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-04-14',
-          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  !record {model: account.invoice, id: demo_invoice_4}:
-    partner_id: l10n_se.res_partner_2
-    #user_id: base.user_demo
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'out_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-06-10'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 2500.0
-        quantity: 20
--
-  !python {model: account.invoice, id: demo_invoice_4}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.partner_id.customer:
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-04-14',
-          'partner_type': 'customer' if self.partner_id.customer else 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  SKV 560 utgåva 7, Exempel 1 Försäljning av varor till ett annat EU-land
--
-  !record {model: account.invoice, id: demo_invoice_5}:
-    partner_id: base.res_partner_12
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'out_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-06-02'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 2500.0
-        quantity: 30
--
-  !python {model: account.invoice, id: demo_invoice_5}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.type in ('out_invoice', 'out_refund'):
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-06-14',
-          'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  SKV 560 utgåva 7, Exempel 2 Inköp av varor från ett annat EU-land
--
-  !record {model: account.invoice, id: demo_invoice_6}:
-    partner_id: base.res_partner_12
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'in_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-06-01'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 1500.0
-        quantity: 30
--
-  !python {model: account.invoice, id: demo_invoice_6}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.type in ('out_invoice', 'out_refund'):
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-06-11',
-          'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  SKV 560 utgåva 7, Exempel 15 Inköp av varor till Sverige från en plats utanför EU (import)
--
-  !record {model: account.invoice, id: demo_invoice_7}:
-    partner_id: base.res_partner_1
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'in_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-06-01'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 1500.0
-        quantity: 50
--
-  !python {model: account.invoice, id: demo_invoice_7}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.type in ('out_invoice', 'out_refund'):
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-06-11',
-          'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  SKV 560 utgåva 7, Exempel 14 Försäljning av varor från Sverige till en plats utanför EU (export)
--
-  !record {model: account.invoice, id: demo_invoice_8}:
-    partner_id: base.res_partner_10
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'out_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-06-05'
-    invoice_line_ids:
-      - product_id: l10n_se.product_product_1
-        price_unit: 2500.0
-        quantity: 50
--
-  !python {model: account.invoice, id: demo_invoice_8}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.type in ('out_invoice', 'out_refund'):
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-06-15',
-          'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
-  SKV 560 utgåva 7, Exempel 20 Datakonsult i Irland
--
-  !record {model: account.invoice, id: demo_invoice_9}:
-    partner_id: base.res_partner_12
-    reference_type: none
-    payment_term_id: account.account_payment_term
-    type: 'in_invoice'
-    date_invoice: !eval time.strftime('%Y')+'-06-15'
-    invoice_line_ids:
-      - product_id: product_service_1
-        price_unit: 800.0
-        quantity: 40.0
--
-  !python {model: account.invoice, id: demo_invoice_9}: |
-    if self.state == 'draft':
-        import time
-        self._onchange_partner_id()
-        self._onchange_journal_id()
-        self.invoice_line_ids._onchange_product_id()
-        self.invoice_line_ids._onchange_account_id()
-        self._onchange_invoice_line_ids()
-        self.action_invoice_open()
-        if self.type in ('out_invoice', 'out_refund'):
-            method = self.env.ref('account.account_payment_method_manual_in')
-        else:
-            method = self.env.ref('account.account_payment_method_manual_out')
-        payment = self.env['account.payment'].create({
-          'invoice_ids': [(4, self.id, None)],
-          'payment_date': time.strftime('%Y')+'-06-25',
-          'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
-          'partner_id': self.partner_id.id,
-          'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
-          'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
-          'payment_method_id': method.id,
-          'payment_method_code': method.code,
-          'amount': self.amount_total,
-        })
-        payment.post()
--
+    #~ key: 'l10n_se_tax_report.moms_journal'
+    #~ value: 'placeholder'
+#~ -
+  #~ !python {model: ir.config_parameter, id: demo_param_moms_journal} :
+    #~ self.value = str(self.env.ref('l10n_se_tax_report.moms_journal').id)
+#~ -
+  #~ !record {model: ir.config_parameter, id: demo_param_accounting_method} :
+    #~ key: 'l10n_se_tax_report.accounting_method'
+    #~ value: 'invoice'
+#~ -
+  #~ !record {model: ir.config_parameter, id: demo_param_vat_declaration_param} :
+    #~ key: 'l10n_se_tax_report.vat_declaration_param'
+    #~ value: '3'
+#~ -
+  #~ Prepare test products
+#~ -
+  #~ !record {model: product.product, id: product_service_1}:
+    #~ name: Redovisning (från utlandet)
+    #~ type: service
+    #~ standard_price: 800
+    #~ property_account_expense_id: l10n_se.1_K2_6530_2017
+    #~ supplier_taxes_id: [l10n_se.1_tfeu]
+    #~ purchase_ok: True
+#~ -
+  #~ Prepare test partners
+#~ -
+  #~ !python {model: res.partner, id: base.res_partner_12}: |
+      #~ region = self.env.ref('l10n_se.1_k2_fpos_trade_eu')
+      #~ if self.property_account_position_id != region:
+          #~ self.property_account_position_id = region
+#~ -
+  #~ !python {model: res.partner, id: base.res_partner_1}: |
+      #~ region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
+      #~ if self.property_account_position_id != region:
+          #~ self.property_account_position_id = region
+#~ -
+  #~ !python {model: res.partner, id: base.res_partner_10}: |
+      #~ region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
+      #~ if self.property_account_position_id != region:
+          #~ self.property_account_position_id = region
+#~ -
+  #~ Create demo invoices
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_1}:
+    #~ partner_id: l10n_se.res_partner_2
+    #~ #user_id: base.user_demo
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'out_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-03-14'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 2500.0
+        #~ quantity: 2
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_1}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.partner_id.customer:
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-04-14',
+          #~ 'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_2}:
+    #~ partner_id: l10n_se.res_partner_1
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'in_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-03-23'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 1000.0
+        #~ quantity: 10
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_2}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.partner_id.customer:
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-04-14',
+          #~ 'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_3}:
+    #~ partner_id: l10n_se.res_partner_1
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'in_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-05-01'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 1000.0
+        #~ quantity: 20
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_3}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.partner_id.customer:
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-04-14',
+          #~ 'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_4}:
+    #~ partner_id: l10n_se.res_partner_2
+    #~ #user_id: base.user_demo
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'out_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-06-10'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 2500.0
+        #~ quantity: 20
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_4}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.partner_id.customer:
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-04-14',
+          #~ 'partner_type': 'customer' if self.partner_id.customer else 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ SKV 560 utgåva 7, Exempel 1 Försäljning av varor till ett annat EU-land
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_5}:
+    #~ partner_id: base.res_partner_12
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'out_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-06-02'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 2500.0
+        #~ quantity: 30
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_5}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.type in ('out_invoice', 'out_refund'):
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-06-14',
+          #~ 'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ SKV 560 utgåva 7, Exempel 2 Inköp av varor från ett annat EU-land
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_6}:
+    #~ partner_id: base.res_partner_12
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'in_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-06-01'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 1500.0
+        #~ quantity: 30
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_6}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.type in ('out_invoice', 'out_refund'):
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-06-11',
+          #~ 'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ SKV 560 utgåva 7, Exempel 15 Inköp av varor till Sverige från en plats utanför EU (import)
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_7}:
+    #~ partner_id: base.res_partner_1
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'in_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-06-01'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 1500.0
+        #~ quantity: 50
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_7}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.type in ('out_invoice', 'out_refund'):
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-06-11',
+          #~ 'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ SKV 560 utgåva 7, Exempel 14 Försäljning av varor från Sverige till en plats utanför EU (export)
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_8}:
+    #~ partner_id: base.res_partner_10
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'out_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-06-05'
+    #~ invoice_line_ids:
+      #~ - product_id: l10n_se.product_product_1
+        #~ price_unit: 2500.0
+        #~ quantity: 50
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_8}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.type in ('out_invoice', 'out_refund'):
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-06-15',
+          #~ 'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
+  #~ SKV 560 utgåva 7, Exempel 20 Datakonsult i Irland
+#~ -
+  #~ !record {model: account.invoice, id: demo_invoice_9}:
+    #~ partner_id: base.res_partner_12
+    #~ reference_type: none
+    #~ payment_term_id: account.account_payment_term
+    #~ type: 'in_invoice'
+    #~ date_invoice: !eval time.strftime('%Y')+'-06-15'
+    #~ invoice_line_ids:
+      #~ - product_id: product_service_1
+        #~ price_unit: 800.0
+        #~ quantity: 40.0
+#~ -
+  #~ !python {model: account.invoice, id: demo_invoice_9}: |
+    #~ if self.state == 'draft':
+        #~ import time
+        #~ self._onchange_partner_id()
+        #~ self._onchange_journal_id()
+        #~ self.invoice_line_ids._onchange_product_id()
+        #~ self.invoice_line_ids._onchange_account_id()
+        #~ self._onchange_invoice_line_ids()
+        #~ self.action_invoice_open()
+        #~ if self.type in ('out_invoice', 'out_refund'):
+            #~ method = self.env.ref('account.account_payment_method_manual_in')
+        #~ else:
+            #~ method = self.env.ref('account.account_payment_method_manual_out')
+        #~ payment = self.env['account.payment'].create({
+          #~ 'invoice_ids': [(4, self.id, None)],
+          #~ 'payment_date': time.strftime('%Y')+'-06-25',
+          #~ 'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
+          #~ 'partner_id': self.partner_id.id,
+          #~ 'journal_id': self.env['account.journal'].search([('code', '=', 'BNK1')]).id,
+          #~ 'payment_type': 'inbound' if self.partner_id.customer else 'outbound',
+          #~ 'payment_method_id': method.id,
+          #~ 'payment_method_code': method.code,
+          #~ 'amount': self.amount_total,
+        #~ })
+        #~ payment.post()
+#~ -
 
 
 

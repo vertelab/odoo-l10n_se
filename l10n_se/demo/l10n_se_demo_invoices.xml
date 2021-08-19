@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!--
+            Skapa Swedbank journalen
+        -->
+        <!--
+            Skapa bankgiro journalen
+        -->
+        <!--
+            Inköps swedbank fakturor
+        -->
+<!--
+        <record id="account.invoice_swedbank_purchase_invoice1" model="account.invoice">
+                <field name ="account_id"></field>
+                <field name ="company_id"></field>
+                <field name="currency_id"></field>
+                <field name="journal_id"></field>
+                <field name="partner_id"></field>
+                <field name="reference_type"></field>
+                
+        </record>
+-->
+        <!--
+            bankgiro fakturor
+        -->
+<!--
+        <record id=" "model="account.invoice">
+
+        </record>
+-->
+    </data>
+</odoo>
+
+

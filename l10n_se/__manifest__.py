@@ -21,7 +21,7 @@
 
 {
     'name': 'Sweden - Accounting',
-    'version': '14.0.2.0',
+    'version': '2.0',
     'category': 'Localization/Account Charts',
     'description': """Sweden - Chart of accounts
 
@@ -30,7 +30,7 @@
         * Tax-codes from SKV-4700 r1-49  SKV-409
 
         BAS 2017 K1 and BAS 2017 in original can be found at www.bas.se.
-        When you create your companies, don't forget to change currency to SEK.
+        When you creats your companies, don't forget to change currency to SEK.
         Usually you want tax-code MP1 and I for standard sales and purchases,
         MP2, MP3 and I12/I6 are for products and services with 12 % and 6 % tax.
         You also may want to change the automatic created bank accounts to what
@@ -45,10 +45,10 @@
         * K2 are small companies and associations that doesn't pass more than one
           of three limits two years in a row: not more than 50 employees in average, assets
           worth more than 40 MSEK, not more than 80 MSEK in turnover.
-        * K3 are an unlisted company that passes two or more of these limits.
+        * K3 are an unlisted company that passes two or more of theese limits.
         * K4 are an enlisted public company.
 
-        K1 and K2 are not obliged to use an external auditor (turnover under 80 MSEK), using
+        K1 and K2 are not obliged to use an external auditor (turn over under 80 MSEK), using
         BAS 2017 K1 its possible to follow K1 rules "kontantmetoden" or "fakturametoden"
         and choose between simplified or usual year end. However, using the sales-module also
         implements accounts receivable and a sales ledger that implies "fakturametoden".
@@ -58,46 +58,38 @@
         Partners have an additional Company Registry (Organisationsnummer) derived from
         TIN (momsregistreringsnumret).
 
-        There are some documents (in Swedish) describing archiving, how to handle EDI-invoices,
-        scanning of purchase invoices, basic accounting and numbering of account vouchers attached
+        There are som documents (in Swedish) describing archiving, how to handle EDI-invoices,
+        scanning of purchase invoices, basic accounting and numbering of account vouches attached
         to the module, static/doc-directory.
 
         You find the workplace for this module here https://launchpad.ne://github.com/vertelab/odoo-l10n_se
-        Use Bugs or Answers functions or contact support@vertel.se directly if
+        Use Bugs or Answers funtions or contact support@vertel.se directly if
         you have any questions or ideas.
 
      """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'category': 'Localization',
-    'depends': ['account_period', 'base_vat',],
+    'depends': ['account_period', 'base_vat', 'product', 'account'],
     'init_xml': [],
     'data': [
-        'data/account_account_type.xml',
-        'data/account_chart_template.xml',
-        'data/account_chart_template_k23.xml',
-        'data/account_chart_template_data.yml',
-        'data/account_tax_data.xml',
-        'data/account_fiscal_position.xml',
-        # ~ 'data/account_financial_report.xml',
-        # ~ 'data/account.tax.code.template.csv',
-        # ~ 'data/account.tax.template-after.csv',
-        # ~ 'data/res.partner.bank.type.csv',
-        # ~ 'data/res_country_data.xml',
-        # ~ 'views/account_report.xml',
-        # ~ 'views/account_vat_view.xml',
         'views/account_view.xml',
-        'views/res_partner_view.xml',
-        'data/account_account.xml',
-        'data/account_tax_template_hr_data.xml',
+        'data/account_account_template_data.xml',
+        'data/l10n_se_account_chart_template.xml',
+        'data/account_chart_template_k23.xml',
+        'data/account_account_type.xml',
+        'data/account_tax_data.xml',
+        'data/account_account_template_wt_tax_data.xml',
+        'data/fiscal_position_data.xml',
+        'data/l10n_se_account_chart_post_data.xml',
         'data/account_reconcile_model_data.xml',
-        'wizard/reconcile_model_journal_view.xml',
         'security/ir.model.access.csv',
-        # ~ 'wizard/import_chart_of_account.xml',
+        # ~ 'data/load_account_chart_template_data.xml',
+
     ],
-    'demo_xml' : [
-        'demo/account_chart.yml',
-        'demo/l10n_se_demo.xml'
+    'demo': [
+        'demo/load_account_chart_template_data.xml',
+        'demo/l10n_se_demo.xml',
     ],
     'installable': 'True',
 }
