@@ -250,9 +250,6 @@ class account_agd_declaration(models.Model):
         ##
         ### new version of agd from February 2019
         ### https://skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/tekniskbeskrivningochtesttjanst/tekniskbeskrivning114.4.2cf1b5cd163796a5c8ba79b.html
-        
-        ### new version of agd 16 juni 2021
-        ### https://www.skatteverket.se/foretag/arbetsgivare/lamnaarbetsgivardeklaration/tekniskbeskrivningochtesttjanst/tekniskbeskrivning11101.4.7eada0316ed67d7282a791.html
 
         tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
         def parse_xml(recordsets):
@@ -383,7 +380,6 @@ class account_agd_declaration(models.Model):
                 bl = slip.line_ids.filtered(lambda l: l.code == 'bl')
                 if bl:
                     iu_kontantersattningulagag.text = str(int(round(sum(bl.mapped('total')))))
-                # ~ Saknar falt kod 013,018,098 need to be fixed here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 iu_avdrprelskatt = etree.SubElement(iu_iu, ns + 'AvdrPrelSkatt')
                 iu_avdrprelskatt.set('faltkod', '001')
                 iu_avdrprelskatt.text = ''
