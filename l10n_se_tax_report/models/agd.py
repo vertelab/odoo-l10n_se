@@ -260,24 +260,24 @@ class account_agd_declaration(models.Model):
         #### Create eSDK-file
         ##
 
-        # ~ tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
-        # ~ def parse_xml(recordsets):
-            # ~ root = etree.Element('eSKDUpload', Version="6.0")
-            # ~ orgnr = etree.SubElement(root, 'OrgNr')
-            # ~ orgnr.text = self.env.user.company_id.company_registry
-            # ~ ag = etree.SubElement(root, 'Ag')
-            # ~ period = etree.SubElement(ag, 'Period')
-            # ~ period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
-            # ~ for row in TAGS:
-                # ~ line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-                # ~ tax = etree.SubElement(ag, row)
-                # ~ tax.text = str(int(abs((line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign))) or '0'
-            # ~ free_text = etree.SubElement(ag, 'TextUpplysningAg')
-            # ~ free_text.text = self.free_text or ''
-            # ~ return root
-        # ~ xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
-        # ~ xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
-        # ~ self.eskd_file = base64.b64encode(xml)
+        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('l10n_se.tax_group_hr').id), ('name', 'not in', ['eSKDUpload', 'Ag', 'AgBrutU', 'AgAvgU', 'AgAvgAv', 'AgAvg', 'AgAvd', 'AgAvdU', 'AgAvgPreS', 'AgPre', 'UlagVXLon', 'AvgVXLon'])])
+        def parse_xml(recordsets):
+            root = etree.Element('eSKDUpload', Version="6.0")
+            orgnr = etree.SubElement(root, 'OrgNr')
+            orgnr.text = self.env.user.company_id.company_registry
+            ag = etree.SubElement(root, 'Ag')
+            period = etree.SubElement(ag, 'Period')
+            period.text = self.period_start.date_start[:4] + self.period_start.date_start[5:7]
+            for row in TAGS:
+                line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
+                tax = etree.SubElement(ag, row)
+                tax.text = str(int(abs((line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign))) or '0'
+            free_text = etree.SubElement(ag, 'TextUpplysningAg')
+            free_text.text = self.free_text or ''
+            return root
+        xml = etree.tostring(parse_xml(tax_account), pretty_print=True, encoding="ISO-8859-1")
+        xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
+        self.eskd_file = base64.b64encode(xml)
 
         ### new version of agd from February 2019
         ### https://skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/tekniskbeskrivningochtesttjanst/tekniskbeskrivning114.4.2cf1b5cd163796a5c8ba79b.html

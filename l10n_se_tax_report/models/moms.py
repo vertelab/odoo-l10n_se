@@ -256,7 +256,7 @@ class account_declaration(models.Model):
                             'allday': True,
                             'duration': 8,
                             'categ_ids': [(6, 0, [self.env.ref('l10n_se_tax_report.categ_accounting').id])],
-                            'state': 'open',            # to block that meeting date in the calendar
+                            # ~ 'state': 'open',            # to block that meeting date in the calendar
                             'privacy': 'confidential',
                         })
 
@@ -430,7 +430,8 @@ class account_declaration_line(models.Model):
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
 
     # ~ @api.multi
-    # ~ def show_move_lines(self):
+    def show_move_lines(self):
+        _logger.warning('jakmar: implement/change me')
         # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
         # ~ action.update({
             # ~ 'display_name': _('%s') %self.name,

@@ -129,7 +129,9 @@
       <field name="name">Arbetsgivardeklaration</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.agd.declaration</field>
+<!--
       <field name="view_type">form</field>
+-->
       <field name="view_mode">tree,form,calendar</field>
       <field name="target">current</field>
     </record>

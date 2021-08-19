@@ -8,7 +8,7 @@
         <record id="report_md_ForsMomsEjAnnan" model="mis.report.kpi">
             <field name="report_id" ref="report_md"/>
             <field name="name">ForsMomsEjAnnan</field>
-            <field name="description">	#05: Momspliktig försäljning som inte ingår i annan ruta nedan</field>
+            <field name="description">#05: Momspliktig försäljning som inte ingår i annan ruta nedan</field>
             <field name="sequence">2</field>
             <field name="budgetable">True</field>
         </record>

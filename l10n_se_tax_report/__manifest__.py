@@ -30,16 +30,16 @@ Taxes for financial report
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar', 'account','mis_builder'],
+    'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar', 'account','mis_builder','l10n_se_hr_payroll_account'],
     'data': [
-        # ~ 'data/account_data.xml',
+        'data/account_data.xml',
         # ~ 'data/account_financial.xml',
         'views/account_view.xml',
         'views/res_config_view.xml',
         # ~ 'wizard/import_b_and_r_report.xml', funkar inte i 12
         # ~ 'wizard/import_bolagsverket_report.xml', funkar inte i 12
         'views/moms_report.xml',
-        # ~ 'views/agd_report.xml',
+        'views/agd_report.xml',
         # ~ 'views/sru_report.xml',
         # ~ 'views/periodic_compilation.xml',
         'report/report.xml',
