@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account_bank_statement_import_view_inherit" model="ir.ui.view">
+            <field name="name">Account bank statement import Inherit</field>
+            <field name="model">account.bank.statement.import</field>
+            <field name="inherit_id" ref="account_bank_statement_import.account_bank_statement_import_view"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <label for="is_stripe_import" string="Stripe Import"/>
+                <field name="is_stripe_import"/>
+                <label for="account_number" string="Bank account number" attrs="{'invisible': [('is_stripe_import', '!=', True)]}"/>
+                <field name="account_number" attrs="{'invisible': [('is_stripe_import', '!=', True)]}"/>
+            </xpath>
+                <xpath expr="//field[@name='journal_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_stripe_import', '=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='journal_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_stripe_import', '=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//footer/button" position="replace">
+                    <button name="import_file" string="_Import" type="object" class="oe_highlight" context="{'account_number': account_number}"/>
+                                     or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

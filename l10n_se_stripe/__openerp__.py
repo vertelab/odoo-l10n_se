@@ -30,6 +30,7 @@
     'external_dependencies': {
         'python': ['xlrd'],
     },
+    'data': ['account_bank_statement_import_wizard.xml'],
     'installable': 'True',
     'application': 'False',
 }

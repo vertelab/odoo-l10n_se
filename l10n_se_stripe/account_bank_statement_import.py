@@ -32,6 +32,9 @@ class AccountBankStatementImport(models.TransientModel):
     """Add Stripe method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
+    account_number = fields.Char("Bank account number");
+    is_stripe_import = fields.Boolean("Stripe import");
+
     @api.model
     def _parse_file(self, data_file):
         """Parse one file or multiple files from zip-file.
@@ -41,7 +44,7 @@ class AccountBankStatementImport(models.TransientModel):
 
         try:
             _logger.info(u"Try parsing with Stripe Report file.")
-            parser = Parser(data_file)
+            parser = Parser(data_file, self.env.context.get('account_number'))
         except ValueError:
             _logger.info(u"Statement file was not a Stripe Report file.")
             return super(AccountBankStatementImport, self)._parse_file(data_file)
@@ -73,7 +76,11 @@ class AccountBankStatementImport(models.TransientModel):
                 if sale_order_name and len(line) > 0:
                     if line[0].move_id.state == 'draft':
                         line[0].move_id.date = t['date']
-                    if t['amount'] == account_move.amount:
+                    if t['amount refunded'] > 0:
+                        _logger.info('111 s%' % (t['amount'] - t['amount refunded']))
+                        if t['amount'] - t['amount refunded'] == account_move.amount:
+                            t['journal_entry_id'] = line[0].move_id.id
+                    elif t['amount'] == account_move.amount:
                         t['journal_entry_id'] = line[0].move_id.id
                     else:
                         _logger.info('Sale order matched but amount did not')

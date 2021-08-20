@@ -35,7 +35,7 @@ except:
 class StripePaymentsReport(object):
     """Parser for Stripe Kontohändelser import files."""
 
-    def __init__(self, data_file):
+    def __init__(self, data_file, account_number):
         try:
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
         except XLRDError, e:
@@ -49,11 +49,12 @@ class StripePaymentsReport(object):
         self.header = []
         self.statements = []
 
+        self.account_number = account_number
+
     def parse(self):
         """Parse stripe transaktionsrapport bank statement file contents type 1."""
         self.account_currency = self.data.row(1)[6].value
         self.header = [c.value.lower() for c in self.data.row(0)]
-        self.account_number = '123456789' #Stripe account number in Odoo
         self.name = 'Stripe'
 
         self.current_statement = BankStatement()
