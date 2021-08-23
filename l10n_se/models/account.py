@@ -152,7 +152,7 @@ class AccountInvoice(models.Model):
         # ~ When the user presses post then we add the balance lines here if needed.
         # ~ Skatte område/Fiscal Position
         fiscal_position = self.fiscal_position_id
-        _logger.warning("jakmar: skatteområde: {} id:{}".format(self.fiscal_position_id.name, self.fiscal_position_id.id))
+        # ~ _logger.warning("jakmar: skatteområde: {} id:{}".format(self.fiscal_position_id.name, self.fiscal_position_id.id))
         
         # ~ Balance map for the current fiscal postition
         tax_balance_map_ids = self.fiscal_position_id.tax_balance_ids
@@ -162,10 +162,10 @@ class AccountInvoice(models.Model):
             dest_tax = tax_balance_map_id.tax_dest_id
             
             tax_balance_dict[src_tax.name] = dest_tax
-            _logger.warning("jakmar: tax src: {}, tax dest: {}".format(src_tax.name, dest_tax.name))
+            # ~ _logger.warning("jakmar: tax src: {}, tax dest: {}".format(src_tax.name, dest_tax.name))
         
         for move_line in self.line_ids:
-            _logger.warning(f"jakmar line name:{move_line.name} tax: {move_line.tax_line_id.name}")
+            # ~ _logger.warning(f"jakmar line name:{move_line.name} tax: {move_line.tax_line_id.name}")
             # ~ Check if a tax balance exists
             if move_line.tax_line_id.name in tax_balance_dict:
                 vals ={
