@@ -25,27 +25,43 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class AccountConfigSettings(models.TransientModel):
+class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     payment_account_ids = fields.Many2many(comodel_name='account.account', relation='payment_account', string='Payment Accounts', help='Accounts should include in payment')
     nix_payment_account_ids = fields.Many2many(comodel_name='account.account', relation='nix_payment_account', string='Payment Accounts Nix', help='Accounts should not include in payment')
+    
+    
+    def set_values(self):
+        res = super(ResConfigSettings, self).set_values()
 
-    def set_account_payment_order(self):
-        conf = self.env['ir.config_parameter']
-        conf.set_param('l10n_se_account_payment_order.payment_account_ids', self.payment_account_ids.mapped('id'))
-        conf.set_param('l10n_se_account_payment_order.nix_payment_account_ids', self.nix_payment_account_ids.mapped('id'))
-
+        if self.payment_account_ids.exists():
+            self.env['ir.config_parameter'].sudo().set_param(
+                'l10n_se_account_payment_order.payment_account_ids',
+                ','.join([str(x) for x in self.payment_account_ids.ids]))
+        else:
+            self.env['ir.config_parameter'].sudo().set_param('l10n_se_account_payment_order.payment_account_ids', False)
+        
+        if self.nix_payment_account_ids.exists():
+            self.env['ir.config_parameter'].sudo().set_param(
+                'l10n_se_account_payment_order.nix_payment_account_ids',
+                ','.join([str(x) for x in self.nix_payment_account_ids.ids]))
+        else:
+            self.env['ir.config_parameter'].sudo().set_param('l10n_se_account_payment_order.nix_payment_account_ids', False)
+        return res
 
     @api.model
-    def get_default_account_payment_order(self, fields):
-        conf = self.env['ir.config_parameter']
-        payment_account_ids = conf.get_param('l10n_se_account_payment_order.payment_account_ids')
-        nix_payment_account_ids = conf.get_param('l10n_se_account_payment_order.nix_payment_account_ids')
-        return {
-            'payment_account_ids': eval(payment_account_ids) if payment_account_ids else [],
-            'nix_payment_account_ids': eval(nix_payment_account_ids) if nix_payment_account_ids else [],
-        }
+    def get_values(self):
+        res = super(ResConfigSettings, self).get_values()
+        params = self.env['ir.config_parameter'].sudo()
+        payment_account_ids = [int(x) for x in params.get_param('l10n_se_account_payment_order.payment_account_ids', '').split(',') if x]
+        if payment_account_ids:
+            res.update(payment_account_ids = [(6 ,0 , payment_account_ids)])
+            
+        nix_payment_account_ids = [int(x) for x in params.get_param('l10n_se_account_payment_order.nix_payment_account_ids', '').split(',') if x]
+        if nix_payment_account_ids:
+            res.update(nix_payment_account_ids = [(6 ,0 , nix_payment_account_ids)])
+        return res
 
 
 class AccountPaymentLineCreate(models.TransientModel):
@@ -58,13 +74,16 @@ class AccountPaymentLineCreate(models.TransientModel):
         nix_payment_account_ids = conf.get_param('l10n_se_account_payment_order.nix_payment_account_ids')
         if nix_payment_account_ids:
             # add accounts should not include in payment
-            res += [('account_id', 'not in', eval(nix_payment_account_ids))]
+            nix_payment_account_ids = nix_payment_account_ids.split(",")
+            res += [('account_id.id', 'not in', nix_payment_account_ids)]
         if payment_account_ids:
             for e in res:
                 # add specified accounts which are not defined as internal_type: payable
                 if e[0] == 'account_id.internal_type':
                     internal_type_domain = e
                     res.remove(e)
-                    res += ['|', internal_type_domain, ('account_id', 'in', eval(payment_account_ids))]
+                    payment_account_ids = payment_account_ids.split(",")
+                    res += ['|', internal_type_domain, ('account_id.id', 'in', payment_account_ids)]
                     break
+        _logger.warning(f"jakmar: domain {res}")
         return res
