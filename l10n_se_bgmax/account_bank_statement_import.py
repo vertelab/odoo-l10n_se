@@ -31,6 +31,13 @@ from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
+
+    def _get_bank_statements_available_import_formats(self):
+        """ Returns a list of strings representing the supported import formats.
+        """
+        return super(AccountJournal, self)._get_bank_statements_available_import_formats() + ['bgmax']
 
 class res_partner_bank(models.Model):
     _inherit = 'res.partner.bank'

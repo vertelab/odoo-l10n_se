@@ -51,7 +51,8 @@ class AccountBankStatementImport(models.TransientModel):
             move_line_ids = []
             currency = self.env['res.currency'].search([('name','=', s['currency_code'])])
             for t in s['transactions']:
-                t['currency_id'] = currency.id
+                if s['currency_code'] != currency.name:
+                    t['currency_id'] = currency.id
                 # ~ partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])])
                 # ~ if partner_id:
                     # ~ t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''

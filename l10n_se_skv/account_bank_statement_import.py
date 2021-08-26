@@ -76,7 +76,8 @@ class AccountBankStatementImport(models.TransientModel):
             account = self.env['res.partner.bank'].search([('acc_number','=',s['account_number'])]).mapped('journal_id').mapped('default_debit_account_id')
             move_line_ids = []
             for t in s['transactions']:
-                t['currency_id'] = currency.id
+                if s['currency_code'] != currency.name:
+                    t['currency_id'] = currency.id
                 partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])]) # ,('ref','ilike',t['partner_name']),('phone','ilike',t['partner_name'])])
                 if partner_id:
                     t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
