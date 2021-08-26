@@ -17,7 +17,7 @@
       <field name="arch" type="xml">
         <form string="Momsdeklaration">
           <header>
-            <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
+            <button name="comfirm_declaration" string="Bekräfta" type="object" class="oe_highlight" states="draft" />
             <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
             <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
             <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
@@ -25,7 +25,7 @@
           </header>
           <sheet>
             <div class="oe_right oe_button_box" name="buttons">
-              <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsutg" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -33,7 +33,7 @@
                   <span class="o_stat_text">Utgående</span>
                 </div>
               </button>
-              <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_momsingavdr" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_momsingavdr_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsingavdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -41,7 +41,7 @@
                   <span class="o_stat_text">Ingående</span>
                 </div>
               </button>
-              <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries" context="{'default_partner_id': active_id}">
+              <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="move_ids_count" />

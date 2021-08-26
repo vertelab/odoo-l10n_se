@@ -1,48 +1,48 @@
--
-  Set tax report system parameters
--
-  !record {model: ir.config_parameter, id: demo_param_moms_journal} :
+#~ -
+  #~ Set tax report system parameters
+#~ -
+  #~ !record {model: ir.config_parameter, id: demo_param_moms_journal} :
   
-    key: 'l10n_se_tax_report.moms_journal'
-    value: 'placeholder'
--
-  !python {model: ir.config_parameter, id: demo_param_moms_journal} :
-    self.value = str(self.env.ref('l10n_se_tax_report.moms_journal').id)
--
-  !record {model: ir.config_parameter, id: demo_param_accounting_method} :
-    key: 'l10n_se_tax_report.accounting_method'
-    value: 'invoice'
--
-  !record {model: ir.config_parameter, id: demo_param_vat_declaration_param} :
-    key: 'l10n_se_tax_report.vat_declaration_param'
-    value: '3'
--
-  Prepare test products
--
-  !record {model: product.product, id: product_service_1}:
-    name: Redovisning (från utlandet)
-    type: service
-    standard_price: 800
-    property_account_expense_id: l10n_se.1_K2_6530_2017
-    supplier_taxes_id: [l10n_se.1_tfeu]
-    purchase_ok: True
--
-  Prepare test partners
--
-  !python {model: res.partner, id: base.res_partner_12}: |
-      region = self.env.ref('l10n_se.1_k2_fpos_trade_eu')
-      if self.property_account_position_id != region:
-          self.property_account_position_id = region
--
-  !python {model: res.partner, id: base.res_partner_1}: |
-      region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
-      if self.property_account_position_id != region:
-          self.property_account_position_id = region
--
-  !python {model: res.partner, id: base.res_partner_10}: |
-      region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
-      if self.property_account_position_id != region:
-          self.property_account_position_id = region
+    #~ key: 'l10n_se_tax_report.moms_journal'
+    #~ value: 'placeholder'
+#~ -
+  #~ !python {model: ir.config_parameter, id: demo_param_moms_journal} :
+    #~ self.value = str(self.env.ref('l10n_se_tax_report.moms_journal').id)
+#~ -
+  #~ !record {model: ir.config_parameter, id: demo_param_accounting_method} :
+    #~ key: 'l10n_se_tax_report.accounting_method'
+    #~ value: 'invoice'
+#~ -
+  #~ !record {model: ir.config_parameter, id: demo_param_vat_declaration_param} :
+    #~ key: 'l10n_se_tax_report.vat_declaration_param'
+    #~ value: '3'
+#~ -
+  #~ Prepare test products
+#~ -
+  #~ !record {model: product.product, id: product_service_1}:
+    #~ name: Redovisning (från utlandet)
+    #~ type: service
+    #~ standard_price: 800
+    #~ property_account_expense_id: l10n_se.1_K2_6530_2017
+    #~ supplier_taxes_id: [l10n_se.1_tfeu]
+    #~ purchase_ok: True
+#~ -
+  #~ Prepare test partners
+#~ -
+  #~ !python {model: res.partner, id: base.res_partner_12}: |
+      #~ region = self.env.ref('l10n_se.1_k2_fpos_trade_eu')
+      #~ if self.property_account_position_id != region:
+          #~ self.property_account_position_id = region
+#~ -
+  #~ !python {model: res.partner, id: base.res_partner_1}: |
+      #~ region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
+      #~ if self.property_account_position_id != region:
+          #~ self.property_account_position_id = region
+#~ -
+  #~ !python {model: res.partner, id: base.res_partner_10}: |
+      #~ region = self.env.ref('l10n_se.1_k2_fpos_trade_world')
+      #~ if self.property_account_position_id != region:
+          #~ self.property_account_position_id = region
 #~ -
   #~ Create demo invoices
 #~ -

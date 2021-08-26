@@ -315,9 +315,9 @@ class account_vat_declaration(models.Model):
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="vat_declaration_id")
     
     # ~ This needs to calculated without account.financial.report
-    @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
-    def _vat(self):
-        return
+    # ~ @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
+    # ~ def _vat(self):
+        # ~ return
         # ~ for decl in self:
             # ~ if decl.period_start and decl.period_stop:
                 # ~ ctx = {
@@ -331,57 +331,56 @@ class account_vat_declaration(models.Model):
                 # ~ decl.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
                 # ~ decl.vat_momsbetala = decl.vat_momsutg + decl.vat_momsingavdr
     
-    @api.multi
-    def show_journal_entries(self):
-        _logger.warning("jakmar: line ids {}".format(self.move_ids.mapped('id')))
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-        }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
-        action.update({
-            'display_name': _('Verifikat'),
-            'domain': [('id', 'in', self.move_ids.mapped('id'))],
-            'context': ctx,
-        })
-        return action
+    # ~ @api.multi
+    # ~ def show_journal_entries(self):
+        # ~ ctx = {
+            # ~ 'period_start': self.period_start.id,
+            # ~ 'period_stop': self.period_stop.id,
+            # ~ 'accounting_yearend': self.accounting_yearend,
+            # ~ 'accounting_method': self.accounting_method,
+            # ~ 'target_move': self.target_move,
+        # ~ }
+        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        # ~ action.update({
+            # ~ 'display_name': _('Verifikat'),
+            # ~ 'domain': [('id', 'in', self.move_ids.mapped('id'))],
+            # ~ 'context': ctx,
+        # ~ })
+        # ~ return action
 
-    @api.multi
-    def show_momsingavdr(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('VAT In'),
-            'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            'context': {},
-        })
-        return action
+    # ~ @api.multi
+    # ~ def show_momsingavdr(self):
+        # ~ ctx = {
+                # ~ 'period_start': self.period_start.id,
+                # ~ 'period_stop': self.period_stop.id,
+                # ~ 'accounting_yearend': self.accounting_yearend,
+                # ~ 'accounting_method': self.accounting_method,
+                # ~ 'target_move': self.target_move,
+            # ~ }
+        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        # ~ action.update({
+            # ~ 'display_name': _('VAT In'),
+            # ~ 'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
+            # ~ 'context': {},
+        # ~ })
+        # ~ return action
 
-    @api.multi
-    def show_momsutg(self):
-        ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_stop.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('VAT Out'),
-            'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
-            'context': {},
-        })
-        return action
+    # ~ @api.multi
+    # ~ def show_momsutg(self):
+        # ~ ctx = {
+                # ~ 'period_start': self.period_start.id,
+                # ~ 'period_stop': self.period_stop.id,
+                # ~ 'accounting_yearend': self.accounting_yearend,
+                # ~ 'accounting_method': self.accounting_method,
+                # ~ 'target_move': self.target_move,
+            # ~ }
+        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        # ~ action.update({
+            # ~ 'display_name': _('VAT Out'),
+            # ~ 'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
+            # ~ 'context': {},
+        # ~ })
+        # ~ return action
 
     @api.one
     def do_draft(self):
@@ -402,217 +401,9 @@ class account_vat_declaration(models.Model):
 
 
     @api.one
-    def calculate(self): # make a short cut to print financial report
-        # ~ doesn't work without account.finacial.report so im just resturning atm. This function should probely be removed in the future.
-        if self.state not in ['draft']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
-        if self.state in ['draft']:
-            self.state = 'confirmed'
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_stop.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-            'nix_journal_ids': [self.env.ref('l10n_se_tax_report.moms_journal').id]
-        }
-        return
+    def comfirm_declaration(self): #Atm just moves the report from draf to Confirmend
+        self.state = 'confirmed'
 
-        ##
-        ####  Create report lines
-        ##
-
-        for row in [5,6,7,8,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,50,60,61,62]:
-            line = self.env.ref('l10n_se_tax_report.%s' % row)
-            self.env['account.declaration.line'].create({
-                'vat_declaration_id': self.id,
-                'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
-                'name': line.name,
-                'level': line.level,
-                'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
-                'move_ids': [(6,0,line.with_context(ctx).get_taxlines().mapped('move_id').mapped('id'))],
-                })
-
-        ##
-        #### Mark Used moves
-        ##
-
-        for move in self.env['account.move'].with_context(ctx).get_move():
-            if not move.vat_declaration_id:
-                move.vat_declaration_id = self.id
-            else:
-                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name)))
-                # ~ 2020-05-29
-                # ~ https://www.odoo.com/forum/help-1/question/how-can-i-use-redirect-warning-118516
-                # ~ raise UserError(_('your warning message')), self.test_function()
-                # ~ raise Warning(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name) ))
-                _logger.warn(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name) ))
-
-        for move in self.move_ids:
-            move.full_reconcile_id = move.line_ids.mapped('full_reconcile_id')[0].id if len(move.line_ids.mapped('full_reconcile_id')) > 0 else None
-
-        ##
-        #### Create eSDK-file
-        ##
-
-        tax_account = self.env['account.tax'].search([('tax_group_id', '=', self.env.ref('account.tax_group_taxes').id)])
-        def parse_xml(recordsets,ctx):
-            root = etree.Element('eSKDUpload', Version="6.0")
-            orgnr = etree.SubElement(root, 'OrgNr')
-            orgnr.text = self.env.user.company_id.company_registry or ''
-            moms = etree.SubElement(root, 'Moms')
-            period = etree.SubElement(moms, 'Period')
-            period.text = self.period_stop.date_start[:4] + self.period_stop.date_start[5:7]
-            for k,v in NAMEMAPPING.items():
-                line = self.env.ref('l10n_se_tax_report.%s' % v)
-                amount = str(int(abs(round(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) * line.sign) or 0))
-                if not amount == '0':
-                    tax = etree.SubElement(moms, k)
-                    tax.text = amount
-            momsbetala = etree.SubElement(moms, 'MomsBetala')
-            momsbetala.text = str(int(round(self.vat_momsbetala)))
-            free_text = etree.SubElement(moms, 'TextUpplysningMoms')
-            free_text.text = self.free_text or ''
-            return root
-        xml = etree.tostring(parse_xml(tax_account,ctx), pretty_print=True, encoding="ISO-8859-1")
-        xml = xml.replace('?>', '?>\n<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www.skatteverket.se/download/18.3f4496fd14864cc5ac99cb1/1415022101213/eSKDUpload_6p0.dtd">')
-        self.eskd_file = base64.b64encode(xml)
-
-        ##
-        #### Create move
-        ##
-
-        #TODO check all warnings
-        #_logger.warning('<<<<<<<<<<<<<< attachment_to_img >>>>>>>>: %s' % attachment.datas)
-
-        moms_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.moms_journal')
-        if not moms_journal_id:
-            raise Warning('Konfigurera din momsdeklaration journal!')
-        else:
-            moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
-            momsskuld = moms_journal.default_credit_account_id
-            momsfordran = moms_journal.default_debit_account_id
-            skattekonto = self.env['account.account'].search([('code', '=', '1630')])
-            if momsskuld and momsfordran and skattekonto:
-                entry = self.env['account.move'].create({
-                    'journal_id': moms_journal.id,
-                    'period_id': self.period_start.id,
-                    'date': fields.Date.today(),
-                    'ref': u'Momsdeklaration',
-                })
-                if entry:
-                    move_line_list = []
-                    moms_diff = 0.0
-                    
-                    move_line_dict = {}
-                    for k in self.env.ref('l10n_se_tax_report.48').mapped('tax_ids'): # kollar på 2640 konton, ingående moms
-                        # ~ _logger.warning('<<<<< VALUES: k = %s %s' % (k.name, k.with_context(ctx).get_taxlines().mapped('account_id') ))
-                        for account in k.with_context(ctx).get_taxlines().mapped('account_id'):
-
-                            # ~ _logger.warning('<<<<< VALUES: account = %s' % account)
-                            move_line_dict[account.name] = {'account_id': account.id, 'credit': abs(account.with_context(ctx).sum_period()) } 
- 
-                    for account_name in move_line_dict.keys():
-                        move_line_list.append((0, 0, {
-                            'name': account_name,
-                            'account_id': move_line_dict[account_name]['account_id'],
-                            'credit': move_line_dict[account_name]['credit'],
-                            'debit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        moms_diff -= move_line_dict[account_name]['credit']
-                    # ~ _logger.warning('<<<<< VALUES: moms_diff %s' % moms_diff)
-                    move_line_dict = {}
-                    for k in set([a for row in [10,11,12,30,31,32,60,61,62] for a in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')]): # kollar på 26xx konton, utgående moms
-                        # ~ _logger.warning('<<<<< VALUES: k = %s' % k)
-                        for account in k.with_context(ctx).get_taxlines().mapped('account_id'):
-
-                            move_line_dict[account.name] = {'account_id': account.id, 'debit': abs(account.with_context(ctx).sum_period()) }
-                            
-                    for account_name in move_line_dict.keys():
-
-                        move_line_list.append((0, 0, {
-                            'name': account_name,
-                            'account_id': move_line_dict[account_name]['account_id'],
-                            'debit': move_line_dict[account_name]['debit'],
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        moms_diff += move_line_dict[account_name]['debit']
-                    # ~ _logger.warning('<<<<< VALUES: moms_diff %s' % moms_diff)
-
-                    if self.vat_momsbetala < 0.0: # momsfordran, moms ska få tillbaka
-                        move_line_list.append((0, 0, {
-                            'name': momsfordran.name,
-                            'account_id': momsfordran.id, # moms_journal.default_debit_account_id
-                            'partner_id': '',
-                            'debit': abs(self.vat_momsbetala),
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': momsfordran.name,
-                            'account_id': momsfordran.id,
-                            'partner_id': '',
-                            'debit': 0.0,
-                            'credit': abs(self.vat_momsbetala),
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': skattekonto.name,
-                            'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('base.res_partner-SKV').id,
-                            'debit': abs(self.vat_momsbetala),
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                    if self.vat_momsbetala > 0.0: # moms redovisning, moms ska betalas in
-                        move_line_list.append((0, 0, {
-                            'name': momsskuld.name,
-                            'account_id': momsskuld.id, # moms_journal.default_credit_account_id
-                            'partner_id': '',
-                            'debit': 0.0,
-                            'credit': self.vat_momsbetala,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': momsskuld.name,
-                            'account_id': momsskuld.id,
-                            'partner_id': '',
-                            'debit': self.vat_momsbetala,
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': skattekonto.name,
-                            'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('base.res_partner-SKV').id,
-                            'debit': 0.0,
-                            'credit': self.vat_momsbetala,
-                            'move_id': entry.id,
-                        }))
-                    # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                    _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
-                    if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
-                        # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                        oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
-                        oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
-                        # ~ test of öresavrundning.
-                        # ~ _logger.warning('<<<<< VALUES: oresavrundning = %s oresavrundning_amount = %s' % (oresavrundning, oresavrundning_amount))
-                        move_line_list.append((0, 0, {
-                            'name': oresavrundning.name,
-                            'account_id': oresavrundning.id,
-                            'partner_id': '',
-                            'debit': oresavrundning_amount if moms_diff < self.vat_momsbetala else 0.0,
-                            'credit': oresavrundning_amount if moms_diff > self.vat_momsbetala else 0.0,
-                            'move_id': entry.id,
-                        }))
-                    entry.write({
-                        'line_ids': move_line_list,
-                    })
-                    self.write({'move_id': entry.id})
-            else:
-                raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))
 
 class account_declaration_line(models.Model):
     _name = 'account.declaration.line'
@@ -628,14 +419,14 @@ class account_declaration_line(models.Model):
     move_ids = fields.Many2many(comodel_name='account.move')
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
 
-    @api.multi
-    def show_move_lines(self):
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        action.update({
-            'display_name': _('%s') %self.name,
-            'domain': [('id', 'in', self.move_line_ids.mapped('id'))],
-        })
-        return action
+    # ~ @api.multi
+    # ~ def show_move_lines(self):
+        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        # ~ action.update({
+            # ~ 'display_name': _('%s') %self.name,
+            # ~ 'domain': [('id', 'in', self.move_line_ids.mapped('id'))],
+        # ~ })
+        # ~ return action
 
 class account_move(models.Model):
     _inherit = 'account.move'
