@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
   <data>
       
     <menuitem id="menu_sie" name="SIE" parent="account.menu_finance_configuration" sequence="50" />
@@ -12,7 +12,7 @@
       <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
-    <record model="ir.values" id="export_sie_move">
+    <record model="ir.default" id="export_sie_move">
       <field name="name">Export SIE</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.sie</field>
@@ -28,7 +28,7 @@
       <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
-    <record model="ir.values" id="export_sie_period">
+    <record model="ir.default" id="export_sie_period">
       <field name="name">Export SIE</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.sie</field>
@@ -44,7 +44,7 @@
       <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
-    <record model="ir.values" id="export_sie_fiscalyear">
+    <record model="ir.default" id="export_sie_fiscalyear">
       <field name="name">Export SIE</field>
       <field name="model">account_period.fiscalyear</field>
       <field name="key2">client_action_multi</field>
@@ -58,7 +58,7 @@
       <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
-    <record model="ir.values" id="export_sie_journal">
+    <record model="ir.default" id="export_sie_journal">
       <field name="name">Export SIE</field>
       <field name="model">account.journal</field>
       <field name="key2">client_action_multi</field>
@@ -81,7 +81,7 @@
       <field name="condition" eval="True" />
       <field name="code">action = obj.export_sie(context.get('active_ids',[]))</field>
     </record>
-    <record model="ir.values" id="export_sie_account">
+    <record model="ir.default" id="export_sie_account">
       <field name="name">Export SIE</field>
       <field name="model">account.account</field>
       <field name="key2">client_action_multi</field>
@@ -162,4 +162,4 @@
     </record>
     <menuitem action="action_wizard_account_sie" id="menu_wizard_account_sie" parent="l10n_se_sie.menu_sie" />
   </data>
-</openerp>
+</odoo>

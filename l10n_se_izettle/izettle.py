@@ -30,6 +30,7 @@ from openpyxl import load_workbook
 from xlrd import open_workbook, XLRDError
 from xlrd.book import Book
 from xlrd.sheet import Sheet
+from datetime import datetime
 
 import sys
 
@@ -42,10 +43,10 @@ class IzettleTransaktionsrapportXlsType(object):
             #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
         except XLRDError as e:
-            _logger.error(u'Could not read file (iZettle Kontohändelser.xlsx)')
+            _logger.error(u'Could not read file (iZettle Kontohändelser.xls)')
             raise ValueError(e)
-        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:'):
-            # _logger.error(u'Row 0 {} (was looking for Betalningsmottagare) {}'.format(self.data.cell(5,0).value[:20], self.data.cell(10,0).value[:21]))
+        if not (self.data.cell(5,0).value[:20] == u'Betalningsmottagare:' and self.data.cell(10,0).value[:21] == u'Betalningsförmedlare:' and self.data.cell(16,8).value == u'Korttyp'):
+            _logger.error(u'Header did not contain "Betalningsmottagare:" and "Betalningsförmedlare:" and "Korttyp".')
             raise ValueError(u'This is not a iZettle Report')
 
         self.nrows = self.data.nrows - 17
@@ -80,6 +81,68 @@ class IzettleTransaktionsrapportXlsType(object):
         self.statements.append(self.current_statement)
         return self
 
+class IzettleXlrdTransaktionsrapportXlsxType(object):
+    """Parser for iZettle Kontohändelser import files."""
+
+    def __init__(self, data_file):
+        try:
+            #~ self.data_file = open_workbook(file_contents=data_file)
+            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
+        except XLRDError as e:
+            _logger.error(u'Could not read file (iZettle Kontohändelser.xls)')
+            raise ValueError(e)
+        if not (self.data.cell(5,0).value == u'Betalningsmottagare:' and self.data.cell(10,0).value == u'Betalningsförmedlare:' and self.data.cell(16,8).value == u'Kortutgivare'):
+            _logger.error(u'Header did not contain "Betalningsmottagare:" and "Betalningsförmedlare:" and "Korttyp".')
+            raise ValueError(u'This is not a iZettle Report')
+
+        self.nrows = self.data.nrows - 17
+        self.header = []
+        self.statements = []
+
+    def floatHourToTime(self,fh):
+        hours, hourSeconds = divmod(fh, 1)
+        minutes, seconds = divmod(hourSeconds * 60, 1)
+        return (
+            int(hours),
+            int(minutes),
+            int(seconds * 60),
+        )
+        
+    def parse(self):
+        """Parse iZettle transaktionsrapport bank statement file type 1."""
+
+        self.account_currency = 'SEK'
+        self.header = [c.value.lower() for c in self.data.row(16)]
+        self.account_number = self.data.cell(13,2).value
+        self.name = self.data.cell(5,2).value
+
+        self.current_statement = BankStatement()
+        self.current_statement.date = fields.Date.today()
+        self.current_statement.local_currency = self.account_currency or 'SEK'
+        self.current_statement.local_account =  self.account_number
+        self.current_statement.statement_id = 'iZettle %s' % self.data.cell(3,2).value
+        self.current_statement.start_balance = 0.0
+        for t in IzettleIterator(self.data, header_row=16):
+            transaction = self.current_statement.create_transaction()
+            transaction.transferred_amount = float(t['netto'])
+            transaction.original_amount = float(t['totalt'])
+            self.current_statement.end_balance += float(t['netto'])
+            transaction.eref = int(t['kvittonummer'])
+            transaction.name = '%s %s' % (t['kortutgivare'].strip(),t['sista siffror'].strip())
+            transaction.note = 'Totalt: %s\nMoms: %s\nAvgift: %s\n%s %s' % (float(t['totalt']), t['moms (25.0%)'], t['avgift'], t['kortutgivare'].strip(), t['sista siffror'].strip())
+            
+            dt = datetime.fromordinal(datetime(1900, 1, 1).toordinal() + int(t[u'datum']) - 2)
+            hour, minute, second = self.floatHourToTime(t[u'datum'] % 1)
+            dt = dt.replace(hour=hour, minute=minute, second=second)
+            
+            transaction.value_date = dt   
+            transaction.unique_import_id = int(t['kvittonummer'])
+
+        self.statements.append(self.current_statement)
+        return self
+    
+    
+
 class IzettleTranskationReportXlsxType(object):
     """ Parser for iZettle Kontohändelser import files. """
     def __init__(self, data_file):
@@ -91,8 +154,8 @@ class IzettleTranskationReportXlsxType(object):
         # TODO?: Catch BadZipFile, IOerror, ValueError
         except:
             raise ValueError('This is not a iZettle xlsx document')
-        if not (self.data.cell(6,3).value == u'Personal' and self.data.cell(6,13).value == u'Streckkod'):
-            _logger.error(u'Header should contain "Personal" and "Streckkod" columns but found "{}" and "{}" instead.'.format(self.data.cell(6,3).value, self.data.cell(6,13).value))
+        if not (self.data.cell(6,1).value == u'Betalningsmottagare:' and self.data.cell(11,1).value == u'Betalningsförmedlare:' and self.data.cell(17,9).value == u'Kortutgivare'):
+            _logger.error(u'Header did not contain "Betalningsmottagare" or "Betalningsförmedlare" or "Kortutgivare".')
             raise ValueError(u'This is not a iZettle xlsx Report')
         
         self.header = []
@@ -102,7 +165,7 @@ class IzettleTranskationReportXlsxType(object):
         """ Parse iZettle transactionsreport bank statement file type 2. """
         
         self.account_currency = 'SEK'
-        self.account_number = "556806-0734" #TODO: Change to actual sheet value? There is none currently?
+        self.account_number = self.accountnumbergenerator() #TODO: Change to actual sheet value? There is none currently?
         self.name = self.data.cell(4,3).value
 
         self.current_statement = BankStatement()
@@ -113,22 +176,29 @@ class IzettleTranskationReportXlsxType(object):
         self.current_statement.start_balance = 0.0
         self.current_statement.end_balance = 0.0
         
-        for index, row in enumerate(self.data.iter_rows(6, values_only=True), start=6):
-            if (index == 6):
+        for index, row in enumerate(self.data.iter_rows(17, self.data.max_row-3, values_only=True), start=17):
+            if (index == 17):
                 self.header = {c:i for i, c in enumerate(row)}
             else:
-                transaction_dict = {key:row[self.header[key]] for key in self.header}
+                tdict = {key:row[self.header[key]] for key in self.header}
                 transaction = self.current_statement.create_transaction()
-                transaction['amount'] = transaction_dict['Slutpris (SEK)']
+                transaction['amount'] = tdict[u'Netto']
                 transaction['account_number'] = self.account_number
-                transaction['original_amount'] = transaction_dict[u'Slutpris (SEK)']
-                transaction['date'] = transaction_dict['Tid'].strftime("%Y-%m-%d")
-                transaction['name'] = transaction_dict['Namn'].strip()
-                self.current_statement.end_balance += transaction_dict[u'Slutpris (SEK)']
+                transaction['original_amount'] = tdict[u'Totalt']
+                transaction['date'] = tdict['Tid'].strftime("%Y-%m-%d")
+                transaction['name'] = int(tdict[u'Kvittonummer'])
+                transaction['note'] = 'Totalt: {}\nMoms: {}\nAvgift: {}\n{} {}'.format(tdict[u'Totalt'], tdict[u'Moms (25.0%)'], tdict[u'Avgift'], tdict[u'Kortutgivare'].strip(), tdict[u'Sista siffror'].strip())
+                self.current_statement.end_balance += tdict[u'Totalt']
                 
-        _logger.info(self.current_statement)
         self.statements.append(self.current_statement)
         return self
+    
+    def accountnumbergenerator(self):
+        def accn(part):
+            return ''.join([ i for i in part if i.isdigit()])
+        result = '-'.join([accn(self.data.cell(12,3).value), accn(self.data.cell(13,3).value), accn(self.data.cell(14,3).value)])
+        return result
+    
 
 class IzettleIterator(object):
     def __init__(self, data,header_row=16):

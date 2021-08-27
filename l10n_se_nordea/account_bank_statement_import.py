@@ -33,13 +33,14 @@ class AccountBankStatementImport(models.TransientModel):
     @api.model
     def _parse_file(self, data_file):
         """Parse a Nordbanken transaktionsrapport  file."""
+        _logger.warn('Parse %s' % data_file)
         try:
             _logger.debug("Try parsing with nordea_transaktioner.")
             parser = Parser(data_file)
             nordea = parser.parse()
         except ValueError:
             # Not a Nordbanken file, returning super will call next candidate:
-            _logger.error("Statement file was not a Nordea Transaktionsrapport file.")
+            _logger.error("Statement file was not a Nordea Transaktionsrapport file.",exc_info=True)
             return super(AccountBankStatementImport, self)._parse_file(data_file)
 
 

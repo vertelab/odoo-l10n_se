@@ -17,7 +17,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import io
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
@@ -34,17 +33,21 @@ class NordeaTransaktionsrapport(object):
     """Parser for Nordea Transaktions import files (CSV)."""
 
     def __init__(self, data_file):
+        _logger.error('Parser %s' % data_file)
+        
         try:
-            file = io.StringIO(data_file.decode("utf-8"))
-            file.seek(0)
             rows = []
-            reader = csv.DictReader(file,delimiter=";")
+            fp = tempfile.TemporaryFile()
+            fp.write(data_file)
+            fp.seek(0)
+            reader = csv.DictReader(fp,delimiter=";")
             for row in reader:
                 rows.append(row)
+            fp.close()
             self.data = rows
-        except ValueError:
+        except IOError as e:
             _logger.error(u'Could not read CSV file')
-            raise ValueError('This is not a Nordbanken Transaktionsrapport')
+            raise ValueError(e)
         _logger.error('%s' % self.data[0].keys())
         if not self.data[0].keys() == ['Avs\xc3\xa4ndare', 'Mottagare', '\xef\xbb\xbfBokf\xc3\xb6ringsdag', 'Belopp', 'Valuta', 'Namn', 'Saldo', 'Meddelande', 'Typ', 'Rubrik']:
             _logger.error(u'Row 0 was looking for "To Email Address", "Transaction ID" and "Invoice Number".')

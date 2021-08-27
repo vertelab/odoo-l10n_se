@@ -39,7 +39,7 @@ class AccountBankStatementImport(models.TransientModel):
             handelsbanken = parser.parse()
         except ValueError:
             # Not a Handelsbanken file, returning super will call next candidate:
-            _logger.error("Statement file was not a Handelsbanken Transaktionsrapport file.")
+            _logger.error("Statement file was not a Handelsbanken Transaktionsrapport file.",exc_info=True)
             return super(AccountBankStatementImport, self)._parse_file(data_file)
 
 
@@ -49,7 +49,7 @@ class AccountBankStatementImport(models.TransientModel):
         transactions = []
         total_amt = 0.00
         try:
-            for transaction in handelsbanken:
+            for index, transaction in enumerate(handelsbanken.statements):
                 bank_account_id = partner_id = False
                 ref = ''
                 if transaction['Referens']:
@@ -60,9 +60,8 @@ class AccountBankStatementImport(models.TransientModel):
                         partner_id = partner_id[0].commercial_partner_id.id
                 # ~ Kontohavare;Kontonr;IBAN;BIC;Kontoform;Valuta;Kontoförande kontor;Datum intervall;Kontor;Bokföringsdag;
                 # ~ Reskontradag;Valutadag;Referens;Insättning/Uttag;Bokfört saldo;Aktuellt saldo;Valutadagssaldo;Referens Swish;Avsändar-id Swish;
-                _logger.error('Transaction :: %s' % transaction['Referens'])
-                _logger.error('Transaction :: %s' % transaction['Bokforingsdag'])
-                _logger.error('Transaction :: %s' % transaction)
+                #_logger.error('Transaction :: %s' % transaction['Referens'])
+                #_logger.error('Transaction :: %s' % transaction[u'Bokföringsdag'])
 
                 vals_line = {
                     # ~ 'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
@@ -72,29 +71,34 @@ class AccountBankStatementImport(models.TransientModel):
                     # ~ 'unique_import_id': 'handelsbanken %s %s' % (handelsbanken.account.name[29:52], transaction['radnr']),
                     # ~ 'bank_account_id': bank_account_id or None,
                     # ~ 'partner_id': partner_id or None,
-                    'date': transaction[u'Bokforingsdag'],  # bokfdag, transdag, valutadag
+                    'date': transaction[u'Bokföringsdag'],  # bokfdag, transdag, valutadag
                     'name': ref + (transaction['Kontohavare'] and ': ' + transaction['Kontonr'] or ''),
                     'ref': transaction['Referens'],
-                    'amount': transaction[u'Bokfört saldo'],
-                    'unique_import_id': 'handelsbanken %s %s' % (transaction['Kontoform'], transaction['Kontonr']),
+                    #'amount': transaction[u'Bokfört saldo'],
+                    'amount': transaction[u'Insättning/Uttag'].replace(",","."),
+                    #'unique_import_id': 'handelsbanken %s %s' % (transaction['Kontoform'], transaction['Kontonr']),
+                    # Making an unique string to satisfy Odoo as we have no real unique data to identify a transaction
+                    'unique_import_id': hashlib.md5(''.join((str(index), str(transaction[u'Bokföringsdag']), str(transaction[u'Insättning/Uttag'])))).hexdigest(),
                     'bank_account_id': bank_account_id or None,
                     'partner_id': partner_id or None,
                 }
                 if not vals_line['name']:
                     vals_line['name'] = transaction['Kontohavare'].capitalize()
-                total_amt += float(transaction[u'Insättning/Uttag'])
+                total_amt += 0.0 if transaction[u'Insättning/Uttag'] == '' else float(transaction[u'Insättning/Uttag'].replace(",","."))
                 transactions.append(vals_line)
-        except Exception as e:
+        except KeyError as e:
             raise Warning(_(
                 "The following problem occurred during import. "
-                "The file might not be valid.\n\n %s" % e.message
+                "The file might not be valid.\n\n %s" % e
             ))
         vals_bank_statement = {
             'name': handelsbanken.account.name,
-            'transactions': transactions,
+            'date': handelsbanken.account.date,
             'balance_start': handelsbanken.account.balance_start,
+            'balance_end': handelsbanken.account.balance_end,
             'balance_end_real':
                 float(handelsbanken.account.balance_start) + total_amt,
+            'transactions': transactions,
         }
         return handelsbanken.account.currency, handelsbanken.account.number, [
             vals_bank_statement]

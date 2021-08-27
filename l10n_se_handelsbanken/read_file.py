@@ -41,7 +41,6 @@ class HandelsbankenTransaktionsrapport(object):
     """Parser for Handelsbanken Transaktions import files (CSV)."""
     
     def __init__(self, data_file):
-        print data_file
         _logger.error('Parser %s' % data_file)
         
         try:

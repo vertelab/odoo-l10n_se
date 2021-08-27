@@ -19,7 +19,9 @@
                 </div>
             </field>
         </record>
-        <record id="view_bank_statement_tree" model="ir.ui.view">
+
+        <!-- TODO: CHECK IF THIS FIELD IS NEEDED IN 14? -->
+        <!-- <record id="view_bank_statement_tree" model="ir.ui.view">
             <field name="name">account.bank.statement.tree.inherited.l10n_se_bank_statement_import</field>
             <field name="model">account.bank.statement</field>
             <field name="inherit_id" ref="account.view_bank_statement_tree"/>
@@ -28,6 +30,6 @@
                     <field name="untrackable_journal_entries_count"/>
                 </field>
             </field>
-        </record>
+        </record> -->
     </data>
 </odoo>
