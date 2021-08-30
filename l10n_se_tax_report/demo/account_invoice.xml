@@ -62,7 +62,7 @@
             <field name="invoice_user_id" ref="base.user_demo"/>
 
 <!--
-            <field name="date_due" eval="time.strftime('%Y')+'-03-14'" />
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
             <field name="period_id" search="[('name', '=', '03/2021')]"/>
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
@@ -106,6 +106,7 @@
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-03-23'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
 invoice_date
             <field name="date_due" eval="time.strftime('%Y')+'-03-23'" />
@@ -206,6 +207,7 @@ invoice_date
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-05-01'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-05-01'" />
 -->
@@ -309,6 +311,9 @@ invoice_date
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-10'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
 <!--
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
+-->
+<!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-10'" />
 -->
             <field name="period_id" search="[('name', '=', '06/2021')]"/>
@@ -409,6 +414,9 @@ invoice_date
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-02'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
+<!--
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
+-->
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
@@ -516,6 +524,7 @@ invoice_date
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
@@ -628,6 +637,7 @@ invoice_date
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
@@ -739,6 +749,9 @@ invoice_date
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-05'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
 <!--
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
+-->
+<!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-05" />
 -->
             <field name="period_id" search="[('name', '=', '06/2021')]"/>
@@ -841,6 +854,7 @@ invoice_date
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-15'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->

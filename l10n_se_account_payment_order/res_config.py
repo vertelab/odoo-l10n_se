@@ -87,3 +87,10 @@ class AccountPaymentLineCreate(models.TransientModel):
                     break
         _logger.warning(f"jakmar: domain {res}")
         return res
+        
+        
+        
+        
+
+# ~ 2021-08-25 07:14:31,363 258992 WARNING config_is_awful odoo.addons.l10n_se_account_payment_order.res_config: jakmar: domain [('reconciled', '=', False), ('company_id', '=', 1), ('blocked', '!=', True), '|', ('date_maturity', '<=', datetime.date(2022, 6, 30)), ('date_maturity', '=', False), ('credit', '>', 0), '|', ('account_id.internal_type', 'in', ['payable', 'receivable']), ('account_id.id', 'in', ['55', '887'])] 
+

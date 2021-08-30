@@ -28,7 +28,7 @@
                     </xpath>
 -->
                     <xpath expr="//header" position="inside">
-                        <button name="show_preview" string="Show Preview" type="object" class="oe_highlight" states="draft,done,confirmed,canceled"/>
+                        <button name="show_mis_report" string="Show Report" type="object" class="oe_highlight" states="draft,done,confirmed,canceled"/>
                     </xpath>
 
                   </field>

@@ -447,7 +447,6 @@
   </data>
 -->
   <data>
-<!--
     <record id="moms_journal" model="account.journal">
       <field name="name">Momsjournal</field>
       <field name="type">general</field>
@@ -455,6 +454,7 @@
       <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1650')]" />
       <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2650')]" />
     </record>
+<!--
     <record id="agd_journal" model="account.journal">
       <field name="name">Agdjournal</field>
       <field name="type">general</field>
