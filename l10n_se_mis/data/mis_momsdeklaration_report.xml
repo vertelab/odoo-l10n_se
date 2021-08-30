@@ -302,7 +302,7 @@
         </record>
         <record id="kpi_report_md_MomsIngAvdr" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_md_MomsIngAvdr"/>
-            <field name="name">balp[]['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|', ('tax_line_id.name', '=', 'IT'),('tax_line_id.name', '=', 'IT6'),('tax_line_id.name', '=', 'IT6'),('tax_line_id.name', '=', 'I'),('tax_line_id.name', '=', 'VFEU'),('tax_line_id.name', '=', 'VFEU12'),('tax_line_id.name', '=', 'VFEU6'),('tax_line_id.name', '=', 'TFEU'),('tax_line_id.name', '=', 'TFEU12'),('tax_line_id.name', '=', 'TFEU6'),('tax_line_id.name', '=', 'MBBUI1'),('tax_line_id.name', '=', 'MBBUI2'),('tax_line_id.name', '=', 'MBBUI3'),('tax_line_id.name', '=', 'Ii'),('tax_line_id.name', '=', 'I12'),('tax_line_id.name', '=', 'I12i'),('tax_line_id.name', '=', 'I6'),('tax_line_id.name', '=', 'I6i')]</field>
+            <field name="name">balp[]['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|', ('tax_line_id.name', '=', 'IT'),('tax_line_id.name', '=', 'IT6'),('tax_line_id.name', '=', 'IT12'),('tax_line_id.name', '=', 'I'),('tax_line_id.name', '=', 'VFEU'),('tax_line_id.name', '=', 'VFEU12'),('tax_line_id.name', '=', 'VFEU6'),('tax_line_id.name', '=', 'TFEU'),('tax_line_id.name', '=', 'TFEU12'),('tax_line_id.name', '=', 'TFEU6'),('tax_line_id.name', '=', 'MBBUI1'),('tax_line_id.name', '=', 'MBBUI2'),('tax_line_id.name', '=', 'MBBUI3'),('tax_line_id.name', '=', 'Ii'),('tax_line_id.name', '=', 'I12'),('tax_line_id.name', '=', 'I12i'),('tax_line_id.name', '=', 'I6'),('tax_line_id.name', '=', 'I6i')]</field>
         </record>
         
         <record id="report_md_MomsUlagImport" model="mis.report.kpi">
