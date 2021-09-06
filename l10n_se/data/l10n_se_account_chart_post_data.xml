@@ -13,5 +13,20 @@
           <field name="property_account_income_categ_id" ref="chart3004"/>
           <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
           <field name="expense_currency_exchange_account_id" ref="chart8999"/>
+          <field name="default_pos_receivable_account_id" ref="chart1910"/>
+        </record>
+        
+        <record id="chart_template_K3_2017" model="account.chart.template">
+          <field name="property_account_receivable_id" ref="chart1510" />
+          <field name="property_account_payable_id" ref="chart2440" />
+          <field name="property_account_expense_categ_id" ref="chart8990"/>
+          <field name="property_account_income_categ_id" ref="chart3004"/>
+          <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
+          <field name="expense_currency_exchange_account_id" ref="chart8999"/>
+          <field name="default_pos_receivable_account_id" ref="chart1910"/>
         </record>
 </odoo>
+
+
+
+

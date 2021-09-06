@@ -117,7 +117,7 @@ def import_excel(year, input, output):
                 'code': str(int(row[2].value)),
                 'name': row[3].value,
             })
-            if row[1] != not_k2:
+            if row[1].value != not_k2:
                 k2.append({
                     'code': str(int(row[2].value)),
                     'name': row[3].value,
@@ -127,7 +127,7 @@ def import_excel(year, input, output):
                 'code': str(int(row[5].value)),
                 'name': row[6].value,
             })
-            if row[4] != not_k2:
+            if row[4].value != not_k2:
                 k2.append({
                     'code': str(int(row[5].value)),
                     'name': row[6].value,
