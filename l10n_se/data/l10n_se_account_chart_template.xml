@@ -430,6 +430,27 @@
            <field name="income_currency_exchange_account_id" ref="a754"/>
       -->
     </record>
+    
+<!--
+    TILL FÖR MARIA SKATTEKONTON
+-->
+<!--
+    <record id="chart6999" model="account.account.template">
+      <field name="name">Ingående moms, blandad verksamhet </field>
+      <field name="code">6999</field>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+-->
+<!--
+
+    <record id="chart3108" model="account.account.template">
+      <field name="name">Ingående moms, blandad verksamhet </field>
+      <field name="code">3108</field>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+-->
 
 
 

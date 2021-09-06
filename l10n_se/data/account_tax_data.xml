@@ -714,7 +714,7 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'account_id': ref('chart2634'),
+                'account_id': ref('chart2614'),
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
@@ -1585,6 +1585,163 @@
                 'account_id': ref('chart3003'),
             }),]"/>
         </record>
+        
+<!--
+        MARIA SPECIFIKA ACCOUNT_TAX
+-->
+        <record id="fveu0" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="name">FVEU0</field>
+            <field name="description">Sales of goods to other EU countries, 0% VAT</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        
+        <record id="fvueuo" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="name">FVUEU0</field>
+            <field name="description">Sale of Goods Outside of EU, 0% VAT </field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        
+<!--
+         <record id="mpiu" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="name">MPIU</field>
+            <field name="description">Utgående moms för uthyrning, 25%</field>
+            <field name="amount"></field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2613'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2613'),
+            }),]"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+-->
+        
+        
+        <record id="mpiv" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="name">MPIV</field>
+            <field name="description">Vilande ingående moms, 25%</field>
+            <field name="amount">25</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2648'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2648'),
+            }),]"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        
+<!--
+        <record id="mpibv" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="name">MPIV</field>
+            <field name="description">Ingående moms, blandad verksamhet 25%</field>
+            <field name="amount">25</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart6999'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart6999'),
+            }),]"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+-->
+        
+<!--
+        <record id="mpff6" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="name">MPFF6</field>
+            <field name="description">Debiterad ingående moms frivillig skatteskyldig, 6%</field>
+            <field name="amount">6</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+             <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2642'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2642'),
+            }),]"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+-->
+
+
+
 
 
     </data>
