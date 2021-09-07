@@ -32,8 +32,6 @@ class AccountBankStatementImport(models.TransientModel):
     """Add Stripe method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
-    account_number = fields.Char("Bank account number");
-    is_stripe_import = fields.Boolean("Stripe import");
 
     @api.model
     def _parse_file(self, data_file):
@@ -44,50 +42,44 @@ class AccountBankStatementImport(models.TransientModel):
 
         try:
             _logger.info(u"Try parsing with Stripe Report file.")
-            parser = Parser(data_file, self.env.context.get('account_number'))
+            parser = Parser(data_file)
         except ValueError:
             _logger.info(u"Statement file was not a Stripe Report file.")
             return super(AccountBankStatementImport, self)._parse_file(data_file)
-
+            
 
         stripe = parser.parse()
         for s in stripe.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
             move_line_ids = []
             for t in s['transactions']:
-                _logger.info('parsing transaction')
+                sale_order_name = t['ref'][:-2]
+                sale_order = self.env['sale.order'].search([('name','=',sale_order_name)], limit=1)
+                
+                if sale_order.invoice_ids[0].state == 'paid':
+                    s.end_balance -= t['amount']
+                    s['transactions'].remove(t)
+                    _logger.info('Removed transaction, was already paid: {}'.format(sale_order_name))
+                    continue
+            
                 t['currency_id'] = currency.id
                 partner_id = self.env['res.partner'].search([('email', 'ilike', t['name'].split(',')[0])], limit=1)
                 if partner_id:
                     t['account_number'] = partner_id.commercial_partner_id.bank_ids and partner_id.commercial_partner_id.bank_ids[0].acc_number or ''
                     t['partner_id'] = partner_id.commercial_partner_id.id
-                    _logger.info(partner_id.name)
 
-                _logger.info('ref= {}'.format(t['ref']))
-                sale_order_name = t['ref'][:-2]
                 reference = '{} ({})'.format(partner_id.name, sale_order_name)
-                _logger.info('reference = {}'.format(reference))
-                
-                
                 account_move = self.env['account.move'].search([('ref', '=', reference)])
                 line = account_move.line_id
-                # ~ _logger.info(line)
-                # ~ _logger.info(account_move)
                 if sale_order_name and len(line) > 0:
+                    sale_order = self.env['sale.order'].search([('name','=',sale_order_name)], limit=1)
                     if line[0].move_id.state == 'draft':
                         line[0].move_id.date = t['date']
-                    if t['amount refunded'] > 0:
-                        _logger.info('111 s%' % (t['amount'] - t['amount refunded']))
-                        if t['amount'] - t['amount refunded'] == account_move.amount:
-                            t['journal_entry_id'] = line[0].move_id.id
-                    elif t['amount'] == account_move.amount:
                         t['journal_entry_id'] = line[0].move_id.id
-                    else:
-                        _logger.info('Sale order matched but amount did not')
-                    # ~ for line in line[0].move_id.line_id:
-                        # ~ move_line_ids.append(line)
-
-            #s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
+                    for line in line[0].move_id.line_id:
+                        move_line_ids.append(line)
+            _logger.info('appending move line ids: {}'.format(move_line_ids))
+            s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
         return stripe.account_currency, stripe.account_number, stripe.statements
 

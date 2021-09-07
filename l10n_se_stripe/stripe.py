@@ -35,7 +35,7 @@ except:
 class StripePaymentsReport(object):
     """Parser for Stripe Kontohändelser import files."""
 
-    def __init__(self, data_file, account_number):
+    def __init__(self, data_file):
         try:
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
         except XLRDError, e:
@@ -49,14 +49,14 @@ class StripePaymentsReport(object):
         self.header = []
         self.statements = []
 
-        self.account_number = account_number
+       
 
     def parse(self):
         """Parse stripe transaktionsrapport bank statement file contents type 1."""
         self.account_currency = self.data.row(1)[6].value
         self.header = [c.value.lower() for c in self.data.row(0)]
         self.name = 'Stripe'
-
+        self.account_number = ''
         self.current_statement = BankStatement()
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
@@ -64,16 +64,18 @@ class StripePaymentsReport(object):
         self.current_statement.statement_id = 'Stripe %s - %s' % (self.data.row(1)[3].value,
                                                            self.data.row(self.data.nrows-1)[3].value) 
         self.current_statement.start_balance = 0.0
+
         for t in StripeIterator(self.data, header_row=0):
+
             transaction = self.current_statement.create_transaction()
-            transaction.transferred_amount = float(t['amount'])
-            transaction.original_amount = float(t['amount'])
-            self.current_statement.end_balance += float(t['amount'])
+            transaction.transferred_amount = float(t['amount']) - float(t['amount refunded'])
+            transaction.original_amount = float(t['amount']) - float(t['amount refunded'])
+            self.current_statement.end_balance += float(t['amount']) - float(t['amount refunded'])
             transaction.eref = t['description']
             transaction.name = '%s,%s' % (t['customer email'], t['description'].strip())
             transaction.value_date = t[u'created (utc)']
-            #transaction.unique_import_id =
-            #transaction.email = t['customer email']
+            transaction.unique_import_id = t['id']
+            
 
         self.statements.append(self.current_statement)
         return self
