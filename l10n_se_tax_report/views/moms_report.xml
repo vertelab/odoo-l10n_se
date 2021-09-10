@@ -24,8 +24,11 @@
             <field name="state" widget="statusbar" />
           </header>
           <sheet>
-            <div class="oe_right oe_button_box" name="buttons">
+            <div class="oe_button_box" name="button_box">
+<!--
               <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
+-->
+                <button type="object" class="btn btn-secondary" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsutg" widget="monetary" options="{'currency_field': 'currency_id'}" />

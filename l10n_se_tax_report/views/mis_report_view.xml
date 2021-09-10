@@ -19,6 +19,7 @@
                     <field name="arch" type="xml">
                     <xpath expr="//field[@name='move_id'][last()]" position="after">
                             <field name="eskd_file_mis" states="draft,done,confirmed,canceled"/>
+                            <field name="find_moves_by_period"/>
                     </xpath>
 <!--                Gammal lösning. Uppdaterar sig inte efter att man har bytt record. Vilket är synd
                     <xpath expr="//notebook" position="inside">
