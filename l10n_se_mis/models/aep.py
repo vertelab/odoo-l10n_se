@@ -350,7 +350,7 @@ class AccountingExpressionProcessorExtended(object):
                     ("user_type_id.include_initial_balance", "=", False),
                 ]
         if target_move == "posted":
-            # ~ domain.append(("move_id.state", "=", "posted"))
+            domain.append(("move_id.state", "=", "posted"))
         result = expression.normalize_domain(domain)
         # ~ _logger.warning(f"{domain=}")
         # ~ _logger.warning(f"{result=}")
