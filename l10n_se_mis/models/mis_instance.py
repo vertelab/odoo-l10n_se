@@ -12,15 +12,13 @@ class MisReportInstancePeriod(models.Model):
     _inherit = 'mis.report.instance.period'
     
     def _get_additional_move_line_filter(self):
-        _logger.warning("additional domain1: domain")
         domain = super(MisReportInstancePeriod,self)._get_additional_move_line_filter()
-        _logger.warning(f"additional domain1: {domain}")
+        # ~ _logger.warning(f"additional domain: {domain}")
         if (
             self._get_aml_model_name() == "account.move.line"
             and self.report_instance_id.target_move == "draft"
         ):
             domain.extend([("move_id.state", "=", "draft")])
-            _logger.warning("additional domain2: domain")
         return domain
 
 class MisReportInstance(models.Model):
@@ -64,7 +62,6 @@ class MisReportInstance(models.Model):
         )
         
     def drilldown(self, arg):
-            _logger.warning(f"bob1")
             self.ensure_one()
             period_id = arg.get("period_id")
             expr = arg.get("expr")
@@ -85,7 +82,7 @@ class MisReportInstance(models.Model):
                     find_moves_by_period = self.find_moves_by_period, #ADDED
                     accounting_method = self.accounting_method, #ADDED
                 )
-                _logger.warning(f"bob1 {domain}")
+                # ~ _logger.warning(f"drilldown {domain}")
                 domain.extend(period._get_additional_move_line_filter())
                 return {
                     "name": self._get_drilldown_action_name(arg),

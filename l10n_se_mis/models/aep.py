@@ -248,7 +248,7 @@ class AccountingExpressionProcessorExtended(object):
                 aml_domain.append(("debit", "<>", 0.0))
             aml_domains.append(expression.normalize_domain(aml_domain))
             if mode not in date_domain_by_mode:
-                _logger.warning(f"find_moves_by_period12: {find_moves_by_period} {target_move}")
+                # ~ _logger.warning(f"find_moves_by_period: {find_moves_by_period} {target_move}")
                 date_domain_by_mode[mode] = self.get_aml_domain_for_dates(
                     date_from, date_to, mode, target_move, find_moves_by_period=find_moves_by_period, accounting_method=accounting_method
                 )
@@ -258,8 +258,8 @@ class AccountingExpressionProcessorExtended(object):
         return expression.OR(aml_domains) + expression.OR(date_domain_by_mode.values())
 
     def get_aml_domain_for_dates(self, date_from, date_to, mode, target_move, find_moves_by_period = False, accounting_method='invoice'):
-        _logger.warning(f"mode1: {mode}")
-        _logger.warning(f"why no change?: {find_moves_by_period}")
+        # ~ _logger.warning(f"mode1: {mode}")
+
         
         if mode == self.MODE_VARIATION:
             if find_moves_by_period and accounting_method == 'invoice':
@@ -349,13 +349,11 @@ class AccountingExpressionProcessorExtended(object):
                     ("date", "<", fields.Date.to_string(fy_date_from)),
                     ("user_type_id.include_initial_balance", "=", False),
                 ]
-        _logger.warning("do i get chenges here??????????????????????????????????")
         if target_move == "posted":
-            _logger.warning("do i get added here??????????????????????????????????")
             # ~ domain.append(("move_id.state", "=", "posted"))
         result = expression.normalize_domain(domain)
-        _logger.warning(f"{domain=}")
-        _logger.warning(f"{result=}")
+        # ~ _logger.warning(f"{domain=}")
+        # ~ _logger.warning(f"{result=}")
         return result
 
     def _get_company_rates(self, date):
@@ -402,18 +400,17 @@ class AccountingExpressionProcessorExtended(object):
                 ends.append((domain, mode))
                 continue
             if mode not in domain_by_mode:
-                _logger.warning(f"find_moves_by_period2:{find_moves_by_period} {target_move}")
                 domain_by_mode[mode] = self.get_aml_domain_for_dates(
                     date_from, date_to, mode, target_move, find_moves_by_period=find_moves_by_period, accounting_method=accounting_method
                 )
-            _logger.warning(domain)
+            # ~ _logger.warning(domain)
             domain = list(domain) + domain_by_mode[mode]
-            _logger.warning(domain)
+            # ~ _logger.warning(domain)
             domain.append(("account_id", "in", self._map_account_ids[key]))
             if additional_move_line_filter:
                 domain.extend(additional_move_line_filter)
             # fetch sum of debit/credit, grouped by account_id
-            _logger.warning(domain)
+            # ~ _logger.warning(domain)
             accs = aml_model.read_group(
                 domain,
                 ["debit", "credit", "account_id", "company_id"],

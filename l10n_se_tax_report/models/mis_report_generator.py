@@ -30,7 +30,6 @@ class account_vat_declaration(models.Model):
              decl.vat_momsingavdr = 0
              decl.vat_momsbetala  = 0
              if decl.period_start and decl.period_stop and decl.generated_mis_report_id:
-                _logger.warning("if case 1")
                 decl.generated_mis_report_id.write({'find_moves_by_period': decl.find_moves_by_period})
                 decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_from':decl.period_start.date_start})
@@ -39,7 +38,7 @@ class account_vat_declaration(models.Model):
                 matrix = decl.generated_mis_report_id._compute_matrix()
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
-                    # ~ _logger.warning("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
+                    # ~ _logger.debug("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
                     # ~ _logger.info('jakmar name: {} value: {}'.format(row.kpi.name,vals[0]))
                     if row.kpi.name == 'MomsIngAvdr':
                         decl.vat_momsingavdr = vals[0]
@@ -122,7 +121,7 @@ class account_vat_declaration(models.Model):
                             move_line_dict[line.account_id.name]['debit']+=line.credit
                         else:
                             move_line_dict[line.account_id.name] = {'account_id':line.account_id.id,'debit':line.credit}
-                    _logger.warning(f"jakmar {move_line_dict}")
+                    # ~ _logger.warning(f"jakmar {move_line_dict}")
                     
                     for account_name in move_line_dict.keys():
                         move_line_list.append((0, 0, {
@@ -185,7 +184,7 @@ class account_vat_declaration(models.Model):
                             'move_id': entry.id,
                         }))
                     # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                    _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
+                    # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
                         # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
                         oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
@@ -307,11 +306,7 @@ class account_vat_declaration(models.Model):
             if(len(row_kpi_names) == 0 or row.kpi.name in row_kpi_names):
                 for cell in row.iter_cells():
                         drilldown_arg = cell.drilldown_arg
-                        _logger.warning(f"jakmar watatwatat1 {drilldown_arg}")
                         res = self.generated_mis_report_id.drilldown(drilldown_arg)
-                        _logger.warning("jakmar watatwatat2")
-                        _logger.warning(f"jakmar watatwatat3 {res}")
-                        _logger.warning(f"jakmar watatwatat4 {res['domain']}")
                         move_line_recordset += self.env['account.move.line'].search(res['domain'])
         return move_line_recordset
         
