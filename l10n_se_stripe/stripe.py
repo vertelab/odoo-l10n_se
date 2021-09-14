@@ -22,7 +22,8 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 import base64
 from openerp.addons.account_bank_statement_import.parserlib import BankStatement
 import hashlib
-
+from io import BytesIO
+import unicodedata
 import logging
 _logger = logging.getLogger(__name__)
 try:
@@ -32,10 +33,34 @@ try:
 except:
     _logger.info('xlrd not installed.')
 
+
+def convert_datafile_to_csv(data_file):
+    """
+    This function will read the binary csv file and then
+    it will convert it to an xls file and then return a binary
+    so that we then can parse it as an xls file
+    :param data_file:
+    :return:
+    """
+    in_memory_fp = BytesIO()
+    read_file = pd.read_csv(BytesIO(data_file), encoding="latin1")
+    read_file.to_excel(in_memory_fp, index=None, header=True)
+    in_memory_fp.seek(0, 0)
+    binary_xl = in_memory_fp.read()
+    return binary_xl
+
 class StripePaymentsReport(object):
     """Parser for Stripe Kontohändelser import files."""
 
-    def __init__(self, data_file):
+    def __init__(self, data_file, filename):
+        self.filename = filename
+        try:
+            if self.filename.lower().endswith(('.csv', '.txt')):
+                _logger.info('CSV file')
+                data_file = convert_datafile_to_csv(data_file)
+                _logger.info('file was converted')
+        except Exception as e:
+            _logger.warn("Can't convert CSV file %s" % e)
         try:
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
         except XLRDError, e:
@@ -49,7 +74,7 @@ class StripePaymentsReport(object):
         self.header = []
         self.statements = []
 
-       
+
 
     def parse(self):
         """Parse stripe transaktionsrapport bank statement file contents type 1."""
@@ -62,20 +87,27 @@ class StripePaymentsReport(object):
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account = self.account_number
         self.current_statement.statement_id = 'Stripe %s - %s' % (self.data.row(1)[3].value,
-                                                           self.data.row(self.data.nrows-1)[3].value) 
+                                                           self.data.row(self.data.nrows-1)[3].value)
         self.current_statement.start_balance = 0.0
 
         for t in StripeIterator(self.data, header_row=0):
 
             transaction = self.current_statement.create_transaction()
-            transaction.transferred_amount = float(t['amount']) - float(t['amount refunded'])
-            transaction.original_amount = float(t['amount']) - float(t['amount refunded'])
-            self.current_statement.end_balance += float(t['amount']) - float(t['amount refunded'])
-            transaction.eref = t['description']
-            transaction.name = '%s,%s' % (t['customer email'], t['description'].strip())
-            transaction.value_date = t[u'created (utc)']
-            transaction.unique_import_id = t['id']
-            
+            try:
+                if not isinstance(t['amount'], float):
+                    t['amount'] = float(t['amount'].replace(",", "."))
+                if not isinstance(t['amount refunded'], float):
+                    t['amount refunded'] = float(t['amount refunded'].replace(",", "."))
+                transaction.transferred_amount = float(t['amount']) - float(t['amount refunded'])
+                transaction.original_amount = float(t['amount']) - float(t['amount refunded'])
+                self.current_statement.end_balance += float(t['amount']) - float(t['amount refunded'])
+                transaction.eref = t['description']
+                transaction.name = '%s,%s' % (t['customer email'], t['description'].strip())
+                transaction.value_date = t[u'created (utc)']
+                transaction.unique_import_id = t['id']
+            except ValueError as e:
+                _logger.error(u'Could not read file')
+                raise ValueError('Invalid values in file', e)
 
         self.statements.append(self.current_statement)
         return self

@@ -41,8 +41,8 @@ class AccountBankStatementImport(models.TransientModel):
         """
 
         try:
-            _logger.info(u"Try parsing with Stripe Report file.")
-            parser = Parser(data_file)
+            _logger.info(u"Try parsing with Stripe Report file ({}).".format(self.env.context.get('filename')))
+            parser = Parser(data_file, filename=self.env.context.get('filename'))
         except ValueError:
             _logger.info(u"Statement file was not a Stripe Report file.")
             return super(AccountBankStatementImport, self)._parse_file(data_file)
@@ -55,8 +55,7 @@ class AccountBankStatementImport(models.TransientModel):
             for t in s['transactions']:
                 sale_order_name = t['ref'][:-2]
                 sale_order = self.env['sale.order'].search([('name','=',sale_order_name)], limit=1)
-                
-                if sale_order.invoice_ids[0].state == 'paid':
+                if len(sale_order) > 0 and sale_order.invoice_ids[0].state == 'paid':
                     s.end_balance -= t['amount']
                     s['transactions'].remove(t)
                     _logger.info('Removed transaction, was already paid: {}'.format(sale_order_name))
