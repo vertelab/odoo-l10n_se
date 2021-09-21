@@ -9,32 +9,38 @@ class account_vat_declaration(models.Model):
     _inherit = 'account.vat.declaration'
     momsdeklaration_template = fields.Many2one(comodel_name='mis.report', string='Mis_Templates')
     eskd_file_mis = fields.Binary(string="eSKD-file_mis",readonly=True)
-    generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', default = lambda self: self._generate_mis_report(), ondelete='cascade', readonly = 'true')
+    # ~ generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', default = lambda self: self._generate_mis_report(), ondelete='cascade', readonly = 'true')
+    generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', ondelete='cascade', readonly = 'true')
     find_moves_by_period = fields.Boolean(
     default=False,string="Find Move Based On Period",
     help="A little confusing but vouchers/invoices has dates and which period they belong to. By default the mis report finds moves based on date. If this is checked then we find them based on period"
     )
 
-    # ~ @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend','name')
     @api.depends('name')
     def _change_mis_report_name(self):
-        self.generated_mis_report_id.name = self.name
+        for dec in self:
+            dec.generated_mis_report_id.name = dec.name
     
-    @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method')
+    @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method','accounting_yearend')
     def _vat(self):
-        # ~ 'accounting_method','accounting_method' don't do anything in this function since mis builder has no idea about accounting methods, i need to add it to mis_templates at some point. 
+         _logger.warning(self.accounting_yearend)
+         _logger.warning(self.accounting_method)
          vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
-         # ~ formatNumber = lambda n: n if n%1 else int(n)
          for decl in self:
              decl.vat_momsutg = 0
              decl.vat_momsingavdr = 0
              decl.vat_momsbetala  = 0
              if decl.period_start and decl.period_stop and decl.generated_mis_report_id:
                 decl.generated_mis_report_id.write({'find_moves_by_period': decl.find_moves_by_period})
-                decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_from':decl.period_start.date_start})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_to':decl.period_stop.date_stop})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
+                
+                if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
+                        decl.generated_mis_report_id.write({'accounting_method':'invoice'})
+                else:
+                        decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
+                
                 matrix = decl.generated_mis_report_id._compute_matrix()
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
@@ -45,11 +51,8 @@ class account_vat_declaration(models.Model):
                     if row.kpi.name in vat_momsutg_list_names:
                         decl.vat_momsutg  += vals[0]
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
-                # ~ _logger.warning("jakmar vat_momsbetala{}:".format(decl.vat_momsbetala))
-                # ~ _logger.warning("jakmar vat_momsutg:{}".format(decl.vat_momsutg))
-                # ~ _logger.warning("jakmar vat_momsingavdr:".format(decl.vat_momsingavdr))
 
-        
+            
     def calculate(self):
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
@@ -213,7 +216,7 @@ class account_vat_declaration(models.Model):
             create_eskd_xml_file = None
             super(account_vat_declaration, rec).do_draft()
             for move in rec.move_ids:
-                move.vat_declaration_id = None # ~ i can't see where we save the moves or where we set it's vat_declaration_id to anything.
+                move.vat_declaration_id = None 
 
 
     def do_cancel(self):
@@ -225,12 +228,15 @@ class account_vat_declaration(models.Model):
         
         
     @api.model
-    def _generate_mis_report(self):
+    def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param,accounting_method_param, find_moves_by_period_param):
         report_instance = self.env["mis.report.instance"].create(
             dict(
-                name="mis genererad momsdeklaration report",
                 report_id = self.env.ref('l10n_se_mis.report_md').id,
                 company_id = self.env.ref("base.main_company").id,
+                target_move = target_move_param,
+                name = "mis_report:" + name_param,
+                accounting_method = accounting_method_param,
+                find_moves_by_period = find_moves_by_period_param,
                 period_ids=[
                     (
                         0,
@@ -238,8 +244,8 @@ class account_vat_declaration(models.Model):
                         dict(
                             name = "p1",
                             mode = "fix",
-                            manual_date_from="2020-01-01",
-                            manual_date_to="2020-12-31",
+                            manual_date_from = start_date,
+                            manual_date_to = stop_date,
                         ),
                     )
                 ],
@@ -247,16 +253,23 @@ class account_vat_declaration(models.Model):
         )
         return report_instance
             
-    # ~ @api.model
-    # ~ def create(self,values):
-        # ~ start_date = self.env['account.period'].browse(values["period_start"]).date_start
-        # ~ stop_date = self.env['account.period'].browse(values["period_stop"]).date_stop
-        # ~ record = super(account_vat_declaration, self).create(values)
-        # ~ record.generated_mis_report_id.period_ids.write({'manual_date_from':start_date})
-        # ~ record.generated_mis_report_id.period_ids.write({'manual_date_to':stop_date})
-        # ~ record.name = str(start_date)[:7] +"->"+ str(stop_date)[5:7]+ " moms report"
-        # ~ record.generated_mis_report_id.name = str(start_date)[:7] +" to "+ str(stop_date)[5:7]+ " mis report"
-        # ~ return record
+    @api.model
+    def create(self,values):
+        record = super(account_vat_declaration, self).create(values)
+        
+        if record.accounting_yearend:
+            accounting_method = 'invoice'
+        else:
+            accounting_method = record.accounting_method
+        record.generated_mis_report_id = self._generate_mis_report(
+        record.period_start.date_start, 
+        record.period_stop.date_stop, 
+        record.target_move, record.name, 
+        accounting_method, 
+        record.find_moves_by_period
+        )
+        
+        return record
         
     def create_eskd_xml_file(self):
         if type(self.period_start.date_start) == bool or type(self.period_stop.date_stop) == bool:
