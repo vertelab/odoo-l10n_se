@@ -32,7 +32,8 @@ class AccountBankStatementImport(models.TransientModel):
     """Add Stripe method to account.bank.statement.import."""
     _inherit = 'account.bank.statement.import'
 
-
+    filename = fields.Char("File Name")
+    
     @api.model
     def _parse_file(self, data_file):
         """Parse one file or multiple files from zip-file.
@@ -41,8 +42,8 @@ class AccountBankStatementImport(models.TransientModel):
         """
 
         try:
-            _logger.info(u"Try parsing with Stripe Report file ({}).".format(self.env.context.get('filename')))
-            parser = Parser(data_file, filename=self.env.context.get('filename'))
+            statement_import_id = self.env['account.bank.statement.import'].browse(self.env.context.get('active_id', False))
+            parser = Parser(data_file, filename=statement_import_id.filename)
         except ValueError:
             _logger.info(u"Statement file was not a Stripe Report file.")
             return super(AccountBankStatementImport, self)._parse_file(data_file)

@@ -20,113 +20,72 @@
 from openerp import models, fields, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 import base64
+import csv
 from openerp.addons.account_bank_statement_import.parserlib import BankStatement
 import hashlib
 from io import BytesIO
 import unicodedata
 import logging
 _logger = logging.getLogger(__name__)
-try:
-    from xlrd import open_workbook, XLRDError
-    from xlrd.book import Book
-    from xlrd.sheet import Sheet
-except:
-    _logger.info('xlrd not installed.')
 
-
-def convert_datafile_to_csv(data_file):
-    """
-    This function will read the binary csv file and then
-    it will convert it to an xls file and then return a binary
-    so that we then can parse it as an xls file
-    :param data_file:
-    :return:
-    """
-    in_memory_fp = BytesIO()
-    read_file = pd.read_csv(BytesIO(data_file), encoding="latin1")
-    read_file.to_excel(in_memory_fp, index=None, header=True)
-    in_memory_fp.seek(0, 0)
-    binary_xl = in_memory_fp.read()
-    return binary_xl
+    
 
 class StripePaymentsReport(object):
     """Parser for Stripe Kontohändelser import files."""
 
     def __init__(self, data_file, filename):
         self.filename = filename
-        try:
-            if self.filename.lower().endswith(('.csv', '.txt')):
-                _logger.info('CSV file')
-                data_file = convert_datafile_to_csv(data_file)
-                _logger.info('file was converted')
-        except Exception as e:
-            _logger.warn("Can't convert CSV file %s" % e)
-        try:
-            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError, e:
-            _logger.error(u'Could not read file')
-            raise ValueError(e)
-        if not self.data.cell(0,0).value == 'id' and not self.data.cell(0,1).value == 'Description':
-            _logger.error(u'Row 0 %s (was looking for id and Description)')
-            raise ValueError(u'This is not a Stripe Report')
+        if not self.filename.lower().endswith(('.csv', '.txt')):
+            raise ValueError('Incorrect file format, use csv.')
+            
+        self.rows = []
+        csv_rows = [row for row in csv.reader(data_file.splitlines(), delimiter=',')]
+        self.header = csv_rows[0]
+        
+        if not (self.header[0] == 'id' and self.header[1] == 'Description' and self.header[2] == 'Seller Message'):
+            raise ValueError(u'Incorrect file header.')
 
-        self.nrows = self.data.nrows - 3
-        self.header = []
+        #Remove Header from rows
+        del csv_rows[0]
+        
+        for r in csv_rows:
+            self.rows.append(r)
         self.statements = []
 
 
 
     def parse(self):
         """Parse stripe transaktionsrapport bank statement file contents type 1."""
-        self.account_currency = self.data.row(1)[6].value
-        self.header = [c.value.lower() for c in self.data.row(0)]
+        self.account_currency = self.rows[1][6]
         self.name = 'Stripe'
         self.account_number = ''
         self.current_statement = BankStatement()
         self.current_statement.date = fields.Date.today()
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account = self.account_number
-        self.current_statement.statement_id = 'Stripe %s - %s' % (self.data.row(1)[3].value,
-                                                           self.data.row(self.data.nrows-1)[3].value)
+        self.current_statement.statement_id = 'Stripe %s - %s' % (self.rows[0][3],
+                                                           self.rows[-1][3])
         self.current_statement.start_balance = 0.0
 
-        for t in StripeIterator(self.data, header_row=0):
-
+        for t in self.rows:
             transaction = self.current_statement.create_transaction()
             try:
-                if not isinstance(t['amount'], float):
-                    t['amount'] = float(t['amount'].replace(",", "."))
-                if not isinstance(t['amount refunded'], float):
-                    t['amount refunded'] = float(t['amount refunded'].replace(",", "."))
-                transaction.transferred_amount = float(t['amount']) - float(t['amount refunded'])
-                transaction.original_amount = float(t['amount']) - float(t['amount refunded'])
-                self.current_statement.end_balance += float(t['amount']) - float(t['amount refunded'])
-                transaction.eref = t['description']
-                transaction.name = '%s,%s' % (t['customer email'], t['description'].strip())
-                transaction.value_date = t[u'created (utc)']
-                transaction.unique_import_id = t['id']
+                if not isinstance(t[4], float):
+                    t[4] = float(t[4].replace(",", "."))
+                if not isinstance(t[5], float):
+                    t[5] = float(t[5].replace(",", "."))
+                transaction.transferred_amount = float(t[4]) - float(t[5])
+                transaction.original_amount = float(t[4]) - float(t[5])
+                self.current_statement.end_balance += float(t[4]) - float(t[5])
+                transaction.eref = t[1]
+                transaction.name = '%s,%s' % (t[16], t[1].strip())
+                transaction.value_date = t[3]
+                transaction.unique_import_id = t[0]
             except ValueError as e:
                 _logger.error(u'Could not read file')
                 raise ValueError('Invalid values in file', e)
 
         self.statements.append(self.current_statement)
         return self
-
-
-class StripeIterator(object):
-    def __init__(self, data,header_row=0):
-        self.row = header_row + 1
-        self.data = data
-        self.header = [c.value.lower() for c in data.row(header_row)]
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.row >= self.data.nrows:
-            raise StopIteration
-        r = self.data.row(self.row)
-        self.row += 1
-        return {self.header[n]: r[n].value for n in range(len(self.header))}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
