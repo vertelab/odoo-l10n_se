@@ -35,21 +35,21 @@
         model = "res.partner"       
         name = "set_property_account_position_id">
         <value>base.res_partner_12</value>
-        <value>l10n_se.1_k2_fpos_trade_eu</value>
+        <value>l10n_se.1_K2_fpos_trade_eu</value>
     </function>
 
     <function
         model = "res.partner"       
         name = "set_property_account_position_id">
         <value>base.res_partner_1</value>
-        <value>l10n_se.1_k2_fpos_trade_world</value>
+        <value>l10n_se.1_K2_fpos_trade_world</value>
     </function>
 
     <function
         model = "res.partner"       
         name = "set_property_account_position_id">
         <value>base.res_partner_10</value>
-        <value>l10n_se.1_k2_fpos_trade_world</value>
+        <value>l10n_se.1_K2_fpos_trade_world</value>
     </function>
     
 <!--

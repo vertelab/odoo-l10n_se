@@ -31,6 +31,7 @@
     },
     'data': ['data/mis_financial_report.xml',
     'data/mis_momsdeklaration_report.xml',
+    'data/mis_arbetsgivardeklaration_report.xml',
     'views/mis_report_instance_view.xml',
     ],
     'installable': 'True',
