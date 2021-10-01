@@ -23,6 +23,14 @@ from openerp import fields, api, models, _
 import logging
 _logger = logging.getLogger(__name__)
 
+
+class Company(models.Model):
+        _inherit = 'res.company'
+        ag_contact = fields.Many2many(comodel_name='res.partner', string='Arbetsgivare kontaktperson', domain=[('is_company', '=', False)])
+        agd_journal = fields.Many2one(comodel_name='account.journal', string='Arbetsgivardeklaration journal')
+        
+
+
 # ~ class account_config_settings(models.TransientModel):
     # ~ _inherit = 'account.config.settings'
 

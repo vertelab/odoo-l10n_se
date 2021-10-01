@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-  <data>
+  <data noupdate="1">
     <record id="chart_template_K1_2017" model="account.chart.template">
       <field name="name">K1 - Mindre verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
@@ -10,6 +10,7 @@
       <field name="transfer_account_code_prefix">195</field>
       <field name="code_digits">4</field>
     </record>
+
     <record id="K1_1020_2017" model="account.account.template">
       <field name="name">Koncessioner m.m. </field>
       <field name="code">1020</field>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+    <data noupdate="1">
+        
         <!--
              <record id="account.account_tax_code_template-7f6fa9c4-7e24-11e5-a6a2-52540087a7b7-24" model="account.tax.template">
              <field name="info">False</field>

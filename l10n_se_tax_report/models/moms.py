@@ -191,7 +191,7 @@ class account_declaration(models.Model):
 
     # ~ @api.multi
     def show_payment_orders(self):
-        action = self.env['ir.actions.act_window']._for_xml_id('account_payment_order', 'account_payment_order_outbound_action')
+        action = self.env['ir.actions.act_window']._for_xml_id('account_payment_order.account_payment_order_outbound_action')
         action.update({
             'display_name': _('%s') %self.name,
             'domain': [('id', 'in', self.get_payment_orders())],

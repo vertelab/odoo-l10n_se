@@ -6,6 +6,13 @@
                   <field name="model">mis.report.instance</field>
                   <field name="inherit_id" ref="mis_builder.mis_report_instance_view_form"></field>
                     <field name="arch" type="xml">
+<!--
+                    <xpath expr="//field[@name='date_range_id']" position="after">
+                            <field name="period_start"/>
+                            <field name="period_stop"/>
+                    </xpath>    
+-->
+                    
                     <xpath expr="//field[@name='comparison_mode']" position="after">
                             <field name="find_moves_by_period" />
                     </xpath>

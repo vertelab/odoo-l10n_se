@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <record id="account.data_account_type_revenue" model="account.account.type">
             <field name="name">Nettoomsättning</field>
             <field name="element_name">Nettoomsattning</field>

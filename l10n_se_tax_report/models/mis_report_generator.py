@@ -7,7 +7,6 @@ _logger = logging.getLogger(__name__)
 
 class account_vat_declaration(models.Model):
     _inherit = 'account.vat.declaration'
-    momsdeklaration_template = fields.Many2one(comodel_name='mis.report', string='Mis_Templates')
     eskd_file_mis = fields.Binary(string="eSKD-file_mis",readonly=True)
     # ~ generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', default = lambda self: self._generate_mis_report(), ondelete='cascade', readonly = 'true')
     generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', ondelete='cascade', readonly = 'true')
@@ -25,7 +24,6 @@ class account_vat_declaration(models.Model):
     def _vat(self):
          _logger.warning(self.accounting_yearend)
          _logger.warning(self.accounting_method)
-         vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
          for decl in self:
              decl.vat_momsutg = 0
              decl.vat_momsingavdr = 0
@@ -35,13 +33,13 @@ class account_vat_declaration(models.Model):
                 decl.generated_mis_report_id.period_ids.write({'manual_date_from':decl.period_start.date_start})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_to':decl.period_stop.date_stop})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
-                
                 if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
                         decl.generated_mis_report_id.write({'accounting_method':'invoice'})
                 else:
                         decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
                 
                 matrix = decl.generated_mis_report_id._compute_matrix()
+                vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
                     # ~ _logger.debug("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
@@ -60,8 +58,8 @@ class account_vat_declaration(models.Model):
             self.state = 'confirmed'
 
         # ~ mark moves used to build the mis report, i should probebly save the moves on the report somewhere at some. Not a problem atm.
-        move_line_recordset= self.get_all_account_move_ids([])
-        move_recordset = self.get_move_ids_from_line_ids(move_line_recordset)
+        move_line_recordset= self.get_move_line_recordset([])
+        move_recordset = self.get_move_recordset_from_line_recordset(move_line_recordset)
         for move in move_recordset:
             if not move.vat_declaration_id :
                 move.vat_declaration_id = self.id
@@ -97,7 +95,7 @@ class account_vat_declaration(models.Model):
                     
                     # ~ Use mis builder to get lines
                     
-                    momsIngMovesRecordSet = self.get_all_account_move_ids(['MomsIngAvdr']) #~ Get the account.moves.lines,kollar på 2640 konton, ingående moms go though all account.tax
+                    momsIngMovesRecordSet = self.get_move_line_recordset(['MomsIngAvdr']) #~ Get the account.moves.lines,kollar på 2640 konton, ingående moms go though all account.tax
                     for line in momsIngMovesRecordSet:
                         # ~ gather the amount for lines that has the same account
                         if line.account_id.name in move_line_dict: #~ Check if we already added to the dict
@@ -117,7 +115,7 @@ class account_vat_declaration(models.Model):
                         
                     move_line_dict = {}
                     
-                    momsUtgMovesRecordSet = self.get_all_account_move_ids( ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog','MomsImportUtgMedel','MomsImportUtgLag'])
+                    momsUtgMovesRecordSet = self.get_move_line_recordset( ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog','MomsImportUtgMedel','MomsImportUtgLag'])
                     for line in momsUtgMovesRecordSet: # kollar på 26xx konton, utgående moms
                         # ~ gather the amount for lines that has the same account
                         if line.account_id.name in move_line_dict: #~ Check if we already added to the dict
@@ -234,7 +232,7 @@ class account_vat_declaration(models.Model):
                 report_id = self.env.ref('l10n_se_mis.report_md').id,
                 company_id = self.env.ref("base.main_company").id,
                 target_move = target_move_param,
-                name = "mis_report:" + name_param,
+                name = "MIS Report:" + name_param,
                 accounting_method = accounting_method_param,
                 find_moves_by_period = find_moves_by_period_param,
                 period_ids=[
@@ -262,11 +260,11 @@ class account_vat_declaration(models.Model):
         else:
             accounting_method = record.accounting_method
         record.generated_mis_report_id = self._generate_mis_report(
-        record.period_start.date_start, 
-        record.period_stop.date_stop, 
-        record.target_move, record.name, 
-        accounting_method, 
-        record.find_moves_by_period
+            record.period_start.date_start, 
+            record.period_stop.date_stop, 
+            record.target_move, record.name, 
+            accounting_method, 
+            record.find_moves_by_period
         )
         
         return record
@@ -309,7 +307,7 @@ class account_vat_declaration(models.Model):
         return self.generated_mis_report_id.preview()
     
     # ~ @api.multi
-    def get_all_account_move_ids(self, row_kpi_names):
+    def get_move_line_recordset(self, row_kpi_names):
         self.ensure_one()
         move_line_recordset = self.env['account.move.line']
         period_id = self.generated_mis_report_id.period_ids[0].id
@@ -326,7 +324,7 @@ class account_vat_declaration(models.Model):
         
 
     # ~ @api.multi
-    def get_move_ids_from_line_ids(self,move_line_recordset):
+    def get_move_recordset_from_line_recordset(self,move_line_recordset):
         move_recordset = self.env['account.move']
         for line in move_line_recordset:
                 move_recordset |= line.move_id
@@ -335,8 +333,8 @@ class account_vat_declaration(models.Model):
 
     # ~ @api.multi
     def show_journal_entries_mis(self):
-        move_line_recordset= self.get_all_account_move_ids([])
-        move_recordset = self.get_move_ids_from_line_ids(move_line_recordset)
+        move_line_recordset= self.get_move_line_recordset([])
+        move_recordset = self.get_move_recordset_from_line_recordset(move_line_recordset)
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_stop.id,
@@ -355,7 +353,7 @@ class account_vat_declaration(models.Model):
         
     # ~ @api.multi
     def show_momsingavdr_mis(self):
-        move_line_recordset= self.get_all_account_move_ids(['MomsIngAvdr'])
+        move_line_recordset= self.get_move_line_recordset(['MomsIngAvdr'])
         ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
@@ -375,7 +373,7 @@ class account_vat_declaration(models.Model):
     # ~ @api.multi
     def show_momsutg_mis(self):
         vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
-        move_line_recordset= self.get_all_account_move_ids(vat_momsutg_list_names)
+        move_line_recordset= self.get_move_line_recordset(vat_momsutg_list_names)
         ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,

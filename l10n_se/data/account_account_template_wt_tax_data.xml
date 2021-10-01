@@ -1,5 +1,5 @@
 <odoo>
-    <data> 
+    <data noupdate="1"> 
         <record id="chart4000" model="account.account.template">
             <field name="name">Inköp av varor från Sverige</field>
             <field name="code">4000</field>
