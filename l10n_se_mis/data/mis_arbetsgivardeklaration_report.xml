@@ -74,7 +74,7 @@
         </record>
         <record id="kpi_expr_report_ad_AvgHel" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="kpi_report_ad_AvgHel"/>
-            <field name="name">crd[][('tax_line_id.name', '=', '	AvgHel')]</field>
+            <field name="name">crd[][('tax_line_id.name', '=', 'AvgHel')]</field>
         </record>
 
          <record id="kpi_report_ad_UlagAvgAldersp" model="mis.report.kpi">

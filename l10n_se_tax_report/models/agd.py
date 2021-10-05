@@ -104,16 +104,17 @@ class account_agd_declaration(models.Model):
         self.ensure_one()
         return self.generated_mis_report_id.preview()
 
-    @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method','accounting_yearend')
+    @api.depends('period_start','target_move','name','find_moves_by_period','accounting_method','accounting_yearend')
     def _vat(self):
          for decl in self:
+             _logger.warning("AGD _VAT")
              decl.SumSkAvdr = 0
              decl.SumAvgBetala = 0
              decl.ag_betala  = 0
-             if decl.period_start and decl.period_stop and decl.generated_mis_report_id:
-                decl.generated_mis_report_id.write({'find_moves_by_period': decl.find_moves_by_period})
+             if decl.period_start  and decl.generated_mis_report_id:
+                decl.generated_mis_report_id.write({'find_moves_by_period': True})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_from':decl.period_start.date_start})
-                decl.generated_mis_report_id.period_ids.write({'manual_date_to':decl.period_stop.date_stop})
+                decl.generated_mis_report_id.period_ids.write({'manual_date_to':decl.period_start.date_stop})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
                         decl.generated_mis_report_id.write({'accounting_method':'invoice'})
@@ -121,16 +122,15 @@ class account_agd_declaration(models.Model):
                         decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
                         
                 matrix = decl.generated_mis_report_id._compute_matrix()
-                vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
-                    # ~ _logger.debug("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
-                    # ~ _logger.info('jakmar name: {} value: {}'.format(row.kpi.name,vals[0]))
                     if row.kpi.name == 'SumSkAvdr':
-                        decl.SumSkAvdr = vals[0]
+                        decl.write({'SumSkAvdr':vals[0]})
                     if row.kpi.name == 'SumAvgBetala':
-                        decl.SumAvgBetala = vals[0]
-                self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
+                        decl.write({'SumAvgBetala':vals[0]})
+                        # ~ decl.SumAvgBetala = vals[0]
+                decl.write({'ag_betala':self.SumAvgBetala + self.SumSkAvdr})
+                # ~ decl.ag_betala = self.SumAvgBetala + self.SumSkAvdr
                  
 
     SumSkAvdr  = fields.Float(compute='_vat', store=True)
@@ -140,24 +140,24 @@ class account_agd_declaration(models.Model):
     @api.model
     def create(self,values):
         record = super(account_agd_declaration, self).create(values)
-        
+       
         if record.accounting_yearend:
             accounting_method = 'invoice'
         else:
             accounting_method = record.accounting_method
-            record.generated_mis_report_id = self._generate_mis_report(
-            record.period_start.date_start, 
-            record.period_start.date_stop, 
-            record.target_move, 
-            record.name, 
-            accounting_method, 
-            record.find_moves_by_period
+            
+        record.generated_mis_report_id = self._generate_mis_report(
+        record.period_start.date_start, 
+        record.period_start.date_stop, 
+        record.target_move, 
+        record.name, 
+        accounting_method, 
         )
-        
+        record._vat()
         return record
         
     @api.model
-    def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param,accounting_method_param, find_moves_by_period_param):
+    def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param,accounting_method_param):
         report_instance = self.env["mis.report.instance"].create(
             dict(
                 report_id = self.env.ref('l10n_se_mis.report_ad').id,
@@ -165,7 +165,7 @@ class account_agd_declaration(models.Model):
                 target_move = target_move_param,
                 name = "MIS Report:" + name_param,
                 accounting_method = accounting_method_param,
-                find_moves_by_period = find_moves_by_period_param,
+                find_moves_by_period = True,
                 period_ids=[
                     (
                         0,
@@ -183,11 +183,10 @@ class account_agd_declaration(models.Model):
         return report_instance
     # ~ ADDITIONS
 
-    @api.depends('period_start')
+    @api.depends('period_start','target_move')
     def _payslip_ids(self):
-        slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
+        slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id),('move_id.state','=',self.target_move)])
         self.payslip_ids = slips.mapped('id')
-
         _logger.warn('jakob ***  payslip ')
 
         self.move_ids = []
@@ -245,7 +244,7 @@ class account_agd_declaration(models.Model):
 
     # ~ @api.multi
     def show_SumSkAvdr(self):
-        move_line_recordset = get_move_line_recordset(['SumSkAvdr'])
+        move_line_recordset = self.get_move_line_recordset(['SumSkAvdr'])
         ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_start.id,
@@ -262,7 +261,7 @@ class account_agd_declaration(models.Model):
         return action
     # ~ @api.multi
     def show_SumAvgBetala(self):
-        move_line_recordset = get_move_line_recordset(['SumAvgBetala'])
+        move_line_recordset = self.get_move_line_recordset(['SumAvgBetala'])
         ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_start.id,
@@ -270,7 +269,7 @@ class account_agd_declaration(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_account_moves_all_a')
         action.update({
             'display_name': _('VAT Ag'),
             'domain': [('id', 'in', move_line_recordset.mapped('id'))],
@@ -282,7 +281,7 @@ class account_agd_declaration(models.Model):
     def do_draft(self):
         for rec in self:
             super(account_agd_declaration, self).do_draft()
-            rec.slip_ids = []
+            rec.payslip_ids = []
             for move in rec.move_ids:
                 move.agd_declaration_id = None
 
@@ -536,12 +535,13 @@ class account_agd_declaration(models.Model):
             ##
             #### Create move
             ##
-            # ~ LOOOK HERE!!!!!!!!!!!!!!!!!!E
-            #TODO check all warnings
-            #This method uses financial report to get base account
             
             tax_accounts = self.env['account.tax'].search([('name', 'in', ['SkAvdrLon', 'AvgHel'])])
-            kontoskatte = tax_accounts.invoice_repartition_line_ids[1].mapped('account_id')
+            kontoskatte = []
+            _logger.warning(f"taxex:{tax_account}")
+            for tax_account in tax_accounts:
+                kontoskatte.append(tax_account.invoice_repartition_line_ids[1].mapped('account_id'))
+            # ~ kontoskatte = tax_accounts.invoice_repartition_line_ids[1].mapped('account_id')
             _logger.warning('kontoskatte %s' % kontoskatte)
             
             # ~ agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
@@ -561,7 +561,7 @@ class account_agd_declaration(models.Model):
                     })
                     if entry:
                         move_line_list = []
-                        for k in kontoskatte: #CHANGES NEEDED
+                        for k in kontoskatte: 
                             credit = k.with_context(ctx).sum_period()
                             if credit != 0.0:
                                 move_line_list.append((0, 0, {
@@ -571,13 +571,13 @@ class account_agd_declaration(models.Model):
                                     'credit': 0.0,
                                     'move_id': entry.id,
                                 }))
-                                total += credit
+                                total += int(round(abs(credit)))
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
                             'debit': 0.0,
-                            'credit': int(round(abs(total))),
+                            'credit': total,
                             'move_id': entry.id,
                         }))
                         entry.write({
@@ -609,6 +609,6 @@ class account_declaration_line(models.Model):
     agd_declaration_id = fields.Many2one(comodel_name="account.agd.declaration")
 
 
-
+# ~ ,('tax_line_id.name', '=', 'AvgHel'),('tax_line_id.name', '=', 'UlagVXLon'),('tax_line_id.name', '=', 'AvgAldersp'),('tax_line_id.name', '=', 'AvgAlderspSkLon'),('tax_line_id.name', '=', 'SumAvgBetala')]
 
 # ~ <Skatteverket xmlns:agd="http://xmls.skatteverket.se/se/skatteverket/da/komponent/schema/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1" xsi:schemaLocation="http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1 http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd" omrade="Arbetsgivardeklaration">  <agd:Avsandare>\n    <agd:Programnamn>Odoo 14.0</agd:Programnamn>    <agd:Organisationsnummer>165569363707</agd:Organisationsnummer>    <agd:TekniskKontaktperson>\n      <agd:Namn>Jakob Krabbe</agd:Namn>      <agd:Telefon>013-9919480</agd:Telefon>    <agd:Epostadress>support@vertel.se</agd:Epostadress>      <agd:Utdelningsadress1>Strandgatan 2</agd:Utdelningsadress1>     <agd:Postnummer>58226</agd:Postnummer>      <agd:Postort>Link\xc3\xb6ping</agd:Postort>    </agd:TekniskKontaktperson>    <agd:Skapad>2021-09-30T13:00:04</agd:Skapad>  </agd:Avsandare>  <agd:Blankettgemensamt>   <agd:Arbetsgivare>      <agd:AgRegistreradId>16SE123456789701</agd:AgRegistreradId>      <agd:Kontaktperson>        <agd:Namn>Joel Willis</agd:Namn>        <agd:Telefon>(683)-556-5104</agd:Telefon>       <agd:Epostadress>joel.willis63@example.com</agd:Epostadress>       <agd:Sakomrade>WHOO CARES LOL</agd:Sakomrade>     </agd:Kontaktperson>    </agd:Arbetsgivare> </agd:Blankettgemensamt> <agd:Blankett>    <agd:Arendeinformation>      <agd:Arendeagare>16SE123456789701</agd:Arendeagare>      <agd:Period>202101</agd:Period>   </agd:Arendeinformation>   <agd:Blankettinnehall>     <agd:HU>      <agd:ArbetsgivareHUGROUP>          <agd:AgRegistreradId faltkod="201">16SE123456789701</agd:AgRegistreradId>       </agd:ArbetsgivareHUGROUP>        <agd:RedovisningsPeriod faltkod="006">202101</agd:RedovisningsPeriod>        <agd:SummaArbAvgSlf faltkod="487"></agd:SummaArbAvgSlf>        <agd:SummaSkatteavdr faltkod="497"></agd:SummaSkatteavdr>      </agd:HU>    </agd:Blankettinnehall>  </agd:Blankett></Skatteverket>'
