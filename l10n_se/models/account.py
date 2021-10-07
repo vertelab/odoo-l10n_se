@@ -45,6 +45,7 @@ class AccountJournal(models.Model):
 
     type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')], ondelete = {'bg':'cascade','pg':'cascade'})
     
+    
 # class account_bank_accounts_wizard(models.TransientModel):
 #     _inherit = 'account.bank.accounts.wizard'
 #
@@ -128,6 +129,17 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
 class AccountInvoice(models.Model):
     # ~ _inherit = 'account.invoice'
     _inherit = 'account.move'
+    
+    @api.depends('company_id', 'invoice_filter_type_domain')
+    def _compute_suitable_journal_ids(self):
+        for m in self:
+            journal_type = m.invoice_filter_type_domain
+            company_id = m.company_id.id or self.env.company.id
+            if journal_type:
+                domain = [('company_id', '=', company_id), ('type', '=', journal_type)]
+            else:
+                domain = [('company_id', '=', company_id)]
+            m.suitable_journal_ids = self.env['account.journal'].search(domain)
 
     # ~ OLD function to add balance taxes, this function no longer exists in account.move, which is why it never gets called.
     # ~ @api.model

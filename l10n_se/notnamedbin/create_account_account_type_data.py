@@ -280,8 +280,8 @@ def print_xml(sheet_list):
         return odoo
     xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
-    # ~ with open("../data/account_account_type.xml", "w") as f:
-    with open("../data/account_account_type_new.xml", "wb") as f:
+    with open("../data/account_account_type.xml", "w") as f:
+    # ~ with open("../data/account_account_type_new.xml", "wb") as f:
         f.write(xml.encode('utf-8'))
 
 print_xml([r_lst, b_lst])
