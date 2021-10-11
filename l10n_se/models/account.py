@@ -543,15 +543,15 @@ class account_account_type(models.Model):
     def _change_name(self):
         for k,v in self.name_exchange_dict.items():
             self.env['account.account.type'].search([('element_name', '=', k)]).write({'name': v})
-
+                 
     @api.model
     def set_account_type(self):
-        for t in self.env['account.account.type'].search([]):
-            if t.account_range:
-                for a in self.env['account.account'].search(eval(t.account_range)):
-                    if a.user_type_id != t:
-                       a.user_type_id = t
-                       _logger.warn('Account %s set type to %s' %(a.name, t.name))
+        _logger.warning("jakmar set_account_type")
+        for record in self:
+            for account in self.env['account.account'].search(eval(record.account_range)):
+                if account.user_type_id != record:
+                   account.user_type_id = record
+                   _logger.warn('Account %s set type to %s' %(account.name, record.name))
 
     @api.model
     def return_eval(self):
@@ -669,3 +669,18 @@ class AccountChartTemplate(models.Model):
             return res
         
 
+class AccountChartTemplate(models.Model):
+    _inherit = 'account.account'
+
+    @api.model
+    def fix_account_types(self):
+        current_year_earnings = self.env.ref('account.data_unaffected_earnings')
+        current_year_earnings.write({"name":'Current Year Earnings'})
+        current_year_earnings.write({"account_range":"[('code', 'in', [])]"})
+        current_year_earnings.write({"account_range":False})
+        for t in self.env['account.account.type'].search([]):
+            if t.account_range:
+                for a in self.env['account.account'].search(eval(t.account_range)):
+                    if a.user_type_id != t:
+                       a.user_type_id = t
+                       _logger.warn('Account %s set type to %s' %(a.name, t.name))

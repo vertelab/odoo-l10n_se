@@ -5,6 +5,8 @@ try:
     from xml.dom import minidom
 except ImportError:
     pass
+import logging
+_logger = logging.getLogger(__name__)
 
 xl_workbook = open_workbook('arsredovisning-2017-09-30.xlsx')
 resultatrakning = xl_workbook.sheet_by_index(2)
@@ -51,6 +53,7 @@ b_lst = []
 
 # key: element_name
 # value: external_id
+
 external_id_exchange_dict = {
     'Kundfordringar': 'account.data_account_type_receivable',
     'Leverantorsskulder': 'account.data_account_type_payable',
@@ -63,7 +66,7 @@ external_id_exchange_dict = {
     'OvrigaKortfristigaSkulder': 'account.data_account_type_current_liabilities',
     'OvrigaLangfristigaSkulderKreditinstitut': 'account.data_account_type_non_current_liabilities',
     'Aktiekapital': 'account.data_account_type_equity',
-    'AretsResultat': 'account.data_unaffected_earnings',
+    # ~ 'AretsResultat': 'account.data_unaffected_earnings', # har en sql constrains som gör så att vi inte får ha fler en ett konto
     'OvrigaRorelseintakter': 'account.data_account_type_other_income',
     'Nettoomsattning': 'account.data_account_type_revenue',
     'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': 'account.data_account_type_depreciation',
@@ -262,9 +265,11 @@ def print_xml(sheet_list):
     def parse_xml(sheet_list):
         odoo = ET.Element('odoo')
         data = ET.SubElement(odoo, 'data')
+        _logger.warning(external_id_exchange_dict)
         for lst in sheet_list:
             for l in lst:
                 external_id = external_id_exchange_dict.get(l.get('element_name'), 'type_%s' %l.get('element_name'))
+                _logger.warning(f"external: {external_id}")
                 record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
                 field_name = ET.SubElement(record, "field", name="name").text = l.get('name')
                 field_element_name = ET.SubElement(record, "field", name="element_name").text = l.get('element_name')
@@ -281,8 +286,7 @@ def print_xml(sheet_list):
     xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
     with open("../data/account_account_type.xml", "w") as f:
-    # ~ with open("../data/account_account_type_new.xml", "wb") as f:
-        f.write(xml.encode('utf-8'))
+        f.write(xml)
 
 print_xml([r_lst, b_lst])
 
@@ -320,100 +324,7 @@ print_xml([r_lst, b_lst])
 # ~ </odoo>
 # ~ """
 
+{'Kundfordringar': 'account.data_account_type_receivable', 'Leverantorsskulder': 'account.data_account_type_payable', 'KassaBankExklRedovisningsmedel': 'account.data_account_type_liquidity', 'CheckrakningskreditKortfristig': 'account.data_account_type_credit_card', 'OvrigaFordringarKortfristiga': 'account.data_account_type_current_assets', 'KoncessionerPatentLicenserVarumarkenLiknandeRattigheter': 'account.data_account_type_non_current_assets', 'ForskottFranKunder': 'account.data_account_type_prepayments', 'MaskinerAndraTekniskaAnlaggningar': 'account.data_account_type_fixed_assets', 'OvrigaKortfristigaSkulder': 'account.data_account_type_current_liabilities', 'OvrigaLangfristigaSkulderKreditinstitut': 'account.data_account_type_non_current_liabilities', 'Aktiekapital': 'account.data_account_type_equity', 'AretsResultat': 'account.data_unaffected_earnings', 'OvrigaRorelseintakter': 'account.data_account_type_other_income', 'Nettoomsattning': 'account.data_account_type_revenue', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar': 'account.data_account_type_depreciation', 'OvrigaRorelsekostnader': 'account.data_account_type_expenses', 'HandelsvarorKostnader': 'account.data_account_type_direct_costs'}
 
-# ~ Nettoomsättning, 																																			3000-3799,	   asset
-# ~ Förändringar av lager av produkter i arbete, färdiga varor och pågående arbeten för annans räkning, 4932-4979,   expense
-# ~ Aktiverat arbete för egen räkning,																													3800-3899,	   asset
-# ~ Övriga rörelseintäkter,																																	3900-3999,	   asset
-# ~ Kostnad för förbrukning av råvaror och förnödenheter,																				4000-4931,	   expense
-# ~ Kostnad för sålda handelsvaror,																													4000-4989
-# ~ Övriga externa kostnader,																																5000-6999
-# ~ Personalkostnader, 																																		7000-7699
-# ~ Av- och nedskrivningar av materiella och immateriella anläggningstillgångar,											7710-7849
-# ~ Nedskrivningar av omsättningstillgångar utöver normala nedskrivningar,													7740-7799
-# ~ Övriga rörelsekostnader,																																7960-7999
-# ~ Resultat från andelar i koncernföretag,																											8010-8039
-# ~ Resultat från andelar i intresseföretag och gemensamt styrda företag,														8111-8132
-# ~ Resultat från övriga företag som det finns ett ägarintresse i,																		8113-8133
-# ~ Resultat från övriga finansiella anläggningstillgångar,																					8210-8269
-# ~ Övriga ränteintäkter och liknande resultatposter,																							8310-8399
-# ~ Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar,										8070-8389
-# ~ Räntekostnader och liknande resultatposter,																								8400-8499
-# ~ Erhållna koncernbidrag,																																	8820-8829
-# ~ Lämnade koncernbidrag,																																8830-8839
-# ~ Förändring av periodiseringsfonder,																												8810-8819
-# ~ Förändring av överavskrivningar,																													8850-8859
-# ~ Övriga bokslutsdispositioner,																															8860-8899
-# ~ Skatt på årets resultat,																																	8910-8939
-# ~ Övriga skatter,																																					8980-8989
-# ~ Årets resultat,																																					8990-8999
-# ~ Tecknat men ej inbetalt kapital,																														1690-1699
-# ~ Koncessioner, patent, licenser, varumärken samt liknande rättigheter,														1020-1059
-# ~ Hyresrätter och liknande rättigheter,																												1060-1069
-# ~ Goodwill,																																							1070-1079
-# ~ Förskott avseende immateriella anläggningstillgångar,																				1080-1089
-# ~ Byggnader och mark,																																		1110-1159
-# ~ Maskiner och andra tekniska anläggningar,																									1210-1219
-# ~ Inventarier, verktyg och installationer, 																											1220-1259
-# ~ Förbättringsutgifter på annans fastighet, 																										1120-1129
-# ~ Övriga materiella anläggningstillgångar, 																										1290-1299
-# ~ Pågående nyanläggningar och förskott avseende materiella anläggningstillgångar,								1180-1289
-# ~ Andelar i koncernföretag, 																																1310-1319
-# ~ Långfristiga fordringar hos koncernföretag,																									tom
-# ~ Andelar i intresseföretag och gemensamt styrda företag,																			tom
-# ~ Långfristiga fordringar hos intresseföretag och gemensamt styrda företag,
-# ~ Ägarintressen i övriga företag,
-# ~ Långfristiga fordringar hos övriga företag som det finns ett ägarintresse i,													1346', '1347'
-# ~ Andra långfristiga värdepappersinnehav,
-# ~ Lån till delägare eller närstående,
-# ~ Andra långfristiga fordringar,
-# ~ Lager av råvaror och förnödenheter,
-# ~ Lager av varor under tillverkning,
-# ~ Lager av färdiga varor och handelsvaror,
-# ~ Övriga lagertillgångar,																																	1490-1499
-# ~ Pågående arbeten för annans räkning (Tillgång)	,																						tom
-# ~ Förskott till leverantörer,
-# ~ Kundfordringar,
-# ~ Kortfristiga fordringar hos koncernföretag,
-# ~ Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag
-# ~ Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i
-# ~ Övriga kortfristga fordringar
-# ~ Upparbetad men ej fakturerad intäkt
-# ~ Förutbetalda kostnader och upplupna intäkter
-# ~ Kortfristiga andelar i koncernföretag
-# ~ Övriga kortfristiga placeringar
-# ~ Kassa och bank exklusive redovisningsmedel
-# ~ Redovisningsmedel
-# ~ Aktiekapital
-# ~ Ej registrerat aktiekapital
-# ~ Uppskrivningsfond
-# ~ Reservfond
-# ~ Överkursfond
-# ~ Balanserat resultat
-# ~ Årets resultat i balansräkningen
-# ~ Periodiseringsfonder
-# ~ Ackumulerade överavskrivningar
-# ~ Övriga obeskattade reserver
-# ~ Avsättningar för pensioner och liknande förpliktelser enligt lagen (1967:531) om tryggande av pensionsutfästelse m.m.
-# ~ Övriga avsättningar för pensioner och liknande förpliktelser
-# ~ Övriga avsättningar
-# ~ Obligationslån
-# ~ Långfristig checkräkningskredit
-# ~ Övriga långfristiga skulder till kreditinstitut
-# ~ Långfristiga skulder till koncernföretag
-# ~ Långfristiga skulder till intresseföretag och gemensamt styrda företag
-# ~ Långfristiga skulder till övriga företag som det finns ett ägarintresse i
-# ~ Övriga långfristiga skulder
-# ~ Kortfristig checkräkningskredit 
-# ~ Här redovisas den del av en utnyttjad kredit som inte bedöms vara en långfristig finansiering
-# ~ Övriga kortfristiga skulder till kreditinstitut
-# ~ Förskott från kunder
-# ~ Pågående arbeten för annans räkning (Skuld)
-# ~ Fakturerad men ej upparbetad intäkt
-# ~ Leverantörsskulder
-# ~ Växelskulder
-# ~ Kortfristiga skulder till koncernföretag
-# ~ Kortfristiga skulder till intresseföretag och gemensamt styrda företag
-# ~ Kortfristiga skulder till övriga företag som det finns ett ägarintresse i
-# ~ Skatteskulder
-# ~ Övriga kortfristiga skulder
+
+
