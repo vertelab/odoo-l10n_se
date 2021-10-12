@@ -45,6 +45,24 @@ class AccountJournal(models.Model):
 
     type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')], ondelete = {'bg':'cascade','pg':'cascade'})
     
+
+class AccountChartTemplate(models.Model):
+    _inherit = 'account.account'
+
+    @api.model
+    def fix_account_types(self):
+        current_year_earnings = self.env.ref('account.data_unaffected_earnings')
+        current_year_earnings.write({"name":'Current Year Earnings'})
+        current_year_earnings.write({"account_range":"[('code', 'in', [])]"})
+        current_year_earnings.write({"account_range":False})
+        for t in self.env['account.account.type'].search([]):
+            if t.account_range:
+                for a in self.env['account.account'].search(eval(t.account_range)):
+                    if a.user_type_id != t:
+                       a.user_type_id = t
+                       _logger.warn('Account %s set type to %s' %(a.name, t.name))
+
+
     
 # class account_bank_accounts_wizard(models.TransientModel):
 #     _inherit = 'account.bank.accounts.wizard'
@@ -669,18 +687,3 @@ class AccountChartTemplate(models.Model):
             return res
         
 
-class AccountChartTemplate(models.Model):
-    _inherit = 'account.account'
-
-    @api.model
-    def fix_account_types(self):
-        current_year_earnings = self.env.ref('account.data_unaffected_earnings')
-        current_year_earnings.write({"name":'Current Year Earnings'})
-        current_year_earnings.write({"account_range":"[('code', 'in', [])]"})
-        current_year_earnings.write({"account_range":False})
-        for t in self.env['account.account.type'].search([]):
-            if t.account_range:
-                for a in self.env['account.account'].search(eval(t.account_range)):
-                    if a.user_type_id != t:
-                       a.user_type_id = t
-                       _logger.warn('Account %s set type to %s' %(a.name, t.name))
