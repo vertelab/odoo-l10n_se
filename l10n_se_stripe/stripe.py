@@ -66,10 +66,13 @@ class StripePaymentsReport(object):
         self.current_statement.statement_id = 'Stripe %s - %s' % (self.rows[0][3],
                                                            self.rows[-1][3])
         self.current_statement.start_balance = 0.0
-
         for t in self.rows:
             transaction = self.current_statement.create_transaction()
             try:
+                if not t[4]:
+                    t[4] = 0.0
+                if not t[5]:
+                    t[5] = 0.0
                 if not isinstance(t[4], float):
                     t[4] = float(t[4].replace(",", "."))
                 if not isinstance(t[5], float):
@@ -82,7 +85,6 @@ class StripePaymentsReport(object):
                 transaction.value_date = t[3]
                 transaction.unique_import_id = t[0]
             except ValueError as e:
-                _logger.error(u'Could not read file')
                 raise ValueError('Invalid values in file', e)
 
         self.statements.append(self.current_statement)

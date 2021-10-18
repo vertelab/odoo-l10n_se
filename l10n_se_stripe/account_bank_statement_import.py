@@ -56,11 +56,11 @@ class AccountBankStatementImport(models.TransientModel):
             for t in s['transactions']:
                 sale_order_name = t['ref'][:-2]
                 sale_order = self.env['sale.order'].search([('name','=',sale_order_name)], limit=1)
-                if len(sale_order) > 0 and sale_order.invoice_ids[0].state == 'paid':
-                    s.end_balance -= t['amount']
-                    s['transactions'].remove(t)
-                    _logger.info('Removed transaction, was already paid: {}'.format(sale_order_name))
-                    continue
+                # ~ if len(sale_order) > 0 and sale_order.invoice_ids[0].state == 'paid':
+                    # ~ s.end_balance -= t['amount']
+                    # ~ s['transactions'].remove(t)
+                    # ~ _logger.info('Removed transaction, was already paid: {}'.format(sale_order_name))
+                    # ~ continue
             
                 t['currency_id'] = currency.id
                 partner_id = self.env['res.partner'].search([('email', 'ilike', t['name'].split(',')[0])], limit=1)
