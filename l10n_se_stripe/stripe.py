@@ -56,7 +56,7 @@ class StripePaymentsReport(object):
 
     def parse(self):
         """Parse stripe transaktionsrapport bank statement file contents type 1."""
-        self.account_currency = self.rows[1][6]
+        self.account_currency = self.rows[0][6]
         self.name = 'Stripe'
         self.account_number = ''
         self.current_statement = BankStatement()
