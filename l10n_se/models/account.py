@@ -503,6 +503,7 @@ class account_tax_template(models.Model):
 class account_account_type(models.Model):
     _inherit = 'account.account.type'
 
+    name = fields.Char(string='Account Type', required=True, translate=False)
     element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
     account_range = fields.Char(string='Accoun Range', help='Domain shows which account should has this account type.')
     main_type = fields.Selection(selection=[

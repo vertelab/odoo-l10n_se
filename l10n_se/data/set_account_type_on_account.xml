@@ -9,8 +9,9 @@
                     record.fix_account_types()
             </field>
         </record>
+        
 <!--
-        <function model = "account.account.type" name="fix_account_types"/>
+        <function model = "account.account" name="fix_account_types"/>
 -->
         
         
