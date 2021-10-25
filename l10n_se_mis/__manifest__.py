@@ -25,12 +25,13 @@
     'author': ' Vertel AB',
     'website': 'http://vertel.se',
     'category': 'l10n',
-    'depends': ['mis_builder','mis_builder_budget'],
+    'depends': ['mis_builder', 'mis_builder_budget'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
-    'data': ['data/mis_financial_report.xml',
-    'data/mis_momsdeklaration_report.xml',
+    'data': [
+        'data/mis_financial_report.xml',
+        'data/mis_momsdeklaration_report.xml',
     ],
     'installable': 'True',
     'application': 'False',

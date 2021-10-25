@@ -18,21 +18,77 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from io import BytesIO
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-import base64
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 
 
 import logging
 _logger = logging.getLogger(__name__)
 
+from openpyxl import load_workbook
 from xlrd import open_workbook, XLRDError
 from xlrd.book import Book
 from xlrd.sheet import Sheet
 
 import sys
 
+class SEBTransaktionsrapport(object):
+    """Parser for SEB Kontohändelser import files."""
+
+    def __init__(self, data_file):
+        """ Check if file can be read """
+        try:
+            wb = load_workbook(filename=BytesIO(data_file),read_only=True)
+            ws = wb.get_sheet_names()
+            self.data = wb.get_sheet_by_name(ws[0])
+        # TODO?: Catch BadZipFile, IOerror, ValueError
+        except:
+            raise ValueError(u'Could not read provided file')
+        if (self.data.cell(6,2).value != 'Saldo' and self.data.cell(6,5).value != 'Reserverat belopp'):
+            raise ValueError(u'This is not a SEB Kontohändelser document')
+
+        self.header = []
+        self.statements = []
+
+    def parse(self):
+        """Parse SEB transaktionsrapport bank statement file contents type 1."""
+
+        _logger.info("Parsing SEB Kontohändlser")
+
+        self.account_currency = 'SEK'
+        self.account_number = self.data.cell(7,1).value
+        self.name = self.data.cell(1,1).value[15:30]
+
+        self.current_statement = BankStatement()
+        self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+        self.current_statement.local_currency = self.account_currency or 'SEK'
+        self.current_statement.local_account =  self.account_number
+        self.current_statement.statement_id = '%s %s' % (self.data.cell(1,1).value[14:],self.data.cell(3,1).value[6:])
+        self.current_statement.start_balance = float(self.data.cell(self.data.max_row,6).value) - float(self.data.cell(self.data.max_row,5).value)
+        total_sum = 0
+
+        for index, row in enumerate(self.data.iter_rows(9, values_only=True), start=9):
+            if (index == 9):
+                self.header = {c:i for i, c in enumerate(row)}
+            else:
+                transaction_dict = {key:row[self.header[key]] for key in self.header}
+                transaction = self.current_statement.create_transaction()
+                transaction['amount'] = transaction_dict['Belopp']
+                transaction['account_number'] = transaction_dict['Verifikationsnummer']
+                transaction['date'] = transaction_dict['Valutadatum']
+                transaction['payment_ref'] = transaction_dict['Text/mottagare'].strip()
+                #transaction['unique_import_id'] = t['verifikationsnummer'].strip()
+                total_sum -= transaction_dict['Belopp'] 
+
+
+        self.current_statement.end_balance = float(self.current_statement.start_balance - total_sum)
+        self.statements.append(self.current_statement)
+        _logger.debug('Statement %s Transaktioner %s' % (self.statements,''))
+        return self
+
+        
 class SEBTransaktionsrapportType1(object):
     """Parser for SEB Kontohändelser import files."""
 
@@ -54,6 +110,8 @@ class SEBTransaktionsrapportType1(object):
     def parse(self):
         """Parse SEB transaktionsrapport bank statement file contents type 1."""
 
+        _logger.info("Parsing SEB Kontohändlser from SEBtransaktionRaportType1")
+
         self.account_currency = 'SEK'
         self.header = [c.value.lower() for c in self.data.row(8)]
         self.account_number = self.data.cell(6,0).value
@@ -70,8 +128,8 @@ class SEBTransaktionsrapportType1(object):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['belopp'])
             transaction.eref = t['verifikationsnummer'].strip()
-            transaction.name = t['text/mottagare'].strip()
-            transaction.note = t['text/mottagare'].strip()
+            transaction.pref = t['text/mottagare'].strip()
+            transaction.narration = t['text/mottagare'].strip()
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
             transaction.remote_owner = t['text/mottagare'].strip()
@@ -79,9 +137,6 @@ class SEBTransaktionsrapportType1(object):
                 string = ' '.join(transaction.name.split())
                 transaction.bg_account = string.split(' ')[1]
                 transaction.bg_serial_number = string.split(' ')[2] if len(string.split(' ')) == 3 else ''
-
-            #~ transaction.message
-            #self.current_statement.end_balance =
 
         self.statements.append(self.current_statement)
 #        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
@@ -109,6 +164,8 @@ class SEBTransaktionsrapportType2(object):
     def parse(self):
         """Parse SEB transaktionsrapport bank statement file contents type 2."""
 
+        _logger.info("Parsing SEB Kontohändlser from SEBTRansaktionRaportType2")
+
         self.account_currency = 'SEK'
         self.header = []
         self.account_number = self.data.cell(1,0).value.strip()
@@ -125,8 +182,8 @@ class SEBTransaktionsrapportType2(object):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['belopp'])
             transaction.eref = t['verifikationsnummer'].strip()
-            transaction.name = t['text / mottagare'].strip()
-            transaction.note = t['text / mottagare'].strip()
+            transaction.pref = t['text / mottagare'].strip()
+            transaction.narration = t['text / mottagare'].strip()
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
             transaction.remote_owner = t['text / mottagare'].strip()
@@ -157,6 +214,8 @@ class SEBTransaktionsrapportType3(object):
     def parse(self):
         """Parse SEB transaktionsrapport bank statement file contents type 3."""
 
+        _logger.info("Parsing SEB Kontohändlser from SEBTRansaktionRaportType3")
+
         self.account_currency = 'SEK'
         self.header = []
         self.account_number = self.data.cell(1,0).value.strip()
@@ -173,9 +232,9 @@ class SEBTransaktionsrapportType3(object):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['belopp'])
             transaction.eref = t['verifikationsnummer'].strip()
-            transaction.name = t['text/mottagare'].strip()
+            transaction.pref = t['text/mottagare'].strip()
             transaction.partner_name = t['text/mottagare'].strip()
-            transaction.note = t['text/mottagare'].strip()
+            transaction.narration = t['text/mottagare'].strip()
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
             transaction.remote_owner = t['text/mottagare'].strip()
@@ -198,6 +257,13 @@ class SEBIterator(object):
         return self
 
     def next(self):
+        if self.row >= self.data.nrows:
+            raise StopIteration
+        r = self.data.row(self.row)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+
+    def __next__(self):
         if self.row >= self.data.nrows:
             raise StopIteration
         r = self.data.row(self.row)

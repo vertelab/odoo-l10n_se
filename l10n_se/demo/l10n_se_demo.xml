@@ -213,6 +213,16 @@
         Some services in order to test invoices
         -->
         
+<!--
+        <record id="product.service_order_01" model="product.product">
+            <field name="standard_price">1000</field>
+            <field name="list_price">2500</field>
+            <field name="taxes_id" eval="[(6,0, (ref('l10n_se.mp1'),))]"/>
+            <field name="supplier_taxes_id" eval="[(6,0, (ref('l10n_se.it'),))]"/>
+            <field name="property_account_income_id" ref = "l10n_se.1_chart3001"/>
+            <field name="property_account_expense_id" ref = "l10n_se.1_chart4001"/>
+        </record>
+-->
         
         <record id="product_product_prepaid_consulting_service" model="product.product">
             <field name="name">Prepaid Consulting</field>

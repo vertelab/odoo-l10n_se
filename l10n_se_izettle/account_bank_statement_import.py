@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2013-2016 Vertel AB <http://vertel.se>
+#    Copyright (C) 2013-2021 Vertel AB <http://vertel.se>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,11 +18,14 @@
 #
 ##############################################################################
 import logging
-from odoo import api, models, fields, _
-from .izettle import IzettleTransaktionsrapportType as Parser
+from odoo import api,models,fields, _
+from .izettle import IzettleTransaktionsrapportXlsType as XlsParser
+from .izettle import IzettleTranskationReportXlsxType as XlsxParser
+from .izettle import IzettleXlrdTransaktionsrapportXlsxType as XlrdParser
 import base64
 import re
 
+from io import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
 from datetime import timedelta
 
@@ -30,42 +33,63 @@ from datetime import timedelta
 _logger = logging.getLogger(__name__)
 
 
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
+
+    def _get_bank_statements_available_import_formats(self):
+        """ Returns a list of strings representing the supported import formats.
+        """
+        return super(AccountJournal, self)._get_bank_statements_available_import_formats() + ['iZettle']
+
 class AccountBankStatementImport(models.TransientModel):
     """Add iZettle method to account.bank.statement.import."""
-    _inherit = 'account.bank.statement.import'
+    _inherit = 'account.statement.import'
 
     @api.model
-    def _parse_file(self, data_file):
+    def _parse_file(self, statement_file):
         """Parse one file or multiple files from zip-file.
         Return array of statements for further processing.
         xlsx-files are a Zip-file, have to override
         """
         statements = []
-        files = [data_file]
+        files = [statement_file]
 
         try:
-            _logger.info(u"Try parsing with iZettle Report file.")
-            parser = Parser(base64.b64decode(self.data_file))
+            _logger.info(u"Try parsing Xls iZettle Report file.")
+            parser = XlsParser(base64.b64decode(self.statement_file))
         except ValueError:
+            #Not a iZettle Xls Report Document, returning super will call next canidate:
             _logger.info(u"Statement file was not a iZettle Report file.")
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
+            try: 
+                _logger.info(u'Try parsing xlrd iZettle Report file.')
+                parser = XlrdParser(base64.b64decode(self.statement_file))
+            except ValueError:
+                #Not a iZettle Xlsx Report Document, returning super will call next canidate:
+                _logger.info(u"Statment file was not a IZettle Report file.")
+                try:
+                    _logger.info(u"Try parsing Xlsx iZettle Report file.")
+                    parser = XlsxParser(base64.b64decode(self.statement_file))
+                except ValueError:
+                    _logger.info(u"Statment file was not a IZettle Report file.")
+                    return super(AccountBankStatementImport, self)._parse_file(statement_file)
 
         fakt = re.compile('\d+')  # Pattern to find invoice numbers
 
         izettle = parser.parse()
         for s in izettle.statements:
+            _logger.warning(f"s is: {s}")
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
-            account = self.env['res.partner.bank'].search([('acc_number','=',s['account_number'])]).mapped('journal_id').mapped('default_debit_account_id')
             move_line_ids = []
             for t in s['transactions']:
-                t['currency_id'] = currency.id
-                partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])])
+                if s['currency_code'] != currency.name:
+                    t['currency_id'] = currency.id
+                partner_id = self.env['res.partner.bank'].search([('acc_number','ilike',t['account_number'])],limit=1).mapped('partner_id')
                 if partner_id:
-                    t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
-                    t['partner_id'] = partner_id[0].commercial_partner_id.id
-                d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
-                d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
-                line = self.env['account.move.line'].search([('move_id.date', '=', t['date']), ('balance', '=', t['original_amount']), ('name', '=', str(t['ref']))])
+                    # t['account_number'] = partner_id.bank_ids and partner_id.bank_ids[0].acc_number or ''
+                    t['partner_id'] = partner_id.id
+                # d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
+                # d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
+                line = self.env['account.move.line'].search([('move_id.date', '=', t['date']), ('balance', '=', t['amount']), ('name', '=', str(t['ref']))])
                 if len(line) > 0:
                     if line[0].move_id.state == 'draft' and line[0].move_id.date != t['date']:
                         line[0].move_id.date = t['date']
@@ -74,7 +98,7 @@ class AccountBankStatementImport(models.TransientModel):
                         move_line_ids.append(line)
             s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
-        _logger.debug("res: %s" % izettle.statements)
+        _logger.warning("res: %s" % izettle.statements)
         return izettle.account_currency, izettle.account_number, izettle.statements
 
 

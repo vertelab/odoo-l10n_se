@@ -25,6 +25,8 @@ import base64
 from odoo.exceptions import Warning
 import time
 from datetime import datetime, timedelta
+
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -103,7 +105,6 @@ class account_agd_declaration(models.Model):
         self.move_ids = []
         for move in slips.mapped('move_id'):
             move.agd_declaration_id = self.id
-        # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
         
     # ~ @api.multi
     def show_journal_entries(self):
@@ -213,8 +214,7 @@ class account_agd_declaration(models.Model):
         self.move_ids = []
         for move in slips.mapped('move_id'):
             move.agd_declaration_id = self.id
-
-
+        
         ctx = {
             'period_start': self.period_start.id,
             'period_stop': self.period_start.id,
@@ -225,11 +225,6 @@ class account_agd_declaration(models.Model):
         }
 
         self._vat()
-        # ~ self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-        # ~ self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-        # ~ self.ag_betala = decl.SumAvgBetala + decl.SumSkAvdr
-
-        # ~ raise Warning(self.env.ref('l10n_se_tax_report.agd_report_UlagAvgHel').with_context(ctx).get_moveline_ids() )
         ##
         ####  Create report lines
         ##
@@ -293,6 +288,8 @@ class account_agd_declaration(models.Model):
                 None: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1",
             }
             ns = '{%s}' %namespaces['agd']
+            # 2021-03-25 Om du får felmeddelande och kommer hit laddar du saker i fel ordning!
+            # Gå till "Bolag" och fyll i Org nr och moms nr. :-)
             company_registry = '16' + self.env.user.company_id.company_registry.replace('-', '')
             attrib={'{%s}schemaLocation' % namespaces['xsi']: "http://xmls.skatteverket.se/se/skatteverket/da/instans/schema/1.1 http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd", 'omrade': 'Arbetsgivardeklaration'}
             skatteverket = etree.Element('Skatteverket', attrib=attrib, nsmap=namespaces)
@@ -369,6 +366,7 @@ class account_agd_declaration(models.Model):
             hu_summaskatteavdr.set('faltkod', TAGS_NEW.get('SummaSkatteavdr'))
             hu_summaskatteavdr.text = get_tax_value('SumSkAvdr')
 
+            # https://skatteverket.se/foretagochorganisationer/arbetsgivare/lamnaarbetsgivardeklaration/tekniskbeskrivningochtesttjanst/tekniskbeskrivning119.4.7eada0316ed67d7282a791.html
             # Uppgift IU
             seq = 1
             for slip in self.payslip_ids:
@@ -388,9 +386,14 @@ class account_agd_declaration(models.Model):
                 iu_betalningsmottagareidinvoice = etree.SubElement(iu_betalningsmottagareiugroup, ns + 'BetalningsmottagareIDChoice')
                 iu_betalningsmottagarid = etree.SubElement(iu_betalningsmottagareidinvoice, ns + 'BetalningsmottagarId')
                 iu_betalningsmottagarid.set('faltkod', '215')
-                iu_betalningsmottagarid.text = ''
+                iu_betalningsmottagarid.text = slip.employee_id.identification_id
                 if slip.contract_id and slip.contract_id.employee_id.identification_id:
                     iu_betalningsmottagarid.text = slip.contract_id.employee_id.identification_id.replace('-', '')
+                else:
+                    iu_betalningsmottagarid.text = "NOT SET; UNABLE TO IDENTIFY,please set identification_id on the employe"
+                # ~ iu_betalningsmottagarid.text = slip.employee_id.identification_id
+                # ~ if slip.contract_id and slip.contract_id.employee_id.identification_id:
+                    # ~ iu_betalningsmottagarid.text = slip.contract_id.employee_id.identification_id.replace('-', '')
                 iu_redovisningsperiod = etree.SubElement(iu_iu, ns + 'RedovisningsPeriod')
                 iu_redovisningsperiod.set('faltkod', '006')
                 iu_redovisningsperiod.text = period
@@ -431,33 +434,34 @@ class account_agd_declaration(models.Model):
             schema_root = etree.parse('http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/arbetsgivardeklaration_1.1.xsd', base_url='http://xmls.skatteverket.se/se/skatteverket/da/arbetsgivardeklaration/')
             schema = etree.XMLSchema(schema_root)
 
-            # ~ # Validera ett dokument som du skapat
-            # ~ root = etree.Element('<foobar><foo>bar</foo></foobr>')
-            # ~ schema.validate(root) # True eller False
-
             # ~ # Validera dokument vid inläsning från en sträng
-            parser = etree.XMLParser(schema = schema)
-            etree.fromstring(xml, parser)
-            # ~ try:
-                # ~ root = etree.fromstring(doc_str, parser)
-                # ~ # Om du kommer hit så gick det bra
-            # ~ except:
-                # ~ # Dokumentet validerade ej
+            try:
+                parser = etree.XMLParser(schema = schema)
+                etree.fromstring(xml, parser)
+            except etree.XMLSyntaxError as e:
+                self.message_post(body=e.message)
+                return False
+            return True
 
         xml = parse_xml(tax_account)
-        _logger.info('AGD XML %s' % etree.tostring(xml, pretty_print=True, encoding="UTF-8"))
+        _logger.warning('AGD XML %s' % etree.tostring(xml, pretty_print=True, encoding="UTF-8"))
         # ~ xml = etree.tostring(xml, pretty_print=True, encoding="UTF-8", standalone=False)
         xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + etree.tostring(xml, pretty_print=True, encoding="UTF-8")
-        schema_validate(xml)
+        if not schema_validate(xml):
+            pass
         self.eskd_file = base64.b64encode(xml)
-
+        
         ##
         #### Create move
         ##
 
         #TODO check all warnings
-        tax_accounts = self.env['account.tax'].with_context({'period_id': self.period_start.id, 'state': self.target_move}).search([('name', '=', 'AgAvgPreS')])
-        kontoskatte = self.env['account.account'].with_context({'period_from': self.period_start.id, 'period_to': self.period_start.id}).search([('id', 'in', self.env['account.financial.report'].search([('tax_ids', 'in', tax_accounts.mapped('children_tax_ids').mapped('id'))]).mapped('account_ids').mapped('id'))])
+        #This method uses financial report to get base account
+        
+        tax_accounts = self.env['account.tax'].search([('name', 'in', ['SkAvdrLon', 'AvgHel'])])
+        kontoskatte = tax_accounts.mapped('account_id')
+        _logger.warning('kontoskatte %s' % kontoskatte)
+        
         agd_journal_id = self.env['ir.config_parameter'].get_param('l10n_se_tax_report.agd_journal')
         if not agd_journal_id:
             raise Warning('Konfigurera din arbetsgivardeklaration journal!')
@@ -499,6 +503,9 @@ class account_agd_declaration(models.Model):
                     self.write({'move_id': entry.id})
             else:
                 raise Warning(_('kontoskatte: %sst, skattekonto: %s') %(len(kontoskatte), skattekonto))
+                
+        if self.state in ['draft']:
+            self.state = 'confirmed'
 
     @api.model
     def get_next_periods(self,length=1):

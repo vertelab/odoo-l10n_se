@@ -25,22 +25,29 @@ import uuid
 
 _logger = logging.getLogger(__name__)
 
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
+
+    def _get_bank_statements_available_import_formats(self):
+        """ Returns a list of strings representing the supported import formats.
+        """
+        return super(AccountJournal, self)._get_bank_statements_available_import_formats() + ['swedbank']
 
 class AccountBankStatementImport(models.TransientModel):
     """Add process_bgmax method to account.bank.statement.import."""
-    _inherit = 'account.bank.statement.import'
+    _inherit = 'account.statement.import'
 
     @api.model
-    def _parse_file(self, data_file):
+    def _parse_file(self, statement_file):
         """Parse a Swedbank transaktionsrapport  file."""
         try:
             _logger.debug("Try parsing with swedbank_transaktioner.")
-            parser = Parser(data_file)
+            parser = Parser(statement_file)
             swedbank = parser.parse()
-        except ValueError:
+        except ValueError as e:
             # Not a Swedbank file, returning super will call next candidate:
-            _logger.error("Statement file was not a Swedbank Transaktionsrapport file.",exc_info=True)
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
+            _logger.error("Statement file was not a Swedbank Transaktionsrapport file.")
+            return super(AccountBankStatementImport, self)._parse_file(statement_file)
 
 
 #        bankstatement = BankStatement()
@@ -51,41 +58,42 @@ class AccountBankStatementImport(models.TransientModel):
         try:
             for transaction in swedbank:
                 bank_account_id = partner_id = False
-                ref = ''
+                payment_ref = ''
                 if transaction['referens']:
-                    ref = transaction['referens'].strip()
-                    partner_id = self.env['res.partner'].search(['|','|','|',('name','ilike',ref),('ref','ilike',ref),('name','ilike',ref.split(' ')[0]),('ref','ilike',ref.split(' ')[0])])
+                    payment_ref = transaction['referens'].strip()
+                    partner_id = self.env['res.partner'].search(['|','|','|',('name','ilike',payment_ref),('ref','ilike',payment_ref),('name','ilike',payment_ref.split(' ')[0]),('ref','ilike',payment_ref.split(' ')[0])])
                     if partner_id:
                         bank_account_id = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].id or None
                         partner_id = partner_id[0].commercial_partner_id.id
                 vals_line = {
                     'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
-                    'name': ref + (transaction['text'] and ': ' + transaction['text'] or ''),
+                    'payment_ref': transaction['radnr'] + '-' + payment_ref + (transaction['text'] and ': ' +  transaction['text'] or ''),
                     'ref': transaction['referens'],
                     'amount': transaction['belopp'],
                     'unique_import_id': 'swedbank %s %s' % (swedbank.account.name[29:52], transaction['radnr']),
-                    'bank_account_id': bank_account_id or None,
+                    'partner_bank_id': bank_account_id or None,
                     'partner_id': partner_id or None,
                 }
-                if not vals_line['name']:
-                    vals_line['name'] = transaction['produkt'].capitalize()
+                if not vals_line['payment_ref']:
+                    vals_line['payment_ref'] = transaction['produkt'].capitalize()
                 total_amt += float(transaction['belopp'])
                 transactions.append(vals_line)
         except Exception as e:
             raise Warning(_(
                 "The following problem occurred during import. "
-                "The file might not be valid.\n\n %s" % e.message
+                "The file might not be valid.\n\n %s" % e
             ))
 
         vals_bank_statement = {
-            'name': swedbank.account.name,
             'transactions': transactions,
+            'name': swedbank.account.name,
             'balance_start': swedbank.account.balance_start,
+            'currency_code': swedbank.account.currency,
+            'account_number': swedbank.account.number,
             'balance_end_real':
                 float(swedbank.account.balance_start) + total_amt,
         }
-        return swedbank.account.currency, swedbank.account.number, [
-            vals_bank_statement]
+        return swedbank.account.currency, swedbank.account.number, [vals_bank_statement]
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

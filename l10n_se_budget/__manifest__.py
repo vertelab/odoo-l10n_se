@@ -23,7 +23,7 @@
     'name': 'l10n_se Budget',
     'version': '14.0',
     'license': 'AGPL-3',
-    'author': ' Vertel AB',
+    'author': 'Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Accouting',
     'depends': ['account_budget', 'l10n_se'],

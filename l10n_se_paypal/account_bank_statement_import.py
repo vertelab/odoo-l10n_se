@@ -28,30 +28,31 @@ _logger = logging.getLogger(__name__)
 
 class AccountBankStatementImport(models.TransientModel):
     """Add PayPal method to account.bank.statement.import."""
-    _inherit = 'account.bank.statement.import'
+    _inherit = 'account.statement.import'
 
     @api.model
-    def _parse_file(self, data_file):
+    def _parse_file(self, statement_file):
         """Parse one file or multiple files from zip-file.
         Return array of statements for further processing.
         xlsx-files are a Zip-file, have to override
         """
         statements = []
-        files = [data_file]
+        files = [statement_file]
 
         try:
             _logger.info(u"Try parsing with PayPal Report file.")
-            parser = Parser(base64.b64decode(self.data_file))
+            parser = Parser(base64.b64decode(self.statement_file))
         except ValueError:
             _logger.info(u"Statement file was not a PayPal Report file.")
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
+            return super(AccountBankStatementImport, self)._parse_file(statement_file)
 
         paypal = parser.parse()
         for s in paypal.statements:
             move_line_ids = []
             currency = self.env['res.currency'].search([('name','=', s['currency_code'])])
             for t in s['transactions']:
-                t['currency_id'] = currency.id
+                if s['currency_code'] != currency.name:
+                    t['currency_id'] = currency.id
                 # ~ partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])])
                 # ~ if partner_id:
                     # ~ t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''

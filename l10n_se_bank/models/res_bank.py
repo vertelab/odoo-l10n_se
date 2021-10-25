@@ -30,6 +30,10 @@ class ResPartnerBank(models.Model):
 
     clearing_number = fields.Char(string='Clearing Number')
 
+    @api.model
+    def get_supported_account_types(self):
+        return super(ResPartnerBank, self).get_supported_account_types() + [('bankgiro', 'Bankgiro'), ('plusgiro', 'Plusgiro')]
+
     def _compute_acc_type(self):
         for bank in self:
             if bank.acc_number and re.match('\d{3,4}-\d{4}', bank.acc_number):

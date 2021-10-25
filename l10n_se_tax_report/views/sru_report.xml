@@ -11,6 +11,7 @@
                         <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
                         <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
                         <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
+                        <button name="re_calculate" string="ReCalculate" type="object" class="oe_highlight" />
                         <button name="regenerate_sru_files" string="Regenerate SRU" type="object" class="oe_highlight" />
                         <field name="state" widget="statusbar" />
                     </header>

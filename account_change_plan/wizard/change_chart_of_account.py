@@ -356,7 +356,7 @@ class WizardChangeChartsAccounts(models.TransientModel):
         if not self.env.user._is_admin():
             raise AccessError(_("Only administrators can change the settings"))
         
-        ir_values_obj = self.env['ir.values']
+        ir_values_obj = self.env['ir.default']
         company = self.company_id
         self.company_id.write({'currency_id': self.currency_id.id,
                                'accounts_code_digits': self.code_digits,

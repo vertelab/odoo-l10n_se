@@ -84,6 +84,18 @@ class BankTransaction(dict):
             self.name = eref
 
     @property
+    def pref(self):
+        """property getter"""
+        return self['payment_ref']
+
+    @pref.setter
+    def pref(self, pref):
+        """property setter"""
+        self['payment_ref'] = pref
+        if not self.message:
+            self.name = pref
+
+    @property
     def message(self):
         """property getter"""
         return self._message
@@ -117,18 +129,18 @@ class BankTransaction(dict):
         self['account_number'] = remote_account
 
     @property
-    def note(self):
-        return self['note']
+    def narration(self):
+        return self['narration']
 
-    @note.setter
-    def note(self, note):
-        self['note'] = note
+    @narration.setter
+    def narration(self, narration):
+        self['narration'] = narration
 
     @property
     def bg_account(self):
         return self['bg_account']
 
-    @note.setter
+    @bg_account.setter
     def bg_account(self, bg_account):
         self['bg_account'] = bg_account
 
@@ -136,7 +148,7 @@ class BankTransaction(dict):
     def bg_serial_number(self):
         return self['bg_serial_number']
 
-    @note.setter
+    @bg_serial_number.setter
     def bg_serial_number(self, bg_serial_number):
         self['bg_serial_number'] = bg_serial_number
 
@@ -158,6 +170,7 @@ class BankTransaction(dict):
         self.name = ''
         self._message = False  # message from the remote party
         self.eref = False  # end to end reference for transactions
+        self.pref = False # payment reference for odoo 14
         self.remote_owner = False  # name of the other party
         self.remote_owner_address = []  # other parties address lines
         self.remote_owner_city = False  # other parties city name
@@ -200,12 +213,12 @@ class BankStatement(dict):
     @property
     def local_account(self):
         """property getter"""
-        return self['account_number']
+        return self['account_no']
 
     @local_account.setter
     def local_account(self, local_account):
         """property setter"""
-        self['account_number'] = local_account
+        self['account_no'] = local_account
 
     @property
     def local_currency(self):
@@ -282,129 +295,135 @@ class BankStatement(dict):
         self.end_balance = 0.0
 
 
-# class AccountBankStatementImport(models.TransientModel):
-#     """Extend model account.bank.statement."""
-#     _inherit = 'account.bank.statement.import'
-#
-#     @api.model
-#     def _parse_all_files(self, data_file):
-#         """Parse one file or multiple files from zip-file.
-#
-#         Return array of statements for further processing.
-#         """
-#         statements = []
-#         files = [data_file]
-#         try:
-#             with ZipFile(StringIO(data_file), 'r') as archive:
-#                 files = [
-#                     archive.read(filename) for filename in archive.namelist()
-#                     if not filename.endswith('/')
-#                     ]
-#         except BadZipfile:
-#             pass
-#         # Parse the file(s)
-#         for import_file in files:
-#             # The appropriate implementation module(s) returns the statements.
-#             # Actually we don't care wether all the files have the same
-#             # format. Although unlikely you might mix mt940 and camt files
-#             # in one zipfile.
-#             parse_result = self._parse_file(import_file)
-#             # Check for old version result, with separate currency and account
-#             if isinstance(parse_result, tuple) and len(parse_result) == 3:
-#                 (currency_code, account_number, new_statements) = parse_result
-#                 for stmt_vals in new_statements:
-#                     stmt_vals['currency_code'] = currency_code
-#                     stmt_vals['account_number'] = account_number
-#             else:
-#                 new_statements = parse_result
-#             statements += new_statements
-#         return statements
-#
-#     @api.model
-#     def _create_bank_statements(self, stmts_vals):
-#         ''' Override create method, do auto reconcile after statement created. '''
-#         res = super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals)
-#         statement_ids = res[0]
-#         if len(statement_ids) > 0:
-#             for statement in self.env['account.bank.statement'].browse(statement_ids):
-#                 for statement_line in statement.line_ids:
-#                     if statement_line.bg_account and statement_line.bg_serial_number: # this is a bg line
-#                         self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
-#                     else: # searching invoices
-#                         self.bank_statement_auto_reconcile_invoice(statement, statement_line, statement_line.name, statement_line.date, statement_line.amount)
-#                 statement.period_id = self.env['account.period'].date2period(statement.date)
-#         return res
-#
-#     @api.model
-#     def bank_statement_auto_reconcile_bg(self, statement, statement_line, bg_account, bg_serial_number):
-#         ''' Auto reconcile statement line with bg statement, create account.move. Match with bg serial number and amount '''
-#         statement_bg = self.env['account.bank.statement'].search([('journal_id.default_debit_account_id.name', '=', bg_account), ('bg_serial_number' , '=', bg_serial_number)])
-#         if len(statement_bg) == 1 and statement_line.amount == statement_bg.balance_end_real:
-#             entry = self.env['account.move'].create({
-#                 'journal_id': statement.journal_id.id,
-#                 'ref': '%s - %s' %(statement.name, statement_line.ref),
-#                 'date': statement.date,
-#                 'period_id': statement.period_id.id,
-#             })
-#             if entry:
-#                 move_line_list = []
-#                 if statement_line.amount > 0: # bg is positive, transfer amount from bg account to company main account
-#                     # bg account
-#                     move_line_list.append((0, 0, {
-#                         'name': statement_bg.name,
-#                         'account_id': statement_bg.journal_id.default_debit_account_id.id,
-#                         'debit': 0.0,
-#                         'credit': statement_line.amount,
-#                         'move_id': entry.id,
-#                     }))
-#                     # company main account
-#                     move_line_list.append((0, 0, {
-#                         'name': statement_bg.name,
-#                         'account_id': statement.journal_id.default_debit_account_id.id,
-#                         'debit': statement_line.amount,
-#                         'credit': 0.0,
-#                         'move_id': entry.id,
-#                     }))
-#                 else: # bg is negtive, transfer amount from company main account to bg account
-#                     # company main account
-#                     move_line_list.append((0, 0, {
-#                         'name': statement_bg.name,
-#                         'account_id': statement.journal_id.default_debit_account_id.id,
-#                         'debit': 0.0,
-#                         'credit': statement_line.amount,
-#                         'move_id': entry.id,
-#                     }))
-#                     # bg account
-#                     move_line_list.append((0, 0, {
-#                         'name': statement_bg.name,
-#                         'account_id': statement_bg.journal_id.default_debit_account_id.id,
-#                         'debit': statement_line.amount,
-#                         'credit': 0.0,
-#                         'move_id': entry.id,
-#                     }))
-#                 entry.write({
-#                     'line_ids': move_line_list,
-#                 })
-#                 entry.statement_line_id = statement_line.id
-#                 entry.post()
-#
-#     @api.model
-#     def bank_statement_auto_reconcile_invoice(self, statement, statement_line, partner_name, invoice_date, amount):
-#         ''' Create account.move. Match with account.move created by invoice '''
-#         partner = self.env['res.partner'].search([('name', 'ilike', partner_name), ('supplier', '=', True)])
-#         domain = [('amount_total', '=', -amount), ('period_id', '=', self.env['account.period'].date2period(statement_line.date).id)]
-#         if partner:
-#             domain += [('partner_id', '=', partner.id)]
-#         invoice = self.env['account.invoice'].search(domain)
-#         if invoice and len(invoice) == 1:
-#             if invoice.residual < invoice.amount_total: # at least one payment created for this invoice
-#                 # ~ for line in self.env['account.move.line'].search([('invoice_id', '=', invoice.id)]).filtered(lambda l: not l.statement_line_id):
-#                     # ~ if line.credit == statement_line.amount:
-#                         # ~ line.move_id.statement_line_id = statement_line.id
-#                 # TODO: find a method to get payment move that account module does. "Open Payment" button
-#                 invoice.move_id.statement_line_id = statement_line.id
-#                 for line in invoice.move_id.line_ids.filtered(lambda l: l.full_reconcile_id == True):
-#                     line.full_reconcile_id.reconciled_line_ids.filtered(lambda l: l.id != line.id).move_id.statement_line_id = statement_line.id
+class AccountBankStatementImport(models.TransientModel):
+    """Extend model account.statment.import."""
+    _inherit = 'account.statement.import'
+
+    @api.model
+    def _parse_all_files(self, statement_file):
+        """Parse one file or multiple files from zip-file.
+
+        Return array of statements for further processing.
+        """
+        statements = []
+        files = [statement_file]
+        try:
+            with ZipFile(StringIO(statement_file), 'r') as archive:
+                files = [
+                    archive.read(filename) for filename in archive.namelist()
+                    if not filename.endswith('/')
+                    ]
+        except BadZipfile:
+            pass
+        # Parse the file(s)
+        for import_file in files:
+            # The appropriate implementation module(s) returns the statements.
+            # Actually we don't care wether all the files have the same
+            # format. Although unlikely you might mix mt940 and camt files
+            # in one zipfile.
+            parse_result = self._parse_file(import_file)
+            # Check for old version result, with separate currency and account
+            if isinstance(parse_result, tuple) and len(parse_result) == 3:
+                (currency_code, account_number, new_statements) = parse_result
+                for stmt_vals in new_statements:
+                    stmt_vals['currency_code'] = currency_code
+                    stmt_vals['account_number'] = account_number
+            else:
+                new_statements = parse_result
+            statements += new_statements
+        return statements
+
+    @api.model
+    def _create_bank_statements(self, stmts_vals, result):
+        ''' Override create method, do auto reconcile after statement created. '''
+        for i in range(len(stmts_vals)):
+            currency_id = self.env.ref('base.'+stmts_vals[i].pop('currency_code')).id
+            if 'account_number' in stmts_vals[i]:
+                account_no = stmts_vals[i].pop('account_number')
+                stmts_vals[i]['account_no'] = account_no
+            stmts_vals[i]['currency_id'] = int(currency_id)
+        super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals, result)
+        statement_ids = result['statement_ids']
+        if len(statement_ids) > 0:
+            for statement in self.env['account.bank.statement'].browse(statement_ids):
+                for statement_line in statement.line_ids:
+                    if statement_line.bg_account and statement_line.bg_serial_number: # this is a bg line
+                        self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
+                    else: # searching invoices
+                        self.bank_statement_auto_reconcile_invoice(statement, statement_line, statement_line.name, statement_line.date, statement_line.amount)
+                statement.period_id = self.env['account.period'].date2period(statement.date)
+
+    @api.model
+    def bank_statement_auto_reconcile_bg(self, statement, statement_line, bg_account, bg_serial_number):
+        ''' Auto reconcile statement line with bg statement, create account.move. Match with bg serial number and amount '''
+        statement_bg = self.env['account.bank.statement'].search([('journal_id.default_debit_account_id.name', '=', bg_account), ('bg_serial_number' , '=', bg_serial_number)])
+        if len(statement_bg) == 1 and statement_line.amount == statement_bg.balance_end_real:
+            entry = self.env['account.move'].create({
+                'journal_id': statement.journal_id.id,
+                'ref': '%s - %s' %(statement.name, statement_line.ref),
+                'date': statement.date,
+                'period_id': statement.period_id.id,
+            })
+            if entry:
+                move_line_list = []
+                if statement_line.amount > 0: # bg is positive, transfer amount from bg account to company main account
+                    # bg account
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg.name,
+                        'account_id': statement_bg.journal_id.default_debit_account_id.id,
+                        'debit': 0.0,
+                        'credit': statement_line.amount,
+                        'move_id': entry.id,
+                    }))
+                    # company main account
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg.name,
+                        'account_id': statement.journal_id.default_debit_account_id.id,
+                        'debit': statement_line.amount,
+                        'credit': 0.0,
+                        'move_id': entry.id,
+                    }))
+                else: # bg is negtive, transfer amount from company main account to bg account
+                    # company main account
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg.name,
+                        'account_id': statement.journal_id.default_debit_account_id.id,
+                        'debit': 0.0,
+                        'credit': statement_line.amount,
+                        'move_id': entry.id,
+                    }))
+                    # bg account
+                    move_line_list.append((0, 0, {
+                        'name': statement_bg.name,
+                        'account_id': statement_bg.journal_id.default_debit_account_id.id,
+                        'debit': statement_line.amount,
+                        'credit': 0.0,
+                        'move_id': entry.id,
+                    }))
+                entry.write({
+                    'line_ids': move_line_list,
+                })
+                entry.statement_line_id = statement_line.id
+                entry.post()
+
+    @api.model
+    def bank_statement_auto_reconcile_invoice(self, statement, statement_line, partner_name, invoice_date, amount):
+        ''' Create account.move. Match with account.move created by invoice '''
+        partner = self.env['res.partner'].search([('name', 'ilike', partner_name)], limit=1)
+        domain = [('amount_total', '=', -amount), ('period_id', '=', self.env['account.period'].date2period(statement_line.date).id)]
+
+        if partner:
+            domain += [('partner_id', '=', partner.id)]
+        invoice = self.env['account.move'].search(domain)
+        if invoice and len(invoice) == 1:
+            if invoice.amount_residual < invoice.amount_total: # at least one payment created for this invoice
+                # for line in self.env['account.move.line'].search([('invoice_id', '=', invoice.id)]).filtered(lambda l: not l.statement_line_id):
+                #     if line.credit == statement_line.amount:
+                #         line.move_id.statement_line_id = statement_line.id
+                # TODO: find a method to get payment move that account module does. "Open Payment" button
+                invoice.move_id.statement_line_id = statement_line.id
+                for line in invoice.move_id.line_ids.filtered(lambda l: l.full_reconcile_id == True):
+                    line.full_reconcile_id.reconciled_line_ids.filtered(lambda l: l.id != line.id).move_id.statement_line_id = statement_line.id
 
 
 class AccountBankStatement(models.Model):
@@ -415,46 +434,52 @@ class AccountBankStatement(models.Model):
 
     def _start_end_balance(self):
         start_date = self.period_id.fiscalyear_id.date_start
-        statement_start_date = self.line_ids.sorted(key=lambda l: l.date)[0].date
-        statement_end_date = self.line_ids.sorted(key=lambda l: l.date)[-1].date
-        self.start_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', start_date), ('date', '<', statement_start_date), ('account_id', '=', self.journal_id.default_debit_account_id.id)]).mapped('balance'))
-        self.end_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', statement_start_date), ('date', '<=', statement_end_date), ('account_id', '=', self.journal_id.default_debit_account_id.id)]).mapped('balance')) + self.start_balance_calc
+        if len(self.line_ids.sorted(key=lambda l: l.date)) > 0:
+            statement_start_date = self.line_ids.sorted(key=lambda l: l.date)[0].date
+            statement_end_date = self.line_ids.sorted(key=lambda l: l.date)[-1].date
+            _logger.warn('statement_start_date %s statement_end_date %s' % (statement_start_date,statement_end_date))
+            self.start_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', start_date), ('date', '<', statement_start_date), ('account_id', '=', self.journal_id.payment_debit_account_id.id)]).mapped('balance'))
+            self.end_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', statement_start_date), ('date', '<=', statement_end_date), ('account_id', '=', self.journal_id.payment_debit_account_id.id)]).mapped('balance')) + self.start_balance_calc
+        else:
+            self.start_balance_calc = 0
+            self.end_balance_calc = 0
 
     bg_serial_number = fields.Char(string='BG serial number')
-    untrackable_journal_entries_count = fields.Integer(compute='_untrackable_journal_entries_count', string='Untrackable Entries')
+   
+    #TODO: Talk about this when we reach odoo 14
+    # ~ untrackable_journal_entries_count = fields.Integer(compute='_untrackable_journal_entries_count', string='Untrackable Entries')
+    
+    # ~ @api.one
+    # ~ def _untrackable_journal_entries_count(self):
+        # ~ self.untrackable_journal_entries_count = 1 # len(self.get_untrackable_journal_entries())
 
-    def _untrackable_journal_entries_count(self):
-        self.untrackable_journal_entries_count = len(self.get_untrackable_journal_entries())
+    # ~ @api.multi
+    # ~ def button_untrackable_journal_entries(self):
+        # ~ untrackable_move_ids = self.get_untrackable_journal_entries()
+        # ~ return {
+            # ~ 'name': _('Untrackable Entries'),
+            # ~ 'type': 'ir.actions.act_window',
+            # ~ 'res_model': 'account.move',
+            # ~ 'view_type': 'form',
+            # ~ 'view_mode': 'tree,form',
+            # ~ 'domain': [('id', 'in', untrackable_move_ids.mapped('id'))],
+            # ~ 'target': 'current',
+            # ~ 'limit': 300,
+            # ~ 'context': {},
+        # ~ }
 
-    def button_untrackable_journal_entries(self):
-        untrackable_move_ids = self.get_untrackable_journal_entries()
-        return {
-            'name': _('Untrackable Entries'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move',
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'domain': [('id', 'in', untrackable_move_ids.mapped('id'))],
-            'target': 'current',
-            'limit': 300,
-            'context': {},
-        }
-
-    def get_untrackable_journal_entries(self):
-        untrackable_move_ids = self.env['account.move'].browse()
-        for line in self.line_ids:
-            move = self.env['account.move'].search([('statement_line_id', '=', line.id)])
-            attachment = self.env['ir.attachment'].search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move.id)])
-            invoice = self.env['account.invoice'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
-            voucher = self.env['account.voucher'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
-            reconciled_bg = False
-            for ml in move.line_ids:
-                bg_statement = self.env['account.bank.statement'].search([('is_bg', '=', True), ('name', '=', ml.name), '|', ('line_ids.amount', '=', ml.balance), ('line_ids.amount', '=', -ml.balance)])
-                reconciled_bg = True if len(bg_statement) > 0 else False
-            if not attachment and not invoice and not voucher and not reconciled_bg and not move.payment_order_id:
-                untrackable_move_ids |= move
-        _logger.warn('anders: untrackable_move_ids %s' % untrackable_move_ids.mapped('name'))
-        return untrackable_move_ids
+    # ~ @api.multi
+    # ~ def get_untrackable_journal_entries(self):
+        # ~ untrackable_move_ids = self.env['account.move'].browse()
+        # ~ for line in self.line_ids:
+            # ~ move = self.env['account.move'].search([('statement_line_id', '=', line.id)])
+            # ~ attachment = self.env['ir.attachment'].search([('type', '=', 'binary'), ('res_model', '=', 'account.move'), ('res_id', '=', move.id)])
+            # ~ invoice = self.env['account.invoice'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
+            # ~ voucher = self.env['account.voucher'].search(['|', ('move_id', '=', move.id), ('move_id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped('id'))])
+            # ~ if not attachment and not invoice and not voucher and not move.payment_order_id:
+                # ~ untrackable_move_ids |= move
+        # ~ _logger.warn('anders: untrackable_move_ids %s' % untrackable_move_ids.mapped('name'))
+        # ~ return untrackable_move_ids
 
     # ~ @api.model
     # ~ def _search_untrackable_journal_entries_count(self, operator, value):
@@ -548,7 +573,6 @@ class AccountBankStatementLine(models.Model):
     bg_account = fields.Char(string='BG Account')
     bg_serial_number = fields.Char(string='BG Serial Number')
 
-
     def get_move_lines_for_reconciliation(self, excluded_ids=None, str=False, offset=0, limit=None, additional_domain=None, overlook_partner=False):
         """ Return account.move.line records which can be used for bank statement reconciliation.
 
@@ -559,5 +583,7 @@ class AccountBankStatementLine(models.Model):
             :param additional_domain:
             :param overlook_partner:
         """
+        # TODO: THIS CALL DOES NO LONGER EXIST IN ACCOUNT STATEMENT LINE. SHOULD BE REPLACED.
         res = super(AccountBankStatementLine,self).get_move_lines_for_reconciliation(excluded_ids, str, offset, limit, additional_domain, overlook_partner)
         return res.filtered(lambda line: not line.statement_id)
+

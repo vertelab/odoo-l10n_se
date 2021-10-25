@@ -91,7 +91,7 @@ def mk_chart(data,type,name,year,accounts,rule):
             field(r, 'reconcile', '', {'eval': 'True'})
 
 @click.command()
-@click.option('--year', default=2017, help='Year for the Chart of Account.')
+@click.option('--year', default=2021, help='Year for the Chart of Account.')
 @click.argument('input', default='Kontoplan_Normal_2021.xls',type=click.File('rb'))
 @click.argument('output',default='../data/account_chart_template_k23.xml' ,type=click.File('wb'))
 
