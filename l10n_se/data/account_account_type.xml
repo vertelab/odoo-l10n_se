@@ -251,7 +251,7 @@
             <field name="note"/>
             <field name="internal_group">expense</field>
         </record>
-        <record id="account.data_unaffected_earnings" model="account.account.type">
+        <record id="type_AretsResultat" model="account.account.type">
             <field name="name">Årets resultat</field>
             <field name="element_name">AretsResultat</field>
             <field name="type">other</field>

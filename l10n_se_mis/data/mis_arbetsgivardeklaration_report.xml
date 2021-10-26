@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_ad" model="mis.report">
+            <field name="name">Arbetsgivardeklarationen</field>
+        </record>
+        
+        <record id="kpi_report_ad_LonBrutto" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">LonBrutto</field>
+            <field name="description">#50. Avgiftspliktig bruttolön utom förmåner</field>
+            <field name="sequence">2</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_LonBrutto" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_LonBrutto"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'UlagAvgHel'),('tax_line_id.name', '=', 'LonBrutto')]</field>
+        </record>
+
+        <record id="kpi_report_ad_Forman" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">Forman</field>
+            <field name="description">#51: Avgiftspliktiga förmåner</field>
+            <field name="sequence">3</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_Forman" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_Forman"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'Forman')]</field>
+        </record>
+
+        <record id="kpi_report_ad_AvdrKostn" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">AvdrKostn</field>
+            <field name="description">#52: Avdrag för utgifter</field>
+            <field name="sequence">4</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_AvdrKostn" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_AvdrKostn"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'AvdrKostn')]</field>
+        </record>
+
+         <record id="kpi_report_ad_SumUlagAvg" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">SumUlagAvg</field>
+            <field name="description">#53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt</field>
+            <field name="sequence">5</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_SumUlagAvg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_SumUlagAvg"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'UlagAvgHel'),('tax_line_id.name', '=', 'SumUlagAvg')]</field>
+        </record>
+    
+        <record id="kpi_report_ad_UlagAvgHel" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagAvgHel</field>
+            <field name="description">#55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - 61 - 65 - 69)</field>
+            <field name="sequence">6</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagAvgHel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagAvgHel"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'UlagAvgHel')]</field>
+        </record>
+
+        <record id="kpi_report_ad_AvgHel" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">AvgHel</field>
+            <field name="description">#56: (san) 31,42% av #55</field>
+            <field name="sequence">7</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_AvgHel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_AvgHel"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'AvgHel')]</field>
+        </record>
+
+         <record id="kpi_report_ad_UlagAvgAldersp" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagAvgAldersp</field>
+            <field name="description">#59:  sap  Arbetsgivaravgift för 66-80 år</field>
+            <field name="sequence">8</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagAvgAldersp" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagAvgAldersp"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'UlagAvgAldersp')]</field>
+        </record>
+        
+         <record id="kpi_report_ad_AvgAldersp" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">AvgAldersp</field>
+            <field name="description">60. 16.36% av rad 59</field>
+            <field name="sequence">9</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_AvgAldersp" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_AvgAldersp"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'AvgAldersp')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_UlagAlderspSkLon" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagAlderspSkLon</field>
+            <field name="description">61. Särskild löneskatt för 80 år eller äldre</field>
+            <field name="sequence">10</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagAlderspSkLon" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagAlderspSkLon"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'UlagAlderspSkLon')]</field>
+        </record>
+        
+          <record id="kpi_report_ad_AvgAlderspSkLon" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">AvgAlderspSkLon</field>
+            <field name="description">62. 6,15% av rad 61</field>
+            <field name="sequence">11</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_AvgAlderspSkLon" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_AvgAlderspSkLon"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'AvgAlderspSkLon')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_UlagStodForetag" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagStodForetag</field>
+            <field name="description">73. Forskning och utveckling</field>
+            <field name="sequence">11</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagStodForetag" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagStodForetag"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'UlagStodForetag')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_AvdrStodForetag" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">AvdrStodForetag</field>
+            <field name="description">74. Avdrag forskning och utveckling</field>
+            <field name="sequence">12</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_AvdrStodForetag" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_AvdrStodForetag"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'AvdrStodForetag')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_UlagStodUtvidgat" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagStodUtvidgat</field>
+            <field name="description">75. Regionalt stöd, underlag</field>
+            <field name="sequence">13</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagStodUtvidgat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagStodUtvidgat"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'UlagStodUtvidgat')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_AvdrStodUtvidgat" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">AvdrStodUtvidgat</field>
+            <field name="description">76. Avdrag regionalt stöd</field>
+            <field name="sequence">14</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_AvdrStodUtvidgat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_AvdrStodUtvidgat"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'AvdrStodUtvidgat')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_SumAvgBetala" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">SumAvgBetala</field>
+            <field name="description">78. Summa arbetsgivaravgift</field>
+            <field name="sequence">15</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_SumAvgBetala" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_SumAvgBetala"/>
+            <field name="name">crd[]['|','|','|','|',('tax_line_id.name', '=', 'AvgHel'),('tax_line_id.name', '=', 'UlagVXLon'),('tax_line_id.name', '=', 'AvgAldersp'),('tax_line_id.name', '=', 'AvgAlderspSkLon'),('tax_line_id.name', '=', 'SumAvgBetala')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_UlagSkAvdrLon" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagSkAvdrLon</field>
+            <field name="description">81. Lön och förmåner</field>
+            <field name="sequence">16</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagSkAvdrLon" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagSkAvdrLon"/>
+            <field name="name">crd[]['|',('tax_line_id.name', '=', 'UlagAvgHel'),('tax_line_id.name', '=', 'UlagSkAvdrLon')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_SkAvdrLon" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">SkAvdrLon</field>
+            <field name="description">82. Från lön och förmåner</field>
+            <field name="sequence">17</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_SkAvdrLon" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_SkAvdrLon"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'SkAvdrLon')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_UlagSumSkAvdr" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagSumSkAvdr</field>
+            <field name="description">87. Summa underlag för skatteavdrag</field>
+            <field name="sequence">18</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagSumSkAvdr" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagSumSkAvdr"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'UlagAvgHel')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_UlagSumSkAvdr" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">UlagSumSkAvdr</field>
+            <field name="description">87. Summa underlag för skatteavdrag</field>
+            <field name="sequence">18</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_UlagSumSkAvdr" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_UlagSumSkAvdr"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'UlagAvgHel')]</field>
+        </record>
+        
+        <record id="kpi_report_ad_SumSkAvdr" model="mis.report.kpi">
+            <field name="report_id" ref="report_ad"/>
+            <field name="name">SumSkAvdr</field>
+            <field name="description">88. Summa avdragen skatt</field>
+            <field name="sequence">19</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_expr_report_ad_SumSkAvdr" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="kpi_report_ad_SumSkAvdr"/>
+            <field name="name">crd[]['|',('tax_line_id.name', '=', 'SkAvdrLon'),('tax_line_id.name', '=', 'SumSkAvdr')]</field>
+        </record>
+    </data>
+</odoo>

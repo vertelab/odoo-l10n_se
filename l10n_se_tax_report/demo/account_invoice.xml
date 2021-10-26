@@ -35,21 +35,21 @@
         model = "res.partner"       
         name = "set_property_account_position_id">
         <value>base.res_partner_12</value>
-        <value>l10n_se.1_k2_fpos_trade_eu</value>
+        <value>l10n_se.1_K2_fpos_trade_eu</value>
     </function>
 
     <function
         model = "res.partner"       
         name = "set_property_account_position_id">
         <value>base.res_partner_1</value>
-        <value>l10n_se.1_k2_fpos_trade_world</value>
+        <value>l10n_se.1_K2_fpos_trade_world</value>
     </function>
 
     <function
         model = "res.partner"       
         name = "set_property_account_position_id">
         <value>base.res_partner_10</value>
-        <value>l10n_se.1_k2_fpos_trade_world</value>
+        <value>l10n_se.1_K2_fpos_trade_world</value>
     </function>
     
 <!--
@@ -60,7 +60,7 @@
             <field name = "reference_type">none</field>
             <field name="date_invoice" eval="time.strftime('%Y')+'-03-14'" />
 <!--
-            <field name="date_due" eval="time.strftime('%Y')+'-03-14'" />
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
             <field name="period_id" search="[('name', '=', '03/2021')]"/>
             <field name ="payment_term" ref="account.account_payment_term"/>
@@ -158,7 +158,9 @@
         <record id="new_demo_invoice_2" model="account.invoice">
             <field name="name">VAT 02</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-03-23'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-03-23'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-03-23'" />
 -->
@@ -252,7 +254,9 @@
         <record id="new_demo_invoice_3" model="account.invoice">
             <field name="name">VAT 03</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-05-01'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-05-01'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-05-01'" />
 -->
@@ -348,6 +352,9 @@
             <field name="name">VAT 04</field>
             <field name = "reference_type">none</field>
             <field name="date_invoice" eval="time.strftime('%Y')+'-06-10'" />
+<!--
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
+-->
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-10'" />
 -->
@@ -446,6 +453,9 @@
             <field name = "reference_type">none</field>
             <field name="date_invoice" eval="time.strftime('%Y')+'-06-02'" />
 <!--
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
+-->
+<!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
             <field name="period_id" search="[('name', '=', '06/2021')]"/>
@@ -535,7 +545,9 @@
         <record id="new_demo_invoice_6" model="account.invoice">
             <field name="name">VAT 06</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-06-01'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
@@ -631,7 +643,9 @@
         <record id="new_demo_invoice_7" model="account.invoice">
             <field name="name">VAT 07</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-06-01'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
@@ -727,6 +741,9 @@
             <field name = "reference_type">none</field>
             <field name="date_invoice" eval="time.strftime('%Y')+'-06-05'" />
 <!--
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
+-->
+<!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-05" />
 -->
             <field name="period_id" search="[('name', '=', '06/2021')]"/>
@@ -812,7 +829,9 @@
         <record id="new_demo_invoice_9" model="account.invoice">
             <field name="name">VAT 09</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-06-15'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-06-15'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->

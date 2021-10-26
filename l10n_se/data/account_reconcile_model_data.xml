@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
 <!--
         The field account_id,amount and tax_id are missing in odoo14 in the model account.reconcile.model. 
         It does have a line_ids that have the field account_id and tax_ids, mabye use that

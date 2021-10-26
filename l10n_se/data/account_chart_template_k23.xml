@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-  <data>
-    <record id="chart_template_K1_2021" model="account.chart.template">
+  <data noupdate="1">
+    <record id="chart_template_K1_2017" model="account.chart.template">
       <field name="name">K1 - Mindre verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
       <field name="currency_id" ref="base.SEK"/>
@@ -10,37 +10,8 @@
       <field name="transfer_account_code_prefix">195</field>
       <field name="code_digits">4</field>
     </record>
-    <record id="K1_1010_2021" model="account.account.template">
-      <field name="name">Utvecklingsutgifter </field>
-      <field name="code">1010</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_1011_2021" model="account.account.template">
-      <field name="name">Balanserade utgifter för utveckling </field>
-      <field name="code">1011</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_1012_2021" model="account.account.template">
-      <field name="name">Balanserade utgifter för programvaror </field>
-      <field name="code">1012</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_1018_2021" model="account.account.template">
-      <field name="name">Ackumulerade nedskrivningar på balanserade utgifter </field>
-      <field name="code">1018</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_1019_2021" model="account.account.template">
-      <field name="name">Ackumulerade avskrivningar på balanserade utgifter </field>
-      <field name="code">1019</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_1020_2021" model="account.account.template">
+
+    <record id="K1_1020_2017" model="account.account.template">
       <field name="name">Koncessioner m.m. </field>
       <field name="code">1020</field>
       <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
@@ -154,13 +125,7 @@
       <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
     </record>
-    <record id="K1_1081_2021" model="account.account.template">
-      <field name="name">Pågående projekt för immateriella anläggningstillgångar </field>
-      <field name="code">1081</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_1088_2021" model="account.account.template">
+    <record id="K1_1088_2017" model="account.account.template">
       <field name="name">Förskott för immateriella anläggningstillgångar </field>
       <field name="code">1088</field>
       <field name="user_type_id" ref="account.data_account_type_prepayments"/>
@@ -491,21 +456,7 @@
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
     </record>
-    <record id="K1_1260_2021" model="account.account.template">
-      <field name="name">Leasade tillgångar </field>
-      <field name="code">1260</field>
-      <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
-    </record>
-    <record id="K1_1269_2021" model="account.account.template">
-      <field name="name">Ackumulerade avskrivningar på leasade tillgångar </field>
-      <field name="code">1269</field>
-      <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
-    </record>
-    <record id="K1_1280_2021" model="account.account.template">
+    <record id="K1_1280_2017" model="account.account.template">
       <field name="name">Pågående nyanläggningar och förskott för maskiner och inventarier </field>
       <field name="code">1280</field>
       <field name="user_type_id" ref="account.data_account_type_prepayments"/>
@@ -836,13 +787,7 @@
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Fordringar på delägare, och andra som står delägare nära, som förfaller till betalning senare än 12 månader från balansdagen.</field>
     </record>
-    <record id="K1_1370_2021" model="account.account.template">
-      <field name="name">Uppskjuten skattefordran </field>
-      <field name="code">1370</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_1380_2021" model="account.account.template">
+    <record id="K1_1380_2017" model="account.account.template">
       <field name="name">Andra långfristiga fordringar </field>
       <field name="code">1380</field>
       <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
@@ -1859,13 +1804,7 @@
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Summan av tidigare års vinster och förluster. Registrera balanserat resultat med minustecken om det balanserade resultatet är en balanserad förlust. Är det en balanserad vinst ska du inte använda minustecken.</field>
     </record>
-    <record id="K1_2092_2021" model="account.account.template">
-      <field name="name">Mottagna/lämnade koncernbidrag </field>
-      <field name="code">2092</field>
-      <field name="user_type_id" ref="account.data_account_type_equity"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_2093_2021" model="account.account.template">
+    <record id="K1_2093_2017" model="account.account.template">
       <field name="name">Erhållna aktieägartillskott </field>
       <field name="code">2093</field>
       <field name="user_type_id" ref="account.data_account_type_equity"/>
@@ -1884,13 +1823,7 @@
       <field name="user_type_id" ref="account.data_account_type_equity"/>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
     </record>
-    <record id="K1_2096_2021" model="account.account.template">
-      <field name="name">Fond för verkligt värde </field>
-      <field name="code">2096</field>
-      <field name="user_type_id" ref="account.data_account_type_equity"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-    </record>
-    <record id="K1_2097_2021" model="account.account.template">
+    <record id="K1_2097_2017" model="account.account.template">
       <field name="name">Fri överkursfond </field>
       <field name="code">2097</field>
       <field name="user_type_id" ref="account.data_account_type_equity"/>
@@ -2150,14 +2083,7 @@
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Övriga pensionsåtaganden till nuvarande och tidigare anställda.</field>
     </record>
-    <record id="K1_2240_2021" model="account.account.template">
-      <field name="name">Avsättningar för uppskjutna skatter</field>
-      <field name="code">2240</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Andra avsättningar än för pensioner, t.ex. garantiåtaganden.</field>
-    </record>
-    <record id="K1_2250_2021" model="account.account.template">
+    <record id="K1_2250_2017" model="account.account.template">
       <field name="name">Övriga avsättningar för skatter </field>
       <field name="code">2250</field>
       <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
@@ -3602,14 +3528,7 @@
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Intäkter genererade utanför företagets ordinarie verksamhet, t.ex. valutakursvinster eller realisationsvinster.</field>
     </record>
-    <record id="K1_3940_2021" model="account.account.template">
-      <field name="name">Orealiserade negativa/positiva värdeförändringar på säkringsinstrument</field>
-      <field name="code">3940</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Intäkter genererade utanför företagets ordinarie verksamhet, t.ex. valutakursvinster eller realisationsvinster.</field>
-    </record>
-    <record id="K1_3950_2021" model="account.account.template">
+    <record id="K1_3950_2017" model="account.account.template">
       <field name="name">Återvunna, tidigare avskrivna kundfordringar </field>
       <field name="code">3950</field>
       <field name="user_type_id" ref="account.data_account_type_revenue"/>
@@ -6642,14 +6561,7 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
     </record>
-    <record id="K1_7940_2021" model="account.account.template">
-      <field name="name">Orealiserade positiva/negativa värdeförändringar på säkringsinstrument</field>
-      <field name="code">7940</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Kostnader som ligger utanför företagets normala verksamhet, t.ex. valutakursförluster och realisationsförlust vid försäljning av icke- finansiella anläggningstillgångar.</field>
-    </record>
-    <record id="K1_7960_2021" model="account.account.template">
+    <record id="K1_7960_2017" model="account.account.template">
       <field name="name">Valutakursförluster på fordringar och skulder av rörelsekaraktär </field>
       <field name="code">7960</field>
       <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
@@ -7188,28 +7100,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Nedskrivningar av och återföring av nedskrivningar på finansiella anläggningstillgångar och kortfristiga placeringar</field>
     </record>
-    <record id="K1_8290_2021" model="account.account.template">
-      <field name="name">Värdering till verkligt värde, anläggningstillgångar</field>
-      <field name="code">8290</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.</field>
-    </record>
-    <record id="K1_8291_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på anläggningstillgångar </field>
-      <field name="code">8291</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.</field>
-    </record>
-    <record id="K1_8295_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på derivatinstrument </field>
-      <field name="code">8295</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.</field>
-    </record>
-    <record id="K1_8310_2021" model="account.account.template">
+    <record id="K1_8310_2017" model="account.account.template">
       <field name="name">Ränteintäkter från omsättningstillgångar </field>
       <field name="code">8310</field>
       <field name="user_type_id" ref="account.data_account_type_other_income"/>
@@ -7258,28 +7149,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
     </record>
-    <record id="K1_8320_2021" model="account.account.template">
-      <field name="name">Värdering till verkligt värde, omsättningstillgångar</field>
-      <field name="code">8320</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
-    </record>
-    <record id="K1_8321_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på omsättningstillgångar </field>
-      <field name="code">8321</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
-    </record>
-    <record id="K1_8325_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på derivatinstrument (oms.-tillg.) </field>
-      <field name="code">8325</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
-    </record>
-    <record id="K1_8330_2021" model="account.account.template">
+    <record id="K1_8330_2017" model="account.account.template">
       <field name="name">Valutakursdifferenser på kortfristiga fordringar och placeringar </field>
       <field name="code">8330</field>
       <field name="user_type_id" ref="account.data_account_type_other_income"/>
@@ -7496,28 +7366,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
     </record>
-    <record id="K1_8450_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på skulder </field>
-      <field name="code">8450</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K1_8451_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på skulder </field>
-      <field name="code">8451</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K1_8455_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på säkringsinstrument </field>
-      <field name="code">8455</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K1_8460_2021" model="account.account.template">
+    <record id="K1_8460_2017" model="account.account.template">
       <field name="name">Räntekostnader till koncernföretag </field>
       <field name="code">8460</field>
       <field name="user_type_id" ref="account.data_account_type_expenses"/>
@@ -7545,14 +7394,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
     </record>
-    <record id="K1_8480_2021" model="account.account.template">
-      <field name="name">Aktiverade ränteutgifter </field>
-      <field name="code">8480</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K1_8490_2021" model="account.account.template">
+    <record id="K1_8490_2017" model="account.account.template">
       <field name="name">Övriga skuldrelaterade poster </field>
       <field name="code">8490</field>
       <field name="user_type_id" ref="account.data_account_type_expenses"/>
@@ -7713,14 +7555,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K1_2021"/>
       <field name="note">&lt;p&gt;Beräknad skatt på årets resultat.&lt;/p&gt;&lt;p&gt; Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.&lt;/p&gt;</field>
     </record>
-    <record id="K1_8940_2021" model="account.account.template">
-      <field name="name">Uppskjuten skatt </field>
-      <field name="code">8940</field>
-      <field name="user_type_id" ref="l10n_se.tax"/>
-      <field name="chart_template_id" ref="chart_template_K1_2021"/>
-      <field name="note">&lt;p&gt;Beräknad skatt på årets resultat.&lt;/p&gt;&lt;p&gt; Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.&lt;/p&gt;</field>
-    </record>
-    <record id="K1_8980_2021" model="account.account.template">
+    <record id="K1_8980_2017" model="account.account.template">
       <field name="name">Övriga skatter </field>
       <field name="code">8980</field>
       <field name="user_type_id" ref="l10n_se.tax"/>
@@ -7736,37 +7571,7 @@ skattskyldighet, 25 % moms</field>
       <field name="transfer_account_code_prefix">195</field>
       <field name="code_digits">4</field>
     </record>
-    <record id="K2_1010_2021" model="account.account.template">
-      <field name="name">Utvecklingsutgifter </field>
-      <field name="code">1010</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_1011_2021" model="account.account.template">
-      <field name="name">Balanserade utgifter för utveckling </field>
-      <field name="code">1011</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_1012_2021" model="account.account.template">
-      <field name="name">Balanserade utgifter för programvaror </field>
-      <field name="code">1012</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_1018_2021" model="account.account.template">
-      <field name="name">Ackumulerade nedskrivningar på balanserade utgifter </field>
-      <field name="code">1018</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_1019_2021" model="account.account.template">
-      <field name="name">Ackumulerade avskrivningar på balanserade utgifter </field>
-      <field name="code">1019</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_1020_2021" model="account.account.template">
+    <record id="K2_1020_2017" model="account.account.template">
       <field name="name">Koncessioner m.m. </field>
       <field name="code">1020</field>
       <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
@@ -7880,13 +7685,7 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
     </record>
-    <record id="K2_1081_2021" model="account.account.template">
-      <field name="name">Pågående projekt för immateriella anläggningstillgångar </field>
-      <field name="code">1081</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_1088_2021" model="account.account.template">
+    <record id="K2_1088_2017" model="account.account.template">
       <field name="name">Förskott för immateriella anläggningstillgångar </field>
       <field name="code">1088</field>
       <field name="user_type_id" ref="account.data_account_type_prepayments"/>
@@ -8217,21 +8016,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
     </record>
-    <record id="K2_1260_2021" model="account.account.template">
-      <field name="name">Leasade tillgångar </field>
-      <field name="code">1260</field>
-      <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
-    </record>
-    <record id="K2_1269_2021" model="account.account.template">
-      <field name="name">Ackumulerade avskrivningar på leasade tillgångar </field>
-      <field name="code">1269</field>
-      <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
-    </record>
-    <record id="K2_1280_2021" model="account.account.template">
+    <record id="K2_1280_2017" model="account.account.template">
       <field name="name">Pågående nyanläggningar och förskott för maskiner och inventarier </field>
       <field name="code">1280</field>
       <field name="user_type_id" ref="account.data_account_type_prepayments"/>
@@ -8562,13 +8347,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Fordringar på delägare, och andra som står delägare nära, som förfaller till betalning senare än 12 månader från balansdagen.</field>
     </record>
-    <record id="K2_1370_2021" model="account.account.template">
-      <field name="name">Uppskjuten skattefordran </field>
-      <field name="code">1370</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_1380_2021" model="account.account.template">
+    <record id="K2_1380_2017" model="account.account.template">
       <field name="name">Andra långfristiga fordringar </field>
       <field name="code">1380</field>
       <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
@@ -9585,13 +9364,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Summan av tidigare års vinster och förluster. Registrera balanserat resultat med minustecken om det balanserade resultatet är en balanserad förlust. Är det en balanserad vinst ska du inte använda minustecken.</field>
     </record>
-    <record id="K2_2092_2021" model="account.account.template">
-      <field name="name">Mottagna/lämnade koncernbidrag </field>
-      <field name="code">2092</field>
-      <field name="user_type_id" ref="account.data_account_type_equity"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_2093_2021" model="account.account.template">
+    <record id="K2_2093_2017" model="account.account.template">
       <field name="name">Erhållna aktieägartillskott </field>
       <field name="code">2093</field>
       <field name="user_type_id" ref="account.data_account_type_equity"/>
@@ -9610,13 +9383,7 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="account.data_account_type_equity"/>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
     </record>
-    <record id="K2_2096_2021" model="account.account.template">
-      <field name="name">Fond för verkligt värde </field>
-      <field name="code">2096</field>
-      <field name="user_type_id" ref="account.data_account_type_equity"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-    </record>
-    <record id="K2_2097_2021" model="account.account.template">
+    <record id="K2_2097_2017" model="account.account.template">
       <field name="name">Fri överkursfond </field>
       <field name="code">2097</field>
       <field name="user_type_id" ref="account.data_account_type_equity"/>
@@ -9876,14 +9643,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Övriga pensionsåtaganden till nuvarande och tidigare anställda.</field>
     </record>
-    <record id="K2_2240_2021" model="account.account.template">
-      <field name="name">Avsättningar för uppskjutna skatter</field>
-      <field name="code">2240</field>
-      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Andra avsättningar än för pensioner, t.ex. garantiåtaganden.</field>
-    </record>
-    <record id="K2_2250_2021" model="account.account.template">
+    <record id="K2_2250_2017" model="account.account.template">
       <field name="name">Övriga avsättningar för skatter </field>
       <field name="code">2250</field>
       <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
@@ -11328,14 +11088,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Intäkter genererade utanför företagets ordinarie verksamhet, t.ex. valutakursvinster eller realisationsvinster.</field>
     </record>
-    <record id="K2_3940_2021" model="account.account.template">
-      <field name="name">Orealiserade negativa/positiva värdeförändringar på säkringsinstrument</field>
-      <field name="code">3940</field>
-      <field name="user_type_id" ref="account.data_account_type_revenue"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Intäkter genererade utanför företagets ordinarie verksamhet, t.ex. valutakursvinster eller realisationsvinster.</field>
-    </record>
-    <record id="K2_3950_2021" model="account.account.template">
+    <record id="K2_3950_2017" model="account.account.template">
       <field name="name">Återvunna, tidigare avskrivna kundfordringar </field>
       <field name="code">3950</field>
       <field name="user_type_id" ref="account.data_account_type_revenue"/>
@@ -14368,14 +14121,7 @@ skattskyldighet, 25 % moms</field>
       <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
     </record>
-    <record id="K2_7940_2021" model="account.account.template">
-      <field name="name">Orealiserade positiva/negativa värdeförändringar på säkringsinstrument</field>
-      <field name="code">7940</field>
-      <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Kostnader som ligger utanför företagets normala verksamhet, t.ex. valutakursförluster och realisationsförlust vid försäljning av icke- finansiella anläggningstillgångar.</field>
-    </record>
-    <record id="K2_7960_2021" model="account.account.template">
+    <record id="K2_7960_2017" model="account.account.template">
       <field name="name">Valutakursförluster på fordringar och skulder av rörelsekaraktär </field>
       <field name="code">7960</field>
       <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
@@ -14914,28 +14660,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Nedskrivningar av och återföring av nedskrivningar på finansiella anläggningstillgångar och kortfristiga placeringar</field>
     </record>
-    <record id="K2_8290_2021" model="account.account.template">
-      <field name="name">Värdering till verkligt värde, anläggningstillgångar</field>
-      <field name="code">8290</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.</field>
-    </record>
-    <record id="K2_8291_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på anläggningstillgångar </field>
-      <field name="code">8291</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.</field>
-    </record>
-    <record id="K2_8295_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på derivatinstrument </field>
-      <field name="code">8295</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.</field>
-    </record>
-    <record id="K2_8310_2021" model="account.account.template">
+    <record id="K2_8310_2017" model="account.account.template">
       <field name="name">Ränteintäkter från omsättningstillgångar </field>
       <field name="code">8310</field>
       <field name="user_type_id" ref="account.data_account_type_other_income"/>
@@ -14984,28 +14709,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
     </record>
-    <record id="K2_8320_2021" model="account.account.template">
-      <field name="name">Värdering till verkligt värde, omsättningstillgångar</field>
-      <field name="code">8320</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
-    </record>
-    <record id="K2_8321_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på omsättningstillgångar </field>
-      <field name="code">8321</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
-    </record>
-    <record id="K2_8325_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på derivatinstrument (oms.-tillg.) </field>
-      <field name="code">8325</field>
-      <field name="user_type_id" ref="account.data_account_type_other_income"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
-    </record>
-    <record id="K2_8330_2021" model="account.account.template">
+    <record id="K2_8330_2017" model="account.account.template">
       <field name="name">Valutakursdifferenser på kortfristiga fordringar och placeringar </field>
       <field name="code">8330</field>
       <field name="user_type_id" ref="account.data_account_type_other_income"/>
@@ -15222,28 +14926,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
     </record>
-    <record id="K2_8450_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på skulder </field>
-      <field name="code">8450</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K2_8451_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på skulder </field>
-      <field name="code">8451</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K2_8455_2021" model="account.account.template">
-      <field name="name">Orealiserade värdeförändringar på säkringsinstrument </field>
-      <field name="code">8455</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K2_8460_2021" model="account.account.template">
+    <record id="K2_8460_2017" model="account.account.template">
       <field name="name">Räntekostnader till koncernföretag </field>
       <field name="code">8460</field>
       <field name="user_type_id" ref="account.data_account_type_expenses"/>
@@ -15271,14 +14954,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
     </record>
-    <record id="K2_8480_2021" model="account.account.template">
-      <field name="name">Aktiverade ränteutgifter </field>
-      <field name="code">8480</field>
-      <field name="user_type_id" ref="account.data_account_type_expenses"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
-    </record>
-    <record id="K2_8490_2021" model="account.account.template">
+    <record id="K2_8490_2017" model="account.account.template">
       <field name="name">Övriga skuldrelaterade poster </field>
       <field name="code">8490</field>
       <field name="user_type_id" ref="account.data_account_type_expenses"/>
@@ -15439,14 +15115,7 @@ skattskyldighet, 25 % moms</field>
       <field name="chart_template_id" ref="chart_template_K2_2021"/>
       <field name="note">&lt;p&gt;Beräknad skatt på årets resultat.&lt;/p&gt;&lt;p&gt; Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.&lt;/p&gt;</field>
     </record>
-    <record id="K2_8940_2021" model="account.account.template">
-      <field name="name">Uppskjuten skatt </field>
-      <field name="code">8940</field>
-      <field name="user_type_id" ref="l10n_se.tax"/>
-      <field name="chart_template_id" ref="chart_template_K2_2021"/>
-      <field name="note">&lt;p&gt;Beräknad skatt på årets resultat.&lt;/p&gt;&lt;p&gt; Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.&lt;/p&gt;</field>
-    </record>
-    <record id="K2_8980_2021" model="account.account.template">
+    <record id="K2_8980_2017" model="account.account.template">
       <field name="name">Övriga skatter </field>
       <field name="code">8980</field>
       <field name="user_type_id" ref="l10n_se.tax"/>

@@ -17,15 +17,18 @@
       <field name="arch" type="xml">
         <form string="Momsdeklaration">
           <header>
-            <button name="comfirm_declaration" string="Bekräfta" type="object" class="oe_highlight" states="draft" />
+            <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />y
             <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
             <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
             <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
             <field name="state" widget="statusbar" />
           </header>
           <sheet>
-            <div class="oe_right oe_button_box" name="buttons">
+            <div class="oe_button_box" name="button_box">
+<!--
               <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
+-->
+                <button type="object" class="btn btn-secondary" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
                     <field name="vat_momsutg" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -77,7 +80,9 @@
                     <field name="vat_momsbetala" />
                     <field name="move_id" />
                     <span/><span/>
+<!--
                     <field name="eskd_file" />
+-->
                 </group>
             </group>
             <notebook>

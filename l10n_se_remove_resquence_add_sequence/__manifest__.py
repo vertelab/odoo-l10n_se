@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Management Solution
-#    Copyright (C) 2018 Vertel (<http://vertel.se>).
+#    Copyright (C) 2012-2017 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,18 +18,24 @@
 #
 ##############################################################################
 
+
 {
-    'name': 'Swedish Account Bank Statement Import',
-    'version': '14.0.1',
-    'license': 'AGPL-3',
+    'name': 'Sweden - Accounting',
+    'version': '2.0',
+    'category': 'Localization/Account Charts',
+    'description': """
+    We shouldn't be able to resequnce accounting voucher for Swedish accounting, so that server action is removed.
+    Also adding a sequence to journals so that all voucher number uses that sequence.
+    """,
     'author': 'Vertel AB',
-    'website': 'http://vertel.se',
-    'category': 'Banking addons',
-    'depends': ['account_statement_import', 'account_period'],
-    'data': ['bank_statement_view.xml'],
-    'summary': 'Swedish Account Bank Statement Import',
-    'description': """ """,
+    'website': 'http://www.vertel.se',
+    'category': 'Localization',
+    'depends': ['account','base'],
+    'init_xml': [],
+    'data': ['data/remove_resequence_server_action.xml',
+    'views/add_sequence_to_journal_view.xml'
+    ],
+    'demo': [],
     'installable': 'True',
-    'application': 'False',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

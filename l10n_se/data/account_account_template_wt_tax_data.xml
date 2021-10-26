@@ -1,10 +1,10 @@
 <odoo>
-    <data>
+    <data noupdate="1"> 
         <record id="chart4000" model="account.account.template">
             <field name="name">Inköp av varor från Sverige</field>
             <field name="code">4000</field>
             <field name="user_type_id" ref="account.data_account_type_direct_costs" />
-            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="chart_template_id" ref="chart_template_general" />
             <field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
             <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
         </record>
@@ -12,7 +12,7 @@
             <field name="name">Inköp av varor från Sverige, 25 %moms</field>
             <field name="code">4001</field>
             <field name="user_type_id" ref="account.data_account_type_direct_costs" />
-            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="chart_template_id" ref="chart_template_general" />
             <field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
             <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
         </record>
@@ -20,7 +20,7 @@
             <field name="name">Inköp av varor från Sverige, 12 %moms</field>
             <field name="code">4002</field>
             <field name="user_type_id" ref="account.data_account_type_direct_costs" />
-            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="chart_template_id" ref="chart_template_general" />
             <field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
             <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
         </record>
@@ -28,7 +28,7 @@
             <field name="name">Inköp av varor från Sverige, 6 %moms</field>
             <field name="code">4003</field>
             <field name="user_type_id" ref="account.data_account_type_direct_costs" />
-            <field name="chart_template_id" ref="chart_template_K2_2017" />
+            <field name="chart_template_id" ref="chart_template_general" />
             <field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
             <field name="note">Årets inköp av råvaror och förnödenheter +/- förändringar av lagerposten ”Råvaror och förnödenheter”. Även kostnader för legoarbeten och underentreprenader.</field>
         </record>

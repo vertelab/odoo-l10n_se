@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Management Solution
-#    Copyright (C) 2018 Vertel (<http://vertel.se>).
+#    Copyright (C) 2012-2016 Vertel (<http://www.vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,18 +18,5 @@
 #
 ##############################################################################
 
-{
-    'name': 'Swedish Account Bank Statement Import',
-    'version': '14.0.1',
-    'license': 'AGPL-3',
-    'author': 'Vertel AB',
-    'website': 'http://vertel.se',
-    'category': 'Banking addons',
-    'depends': ['account_statement_import', 'account_period'],
-    'data': ['bank_statement_view.xml'],
-    'summary': 'Swedish Account Bank Statement Import',
-    'description': """ """,
-    'installable': 'True',
-    'application': 'False',
-}
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from . import account_journal
+

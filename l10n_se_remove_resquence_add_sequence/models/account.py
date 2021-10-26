@@ -45,25 +45,6 @@ class AccountJournal(models.Model):
 
     type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')], ondelete = {'bg':'cascade','pg':'cascade'})
     
-
-class AccountChartTemplate(models.Model):
-    _inherit = 'account.account'
-
-    @api.model
-    def fix_account_types(self):
-        current_year_earnings = self.env.ref('account.data_unaffected_earnings')
-        current_year_earnings.write({"name":'Current Year Earnings'})
-        current_year_earnings.write({"account_range":"[('code', 'in', [])]"})
-        current_year_earnings.write({"account_range":False})
-        for t in self.env['account.account.type'].search([]):
-            if t.account_range:
-                for a in self.env['account.account'].search(eval(t.account_range)):
-                    if a.user_type_id != t:
-                       a.user_type_id = t
-                       _logger.warn('Account %s set type to %s' %(a.name, t.name))
-
-
-    
 # class account_bank_accounts_wizard(models.TransientModel):
 #     _inherit = 'account.bank.accounts.wizard'
 #
@@ -147,17 +128,6 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
 class AccountInvoice(models.Model):
     # ~ _inherit = 'account.invoice'
     _inherit = 'account.move'
-    
-    @api.depends('company_id', 'invoice_filter_type_domain')
-    def _compute_suitable_journal_ids(self):
-        for m in self:
-            journal_type = m.invoice_filter_type_domain
-            company_id = m.company_id.id or self.env.company.id
-            if journal_type:
-                domain = [('company_id', '=', company_id), ('type', '=', journal_type)]
-            else:
-                domain = [('company_id', '=', company_id)]
-            m.suitable_journal_ids = self.env['account.journal'].search(domain)
 
     # ~ OLD function to add balance taxes, this function no longer exists in account.move, which is why it never gets called.
     # ~ @api.model
@@ -217,8 +187,8 @@ class AccountInvoice(models.Model):
         return False
         
         
-
-
+        
+        
 
 
 # class wizard_multi_charts_accounts(models.TransientModel):
@@ -521,7 +491,6 @@ class account_tax_template(models.Model):
 class account_account_type(models.Model):
     _inherit = 'account.account.type'
 
-    name = fields.Char(string='Account Type', required=True, translate=False)
     element_name = fields.Char(string='Element Name', help='This name is used as tag in xbrl-file.')
     account_range = fields.Char(string='Accoun Range', help='Domain shows which account should has this account type.')
     main_type = fields.Selection(selection=[
@@ -562,15 +531,15 @@ class account_account_type(models.Model):
     def _change_name(self):
         for k,v in self.name_exchange_dict.items():
             self.env['account.account.type'].search([('element_name', '=', k)]).write({'name': v})
-                 
+
     @api.model
     def set_account_type(self):
-        _logger.warning("jakmar set_account_type")
-        for record in self:
-            for account in self.env['account.account'].search(eval(record.account_range)):
-                if account.user_type_id != record:
-                   account.user_type_id = record
-                   _logger.warn('Account %s set type to %s' %(account.name, record.name))
+        for t in self.env['account.account.type'].search([]):
+            if t.account_range:
+                for a in self.env['account.account'].search(eval(t.account_range)):
+                    if a.user_type_id != t:
+                       a.user_type_id = t
+                       _logger.warn('Account %s set type to %s' %(a.name, t.name))
 
     @api.model
     def return_eval(self):
@@ -654,37 +623,4 @@ class Company(models.Model):
                 'state': 'draft',
             })
             fy.create_period1()
-
-
-
-class AccountChartTemplate(models.Model):
-    _inherit = 'account.chart.template'
-    def _load(self, sale_tax_rate, purchase_tax_rate, company):
-            _logger.warning("jakmar! load before super")
-            res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
-            _logger.warning("jakmar! load after super")
-            loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
-            lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
-            loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
-            loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
-            avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
-            avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
-            personalskatt = self.env['account.account'].search([('code', '=', '2710')])
-            account_values = {
-                'UlagAvgHel': {'invoice_repartition_line_ids':  [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_7210.id,}),], 'refund_repartition_line_ids': [(5,0,0),(0, 0, { 'factor_percent': 100,'repartition_type': 'base', }),(0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_7210.id, }),]},
-                'UlagVXLon': {'invoice_repartition_line_ids': [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': lon_vaxa_stod_tjansteman.id,}),], 'refund_repartition_line_ids': [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': lon_vaxa_stod_tjansteman.id, }),]},
-                'UlagAvgAldersp': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_16_36.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_16_36.id,}),]},
-                'UlagAlderspSkLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_6_15.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_6_15.id,}),]},
-                'AvgHel': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),]},
-                'AvgVXLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_sarskild_loneskatt.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_sarskild_loneskatt.id,}),]},
-                'AvgAldersp': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),]},
-                'AvgAlderspSkLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),], 'refund_repartition_line_ids': [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),]},
-                'AgPre': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),]},
-                'SkAvdrLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),]},
-            }
-
-            for k,v in account_values.items():
-                self.env['account.tax'].search([('name', '=', k)]).write(v)
-            return res
-        
 
