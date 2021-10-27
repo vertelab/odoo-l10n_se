@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2018- Vertel AB (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,17 +15,23 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name': 'Swedish Bank Accounts',
-    'description': """Adds support for swedish bank account formats.""",
+    'name': 'l10n_se: Swedish Bank Accounts',
+    'summary': 'Adds support for swedish bank account formats.',
+    'author': 'Vertel AB',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
     'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
-    'author': ' Vertel AB',
-    'website': 'http://vertel.se',
-    'category': 'Banking addons',
+    'website': 'https://vertel.se/apps/l10n_se',
+    'description': """Adds support for swedish bank account formats.""",
     'depends': ['base'],
     'data': [
         'views/res_bank_view.xml',
