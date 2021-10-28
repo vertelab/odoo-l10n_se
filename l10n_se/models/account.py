@@ -61,6 +61,59 @@ class AccountChartTemplate(models.Model):
                     if a.user_type_id != t:
                        a.user_type_id = t
                        _logger.warn('Account %s set type to %s' %(a.name, t.name))
+        #Hard coded
+        accounts = self.env['account.account'].search(['|',('code', '=', '1330'),('code', '=', '1338')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag')
+            
+        accounts = self.env['account.account'].search(['|',('code', '=', '1340'),('code', '=', '1348')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga')
+
+        accounts = self.env['account.account'].search(['|',('code', '=', '1570'),('code', '=', '1670')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+            
+        # ~ accounts = self.env['account.account'].search(['|','|',('code', '=', '2087'),('code', '=', '2088'),('code', '=', '2089')])
+        # ~ for account in accounts:
+            # ~ account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+
+        accounts = self.env['account.account'].search([('code', '=', '2090')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_BalanseratResultat')
+            
+        accounts = self.env['account.account'].search([('code', '=', '2370')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_SkulderIntresseforetagGemensamtStyrdaForetagLangfristiga')
+            
+        accounts = self.env['account.account'].search(['|',('code', '=', '2470'),('code', '=', '2870')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_SkulderIntresseforetagGemensamtStyrdaForetagKortfristiga')
+        
+        accounts = self.env['account.account'].search([('code', '=', '2490')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('account.data_account_type_current_liabilities')
+
+        accounts = self.env['account.account'].search([('code', '>=', '2900'),('code', '<=', '2999')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter')
+            
+        accounts = self.env['account.account'].search([('code', '=', '4900')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning')
+            
+        accounts = self.env['account.account'].search(['|','|','|',('code', '=', '8110'),('code', '=', '8117'),('code', '=', '8120'),('code', '=', '8130')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_ResultatAndelarIntresseforetagGemensamtStyrda')
+            
+        accounts = self.env['account.account'].search([('code', '=', '8118')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_ResultatOvrigaforetagAgarintresse')
+            
+        accounts = self.env['account.account'].search([('code', '=', '8840')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_OvrigaBokslutsdispositioner')
+        
 
 
     
