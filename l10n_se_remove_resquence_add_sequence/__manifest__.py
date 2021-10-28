@@ -1,7 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2012-2017 Vertel (<http://www.vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -14,22 +15,26 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
-
 {
-    'name': 'Sweden - Accounting',
-    'version': '2.0',
-    'category': 'Localization/Account Charts',
+    'name': 'l10n_se: Sweden - Accounting',
+    'summary': '',
+    'author': 'Vertel AB',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
+    'version': '14.0.0.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'license': 'AGPL-3',
+    'website': 'https://vertel.se/apps/l10n_se',
     'description': """
     We shouldn't be able to resequnce accounting voucher for Swedish accounting, so that server action is removed.
     Also adding a sequence to journals so that all voucher number uses that sequence.
     """,
-    'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
-    'category': 'Localization',
     'depends': ['account','base'],
     'init_xml': [],
     'data': ['data/remove_resequence_server_action.xml',
