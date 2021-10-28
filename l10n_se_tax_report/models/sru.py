@@ -50,23 +50,6 @@ class account_declaration_line(models.Model):
     # ~ @api.multi
     def report_adl_get_balance(self):
         return self.balance * (1 if self.afr_id.sign == 1 else -1)
-        
-    @api.one
-    def set_move_lines(self,move_lines):
-        for line in move_lines:
-            if not line.sru_line_id:
-                if line.account_id in self.afr_id.account_ids:
-                    line.sru_line_id = self.afr_id.id
-                    # ~ line.move_id.sru_declaration_id = self.sru_declaration_id.id
-                else:
-                    for tax in line.tax_ids:
-                        if tax in self.afr_id.tax_ids:
-                            line.sru_line_id = self.afr_id.id
-                            # ~ line.move_id.sru_declaration_id = self.sru_declaration_id.id
-        self.move_line_ids = [(6, 0, [l.id for l in move_lines if l.sru_line_id == self.afr_id ])]
-        self.balance = int(abs(sum(self.move_line_ids.mapped('balance'))))
-
-
 
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
@@ -411,7 +394,6 @@ class account_sru_declaration(models.Model):
                     'is_b': is_b,
                     'is_r': is_r,
                 })
-                # ~ sru_line.set_move_lines(all_move_lines)
                 # take care of 3.26 and 3.27
                 if line.sru == '3.26': # vinst rad
                     if sru_line.sign == -1: # är förlust, vinst rad ska vara 0
@@ -453,7 +435,7 @@ class account_sru_declaration(models.Model):
     company_name = self.env.user.company_id.name,
     company_address = self.env.user.company_id.street or self.env.user.company_id.street2,
     company_zip = self.env.user.company_id.zip or '',
-    company_city = self.env.user.company_id.city.replace(u'ö','o') or '',
+    company_city = self.env.user.company_id.city or '',
     company_email = self.env.user.company_id.email or '',
     company_phone = self.env.user.company_id.phone or ''
 )

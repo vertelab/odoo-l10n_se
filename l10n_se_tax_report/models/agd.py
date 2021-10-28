@@ -25,8 +25,6 @@ import base64
 from odoo.exceptions import Warning
 import time
 from datetime import datetime, timedelta
-
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -192,8 +190,10 @@ class account_agd_declaration(models.Model):
         _logger.warn('jakob ***  payslip ')
 
         self.move_ids = []
-        for move in slips.mapped('move_id'):
-            move.agd_declaration_id = self.id
+        self.move_ids = slips.mapped('move_id')
+        # ~ for move in slips.mapped('move_id'):
+            # ~ move.write({"agd_declaration_id":self.id})
+        # ~ _logger.info('AGD: %s %s' % (slips.mapped('id'),slips.mapped('move_id.id')))
         
     # ~ @api.multi
     def show_journal_entries(self):
@@ -297,48 +297,8 @@ class account_agd_declaration(models.Model):
         for rec in self:
             if rec.state not in ['draft']:
                 raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-            if self.state in ['draft']:
-                self.state = 'confirmed'
-
-        slips = self.env['hr.payslip'].search([('move_id.period_id.id','=',self.period_start.id)])
-        self.payslip_ids = slips.mapped('id')
-        self.move_ids = []
-        for move in slips.mapped('move_id'):
-            move.agd_declaration_id = self.id
-        
-        ctx = {
-            'period_start': self.period_start.id,
-            'period_stop': self.period_start.id,
-            'accounting_yearend': self.accounting_yearend,
-            'accounting_method': self.accounting_method,
-            'target_move': self.target_move,
-            'nix_journal_ids': [self.env.ref('l10n_se_tax_report.agd_journal').id]
-        }
-
-        self._vat()
-        ##
-        ####  Create report lines
-        ##
-
-        for row in TAGS:
-            line = self.env.ref('l10n_se_tax_report.agd_report_%s' % row)
-            if not line:
-                raise Warning(_('Report line missing %' % row))
-            self.env['account.declaration.line'].create({
-                'agd_declaration_id': self.id,
-                'balance': int(abs(line.with_context(ctx).sum_tax_period() if line.tax_ids else sum([a.with_context(ctx).sum_period() for a in line.account_ids])) or 0.0),
-                'name': line.name,
-                'level': line.level,
-                'move_line_ids': [(6,0,line.with_context(ctx).get_moveline_ids())],
-                })
-
-        ##
-        #### Mark Used moves
-        ##
-
-        # ~ for move in self.line_ids.mapped('move_line_ids').mapped('move_id'):
-            # ~ if not move.agd_declaration_id:
-                # ~ move.agd_declaration_id = self.id
+            # ~ if rec.accounting_method == "cash" and not rec.accounting_yearend:
+                # ~ slips = rec.env['hr.payslip'].search([('move_id.period_id.id','=',rec.period_start.id)])
             # ~ else:
                 # ~ slips = rec.env['hr.payslip'].search([('move_id.date','=',rec.period_start.id)])
             slips = rec.env['hr.payslip'].search([('move_id.period_id.id','=',rec.period_start.id)])

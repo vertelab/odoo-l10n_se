@@ -18,8 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from datetime import datetime
 import logging
 from odoo import api, models, _
+from odoo.exceptions import UserError
 from .swedbank import SwedbankTransaktionsrapport as Parser
 import uuid
 
@@ -65,6 +67,12 @@ class AccountBankStatementImport(models.TransientModel):
                     if partner_id:
                         bank_account_id = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].id or None
                         partner_id = partner_id[0].commercial_partner_id.id
+                if 'period_id' not in transaction:
+                    if isinstance(transaction['bokfdag'], str):
+                        transaction['bokfdag'] = datetime.strptime(transaction['bokfdag'], '%Y-%m-%d').date()
+                    transaction['period_id'] = self.env['account.period'].date2period(transaction['bokfdag']).id
+                    if transaction['period_id'] == False:
+                        raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
                 vals_line = {
                     'date': transaction['bokfdag'],  # bokfdag, transdag, valutadag
                     'payment_ref': transaction['radnr'] + '-' + payment_ref + (transaction['text'] and ': ' +  transaction['text'] or ''),
@@ -73,6 +81,7 @@ class AccountBankStatementImport(models.TransientModel):
                     'unique_import_id': 'swedbank %s %s' % (swedbank.account.name[29:52], transaction['radnr']),
                     'partner_bank_id': bank_account_id or None,
                     'partner_id': partner_id or None,
+                    'period_id': transaction['period_id']
                 }
                 if not vals_line['payment_ref']:
                     vals_line['payment_ref'] = transaction['produkt'].capitalize()

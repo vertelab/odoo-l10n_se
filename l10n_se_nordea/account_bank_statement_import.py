@@ -18,9 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from datetime import datetime
 import logging
 import re
 from odoo import api,models, _
+from odoo.exceptions import UserError
 from .nordea import NordeaTransaktionsrapport as Parser
 import uuid
 import base64
@@ -60,6 +62,12 @@ class AccountBankStatementImport(models.TransientModel):
                     if partner_id:
                         partner_bank_id = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].id or None
                         partner_id = partner_id[0].commercial_partner_id.id
+                if 'period_id' not in transaction:
+                    if isinstance(transaction['\ufeffBokföringsdag'], str):
+                        transaction['\ufeffBokföringsdag'] = datetime.strptime(transaction['\ufeffBokföringsdag'], '%Y-%m-%d').date()
+                    transaction['period_id'] = self.env['account.period'].date2period(transaction['\ufeffBokföringsdag']).id
+                    if transaction['period_id'] == False:
+                        raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
                 vals_line = {
                     'date': transaction['\ufeffBokföringsdag'],  # bokfdag, transdag, valutadag
                     'payment_ref': ref + ' ' + (transaction['Rubrik']),
@@ -69,6 +77,7 @@ class AccountBankStatementImport(models.TransientModel):
                     'unique_import_id': 'nordea %s - %s' % (account_number.group(), i),
                     'partner_bank_id': partner_bank_id or None,
                     'partner_id': partner_id or None,
+                    'period_id': transaction['period_id']
                 }
                 if not vals_line['payment_ref']:
                     vals_line['payment_ref'] = transaction['Rubrik'].capitalize()

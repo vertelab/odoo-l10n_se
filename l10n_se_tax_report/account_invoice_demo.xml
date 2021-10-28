@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<odoo>
+<openerp>
     <data noupdate="0">
         <record id="account_payment_term" model="account.payment.term">
             <field name="name">End of Following Month</field>
@@ -214,13 +214,11 @@
         <!--
              <workflow action="invoice_open" model="account.invoice" ref="invoice_5"/>
         -->
-<!--
         <record id="vat_1" model="account.move">
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="date" eval="time.strftime('%Y')+'-05-08'"/>
             <field name="period_id" search="[('name', '=', '05/2018')]"/>
             <field name="line_ids" eval="[(0, 0, {'account_id': ref('l10n_se.1_chart1930'), 'name': 'Prylar', 'credit': 25000}), (0, 0, {'account_id': ref('l10n_se.1_chart2640'), 'name': 'Prylar', 'debit': 5000, 'tax_line_id': ref('l10n_se.1_i')}), (0, 0, {'account_id': ref('l10n_se.1_chart4000'), 'name': 'Prylar', 'debit': 20000})]"/>
         </record>
--->
     </data>
-</odoo>
+</openerp>

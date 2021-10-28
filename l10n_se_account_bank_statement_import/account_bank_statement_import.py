@@ -412,18 +412,20 @@ class AccountBankStatementImport(models.TransientModel):
         partner = self.env['res.partner'].search([('name', 'ilike', partner_name)], limit=1)
         domain = [('amount_total', '=', -amount), ('period_id', '=', self.env['account.period'].date2period(statement_line.date).id)]
 
-        if partner:
-            domain += [('partner_id', '=', partner.id)]
-        invoice = self.env['account.move'].search(domain)
-        if invoice and len(invoice) == 1:
-            if invoice.amount_residual < invoice.amount_total: # at least one payment created for this invoice
-                # for line in self.env['account.move.line'].search([('invoice_id', '=', invoice.id)]).filtered(lambda l: not l.statement_line_id):
-                #     if line.credit == statement_line.amount:
-                #         line.move_id.statement_line_id = statement_line.id
-                # TODO: find a method to get payment move that account module does. "Open Payment" button
-                invoice.move_id.statement_line_id = statement_line.id
-                for line in invoice.move_id.line_ids.filtered(lambda l: l.full_reconcile_id == True):
-                    line.full_reconcile_id.reconciled_line_ids.filtered(lambda l: l.id != line.id).move_id.statement_line_id = statement_line.id
+        # if partner:
+        #    domain += [('partner_id', '=', partner.id)]
+        # invoice = self.env['account.move.line'].search(domain)
+        # if invoice and len(invoice) == 1:
+        #     if invoice.amount_residual < invoice.amount_total: # at least one payment created for this invoice
+        #         # for line in self.env['account.move.line'].search([('invoice_id', '=', invoice.id)]).filtered(lambda l: not l.statement_line_id):
+        #         #     if line.credit == statement_line.amount:
+        #         #         line.move_id.statement_line_id = statement_line.id
+        #         # TODO: find a method to get payment move that account module does. "Open Payment" button
+
+        #         # TODO: FIGURE OUT THE CORRECT ID COMBINATION BELOW
+        #         invoice.statement_line_id = statement_line.id
+        #         for line in invoice.line_ids.filtered(lambda l: l.full_reconcile_id == True):
+        #             line.full_reconcile_id.reconciled_line_ids.filtered(lambda l: l.id != line.id).move_id.statement_line_id = statement_line.id
 
 
 class AccountBankStatement(models.Model):

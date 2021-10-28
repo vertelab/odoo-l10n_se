@@ -55,140 +55,90 @@
 <!--
         Tegel & Murbruk Data AB: Inom svergie: out_invoice: 03-04'
 -->
-        <record id="new_demo_invoice_1" model="account.invoice">
+        <record id="new_demo_invoice_1" model="account.move">
             <field name="name">VAT 01</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-03-14'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-03-14'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
+
 <!--
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
             <field name="period_id" search="[('name', '=', '03/2021')]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
             <field name="state">draft</field>
-            <field name="type">out_invoice</field>
-            <field name="account_id" search="[('code', '=', u'1510')]" />
-            <field name="partner_id" ref="l10n_se.res_partner_2" />
-            <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-        </record>
-        
+            <field name="move_type">out_invoice</field>
 <!--
-        <record id="new_demo_invoice_1" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP1', 'account_id': ref('l10n_se.1_chart2610'), 'amount': 1250.0})]"/> 
-        </record>
-        
-        <record id="new_demo_invoice_1" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP3', 'account_id': ref('l10n_se.1_chart2630'), 'amount': 300.0})]"/> 
-        </record>
-        
-        <record id="new_demo_invoice_1" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP2', 'account_id': ref('l10n_se.1_chart2620'), 'amount': 600.0})]"/>
-        </record>
+            <field name="account_id" search="[('code', '=', u'1510')]" />
 -->
-
-        <record id="new_invoice_1_line_1" model="account.invoice.line">
-            <field name="invoice_id" ref="new_demo_invoice_1" />
-            <field name ="product_id" ref="l10n_se.product_product_1"/>
-            <field name="name">[SWEKB] Svenskt tangentbord</field>
-            <field name="price_unit">2500</field>
-            <field name="quantity">2</field>
-            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp1')])]" />
-            <field name="account_id" search="[('code', '=', u'3001')]" />
+            <field name="partner_id" ref="l10n_se.res_partner_2" />
+<!--
+            <field name="tax_line_ids" eval="[(6, 0, [])]"/>
+-->
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 2}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 2}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 2}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 2}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 2}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 2}),
+            
+            ]"/>
         </record>
         
-        <record id="new_invoice_1_line_2" model="account.invoice.line">
-            <field name ="product_id" ref="l10n_se.product_product_banan"/>
-            <field name="name">banan</field>
-            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
-            <field name="price_unit">2500</field>
-            <field name="quantity">2</field>
-            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp2')])]" />
-            <field name="account_id" search="[('code', '=', u'3002')]" />
-        </record>  
-              
-        <record id="new_invoice_1_line_3" model="account.invoice.line">
-            <field name ="product_id" ref="l10n_se.product_product_bok"/>
-            <field name="name">bok</field>
-            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
-            <field name="price_unit">2500</field>
-            <field name="quantity">2</field>
-            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp3')])]" />
-            <field name="account_id" search="[('code', '=', u'3003')]" />
-        </record>
-
-        <record id="new_invoice_1_line_4" model="account.invoice.line">
-            <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
-            <field name="name">Prepaid Consulting</field>
-            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
-            <field name="price_unit">2500</field>
-            <field name="quantity">2</field>
-            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp1')])]" />
-            <field name="account_id" search="[('code', '=', u'3001')]" />
-        </record>
-
-        <record id="new_invoice_1_line_5" model="account.invoice.line">
-            <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
-            <field name="name">Cateringtjänst</field>
-            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
-            <field name="price_unit">2500</field>
-            <field name="quantity">2</field>
-            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp2')])]" />
-            <field name="account_id" search="[('code', '=', u'3002')]" />
-        </record>
-
-        <record id="new_invoice_1_line_6" model="account.invoice.line">
-            <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
-            <field name="name">Förevisning naturområde</field>
-            <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_1" />
-            <field name="price_unit">2500</field>
-            <field name="quantity">2</field>
-            <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp3')])]" />
-            <field name="account_id" search="[('code', '=', u'3003')]" />
-        </record>
-        
-        
-        
-        
+        <!-- Ensure the lines are consistent with the products (taxes, price, name) -->
+        <!-- check_move_validity=False because the dynamic lines are computed after, it is checked later at the post function -->
+        <function model="account.move.line" name="_onchange_product_id" context="{'check_move_validity': False}">
+            <value model="account.move.line" eval="obj().search([('move_id', 'in', [
+                ref('new_demo_invoice_1'),
+            ])]).ids"/>
+        </function>
         
         <!--
         Databutiken Inom svergie:inom sverige: in_invoice: 03-23'
         -->
-        <record id="new_demo_invoice_2" model="account.invoice">
+        <record id="new_demo_invoice_2" model="account.move">
             <field name="name">VAT 02</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-03-23'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 <!--
+invoice_date
             <field name="date_due" eval="time.strftime('%Y')+'-03-23'" />
 -->
             <field name="period_id" search="[('name', '=', '03/2021')]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+            
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
-            <field name="type">in_invoice</field>
+            <field name="move_type">in_invoice</field>
+<!--
             <field name="account_id" search="[('code', '=', u'2440')]" />
+-->
             <field name="partner_id" ref="l10n_se.res_partner_1" />
+<!--
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
+-->
+        <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 20}),
+            ]"/>
         </record>
         
 <!--
-        <record id="new_demo_invoice_2" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'I', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 12500.0})]"/> 
-        </record>
-        <record id="new_demo_invoice_2" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'I6', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 3000})]"/>
-        </record>
-        <record id="new_demo_invoice_2" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'I12', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 6000.0})]"/>
-        </record>
--->
-
-        <record id="new_invoice_2_line_1" model="account.invoice.line">
+        <record id="new_invoice_2_line_1" model="account.move.line">
             <field name="invoice_id" ref="new_demo_invoice_2" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -198,7 +148,7 @@
             <field name="account_id" search="[('code', '=', u'4000')]" />
         </record>
         
-        <record id="new_invoice_2_line_2" model="account.invoice.line">
+        <record id="new_invoice_2_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
@@ -208,7 +158,7 @@
             <field name="account_id" search="[('code', '=', u'4002')]" />
         </record>  
               
-        <record id="new_invoice_2_line_3" model="account.invoice.line">
+        <record id="new_invoice_2_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
@@ -218,7 +168,7 @@
             <field name="account_id" search="[('code', '=', u'4003')]" />
         </record>
         
-        <record id="new_invoice_2_line_4" model="account.invoice.line">
+        <record id="new_invoice_2_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
@@ -228,7 +178,7 @@
             <field name="account_id" search="[('code', '=', u'4000')]" />
         </record>
 
-        <record id="new_invoice_2_line_5" model="account.invoice.line">
+        <record id="new_invoice_2_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
@@ -238,7 +188,7 @@
             <field name="account_id" search="[('code', '=', u'4002')]" />
         </record>
 
-        <record id="new_invoice_2_line_6" model="account.invoice.line">
+        <record id="new_invoice_2_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_2" />
@@ -247,11 +197,12 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it6')])]" />
             <field name="account_id" search="[('code', '=', u'4003')]" />
         </record>
+-->
         
         <!--
         Databutiken Inom svergie:inom sverige: in_invoice : 05-01
         -->
-        <record id="new_demo_invoice_3" model="account.invoice">
+        <record id="new_demo_invoice_3" model="account.move">
             <field name="name">VAT 03</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-05-01'" />
@@ -261,30 +212,35 @@
             <field name="date_due" eval="time.strftime('%Y')+'-05-01'" />
 -->
             <field name="period_id" search="[('name', '=', '05/2021')]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
-            <field name="type">in_invoice</field>
-            <field name="account_id" search="[('code', '=', u'2440')]" />
-            <field name="partner_id" ref="l10n_se.res_partner_1" />
-            <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-        </record>
-        
+            <field name="move_type">in_invoice</field>
 <!--
-        <record id="new_demo_invoice_3" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'I', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 12500})]"/> 
-        </record>
-        <record id="new_demo_invoice_3" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'I6', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 3000})]"/>
-        </record>
-        <record id="new_demo_invoice_3" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'I12', 'account_id': ref('l10n_se.1_chart2640'), 'amount': 6000})]"/>
-        </record>
+            <field name="account_id" search="[('code', '=', u'2440')]" />
+-->
+            <field name="partner_id" ref="l10n_se.res_partner_1" />
+<!--
+            <field name="tax_line_ids" eval="[(6, 0, [])]"/>
 -->
 
-        <record id="new_invoice_3_line_1" model="account.invoice.line">
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 20}),
+            ]"/>
+        </record>
+        
+
+
+<!--
+        <record id="new_invoice_3_line_1" model="account.move.line">
             <field name="invoice_id" ref="new_demo_invoice_3" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -294,7 +250,7 @@
             <field name="account_id" search="[('code', '=', u'4000')]" />
         </record>
         
-        <record id="new_invoice_3_line_2" model="account.invoice.line">
+        <record id="new_invoice_3_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
@@ -304,7 +260,7 @@
             <field name="account_id" search="[('code', '=', u'4002')]" />
         </record>  
               
-        <record id="new_invoice_3_line_3" model="account.invoice.line">
+        <record id="new_invoice_3_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
@@ -314,7 +270,7 @@
             <field name="account_id" search="[('code', '=', u'4003')]" />
         </record>
         
-        <record id="new_invoice_3_line_4" model="account.invoice.line">
+        <record id="new_invoice_3_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
@@ -324,7 +280,7 @@
             <field name="account_id" search="[('code', '=', u'4000')]" />
         </record>
 
-        <record id="new_invoice_3_line_5" model="account.invoice.line">
+        <record id="new_invoice_3_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
@@ -334,7 +290,7 @@
             <field name="account_id" search="[('code', '=', u'4002')]" />
         </record>
 
-        <record id="new_invoice_3_line_6" model="account.invoice.line">
+        <record id="new_invoice_3_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_3" />
@@ -343,15 +299,17 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it6')])]" />
             <field name="account_id" search="[('code', '=', u'4003')]" />
         </record>
+-->
         
         
         <!--
             Tegel & Murbruk Data AB:  out_invoice
         -->
-        <record id="new_demo_invoice_4" model="account.invoice">
+        <record id="new_demo_invoice_4" model="account.move">
             <field name="name">VAT 04</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-06-10'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-06-10'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
 <!--
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
@@ -363,28 +321,30 @@
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
             <field name="state">draft</field>
-            <field name="type">out_invoice</field>
+            <field name="move_type">out_invoice</field>
+<!--
             <field name="account_id" search="[('code', '=', u'1510')]" />
+-->
             <field name="partner_id" ref="l10n_se.res_partner_2" />
+<!--
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+-->
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 20}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 20}),
+            ]"/>
+<!--
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
+-->
         </record>
         
 <!--
-        <record id="new_demo_invoice_4" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP1', 'account_id': ref('l10n_se.1_chart2610'), 'amount': 12500.0})]"/> 
-        </record>
-
-        <record id="new_demo_invoice_4" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP3', 'account_id': ref('l10n_se.1_chart2630'), 'amount': 3000})]"/>
-        </record>
-        
-        <record id="new_demo_invoice_4" model="account.invoice">
-            <field name="tax_line_ids" eval="[(0, 0, {'name': 'MP2', 'account_id': ref('l10n_se.1_chart2620'), 'amount': 6000.0})]"/>
-        </record>
--->
-        
-        <record id="new_invoice_4_line_1" model="account.invoice.line">
+        <record id="new_invoice_4_line_1" model="account.move.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -394,7 +354,7 @@
             <field name="account_id" search="[('code', '=', u'3001')]" />
         </record>
         
-        <record id="new_invoice_4_line_2" model="account.invoice.line">
+        <record id="new_invoice_4_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
@@ -404,7 +364,7 @@
             <field name="account_id" search="[('code', '=', u'3002')]" />
         </record>  
               
-        <record id="new_invoice_4_line_3" model="account.invoice.line">
+        <record id="new_invoice_4_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
@@ -414,7 +374,7 @@
             <field name="account_id" search="[('code', '=', u'3003')]" />
         </record>
         
-        <record id="new_invoice_4_line_4" model="account.invoice.line">
+        <record id="new_invoice_4_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
@@ -424,7 +384,7 @@
             <field name="account_id" search="[('code', '=', u'3001')]" />
         </record>
 
-        <record id="new_invoice_4_line_5" model="account.invoice.line">
+        <record id="new_invoice_4_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
@@ -434,7 +394,7 @@
             <field name="account_id" search="[('code', '=', u'3002')]" />
         </record>
 
-        <record id="new_invoice_4_line_6" model="account.invoice.line">
+        <record id="new_invoice_4_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_4" />
@@ -443,15 +403,17 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_mp3')])]" />
             <field name="account_id" search="[('code', '=', u'3003')]" />
         </record>
+-->
         
         
           <!--
             Camptocamp:Out invoice
         -->
-        <record id="new_demo_invoice_5" model="account.invoice">
+        <record id="new_demo_invoice_5" model="account.move">
             <field name="name">VAT 05</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-06-02'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-06-02'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
 <!--
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
@@ -463,23 +425,37 @@
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
             <field name="state">draft</field>
-            <field name="type">out_invoice</field>
+            <field name="move_type">out_invoice</field>
+<!--
             <field name="account_id" search="[('code', '=', u'1510')]" />
+-->
             <field name="partner_id" ref="base.res_partner_12" />
+<!--
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+-->
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 30}),
+            ]"/>
         </record>
         
 
 <!--
-        <record id="new_demo_invoice_5" model="account.invoice">
+        <record id="new_demo_invoice_5" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VTEU', 'account_id': ref('l10n_se.1_K2_3106_2017'), 'amount': 0.0})]"/>
         </record>
 -->
         
         
         
-        <record id="new_invoice_5_line_1" model="account.invoice.line">
+<!--
+        <record id="new_invoice_5_line_1" model="account.move.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -489,7 +465,7 @@
             <field name="account_id" search="[('code', '=', u'3106')]" />
         </record>
         
-        <record id="new_invoice_5_line_2" model="account.invoice.line">
+        <record id="new_invoice_5_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
@@ -499,7 +475,7 @@
             <field name="account_id" search="[('code', '=', u'3106')]" />
         </record>  
               
-        <record id="new_invoice_5_line_3" model="account.invoice.line">
+        <record id="new_invoice_5_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
@@ -509,7 +485,7 @@
             <field name="account_id" search="[('code', '=', u'3106')]" />
         </record>
         
-        <record id="new_invoice_5_line_4" model="account.invoice.line">
+        <record id="new_invoice_5_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
@@ -519,7 +495,7 @@
             <field name="account_id" search="[('code', '=', u'3106')]" />
         </record>
 
-        <record id="new_invoice_5_line_5" model="account.invoice.line">
+        <record id="new_invoice_5_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
@@ -529,7 +505,7 @@
             <field name="account_id" search="[('code', '=', u'3106')]" />
         </record>
 
-        <record id="new_invoice_5_line_6" model="account.invoice.line">
+        <record id="new_invoice_5_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_5" />
@@ -538,11 +514,12 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_vteu')])]" />
             <field name="account_id" search="[('code', '=', u'3106')]" />
         </record>
+-->
         
           <!--
             Camptocamp:In invoice
         -->
-        <record id="new_demo_invoice_6" model="account.invoice">
+        <record id="new_demo_invoice_6" model="account.move">
             <field name="name">VAT 06</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
@@ -556,26 +533,40 @@
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
-            <field name="type">in_invoice</field>
+            <field name="move_type">in_invoice</field>
+<!--
             <field name="account_id" search="[('code', '=', u'2440')]" />
+-->
             <field name="partner_id" ref="base.res_partner_12" />
+<!--
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+-->
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 30}),
+            ]"/>
         </record>
         
 <!--
-        <record id="new_demo_invoice_6" model="account.invoice">
+        <record id="new_demo_invoice_6" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU12', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 9000})]"/> 
         </record>
-        <record id="new_demo_invoice_6" model="account.invoice">
+        <record id="new_demo_invoice_6" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 18750})]"/>
         </record>
-        <record id="new_demo_invoice_6" model="account.invoice">
+        <record id="new_demo_invoice_6" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU6', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 4500.0})]"/>
         </record>
 -->
+<!--
         
-        <record id="new_invoice_6_line_1" model="account.invoice.line">
+        <record id="new_invoice_6_line_1" model="account.move.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -585,7 +576,7 @@
             <field name="account_id" search="[('code', '=', u'4515')]" />
         </record>
         
-        <record id="new_invoice_6_line_2" model="account.invoice.line">
+        <record id="new_invoice_6_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
@@ -595,7 +586,7 @@
             <field name="account_id" search="[('code', '=', u'4516')]" />
         </record>  
               
-        <record id="new_invoice_6_line_3" model="account.invoice.line">
+        <record id="new_invoice_6_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
@@ -605,7 +596,7 @@
             <field name="account_id" search="[('code', '=', u'4517')]" />
         </record>
         
-        <record id="new_invoice_6_line_4" model="account.invoice.line">
+        <record id="new_invoice_6_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
@@ -615,7 +606,7 @@
             <field name="account_id" search="[('code', '=', u'4515')]" />
         </record>
 
-        <record id="new_invoice_6_line_5" model="account.invoice.line">
+        <record id="new_invoice_6_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
@@ -625,7 +616,7 @@
             <field name="account_id" search="[('code', '=', u'4516')]" />
         </record>
 
-        <record id="new_invoice_6_line_6" model="account.invoice.line">
+        <record id="new_invoice_6_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_6" />
@@ -634,13 +625,14 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_tfeu6')])]" />
             <field name="account_id" search="[('code', '=', u'4517')]" />
         </record>
+-->
         
         
         
           <!--
            ASUSTeK: in invoice
         -->
-        <record id="new_demo_invoice_7" model="account.invoice">
+        <record id="new_demo_invoice_7" model="account.move">
             <field name="name">VAT 07</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
@@ -654,26 +646,40 @@
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
-            <field name="type">in_invoice</field>
+            <field name="move_type">in_invoice</field>
+<!--
             <field name="account_id" search="[('code', '=', u'2440')]" />
+-->
             <field name="partner_id" ref="base.res_partner_1" />
+<!--
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+-->
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 30}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 30}),
+            ]"/>
         </record>
         
 <!--
-        <record id="new_demo_invoice_7" model="account.invoice">
+        <record id="new_demo_invoice_7" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MBBUI1', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 18750.0})]"/> 
         </record>
-        <record id="new_demo_invoice_7" model="account.invoice">
+        <record id="new_demo_invoice_7" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MBBUI2', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 9000})]"/>
         </record>
-        <record id="new_demo_invoice_7" model="account.invoice">
+        <record id="new_demo_invoice_7" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'MBBUI3', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 4500.0})]"/>
         </record>
 -->
         
-        <record id="new_invoice_7_line_1" model="account.invoice.line">
+<!--
+        <record id="new_invoice_7_line_1" model="account.move.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -683,7 +689,7 @@
             <field name="account_id" search="[('code', '=', u'4545')]" />
         </record>
         
-        <record id="new_invoice_7_line_2" model="account.invoice.line">
+        <record id="new_invoice_7_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
@@ -693,7 +699,7 @@
             <field name="account_id" search="[('code', '=', u'4546')]" />
         </record>  
               
-        <record id="new_invoice_7_line_3" model="account.invoice.line">
+        <record id="new_invoice_7_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
@@ -703,7 +709,7 @@
             <field name="account_id" search="[('code', '=', u'4547')]" />
         </record>
         
-        <record id="new_invoice_7_line_4" model="account.invoice.line">
+        <record id="new_invoice_7_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
@@ -713,7 +719,7 @@
             <field name="account_id" search="[('code', '=', u'4545')]" />
         </record>
 
-        <record id="new_invoice_7_line_5" model="account.invoice.line">
+        <record id="new_invoice_7_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
@@ -723,7 +729,7 @@
             <field name="account_id" search="[('code', '=', u'4546')]" />
         </record>
 
-        <record id="new_invoice_7_line_6" model="account.invoice.line">
+        <record id="new_invoice_7_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_7" />
@@ -732,14 +738,16 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_it6')])]" />
             <field name="account_id" search="[('code', '=', u'4547')]" />
         </record>
+-->
         
          <!--
            The Jackson Group: Out invoice
         -->
-        <record id="new_demo_invoice_8" model="account.invoice">
+        <record id="new_demo_invoice_8" model="account.move">
             <field name="name">VAT 08</field>
             <field name = "reference_type">none</field>
-            <field name="date_invoice" eval="time.strftime('%Y')+'-06-05'" />
+            <field name="invoice_date" eval="time.strftime('%Y')+'-06-05'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
 <!--
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
@@ -751,20 +759,34 @@
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
             <field name="state">draft</field>
-            <field name="type">out_invoice</field>
+            <field name="move_type">out_invoice</field>
+<!--
             <field name="account_id" search="[('code', '=', u'1510')]" />
+-->
             <field name="partner_id" ref="base.res_partner_10" />
+<!--
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+-->
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 2500.0, 'quantity': 50}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 2500.0, 'quantity': 50}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 2500.0, 'quantity': 50}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 2500.0, 'quantity': 50}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 2500.0, 'quantity': 50}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 2500.0, 'quantity': 50}),
+            ]"/>
         </record>
 <!--
         
-        <record id="new_demo_invoice_8" model="account.invoice">
+        <record id="new_demo_invoice_8" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'E', 'account_id': ref('l10n_se.1_K2_3105_2017'), 'amount': 0.0})]"/> 
         </record>
 -->
+<!--
         
-        <record id="new_invoice_8_line_1" model="account.invoice.line">
+        <record id="new_invoice_8_line_1" model="account.move.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -774,7 +796,7 @@
             <field name="account_id" search="[('code', '=', u'3105')]" />
         </record>
         
-        <record id="new_invoice_8_line_2" model="account.invoice.line">
+        <record id="new_invoice_8_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
@@ -784,7 +806,7 @@
             <field name="account_id" search="[('code', '=', u'3105')]" />
         </record>  
               
-        <record id="new_invoice_8_line_3" model="account.invoice.line">
+        <record id="new_invoice_8_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
@@ -794,7 +816,7 @@
             <field name="account_id" search="[('code', '=', u'3105')]" />
         </record>
 
-        <record id="new_invoice_8_line_4" model="account.invoice.line">
+        <record id="new_invoice_8_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
@@ -804,7 +826,7 @@
             <field name="account_id" search="[('code', '=', u'3105')]" />
         </record>
 
-        <record id="new_invoice_8_line_5" model="account.invoice.line">
+        <record id="new_invoice_8_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
@@ -814,7 +836,7 @@
             <field name="account_id" search="[('code', '=', u'3105')]" />
         </record>
 
-        <record id="new_invoice_8_line_6" model="account.invoice.line">
+        <record id="new_invoice_8_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_8" />
@@ -823,10 +845,11 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_e')])]" />
             <field name="account_id" search="[('code', '=', u'3105')]" />
         </record>
+-->
         <!--
            Camptocamp:in invoice
         -->
-        <record id="new_demo_invoice_9" model="account.invoice">
+        <record id="new_demo_invoice_9" model="account.move">
             <field name="name">VAT 09</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-15'" />
@@ -840,29 +863,43 @@
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
             <field name="state">draft</field>
-            <field name="type">in_invoice</field>
+            <field name="move_type">in_invoice</field>
+<!--
             <field name="account_id" search="[('code', '=', u'2440')]" />
+-->
             <field name="partner_id" ref="base.res_partner_12" />
+<!--
             <field name="tax_line_ids" eval="[(6, 0, [])]"/>
-            <field name ="payment_term" ref="account.account_payment_term"/>
+-->
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
+            <field name="invoice_line_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'product_id': ref('l10n_se.product_product_1'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_banan'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_bok'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_prepaid_consulting_service'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_catering_service'), 'price_unit': 1000.0, 'quantity': 40}),
+            (0, 0, {'product_id': ref('l10n_se.product_product_demonstration_nature_area'), 'price_unit': 1000.0, 'quantity': 40}),
+            ]"/>
         </record>
         
 <!--
-        <record id="new_demo_invoice_9" model="account.invoice">
+        <record id="new_demo_invoice_9" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU12', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 3840})]"/> 
         </record>
         
-        <record id="new_demo_invoice_9" model="account.invoice">
+        <record id="new_demo_invoice_9" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 8000})]"/> 
         </record>
         
         
-        <record id="new_demo_invoice_9" model="account.invoice">
+        <record id="new_demo_invoice_9" model="account.move">
             <field name="tax_line_ids" eval="[(0, 0, {'name': 'VFEU6', 'account_id': ref('l10n_se.1_chart2645'), 'amount': 1920})]"/> 
         </record>
 -->
         
-        <record id="new_invoice_9_line_1" model="account.invoice.line">
+<!--
+        <record id="new_invoice_9_line_1" model="account.move.line">
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
             <field name ="product_id" ref="l10n_se.product_product_1"/>
             <field name="name">[SWEKB] Svenskt tangentbord</field>
@@ -872,7 +909,7 @@
             <field name="account_id" search="[('code', '=', u'4515')]" />
         </record>
         
-        <record id="new_invoice_9_line_2" model="account.invoice.line">
+        <record id="new_invoice_9_line_2" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_banan"/>
             <field name="name">banan</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
@@ -882,7 +919,7 @@
             <field name="account_id" search="[('code', '=', u'4516')]" />
         </record>  
               
-        <record id="new_invoice_9_line_3" model="account.invoice.line">
+        <record id="new_invoice_9_line_3" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_bok"/>
             <field name="name">bok</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
@@ -892,7 +929,7 @@
             <field name="account_id" search="[('code', '=', u'4517')]" />
         </record>
         
-        <record id="new_invoice_9_line_4" model="account.invoice.line">
+        <record id="new_invoice_9_line_4" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_prepaid_consulting_service"/>
             <field name="name">Prepaid Consulting</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
@@ -902,7 +939,7 @@
             <field name="account_id" search="[('code', '=', u'4515')]" />
         </record>
 
-        <record id="new_invoice_9_line_5" model="account.invoice.line">
+        <record id="new_invoice_9_line_5" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_catering_service"/>
             <field name="name">Cateringtjänst</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
@@ -912,7 +949,7 @@
             <field name="account_id" search="[('code', '=', u'4516')]" />
         </record>
 
-        <record id="new_invoice_9_line_6" model="account.invoice.line">
+        <record id="new_invoice_9_line_6" model="account.move.line">
             <field name ="product_id" ref="l10n_se.product_product_demonstration_nature_area"/>
             <field name="name">Förevisning naturområde</field>
             <field name="invoice_id" ref="l10n_se_tax_report.new_demo_invoice_9" />
@@ -921,74 +958,97 @@
             <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('l10n_se.1_tfeu6')])]" />
             <field name="account_id" search="[('code', '=', u'4517')]" />
         </record>
+-->
         
+
+        
+        
+        <!-- ==== Post invoices ==== -->
+        <!-- Ensure every detail related to the partner is set (fiscal position, payment terms, bank,...)-->
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_1')]"/>
+        </function>
+        
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_2')]"/>
+        </function>
+        
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_3')]"/>
+        </function>
+        
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_4')]"/>
+        </function>
+        
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_5')]"/>
+        </function>
+        
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_6')]"/>
+        </function>
+        
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_7')]"/>
+        </function>
+        
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_8')]"/>
+        </function>
+
+        <function model="account.move" name="_onchange_partner_id">
+            <value eval="[ref('new_demo_invoice_9')]"/>
+        </function>
         
         <!--
         function that runs the _onchange_invoice_line_ids so that the correct taxes gets calculated
         -->
-       <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_1</value>
+        
+        <!-- Ensure the lines are consistent with the products (taxes, price, name) -->
+        <!-- check_move_validity=False because the dynamic lines are computed after, it is checked later at the post function -->
+
+        <function model="account.move.line" name="_onchange_product_id" context="{'check_move_validity': False}">
+            <value model="account.move.line" eval="obj().search([('move_id', 'in', [
+                ref('new_demo_invoice_1'),
+                ref('new_demo_invoice_2'),
+                ref('new_demo_invoice_3'),
+                ref('new_demo_invoice_4'),
+                ref('new_demo_invoice_5'),
+                ref('new_demo_invoice_6'),
+                ref('new_demo_invoice_7'),
+                ref('new_demo_invoice_8'),
+                ref('new_demo_invoice_9'),
+            ])]).ids"/>
         </function>
         
-        <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_2</value>
+            <function model="account.move.line" name="_onchange_mark_recompute_taxes" context="{'check_move_validity': False}">
+            <value model="account.move.line" eval="obj().search([('move_id', 'in', [
+                ref('new_demo_invoice_1'),
+                ref('new_demo_invoice_2'),
+                ref('new_demo_invoice_3'),
+                ref('new_demo_invoice_4'),
+                ref('new_demo_invoice_5'),
+                ref('new_demo_invoice_6'),
+                ref('new_demo_invoice_7'),
+                ref('new_demo_invoice_8'),
+                ref('new_demo_invoice_9'),
+            ])]).ids"/>
         </function>
         
-        <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_3</value>
+        <function model="account.move" name="_recompute_dynamic_lines" context="{'check_move_validity': False}">
+        <value eval="[
+         ref('new_demo_invoice_1'),
+         ref('new_demo_invoice_2'), 
+         ref('new_demo_invoice_3'), 
+         ref('new_demo_invoice_4'), 
+         ref('new_demo_invoice_5'), 
+         ref('new_demo_invoice_6'), 
+         ref('new_demo_invoice_7'), 
+         ref('new_demo_invoice_8'), 
+         ref('new_demo_invoice_9'), 
+         ]"/>
         </function>
-        
-       <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_4</value>
-        </function>
-
-       <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_5</value>
-        </function>
-
-       <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_6</value>
-        </function>
-
-       <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_7</value>
-        </function>
-
-       <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_8</value>
-        </function>
-
-       <function
-        id = "add_tax_lines_id"
-        model = "account.invoice"       
-        name = "_demo_add_tax_lines">
-        <value>l10n_se_tax_report.new_demo_invoice_9</value>
-        </function>
-
 
   </data>
 </odoo>

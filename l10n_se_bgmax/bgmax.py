@@ -638,6 +638,7 @@ class BgExcelTransactionReport(object):
                 # transaction_dict['account_number'] = self.bankgironumber
                 transaction_dict['partner_name'] = False
                 transaction_dict['unique_import_id'] = str(row[1])
+                transaction_dict['payment_ref'] = f"{self.data.cell(5,3).value} {row[0]}"
                 self.transactions.append(transaction_dict) 
                 self.balance_end += row[3]
                 self.balance_end_real += row[3]

@@ -21,6 +21,7 @@
 import base64
 import logging
 from odoo import api,models, _
+from odoo.exceptions import UserError
 from .handelsbanken import HandelsbankenTransaktionsrapport as Parser
 import uuid
 
@@ -56,6 +57,10 @@ class AccountBankStatementImport(models.TransientModel):
                     if partner_id:
                         bank_account_id = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].id or None
                         partner_id = partner_id[0].commercial_partner_id.id
+                if 'period_id' not in transaction:
+                    transaction['period_id'] = self.env['account.period'].date2period(transaction['date']).id
+                    if transaction['period_id'] == False:
+                        raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
 
                 #Prep alternative date
                 start_date = transaction['Datum intervall'].split(' ')
@@ -69,6 +74,7 @@ class AccountBankStatementImport(models.TransientModel):
                     'unique_import_id': ''.join((str(index), str(transaction[u'Bokföringsdag']), str(transaction[u'Insättning/Uttag']))),
                     'partner_bank_id': bank_account_id or None,
                     'partner_id': partner_id or None,
+                    'period_id': transaction['period_id']
                 }
                 if not vals_line['payment_ref']:
                     vals_line['payment_ref'] = transaction['Kontohavare'].capitalize()

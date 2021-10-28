@@ -19,6 +19,7 @@
 ##############################################################################
 import logging
 from odoo import api,models,fields, _
+from odoo.exceptions import UserError
 from .izettle import IzettleTransaktionsrapportXlsType as XlsParser
 from .izettle import IzettleTranskationReportXlsxType as XlsxParser
 from .izettle import IzettleXlrdTransaktionsrapportXlsxType as XlrdParser
@@ -27,7 +28,7 @@ import re
 
 from io import StringIO
 from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 
 _logger = logging.getLogger(__name__)
@@ -96,6 +97,10 @@ class AccountBankStatementImport(models.TransientModel):
                     t['journal_entry_id'] = line[0].move_id.id
                     for line in line[0].move_id.line_ids:
                         move_line_ids.append(line)
+                if 'period_id' not in t:
+                    t['period_id'] = self.env['account.period'].date2period(t['date']).id
+                    if t['period_id'] == False:
+                        raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
             s['move_line_ids'] = [(6, 0, [l.id for l in move_line_ids])]
 
         _logger.warning("res: %s" % izettle.statements)

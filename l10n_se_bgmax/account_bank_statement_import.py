@@ -25,8 +25,8 @@ from .bgmax import BgMaxGenerator as BgMaxGen
 from .bgmax import BgExcelTransactionReport as BgExcelParser
 import re
 import base64
-from datetime import timedelta
-from odoo.exceptions import Warning
+from datetime import timedelta, datetime
+from odoo.exceptions import Warning, UserError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -176,9 +176,14 @@ class AccountBankStatementImport(models.TransientModel):
                         if invoice:
                             t['account_number'] = invoice[0] and  invoice[0].partner_id.bank_ids and invoice[0].partner_id.bank_ids[0].acc_number or ''
                             t['partner_id'] = invoice[0] and invoice[0].partner_id.id or None
+                if 'period_id' not in t:
+                    if isinstance(t['date'], str):
+                        t['date'] = datetime.strptime(t['date'], '%Y-%m-%d').date()
+                    t['period_id'] = self.env['account.period'].date2period(t['date']).id
+                    if t['period_id'] == False:
+                        raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
         currency_code = statements[0].get('currency_code')
-        account_number = statements[0].get('account_no')
-        account_number = account_number[:4] + account_number[4:].lstrip('0')
+        account_number = statements[0].get('account_number')
         return currency_code, account_number, statements
 
 
