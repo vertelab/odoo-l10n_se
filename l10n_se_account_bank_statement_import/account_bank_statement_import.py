@@ -448,11 +448,16 @@ class AccountBankStatement(models.Model):
             invoice = self.env['account.move'].search(['|', ('id', '=', move.id), ('id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('id'))])
             voucher = self.env['account.move'].search(['|', ('id', '=', move.id), ('id', 'in', move.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('id'))])
             reconciled_bg = False
-            for ml in move.line_ids:
-                bg_statement = self.env['account.bank.statement'].search([('is_bg', '=', True), ('name', '=', ml.name), '|', ('line_ids.amount', '=', ml.balance), ('line_ids.amount', '=', -ml.balance)])
-                reconciled_bg = True if len(bg_statement) > 0 else False
-            if not attachment and not invoice and not voucher and not reconciled_bg and not move.payment_order_id:
-                untrackable_move_ids |= move
+            #the field is_bg is set in the l10n_se_bgmax module module, which we can't be certain that it is installed
+            if 'is_bg' in self.env['account.bank.statement']._fields:
+                for ml in move.line_ids:
+                    bg_statement = self.env['account.bank.statement'].search([('is_bg', '=', True), ('name', '=', ml.name), '|', ('line_ids.amount', '=', ml.balance), ('line_ids.amount', '=', -ml.balance)])
+                    reconciled_bg = True if len(bg_statement) > 0 else False
+                if not attachment and not invoice and not voucher and not reconciled_bg and not move.payment_order_id:
+                    untrackable_move_ids |= move
+            else:
+                if not attachment and not invoice and not voucher  and not move.payment_order_id:
+                    untrackable_move_ids |= move
         _logger.warn('anders: untrackable_move_ids %s' % untrackable_move_ids.mapped('name'))
         return untrackable_move_ids
 
