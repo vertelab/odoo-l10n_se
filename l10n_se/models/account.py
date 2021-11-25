@@ -51,10 +51,12 @@ class AccountChartTemplate(models.Model):
 
     @api.model
     def fix_account_types(self):
+        #current_year_earnings can only have one account which is why we remove it before we fix the rest of the account types.
         current_year_earnings = self.env.ref('account.data_unaffected_earnings')
         current_year_earnings.write({"name":'Current Year Earnings'})
         current_year_earnings.write({"account_range":"[('code', 'in', [])]"})
         current_year_earnings.write({"account_range":False})
+        
         for t in self.env['account.account.type'].search([]):
             if t.account_range:
                 for a in self.env['account.account'].search(eval(t.account_range)):
@@ -94,15 +96,15 @@ class AccountChartTemplate(models.Model):
         for account in accounts:
             account.user_type_id = self.env.ref('account.data_account_type_current_liabilities')
 
-        accounts = self.env['account.account'].search([('code', '>=', '2900'),('code', '<=', '2999')])
-        for account in accounts:
-            account.user_type_id = self.env.ref('l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter')
+        # ~ accounts = self.env['account.account'].search([('code', '>=', '2900'),('code', '<=', '2999')])
+        # ~ for account in accounts:
+            # ~ account.user_type_id = self.env.ref('l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter')
             
         accounts = self.env['account.account'].search([('code', '=', '4900')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning')
             
-        accounts = self.env['account.account'].search(['|','|','|',('code', '=', '8110'),('code', '=', '8117'),('code', '=', '8120'),('code', '=', '8130')])
+        accounts = self.env['account.account'].search(['|','|','|','|',('code', '=', '8110'),('code', '=', '8116'),('code', '=', '8117'),('code', '=', '8120'),('code', '=', '8130')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_ResultatAndelarIntresseforetagGemensamtStyrda')
             

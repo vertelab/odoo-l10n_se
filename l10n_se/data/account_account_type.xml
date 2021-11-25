@@ -945,12 +945,32 @@
         <record id="account.data_account_type_current_liabilities" model="account.account.type">
             <field name="name">Övriga kortfristiga skulder</field>
             <field name="element_name">OvrigaKortfristigaSkulder</field>
-            <field name="type">other</field>
+            <field name="type">payable</field>
             <field name="main_type">EgetKapitalSkulderAbstract</field>
             <field name="report_type">b</field>
             <field name="account_range">[('code', 'in', ['2491', '2499', '2610', '2611', '2612', '2613', '2614', '2615', '2616', '2617', '2618', '2619', '2620', '2621', '2622', '2623', '2624', '2625', '2626', '2627', '2628', '2629', '2630', '2631', '2632', '2633', '2634', '2635', '2636', '2637', '2638', '2639', '2640', '2641', '2642', '2643', '2644', '2645', '2646', '2647', '2648', '2649', '2650', '2651', '2652', '2653', '2654', '2655', '2656', '2657', '2658', '2659', '2660', '2661', '2662', '2663', '2664', '2665', '2666', '2667', '2668', '2669', '2710', '2711', '2712', '2713', '2714', '2715', '2716', '2717', '2718', '2719', '2730', '2731', '2732', '2733', '2734', '2735', '2736', '2737', '2738', '2739', '2740', '2741', '2742', '2743', '2744', '2745', '2746', '2747', '2748', '2749', '2750', '2751', '2752', '2753', '2754', '2755', '2756', '2757', '2758', '2759', '2760', '2761', '2762', '2763', '2764', '2765', '2766', '2767', '2768', '2769', '2790', '2791', '2792', '2793', '2794', '2795', '2796', '2797', '2798', '2799', '2810', '2811', '2812', '2813', '2814', '2815', '2816', '2817', '2818', '2819', '2820', '2821', '2822', '2823', '2824', '2825', '2826', '2827', '2828', '2829', '2830', '2831', '2832', '2833', '2834', '2835', '2836', '2837', '2838', '2839', '2840', '2841', '2842', '2843', '2844', '2845', '2846', '2847', '2848', '2849', '2850', '2851', '2852', '2853', '2854', '2855', '2856', '2857', '2858', '2859', '2880', '2881', '2882', '2883', '2884', '2885', '2886', '2887', '2888', '2889', '2890', '2891', '2892', '2893', '2894', '2895', '2896', '2897', '2898', '2899'])]</field>
             <field name="note">Här redovisas övriga kortfristiga skulder, t.ex. mervärdesskatt, punktskatter, lagstadgade arbetsgivaravgifter som förfaller till betalning efterföljande månad, innehållen personalskatt, och redovisningsmedel</field>
             <field name="internal_group">liability</field>
+        </record>
+        <record id="type_OvrigaBundetKapital" model="account.account.type">
+            <field name="name">Övrigt bundet kapital</field>
+            <field name="element_name">OvrigtBundetKapital</field>
+            <field name="type">other</field>
+            <field name="main_type">TillgangarAbstract</field>
+            <field name="report_type">b</field>
+            <field name="account_range">[('code', 'in', ['2087', '2088', '2089'])]</field>
+            <field name="note"/>
+            <field name="internal_group">asset</field>
+        </record>
+        <record id="type_UpplupnaKostnaderForutbetaldaIntakter" model="account.account.type">
+            <field name="name">Upplupna kostnader och förutbetalda intäkter</field>
+            <field name="element_name">UpplupnaKostnaderForutbetaldaIntakter</field>
+            <field name="type">other</field>
+            <field name="main_type">TillgangarAbstract</field>
+            <field name="report_type">b</field>
+            <field name="account_range">[('code', 'in', ['2900', '2901', '2902', '2903', '2904', '2905', '2906', '2907', '2908', '2909', '2910', '2911', '2912', '2913', '2914', '2915', '2916', '2917', '2918', '2919', '2920', '2921', '2922', '2923', '2924', '2925', '2926', '2927', '2928', '2929', '2930', '2931', '2932', '2933', '2934', '2935', '2936', '2937', '2938', '2939', '2940', '2941', '2942', '2943', '2944', '2945', '2946', '2947', '2948', '2949', '2950', '2951', '2952', '2953', '2954', '2955', '2956', '2957', '2958', '2959', '2960', '2961', '2962', '2963', '2964', '2965', '2966', '2967', '2968', '2969', '2970', '2971', '2972', '2973', '2974', '2975', '2976', '2977', '2978', '2979', '2980', '2981', '2982', '2983', '2984', '2985', '2986', '2987', '2988', '2989', '2990', '2991', '2992', '2993', '2994', '2995', '2996', '2997', '2998', '2999'])]</field>
+            <field name="note"/>
+            <field name="internal_group">asset</field>
         </record>
         <function name="_change_name" model="account.account.type"/>
     </data>

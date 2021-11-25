@@ -283,7 +283,36 @@ def print_xml(sheet_list):
                 if l.get('name') not in internal_group_dict:
                     raise Exception("Hittade ett par konton som inte finns i internal_group_dict. Någon borde kolla vart \""+ str(l.get('name')) +  "\" tillhör och lägga till dem i dicten")
                 field_internal_group = ET.SubElement(record, "field", name="internal_group").text = internal_group_dict.get(str(l.get('name')))
+                
+        #Missing a group from the sheet that we read, so I'll add that one here. Övrigt bundet kapital
+        external_id = "type_OvrigaBundetKapital"
+        record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
+        field_name = ET.SubElement(record, "field", name="name").text = "Övrigt bundet kapital"
+        field_element_name = ET.SubElement(record, "field", name="element_name").text = "OvrigtBundetKapital"
+        field_type = ET.SubElement(record, "field", name="type").text = "other"
+        field_main_type = ET.SubElement(record, "field", name="main_type").text = "TillgangarAbstract"
+        field_report_type = ET.SubElement(record, "field", name="report_type").text = "b"
+        field_account_range = ET.SubElement(record, "field", name="account_range").text = "[('code', 'in', ['2087', '2088', '2089'])]"
+        field_note = ET.SubElement(record, "field", name="note").text = ""
+        field_internal_group = ET.SubElement(record, "field", name="internal_group").text = "asset"
+        
+        #Missing a group from the sheet that we read, so I'll add that one here. Upplupna kostnader och förutbetalda intäkter 
+        
+        external_id = "type_UpplupnaKostnaderForutbetaldaIntakter"
+        record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
+        field_name = ET.SubElement(record, "field", name="name").text = "Upplupna kostnader och förutbetalda intäkter"
+        field_element_name = ET.SubElement(record, "field", name="element_name").text = "UpplupnaKostnaderForutbetaldaIntakter"
+        field_type = ET.SubElement(record, "field", name="type").text = "other"
+        field_main_type = ET.SubElement(record, "field", name="main_type").text = "TillgangarAbstract"
+        field_report_type = ET.SubElement(record, "field", name="report_type").text = "b"
+        field_account_range = ET.SubElement(record, "field", name="account_range").text = f"[('code', 'in', {[str(x) for x in range(2900, 3000)]})]" 
+        field_note = ET.SubElement(record, "field", name="note").text = ""
+        field_internal_group = ET.SubElement(record, "field", name="internal_group").text = "asset"
+
+        
+        #End of hard code
         ET.SubElement(data, 'function', name='_change_name', model="account.account.type")
+
         return odoo
     xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')
