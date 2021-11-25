@@ -227,7 +227,7 @@ def get_type(lst):
     elif '1510' in lst:
         return 'receivable'
     elif '2820' in lst:
-        return 'payable'
+        return 'other'
     else:
         return 'other'
 

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-  <data noupdate="1">
+  <data>
     <record id="chart_template_K1_2017" model="account.chart.template">
       <field name="name">K1 - Mindre verksamheter</field>
       <field name="parent_id" ref="chart_template_general"/>
@@ -10,7 +10,6 @@
       <field name="transfer_account_code_prefix">195</field>
       <field name="code_digits">4</field>
     </record>
-
     <record id="K1_1020_2017" model="account.account.template">
       <field name="name">Koncessioner m.m. </field>
       <field name="code">1020</field>
@@ -1167,7 +1166,7 @@
     <record id="K1_1570_2017" model="account.account.template">
       <field name="name">Kundfordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1570</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
       <field name="reconcile" eval="True"/>
@@ -1302,7 +1301,7 @@
     <record id="K1_1670_2017" model="account.account.template">
       <field name="name">Kortfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1670</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
     </record>
@@ -2797,49 +2796,49 @@
     <record id="K1_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K1_2017"/>
     </record>
     <record id="K1_2910_2017" model="account.account.template">
@@ -8727,7 +8726,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_1570_2017" model="account.account.template">
       <field name="name">Kundfordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1570</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
       <field name="reconcile" eval="True"/>
@@ -8862,7 +8861,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_1670_2017" model="account.account.template">
       <field name="name">Kortfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1670</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
     </record>
@@ -10357,49 +10356,49 @@ skattskyldighet, 25 % moms</field>
     <record id="K2_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K2_2017"/>
     </record>
     <record id="K2_2910_2017" model="account.account.template">
@@ -16343,7 +16342,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_1570_2017" model="account.account.template">
       <field name="name">Kundfordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1570</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
       <field name="reconcile" eval="True"/>
@@ -16478,7 +16477,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_1670_2017" model="account.account.template">
       <field name="name">Kortfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1670</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
     </record>
@@ -17992,49 +17991,49 @@ skattskyldighet, 25 % moms</field>
     <record id="K3_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
     </record>
     <record id="K3_2910_2017" model="account.account.template">
@@ -24069,7 +24068,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_1570_2017" model="account.account.template">
       <field name="name">Kundfordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1570</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
       <field name="reconcile" eval="True"/>
@@ -24204,7 +24203,7 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_1670_2017" model="account.account.template">
       <field name="name">Kortfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i</field>
       <field name="code">1670</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
       <field name="note">Fordringar på intresseföretag och gemensamt styrda företag, inklusive kundfordringar.</field>
     </record>
@@ -25718,49 +25717,49 @@ skattskyldighet, 25 % moms</field>
     <record id="K4_2890_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2890</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2891_2017" model="account.account.template">
       <field name="name">Skulder under indrivning </field>
       <field name="code">2891</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2892_2017" model="account.account.template">
       <field name="name">Inre reparationsfond/underhållsfond</field>
       <field name="code">2892</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2893_2017" model="account.account.template">
       <field name="name">Skulder till närstående personer, kortfristig del </field>
       <field name="code">2893</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2895_2017" model="account.account.template">
       <field name="name">Derivat (kortfristiga skulder) </field>
       <field name="code">2895</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2897_2017" model="account.account.template">
       <field name="name">Mottagna depositioner, kortfristiga </field>
       <field name="code">2897</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2898_2017" model="account.account.template">
       <field name="name">Outtagen vinstutdelning </field>
       <field name="code">2898</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2899_2017" model="account.account.template">
       <field name="name">Övriga kortfristiga skulder </field>
       <field name="code">2899</field>
-      <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
       <field name="chart_template_id" ref="chart_template_K4_2017"/>
     </record>
     <record id="K4_2910_2017" model="account.account.template">
