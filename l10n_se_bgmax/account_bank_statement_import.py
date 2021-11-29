@@ -125,7 +125,7 @@ class account_bank_statement(models.Model):
                 reconciled_bg = True if len(bg_statement) > 0 else False
             if not reconciled_bg:
                 untrackable_move_ids |= move
-        _logger.warn('anders: untrackable_move_ids %s (bg)' % untrackable_move_ids.mapped('name'))
+        _logger.warn(f'anders: untrackable_move_ids {untrackable_move_ids.mapped("name")} (bg)')
         return untrackable_move_ids
 
 
@@ -183,7 +183,7 @@ class AccountBankStatementImport(models.TransientModel):
                     if t['period_id'] == False:
                         raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
         currency_code = statements[0].get('currency_code')
-        account_number = statements[0].get('account_number')
+        account_number = statements[0].get('account_no')
         return currency_code, account_number, statements
 
 

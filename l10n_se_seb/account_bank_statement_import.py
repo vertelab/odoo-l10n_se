@@ -19,8 +19,8 @@
 ##############################################################################
 import logging
 from odoo import api,models,fields, _
-from .seb import SEBTransaktionsrapport as Parser
-from .seb import SEBTransaktionsrapportType1 as Parser1
+from .seb import SEBKontohandelserrapport as Parser
+from .seb import SEBFakturadetaljerDocumentParser as Parser1
 from .seb import SEBTransaktionsrapportType2 as Parser2
 from .seb import SEBTransaktionsrapportType3 as Parser3
 import base64
@@ -64,11 +64,11 @@ class AccountBankStatementImport(models.TransientModel):
             # Not a SEB Kontohändelser document, returning super will call next candidate:
             _logger.info(u"Statement file was not a SEB Kontohändelser document.")
             try:
-                _logger.info(u"Try parsing with SEB Typ 1 Kontohändelser.")
+                _logger.info(u"Try parsing with SEB Fakturadetaljer.")
                 parser = Parser1(base64.b64decode(self.statement_file))
             except ValueError:
                 # Not a SEB Type 2 file, returning super will call next candidate:
-                _logger.info(u"Statement file was not a SEB Type 1 Kontohändelse file.")
+                _logger.info(u"Statement file was not a SEB Fakturadetaljer.")
                 try:
                     _logger.info(u"Try parsing with SEB Typ 2 Kontohändelser.")
                     parser = Parser2(base64.b64decode(self.statement_file))
@@ -86,15 +86,15 @@ class AccountBankStatementImport(models.TransientModel):
         seb = parser.parse()
         for s in seb.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
-            account = self.env['res.partner.bank'].search([('acc_number','=',s['account_number'])]).mapped('journal_id').mapped('payment_debit_account_id')
+            account = self.env['res.partner.bank'].search([('acc_number','=',s['account_no'])]).mapped('journal_id').mapped('payment_debit_account_id')
             move_line_ids = []
             for t in s['transactions']:
                 if s['currency_code'] != currency.name:
                     t['currency_id'] = currency.id
-                partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])])
-                if partner_id:
-                    # t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
-                    t['partner_id'] = partner_id[0].commercial_partner_id.id
+                # partner_id = self.env['res.partner'].search(['|',('name','ilike',t['partner_name']),('ref','ilike',t['partner_name'])])
+                # if partner_id:
+                #     # t['account_number'] = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].acc_number or ''
+                #     t['partner_id'] = partner_id[0].commercial_partner_id.id
                 # ~ d1 = fields.Date.to_string(fields.Date.from_string(t['date']) - timedelta(days=5))
                 # ~ d2 = fields.Date.to_string(fields.Date.from_string(t['date']) + timedelta(days=40))
 

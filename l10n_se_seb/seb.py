@@ -34,21 +34,20 @@ from xlrd.sheet import Sheet
 
 import sys
 
-class SEBTransaktionsrapport(object):
+class SEBKontohandelserrapport(object):
     """Parser for SEB Kontohändelser import files."""
 
     def __init__(self, data_file):
         """ Check if file can be read """
         try:
-            wb = load_workbook(filename=BytesIO(data_file),read_only=True)
-            ws = wb.get_sheet_names()
-            self.data = wb.get_sheet_by_name(ws[0])
-        # TODO?: Catch BadZipFile, IOerror, ValueError
-        except:
-            raise ValueError(u'Could not read provided file')
-        if (self.data.cell(6,2).value != 'Saldo' and self.data.cell(6,5).value != 'Reserverat belopp'):
+            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
+        except XLRDError as e:
+            _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
+            raise ValueError(e)
+        if (self.data.cell(5,1).value != 'Saldo' and self.data.cell(5,4).value != 'Reserverat belopp'):
             raise ValueError(u'This is not a SEB Kontohändelser document')
 
+        self.nrows = self.data.nrows - 1
         self.header = []
         self.statements = []
 
@@ -58,34 +57,35 @@ class SEBTransaktionsrapport(object):
         _logger.info("Parsing SEB Kontohändlser")
 
         self.account_currency = 'SEK'
-        self.account_number = self.data.cell(7,1).value
-        self.name = self.data.cell(1,1).value[15:30]
+        self.header = [c.value.lower() for c in self.data.row(8)]
+        self.account_number = self.data.cell(6,0).value
+        self.name = self.data.cell(0,0).value[15:30]
+
 
         self.current_statement = BankStatement()
+        self.current_statement.local_account =  self.account_number
+        self.current_statement.statement_id = f'STATEMENT:{self.current_statement.local_account.replace(" ","")}'
         self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
         self.current_statement.local_currency = self.account_currency or 'SEK'
-        self.current_statement.local_account =  self.account_number
-        self.current_statement.statement_id = '%s %s' % (self.data.cell(1,1).value[14:],self.data.cell(3,1).value[6:])
-        self.current_statement.start_balance = float(self.data.cell(self.data.max_row,6).value) - float(self.data.cell(self.data.max_row,5).value)
-        total_sum = 0
+        self.current_statement.start_balance = self.data.cell(self.nrows,5).value - self.data.cell(self.nrows,4).value
+        self.current_statement.end_balance = self.data.cell(6, 1).value
+        # self.current_statement.remote_owner = self.data.cell(15, 3).value
 
-        for index, row in enumerate(self.data.iter_rows(9, values_only=True), start=9):
-            if (index == 9):
-                self.header = {c:i for i, c in enumerate(row)}
-            else:
-                transaction_dict = {key:row[self.header[key]] for key in self.header}
-                transaction = self.current_statement.create_transaction()
-                transaction['amount'] = transaction_dict['Belopp']
-                transaction['account_number'] = transaction_dict['Verifikationsnummer']
-                transaction['date'] = transaction_dict['Valutadatum']
-                transaction['payment_ref'] = transaction_dict['Text/mottagare'].strip()
-                #transaction['unique_import_id'] = t['verifikationsnummer'].strip()
-                total_sum -= transaction_dict['Belopp'] 
+        for t in SEBIterator(self.data,header_row=8):
+            transaction = self.current_statement.create_transaction()
+            transaction.transferred_amount = float(t['belopp'])
+            transaction.eref = t['verifikationsnummer'].strip()
+            transaction.pref = t['text/mottagare'].strip()
+            transaction.narration = t['text/mottagare'].strip()
+            transaction.value_date = t['bokföringsdatum'] # bokföringsdatum,valutadatum
+            transaction.unique_import_id = t['verifikationsnummer'].strip()
+            if transaction.name.startswith('Bg'):
+                string = ' '.join(transaction.name.split())
+                transaction.bg_account = string.split(' ')[1]
+                transaction.bg_serial_number = string.split(' ')[2] if len(string.split(' ')) == 3 else ''
 
-
-        self.current_statement.end_balance = float(self.current_statement.start_balance - total_sum)
         self.statements.append(self.current_statement)
-        _logger.debug('Statement %s Transaktioner %s' % (self.statements,''))
+#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))  
         return self
 
         

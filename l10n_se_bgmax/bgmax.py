@@ -440,15 +440,15 @@ class BgMaxParser(object):
                 #~ transaction.note
                 #~ transaction.value_date
 
-                transaction.pref = ins.get('betalarens_namn', '')
-                transaction.eref = ins.get('referens') or ins.get('BGC-nummer')
+                transaction.pref = ins.get('betalarens_namn', '').strip() + "; " + ins.get('referens', '').strip()
+                transaction.eref = ins.get('referens').strip() or ins.get('BGC-nummer').strip()
                 transaction.narration = '\n'.join(ins.get('informationstext',[]))
                 if ins.get('betalarens_adress'):
-                    transaction.narration += ' %s, %s %s %s' % (ins.get('betalarens_adress'),ins.get('betalarens_postnr'),ins.get('betalarens_ort'),ins.get('betalarens_land'))
+                    transaction.narration += ' %s:\n %s\n %s\n %s\n' % (ins.get('betalarens_adress').strip(), ins.get('betalarens_postnr').strip(), ins.get('betalarens_ort').strip(), ins.get('betalarens_land').strip())
                 if ins.get('organisationsnummer'):
-                    transaction.narration += ' %s ' % ins.get('organisationsnummer')
+                    transaction.narration += ' %s\n ' % ins.get('organisationsnummer')
                 if ins.get('BGC-nummer'):
-                    transaction.narration += ' BGC %s ' % ins.get('BGC-nummer')
+                    transaction.narration += ' BGC %s\n ' % ins.get('BGC-nummer')
                 if transaction.remote_account:
                     transaction.narration += ' bg %s ' % transaction.remote_account
 
