@@ -214,22 +214,6 @@ class AccountInvoice(models.Model):
                 domain = [('company_id', '=', company_id)]
             m.suitable_journal_ids = self.env['account.journal'].search(domain)
 
-    # ~ OLD function to add balance taxes, this function no longer exists in account.move, which is why it never gets called.
-    # ~ @api.model
-    # ~ def tax_line_move_line_get(self):
-        # ~ res = super(AccountInvoice, self).tax_line_move_line_get()
-        # ~ if not self.fiscal_position_id:
-            # ~ return res
-        # ~ i = 0
-        # ~ while i < len(res):
-            # ~ values = self.fiscal_position_id.get_map_balance_row(res[i])
-            # ~ _logger.warn('values: %s' % values)
-            # ~ if values:
-                # ~ i += 1
-                # ~ res.insert(i, values)
-            # ~ i += 1
-        # ~ _logger.warn('res: %s' % res)
-        # ~ return res
 
 # ~ inherited override a function from accoung.move, due to the fact that we sometimes need to add extra journal lines based on account.fisical.postion and the tax used for that line.
 
@@ -268,10 +252,8 @@ class AccountInvoice(models.Model):
                 self.with_context(context_copy)._recompute_dynamic_lines()
                 
         # ~ end of my added code
-        self._post(soft=False)
-        return False
-        
-        
+        return super(AccountInvoice, self).action_post()
+
 
 
 
