@@ -440,7 +440,7 @@ class BgMaxParser(object):
                 #~ transaction.note
                 #~ transaction.value_date
 
-                transaction.pref = ins.get('betalarens_namn', '').strip() + "; " + ins.get('referens', '').strip()
+                transaction.pref = ins.get('betalarens_namn', '').strip() + ": " + ins.get('referens', '').strip()
                 transaction.eref = ins.get('referens').strip() or ins.get('BGC-nummer').strip()
                 transaction.narration = '\n'.join(ins.get('informationstext',[]))
                 if ins.get('betalarens_adress'):

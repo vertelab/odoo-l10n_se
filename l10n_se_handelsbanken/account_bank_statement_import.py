@@ -19,7 +19,9 @@
 #
 ##############################################################################
 import base64
+from datetime import datetime
 import logging
+from typing import List
 from odoo import api,models, _
 from odoo.exceptions import UserError
 from .handelsbanken import HandelsbankenTransaktionsrapport as Parser
@@ -49,6 +51,14 @@ class AccountBankStatementImport(models.TransientModel):
         total_amt = 0.00
         try:
             for index, transaction in enumerate(handelsbanken.statements):
+                #Prep alternative date
+                start_date: List[str] = transaction['Datum intervall'].split(' ')
+                accounting_day = transaction['Bokföringsdag']
+                if transaction['Bokföringsdag'] == '':
+                    accounting_day = datetime.strptime(start_date[0], "%Y-%m-%d")
+                else: 
+                    accounting_day = datetime.strptime(transaction['Bokföringsdag'], "%Y-%m-%d")
+
                 bank_account_id = partner_id = False
                 ref = ''
                 if transaction['Referens']:
@@ -58,13 +68,11 @@ class AccountBankStatementImport(models.TransientModel):
                         bank_account_id = partner_id[0].commercial_partner_id.bank_ids and partner_id[0].commercial_partner_id.bank_ids[0].id or None
                         partner_id = partner_id[0].commercial_partner_id.id
                 if 'period_id' not in transaction:
-                    transaction['period_id'] = self.env['account.period'].date2period(transaction['date']).id
+                    transaction['period_id'] = self.env['account.period'].date2period(accounting_day).id
                     if transaction['period_id'] == False:
                         raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
 
-                #Prep alternative date
-                start_date = transaction['Datum intervall'].split(' ')
-                _logger.warning(f"Start date is: {start_date}")
+
 
                 vals_line = {
                     'date': transaction[u'Bokföringsdag'] or start_date[0],  # bokfdag, transdag, valutadag

@@ -50,7 +50,7 @@ class HandelsbankenTransaktionsrapport(object):
             rows = []
             fp = io.StringIO(data_file.decode("latin-1"))
             fp.seek(0)
-            reader = DictReader(fp, delimiter=";")
+            reader = DictReader(fp, delimiter="\t")
             for row in reader:
                 rows.append(row)
             fp.close()
@@ -61,7 +61,7 @@ class HandelsbankenTransaktionsrapport(object):
         # ~ Kontohavare;Kontonr;IBAN;BIC;Kontoform;Valuta;Kontoförande kontor;Datum intervall;Kontor;Bokföringsdag;Reskontradag;Valutadag;Referens;
         # ~ Insättning/Uttag;Bokfört saldo;Aktuellt saldo;Valutadagssaldo;Referens Swish;Avsändar-id Swish;
 
-
+        _logger.warning(self.data[0])
         if not ('BIC' in self.data[0] and 'Kontoform' in self.data[0] and 'IBAN' in self.data[0]):
             raise ValueError('This is not a Handelsbanken Transaktionsrapport')
         # ~ _logger.warn(self.data[0])

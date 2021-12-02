@@ -509,8 +509,8 @@ class AccountBankStatement(models.Model):
             Return ids of statement lines left to reconcile and other data for the reconciliation widget.
         """
         res = super(AccountBankStatement,self).reconciliation_widget_preprocess()
-        lines = self.env['account.bank.statement.line'].browse(res['st_lines_ids'])
-        _logger.warn('anders: XXX %s' % lines.mapped('name'))
+        # lines = self.env['account.bank.statement.line'].browse(res['st_lines_ids'])
+        # _logger.warn('anders: XXX %s' % lines.mapped('name'))
         # ~ raise Warning(self.mapped('line_ids.journal_entry_ids.name'))
         # ~ raise Warning('Hello %s' % lines)
         
