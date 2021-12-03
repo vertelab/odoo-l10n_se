@@ -63,7 +63,9 @@ class AccountChartTemplate(models.Model):
                     if a.user_type_id != t:
                        a.user_type_id = t
                        _logger.warn('Account %s set type to %s' %(a.name, t.name))
-        #Hard coded
+                       
+        
+        #Hard coded/Not based on the excel sheet that
         accounts = self.env['account.account'].search(['|',('code', '=', '1330'),('code', '=', '1338')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag')
@@ -115,6 +117,17 @@ class AccountChartTemplate(models.Model):
         accounts = self.env['account.account'].search([('code', '=', '8840')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_OvrigaBokslutsdispositioner')
+        
+        #Setting the correct type for the moms accounts since they need to belong to a account type that is of the type "regular", otherwise they don't behave correctly when making invoices.
+        accounts = self.env['account.account'].search([('code', 'in', ['2610','2611','2612','2613','2614','2615','2616','2618','2620','2621','2622','2623','2624','2625','2626','2628','2630','2631','2632','2633','2634','2635','2636','2638','2640','2641','2642','2645','2646','2647','2648','2649','2650','2852'])])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_OvrigaKortfristigaSkulderMoms')
+        
+        #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts
+        OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
+        for acc in self.env['account.account'].search([('user_type_id','=',OvrigaKortfristigaSkulder.id)]):
+            acc.reconcile = True
+        OvrigaKortfristigaSkulder.type = 'payable'
         
 
 
@@ -214,6 +227,22 @@ class AccountInvoice(models.Model):
                 domain = [('company_id', '=', company_id)]
             m.suitable_journal_ids = self.env['account.journal'].search(domain)
 
+    # ~ OLD function to add balance taxes, this function no longer exists in account.move, which is why it never gets called.
+    # ~ @api.model
+    # ~ def tax_line_move_line_get(self):
+        # ~ res = super(AccountInvoice, self).tax_line_move_line_get()
+        # ~ if not self.fiscal_position_id:
+            # ~ return res
+        # ~ i = 0
+        # ~ while i < len(res):
+            # ~ values = self.fiscal_position_id.get_map_balance_row(res[i])
+            # ~ _logger.warn('values: %s' % values)
+            # ~ if values:
+                # ~ i += 1
+                # ~ res.insert(i, values)
+            # ~ i += 1
+        # ~ _logger.warn('res: %s' % res)
+        # ~ return res
 
 # ~ inherited override a function from accoung.move, due to the fact that we sometimes need to add extra journal lines based on account.fisical.postion and the tax used for that line.
 
@@ -253,7 +282,8 @@ class AccountInvoice(models.Model):
                 
         # ~ end of my added code
         return super(AccountInvoice, self).action_post()
-
+        
+        
 
 
 
