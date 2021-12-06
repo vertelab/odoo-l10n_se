@@ -93,7 +93,7 @@ def mk_chart(data,type,name,year,accounts,rule):
 @click.command()
 @click.option('--year', default=2017, help='Year for the Chart of Account.')
 @click.argument('input', default='Kontoplan_Normal_2021.xls',type=click.File('rb'))
-@click.argument('output',default='../data/account_chart_template_k23_experimental.xml' ,type=click.File('wb'))
+@click.argument('output',default='../data/account_chart_template_k23.xml' ,type=click.File('wb'))
 
 def import_excel(year, input, output):
     wb = open_workbook(file_contents=input.read(), formatting_info=True)
