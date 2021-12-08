@@ -632,7 +632,6 @@ class account_account_type(models.Model):
                  
     @api.model
     def set_account_type(self):
-        _logger.warning("jakmar set_account_type")
         for record in self:
             for account in self.env['account.account'].search(eval(record.account_range)):
                 if account.user_type_id != record:
