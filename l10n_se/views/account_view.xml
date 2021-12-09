@@ -72,6 +72,85 @@
                 </field>
             </field>
         </record>
+<!--
+    Removes the account_hierarchy_selection which breaks if we add more account.account.types, this to fixed by a smarter programmer than me
+-->
+        <record id="init_accounts_treeinherit" model="ir.ui.view">
+        <field name="name">init.account.account.form.inherited</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.init_accounts_tree"/>
+        <field name="arch" type="xml">
+            <field name="user_type_id" position="replace">
+                <field name="user_type_id"></field>
+            </field>
+        </field>
+    </record>
+    
+    
+    <!-- Add menu entry in Settings/Accounting -->
+    
+            <record id="view_account_list_technical" model="ir.ui.view">
+            <field name="name">account.account.list</field>
+            <field name="model">account.account</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="1" delete="1" multi_edit="1" string="Chart of accounts">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="user_type_id"/>
+                    <field name="group_id" optional="hide"/>
+                    <field name="internal_type" invisible="1"/>
+                    <field name="internal_group" invisible="1"/>
+                    <field name="reconcile" widget="boolean_toggle" attrs="{'invisible': ['|', ('internal_type','=','liquidity'), ('internal_group', '=', 'off_balance')]}"/>
+                    <field name="opening_debit"/>
+                    <field name="opening_credit"/>
+                    <field name="tax_ids" optional="hide" widget="many2many_tags"/>
+                    <field name="tag_ids" optional="hide" widget="many2many_tags"/>
+                    <field name="allowed_journal_ids" optional="hide" widget="many2many_tags"/>
+                    <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
+                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                    <button name="action_read_account" type="object" string="Setup" class="float-right btn-secondary"/>
+                </tree>
+            </field>
+        </record>
+    
+        <record id="action_view_account_init" model="ir.actions.act_window">
+            <field name="name">Emails</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree</field>
+            <field name="limit">99999999</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="account.view_account_search"/>
+            <field name="view_id" ref="view_account_list_technical"/>
+        </record>
+        
+
+    
+    <menuitem id="account_account_init" name="Accounting" parent="base.menu_custom" sequence="10"/>
+    
+    <menuitem name="Chart of Account Init"
+            id="menu_account_account_init"
+            parent="account_account_init"
+            action="action_view_account_init"
+            sequence="1"/>
+            
+            
+
+<!--
+                view_id = self.env.ref('account.init_accounts_tree').id
+            
+            
+            return {
+            'type': 'ir.actions.act_window',
+            'name': _('Chart of Accounts'),
+            'res_model': 'account.account',
+            'view_mode': 'tree',
+            'limit': 99999999,
+            'search_view_id': self.env.ref('account.view_account_search').id,
+            'views': [[view_id, 'list']],
+            'domain': domain,
+        }
+-->
+        
 
 <!--        <record id="view_account_financial_report_form" model="ir.ui.view">-->
 <!--            <field name="name">account.financial.report.form.inherited.l10n_se</field>-->
