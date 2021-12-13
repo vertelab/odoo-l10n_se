@@ -952,8 +952,6 @@
             <field name="note">Här redovisas övriga kortfristiga skulder, t.ex. mervärdesskatt, punktskatter, lagstadgade arbetsgivaravgifter som förfaller till betalning efterföljande månad, innehållen personalskatt, och redovisningsmedel</field>
             <field name="internal_group">liability</field>
         </record>
-        
-
         <record id="type_OvrigaBundetKapital" model="account.account.type">
             <field name="name">Övrigt bundet kapital</field>
             <field name="element_name">OvrigtBundetKapital</field>

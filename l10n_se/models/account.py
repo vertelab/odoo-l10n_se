@@ -129,6 +129,18 @@ class AccountChartTemplate(models.Model):
             acc.reconcile = True
         OvrigaKortfristigaSkulder.type = 'payable'
         
+        #Todo make so that the correct account types are generated correctly and all account for those types are reconcile. Fix permanent solution for 1000-1900
+        account_xml_ids = ['account.data_account_type_receivable','account.data_account_type_liquidity','account.data_account_type_current_assets','account.data_account_type_non_current_assets','account.data_account_type_fixed_assets','l10n_se.type_TecknatEjInbetaltKapital','l10n_se.type_HyresratterLiknandeRattigheter'
+        ,'l10n_se.type_Goodwill','l10n_se.type_ForskottImmateriellaAnlaggningstillgangar','l10n_se.type_ByggnaderMark','l10n_se.type_InventarierVerktygInstallationer','l10n_se.type_ForbattringsutgifterAnnansFastighet','l10n_se.type_OvrigaMateriellaAnlaggningstillgangar','l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar'
+        ,'l10n_se.type_AndelarKoncernforetag','l10n_se.type_FordringarKoncernforetagLangfristiga','l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag','l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga','l10n_se.type_AgarintressenOvrigaForetag','l10n_se.type_AndraLangfristigaVardepappersinnehav'
+        ,'l10n_se.type_LanDelagareNarstaende','l10n_se.type_AndraLangfristigaFordringar','l10n_se.type_LagerRavarorFornodenheter','l10n_se.type_LagerVarorUnderTillverkning' ,'l10n_se.type_LagerFardigaVarorHandelsvaror','l10n_se.type_OvrigaLagertillgangar','l10n_se.type_PagaendeArbetenAnnansRakningOmsattningstillgangar','l10n_se.type_ForskottTillLeverantorer'
+        ,'l10n_se.type_FordringarKoncernforetagKortfristiga','l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga','l10n_se.type_FordringarOvrigaforetagAgarintresseKortfristiga','l10n_se.type_UpparbetadEjFaktureradIntakt','l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter','l10n_se.type_AndelarKoncernforetagKortfristiga','l10n_se.type_OvrigaKortfristigaPlaceringar']
+        accounts_types = [self.env.ref(x) for x in account_xml_ids]
+        for acctype in accounts_types:
+            for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
+                acc.reconcile = True
+            acctype.type = 'receivable'
+        
 
 
     
