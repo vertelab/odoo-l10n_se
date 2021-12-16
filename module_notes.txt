@@ -8,7 +8,7 @@ l10n_se_budget
 l10n_se_dibs
 l10n_se_extended
 l10n_se_hr_expense
-l10n_se_intrastat
+l10n_se_intrastat  = ?? Vad är detta?
 l10n_se_izettle
 l10n_se_klarna
 l10n_se_mis

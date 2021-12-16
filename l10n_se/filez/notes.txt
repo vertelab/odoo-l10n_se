@@ -1,0 +1,16 @@
+l10n_se -- icons
+2021-12-16
+
+Path:
+/static/description/icon.png
+
+
+
+HEX
+#930a57
+
+#8105a7
+
+
+
+Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
