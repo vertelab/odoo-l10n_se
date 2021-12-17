@@ -1,4 +1,4 @@
-l10n_se-mis -- icons
+l10n_se-nordbanken -- icons
 2021-12-16
 
 Path:

@@ -15,9 +15,9 @@
    width="597.33331"
    height="298.66666"
    viewBox="0 0 597.33331 298.66666"
-   sodipodi:docname="icon_560x280.svg"
+   sodipodi:docname="banner_560x280.svg"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=marina/usr/share/odoo-l10n_se/l10n_se/filez/icon_560x280.png"
+   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=marina/usr/share/odoo-l10n_se/l10n_se_account_bank_statement_import/filez/banner_560x280.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <metadata
@@ -47,11 +47,11 @@
      inkscape:window-height="902"
      id="namedview1544"
      showgrid="false"
-     inkscape:zoom="0.4871652"
-     inkscape:cx="187.8213"
-     inkscape:cy="22.06644"
-     inkscape:window-x="1308"
-     inkscape:window-y="464"
+     inkscape:zoom="0.68895563"
+     inkscape:cx="225.5123"
+     inkscape:cy="-37.575013"
+     inkscape:window-x="653"
+     inkscape:window-y="77"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg1542"
      inkscape:snap-smooth-nodes="true" />
@@ -67,7 +67,7 @@
      xml:space="preserve"
      id="flowRoot2104"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.31085759"
-     transform="matrix(3.2169071,0,0,3.2169071,-140.41209,-307.31591)"><flowRegion
+     transform="matrix(3.2169071,0,0,3.2169071,-256.41209,-307.31591)"><flowRegion
        id="flowRegion2106"
        style="fill:#ffffff;stroke-width:0.08024681"><rect
          id="rect2108"
@@ -80,32 +80,30 @@
        style="stroke-width:0.31085759"></flowPara></flowRoot>  <flowRoot
      xml:space="preserve"
      id="flowRoot2158"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
-     transform="translate(-3.7365401,-164.57961)"><flowRegion
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.24008083"
+     transform="matrix(0.80639908,0,0,0.80639908,-8.041169,-25.532483)"><flowRegion
        id="flowRegion2160"
-       style="fill:#ffffff"><rect
+       style="fill:#ffffff;stroke-width:1.24008083"><rect
          id="rect2162"
-         width="650.70331"
-         height="266.84995"
+         width="1045.9232"
+         height="249.74905"
          x="24.632301"
          y="267.87628"
-         style="fill:#ffffff" /></flowRegion><flowPara
+         style="fill:#ffffff;stroke-width:1.24008083" /></flowRegion><flowPara
        id="flowPara2164"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start">l10n_se  </flowPara><flowPara
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
-       id="flowPara833">Account Bank </flowPara><flowPara
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
-       id="flowPara837">Statement Import</flowPara><flowPara
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.24008083">l10n_se  </flowPara><flowPara
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.24008083"
+       id="flowPara837">Account Bank Statement Import</flowPara><flowPara
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.24008083"
        id="flowPara835" /></flowRoot>  <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:132.37113953px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999994"
-     x="437.75034"
-     y="150.22108"
+     style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:113.5019989px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999994"
+     x="424.13855"
+     y="186.77385"
      id="text831"><tspan
        sodipodi:role="line"
        id="tspan829"
-       x="437.75034"
-       y="150.22108"
+       x="424.13855"
+       y="186.77385"
        style="stroke-width:0.99999994"></tspan></text>
 </svg>
