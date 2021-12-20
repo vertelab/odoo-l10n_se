@@ -54,7 +54,6 @@
         'account_bank_statement_data.xml',
         'account_bank_statement_view.xml',
     ],
-    'summary': 'BgMax Format Bank Statements Import',
     'installable': 'True',
     'application': 'False',
 }
