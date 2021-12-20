@@ -14,7 +14,7 @@ https://docs.klarna.com/marketing/it/advertising-brand-guidelines/logos-trademar
 
 
 Odoo icon: 140 x 140
-Odoo icon: 560 x 280
+Odoo banner: 560 x 280
 
 
 HEX

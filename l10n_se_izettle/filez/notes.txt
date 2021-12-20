@@ -1,5 +1,7 @@
 l10n_se-zettle -- icons
 2021-12-16
+OBS! Företaget heter numera Zettle!
+
 
 Path:
 /static/description/icon.png
@@ -8,8 +10,15 @@ Icon: Credit-card
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 
+
+Logotype
+https://www.brandsoftheworld.com/logo/izettle
+https://www.brandsoftheworld.com/logo/izettle?original=1
+
+OBS! Företaget heter numera Zettle!
+
 Odoo icon: 140 x 140
-Odoo icon: 560 x 280
+Odoo banner: 560 x 280
 
 
 HEX
