@@ -13,6 +13,7 @@ l10n_se_izettle
 l10n_se_klarna
 l10n_se_mis
 l10n_se_nordbanken
+l10n_se_ocr
 l10n_se_paypal
 l10n_se_purchase_products
 l10n_se_remove_resquence_add_sequence
