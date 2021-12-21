@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-        The module lets you create some Swedish MIS-reports: Momsdeklaration, Arbetsgivardeklaration, Balansräkning, Resultaträkning  
+        The module works as a base for creating Swedish MIS-reports  
     """,
     'depends': ['mis_builder','mis_builder_budget','account_period'],
     'external_dependencies': {
