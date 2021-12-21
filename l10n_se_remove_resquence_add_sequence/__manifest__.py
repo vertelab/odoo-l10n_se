@@ -20,8 +20,8 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Sweden - Accounting',
-    'summary': '',
+    'name': 'l10n_se: Remove resequence',
+    'summary': 'Removes resequencing for account moves and adds sequence to journals',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
