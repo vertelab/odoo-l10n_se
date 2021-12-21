@@ -14,7 +14,7 @@ Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 
 Odoo icon: 140 x 140
-Odoo icon: 560 x 280
+Odoo banner: 560 x 280
 
 
 HEX
