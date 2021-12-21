@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: SIE-import',
-    'summary': 'Module for importing SIE-files',
+    'summary': 'Module for importing SIE-files - currently not functional',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
