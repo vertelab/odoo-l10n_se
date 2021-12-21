@@ -30,15 +30,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.5"
-     inkscape:cx="-116.66667"
-     inkscape:cy="22.666667"
+     inkscape:cx="-27.333337"
+     inkscape:cy="30"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1870"
      inkscape:window-height="962"
-     inkscape:window-x="261"
-     inkscape:window-y="103"
+     inkscape:window-x="50"
+     inkscape:window-y="90"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata3478">
@@ -79,18 +79,7 @@
            y="267.87628"
            style="fill:#ffffff;stroke-width:2.94531131" /></flowRegion><flowPara
          style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:2.94531131"
-         id="flowPara4538">Reconciliation</flowPara></flowRoot>    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1"
-       x="83.333344"
-       y="97.666664"
-       id="text831"><tspan
-         sodipodi:role="line"
-         id="tspan829"
-         x="83.333344"
-         y="97.666664"
-         style="stroke-width:1"></tspan></text>
-    <image
+         id="flowPara4538">Reconciliation</flowPara></flowRoot>    <image
        y="10.166666"
        x="10.426605"
        id="image1992"
@@ -99,5 +88,28 @@
        height="38.821369"
        width="58.199757"
        style="stroke-width:41.28310394" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.03144741px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#fffffd;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="5.8051386"
+       y="83.144012"
+       id="text2035"
+       inkscape:export-xdpi="92"
+       inkscape:export-ydpi="92"><tspan
+         sodipodi:role="line"
+         x="5.8051386"
+         y="83.144012"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.0559063px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#fffffd;fill-opacity:1;stroke-width:0.99999994px"
+         id="tspan830">Account Bank </tspan><tspan
+         sodipodi:role="line"
+         x="5.8051386"
+         y="96.593285"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.0559063px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#fffffd;fill-opacity:1;stroke-width:0.99999994px"
+         id="tspan837">Statement Import</tspan><tspan
+         sodipodi:role="line"
+         x="5.8051386"
+         y="107.8826"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.0559063px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#fffffd;fill-opacity:1;stroke-width:0.99999994px"
+         id="tspan832" /></text>
   </g>
 </svg>

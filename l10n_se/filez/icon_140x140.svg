@@ -29,16 +29,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.5"
-     inkscape:cx="-165.72439"
-     inkscape:cy="80"
+     inkscape:zoom="2.1213203"
+     inkscape:cx="-152.6383"
+     inkscape:cy="64.499158"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1870"
      inkscape:window-height="962"
-     inkscape:window-x="0"
-     inkscape:window-y="57"
+     inkscape:window-x="337"
+     inkscape:window-y="90"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata3478">
@@ -79,18 +79,7 @@
            y="267.87628"
            style="fill:#ffffff;stroke-width:2.79904747" /></flowRegion><flowPara
          id="flowPara2164"
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:2.79904747">Reconciliation</flowPara></flowRoot>    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:28.2843132px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00000012"
-       x="87.460884"
-       y="99.913818"
-       id="text3391"><tspan
-         sodipodi:role="line"
-         id="tspan3389"
-         x="87.460884"
-         y="99.913818"
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:42.42647552px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.4754709"></tspan></text>
-    <image
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:2.79904747">Reconciliation</flowPara></flowRoot>    <image
        y="9.2559843"
        x="9.5579119"
        id="image1992"
@@ -99,5 +88,20 @@
        height="38.821369"
        width="58.199757"
        style="stroke-width:41.28310394" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#fffffc;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="71.434769"
+       y="89.526344"
+       id="text2035"
+       inkscape:export-xdpi="92"
+       inkscape:export-ydpi="92"><tspan
+         sodipodi:role="line"
+         x="74.514755"
+         y="89.526344"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.99999994px;fill:#fffffc;fill-opacity:1;"
+         id="tspan2047"><tspan
+           id="tspan846"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.99999994px;fill:#fffffc;fill-opacity:1;">l10n_se </tspan></tspan></text>
   </g>
 </svg>
