@@ -20,8 +20,8 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Swedbank Import',
-    'summary': 'Swedbank Format Bank Statements Import',
+    'name': 'l10n_se: Swedbank Format Bank Statement Import',
+    'summary': 'Module for reading Swedbank bank statement files',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-    
+        The module allows importing and reading Swedbank bank statement files
     """,
     'depends': ['l10n_se_account_bank_statement_import'],
     #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
