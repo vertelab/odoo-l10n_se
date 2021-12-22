@@ -41,9 +41,11 @@
      """,
     'depends': ['contacts'],
     'init_xml': [],
-    'data': ['views/municipality_views.xml',
-        'security/ir.model.access.csv',
+    'data': [
         'data/res.country.municipality.csv',
+        'security/ir.model.access.csv',
+        'views/municipality_views.xml',
+        'views/partner_views.xml',
         ],
     'demo': [
     ],
