@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Management Solution
-#    Copyright (C) 2013-2016 Vertel (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,16 +15,21 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 {
-    'name': 'BgMax Format Bank Statements Import',
-    'version': '14.0.1',
-    'license': 'AGPL-3',
+    'name': 'l10n_se: BgMax Format Bank Statements Import',
+    'summary': 'Reading BgMax formated files from Bankgirocentralen.',
     'author': 'Vertel AB',
-    'website': 'http://vertel.se',
-    'category': 'Banking addons',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
+    'version': '14.0.1',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'license': 'AGPL-3',
+    'website': 'https://vertel.se/apps/l10n_se/bgmax',
     'depends': [
         'account_period', 
         'l10n_se_account_bank_statement_import', 
@@ -34,29 +39,21 @@
         'account_bank_statement_data.xml',
         'account_bank_statement_view.xml',
     ],
-    'summary': 'BgMax Format Bank Statements Import',
     'description': """
         Reading BgMax formated files from Bankgirocentralen.
 
-
-        There are some problems with the oca class AcountBankStatementImport
+        There are some problems with the OCA class AcountBankStatementImport
         from OCA bank-statement-import/account_bank_statement_import/models/account_bank_statement_import.py
         change pop to get:
 
-        140,141c140,141
-<         currency_code = stmt_vals.pop('currency_code')
-<         account_number = stmt_vals.pop('account_number')
----
->         currency_code = stmt_vals.get('currency_code')
->         account_number = stmt_vals.get('account_number')
-328c328
-<         for line_vals in stmt_vals['transactions']:
----
->         for line_vals in stmt_vals.get('transactions',[]):
-380c380
-<         for line_vals in stmt_vals['transactions']:
----
->         for line_vals in stmt_vals.get('transactions',[]):
+
+         currency_code = stmt_vals.pop('currency_code')
+         account_number = stmt_vals.pop('account_number')
+
+
+         for line_vals in stmt_vals.get('transactions',[]):
+
+ 
 
 
         """,

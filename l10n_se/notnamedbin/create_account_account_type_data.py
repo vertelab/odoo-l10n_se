@@ -226,6 +226,8 @@ def get_type(lst):
         return 'payable'
     elif '1510' in lst:
         return 'receivable'
+    elif '2820' in lst:
+        return 'other' #payable 1931
     else:
         return 'other'
 
@@ -269,7 +271,6 @@ def print_xml(sheet_list):
         for lst in sheet_list:
             for l in lst:
                 external_id = external_id_exchange_dict.get(l.get('element_name'), 'type_%s' %l.get('element_name'))
-                _logger.warning(f"external: {external_id}")
                 record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
                 field_name = ET.SubElement(record, "field", name="name").text = l.get('name')
                 field_element_name = ET.SubElement(record, "field", name="element_name").text = l.get('element_name')
@@ -281,7 +282,47 @@ def print_xml(sheet_list):
                 if l.get('name') not in internal_group_dict:
                     raise Exception("Hittade ett par konton som inte finns i internal_group_dict. Någon borde kolla vart \""+ str(l.get('name')) +  "\" tillhör och lägga till dem i dicten")
                 field_internal_group = ET.SubElement(record, "field", name="internal_group").text = internal_group_dict.get(str(l.get('name')))
+                
+        #Missing a group from the sheet that we read, so I'll add that one here. Övrigt bundet kapital
+        external_id = "type_OvrigaBundetKapital"
+        record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
+        field_name = ET.SubElement(record, "field", name="name").text = "Övrigt bundet kapital"
+        field_element_name = ET.SubElement(record, "field", name="element_name").text = "OvrigtBundetKapital"
+        field_type = ET.SubElement(record, "field", name="type").text = "other"
+        field_main_type = ET.SubElement(record, "field", name="main_type").text = "TillgangarAbstract"
+        field_report_type = ET.SubElement(record, "field", name="report_type").text = "b"
+        field_account_range = ET.SubElement(record, "field", name="account_range").text = "[('code', 'in', ['2087', '2088', '2089'])]"
+        field_note = ET.SubElement(record, "field", name="note").text = ""
+        field_internal_group = ET.SubElement(record, "field", name="internal_group").text = "asset"
+        
+        #Missing a group from the sheet that we read, so I'll add that one here. Upplupna kostnader och förutbetalda intäkter 
+        external_id = "type_UpplupnaKostnaderForutbetaldaIntakter"
+        record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
+        field_name = ET.SubElement(record, "field", name="name").text = "Upplupna kostnader och förutbetalda intäkter"
+        field_element_name = ET.SubElement(record, "field", name="element_name").text = "UpplupnaKostnaderForutbetaldaIntakter"
+        field_type = ET.SubElement(record, "field", name="type").text = "other"
+        field_main_type = ET.SubElement(record, "field", name="main_type").text = "TillgangarAbstract"
+        field_report_type = ET.SubElement(record, "field", name="report_type").text = "b"
+        field_account_range = ET.SubElement(record, "field", name="account_range").text = f"[('code', 'in', {[str(x) for x in range(2900, 3000)]})]" 
+        field_note = ET.SubElement(record, "field", name="note").text = ""
+        field_internal_group = ET.SubElement(record, "field", name="internal_group").text = "asset"
+        
+        #added another group "Övriga kortfristiga skulder(moms)" that has all the tax accounts since they need to be regular otherwise the extra tax lines won't be added.
+        #All the other accounts in "Övriga kortfristiga skulder" need to be recivable in order to be able to use them in invoices.
+        external_id = "type_OvrigaKortfristigaSkulderMoms"
+        record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
+        field_name = ET.SubElement(record, "field", name="name").text = "Övriga kortfristiga skulder moms"
+        field_element_name = ET.SubElement(record, "field", name="element_name").text = "OvrigaKortfristigaSkulderMoms"
+        field_type = ET.SubElement(record, "field", name="type").text = "other"
+        field_main_type = ET.SubElement(record, "field", name="main_type").text = "EgetKapitalSkulderAbstract"
+        field_report_type = ET.SubElement(record, "field", name="report_type").text = "b"
+        field_account_range = ET.SubElement(record, "field", name="account_range").text = "[('code', 'in', ['2610','2611','2612','2613','2614','2615','2616','2618','2620','2621','2622','2623','2624','2625','2626','2628','2630','2631','2632','2633','2634','2635','2636','2638','2641','2642','2645','2646','2647','2648','2649','2650','2852'])]"
+        field_note = ET.SubElement(record, "field", name="note").text = ""
+        field_internal_group = ET.SubElement(record, "field", name="internal_group").text = "liability"
+        #End of hard code
+        
         ET.SubElement(data, 'function', name='_change_name', model="account.account.type")
+
         return odoo
     xml = minidom.parseString(ET.tostring(parse_xml(sheet_list))).toprettyxml(indent="    ")
     xml = xml.replace('<?xml version="1.0" ?>', '<?xml version="1.0" encoding="utf-8"?>')

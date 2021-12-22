@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Management Solution
-#    Copyright (C) 2013-2016 Vertel (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,19 +15,21 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
 {
-    'name': 'l10n_se Budget',
-    'version': '14.0',
-    'license': 'AGPL-3',
+    'name': 'l10n_se: Budget',
     'author': 'Vertel AB',
-    'website': 'http://vertel.se',
-    'category': 'Accouting',
-    'depends': ['account_budget', 'l10n_se'],
-    'data': ['account_budget_view.xml', 'account_budget_data.xml'],
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
+    'version': '14.0.0.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'license': 'AGPL-3',
+    'website': 'https://vertel.se/apps/l10n_se/budget',
     'application': 'False',
     'summary': 'Some predefined budgets',
     'description': """
@@ -35,7 +37,8 @@
         * Likviditetsbudget
         * Försäljningsbudget
         """,
+    'depends': ['account_budget', 'l10n_se'],
+    'data': ['account_budget_view.xml', 'account_budget_data.xml'],
     'installable': 'True',
-    'application': 'False',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -49,17 +49,111 @@ class AccountChartTemplate(models.Model):
 
     @api.model
     def fix_account_types(self):
+        #current_year_earnings can only have one account which is why we remove it before we fix the rest of the account types.
         current_year_earnings = self.env.ref('account.data_unaffected_earnings')
         current_year_earnings.write({"name":'Current Year Earnings'})
         current_year_earnings.write({"account_range":"[('code', 'in', [])]"})
         current_year_earnings.write({"account_range":False})
+        
         for t in self.env['account.account.type'].search([]):
             if t.account_range:
                 for a in self.env['account.account'].search(eval(t.account_range)):
                     if a.user_type_id != t:
                        a.user_type_id = t
                        _logger.warn('Account %s set type to %s' %(a.name, t.name))
+                       
+        
+        #Hard coded/Not based on the excel sheet that
+        accounts = self.env['account.account'].search(['|',('code', '=', '1330'),('code', '=', '1338')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag')
+            
+        accounts = self.env['account.account'].search(['|',('code', '=', '1340'),('code', '=', '1348')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga')
 
+        accounts = self.env['account.account'].search(['|',('code', '=', '1570'),('code', '=', '1670')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+            
+        # ~ accounts = self.env['account.account'].search(['|','|',('code', '=', '2087'),('code', '=', '2088'),('code', '=', '2089')])
+        # ~ for account in accounts:
+            # ~ account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+
+        accounts = self.env['account.account'].search([('code', '=', '2090')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_BalanseratResultat')
+            
+        accounts = self.env['account.account'].search([('code', '=', '2370')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_SkulderIntresseforetagGemensamtStyrdaForetagLangfristiga')
+            
+        accounts = self.env['account.account'].search(['|',('code', '=', '2470'),('code', '=', '2870')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_SkulderIntresseforetagGemensamtStyrdaForetagKortfristiga')
+        
+        accounts = self.env['account.account'].search([('code', '=', '2490')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('account.data_account_type_current_liabilities')
+
+        # ~ accounts = self.env['account.account'].search([('code', '>=', '2900'),('code', '<=', '2999')])
+        # ~ for account in accounts:
+            # ~ account.user_type_id = self.env.ref('l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter')
+            
+        accounts = self.env['account.account'].search([('code', '=', '4900')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning')
+            
+        accounts = self.env['account.account'].search(['|','|','|','|',('code', '=', '8110'),('code', '=', '8116'),('code', '=', '8117'),('code', '=', '8120'),('code', '=', '8130')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_ResultatAndelarIntresseforetagGemensamtStyrda')
+            
+        accounts = self.env['account.account'].search([('code', '=', '8118')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_ResultatOvrigaforetagAgarintresse')
+            
+        accounts = self.env['account.account'].search([('code', '=', '8840')])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_OvrigaBokslutsdispositioner')
+        
+        #Setting the correct type for the moms accounts since they need to belong to a account type that is of the type "regular", otherwise they don't behave correctly when making invoices.
+        accounts = self.env['account.account'].search([('code', 'in', ['2610','2611','2612','2613','2614','2615','2616','2618','2620','2621','2622','2623','2624','2625','2626','2628','2630','2631','2632','2633','2634','2635','2636','2638','2640','2641','2642','2645','2646','2647','2648','2649','2650','2852'])])
+        for account in accounts:
+            account.user_type_id = self.env.ref('l10n_se.type_OvrigaKortfristigaSkulderMoms')
+        
+        #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts
+        OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
+        for acc in self.env['account.account'].search([('user_type_id','=',OvrigaKortfristigaSkulder.id)]):
+            acc.reconcile = True
+        OvrigaKortfristigaSkulder.type = 'payable'
+        
+        #Todo make so that the correct account types are generated correctly and all account for those types are reconcile. Fix permanent solution for 1000-1900
+        account_xml_ids = ['account.data_account_type_receivable','account.data_account_type_current_assets','account.data_account_type_non_current_assets','account.data_account_type_fixed_assets','l10n_se.type_TecknatEjInbetaltKapital','l10n_se.type_HyresratterLiknandeRattigheter'
+        ,'l10n_se.type_Goodwill','l10n_se.type_ForskottImmateriellaAnlaggningstillgangar','l10n_se.type_ByggnaderMark','l10n_se.type_InventarierVerktygInstallationer','l10n_se.type_ForbattringsutgifterAnnansFastighet','l10n_se.type_OvrigaMateriellaAnlaggningstillgangar','l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar'
+        ,'l10n_se.type_AndelarKoncernforetag','l10n_se.type_FordringarKoncernforetagLangfristiga','l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag','l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga','l10n_se.type_AgarintressenOvrigaForetag','l10n_se.type_AndraLangfristigaVardepappersinnehav'
+        ,'l10n_se.type_LanDelagareNarstaende','l10n_se.type_AndraLangfristigaFordringar','l10n_se.type_LagerRavarorFornodenheter','l10n_se.type_LagerVarorUnderTillverkning' ,'l10n_se.type_LagerFardigaVarorHandelsvaror','l10n_se.type_OvrigaLagertillgangar','l10n_se.type_PagaendeArbetenAnnansRakningOmsattningstillgangar','l10n_se.type_ForskottTillLeverantorer'
+        ,'l10n_se.type_FordringarKoncernforetagKortfristiga','l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga','l10n_se.type_FordringarOvrigaforetagAgarintresseKortfristiga','l10n_se.type_UpparbetadEjFaktureradIntakt','l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter']
+        accounts_types = [self.env.ref(x) for x in account_xml_ids]
+        for acctype in accounts_types:
+            for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
+                acc.reconcile = True
+            acctype.type = 'receivable'
+        
+        # Denna fanns i listan innan ett tag och blev satt till recievable, men nu ska den vara other igen. 1800-1899
+        account_xml_ids = ['l10n_se.type_OvrigaKortfristigaPlaceringar','l10n_se.type_AndelarKoncernforetagKortfristiga']
+        accounts_types = [self.env.ref(x) for x in account_xml_ids]
+        for acctype in accounts_types:
+            acctype.type = 'other'
+            for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
+                acc.reconcile = False
+            
+        # 1900 -1999 Denna fanns i listan innan ett tag och blev satt till liquidity, men nu ska den vara other igen.
+        account_xml_ids =	['account.data_account_type_liquidity','l10n_se.type_Redovisningsmedel']
+        accounts_types = [self.env.ref(x) for x in account_xml_ids]
+        for acctype in accounts_types:
+            acctype.type = 'liquidity'
+            for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
+                acc.reconcile = False
 
     
 # class account_bank_accounts_wizard(models.TransientModel):
@@ -211,8 +305,7 @@ class AccountInvoice(models.Model):
                 self.with_context(context_copy)._recompute_dynamic_lines()
                 
         # ~ end of my added code
-        self._post(soft=False)
-        return False
+        return super(AccountInvoice, self).action_post()
         
         
 
@@ -563,7 +656,6 @@ class account_account_type(models.Model):
                  
     @api.model
     def set_account_type(self):
-        _logger.warning("jakmar set_account_type")
         for record in self:
             for account in self.env['account.account'].search(eval(record.account_range)):
                 if account.user_type_id != record:

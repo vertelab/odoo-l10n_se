@@ -1,7 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2012-2017 Vertel (<http://www.vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -14,15 +15,22 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
-
 {
-    'name': 'Extended Sweden - Accounting',
-    'version': '14.0.1.0',
-    'category': 'Localization/Account Charts',
+    'name': 'l10n_se: Extended Sweden - Accounting',
+    'summary': 'Sweden - Chart of accounts',
+    'author': 'Vertel AB',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
+    'version': '14.0.1.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'license': 'AGPL-3',
+    'website': 'https://vertel.se/apps/l10n_se',
     'description': """Sweden - Chart of accounts
 
         * BAS 2017 K1 (Minimal chart of account, rules from SKV-283 v16)
@@ -67,13 +75,9 @@
         you have any questions or ideas.
 
      """,
-    'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
-    'category': 'Localization',
     'depends': ['account_period', 'base_vat', 'product', 'account'],
     'init_xml': [],
     'data': [
-
         'views/account_view.xml',
         'data/l10n_se_account_chart_template.xml',
         'data/account_account_type.xml',
@@ -84,7 +88,6 @@
         'data/l10n_se_account_chart_post_data.xml',
         'data/account_reconcile_model_data.xml',
         'security/ir.model.access.csv',
-
     ],
     'demo': [
         'demo/load_account_chart_template_data.xml',

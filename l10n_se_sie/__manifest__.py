@@ -1,7 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015-2020 Vertel AB (<http://www.vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -14,19 +15,25 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
-
 {
-    'name': 'l10n_se_sie',
-    'version': '0.2',
-    'category': 'Localization/Account Charts',
-    'description': """ Sweden - Chart of accounts  """,
+    'name': 'l10n_se: SIE-import',
+    'summary': 'Module for importing SIE-files - currently not functional',
     'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
-
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
+    'version': '14.0.0.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'license': 'AGPL-3',
+    'website': 'https://vertel.se/apps/l10n_se',
+    'description': """
+        The module adds support for importing and reading SIE-files
+    """,
     'depends': ['account_period', 'l10n_se'],
     'data': ['l10n_se_sie_view.xml', 'account_view.xml', 'l10n_se_sie_data.xml'],
   

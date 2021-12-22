@@ -1,0 +1,16 @@
+Account Change Plan
+2021-12-15
+
+Path:
+/static/description/icon.png
+
+
+
+HEX
+#930a57
+
+#8105a7
+
+
+
+Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool

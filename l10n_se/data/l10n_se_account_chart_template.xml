@@ -338,6 +338,7 @@
       <field name="code">1650</field>
       <field name="user_type_id" ref="account.data_account_type_current_liabilities" />
       <field name="chart_template_id" ref="chart_template_general" />
+      <field name="user_type_id" ref="account.data_account_type_current_assets"/>
     </record>
     <record id="chart1910" model="account.account.template">
       <field name="name">Kassa</field>

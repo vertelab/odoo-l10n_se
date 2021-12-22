@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,21 +15,30 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name': 'iZettle Format Bank Statements Import',
+    'name': 'l10n_se: iZettle Format Bank Statement Import',
+    'summary': 'Module for reading iZettle bank statement files',
+    'author': 'Vertel AB',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
     'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
-    'author':  'Vertel AB',
-    'website': 'https://vertel.se',
-    'category': 'Banking addons',
+    'website': 'https://vertel.se/apps/l10n_se',
     'depends': [
         'account_period', 
         'l10n_se_account_bank_statement_import', 
         'l10n_se_bank', 
         'l10n_se_account_payment_order'],
+    'description': """
+        Module for reading iZettle bank statement files
+    """,
     'external_dependencies': {
         'python': ['xlrd', 'openpyxl'],
     },

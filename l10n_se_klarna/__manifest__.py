@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2018- Vertel AB (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,16 +15,25 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name': 'Klarna Format Bank Statements Import',
-    'version': '14.0.0.1',
-    'license': 'AGPL-3',
+    'name': 'l10n_se: Klarna Format Bank Statement Import',
+    'summary': 'Module for reading Klarna bank statement files',
     'author': 'Vertel AB',
-    'website': 'http://vertel.se',
-    'category': 'Banking addons',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'category': 'Accounting',
+    'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'license': 'AGPL-3',
+    'website': 'https://vertel.se/apps/l10n_se',
+    'description': """
+        Module for reading Klarna bank statement files
+    """,
     'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {
         'python': ['xlrd'],
