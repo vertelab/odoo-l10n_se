@@ -20,8 +20,8 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: SIE',
-    'summary': 'Sweden - Chart of accounts',
+    'name': 'l10n_se: SIE-import',
+    'summary': 'Module for importing SIE-files - currently not functional',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-    Sweden - Chart of accounts.
+        The module adds support for importing and reading SIE-files
     """,
     'depends': ['account_period', 'l10n_se'],
     'data': ['l10n_se_sie_view.xml', 'account_view.xml', 'l10n_se_sie_data.xml'],

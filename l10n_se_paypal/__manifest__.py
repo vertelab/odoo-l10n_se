@@ -20,8 +20,8 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: PayPal Format Bank Statements Import',
-    'summary': '',
+    'name': 'l10n_se: PayPal Format Bank Statement Import',
+    'summary': 'Module for reading PayPal bank statement files',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-    
+        Module for reading PayPal bank statement files
     """,
     'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {

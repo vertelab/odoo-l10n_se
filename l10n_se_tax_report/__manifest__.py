@@ -34,7 +34,7 @@
     'description': """
 Swedish accounting Tax Report
 =============================
-Taxes for financial report
+Taxes for financial report (Momsdeklaration, Arbetsgivardeklaration)
      """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',

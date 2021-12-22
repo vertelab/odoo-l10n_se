@@ -30,7 +30,7 @@
     'version': '14.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/l10n_se',
+    'website': 'https://vertel.se/apps/l10n_se/bgmax',
     'description': """
         Reading BgMax formated files from Bankgirocentralen.
 
@@ -38,20 +38,14 @@
         from OCA bank-statement-import/account_bank_statement_import/models/account_bank_statement_import.py
         change pop to get:
 
-        140,141c140,141
-<         currency_code = stmt_vals.pop('currency_code')
-<         account_number = stmt_vals.pop('account_number')
----
->         currency_code = stmt_vals.get('currency_code')
->         account_number = stmt_vals.get('account_number')
-328c328
-<         for line_vals in stmt_vals['transactions']:
----
->         for line_vals in stmt_vals.get('transactions',[]):
-380c380
-<         for line_vals in stmt_vals['transactions']:
----
->         for line_vals in stmt_vals.get('transactions',[]):
+
+         currency_code = stmt_vals.pop('currency_code')
+         account_number = stmt_vals.pop('account_number')
+
+
+         for line_vals in stmt_vals.get('transactions',[]):
+
+ 
 
 
         """,
@@ -60,7 +54,6 @@
         'account_bank_statement_data.xml',
         'account_bank_statement_view.xml',
     ],
-    'summary': 'BgMax Format Bank Statements Import',
     'installable': 'True',
     'application': 'False',
 }
