@@ -447,7 +447,6 @@
   </data>
 -->
   <data>
-<!--
     <record id="moms_journal" model="account.journal">
       <field name="name">Momsjournal</field>
       <field name="type">general</field>
@@ -455,6 +454,7 @@
       <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1650')]" />
       <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2650')]" />
     </record>
+    
     <record id="agd_journal" model="account.journal">
       <field name="name">Agdjournal</field>
       <field name="type">general</field>
@@ -462,7 +462,7 @@
       <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1630')]" />
       <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2850')]" />
     </record>
--->
+    
     <record id="categ_accounting" model="calendar.event.type">
       <field name="name">Accouning Report</field>
     </record>
@@ -480,7 +480,7 @@
   <data>
     <record id="agd_avsandare" model="ir.config_parameter">
       <field name="key">l10n_se_tax_report.agd_avsandare</field>
-      <field name="value">{'programnamn': 'Odoo 10.0', 'organisationsnummer': '5569363707', 'tk_name': 'Jakob Krabbe', 'tk_phone': '013-9919480', 'tk_email': u'support@vertel.se', 'tk_street': 'Strandgatan 2', 'tk_street2': '', 'tk_zip': '58226', 'tk_city': u'Linköping'}</field>
+      <field name="value">{'programnamn': 'Odoo 14.0', 'organisationsnummer': '5569363707', 'tk_name': 'Jakob Krabbe', 'tk_phone': '013-9919480', 'tk_email': u'support@vertel.se', 'tk_street': 'Strandgatan 2', 'tk_street2': '', 'tk_zip': '58226', 'tk_city': u'Linköping'}</field>
     </record>
   </data>
 </odoo>

@@ -22,7 +22,7 @@
     'name': 'Import av transaktioner på Skattekontot',
     'version': '14.0',
     'license': 'AGPL-3',
-    'author': ' Vertel AB',
+    'author': 'Vertel AB',
     'website': 'http://vertel.se',
     'category': 'Banking addons',
     'depends': ['l10n_se_account_bank_statement_import'],

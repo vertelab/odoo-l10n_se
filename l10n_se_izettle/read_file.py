@@ -36,6 +36,13 @@ class Iterator(object):
         self.row += 1
         return {self.header[n]: r[n].value for n in range(len(self.header))}
 
+    def __next__(self):
+        if self.row >= self.rows:
+            raise StopIteration
+        r = self.data.row(self.row + 3)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+
 print Iterator(ws).header
 
 for r in Iterator(ws):

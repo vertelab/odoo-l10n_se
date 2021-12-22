@@ -144,7 +144,7 @@ class account_declaration(models.Model):
     @api.onchange('period_stop')
     def onchange_period_stop(self):
         # ~ raise Warning(self._name)
-        if self.period_stop and self._name == 'account.declaration':
+        if self.period_stop and (self._name == 'account.declaration' or self._name == 'account.vat.declaration'):
             self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
             intDay = 12
@@ -191,7 +191,7 @@ class account_declaration(models.Model):
 
     # ~ @api.multi
     def show_payment_orders(self):
-        action = self.env['ir.actions.act_window'].for_xml_id('account_payment_order', 'account_payment_order_outbound_action')
+        action = self.env['ir.actions.act_window']._for_xml_id('account_payment_order.account_payment_order_outbound_action')
         action.update({
             'display_name': _('%s') %self.name,
             'domain': [('id', 'in', self.get_payment_orders())],
@@ -390,18 +390,18 @@ class account_vat_declaration(models.Model):
         # ~ return action
 
     # ~ @api.one
-    def do_draft(self):
-        for rec in self:
-            super(account_vat_declaration, self).do_draft()
-            for move in self.move_ids:
-                move.vat_declaration_id = None
+    # ~ def do_draft(self):
+        # ~ for rec in self:
+            # ~ super(account_vat_declaration, self).do_draft()
+            # ~ for move in self.move_ids:
+                # ~ move.vat_declaration_id = None
 
     # ~ @api.one
-    def do_cancel(self):
-        for rec in self:
-            super(account_vat_declaration, self).do_draft()
-            for move in self.move_ids:
-                move.vat_declaration_id = None
+    # ~ def do_cancel(self):
+        # ~ for rec in self:
+            # ~ super(account_vat_declaration, self).do_draft()
+            # ~ for move in self.move_ids:
+                # ~ move.vat_declaration_id = None
 
     # ~ @api.multi
     def test_function(self):

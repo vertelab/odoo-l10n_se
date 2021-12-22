@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
   <data>
     
     <record id="form_wizard_object_usage" model="ir.ui.view">
@@ -51,7 +51,7 @@ code_digits = company_id.accounts_code_digits
 
 
 ### update taxes ###
-ir_values = env['ir.values']
+ir_values = env['ir.default']
 taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id = company_id.id)
 supplier_taxes_id = ir_values.get_default('product.template', 'supplier_taxes_id', company_id = company_id.id)
 default_sale_tax_id = isinstance(taxes_id, list) and len(taxes_id) &gt; 0 and taxes_id[0] or taxes_id
@@ -64,7 +64,7 @@ complete_tax_set = sale_tax_id = purchase_tax_id = False
 # update complete_tax_set, sale_tax_id and purchase_tax_id
 complete_tax_set = chart_template_id.complete_tax_set
 if chart_template_id.complete_tax_set:
-    ir_values_obj = env['ir.values']
+    ir_values_obj = env['ir.default']
     # default tax is given by the lowest sequence. For same sequence we will take the latest created as it will be the case for tax created while isntalling the generic chart of account
     sale_tax = tax_templ_obj.search(
         [('chart_template_id', 'parent_of', chart_template_id.id), ('type_tax_use', '=', 'sale')], limit=1,
@@ -130,4 +130,4 @@ wizard.with_context(change_chart_mapping=mappings).execute()
         </record>
     
   </data>
-</openerp>
+</odoo>

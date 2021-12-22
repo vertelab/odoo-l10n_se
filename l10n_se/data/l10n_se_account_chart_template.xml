@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-<!--
-        wat is chart_template_K2_2017 doing here?
--->
-<!--
-        <record id="chart_template_K2_2017" model="account.chart.template">
-          <field name="name">K2 - Små till medelstora verksamheter</field>
-          <field name="currency_id" ref="base.SEK"/>
-          <field name="bank_account_code_prefix">K2513</field>
-          <field name="cash_account_code_prefix">K2516</field>
-          <field name="transfer_account_code_prefix">K2517</field>
-          <field name="code_digits">4</field>
-        </record>
--->
+
          <!-- General chart_template -->
         <record id="chart_template_general" model="account.chart.template">
           <field name="name">Generel Konto Plan med dem gemensamma kontona</field>
@@ -430,6 +418,27 @@
            <field name="income_currency_exchange_account_id" ref="a754"/>
       -->
     </record>
+    
+<!--
+    TILL FÖR MARIA SKATTEKONTON
+-->
+<!--
+    <record id="chart6999" model="account.account.template">
+      <field name="name">Ingående moms, blandad verksamhet </field>
+      <field name="code">6999</field>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+-->
+<!--
+
+    <record id="chart3108" model="account.account.template">
+      <field name="name">Ingående moms, blandad verksamhet </field>
+      <field name="code">3108</field>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+-->
 
 
 

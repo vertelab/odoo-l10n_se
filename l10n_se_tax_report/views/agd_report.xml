@@ -8,13 +8,20 @@
         <form string="Arbetsgivardeklaration">
           <header>
             <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
+<!--
+            addition
+-->
+            <button name="show_mis_report" string="Show Report" type="object" class="oe_highlight" states="draft,done,confirmed,canceled"/>
+<!--
+            addition
+-->
             <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
             <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
             <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
             <field name="state" widget="statusbar" />
           </header>
           <sheet>
-            <div class="oe_right oe_button_box" name="buttons">
+            <div class="oe_button_box" name="buttons">
               <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_SumSkAvdr" context="{'default_partner_id': active_id}">
                 <div class="o_form_field o_stat_info">
                   <span class="o_stat_value">
@@ -57,6 +64,15 @@
             <group string="Arbetsgivardeklaration" col="2">
               <field name="date" />
               <field name="period_start" string="Period" domain="[('fiscalyear_id', '=', fiscalyear_id),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" />
+<!--
+             ADDITION
+-->
+<!--
+             <field name="find_moves_by_period"/>
+-->
+<!--
+             ADDITION
+-->
               <field name="ag_betala" />
               <field name="move_id" />
               <field name="eskd_file" />

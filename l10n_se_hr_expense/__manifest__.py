@@ -23,7 +23,7 @@
     'name': 'Swedish Expense Tracker',
     'version': '14.0',
     'license': 'AGPL-3',
-    'author': ' Vertel AB',
+    'author': 'Vertel AB',
     'website': 'http://vertel.se',
     'category': 'hr',
     'depends': ['l10n_se', 'hr_expense', 'product'],

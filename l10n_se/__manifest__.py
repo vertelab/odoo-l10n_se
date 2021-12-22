@@ -83,12 +83,14 @@
         'data/fiscal_position_data.xml',
         'data/l10n_se_account_chart_post_data.xml',
         'data/account_reconcile_model_data.xml',
+        'data/account_tax_template_hr_data.xml',
+        'data/set_account_type_on_account.xml',
         'security/ir.model.access.csv',
-        # ~ 'data/load_account_chart_template_data.xml',
+        'data/load_account_chart_template_data.xml',
 
     ],
     'demo': [
-        'demo/load_account_chart_template_data.xml',
+        #'demo/load_account_chart_template_data.xml',
         'demo/l10n_se_demo.xml',
     ],
     'installable': 'True',

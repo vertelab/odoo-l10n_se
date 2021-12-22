@@ -13,13 +13,15 @@
                     <span> </span>(<field name="end_balance_calc" class="oe_inline"/>)
                 </field>
                 <div class="oe_button_box" position="inside">
-                    <button class="oe_stat_button" name="button_untrackable_journal_entries" type="object" icon="fa-question">
+                    <!-- <button class="oe_stat_button" name="button_untrackable_journal_entries" type="object" attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-question">
                         <field name="untrackable_journal_entries_count" string="Untrackable Journal Entries" widget="statinfo"/>
-                    </button>
+                    </button> -->
                 </div>
             </field>
         </record>
-        <record id="view_bank_statement_tree" model="ir.ui.view">
+
+        <!-- TODO: CHECK IF THIS FIELD IS NEEDED IN 14? -->
+        <!-- <record id="view_bank_statement_tree" model="ir.ui.view">
             <field name="name">account.bank.statement.tree.inherited.l10n_se_bank_statement_import</field>
             <field name="model">account.bank.statement</field>
             <field name="inherit_id" ref="account.view_bank_statement_tree"/>
@@ -28,6 +30,6 @@
                     <field name="untrackable_journal_entries_count"/>
                 </field>
             </field>
-        </record>
+        </record> -->
     </data>
 </odoo>
