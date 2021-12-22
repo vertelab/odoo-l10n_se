@@ -42,20 +42,6 @@
     'description': """
         Reading BgMax formated files from Bankgirocentralen.
 
-        There are some problems with the OCA class AcountBankStatementImport
-        from OCA bank-statement-import/account_bank_statement_import/models/account_bank_statement_import.py
-        change pop to get:
-
-
-         currency_code = stmt_vals.pop('currency_code')
-         account_number = stmt_vals.pop('account_number')
-
-
-         for line_vals in stmt_vals.get('transactions',[]):
-
- 
-
-
         """,
     'external_dependencies': {
         'python': ['openpyxl'],
