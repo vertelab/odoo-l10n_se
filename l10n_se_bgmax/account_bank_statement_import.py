@@ -162,7 +162,6 @@ class AccountBankStatementImport(models.TransientModel):
                         name1 = t['partner_name'].strip()
                         name2 = name1.upper().replace(' AB','').replace('AKTIEBOLAG','').replace(' HB','').replace('HANDELSBOLAG','').replace(' KB','').replace('KOMMANDITBOLAG','').replace('FIRMA','').strip()
                         partner = self.env['res.partner'].search(['|','|',('name','ilike',name1),('name','ilike',name2),('vat','=',vat)],limit=1)
-                        _logger.error('----> partner %s vat %s account_number %s' % (t.get('partner_id','no partner'+t['partner_name']),vat,t.get('account_number','no account')))
                    
                 if partner:
                     if t['account_number'] and not partner.bank_ids:
