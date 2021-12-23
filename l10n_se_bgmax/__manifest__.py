@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'l10n_se: BgMax Format Bank Statements Import',
-    'summary': 'Reading BgMax formated files from Bankgirocentralen.',
+    'summary': 'Read BgMax formatted files from Bankgirocentralen.',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -40,7 +40,7 @@
         'account_bank_statement_view.xml',
     ],
     'description': """
-        Reading BgMax formated files from Bankgirocentralen.
+        The module allows reading BgMax formatted files from Bankgirocentralen.
 
         """,
     'external_dependencies': {
