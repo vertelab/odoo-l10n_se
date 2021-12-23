@@ -19,9 +19,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import unicodedata
+from builtins import str
 import re
+from io import BytesIO
 from datetime import datetime
+from openpyxl import load_workbook
+import uuid
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
@@ -262,7 +265,11 @@ class BgMaxIterator(BgMaxRowParser):
     def __init__(self, data):
         self.row = -1
         #~ self.data = unicode(data,'iso8859-1').encode('utf-8').splitlines()
-        self.data = unicode(data,'iso8859-1').splitlines()
+        # Python 3 compatibility hack
+        try:
+            self.data = unicode(data,'iso8859-1').splitlines()
+        except NameError:
+            self.data = str(data,'iso8859-1').splitlines()
         self.rows = len(self.data)
         self.header = {}
         self.footer = {}
@@ -285,7 +292,29 @@ class BgMaxIterator(BgMaxRowParser):
             self.avsnitt.append(avsnitt(rec))
             rec = self.next_rec()
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
-                _logger.warn("rec: %s" % rec)
+                #_logger.warn("rec: %s" % rec)
+                self.avsnitt[-1].add(rec)
+                rec = self.next_rec()
+            if rec['type'] == '15':
+                self.avsnitt[-1].footer = rec
+            return self.avsnitt[-1]
+        return rec
+    
+    def __next__(self):
+        if self.row > self.rows:
+            raise StopIteration
+        rec = self.next_rec()
+        if rec['type'] == '01':
+            self.header = rec
+            rec = self.next_rec()
+        if rec['type'] == '70':
+            self.footer = rec
+            raise StopIteration()
+        if rec['type'] == '05':
+            self.avsnitt.append(avsnitt(rec))
+            rec = self.next_rec()
+            while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
+                #_logger.warn("rec: %s" % rec)
                 self.avsnitt[-1].add(rec)
                 rec = self.next_rec()
             if rec['type'] == '15':
@@ -338,6 +367,7 @@ class BgMaxParser(object):
 
     def is_bgmax(self, line):
         """determine if a line is the header of a statement"""
+        line = line.decode('iso8859-1')
         if not bool(re.match(self.header_regex, line)):
             raise ValueError(
                 'File starting with %s does not seem to be a'
@@ -410,17 +440,17 @@ class BgMaxParser(object):
                 #~ transaction.note
                 #~ transaction.value_date
 
-                transaction.message = ins.get('betalarens_namn', '')
-                transaction.eref = ins.get('referens') or ins.get('BGC-nummer')
-                transaction.note = '\n'.join(ins.get('informationstext',[]))
+                transaction.pref = ins.get('betalarens_namn', '').strip() + ": " + ins.get('referens', '').strip()
+                transaction.eref = ins.get('referens').strip() or ins.get('BGC-nummer').strip()
+                transaction.narration = '\n'.join(ins.get('informationstext',[]))
                 if ins.get('betalarens_adress'):
-                    transaction.note += ' %s, %s %s %s' % (ins.get('betalarens_adress'),ins.get('betalarens_postnr'),ins.get('betalarens_ort'),ins.get('betalarens_land'))
+                    transaction.narration += ' %s:\n %s\n %s\n %s\n' % (ins.get('betalarens_adress').strip(), ins.get('betalarens_postnr').strip(), ins.get('betalarens_ort').strip(), ins.get('betalarens_land').strip())
                 if ins.get('organisationsnummer'):
-                    transaction.note += ' %s ' % ins.get('organisationsnummer')
+                    transaction.narration += ' %s\n ' % ins.get('organisationsnummer')
                 if ins.get('BGC-nummer'):
-                    transaction.note += ' BGC %s ' % ins.get('BGC-nummer')
+                    transaction.narration += ' BGC %s\n ' % ins.get('BGC-nummer')
                 if transaction.remote_account:
-                    transaction.note += ' bg %s ' % transaction.remote_account
+                    transaction.narration += ' bg %s ' % transaction.remote_account
 
             for bet in avsnitt.bet:
                 transaction = current_statement.create_transaction()
@@ -447,17 +477,17 @@ class BgMaxParser(object):
                 #~ transaction.note
                 #~ transaction.value_date
 
-                transaction.message = bet.get('betalarens_namn', '')
+                transaction.pref = bet.get('betalarens_namn', '')
                 transaction.eref = bet.get('referens') or bet.get('BGC-nummer')
-                transaction.note = '\n'.join(bet.get('informationstext',[]))
+                transaction.narration = '\n'.join(bet.get('informationstext',[]))
                 if bet.get('betalarens_adress'):
-                    transaction.note += ' %s, %s %s %s' % (bet.get('betalarens_adress'),bet.get('betalarens_postnr'),bet.get('betalarens_ort'),bet.get('betalarens_land'))
+                    transaction.narration += ' %s, %s %s %s' % (bet.get('betalarens_adress'),bet.get('betalarens_postnr'),bet.get('betalarens_ort'),bet.get('betalarens_land'))
                 if bet.get('organisationsnummer'):
-                    transaction.note += ' %s ' % bet.get('organisationsnummer')
+                    transaction.narration += ' %s ' % bet.get('organisationsnummer')
                 if bet.get('BGC-nummer'):
-                    transaction.note += ' BGC %s ' % bet.get('BGC-nummer')
+                    transaction.narration += ' BGC %s ' % bet.get('BGC-nummer')
                 if transaction.remote_account:
-                    transaction.note += ' bg %s ' % transaction.remote_account
+                    transaction.narration += ' bg %s ' % transaction.remote_account
             self.statements.append(current_statement)
 
         if not iterator.check():
@@ -467,7 +497,6 @@ class BgMaxParser(object):
         #_logger.warning('transactions %s' % self.statements[0]['transactions'])
 
         #~ return (current_statement.local_currency,current_statement.local_account, self.statements)
-
         return self.statements
 
 
@@ -561,3 +590,61 @@ class BgMaxGenerator(object):
             negative = ' ',
             reserv = ''.ljust(47)
         )
+
+
+
+class BgExcelTransactionReport(object):
+    """Generates a statment""" 
+    def __init__(self, data_file):
+        try:
+            wb = load_workbook(filename=BytesIO(data_file),read_only=True)
+            ws = wb.get_sheet_names()
+            self.data = wb.get_sheet_by_name(ws[0])
+        # TODO?: Catch BadZipFile, IOerror, ValueError
+        except:
+            raise ValueError('This is not a Bankgiro document')
+        if self.data.cell(3,1).value != u'Insättningsuppgift':
+            raise ValueError('This is not a Bankgiro document')
+
+        self.account_number = self.data.cell(5,1).value
+        self.bankgironumber = self.data.cell(5,2).value
+        self.name = str(self.account_number + str(self.data.cell(14,3).value) + str(self.data.cell(self.data.max_row,3).value))
+        date = self.data.cell(1,1).value
+        m = re.search('\d{4}-\d{2}-\d{2}', date)
+        self.statement_date = m.group(0)
+        self.balance_start = 0.0
+        self.balance_end_real = 0.0
+        self.balance_end = 0.0
+        self.transactions = []
+        self.statements = []
+        
+    def parse(self):
+        """Parse bg transaction bank statement file contents."""
+        current_statment = {}
+        current_statment['name'] = self.name
+        current_statment['date'] = self.statement_date
+        current_statment['currency_code'] = 'SEK'
+        current_statment['balance_start'] = self.balance_start 
+        current_statment['account_number'] = self.bankgironumber
+
+        for index, row in enumerate(self.data.iter_rows(13, values_only=True), start=13):
+            if(index == 13):
+                th = { 'Antal': 'name', u'L\xf6pnummer': 'bg_serial_number' , 'Datum': 'date', 'Totalt belopp': 'amount'}
+                header = {c:i for i, c in enumerate(row)}
+                self.header = {th[key]:value for key, value in header.items()}
+            else:
+                transaction_dict = {key:row[self.header[key]] for key in self.header}
+                transaction_dict['name'] = str(row[1])
+                # transaction_dict['account_number'] = self.bankgironumber
+                transaction_dict['partner_name'] = False
+                transaction_dict['unique_import_id'] = str(row[1])
+                transaction_dict['payment_ref'] = f"{self.data.cell(5,3).value} {row[0]}"
+                self.transactions.append(transaction_dict) 
+                self.balance_end += row[3]
+                self.balance_end_real += row[3]
+        
+        current_statment['balance_end'] = self.balance_end
+        current_statment['balance_end_real'] = self.balance_end_real
+        current_statment['transactions'] = self.transactions
+        self.statements.append(current_statment);
+        return self.statements

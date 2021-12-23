@@ -31,12 +31,16 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
+    'depends': [
+        'account_period', 
+        'l10n_se_account_bank_statement_import', 
+        'l10n_se_bank', 
+        'l10n_se_account_payment_order'],
     'description': """
         Module for reading iZettle bank statement files
     """,
-    'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {
-        'python': ['xlrd'],
+        'python': ['xlrd', 'openpyxl'],
     },
     'data': ['account_reconcile_model_data.xml'],
     'installable': 'True',

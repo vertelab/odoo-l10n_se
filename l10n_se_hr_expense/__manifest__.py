@@ -34,7 +34,6 @@
     'description': """This module adds a few Swedish expense products related to work trips""",
     'depends': ['l10n_se', 'hr_expense', 'product'],
     'data': ['hr_expense_data.xml'],
-    'summary': 'Add some expense products',
     'installable': 'True',
     'application': 'False',
 }

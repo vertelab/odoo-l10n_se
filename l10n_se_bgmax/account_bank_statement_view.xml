@@ -35,11 +35,11 @@
     o.create_bg_move()
             </field>
         </record>
-<!--        <record id="ir_values_create_journal" model="ir.values">-->
-<!--            <field name="name">Create BG Move</field>-->
-<!--            <field name="model">account.bank.statement</field>-->
-<!--            <field name="key2">client_action_multi</field>-->
-<!--            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se_bgmax.action_create_bg_move')" />-->
-<!--        </record>-->
+        <!-- <record id="ir_values_create_journal" model="ir.default">
+            <field name="name">Create BG Move</field>
+            <field name="model">account.bank.statement</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%s' %ref('l10n_se_bgmax.action_create_bg_move')" />
+        </record> -->
     </data>
 </odoo>

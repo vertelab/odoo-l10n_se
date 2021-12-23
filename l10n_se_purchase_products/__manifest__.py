@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Purchase Products for Swedish accounting',
-    'summary': '',
+    'summary': 'Adds two purcahseable products',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-
+        Adds two purcahseable products: "Förbrukningsvara" and "IT-tjänster"
     """,
     'depends': ['sale', 'purchase', 'hr_expense', 'l10n_se'],
     'data': ['data/products.xml'],

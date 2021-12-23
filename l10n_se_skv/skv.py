@@ -99,4 +99,11 @@ class SKVIterator(object):
         self.row += 1
         return {self.header[n]: r[n].value for n in range(len(self.header))}
 
+    def __next__(self):
+        if self.row >= self.data.nrows:
+            raise StopIteration
+        r = self.data.row(self.row)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

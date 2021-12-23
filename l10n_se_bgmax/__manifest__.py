@@ -18,10 +18,9 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': 'l10n_se: BgMax Format Bank Statements Import',
-    'summary': 'Reading BgMax formated files from Bankgirocentralen.',
+    'summary': 'Read BgMax formatted files from Bankgirocentralen.',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -31,29 +30,22 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se/bgmax',
-    'description': """
-        Reading BgMax formated files from Bankgirocentralen.
-
-        There are some problems with the OCA class AcountBankStatementImport
-        from OCA bank-statement-import/account_bank_statement_import/models/account_bank_statement_import.py
-        change pop to get:
-
-
-         currency_code = stmt_vals.pop('currency_code')
-         account_number = stmt_vals.pop('account_number')
-
-
-         for line_vals in stmt_vals.get('transactions',[]):
-
- 
-
-
-        """,
-    'depends': ['l10n_se_account_bank_statement_import', 'l10n_se_bank', 'l10n_se_account_payment_order'],
+    'depends': [
+        'account_period', 
+        'l10n_se_account_bank_statement_import', 
+        'l10n_se_bank', 
+        'l10n_se_account_payment_order'],
     'data': [
         'account_bank_statement_data.xml',
         'account_bank_statement_view.xml',
     ],
+    'description': """
+        The module allows reading BgMax formatted files from Bankgirocentralen.
+
+        """,
+    'external_dependencies': {
+        'python': ['openpyxl'],
+    },
     'installable': 'True',
     'application': 'False',
 }

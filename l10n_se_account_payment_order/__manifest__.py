@@ -21,6 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish Payment Order Configuration',
+    'depends': ['account_payment_order', 'l10n_se'],
     'summary': 'Swedish Payment Order Configuration',
     'author': 'Vertel AB',
     'contributor': 'Configuration of account for payment order',

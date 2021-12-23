@@ -18,34 +18,34 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from io import BytesIO
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-import base64
 from odoo.addons.l10n_se_account_bank_statement_import.account_bank_statement_import import BankStatement
 
 
 import logging
 _logger = logging.getLogger(__name__)
 
+from openpyxl import load_workbook
 from xlrd import open_workbook, XLRDError
 from xlrd.book import Book
 from xlrd.sheet import Sheet
 
 import sys
 
-class SEBTransaktionsrapportType1(object):
+class SEBKontohandelserrapport(object):
     """Parser for SEB Kontohändelser import files."""
 
     def __init__(self, data_file):
+        """ Check if file can be read """
         try:
-            #~ self.data_file = open_workbook(file_contents=data_file)
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
         except XLRDError as e:
             _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
             raise ValueError(e)
-        if not (self.data.cell(0,0).value[:13] == u'Företagsnamn:' and self.data.cell(3,0).value[:11] == u'Sökbegrepp:'):
-            _logger.error(u'Row 0 %s (was looking for Företagsnamn) %s %s' % (self.data.cell(0,0).value[:13],self.data.cell(3,0).value[:11],self.data.row(3)))
-            raise ValueError(u'This is not a SEB Kontohändelser')
+        if (self.data.cell(5,1).value != 'Saldo' and self.data.cell(5,4).value != 'Reserverat belopp'):
+            raise ValueError(u'This is not a SEB Kontohändelser document')
 
         self.nrows = self.data.nrows - 1
         self.header = []
@@ -54,8 +54,65 @@ class SEBTransaktionsrapportType1(object):
     def parse(self):
         """Parse SEB transaktionsrapport bank statement file contents type 1."""
 
+        _logger.info("Parsing SEB Kontohändlser")
+
         self.account_currency = 'SEK'
         self.header = [c.value.lower() for c in self.data.row(8)]
+        self.account_number = self.data.cell(6,0).value
+        self.name = self.data.cell(0,0).value[15:30]
+
+
+        self.current_statement = BankStatement()
+        self.current_statement.statement_id = f'STATEMENT:{self.account_number.replace(" ","")}'
+        self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+        self.current_statement.local_currency = self.account_currency or 'SEK'
+        self.current_statement.start_balance = self.data.cell(self.nrows,5).value - self.data.cell(self.nrows,4).value
+        self.current_statement.end_balance = self.data.cell(6, 1).value
+        # self.current_statement.remote_owner = self.data.cell(15, 3).value
+
+        for t in SEBIterator(self.data,header_row=8):
+            transaction = self.current_statement.create_transaction()
+            transaction.transferred_amount = float(t['belopp'])
+            transaction.eref = t['verifikationsnummer'].strip()
+            transaction.pref = t['text/mottagare'].strip()
+            transaction.narration = t['text/mottagare'].strip()
+            transaction.value_date = t['bokföringsdatum'] # bokföringsdatum,valutadatum
+            transaction.unique_import_id = t['verifikationsnummer'].strip()
+            transaction.remote_account = self.account_number.replace(" ", "");
+            if transaction.name.startswith('Bg'):
+                string = ' '.join(transaction.name.split())
+                transaction.bg_account = string.split(' ')[1]
+                transaction.bg_serial_number = string.split(' ')[2] if len(string.split(' ')) == 3 else ''
+
+        self.statements.append(self.current_statement)
+#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))  
+        return self
+
+        
+class SEBFakturadetaljerDocumentParser(object):
+    """Parser for SEB Fakturadetaljer import files."""
+
+    def __init__(self, data_file):
+        try:
+            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
+        except XLRDError as e:
+            _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
+            raise ValueError(e)
+        if not (self.data.cell(0,0).value == u'Fakturadetaljer' and self.data.cell(3,0).value == u'Månad:'):
+            _logger.error(u'Row 0 %s (was looking for Företagsnamn) %s %s' % (self.data.cell(0,0).value[:13],self.data.cell(3,0).value[:11],self.data.row(3)))
+            raise ValueError(u'This is not a SEB Kontohändelser')
+
+        self.nrows = self.data.nrows - 1
+        self.header = []
+        self.statements = []
+
+    def parse(self):
+        """Parse SEB Fakturadetaljer statement file contents"""
+
+        _logger.info("Parsing SEB Kontohändlser from SEBtransaktionRaportType1")
+
+        self.account_currency = 'SEK'
+        self.header = [c.value.lower() for c in self.data.row(17)]
         self.account_number = self.data.cell(6,0).value
         self.name = self.data.cell(0,0).value[15:30]
 
@@ -64,27 +121,25 @@ class SEBTransaktionsrapportType1(object):
         self.current_statement.local_currency = self.account_currency or 'SEK'
         self.current_statement.local_account =  self.account_number
         self.current_statement.statement_id = '%s %s' % (self.data.cell(0,0).value[14:],self.data.cell(2,0).value[6:])
-        self.current_statement.start_balance = float(self.data.cell(self.nrows,5).value - self.data.cell(self.nrows,4).value)
-        self.current_statement.end_balance = float(self.data.cell(9,5).value)
-        for t in SEBIterator(self.data,header_row=8):
+        self.current_statement.start_balance = 0
+        self.current_statement.end_balance = self.data.cell(self.nrows, 6).value.replace(u'\xa0', '')
+        self.current_statement.remote_owner = self.data.cell(15, 3).value
+        for t in SEBIterator(self.data,header_row=17):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['belopp'])
             transaction.eref = t['verifikationsnummer'].strip()
-            transaction.name = t['text/mottagare'].strip()
-            transaction.note = t['text/mottagare'].strip()
-            transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+            transaction.pref = t['text/mottagare'].strip()
+            transaction.narration = t['text/mottagare'].strip()
+            transaction.value_date = t['bokfört'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
-            transaction.remote_owner = t['text/mottagare'].strip()
+            transaction.remote_owner = self.current_statement.remote_owner.strip() + t['datum']
             if transaction.name.startswith('Bg'):
                 string = ' '.join(transaction.name.split())
                 transaction.bg_account = string.split(' ')[1]
                 transaction.bg_serial_number = string.split(' ')[2] if len(string.split(' ')) == 3 else ''
 
-            #~ transaction.message
-            #self.current_statement.end_balance =
-
         self.statements.append(self.current_statement)
-#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
+#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))  
         return self
 
 
@@ -109,6 +164,8 @@ class SEBTransaktionsrapportType2(object):
     def parse(self):
         """Parse SEB transaktionsrapport bank statement file contents type 2."""
 
+        _logger.info("Parsing SEB Kontohändlser from SEBTRansaktionRaportType2")
+
         self.account_currency = 'SEK'
         self.header = []
         self.account_number = self.data.cell(1,0).value.strip()
@@ -125,8 +182,8 @@ class SEBTransaktionsrapportType2(object):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['belopp'])
             transaction.eref = t['verifikationsnummer'].strip()
-            transaction.name = t['text / mottagare'].strip()
-            transaction.note = t['text / mottagare'].strip()
+            transaction.pref = t['text / mottagare'].strip()
+            transaction.narration = t['text / mottagare'].strip()
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
             transaction.remote_owner = t['text / mottagare'].strip()
@@ -157,6 +214,8 @@ class SEBTransaktionsrapportType3(object):
     def parse(self):
         """Parse SEB transaktionsrapport bank statement file contents type 3."""
 
+        _logger.info("Parsing SEB Kontohändlser from SEBTRansaktionRaportType3")
+
         self.account_currency = 'SEK'
         self.header = []
         self.account_number = self.data.cell(1,0).value.strip()
@@ -173,9 +232,9 @@ class SEBTransaktionsrapportType3(object):
             transaction = self.current_statement.create_transaction()
             transaction.transferred_amount = float(t['belopp'])
             transaction.eref = t['verifikationsnummer'].strip()
-            transaction.name = t['text/mottagare'].strip()
+            transaction.pref = t['text/mottagare'].strip()
             transaction.partner_name = t['text/mottagare'].strip()
-            transaction.note = t['text/mottagare'].strip()
+            transaction.narration = t['text/mottagare'].strip()
             transaction.value_date = t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
             transaction.unique_import_id = t['verifikationsnummer'].strip()
             transaction.remote_owner = t['text/mottagare'].strip()
@@ -198,6 +257,13 @@ class SEBIterator(object):
         return self
 
     def next(self):
+        if self.row >= self.data.nrows:
+            raise StopIteration
+        r = self.data.row(self.row)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+
+    def __next__(self):
         if self.row >= self.data.nrows:
             raise StopIteration
         r = self.data.row(self.row)

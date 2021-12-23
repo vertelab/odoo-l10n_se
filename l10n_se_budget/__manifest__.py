@@ -21,7 +21,6 @@
 
 {
     'name': 'l10n_se: Budget',
-    'summary': '',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -31,6 +30,8 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se/budget',
+    'application': 'False',
+    'summary': 'Some predefined budgets',
     'description': """
         * Resultatbudget
         * Likviditetsbudget
@@ -38,9 +39,6 @@
         """,
     'depends': ['account_budget', 'l10n_se'],
     'data': ['account_budget_view.xml', 'account_budget_data.xml'],
-    'application': 'False',
-    'summary': 'Some predefined budgets',
     'installable': 'True',
-    'application': 'False',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

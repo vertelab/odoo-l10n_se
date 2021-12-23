@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
   <data>
     <record id="view_account_chart_template_form" model="ir.ui.view">
       <field name="name">account.chart.template.form.inherit</field>
@@ -51,7 +51,7 @@
     </record>
 -->
   </data>
-</openerp>
+</odoo>
 <!--
      <record model="ir.ui.view" id="crm_case_form_view_leads_project_issue">
      <field name="name">CRM - Leads Form</field>

@@ -38,8 +38,11 @@ class SwedbankTransaktionsrapport(object):
         try:
             # ~ self.data = open_workbook(file_contents=data_file).sheet_by_name('Transaktionsrapport')
             self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
-        except XLRDError as e:
-            raise ValueError(e)
+        except XLRDError:
+            raise ValueError('This is not a Swedbank Transaktionsrapport')
+        if not self.data.cell(0,0).value[:21] == '* Transaktionsrapport':
+            raise ValueError('This is not a Swedbank Transaktionsrapport')
+        
         self.rows = self.data.nrows - 3
         _logger.error('Row 2 %s' % self.data.row(1))
         self.header = [c.value.lower() for c in self.data.row(1)]
@@ -48,9 +51,6 @@ class SwedbankTransaktionsrapport(object):
         self.balance_end = 0.0
 
     def parse(self):
-        """Parse swedbank transaktionsrapport bank statement file contents."""
-        if not self.data.cell(0,0).value[:21] == '* Transaktionsrapport':
-            raise ValueError('This is not a Swedbank Transaktionsrapport')
 
         header = {
             'valutadag': 'date',
@@ -67,30 +67,6 @@ class SwedbankTransaktionsrapport(object):
 
 class account(object):
     pass
-
-class SwedbankIterator(object):
-    def __init__(self, data):
-        self.row = 0
-        self.data = data
-        self.rows = data.nrows - 2
-        self.header = [c.value.lower() for c in data.row(1)]
-        self.account = account()
-        self.account.routing_number = self.data.row(2)[2].value
-        self.account.balance_start = self.data.row(2)[11].value
-        self.account.balance_end = self.data.row(data.nrows-1)[11].value
-        self.account.currency = self.data.row(2)[4].value
-        self.account.number = self.data.row(2)[1].value + self.data.row(2)[2].value
-        self.account.name = self.data.cell(0,0).value
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.row >= self.rows:
-            raise StopIteration
-        r = self.data.row(self.row + 2)
-        self.row += 1
-        return {self.header[n]: r[n].value for n in range(len(self.header))}
 
 
 class SwedbankSwish(object):
@@ -127,5 +103,35 @@ class SwedbankSwish(object):
         #return {header.get(n,n): t[n] for n in [t.keys() for t in SwedbankIterator(self.data)]}
         return SwedbankIterator(self.data)
 
+class SwedbankIterator(object):
+    def __init__(self, data):
+        self.row = 0
+        self.data = data
+        self.rows = data.nrows - 2
+        self.header = [c.value.lower() for c in data.row(1)]
+        self.account = account()
+        self.account.routing_number = self.data.row(2)[2].value
+        self.account.balance_start = self.data.row(2)[11].value
+        self.account.balance_end = self.data.row(data.nrows-1)[11].value
+        self.account.currency = self.data.row(2)[4].value
+        self.account.number = self.data.row(2)[1].value + self.data.row(2)[2].value
+        self.account.name = self.data.cell(0,0).value
 
+    def __iter__(self):
+        return self
+
+    def next(self):
+        # SHOULD THIS NOT BE ↓↓↓ self.rows??????????
+        if self.row >= self.data.nrows:
+            raise StopIteration
+        r = self.data.row(self.row + 2)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
+
+    def __next__(self):
+        if self.row >= self.rows:
+            raise StopIteration
+        r = self.data.row(self.row + 2)
+        self.row += 1
+        return {self.header[n]: r[n].value for n in range(len(self.header))}
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
