@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: SIE-import',
-    'summary': 'Module for importing SIE-files - currently not functional',
+    'summary': 'Module for importing SIE-files',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-        The module adds support for importing and reading SIE-files
+        The module adds support for importing and reading SIE-files (.se-files)
     """,
     'depends': ['account_period', 'l10n_se'],
     'data': ['l10n_se_sie_view.xml', 'account_view.xml', 'l10n_se_sie_data.xml'],
