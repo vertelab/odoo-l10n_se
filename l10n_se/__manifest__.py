@@ -74,6 +74,13 @@
         You find the workplace for this module here https://launchpad.ne://github.com/vertelab/odoo-l10n_se
         Use Bugs or Answers funtions or contact support@vertel.se directly if
         you have any questions or ideas.
+        
+        Installation Instructions.
+        Odoo SA already has a l10n_se module, and if you want to use this one you have remove core-odoo/addons/l10n_se and core-odoo/addons/l10n_se_ocr.
+        After that step you should be able to install this module. 
+        
+        Next step is to choose a chart_of_accounts and that can be done in the settings meny but you need to check "Show Full Accounting Features" on you current user.
+        
 
      """,
     'depends': ['account_period', 'base_vat', 'product', 'account'],
@@ -92,7 +99,7 @@
         'data/account_tax_template_hr_data.xml',
         'data/set_account_type_on_account.xml',
         'security/ir.model.access.csv',
-        'data/load_account_chart_template_data.xml',
+        #'data/load_account_chart_template_data.xml',
 
     ],
     'demo': [

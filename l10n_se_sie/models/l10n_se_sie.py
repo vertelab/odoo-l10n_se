@@ -137,7 +137,6 @@ class account_sie(models.TransientModel):
             checked = True
             data = data or self.cleanse_with_fire(self.data)
             missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
-            _logger.warning(f"missing accounts: {missing_accounts}")
             if len(missing_accounts) > 0:
                 # ~ for account in missing_accounts:
                     # ~ self.account_line_ids |= self.env['account.sie.account'].create({
@@ -285,7 +284,6 @@ class account_sie(models.TransientModel):
         }
 
     def make_sie(self, ver_ids):
-        _logger.warning("make_sie: 1 ")
         def get_fiscalyears(ver_ids):
             year_list = set()
             for ver in ver_ids:
@@ -294,47 +292,31 @@ class account_sie(models.TransientModel):
         def get_accounts(ver_ids):
             return list(set(ver_ids.mapped('line_ids.account_id')))
             
-        _logger.warning("make_sie: 2 ")
         if len(self) > 0:
             sie_form = self[0]
-        _logger.warning("make_sie: 3 ")
         if len(ver_ids) == 0:
             raise Warning('There are no entries for this selection, please do antoher')
-        _logger.warning("make_sie: 4 ")
         company = ver_ids[0].company_id
         fiscalyear = ver_ids[0].period_id.fiscalyear_id
         user = self.env['res.users'].browse(self._context['uid'])
-        _logger.warning("make_sie: 5 ")
         #if not company.company_registry:
         #    raise Warning("Please configure company registry!")
-        _logger.warning("make_sie: 6 ")
         str = ''
-        _logger.warning("make_sie: 7 ")
         str += '#FLAGGA 0\n'
-        _logger.warning("make_sie: 8 ")
         str += '#PROGRAM "Odoo" %s\n' % odoo.service.common.exp_version()['server_serie']
-        _logger.warning("make_sie: 9 ")
         str += '#FORMAT PC8\n' # ,Anger vilken teckenuppsattning som anvants
         # ~ str += '#GEN %s\n'% fields.Date.today().replace('-','')
         str += '#GEN %s\n'%  fields.Date.today().strftime("%Y%m%d")
-        _logger.warning("make_sie: 11 ")
         str += '#SIETYP 4\n'
-        _logger.warning("make_sie: 12 ")
         for fiscalyear in get_fiscalyears(ver_ids):
             # ~ str += '#RAR %s %s %s\n' %(self._get_rar_code(fiscalyear), fiscalyear.date_start.replace('-',''), fiscalyear.date_stop.replace('-',''))
             str += '#RAR %s %s %s\n' %(self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"), fiscalyear.date_stop.strftime("%Y%m%d"))
-            _logger.warning("make_sie: 13 ")
         str += '#FNAMN "%s"\n' %company.name
-        _logger.warning("make_sie: 14 ")
         str += '#ORGNR %s\n' %company.company_registry
-        _logger.warning("make_sie: 15 ")
         str += '#ADRESS "%s" "%s" "%s %s" "%s"\n' %(user.display_name, company.street, company.zip, company.city, company.phone)
-        _logger.warning("make_sie: 16 ")
         str += '#KPTYP %s\n' %(company.kptyp if company.kptyp else 'BAS2015')
-        _logger.warning("make_sie: 17 ")
         for account in get_accounts(ver_ids):
             str += '#KONTO %s "%s"\n' % (account.code, account.name)
-        _logger.warning("make_sie: 18 ")
 
         #raise Warning("str: %s %s search:%s" % (str, self.env['account.move.line'].search(search),search))
 
@@ -381,11 +363,8 @@ class account_sie(models.TransientModel):
             sie_form=self[0]
         _logger.info('export: %s' % ver_ids)
         result = sie_form.make_sie(ver_ids)
-        _logger.warning(f"export result {result}")
         filetest = base64.b64encode(result)
-        _logger.warning(f"export filetest {filetest}")
         sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie(ver_ids)) ,'filename': 'filename.sie4' })
-        _logger.info('export: form %s' % sie_form)
         view = self.env.ref('l10n_se_sie.wizard_account_sie', False)
         _logger.info('view %s sie_form %s %s %s' % (view,sie_form,sie_form.sie_file,base64.b64encode(sie_form.make_sie(ver_ids))))
         #~ sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie()) })
@@ -573,37 +552,3 @@ class account_sie(models.TransientModel):
 
         return ver_ids
         
-#	Kostnad för förbrukning av råvaror och förnödenhete
-# ~ 1099: Ackumulerade avskrivningar pΓÇá ΓÇ¥vriga imm
-# ~ 1922: Bank annan
-# ~ 2116: Periodiseringsfond tax -96
-# ~ 2117: Periodiseringsfond tax -97
-# ~ 2118: Periodiseringsfond tax -98
-# ~ 2119: Periodiseringsfond tax -99
-# ~ 3010: FΓÇ¥rsΓÇ₧ljning xxx
-# ~ 3011: FΓÇ¥rsΓÇ₧ljning kanoner
-# ~ 3012: test
-# ~ 3013: FΓÇ¥rsΓÇ₧ljning flaskor
-# ~ 3014: FΓÇ¥rsΓÇ₧ljning myrmedel
-# ~ 3015: TjΓÇ₧nster utland
-# ~ 3019: 
-# ~ 3020: LΓÇ₧rartjΓÇ₧nst
-# ~ 3060: Konsultarvoden man.
-# ~ 3070: Konsultarvoden man. utl.
-# ~ 3090: Γäóvriga sprΓÇákintΓÇ₧kter
-# ~ 3101: Konsultarvoden data
-# ~ 3110: FΓÇ¥rsΓÇ₧ljning nΓÇ₧sdukar
-# ~ 3117: FΓÇ¥rsΓÇ₧ljning grΓÇ¥na nΓÇ₧sdukar
-# ~ 3120: KonsultintΓÇ₧kter
-# ~ 3190: Γäóvrig fΓÇ¥rsΓÇ₧ljning
-# ~ 3210: Fakturerade kostnader
-# ~ 4010: InkΓÇ¥pskostnad
-# ~ 4020: x
-# ~ 4110: InkΓÇ¥p data
-# ~ 4300: 
-# ~ 4410: 
-# ~ 4610: FrΓÇ₧mmande arbeten
-# ~ 4620: FrΓÇ₧mmande arbeten AA
-# ~ 4999: Oattesterade
-# ~ 6995: Restavgifter
-# ~ 9999: Obs-konto

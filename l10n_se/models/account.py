@@ -24,6 +24,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 
+from openerp.osv import osv
+
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 import base64
@@ -750,9 +752,7 @@ class Company(models.Model):
 class AccountChartTemplate(models.Model):
     _inherit = 'account.chart.template'
     def _load(self, sale_tax_rate, purchase_tax_rate, company):
-            _logger.warning("jakmar! load before super")
             res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
-            _logger.warning("jakmar! load after super")
             loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
             lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
             loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
@@ -775,6 +775,10 @@ class AccountChartTemplate(models.Model):
 
             for k,v in account_values.items():
                 self.env['account.tax'].search([('name', '=', k)]).write(v)
+            
+            self.env['account.account'].fix_account_types()
             return res
+            
+            
         
 
