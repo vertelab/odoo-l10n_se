@@ -20,8 +20,8 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Nordbanken Format Bank Statement Import',
-    'summary': 'Module for reading Nordbanken bank statement files',
+    'name': 'l10n_se: Handelsbanken Format Bank Statement Import',
+    'summary': 'Module for reading Handelsbanken bank statement files',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-        Module for reading Nordbanken bank statement files
+        Module for reading Handelsbanken bank statement files
     """,
     'depends': ['l10n_se_account_bank_statement_import'],
     #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
