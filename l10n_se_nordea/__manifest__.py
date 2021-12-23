@@ -18,12 +18,16 @@
 #
 ##############################################################################
 {
-    'name': 'Nordea Format Bank Statements Import',
+    'name': 'l10n_se: Nordea Format Bank Statements Import',
+    'summary': 'Module for reading Nordea bank statement files',
     'version': '10.0.0.1.0',
     'license': 'AGPL-3',
     'author': 'Vertel AB',
     'website': 'http://vertel.se',
-    'category': 'Banking addons',
+    'category': 'Accounting',
+    'description': """
+        Module for reading Nordea bank statement files
+    """,
     'depends': ['l10n_se_account_bank_statement_import'],
     #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
 
