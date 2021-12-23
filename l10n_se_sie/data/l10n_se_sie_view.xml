@@ -14,6 +14,7 @@
 -->
       <field name="code">action = records.export_sie()</field>
     </record>
+<!--
     <record model="ir.default" id="export_sie_move">
       <field name="name">Export SIE</field>
       <field name="type">ir.actions.act_window</field>
@@ -22,6 +23,7 @@
       <field name="key2">client_action_multi</field>
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_move" />
     </record>
+-->
     <!--account_period-->
     <record model="ir.actions.server" id="dropdown_export_period">
       <field name="name">Export SIE</field>
@@ -29,6 +31,7 @@
       <field name="state">code</field>
       <field name="code">action = records.export_sie()</field>
     </record>
+<!--
     <record model="ir.default" id="export_sie_period">
       <field name="name">Export SIE</field>
       <field name="type">ir.actions.act_window</field>
@@ -37,6 +40,7 @@
       <field name="key2">client_action_multi</field>
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_period" />
     </record>
+-->
     <!--account_fiscal_year-->
     <record model="ir.actions.server" id="dropdown_export_fiscalyear">
       <field name="name">Export SIE</field>
@@ -44,12 +48,14 @@
       <field name="state">code</field>
       <field name="code">action = records.export_sie()</field>
     </record>
+<!--
     <record model="ir.default" id="export_sie_fiscalyear">
       <field name="name">Export SIE</field>
       <field name="model">account_period.fiscalyear</field>
       <field name="key2">client_action_multi</field>
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_fiscalyear" />
     </record>
+-->
     <!--account_journal-->
     <record model="ir.actions.server" id="dropdown_export_journal">
       <field name="name">Export SIE</field>
@@ -57,12 +63,14 @@
       <field name="state">code</field>
           <field name="code">action = records.export_sie()</field>
     </record>
+<!--
     <record model="ir.default" id="export_sie_journal">
       <field name="name">Export SIE</field>
       <field name="model">account.journal</field>
       <field name="key2">client_action_multi</field>
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_journal" />
     </record>
+-->
     <record id="action_wizard_account_journal_sie" model="ir.actions.act_window">
       <field name="name">Export journal SIE</field>
       <field name="type">ir.actions.act_window</field>
@@ -78,12 +86,14 @@
       <field name="state">code</field>
       <field name="code">action = records.export_sie()</field>
     </record>
+<!--
     <record model="ir.default" id="export_sie_account">
       <field name="name">Export SIE</field>
       <field name="model">account.account</field>
       <field name="key2">client_action_multi</field>
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_account" />
     </record>
+-->
     <!-- export sie form-->
     <record id="wizard_account_sie" model="ir.ui.view">
       <field name="name">Export SIE-files</field>
