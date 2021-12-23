@@ -30,12 +30,12 @@
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/l10n_se',
+    'website': 'https://vertel.se/apps/l10n_se/l10n_se',
 
     'description': """Sweden - Chart of accounts
 
-        * BAS 2017 K1 (Minimal chart of account, rules from SKV-283 v16)
-        * BAS 2017 (K2-K4, follows INK2R-form and rules in SKV-294 v11)
+        * BAS 2021 K1 (Minimal chart of account, rules from SKV-283 v16)
+        * BAS 2021 (K2-K4, follows INK2R-form and rules in SKV-294 v11)
         * Tax-codes from SKV-4700 r1-49  SKV-409
 
         BAS 2017 K1 and BAS 2017 in original can be found at www.bas.se.
@@ -58,7 +58,7 @@
         * K4 are an enlisted public company.
 
         K1 and K2 are not obliged to use an external auditor (turn over under 80 MSEK), using
-        BAS 2017 K1 its possible to follow K1 rules "kontantmetoden" or "fakturametoden"
+        BAS 2021 K1 its possible to follow K1 rules "kontantmetoden" or "fakturametoden"
         and choose between simplified or usual year end. However, using the sales-module also
         implements accounts receivable and a sales ledger that implies "fakturametoden".
         BAS 2017 K1 whould be sufficient for most K2 companies too. K2-sized companies can
