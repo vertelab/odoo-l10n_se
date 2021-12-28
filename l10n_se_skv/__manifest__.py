@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-        This module allows importing and redaing transactions from Skatteverket (to skattekontot)
+        This module allows importing and redaing transactions from Skatteverket (to skattekontot).
     """,
     'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {
