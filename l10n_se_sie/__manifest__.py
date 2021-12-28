@@ -31,7 +31,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
     'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/l10n_se',
+    'website': 'https://vertel.se/apps/l10n_se/sie',
     'description': """
         The module adds support for importing and reading SIE-files (.se-files)
     """,

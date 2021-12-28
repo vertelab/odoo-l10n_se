@@ -18,7 +18,7 @@
    id="SVGRoot"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=marina/usr/share/odoo-l10n_se/l10n_se_sie/filez/banner_560x280.png"
+   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=marina/usr/share/odoo-l10n_se/l10n_se_municipality_class/filez/banner_560x280.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972">
   <defs
@@ -57,15 +57,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="195.72448"
-     inkscape:cy="258.89901"
+     inkscape:cx="198.12419"
+     inkscape:cy="115.78164"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1625"
      inkscape:window-height="773"
-     inkscape:window-x="826"
-     inkscape:window-y="129"
+     inkscape:window-x="589"
+     inkscape:window-y="119"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -182,51 +182,28 @@
          x="351.74457"
          y="-100.83463"
          style="fill:#000000;fill-opacity:1;stroke-width:0.99999994"></tspan></text>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot849"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.25884795"
-       transform="matrix(0.79437715,0,0,0.79437715,-84.9645,-227.42078)"><flowRegion
-         id="flowRegion851"
-         style="fill:#ffffff;fill-opacity:1;stroke-width:1.25884795"><rect
-           id="rect853"
-           width="309.1636"
-           height="148.05017"
-           x="271.42532"
-           y="88.203178"
-           style="fill:#ffffff;fill-opacity:1;stroke-width:1.25884795" /></flowRegion><flowPara
-         id="flowPara855"
-         style="fill:#000000;fill-opacity:1;stroke-width:1.25884795"></flowPara></flowRoot>    <flowRoot
-       xml:space="preserve"
-       id="flowRoot857"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.33333206px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.10807586"
-       transform="matrix(0.47436618,0,0,0.47436618,-14.20844,-162.48853)"><flowRegion
-         id="flowRegion859"
-         style="fill:#000000;fill-opacity:1;stroke-width:0.93613434"><rect
-           id="rect861"
-           width="255.45912"
-           height="226.42967"
-           x="435.44168"
-           y="33.04723"
-           style="fill:#000000;fill-opacity:1;stroke-width:2.10807586" /></flowRegion><flowPara
-         id="flowPara863"
-         style="fill:#000000;fill-opacity:1;stroke-width:2.10807586"></flowPara></flowRoot>    <text
+    <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="252.89337"
-       y="75.199997"
+       x="256.89337"
+       y="93.199997"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
-         x="252.89337"
-         y="75.199997"
+         x="256.89337"
+         y="93.199997"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.99999994px"
-         id="tspan846">SIE - Standard Import</tspan><tspan
-         sodipodi:role="line"
-         x="252.89337"
-         y="97.537407"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.99999994px"
-         id="tspan845">and Export</tspan></text>
-  </g>
+         id="tspan832">Municipality_class</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot844"
+       style="fill:black;fill-opacity:1;stroke:none;font-family:'Futura PT';font-style:normal;font-weight:500;font-size:53.33333333px;line-height:1.25;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:'Futura PT, Medium';font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal"><flowRegion
+         id="flowRegion846"><rect
+           id="rect848"
+           width="100"
+           height="83"
+           x="206"
+           y="-32" /></flowRegion><flowPara
+         id="flowPara850"></flowPara></flowRoot>  </g>
 </svg>

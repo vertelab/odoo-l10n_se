@@ -30,7 +30,7 @@
     'version': '14.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/l10n_se',
+    'website': 'https://vertel.se/apps/l10n_se/municipality_class',
 
     'description': """
 	The standard hiearchy of Country states is on the second level in a country. This module adds a third level: Country -> State -> Municipality.\n
