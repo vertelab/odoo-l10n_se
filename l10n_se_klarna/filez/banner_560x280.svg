@@ -57,15 +57,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="258.12419"
-     inkscape:cy="136.78164"
+     inkscape:cx="166.12419"
+     inkscape:cy="142.78164"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1625"
      inkscape:window-height="773"
-     inkscape:window-x="295"
-     inkscape:window-y="46"
+     inkscape:window-x="185"
+     inkscape:window-y="75"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -142,15 +142,10 @@
        y="153.03708"
        id="text2039"><tspan
          sodipodi:role="line"
-         id="tspan2037"
          x="319.77063"
          y="153.03708"
-         style="stroke-width:0.99999994px">Reconciliation</tspan><tspan
-         sodipodi:role="line"
-         x="319.77063"
-         y="171.78708"
          style="stroke-width:0.99999994px"
-         id="tspan2041" /></text>
+         id="tspan2041">Bokföring</tspan></text>
     <image
        y="138.4489"
        x="287.80048"
