@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish Expense Products',
-    'summary': 'Adds a few Swedish expense products',
+    'summary': 'Adds a few Swedish expense products.',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -29,9 +29,9 @@
     'category': 'Accounting',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/l10n_se',
-    'description': """This module adds a few Swedish expense products related to work trips""",
+    'license': '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''',
+    'website': 'https://vertel.se/apps/l10n-se/hr-expense',
+    'description': """This module adds a few Swedish expense products related to work trips.""",
     'depends': ['l10n_se', 'hr_expense', 'product'],
     'data': ['hr_expense_data.xml'],
     'installable': 'True',
