@@ -20,8 +20,8 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Swedish Expense Products',
-    'summary': 'Adds a few Swedish expense products.',
+    'name': 'l10n_se: Mynt',
+    'summary': 'Handles Mynt Transactions',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -29,12 +29,24 @@
     'category': 'Accounting',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''',
-    'website': 'https://vertel.se/apps/l10n-se/hr-expense',
-    'description': """This module adds a few Swedish expense products related to work trips.""",
-    'depends': ['l10n_se', 'hr_expense', 'product'],
-    'data': ['hr_expense_data.xml'],
+    'license': 'AGPL-3',
+    'website': 'https://vertel.se/apps/l10n_se/l10n_se_mynt',
+
+    'description': """Handles Mynt Transactions
+
+
+     """,
+    'depends': ['account','account_period'],
+    'init_xml': [],
+    'data': [
+        #'data/load_account_chart_template_data.xml',
+        'wizard/load_mynt_view.xml',
+        'security/ir.model.access.csv',
+
+    ],
+    'demo': [
+        #'demo/load_account_chart_template_data.xml',
+    ],
     'installable': 'True',
-    'application': 'False',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

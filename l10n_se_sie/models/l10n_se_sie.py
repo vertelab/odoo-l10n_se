@@ -535,12 +535,18 @@ class account_sie(models.TransientModel):
                         period_id = self.env['account.period'].search([],limit=1).find(dt=list_date).id
                         _logger.debug('\naccount_id :%s\nbalance: %s\nperiod_id: %s' %(code, trans_balance, period_id))
                         
+                        _logger.warning(f"jakmar {trans_date=}")
+                        _logger.warning(f"jakmar {trans_date=}")
+                        _logger.warning(f"jakmar {trans_date=}")
+                        _logger.warning(f"jakmar {trans_date=}")
+                        _logger.warning(f"jakmar {trans_date=}")
+                        _logger.warning(f"jakmar {trans_date=}")                                                                        
                         line_vals = {
                             'account_id': code.id,
                             'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
                             'debit': float(trans_balance) > 0 and float(trans_balance) or 0.0,
                             #'period_id': period_id,
-                            'date': '' + trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:],
+                            'date': '' + trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:], #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             #'quantity': trans_quantity,
                             'name': trans_name,
                             'move_id': ver_id.id,
