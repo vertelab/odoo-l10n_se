@@ -35,7 +35,8 @@
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'repository': 'https://github.com/vertelab/l10n-se/nordea',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'depends': ['l10n_se_account_bank_statement_import'],
     #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],
 

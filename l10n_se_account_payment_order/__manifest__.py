@@ -32,6 +32,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se/account_payment_order',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'description': """
 Configuration of account for payment order.
 ==========================================
