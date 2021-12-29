@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="load_mynt_wizard_wizard_form" model="ir.ui.view">
+            <field name="name">load.mynt.wizard.wizard.form</field>
+            <field name="model">load.mynt.wizard</field>
+            <field name="arch" type="xml">
+                    <group rowspan="4" string="File to upload">
+                            <field name="mynt_directory"/>
+                    </group>
+                    <group string="Choose a journal">
+                                <field name="journal_id"/>
+                    </group>
+                <form>
+                       <footer>
+                            <button name="import_file" string="Load Mynt File" type="object" class="oe_highlight" />
+                            or
+                            <button string="Cancel" special="cancel" class="oe_link" />
+                        </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="load_mynt_directory" model="ir.actions.act_window">
+            <field name="name">Import Mynt Transactions</field>
+            <field name="res_model">load.mynt.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="menu_mynt" name="Mynt" parent="account.menu_finance_configuration" sequence="50" />
+        <menuitem action="load_mynt_directory" id="menu_wizard_account_mynt" parent="menu_mynt" />
+
+<!--
+        <menuitem id="menu_account_period_create_form" action="account_period_create_form" parent="account.menu_finance_entries" sequence="40"/>
+-->
+
+    </data>
+</odoo>
