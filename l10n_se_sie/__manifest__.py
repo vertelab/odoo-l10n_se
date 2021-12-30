@@ -32,6 +32,7 @@
     # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se/sie',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'description': """
         The module adds support for importing and reading SIE-files (.se-files)
     """,

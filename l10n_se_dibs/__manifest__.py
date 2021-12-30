@@ -30,7 +30,8 @@
     'version': '14.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/l10n_se',
+    'website': 'https://vertel.se/apps/l10n-se/dibs/',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'description': """Module for reading DIBS bank statement files""",
     'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {

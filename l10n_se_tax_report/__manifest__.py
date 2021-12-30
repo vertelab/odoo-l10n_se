@@ -31,13 +31,13 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n-se/tax-report',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'description': """
 Swedish accounting Tax Report
 =============================
 Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
      """,
     'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
     # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account', 'account','report_py3o','mis_builder'],
     'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar', 'account','mis_builder','l10n_se_hr_payroll_account','l10n_se_mis'],
     'data': [
