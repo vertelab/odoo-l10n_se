@@ -488,6 +488,8 @@ class account_sie(models.TransientModel):
                 ver_id = self.env['account.move'].create({
                     'period_id': self.env['account.period'].search([],limit = 1).find(dt=list_date).id,
                     'journal_id': self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', self.env.ref('base.main_company').id)])[0].id,
+                    'date': list_date[0:4] + '-' + list_date[4:6] + '-' + list_date[6:],
+                    'ref': list_ref,
                     #'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
                     })
                 ver_ids.append(ver_id.id)
@@ -538,7 +540,7 @@ class account_sie(models.TransientModel):
                         if trans_date:
                             formated_date = trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:]
                         else:
-                            formated_date = list_date[0:4] + '-' + list_date[4:6] + '-' +list_date[6:] 
+                            formated_date = ver_id.date
                             
                         
                         line_vals = {
