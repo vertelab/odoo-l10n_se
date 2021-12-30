@@ -486,7 +486,7 @@ class account_sie(models.TransientModel):
         for line in data:
             if line['label'] == '#VER':
                 list_date = line.get(3)  # date
-                list_ref = line.get(1) + ' :' + line.get(2) + ' :' + line.get(4)  # reference
+                list_ref = line.get(1) + ' ' + line.get(2) + ' ' + line.get(4)  # reference
                 list_sign = line.get(5)  # sign
                 
                 #VER A 1 20091101 "" 20091202 "2 Christer Bengtsson"
