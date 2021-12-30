@@ -46,6 +46,7 @@ class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'SIE Import Wizard'
 
+    debug = fields.Boolean(default = True)                            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SET TO FALSE WHEN DEPLOYED
     date_start = fields.Date(string = "Date interval")
     date_stop = fields.Date(string = "Stop Date")
     period_ids = fields.Many2many(comodel_name = "account.period", string="Periods" ,) # domain="[('company_id','=',self.env.ref('base.main_company').id)]"
@@ -58,6 +59,7 @@ class account_sie(models.TransientModel):
     data = fields.Binary('File')
     filename = fields.Char(string='Filename')
     show_account_lines = fields.Boolean(string='Show Account Lines')
+    move_journal_id = fields.Many2one(comodel_name = "account.journal", string = "Journal", help="All imported account.moves will get this journal",)
     
     accounts_type = fields.Selection(selection=[
             ('view', 'View'),
@@ -231,6 +233,9 @@ class account_sie(models.TransientModel):
     
     def send_form(self):
         self.ensure_one()
+        if not self.move_journal_id:
+            raise Warning(f"Please select a journal")
+            
         if self.data: # IMPORT TRIGGERED
             data = self.cleanse_with_fire(self.data)
             if not self.check_import_file(data):
@@ -238,7 +243,18 @@ class account_sie(models.TransientModel):
                 formatstring = ""
                 for account in missing_accounts:
                     formatstring += account[0] + ": "  + account[1] + "\n"
-                raise Warning(f"Import file did not pass checks! Accounts may be missing. \n{formatstring}")
+                    if self.debug:
+                        self.env["account.account"].create({
+                            "code": account[0] ,
+                            "name": account[1],
+                            "reconcile":True,
+                            "user_type_id":self.env.ref('account.data_account_type_non_current_assets').id,
+                        })
+                if not self.debug:
+                    raise Warning(f"Import file did not pass checks! Accounts may be missing. \n{formatstring}")
+                else:
+                    _logger.warning(f"Import file did not pass checks! Accounts may be missing. Creating if you see this in the log on a production server then I done goofed \n{formatstring}")
+
                     # ~ return {
                     # ~ 'warning': {'title': _('Error'), 'message': _('Import file did not pass checks! Accounts may be missing.'),},
                 # ~ }
@@ -470,24 +486,27 @@ class account_sie(models.TransientModel):
         for line in data:
             if line['label'] == '#VER':
                 list_date = line.get(3)  # date
-                list_ref = line.get(2)   # reference
+                list_ref = line.get(1) + ' :' + line.get(2) + ' :' + line.get(4)  # reference
                 list_sign = line.get(5)  # sign
                 
                 #VER A 1 20091101 "" 20091202 "2 Christer Bengtsson"
                 #VER "" BNK2/2016/0001 20160216 "" admin
                 
-                if self.env['account.journal'].search([('type', '=', line[1]), ('company_id', '=', self.env.ref('base.main_company').id)]):  # Serial are a journal
-                        journal_type = line[1]
-                elif [j for j in ['sale', 'sale_refund', 'purchase', 'purchase_refund'] if j in journal_types]:
-                    journal_type = [j for j in ['sale', 'sale_refund', 'purchase', 'purchase_refund'] if j in journal_types][0]
-                elif [j for j in ['bank', 'cash'] if j in journal_types]:
-                    journal_type = [j for j in ['bank', 'cash'] if j in journal_types][0]
-                else:
-                    journal_type = 'general'
+                #SMART WAY OF SELECTING JOURNALS, NEED TO PLAN EXACLTY HOW THIS WORKS, ATM WE SELECT THE JOURNAL IN THE WIZARD
+                # ~ if self.env['account.journal'].search([('type', '=', line[1]), ('company_id', '=', self.env.ref('base.main_company').id)]):  # Serial are a journal
+                        # ~ journal_type = line[1]
+                # ~ elif [j for j in ['sale', 'sale_refund', 'purchase', 'purchase_refund'] if j in journal_types]:
+                    # ~ journal_type = [j for j in ['sale', 'sale_refund', 'purchase', 'purchase_refund'] if j in journal_types][0]
+                # ~ elif [j for j in ['bank', 'cash'] if j in journal_types]:
+                    # ~ journal_type = [j for j in ['bank', 'cash'] if j in journal_types][0]
+                # ~ else:
+                    # ~ journal_type = 'general'
+                # ~ move_journal_id = self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', self.env.ref('base.main_company').id)])[0].id
                 
+                move_journal_id = self.move_journal_id.id
                 ver_id = self.env['account.move'].create({
                     'period_id': self.env['account.period'].search([],limit = 1).find(dt=list_date).id,
-                    'journal_id': self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', self.env.ref('base.main_company').id)])[0].id,
+                    'journal_id': move_journal_id,
                     'date': list_date[0:4] + '-' + list_date[4:6] + '-' + list_date[6:],
                     'ref': list_ref,
                     #'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,

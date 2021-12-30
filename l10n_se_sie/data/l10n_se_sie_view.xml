@@ -119,6 +119,9 @@
               <group rowspan="4" string="File to upload">
                 <field name="data" />
               </group>
+              <group string="Choose a journal">
+                    <field name="move_journal_id"/>
+                </group>
               <field name="show_account_lines" invisible="1"/>
               <div>
                 <group string="Import Accounts">
