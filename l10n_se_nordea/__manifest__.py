@@ -29,9 +29,8 @@
         Module for reading Nordea bank statement files
     """,
     #'sequence': '1'
-    #'images': ['images/main_screenshot.png']
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/l10n_se/nordea',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n-se-nordea',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
