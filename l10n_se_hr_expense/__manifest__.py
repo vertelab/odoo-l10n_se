@@ -30,7 +30,7 @@
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''',
-    'website': 'https://vertel.se/apps/l10n-se/hr-expense/',
+    'website': 'https://vertel.se/apps/odoo-l10n-se/l10n-se-hr-expense/',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'description': """This module adds a few Swedish expense products related to work trips.""",
     'depends': ['l10n_se', 'hr_expense', 'product'],
