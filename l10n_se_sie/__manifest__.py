@@ -41,6 +41,7 @@
 		'data/l10n_se_sie_view.xml',
                 'views/account_view.xml',
                 'data/l10n_se_sie_data.xml',
+                'data/fix_account_type_skf.xml',
                 'security/ir.model.access.csv',
     ],
   
