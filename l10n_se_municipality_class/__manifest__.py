@@ -35,9 +35,10 @@
     'description': """
 	The standard hiearchy of Country states is on the second level in a country. This module adds a third level: Country -> State -> Municipality.\n
 	\n
-	The module can be used to group res_partners and other objects if it is linked to.
-	
-	Version 14.0.0.1.0 Added a list of municipalities
+	The module can be used to group res_partners and other objects if it is linked to.\n
+	An other similar module is: https://github.com/OCA/partner-contact/tree/14.0/base_location_nuts \n
+	\n
+	Version 14.0.0.1.0 Added a list of municipalities\n
      """,
     'depends': ['contacts'],
     'init_xml': [],
