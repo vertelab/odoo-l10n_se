@@ -28,7 +28,6 @@ import unicodedata
 import logging
 _logger = logging.getLogger(__name__)
 
-    
 
 class StripePaymentsReport(object):
     """Parser for Stripe Kontohändelser import files."""
@@ -37,17 +36,17 @@ class StripePaymentsReport(object):
         self.filename = filename
         if not self.filename.lower().endswith(('.csv', '.txt')):
             raise ValueError('Incorrect file format, use csv.')
-            
+
         self.rows = []
         csv_rows = [row for row in csv.reader(data_file.splitlines(), delimiter=',')]
         self.header = csv_rows[0]
-        
-        if not (self.header[0] == 'id' and self.header[1] == 'Description' and self.header[2] == 'Seller Message'):
+
+        if not (self.header[0].lower() == 'id' and self.header[1].lower() == 'description' and self.header[2].lower().replace(' ','_') == 'seller_message'):
             raise ValueError(u'Incorrect file header.')
 
         #Remove Header from rows
         del csv_rows[0]
-        
+
         for r in csv_rows:
             self.rows.append(r)
         self.statements = []
