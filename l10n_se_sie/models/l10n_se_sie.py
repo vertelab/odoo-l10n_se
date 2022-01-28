@@ -527,7 +527,7 @@ class account_sie(models.TransientModel):
                 for l in line.get('lines', []):
                     if l['label'] == '#TRANS':
                         trans_code = l[1]
-                        trans_object = [(l[2][i], l[2][i+1]) for i in range(int(len(l[2])/2))]
+                        trans_object = [(l[2][i*2], l[2][i*2+1]) for i in range(int(len(l[2])/2))]
                         trans_balance = l[3]
                         trans_name = '#'
                         trans_date = l.get(4)
