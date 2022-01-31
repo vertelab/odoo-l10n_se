@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 class account_sie_account(models.TransientModel):
     _name = 'account.sie.account'
     _description = 'SIE Import New Account Line'
-    
+
     @api.model
     def default_user_type(self):
         # ~ return self.env.ref('account.data_account_type_asset')
@@ -41,7 +41,7 @@ class account_sie_account(models.TransientModel):
             help="Account Type is used for information purpose, to generate "
               "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
     parent_id = fields.Many2one(comodel_name='account.account', string='Parent', domain=[('type','=','view')])
-    
+
 class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'SIE Import Wizard'
@@ -60,7 +60,7 @@ class account_sie(models.TransientModel):
     filename = fields.Char(string='Filename')
     show_account_lines = fields.Boolean(string='Show Account Lines')
     move_journal_id = fields.Many2one(comodel_name = "account.journal", string = "Journal", help="All imported account.moves will get this journal",)
-    
+
     accounts_type = fields.Selection(selection=[
             ('view', 'View'),
             ('other', 'Regular'),
@@ -77,7 +77,7 @@ class account_sie(models.TransientModel):
             help="Account Type is used for information purpose, to generate "
               "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
     accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent', domain=[('type','=','view')])
-    
+
     def _get_rar_code(self, fy):
         self.ensure_one()
         i = 0
@@ -87,39 +87,39 @@ class account_sie(models.TransientModel):
             i += 1
         return i
         # raise Warning("Couldn't get RAR code.")
-            
-    
+
+
     def _data(self):
         self.sie_file = self.data
     sie_file = fields.Binary(compute='_data')
-    
+
     # ~ @api.one
     # ~ @api.onchange('accounts_type')
     # ~ def onchange_accounts_type(self):
         # ~ for line in self.account_line_ids:
             # ~ if line.checked:
                 # ~ line.type = self.accounts_type
-    
+
     # ~ @api.one
     # ~ @api.onchange('accounts_user_type')
     # ~ def onchange_accounts_user_type(self):
         # ~ for line in self.account_line_ids:
             # ~ if line.checked:
                 # ~ line.user_type = self.accounts_user_type
-    
+
     # ~ @api.one
     # ~ @api.onchange('accounts_parent_id')
     # ~ def onchange_accounts_parent_id(self):
         # ~ for line in self.account_line_ids:
             # ~ if line.checked:
                 # ~ line.parent_id = self.accounts_parent_id
-    
+
     # ~ @api.one
     # ~ @api.onchange('data')
     # ~ def onchange_data(self):
         # ~ if self.data:
             # ~ self.check_import_file(check_periods=False)
-            
+
     @api.model
     def cleanse_with_fire(self, data):
         data = base64.decodestring(data or '').decode('cp437')
@@ -132,7 +132,7 @@ class account_sie(models.TransientModel):
         data = self.read_file(text_list)
         _logger.debug(data)
         return data
-    
+
     def check_import_file(self, data=None, check_periods=True):
         self.ensure_one()
         if data or self.data: # IMPORT TRIGGERED
@@ -151,7 +151,7 @@ class account_sie(models.TransientModel):
                 if missing_period:
                     raise Warning("Missing period/fiscal year for %s - %s." % (missing_period[0], missing_period[1]))
             return checked
-    
+
     def create_accounts(self):
         self.ensure_one()
         for line in self.account_line_ids:
@@ -165,7 +165,7 @@ class account_sie(models.TransientModel):
                 })
         self.account_line_ids = None
         self.show_account_lines = False
-    
+
     @api.model
     def read_line(self, line, i=0):
         res = []
@@ -203,7 +203,7 @@ class account_sie(models.TransientModel):
         if field:
             res.append(field)
         return res
-    
+
     @api.model
     def read_file(self, text_list, i = 0):
         res = []
@@ -230,10 +230,10 @@ class account_sie(models.TransientModel):
                 res.append(last_line)
             i += 1
         return res
-    
+
     def send_form(self):
         self.ensure_one()
-            
+
         if self.data: # IMPORT TRIGGERED
             if not self.move_journal_id:
                 raise Warning(f"Please select a journal")
@@ -287,8 +287,9 @@ class account_sie(models.TransientModel):
             if self.account_ids:
                 accounts = [l.move_id.id for l in self.env['account.move.line'].search([('account_id','in',[a.id for a in self.account_ids])])]
                 move_ids = move_ids.filtered(lambda r: r.id in accounts)
-            self.write({'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids)),'filename': 'filename.se' })
         
+            self.write({'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids)),'filename': 'filename.se' })
+
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.sie',
@@ -307,7 +308,7 @@ class account_sie(models.TransientModel):
             return year_list
         def get_accounts(ver_ids):
             return list(set(ver_ids.mapped('line_ids.account_id')))
-            
+
         if len(self) > 0:
             sie_form = self[0]
         if len(ver_ids) == 0:
@@ -354,7 +355,7 @@ class account_sie(models.TransientModel):
                     ub[trans.account_id.code] += trans.debit - trans.credit
                 str += '}\n'
             else:  #IB
-                
+
                 for trans in ver.line_id:
                     str += '#IB %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit)
                     ub_accounts.append(trans.account_id.code)
@@ -368,11 +369,11 @@ class account_sie(models.TransientModel):
                 str += '#RES %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(account), ub.get(account, 0.0))
 
         return str.encode('cp437','xmlcharrefreplace') # ignore
-    
+
     @api.model
     def escape_sie_string(self, s):
         return s.replace('\n', ' ').replace('\\', '\\\\').replace('"', '\\"')
-    
+
     @api.model
     def export_sie(self,ver_ids):
         if len(self) < 1:
@@ -463,7 +464,7 @@ class account_sie(models.TransientModel):
                 else:
                     accounts.append((line[1], line[2]))
         return accounts
-    
+
     def _check_periods(self, data):
         missing_period = []
         for line in data:
@@ -480,11 +481,14 @@ class account_sie(models.TransientModel):
                     elif line[3] > missing_period[1]:
                         missing_period[1] = line[3]
         return missing_period
-    
+
     def _import_ver(self, data):
         self.ensure_one()
         journal_types = []
         ver_ids = []
+
+        tag_table = {}
+
         for line in data:
             if line['label'] == '#VER':
                 
@@ -505,9 +509,10 @@ class account_sie(models.TransientModel):
                 
                 
                 #VER RV 155 20200914 "PAYPAL *UPWRKESCROW    35314369001   SWE, SE"
+
                 #VER A 1 20091101 "" 20091202 "2 Christer Bengtsson"
                 #VER "" BNK2/2016/0001 20160216 "" admin
-                
+
                 #SMART WAY OF SELECTING JOURNALS, NEED TO PLAN EXACLTY HOW THIS WORKS, ATM WE SELECT THE JOURNAL IN THE WIZARD
                 # ~ if self.env['account.journal'].search([('type', '=', line[1]), ('company_id', '=', self.env.ref('base.main_company').id)]):  # Serial are a journal
                         # ~ journal_type = line[1]
@@ -518,7 +523,7 @@ class account_sie(models.TransientModel):
                 # ~ else:
                     # ~ journal_type = 'general'
                 # ~ move_journal_id = self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', self.env.ref('base.main_company').id)])[0].id
-                
+
                 move_journal_id = self.move_journal_id.id
                 ver_id = self.env['account.move'].create({
                     'period_id': self.env['account.period'].search([],limit = 1).find(dt=list_date).id,
@@ -543,11 +548,18 @@ class account_sie(models.TransientModel):
                 ver_ids.append(ver_id.id)
                 
                 
+                #~ #VER "" SAJ/2016/0002 20150205 "" admin
+                #~ {
+                #~ #TRANS kontonr   {objektlista}   belopp transdat transtext   kvantitet   sign
+                #~ #TRANS 1510      {}              -100.0 20150205 "/"         1.0         admin
+                #~ #TRANS 2610 {} 0.0 20150205 "Försäljning 25%" 1.0 admin
+                #~ #TRANS 3000 {} 0.0 20150205 "Skor" 1.0 admin
+                #~ }
                 for l in line.get('lines', []):
                     
                     if l['label'] == '#TRANS':
                         trans_code = l[1]
-                        trans_object = l[2]
+                        trans_object = [(l[2][i*2], l[2][i*2+1]) for i in range(int(len(l[2])/2))]
                         trans_balance = l[3]
                         trans_name = '#'
                         trans_date = l.get(4)
@@ -557,7 +569,7 @@ class account_sie(models.TransientModel):
                         # Seems to not be used.
                         #~ user = self.env['res.users'].search([('login', '=', trans_sign)]) if trans_sign else None
                         code = self.env['account.account'].search([('code', '=', trans_code),('company_id', '=', self.env.ref('base.main_company').id)], limit=1)
-                        
+
                         #~ 3000 regular  report_type income  balance > 0 -> sale balance < 0 -> sale_refund  ( user_type data_account_type_income + balance > 0)
                         #~ 1210  report_type = asset
                         #~ 5400  report_type = expense  purchase / purchase_refund
@@ -565,7 +577,7 @@ class account_sie(models.TransientModel):
                         #~ 1932 Liquidity -> report_type -> asset
                         #~ 1910 Liquidity -> user_type  = ref('account.data_account_type_bank')  -> bank
                         #~ 1932 Liquidity -> user_type  = ref('account.data_account_type_cash')  -> cash
-                        
+
                         if code.user_type_id.report_type == 'income':
                             journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
                         elif code.user_type_id.id == self.env.ref('account.data_account_type_liquidity').id: #changed from data_account_type_bank to data_account_type_liquidity
@@ -578,16 +590,31 @@ class account_sie(models.TransientModel):
                         #~ raise Warning(self.env['account.move.line'].search([])[0].date)
                         period_id = self.env['account.period'].search([],limit=1).find(dt=list_date).id
                         _logger.debug('\naccount_id :%s\nbalance: %s\nperiod_id: %s' %(code, trans_balance, period_id))
-                                    
+
                         if trans_date:
                             formated_date = trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:]
                         else:
                             formated_date = ver_id.date
-                            
+
+                        tags = []
+                        tag_model = self.env['account.analytic.tag']
+                        for tag_type, tag_val in trans_object:
+                            tag_name_prefix = f"{tag_val} %"   # Equivalent to 'regex': "^{tag_val} .*$"
+                            if tag_name_prefix not in tag_table:
+                                matching_tag = tag_model.search([('name', '=like', tag_name_prefix)])
+                                if len(matching_tag) == 0:
+                                    raise Warning(f"Missing tag for {'project' if tag_type == '6' else 'cost center'} {tag_val}")
+                                if len(matching_tag) > 1:
+                                    raise Warning(f"Too many tags matching {'project' if tag_type == '6' else 'cost center'} {tag_val}")
+                                tag_table[tag_name_prefix] = matching_tag.id
+
+                            tags.append((4, tag_table[tag_name_prefix], 0))
+
                         line_vals = {
                             'account_id': code.id,
                             'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
                             'debit': float(trans_balance) > 0 and float(trans_balance) or 0.0,
+                            'analytic_tag_ids': tags,
                             #'period_id': period_id,
                             'date': formated_date,
                             #'quantity': trans_quantity,
@@ -641,5 +668,9 @@ class account_sie(models.TransientModel):
                         #Dont remember how i was supposed to create these, it wasn't account move at least i think?
                         #UB 0 1630 -1325.00
                         #UB årsnr konto saldo kvantitet
+                        context_copy = self.env.context.copy()
+                        context_copy.update({'check_move_validity':False})
+                        trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
+                        self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
         return ver_ids
-        
+

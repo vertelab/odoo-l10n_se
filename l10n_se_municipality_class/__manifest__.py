@@ -30,14 +30,15 @@
     'version': '14.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/l10n_se/municipality_class/',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n-se-municipality_class/',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'description': """
 	The standard hiearchy of Country states is on the second level in a country. This module adds a third level: Country -> State -> Municipality.\n
 	\n
-	The module can be used to group res_partners and other objects if it is linked to.
-	
-	Version 14.0.0.1.0 Added a list of municipalities
+	The module can be used to group res_partners and other objects if it is linked to.\n
+	An other similar module is: https://github.com/OCA/partner-contact/tree/14.0/base_location_nuts \n
+	\n
+	Version 14.0.0.1.0 Added a list of municipalities\n
      """,
     'depends': ['contacts'],
     'init_xml': [],
