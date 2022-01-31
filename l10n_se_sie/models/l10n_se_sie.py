@@ -627,7 +627,7 @@ class account_sie(models.TransientModel):
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)  
                         
             #elif line['label'] == '#IB':
-            elif line['label'] == "implment later"
+            elif line['label'] == "implment later":
                         #IB 0 1510 269174.65
                         #IB årsnr konto saldo kvantitet
 
