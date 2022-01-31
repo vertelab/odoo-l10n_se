@@ -15,6 +15,7 @@
                     
                     <xpath expr="//field[@name='comparison_mode']" position="after">
                             <field name="find_moves_by_period" />
+			    <field name="hide_lines_that_are_empty" />
                     </xpath>
                       <xpath expr="//page[2]/group[1]/field[@name='target_move']" position="after">
                             <field name="accounting_method" widget="radio" />

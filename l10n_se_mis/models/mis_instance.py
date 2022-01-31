@@ -4,7 +4,7 @@ import base64
 from lxml import etree
 from .aep import AccountingExpressionProcessorExtended as AEPE
 from .expression_evaluator import ExpressionEvaluatorExtended as EEE
-
+from .kpimatrix import KpiMatrixExtended as KME
 
 _logger = logging.getLogger(__name__)
 
@@ -29,10 +29,16 @@ class MisReportInstance(models.Model):
         help="A little confusing but vouchers/invoices has dates and which period they belong to. By default the mis report finds moves based on date. If this is checked then we find them based on period",
         # ~ states={'posted':[('readonly',True)]}
     )
+    hide_lines_that_are_empty = fields.Boolean(default=False,string="Hide empty lines")
     
     accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     target_move = fields.Selection(selection_add=[('draft', 'All Unposted Entries')], ondelete={"draft": "set default"})
     
+    def compute(self):
+        self.ensure_one()
+        kpi_matrix = self._compute_matrix()
+        return kpi_matrix.as_dict(self.hide_lines_that_are_empty)
+
     def _add_column_move_lines(self, aep, kpi_matrix, period, label, description):
         if not period.date_from or not period.date_to:
             raise UserError(
@@ -111,5 +117,25 @@ class MisReportInstance(models.Model):
         aep.done_parsing()
         return aep
 
+    def prepare_kpi_matrix(self, multi_company=False):
+        _logger.warning("JAKMAR OVERRIDE PREPARE_KPI_MATRIX METHOD")
+        self.ensure_one()
+        kpi_matrix = KME(self.env, multi_company, self.account_model)
+        for kpi in self.kpi_ids:
+            kpi_matrix.declare_kpi(kpi)
+        return kpi_matrix
 
-            
+
+    def get_kpis_by_account_id(self, company):
+        """ Return { account_id: set(kpi) } """
+        aep = self._prepare_aep(company)
+        res = defaultdict(set)
+        for kpi in self.kpi_ids:
+            for expression in kpi.expression_ids:
+                if not expression.name:
+                    continue
+                account_ids = aep.get_account_ids_for_expr(expression.name)
+                for account_id in account_ids:
+                    res[account_id].add(kpi)
+        return res
+

@@ -3,7 +3,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import Warning, RedirectWarning
 from odoo import http
 import base64
-
+from datetime import datetime
 import odoo
 
 import logging
@@ -46,7 +46,7 @@ class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'SIE Import Wizard'
 
-    debug = fields.Boolean(default = True)                            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SET TO FALSE WHEN DEPLOYED
+    debug = fields.Boolean(default = False)                            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SET TO FALSE WHEN DEPLOYED IF SET TO TRUE THEN THIS FILE WILL CREATE THE MISSING ACCOUNTS AND DO THAT BADLY
     date_start = fields.Date(string = "Date interval")
     date_stop = fields.Date(string = "Stop Date")
     period_ids = fields.Many2many(comodel_name = "account.period", string="Periods" ,) # domain="[('company_id','=',self.env.ref('base.main_company').id)]"
@@ -233,10 +233,10 @@ class account_sie(models.TransientModel):
     
     def send_form(self):
         self.ensure_one()
-        if not self.move_journal_id:
-            raise Warning(f"Please select a journal")
             
         if self.data: # IMPORT TRIGGERED
+            if not self.move_journal_id:
+                raise Warning(f"Please select a journal")
             data = self.cleanse_with_fire(self.data)
             if not self.check_import_file(data):
                 missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
@@ -287,7 +287,7 @@ class account_sie(models.TransientModel):
             if self.account_ids:
                 accounts = [l.move_id.id for l in self.env['account.move.line'].search([('account_id','in',[a.id for a in self.account_ids])])]
                 move_ids = move_ids.filtered(lambda r: r.id in accounts)
-            self.write({'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids)),'filename': 'filename.sie4' })
+            self.write({'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids)),'filename': 'filename.se' })
         
         return {
             'type': 'ir.actions.act_window',
@@ -338,11 +338,13 @@ class account_sie(models.TransientModel):
 
         #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
         #VER    serie vernr verdatum vertext regdatum sign
+        # We seem to not add a regdatum which some parser don't agree with since we add the sign field
         ub = {}
         ub_accounts = []
         for ver in ver_ids:
             if ver.period_id.special == False:
-                str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_uid.login))
+                str += '#VER %s "%s" %s "%s" %s %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_date.strftime("%Y%m%d")),self.escape_sie_string(ver.create_uid.login))
+                # ~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_uid.login))
                 #~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), self.escape_sie_string('' if ver.name == '/' else ver.name), self.escape_sie_string(ver.date.replace('-','')), self.escape_sie_string(self.fix_empty(ver.narration)), self.escape_sie_string(ver.create_uid.login))
                 #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
                 for trans in ver.line_ids:
@@ -380,7 +382,7 @@ class account_sie(models.TransientModel):
         _logger.info('export: %s' % ver_ids)
         result = sie_form.make_sie(ver_ids)
         filetest = base64.b64encode(result)
-        sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie(ver_ids)) ,'filename': 'filename.sie4' })
+        sie_form.write({'state': 'get', 'data': base64.b64encode(sie_form.make_sie(ver_ids)) ,'filename': 'filename.se' })
         view = self.env.ref('l10n_se_sie.wizard_account_sie', False)
         _logger.info('view %s sie_form %s %s %s' % (view,sie_form,sie_form.sie_file,base64.b64encode(sie_form.make_sie(ver_ids))))
         #~ sie_form.write({'state': 'get', 'data': base64.b64encode(self.make_sie()) })
@@ -485,10 +487,24 @@ class account_sie(models.TransientModel):
         ver_ids = []
         for line in data:
             if line['label'] == '#VER':
+                
                 list_date = line.get(3)  # date
                 list_ref = line.get(1) + ' ' + line.get(2) + ' ' + line.get(4)  # reference
                 list_sign = line.get(5)  # sign
+                list_regdatum = line.get(5)  # created_date
                 
+                #OBLIGATORY
+                #[label],[1]        ,[2]       ,[3]
+                #VER    , serie    ,vernr  ,verdatum 
+                
+                #VOLONTARY
+                #[4]        ,[5]             ,[6]
+                #vertext ,regdatum ,sign
+                
+                
+                
+                
+                #VER RV 155 20200914 "PAYPAL *UPWRKESCROW    35314369001   SWE, SE"
                 #VER A 1 20091101 "" 20091202 "2 Christer Bengtsson"
                 #VER "" BNK2/2016/0001 20160216 "" admin
                 
@@ -511,17 +527,24 @@ class account_sie(models.TransientModel):
                     'ref': list_ref,
                     #'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
                     })
+                
+                # This should maybe be changed so that the create date is the date when we created the record instead of us using the regdate from the import file
+                if list_regdatum:
+                    formated_create_date = list_regdatum[0:4] + '-' + list_regdatum[4:6] + '-' + list_regdatum[6:]
+                    self.env.cr.execute(
+                    """
+                    UPDATE account_move SET create_date  = %s
+                    WHERE id = %s
+                    """,
+                    (formated_create_date, ver_id.id),
+                    )
+                    _logger.warning(f"ver_id.create_date = {ver_id.create_date}")
+                
                 ver_ids.append(ver_id.id)
                 
                 
-                #~ #VER "" SAJ/2016/0002 20150205 "" admin
-                #~ {
-                #~ #TRANS kontonr   {objektlista}   belopp transdat transtext   kvantitet   sign
-                #~ #TRANS 1510      {}              -100.0 20150205 "/"         1.0         admin
-                #~ #TRANS 2610 {} 0.0 20150205 "Försäljning 25%" 1.0 admin
-                #~ #TRANS 3000 {} 0.0 20150205 "Skor" 1.0 admin
-                #~ }
                 for l in line.get('lines', []):
+                    
                     if l['label'] == '#TRANS':
                         trans_code = l[1]
                         trans_object = l[2]
@@ -561,7 +584,6 @@ class account_sie(models.TransientModel):
                         else:
                             formated_date = ver_id.date
                             
-                        
                         line_vals = {
                             'account_id': code.id,
                             'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
@@ -572,10 +594,52 @@ class account_sie(models.TransientModel):
                             'name': trans_name,
                             'move_id': ver_id.id,
                             }
+                            
+                        context_copy = self.env.context.copy()
+                        context_copy.update({'check_move_validity':False})
+                        trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)  
+                        
+            #elif line['label'] == '#IB':
+            elif line['label'] == "implment later"
+                        #IB 0 1510 269174.65
+                        #IB årsnr konto saldo kvantitet
+
+                        year_num = int(line.get(1)) #Opening period for current fiscal year 
+                        first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
+                        period_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
+                        
+                        ib_account = self.env['account.account'].search([('code','=',line.get(2))])
+                        ib_amount = line.get(3)
+                        qnt = line.get(4) # We already have a amount, what is the purpose of having a quantity as well
+                        # ~ opposite_account = self.env['account.move'].search([('1930','=','code')])
+                        move_journal_id = self.move_journal_id.id
+                        move_id = self.env['account.move'].create({
+                        'period_id': period_id,
+                        'journal_id': move_journal_id,
+                        'date': first_date_of_year,
+                        'ref': "IB",
+                        'is_incoming_balance_move':True,
+                        #'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
+                        })
+                            
+                        line_vals = {
+                        'account_id': ib_account.id,
+                        'credit': float(ib_amount) < 0 and float(ib_amount) * -1 or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
+                        'debit': float(ib_amount) > 0 and float(ib_amount) or 0.0,
+                        #'period_id': period_id,
+                        'date': first_date_of_year,
+                        #'quantity': trans_quantity,
+                        'name': "#IB",
+                        'move_id': move_id.id,
+                        }
 
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)  
-
+                        
+                    # ~ elif line['label'] == '#UB':
+                        #Dont remember how i was supposed to create these, it wasn't account move at least i think?
+                        #UB 0 1630 -1325.00
+                        #UB årsnr konto saldo kvantitet
         return ver_ids
         

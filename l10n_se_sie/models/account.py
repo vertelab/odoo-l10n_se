@@ -88,6 +88,8 @@ class account_journal(models.Model):
 
 class account_move(models.Model):
     _inherit = 'account.move'
+    
+    is_incoming_balance_move = fields.Boolean(default = False)
 
     def export_sie(self):
         # ~ ver_ids = self.env['account.move'].search([('id','in',ids)])
