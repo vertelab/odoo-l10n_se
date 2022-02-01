@@ -8,8 +8,8 @@ _logger = logging.getLogger(__name__)
 class KpiMatrixExtended(KpiMatrix):
 
     def as_dict(self, hide_lines_that_are_empty):
-        _logger.warning("JAKMAR AS_DICT METHOD OVERRIDEN")
-        _logger.warning(f"{hide_lines_that_are_empty=}")
+        #_logger.warning("JAKMAR AS_DICT METHOD OVERRIDEN")
+        #_logger.warning(f"{hide_lines_that_are_empty=}")
         header = [{"cols": []}, {"cols": []}]
         for col in self.iter_cols():
             header[0]["cols"].append(
@@ -30,9 +30,9 @@ class KpiMatrixExtended(KpiMatrix):
 
         body = []
         for row in self.iter_rows():
-            _logger.warning(f"{row.__dict__}")
-            _logger.warning(f"{row.kpi.type}")
-            if (row.style_props.hide_empty and row.is_empty()) or row.style_props.hide_always or (row.kpi.type != "str" and hide_lines_that_are_empty):
+            #_logger.warning(f"{row.__dict__}")
+            #_logger.warning(f"{row.kpi.type}")
+            if (row.style_props.hide_empty and row.is_empty()) or row.style_props.hide_always or (row.is_empty() and row.kpi.type != "str" and hide_lines_that_are_empty):
                 continue
             row_data = {
                 "row_id": row.row_id,
