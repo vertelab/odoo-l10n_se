@@ -340,9 +340,11 @@ class account_sie(models.TransientModel):
         #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
         #VER    serie vernr verdatum vertext regdatum sign
         # We seem to not add a regdatum which some parser don't agree with since we add the sign field
+        _logger.warning("BEFORE GOING TROUGH ALL VER")
         ub = {}
         ub_accounts = []
         for ver in ver_ids:
+            _logger.warning(f"{ver=}")
             if ver.period_id.special == False:
                 str += '#VER %s "%s" %s "%s" %s %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_date.strftime("%Y%m%d")),self.escape_sie_string(ver.create_uid.login))
                 # ~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_uid.login))
@@ -355,8 +357,8 @@ class account_sie(models.TransientModel):
                     ub[trans.account_id.code] += trans.debit - trans.credit
                 str += '}\n'
             else:  #IB
-
-                for trans in ver.line_id:
+                for trans in ver.line_ids:
+                    #_logger.warning(f"{trans=}")
                     str += '#IB %s %s %s\n' % (self._get_rar_code(fiscalyear), self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit)
                     ub_accounts.append(trans.account_id.code)
         for account in ub:
@@ -626,19 +628,21 @@ class account_sie(models.TransientModel):
                         context_copy.update({'check_move_validity':False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)  
                         
-            #elif line['label'] == '#IB':
-            elif line['label'] == "implment later":
+            elif line['label'] == '#IB':
+            #elif line['label'] == "implment later":
                         #IB 0 1510 269174.65
                         #IB årsnr konto saldo kvantitet
 
                         year_num = int(line.get(1)) #Opening period for current fiscal year 
                         first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
                         period_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
-                        
+                        _logger.warning(f"{period_id=}")
+                        period_record = self.env["account.period"].browse(period_id)
+                        _logger.warning(f"{period_record.date_start}")
                         ib_account = self.env['account.account'].search([('code','=',line.get(2))])
                         ib_amount = line.get(3)
                         qnt = line.get(4) # We already have a amount, what is the purpose of having a quantity as well
-                        # ~ opposite_account = self.env['account.move'].search([('1930','=','code')])
+                        
                         move_journal_id = self.move_journal_id.id
                         move_id = self.env['account.move'].create({
                         'period_id': period_id,
@@ -662,15 +666,39 @@ class account_sie(models.TransientModel):
 
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
-                        trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)  
+                        trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
+
+                        #Depending on the accounts used odoo will self balance the account moves by adding an opposite account, problem is that we don't know if that has happened or not.
+                        #Checking if account move is balanced.
+                        opposite_account = self.env['account.account'].search([('code','=','1930')])
+                        move_balance = 0
+                        for line in move_id.line_ids:
+                          move_balance += line.balance
+                        _logger.warning(f"{move_balance=}")
+                        _logger.warning(f"{ib_amount=}")
+                        _logger.warning(f"{float(move_balance) > 0 and float(move_balance) * -1 or 0.0}")
+                        _logger.warning(f"{float(move_balance) > 0 and float(move_balance) * -1 or 0.0}")
+                        if move_balance != 0:
+                           line_vals = {
+                           'account_id': opposite_account.id,
+                           'credit': float(move_balance) > 0 and float(move_balance) or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
+                           'debit': float(move_balance) < 0 and float(move_balance) * -1 or 0.0 or 0.0,
+                           #'period_id': period_id,
+                           'date': first_date_of_year,
+                           #'quantity': trans_quantity,
+                           'name': "#IB",
+                           'move_id': move_id.id,
+                           }
+                           self.with_context(context_copy).env['account.move.line'].create(line_vals)
+                           
                         
                     # ~ elif line['label'] == '#UB':
                         #Dont remember how i was supposed to create these, it wasn't account move at least i think?
                         #UB 0 1630 -1325.00
                         #UB årsnr konto saldo kvantitet
-                        context_copy = self.env.context.copy()
-                        context_copy.update({'check_move_validity':False})
-                        trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
-                        self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
+                        #context_copy = self.env.context.copy()
+                        #context_copy.update({'check_move_validity':False})
+                        #trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
+                        #self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
         return ver_ids
 

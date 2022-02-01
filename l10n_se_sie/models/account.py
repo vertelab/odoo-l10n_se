@@ -83,6 +83,7 @@ class account_journal(models.Model):
   
     def export_sie(self):
         ver_ids = self.env['account.move'].search([('journal_id', 'in', self.ids)])
+        _logger.warning("account journal export sie")
         return self.env['account.sie'].export_sie(ver_ids)
 
 
