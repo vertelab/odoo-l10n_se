@@ -626,7 +626,8 @@ class account_sie(models.TransientModel):
                             
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
-                        trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)  
+                        trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
+                        self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
                         
             elif line['label'] == '#IB':
             #elif line['label'] == "implment later":
