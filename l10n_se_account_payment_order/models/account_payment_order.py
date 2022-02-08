@@ -79,7 +79,7 @@ class AccountPaymentLineCreate(models.TransientModel):
                     else:
                         account_list = []
                     
-                    res += ['|','|', internal_type_domain, ('account_id.id', 'in', type_list),('account_id.user_type_id.type','in',account_list)]
+                    res += ['|' ,('account_id.id', 'in', account_list),('account_id.user_type_id','in',type_list)]
                     #
                     break
         _logger.warning(f"jakmar: domain {res}")
@@ -96,7 +96,7 @@ class AccountPaymentConfig(models.Model):
         allowed_account_type_ids = fields.Many2many(comodel_name='account.account.type', string='Allowed Account Types', help='Accounts that belong to these types show up',
         domain="[('type', 'in', ('receivable', 'payable'))]")
         
-        allowed_account_ids = fields.Many2many(comodel_name='account.account', string='Disallowed Accounts', help='These Accounts will not show up',
+        allowed_account_ids = fields.Many2many(comodel_name='account.account', string='Allowed Accounts', help='These Accounts will show up',
         domain="[('user_type_id.type', 'in', ('receivable', 'payable'))]")
         
 # ~ class AccountAccount(models.Model):
