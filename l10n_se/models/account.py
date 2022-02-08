@@ -153,6 +153,7 @@ class AccountChartTemplate(models.Model):
             acctype.type = 'liquidity'
             for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
                 if acc.code not in ("1914","1915","1916","1933","1934"):
+                #if acc.code not in ("1914","1915","1916","1933","1934","1935","1936","1937","1938"): This one was needed on a server, so the amount of odoo created accounts are not set in stone.
                     acc.reconcile = False
 
     
