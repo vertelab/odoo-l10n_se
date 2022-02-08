@@ -40,7 +40,9 @@ Configuration of account for payment order.
         """,
     'depends': ['account_payment_order', 'l10n_se'],
     'data': [
-        'res_config_view.xml',
+        'data/payment_order_config.xml',
+        'views/payment_order_config_views.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': 'True',
     'application': 'False',
