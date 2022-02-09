@@ -42,21 +42,80 @@ class AccountPaymentOrder(models.Model):
                 trfmoves[hashcode] += bline
             else:
                 trfmoves[hashcode] = bline
-        for hashcode, blines in trfmoves.iteritems():
+        for hashcode, blines in trfmoves.items():
             for bline in blines:
                 # create sperate move to each bank payment line
-                mvals = self._prepare_move(bline)
+                mvals = self._prepare_move(bline) 
                 total_company_currency = total_payment_currency = 0
                 total_company_currency += bline.amount_company_currency
                 total_payment_currency += bline.amount_currency
-                partner_ml_vals = self._prepare_move_line_partner_account(bline)
-                mvals['line_ids'].append((0, 0, partner_ml_vals))
-                trf_ml_vals = self._prepare_move_line_offsetting_account(total_company_currency, total_payment_currency, bline)
-                mvals['line_ids'].append((0, 0, trf_ml_vals))
+                
+                # ~ partner_ml_vals = self._prepare_move_line_partner_account(bline) ## ADDS DUPLICATE LINES?
+                # ~ mvals['line_ids'].append((0, 0, partner_ml_vals))
+
+                # ~ trf_ml_vals = self._prepare_move_line_offsetting_account(total_company_currency, total_payment_currency, bline)
+                # ~ mvals['line_ids'].append((0, 0, trf_ml_vals))
+
                 move = am_obj.create(mvals)
-                bline.reconcile_payment_lines()
+                _logger.warning(f"move = {move}")
+
+                _logger.warning(f"lines = {move.line_ids}")
                 if post_move:
                     move.post()
+                bline.reconcile_payment_lines()
+                
+                    
+# ~ class BankPaymentLine(models.Model):
+    # ~ _inherit = "bank.payment.line"
+    
+    # ~ """
+    # ~ Override original method. To be able to handle a move for each partner bank
+    # ~ """    
+    # ~ def reconcile(self):
+        # ~ self.ensure_one()
+        # ~ amlo = self.env["account.move.line"]
+        # ~ transit_mlines = amlo.search([("bank_payment_line_id", "=", self.id)])
+        # ~ for line in transit_mlines:
+            # ~ _logger.warning(f"{line.read()}")
+        # ~ _logger.warning(f"{transit_mlines=}")
+        # ~ assert len(transit_mlines) == 1, "We should have only 1 move"
+        # ~ for move_line in transit_mlines:
+            # ~ transit_mline = transit_mlines[0]
+            # ~ assert not transit_mline.reconciled, "Transit move should not be reconciled"
+            
+            # ~ lines_to_rec = transit_mline
+            # ~ for payment_line in self.payment_line_ids:
+
+                # ~ if not payment_line.move_line_id:
+                    # ~ raise UserError(
+                        # ~ _(
+                            # ~ "Can not reconcile: no move line for "
+                            # ~ "payment line %s of partner '%s'."
+                        # ~ )
+                        # ~ % (payment_line.name, payment_line.partner_id.name)
+                    # ~ )
+                # ~ if payment_line.move_line_id.reconciled:
+                    # ~ raise UserError(
+                        # ~ _("Move line '%s' of partner '%s' has already " "been reconciled")
+                        # ~ % (payment_line.move_line_id.name, payment_line.partner_id.name)
+                    # ~ )
+                # ~ if payment_line.move_line_id.account_id != transit_mline.account_id:
+                    # ~ raise UserError(
+                        # ~ _(
+                            # ~ "For partner '%s', the account of the account "
+                            # ~ "move line to pay (%s) is different from the "
+                            # ~ "account of of the transit move line (%s)."
+                        # ~ )
+                        # ~ % (
+                            # ~ payment_line.move_line_id.partner_id.name,
+                            # ~ payment_line.move_line_id.account_id.code,
+                            # ~ transit_mline.account_id.code,
+                        # ~ )
+                    # ~ )
+
+                # ~ lines_to_rec += payment_line.move_line_id
+
+            # ~ lines_to_rec.reconcile()
 
 class AccountPaymentLineCreate(models.TransientModel):
     _inherit = 'account.payment.line.create'
@@ -82,7 +141,7 @@ class AccountPaymentLineCreate(models.TransientModel):
                     res += ['|' ,('account_id.id', 'in', account_list),('account_id.user_type_id','in',type_list)]
                     #
                     break
-        _logger.warning(f"jakmar: domain {res}")
+        # ~ _logger.warning(f"jakmar: domain {res}")
         return res
         
 #Model used to save settings for the Account Payment Domain
@@ -93,16 +152,10 @@ class AccountPaymentConfig(models.Model):
         _rec_name = 'config_name'
         config_name = fields.Char()
         
-        allowed_account_type_ids = fields.Many2many(comodel_name='account.account.type', string='Allowed Account Types', help='Accounts that belong to these types show up',
+        allowed_account_type_ids = fields.Many2many(comodel_name='account.account.type',  string='Allowed Account Types', help='Accounts that belong to these types show up',
         domain="[('type', 'in', ('receivable', 'payable'))]")
         
         allowed_account_ids = fields.Many2many(comodel_name='account.account', string='Allowed Accounts', help='These Accounts will show up',
         domain="[('user_type_id.type', 'in', ('receivable', 'payable'))]")
         
-# ~ class AccountAccount(models.Model):
-        # ~ _inherit = 'account.account'
-        # ~ account_payment_config = fields.Many2one(comodel_name = "account.payment.config", string = "Account Payment Config")
-        
-# ~ class AccountAccountType(models.Model):
-        # ~ _inherit = 'account.account.type'
-        # ~ account_payment_config = fields.Many2one(comodel_name = "account.payment.config", string = "Account Payment Config")
+
