@@ -60,9 +60,10 @@ class AccountPaymentOrder(models.Model):
                 _logger.warning(f"move = {move}")
 
                 _logger.warning(f"lines = {move.line_ids}")
-                if post_move:
-                    move.post()
-                bline.reconcile_payment_lines()
+                if self.payment_mode_id.post_move:
+                    if post_move:
+                        move.post()
+                    bline.reconcile_payment_lines()
                 
                     
 # ~ class BankPaymentLine(models.Model):
