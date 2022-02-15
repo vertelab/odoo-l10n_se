@@ -119,15 +119,18 @@ class AccountChartTemplate(models.Model):
         accounts = self.env['account.account'].search([('code', 'in', ['2610','2611','2612','2613','2614','2615','2616','2618','2620','2621','2622','2623','2624','2625','2626','2628','2630','2631','2632','2633','2634','2635','2636','2638','2640','2641','2642','2645','2646','2647','2648','2649','2650','2852'])])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_OvrigaKortfristigaSkulderMoms')
+        
+        _logger.warning("CHANGES")
 
+        #Revert these changes
         #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts
         OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
         for acc in self.env['account.account'].search([('user_type_id','=',OvrigaKortfristigaSkulder.id)]):
             acc.reconcile = True
-        OvrigaKortfristigaSkulder.type = 'payable'
+        OvrigaKortfristigaSkulder.type = 'other'
 
-        #Todo make so that the correct account types are generated correctly and all account for those types are reconcile. Fix permanent solution for 1000-1900
-        account_xml_ids = ['account.data_account_type_receivable','account.data_account_type_current_assets','account.data_account_type_non_current_assets','account.data_account_type_fixed_assets','l10n_se.type_TecknatEjInbetaltKapital','l10n_se.type_HyresratterLiknandeRattigheter'
+        # ~ #Todo make so that the correct account types are generated correctly and all account for those types are reconcile. Fix permanent solution for 1000-1900
+        account_xml_ids = ['account.data_account_type_current_assets','account.data_account_type_non_current_assets','account.data_account_type_fixed_assets','l10n_se.type_TecknatEjInbetaltKapital','l10n_se.type_HyresratterLiknandeRattigheter'
         ,'l10n_se.type_Goodwill','l10n_se.type_ForskottImmateriellaAnlaggningstillgangar','l10n_se.type_ByggnaderMark','l10n_se.type_InventarierVerktygInstallationer','l10n_se.type_ForbattringsutgifterAnnansFastighet','l10n_se.type_OvrigaMateriellaAnlaggningstillgangar','l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar'
         ,'l10n_se.type_AndelarKoncernforetag','l10n_se.type_FordringarKoncernforetagLangfristiga','l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag','l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga','l10n_se.type_AgarintressenOvrigaForetag','l10n_se.type_AndraLangfristigaVardepappersinnehav'
         ,'l10n_se.type_LanDelagareNarstaende','l10n_se.type_AndraLangfristigaFordringar','l10n_se.type_LagerRavarorFornodenheter','l10n_se.type_LagerVarorUnderTillverkning' ,'l10n_se.type_LagerFardigaVarorHandelsvaror','l10n_se.type_OvrigaLagertillgangar','l10n_se.type_PagaendeArbetenAnnansRakningOmsattningstillgangar','l10n_se.type_ForskottTillLeverantorer'
@@ -136,9 +139,9 @@ class AccountChartTemplate(models.Model):
         for acctype in accounts_types:
             for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
                 acc.reconcile = True
-            acctype.type = 'receivable'
+            acctype.type = 'other'
 
-        # Denna fanns i listan innan ett tag och blev satt till recievable, men nu ska den vara other igen. 1800-1899
+        # ~ # Denna fanns i listan innan ett tag och blev satt till recievable, men nu ska den vara other igen. 1800-1899
         account_xml_ids = ['l10n_se.type_OvrigaKortfristigaPlaceringar','l10n_se.type_AndelarKoncernforetagKortfristiga']
         accounts_types = [self.env.ref(x) for x in account_xml_ids]
         for acctype in accounts_types:
@@ -146,8 +149,8 @@ class AccountChartTemplate(models.Model):
             for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
                 acc.reconcile = False
 
-        # ~ # 1900 -1999 Denna fanns i listan innan ett tag och blev satt till liquidity, men nu ska den vara other igen.
-        account_xml_ids =	['account.data_account_type_liquidity','l10n_se.type_Redovisningsmedel']
+        # 1900 -1999 Denna fanns i listan innan ett tag och blev satt till liquidity, men nu ska den vara other igen.
+        account_xml_ids =	['account.data_account_type_liquidity']
         accounts_types = [self.env.ref(x) for x in account_xml_ids]
         for acctype in accounts_types:
             acctype.type = 'liquidity'
@@ -236,6 +239,29 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
          'A tax balance fiscal position could be defined only one time on same taxes.')
     ]
 
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.move.line'
+    #So that i can keep track of any lines that have been added to balance out another tax line
+    opposite_tax_line = fields.Many2one('account.move.line', string='Parent category')
+    original_tax_line = fields.One2many('account.move.line', string='Parent category',inverse_name='opposite_tax_line')
+    
+    @api.onchange('original_tax_line')
+    def _onchange_opposite_tax_line(self):
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        
+    @api.depends('original_tax_line')
+    def _depends_opposite_tax_line(self):
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+        _logger.warning("_onchange_opposite_tax_line")
+    
 
 class AccountInvoice(models.Model):
     # ~ _inherit = 'account.invoice'
@@ -251,6 +277,272 @@ class AccountInvoice(models.Model):
             else:
                 domain = [('company_id', '=', company_id)]
             m.suitable_journal_ids = self.env['account.journal'].search(domain)
+            
+    def _recompute_tax_lines(self, recompute_tax_base_amount=False):
+        _logger.warning("_recompute_tax_lines")
+        _logger.warning("_recompute_tax_lines")
+        _logger.warning("_recompute_tax_lines")
+        _logger.warning("_recompute_tax_lines")
+        _logger.warning("_recompute_tax_lines")
+        _logger.warning("_recompute_tax_lines")
+        ''' Compute the dynamic tax lines of the journal entry.
+
+        :param lines_map: The line_ids dispatched by type containing:
+            * base_lines: The lines having a tax_ids set.
+            * tax_lines: The lines having a tax_line_id set.
+            * terms_lines: The lines generated by the payment terms of the invoice.
+            * rounding_lines: The cash rounding lines of the invoice.
+        '''
+        self.ensure_one()
+        in_draft_mode = self != self._origin
+
+        def _serialize_tax_grouping_key(grouping_dict):
+            ''' Serialize the dictionary values to be used in the taxes_map.
+            :param grouping_dict: The values returned by '_get_tax_grouping_key_from_tax_line' or '_get_tax_grouping_key_from_base_line'.
+            :return: A string representing the values.
+            '''
+            return '-'.join(str(v) for v in grouping_dict.values())
+
+        def _compute_base_line_taxes(base_line):
+            ''' Compute taxes amounts both in company currency / foreign currency as the ratio between
+            amount_currency & balance could not be the same as the expected currency rate.
+            The 'amount_currency' value will be set on compute_all(...)['taxes'] in multi-currency.
+            :param base_line:   The account.move.line owning the taxes.
+            :return:            The result of the compute_all method.
+            '''
+            move = base_line.move_id
+
+            if move.is_invoice(include_receipts=True):
+                handle_price_include = True
+                sign = -1 if move.is_inbound() else 1
+                quantity = base_line.quantity
+                is_refund = move.move_type in ('out_refund', 'in_refund')
+                price_unit_wo_discount = sign * base_line.price_unit * (1 - (base_line.discount / 100.0))
+            else:
+                handle_price_include = False
+                quantity = 1.0
+                tax_type = base_line.tax_ids[0].type_tax_use if base_line.tax_ids else None
+                is_refund = (tax_type == 'sale' and base_line.debit) or (tax_type == 'purchase' and base_line.credit)
+                price_unit_wo_discount = base_line.balance
+
+            balance_taxes_res = base_line.tax_ids._origin.with_context(force_sign=move._get_tax_force_sign()).compute_all(
+                price_unit_wo_discount,
+                currency=base_line.currency_id,
+                quantity=quantity,
+                product=base_line.product_id,
+                partner=base_line.partner_id,
+                is_refund=is_refund,
+                handle_price_include=handle_price_include,
+            )
+
+            if move.move_type == 'entry':
+                repartition_field = is_refund and 'refund_repartition_line_ids' or 'invoice_repartition_line_ids'
+                repartition_tags = base_line.tax_ids.flatten_taxes_hierarchy().mapped(repartition_field).filtered(lambda x: x.repartition_type == 'base').tag_ids
+                tags_need_inversion = (tax_type == 'sale' and not is_refund) or (tax_type == 'purchase' and is_refund)
+                if tags_need_inversion:
+                    balance_taxes_res['base_tags'] = base_line._revert_signed_tags(repartition_tags).ids
+                    for tax_res in balance_taxes_res['taxes']:
+                        tax_res['tag_ids'] = base_line._revert_signed_tags(self.env['account.account.tag'].browse(tax_res['tag_ids'])).ids
+
+            return balance_taxes_res
+
+        taxes_map = {}
+
+        # ==== Add tax lines ====
+        to_remove = self.env['account.move.line']
+        for line in self.line_ids.filtered('tax_repartition_line_id'):
+            grouping_dict = self._get_tax_grouping_key_from_tax_line(line)
+            grouping_key = _serialize_tax_grouping_key(grouping_dict)
+            if grouping_key in taxes_map:
+                # A line with the same key does already exist, we only need one
+                # to modify it; we have to drop this one.
+                to_remove += line
+            else:
+                taxes_map[grouping_key] = {
+                    'tax_line': line,
+                    'amount': 0.0,
+                    'tax_base_amount': 0.0,
+                    'grouping_dict': False,
+                }
+        
+
+        if not recompute_tax_base_amount:
+            self.line_ids -= to_remove
+
+        # ==== Mount base lines ====
+        for line in self.line_ids.filtered(lambda line: not line.tax_repartition_line_id):
+            # Don't call compute_all if there is no tax.
+            if not line.tax_ids:
+                if not recompute_tax_base_amount:
+                    line.tax_tag_ids = [(5, 0, 0)]
+                continue
+
+            ######################ADDITIONS#####################
+            fiscal_position = self.fiscal_position_id
+            compute_all_vals = _compute_base_line_taxes(line)
+            
+
+            # ~ When the user presses post then we add the balance lines here if needed.
+            # ~ Skatte område/Fiscal Position
+            fiscal_position = self.fiscal_position_id
+            
+            # ~ Balance map for the current fiscal postition
+            tax_balance_map_ids = self.fiscal_position_id.tax_balance_ids
+            tax_balance_dict = {}
+            for tax_balance_map_id in tax_balance_map_ids:
+                src_tax = tax_balance_map_id.tax_src_id
+                dest_tax = tax_balance_map_id.tax_dest_id
+                
+                tax_balance_dict[src_tax.name] = dest_tax
+                # ~ _logger.warning("jakmar: tax src: {}, tax dest: {}".format(src_tax.name, dest_tax.name))
+                
+                
+            opposite_tax_line_values = []
+                
+            for tax_line_val in compute_all_vals['taxes']:
+                 opposite_tax = tax_balance_dict.get(tax_line_val['name'])
+                 if opposite_tax:
+                     account_id = opposite_tax.invoice_repartition_line_ids.account_id.id
+                     name = f"Balanced the {tax_line_val['name']} tax line with {opposite_tax.name}"
+                     
+                     # ~ account_id
+                     # ~ opposite_tax_line_value.append{}
+                     opposite_value_line = {
+                        'id': tax_line_val['id'],
+                        'name': name,
+                        'amount': -tax_line_val['amount'],
+                        'base': tax_line_val['base'],
+                        'sequence': 1,
+                        'account_id': account_id,
+                        'analytic': False,
+                        'price_include': False,
+                        'tax_exigibility': 'on_invoice',
+                        'tax_repartition_line_id': opposite_tax.invoice_repartition_line_ids.account_id.id,
+                        'group': None,
+                        'tag_ids': [],
+                        'tax_ids': []
+                        }
+                     opposite_tax_line_values.append(opposite_value_line)
+            for opposite_tax_line_value in opposite_tax_line_values:
+                compute_all_vals['taxes'].append(opposite_tax_line_value)
+                
+            ######################END OF ADDITIONS#####################
+            
+                
+            # Assign tags on base line
+            if not recompute_tax_base_amount:
+                line.tax_tag_ids = compute_all_vals['base_tags'] or [(5, 0, 0)]
+
+            tax_exigible = True
+            for tax_vals in compute_all_vals['taxes']:
+                grouping_dict = self._get_tax_grouping_key_from_base_line(line, tax_vals)
+                grouping_key = _serialize_tax_grouping_key(grouping_dict)
+
+                tax_repartition_line = self.env['account.tax.repartition.line'].browse(tax_vals['tax_repartition_line_id'])
+                tax = tax_repartition_line.invoice_tax_id or tax_repartition_line.refund_tax_id
+
+                if tax.tax_exigibility == 'on_payment':
+                    tax_exigible = False
+
+                taxes_map_entry = taxes_map.setdefault(grouping_key, {
+                    'tax_line': None,
+                    'amount': 0.0,
+                    'tax_base_amount': 0.0,
+                    'grouping_dict': False,
+                })
+                taxes_map_entry['amount'] += tax_vals['amount']
+                taxes_map_entry['tax_base_amount'] += self._get_base_amount_to_display(tax_vals['base'], tax_repartition_line, tax_vals['group'])
+                taxes_map_entry['grouping_dict'] = grouping_dict
+            if not recompute_tax_base_amount:
+                line.tax_exigible = tax_exigible
+
+        # ==== Process taxes_map ====
+        for taxes_map_entry in taxes_map.values():
+            # The tax line is no longer used in any base lines, drop it.
+            if taxes_map_entry['tax_line'] and not taxes_map_entry['grouping_dict']:
+                if not recompute_tax_base_amount:
+                    self.line_ids -= taxes_map_entry['tax_line']
+                continue
+
+            currency = self.env['res.currency'].browse(taxes_map_entry['grouping_dict']['currency_id'])
+
+            # Don't create tax lines with zero balance.
+            if currency.is_zero(taxes_map_entry['amount']):
+                if taxes_map_entry['tax_line'] and not recompute_tax_base_amount:
+                    self.line_ids -= taxes_map_entry['tax_line']
+                continue
+
+            # tax_base_amount field is expressed using the company currency.
+            tax_base_amount = currency._convert(taxes_map_entry['tax_base_amount'], self.company_currency_id, self.company_id, self.date or fields.Date.context_today(self))
+
+            # Recompute only the tax_base_amount.
+            if recompute_tax_base_amount:
+                if taxes_map_entry['tax_line']:
+                    taxes_map_entry['tax_line'].tax_base_amount = tax_base_amount
+                continue
+
+            balance = currency._convert(
+                taxes_map_entry['amount'],
+                self.journal_id.company_id.currency_id,
+                self.journal_id.company_id,
+                self.date or fields.Date.context_today(self),
+            )
+            to_write_on_line = {
+                'amount_currency': taxes_map_entry['amount'],
+                'currency_id': taxes_map_entry['grouping_dict']['currency_id'],
+                'debit': balance > 0.0 and balance or 0.0,
+                'credit': balance < 0.0 and -balance or 0.0,
+                'tax_base_amount': tax_base_amount,
+            }
+            
+            #Addition,
+            if taxes_map_entry['tax_line']:
+                # Update an existing tax line.
+                taxes_map_entry['tax_line'].update(to_write_on_line)
+            else:
+                create_method = in_draft_mode and self.env['account.move.line'].new or self.env['account.move.line'].create
+                tax_repartition_line_id = taxes_map_entry['grouping_dict']['tax_repartition_line_id']
+                tax_repartition_line = self.env['account.tax.repartition.line'].browse(tax_repartition_line_id)
+                tax = tax_repartition_line.invoice_tax_id or tax_repartition_line.refund_tax_id
+                taxes_map_entry['tax_line'] = create_method({
+                    **to_write_on_line,
+                    'name': tax.name,
+                    'move_id': self.id,
+                    'partner_id': line.partner_id.id,
+                    'company_id': line.company_id.id,
+                    'company_currency_id': line.company_currency_id.id,
+                    'tax_base_amount': tax_base_amount,
+                    'exclude_from_invoice_tab': True,
+                    'tax_exigible': tax.tax_exigibility == 'on_invoice',
+                    **taxes_map_entry['grouping_dict'],
+                })
+                
+               # ~ if taxes_map_entry['tax_line'].account 
+            
+            if in_draft_mode:
+                taxes_map_entry['tax_line'].update(taxes_map_entry['tax_line']._get_fields_onchange_balance(force_computation=True))
+    
+    
+    @api.model
+    def _get_tax_grouping_key_from_tax_line(self, tax_line):
+        ''' Create the dictionary based on a tax line that will be used as key to group taxes together.
+        /!\ Must be consistent with '_get_tax_grouping_key_from_base_line'.
+        :param tax_line:    An account.move.line being a tax line (with 'tax_repartition_line_id' set then).
+        :return:            A dictionary containing all fields on which the tax will be grouped.
+        '''
+        res = {
+            'tax_repartition_line_id': tax_line.tax_repartition_line_id.id,
+            'account_id': tax_line.account_id.id,
+            'currency_id': tax_line.currency_id.id,
+            'analytic_tag_ids': [(6, 0, tax_line.tax_line_id.analytic and tax_line.analytic_tag_ids.ids or [])],
+            'analytic_account_id': tax_line.tax_line_id.analytic and tax_line.analytic_account_id.id,
+            'tax_ids': [(6, 0, tax_line.tax_ids.ids)],
+            'tax_tag_ids': [(6, 0, tax_line.tax_tag_ids.ids)],
+        }
+        _logger.warning(f"{tax_line.account_id.id}")
+        _logger.warning(f"{tax_line.account_id.name}")
+        _logger.warning(f"{tax_line.account_id.code}")
+        return res
 
     # ~ OLD function to add balance taxes, this function no longer exists in account.move, which is why it never gets called.
     # ~ @api.model
@@ -270,8 +562,13 @@ class AccountInvoice(models.Model):
         # ~ return res
 
 # ~ inherited override a function from accoung.move, due to the fact that we sometimes need to add extra journal lines based on account.fisical.postion and the tax used for that line.
-
-    def action_post(self):
+# Technical field used to know on which lines the taxes must be recomputed.
+# recompute_tax_line
+# Every time we add/change a line we should try and balance it
+ 
+    # ~ def add_tax_line_balance(self):
+    def balance_tax_depending_on_fiscal_position(self):
+        _logger.warning("balance_tax_depending_on_fiscal_position")
         # ~ When the user presses post then we add the balance lines here if needed.
         # ~ Skatte område/Fiscal Position
         fiscal_position = self.fiscal_position_id
@@ -288,24 +585,61 @@ class AccountInvoice(models.Model):
             # ~ _logger.warning("jakmar: tax src: {}, tax dest: {}".format(src_tax.name, dest_tax.name))
         
         for move_line in self.line_ids:
+            _logger.warning(f"{move_line}")
             # ~ _logger.warning(f"jakmar line name:{move_line.name} tax: {move_line.tax_line_id.name}")
             # ~ Check if a tax balance exists
             if move_line.tax_line_id.name in tax_balance_dict:
-                vals ={
-                'name': f'Balance tax line: From: {move_line.tax_line_id.name} To: {tax_balance_dict[move_line.tax_line_id.name].name}', 
-                'move_id':move_line.move_id.id,
-                'currency_id':move_line.currency_id.id,
-                'account_id':tax_balance_dict[move_line.tax_line_id.name].invoice_repartition_line_ids.account_id.id,
-                'exclude_from_invoice_tab':True,
-                'credit':move_line.debit
-                }
-                context_copy = self.env.context.copy()
-                context_copy.update({'check_move_validity':False})
-                new_line = self.with_context(context_copy).env['account.move.line'].create(vals)  
-                new_line.write({'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id})# ~ won't set the correct tax_line_id if i try to set it during create
-                self.with_context(context_copy)._recompute_dynamic_lines()
-                
+                opposite_tax_account = tax_balance_dict[move_line.tax_line_id.name].invoice_repartition_line_ids.account_id.id
+                #remove old line if exists, since we can cancel and confirm again. #This solution isn't going to work for any old invoices since the connection hasn't been made.
+                _logger.warning(move_line.id)
+                _logger.warning(move_line.id)
+                _logger.warning(move_line.id)
+                _logger.warning(move_line.id)
+                _logger.warning(move_line.id)
+                _logger.warning(move_line.id)
+                old_opposite_tax_line = move_line.opposite_tax_line
+                _logger.warning(f"{old_opposite_tax_line=}")
+                # ~ current_year_earnings.write({"name":'Current Year Earnings'})
+                if old_opposite_tax_line != False:
+                    _logger.warning(f"JAKMAR OLD BALANCE LINE {old_opposite_tax_line}")
+                    old_opposite_tax_line.credit = move_line.debit
+                else: 
+                    vals ={
+                    'name': f'Balance tax line: From: {move_line.tax_line_id.name} To: {tax_balance_dict[move_line.tax_line_id.name].name}', 
+                    'move_id':self.id,
+                    'currency_id':move_line.currency_id.id,
+                    'account_id':opposite_tax_account,
+                    'exclude_from_invoice_tab':True,
+                    'credit':move_line.debit,
+                    'original_tax_line':move_line.id,
+                    'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id,
+                    }
+
+                    context_copy = self.env.context.copy()
+                    context_copy.update({'check_move_validity':False})
+                    # ~ new_line = self.with_context(context_copy).env['account.move.line'].create(vals)  
+                    self.with_context(context_copy).write({'line_ids':[(0,0,vals)]})
+                    _logger.warning(f"{self=}")
+                    _logger.warning(f"{self.invoice_line_ids}")
+                    # ~ new_line.write({'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id})# ~ won't set the correct tax_line_id if i try to set it during create
+                    self.with_context(context_copy)._recompute_dynamic_lines()
+                    # ~ new_line.write({'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id})# ~ won't set the correct tax_line_id if i try to set it during create
+                    # ~ move_line.opposite_tax_line = new_line
+                    _logger.warning(f"opposite {move_line.opposite_tax_line}")
+                    
         # ~ end of my added code
+         
+        
+    @api.onchange('invoice_line_ids')
+    def _onchange_invoice_line_ids(self):
+        _logger.warning("_onchange_invoice_line_ids")
+        res = super(AccountInvoice, self)._onchange_invoice_line_ids()
+        # ~ self.balance_tax_depending_on_fiscal_position()
+        return res
+        
+    def action_post(self):
+        _logger.warning("ACTION POST")
+        # ~ self.balance_tax_depending_on_fiscal_position()
         return super(AccountInvoice, self).action_post()
         
         
