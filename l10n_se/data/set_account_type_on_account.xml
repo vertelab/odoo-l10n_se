@@ -12,6 +12,17 @@
             </field>
         </record>
         
+            <record model="ir.actions.server" id="set_account_type">
+            <field name="name">Fix Fiscal Postion Config </field>
+            <field name="model_id" ref="account.model_account_fiscal_position"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="account.model_account_fiscal_position"/>
+            <field name="binding_type">action</field>
+            <field name="code">
+                    for record in records:
+                        record.fix_old_tax_config()
+            </field>
+        </record>
 <!--
         <function model = "account.account" name="fix_account_types"/>
 -->
