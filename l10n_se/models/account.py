@@ -192,6 +192,39 @@ class AccountFiscalPosition(models.Model):
                 'invoice_id': values.get('invoice_id'),
                 'tax_ids': values.get('tax_ids'), # Looks like it will contain any previous taxes that will be included in the base value for this tax
             }
+    def fix_old_tax_config(self):
+        _logger.warning(self)
+        for record in self:
+            _logger.warning(record)
+            for line in record.tax_balance_ids:
+                _logger.warning(line)
+                tax_src = line.tax_src_id
+                _logger.warning(f"{tax_src=}")
+                dest_tax = line.tax_dest_id
+                _logger.warning(f"dest {dest_tax.name}")
+                dest_account_id = ""
+                
+                for line in dest_tax.invoice_repartition_line_ids:
+                    if line.account_id:
+                        dest_account_id = line.account_id
+                        break
+                        
+                # ~ _logger.warning(f"{dest_tax_reperation=}")
+                already_added = False
+                # ~ _logger.warning(f"{dest_account_id=}")
+                
+                for account in tax_src.invoice_repartition_line_ids.mapped("account_id"):
+                    if account == dest_account_id:
+                        already_added = True
+                    # ~ _logger.warning(f"{account}")
+                # ~ _logger.warning(f"{already_added}")
+                
+                if not already_added:
+                    val = {"factor_percent":-100,"repartition_type":"tax","account_id":dest_account_id.id}
+                    # ~ _logger.warning(f"{val}")
+                    tax_src.write({"invoice_repartition_line_ids":[(0,0,val)],'refund_repartition_line_ids':[(0,0,val)]})
+                    # ~ _logger.warning(f"{dest_tax.name}")
+                # ~ tax_src.write("invoice_repartition_line_ids":[(4,dest_tax,0)])
 
 
 class AccountFiscalPositionTaxBalance(models.Model):
@@ -239,28 +272,7 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
          'A tax balance fiscal position could be defined only one time on same taxes.')
     ]
 
-class AccountInvoiceLine(models.Model):
-    _inherit = 'account.move.line'
-    #So that i can keep track of any lines that have been added to balance out another tax line
-    opposite_tax_line = fields.Many2one('account.move.line', string='Parent category')
-    original_tax_line = fields.One2many('account.move.line', string='Parent category',inverse_name='opposite_tax_line')
-    
-    @api.onchange('original_tax_line')
-    def _onchange_opposite_tax_line(self):
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        
-    @api.depends('original_tax_line')
-    def _depends_opposite_tax_line(self):
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
-        _logger.warning("_onchange_opposite_tax_line")
+
     
 
 class AccountInvoice(models.Model):
@@ -279,12 +291,6 @@ class AccountInvoice(models.Model):
             m.suitable_journal_ids = self.env['account.journal'].search(domain)
             
     def _recompute_tax_lines(self, recompute_tax_base_amount=False):
-        _logger.warning("_recompute_tax_lines")
-        _logger.warning("_recompute_tax_lines")
-        _logger.warning("_recompute_tax_lines")
-        _logger.warning("_recompute_tax_lines")
-        _logger.warning("_recompute_tax_lines")
-        _logger.warning("_recompute_tax_lines")
         ''' Compute the dynamic tax lines of the journal entry.
 
         :param lines_map: The line_ids dispatched by type containing:
@@ -376,59 +382,9 @@ class AccountInvoice(models.Model):
                 if not recompute_tax_base_amount:
                     line.tax_tag_ids = [(5, 0, 0)]
                 continue
-
-            ######################ADDITIONS#####################
-            fiscal_position = self.fiscal_position_id
+            
             compute_all_vals = _compute_base_line_taxes(line)
-            
 
-            # ~ When the user presses post then we add the balance lines here if needed.
-            # ~ Skatte område/Fiscal Position
-            fiscal_position = self.fiscal_position_id
-            
-            # ~ Balance map for the current fiscal postition
-            tax_balance_map_ids = self.fiscal_position_id.tax_balance_ids
-            tax_balance_dict = {}
-            for tax_balance_map_id in tax_balance_map_ids:
-                src_tax = tax_balance_map_id.tax_src_id
-                dest_tax = tax_balance_map_id.tax_dest_id
-                
-                tax_balance_dict[src_tax.name] = dest_tax
-                # ~ _logger.warning("jakmar: tax src: {}, tax dest: {}".format(src_tax.name, dest_tax.name))
-                
-                
-            opposite_tax_line_values = []
-                
-            for tax_line_val in compute_all_vals['taxes']:
-                 opposite_tax = tax_balance_dict.get(tax_line_val['name'])
-                 if opposite_tax:
-                     account_id = opposite_tax.invoice_repartition_line_ids.account_id.id
-                     name = f"Balanced the {tax_line_val['name']} tax line with {opposite_tax.name}"
-                     
-                     # ~ account_id
-                     # ~ opposite_tax_line_value.append{}
-                     opposite_value_line = {
-                        'id': tax_line_val['id'],
-                        'name': name,
-                        'amount': -tax_line_val['amount'],
-                        'base': tax_line_val['base'],
-                        'sequence': 1,
-                        'account_id': account_id,
-                        'analytic': False,
-                        'price_include': False,
-                        'tax_exigibility': 'on_invoice',
-                        'tax_repartition_line_id': opposite_tax.invoice_repartition_line_ids.account_id.id,
-                        'group': None,
-                        'tag_ids': [],
-                        'tax_ids': []
-                        }
-                     opposite_tax_line_values.append(opposite_value_line)
-            for opposite_tax_line_value in opposite_tax_line_values:
-                compute_all_vals['taxes'].append(opposite_tax_line_value)
-                
-            ######################END OF ADDITIONS#####################
-            
-                
             # Assign tags on base line
             if not recompute_tax_base_amount:
                 line.tax_tag_ids = compute_all_vals['base_tags'] or [(5, 0, 0)]
@@ -495,7 +451,7 @@ class AccountInvoice(models.Model):
                 'tax_base_amount': tax_base_amount,
             }
             
-            #Addition,
+
             if taxes_map_entry['tax_line']:
                 # Update an existing tax line.
                 taxes_map_entry['tax_line'].update(to_write_on_line)
@@ -516,33 +472,33 @@ class AccountInvoice(models.Model):
                     'tax_exigible': tax.tax_exigibility == 'on_invoice',
                     **taxes_map_entry['grouping_dict'],
                 })
+            
+            ######################ADDITIONS#####################
+                fiscal_position = self.fiscal_position_id
+
+                # ~ _logger.warning("jakmar: skatteområde: {} id:{}".format(self.fiscal_position_id.name, self.fiscal_position_id.id))
+                # ~ Balance map for the current fiscal postition
+                tax_balance_map_ids = self.fiscal_position_id.tax_balance_ids
+                tax_balance_dict = {}
+                for tax_balance_map_id in tax_balance_map_ids:
+                    src_tax = tax_balance_map_id.tax_src_id
+                    dest_tax = tax_balance_map_id.tax_dest_id
+                    tax_balance_dict[src_tax.name] = dest_tax
                 
-               # ~ if taxes_map_entry['tax_line'].account 
+                
+                for line in taxes_map_entry['tax_line']:
+                    dest_tax = tax_balance_dict.get(line.tax_line_id.name)
+                    if dest_tax and dest_tax.invoice_repartition_line_ids and line.account_id.code == dest_tax.invoice_repartition_line_ids.account_id.code:
+                        line.tax_line_id = dest_tax
+                        line.name = "Skatt balans rad"
+        ######################END OF ADDITIONS#####################
+                
             
             if in_draft_mode:
                 taxes_map_entry['tax_line'].update(taxes_map_entry['tax_line']._get_fields_onchange_balance(force_computation=True))
     
     
-    @api.model
-    def _get_tax_grouping_key_from_tax_line(self, tax_line):
-        ''' Create the dictionary based on a tax line that will be used as key to group taxes together.
-        /!\ Must be consistent with '_get_tax_grouping_key_from_base_line'.
-        :param tax_line:    An account.move.line being a tax line (with 'tax_repartition_line_id' set then).
-        :return:            A dictionary containing all fields on which the tax will be grouped.
-        '''
-        res = {
-            'tax_repartition_line_id': tax_line.tax_repartition_line_id.id,
-            'account_id': tax_line.account_id.id,
-            'currency_id': tax_line.currency_id.id,
-            'analytic_tag_ids': [(6, 0, tax_line.tax_line_id.analytic and tax_line.analytic_tag_ids.ids or [])],
-            'analytic_account_id': tax_line.tax_line_id.analytic and tax_line.analytic_account_id.id,
-            'tax_ids': [(6, 0, tax_line.tax_ids.ids)],
-            'tax_tag_ids': [(6, 0, tax_line.tax_tag_ids.ids)],
-        }
-        _logger.warning(f"{tax_line.account_id.id}")
-        _logger.warning(f"{tax_line.account_id.name}")
-        _logger.warning(f"{tax_line.account_id.code}")
-        return res
+
 
     # ~ OLD function to add balance taxes, this function no longer exists in account.move, which is why it never gets called.
     # ~ @api.model
@@ -560,90 +516,6 @@ class AccountInvoice(models.Model):
             # ~ i += 1
         # ~ _logger.warn('res: %s' % res)
         # ~ return res
-
-# ~ inherited override a function from accoung.move, due to the fact that we sometimes need to add extra journal lines based on account.fisical.postion and the tax used for that line.
-# Technical field used to know on which lines the taxes must be recomputed.
-# recompute_tax_line
-# Every time we add/change a line we should try and balance it
- 
-    # ~ def add_tax_line_balance(self):
-    def balance_tax_depending_on_fiscal_position(self):
-        _logger.warning("balance_tax_depending_on_fiscal_position")
-        # ~ When the user presses post then we add the balance lines here if needed.
-        # ~ Skatte område/Fiscal Position
-        fiscal_position = self.fiscal_position_id
-        # ~ _logger.warning("jakmar: skatteområde: {} id:{}".format(self.fiscal_position_id.name, self.fiscal_position_id.id))
-        
-        # ~ Balance map for the current fiscal postition
-        tax_balance_map_ids = self.fiscal_position_id.tax_balance_ids
-        tax_balance_dict = {}
-        for tax_balance_map_id in tax_balance_map_ids:
-            src_tax = tax_balance_map_id.tax_src_id
-            dest_tax = tax_balance_map_id.tax_dest_id
-            
-            tax_balance_dict[src_tax.name] = dest_tax
-            # ~ _logger.warning("jakmar: tax src: {}, tax dest: {}".format(src_tax.name, dest_tax.name))
-        
-        for move_line in self.line_ids:
-            _logger.warning(f"{move_line}")
-            # ~ _logger.warning(f"jakmar line name:{move_line.name} tax: {move_line.tax_line_id.name}")
-            # ~ Check if a tax balance exists
-            if move_line.tax_line_id.name in tax_balance_dict:
-                opposite_tax_account = tax_balance_dict[move_line.tax_line_id.name].invoice_repartition_line_ids.account_id.id
-                #remove old line if exists, since we can cancel and confirm again. #This solution isn't going to work for any old invoices since the connection hasn't been made.
-                _logger.warning(move_line.id)
-                _logger.warning(move_line.id)
-                _logger.warning(move_line.id)
-                _logger.warning(move_line.id)
-                _logger.warning(move_line.id)
-                _logger.warning(move_line.id)
-                old_opposite_tax_line = move_line.opposite_tax_line
-                _logger.warning(f"{old_opposite_tax_line=}")
-                # ~ current_year_earnings.write({"name":'Current Year Earnings'})
-                if old_opposite_tax_line != False:
-                    _logger.warning(f"JAKMAR OLD BALANCE LINE {old_opposite_tax_line}")
-                    old_opposite_tax_line.credit = move_line.debit
-                else: 
-                    vals ={
-                    'name': f'Balance tax line: From: {move_line.tax_line_id.name} To: {tax_balance_dict[move_line.tax_line_id.name].name}', 
-                    'move_id':self.id,
-                    'currency_id':move_line.currency_id.id,
-                    'account_id':opposite_tax_account,
-                    'exclude_from_invoice_tab':True,
-                    'credit':move_line.debit,
-                    'original_tax_line':move_line.id,
-                    'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id,
-                    }
-
-                    context_copy = self.env.context.copy()
-                    context_copy.update({'check_move_validity':False})
-                    # ~ new_line = self.with_context(context_copy).env['account.move.line'].create(vals)  
-                    self.with_context(context_copy).write({'line_ids':[(0,0,vals)]})
-                    _logger.warning(f"{self=}")
-                    _logger.warning(f"{self.invoice_line_ids}")
-                    # ~ new_line.write({'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id})# ~ won't set the correct tax_line_id if i try to set it during create
-                    self.with_context(context_copy)._recompute_dynamic_lines()
-                    # ~ new_line.write({'tax_line_id':tax_balance_dict[move_line.tax_line_id.name].id})# ~ won't set the correct tax_line_id if i try to set it during create
-                    # ~ move_line.opposite_tax_line = new_line
-                    _logger.warning(f"opposite {move_line.opposite_tax_line}")
-                    
-        # ~ end of my added code
-         
-        
-    @api.onchange('invoice_line_ids')
-    def _onchange_invoice_line_ids(self):
-        _logger.warning("_onchange_invoice_line_ids")
-        res = super(AccountInvoice, self)._onchange_invoice_line_ids()
-        # ~ self.balance_tax_depending_on_fiscal_position()
-        return res
-        
-    def action_post(self):
-        _logger.warning("ACTION POST")
-        # ~ self.balance_tax_depending_on_fiscal_position()
-        return super(AccountInvoice, self).action_post()
-        
-        
-
 
 
 
