@@ -351,6 +351,9 @@ class account_sie(models.TransientModel):
                 #~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), self.escape_sie_string('' if ver.name == '/' else ver.name), self.escape_sie_string(ver.date.replace('-','')), self.escape_sie_string(self.fix_empty(ver.narration)), self.escape_sie_string(ver.create_uid.login))
                 #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
                 for trans in ver.line_ids:
+                    _logger.warning(f"jakmar: {trans.display_type}")
+                    if trans.display_type == "line_note" or trans.display_type == 'line_section':
+                        continue
                     str += '#TRANS %s {} %s %s "%s" %s %s\n' % (self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit, self.escape_sie_string(trans.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(trans.name)), trans.quantity, self.escape_sie_string(trans.create_uid.login))
                     if trans.account_id.code not in ub:
                         ub[trans.account_id.code] = 0.0
