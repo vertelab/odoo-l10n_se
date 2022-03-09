@@ -26,10 +26,11 @@ from operator import itemgetter
 
 from openerp.osv import osv
 
-from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _,exceptions
+from odoo.exceptions import except_orm, Warning, RedirectWarning,UserError, ValidationError
 import base64
 from odoo.tools.safe_eval import safe_eval as eval
+
 
 try:
     from xlrd import open_workbook
@@ -279,6 +280,40 @@ class AccountInvoice(models.Model):
     # ~ _inherit = 'account.invoice'
     _inherit = 'account.move'
     
+    def set_tax_account(self, tax_name, account_code):
+        _logger.warning("set_tax_account")
+        _logger.warning("set_tax_account")
+        _logger.warning("set_tax_account")
+        _logger.warning("set_tax_account")
+        _logger.warning("set_tax_account")
+        _logger.warning("set_tax_account")
+        _logger.warning("set_tax_account")
+        _logger.warning("set_tax_account")
+        _logger.warning(f"{tax_name=}")
+        _logger.warning(f"{account_code=}")
+        _logger.warning(f"{self=}")
+        
+        correct_account = self.env["account.account"].search([("code","=",account_code)])
+        if not correct_account:
+            _logger.warning(f"Hittade ingen konto")
+            raise UserError(f"Couldnt find account {account_name}")
+        _logger.warning(f"{correct_account=}")
+        
+        correct_tax = self.env["account.tax"].search([("name","=",tax_name)])
+        if not correct_account:
+            _logger.warning(f"Hittade ingen skatt")
+            raise UserError(f"Couldnt find tax {tax_name}")
+        _logger.warning(f"{correct_tax=}")
+        
+        for line in self.line_ids:
+            if line.tax_line_id:
+                _logger.warning(f"og tax name = {line.tax_line_id.name}")
+                if line.account_id:
+                    _logger.warning(f"account name = {line.account_id.name}")
+                if line.tax_line_id.name == tax_name:
+                    _logger.warning(f"Found a match {line.tax_line_id.name} = {tax_name}")
+                    line.account_id = correct_account
+                    
     @api.depends('company_id', 'invoice_filter_type_domain')
     def _compute_suitable_journal_ids(self):
         for m in self:
