@@ -86,7 +86,7 @@ class AccountBankStatementImport(models.TransientModel):
         seb = parser.parse()
         for s in seb.statements:
             currency = self.env['res.currency'].search([('name','=',s['currency_code'])])
-            account = self.env['res.partner.bank'].search([('acc_number','=',s['account_no'])]).mapped('journal_id').mapped('payment_debit_account_id')
+            account = self.env['res.partner.bank'].search([('acc_number','=',s['account_number'])]).mapped('journal_id').mapped('payment_debit_account_id')
             move_line_ids = []
             for t in s['transactions']:
                 if s['currency_code'] != currency.name:
