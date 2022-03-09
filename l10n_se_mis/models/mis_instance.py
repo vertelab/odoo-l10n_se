@@ -1,10 +1,11 @@
-from openerp import models, fields, api
+from openerp import models, fields, api,_
 import logging
 import base64
 from lxml import etree
 from .aep import AccountingExpressionProcessorExtended as AEPE
 from .expression_evaluator import ExpressionEvaluatorExtended as EEE
 from .kpimatrix import KpiMatrixExtended as KME
+# ~ from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -104,7 +105,7 @@ class MisReportInstance(models.Model):
                 return False
                 
 
-class MisReportInstance(models.Model):
+class MisReportInstance(models.Model): ### Should Be Called MisReport
     _inherit = 'mis.report'
 
     def _prepare_aep(self, companies, currency=None):
@@ -138,4 +139,60 @@ class MisReportInstance(models.Model):
                 for account_id in account_ids:
                     res[account_id].add(kpi)
         return res
+        
+        
+class MisReportInstanceFixAnalyticTag(models.Model): ### Should Be Called MisReportInstance
+    _inherit = "mis.report.instance"
+
+
+    @api.model
+    def get_filter_descriptions_from_context(self):
+        _logger.warning("get_filter_descriptions_from_context")
+        _logger.warning("get_filter_descriptions_from_context")
+        _logger.warning("get_filter_descriptions_from_context")
+        _logger.warning("get_filter_descriptions_from_context")
+        _logger.warning("get_filter_descriptions_from_context")
+        _logger.warning("get_filter_descriptions_from_context")
+        _logger.warning("get_filter_descriptions_from_context")
+        filters = self.env.context.get("mis_report_filters", {})
+        analytic_account_id = filters.get("analytic_account_id", {}).get("value")
+        filter_descriptions = []
+        if analytic_account_id:
+            analytic_account = self.env["account.analytic.account"].browse(
+                analytic_account_id
+            )
+            filter_descriptions.append(
+                _("Analytic Account: %s") % analytic_account.display_name
+            )
+        analytic_group_id = filters.get("analytic_account_id.group_id", {}).get("value")
+        if analytic_group_id:
+            analytic_group = self.env["account.analytic.group"].browse(
+                analytic_group_id
+            )
+            filter_descriptions.append(
+                _("Analytic Account Group: %s") % analytic_group.display_name
+            )
+        analytic_tag_value = filters.get("analytic_tag_ids", {}).get("value")
+        if analytic_tag_value:
+            _logger.warning(f"{analytic_tag_value=}")
+            # TODO 14 
+            analytic_tag_names = []
+            for tag in analytic_tag_value:
+                tag_record = self.env['account.analytic.tag'].browse(tag)
+                _logger.warning(f"{tag_record=}")
+                if tag_record: 
+                    for account_analytic_distribution in tag_record.analytic_distribution_ids:
+                        _logger.warning(f"analytic account name = {account_analytic_distribution.account_id.name}")
+                        account_analytic_distribution.account_id.name
+                        analytic_tag_names.append(account_analytic_distribution.account_id.name)
+            # ~ analytic_tag_names = self.resolve_2many_commands(
+                # ~ "analytic_tag_ids", analytic_tag_value, ["name"]
+            # ~ )
+            _logger.warning(f"{analytic_tag_names=}")
+            filter_descriptions.append(
+                _("Analytic Tags: %s")
+                % ", ".join([rec for rec in analytic_tag_names])
+            )
+        return filter_descriptions
+
 

@@ -24,10 +24,12 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 
+
 from openerp.osv import osv
 
 from odoo import models, fields, api, _,exceptions
 from odoo.exceptions import except_orm, Warning, RedirectWarning,UserError, ValidationError
+
 import base64
 from odoo.tools.safe_eval import safe_eval as eval
 

@@ -213,12 +213,12 @@ class BankStatement(dict):
     @property
     def local_account(self):
         """property getter"""
-        return self['account_no']
+        return self['account_number']
 
     @local_account.setter
     def local_account(self, local_account):
         """property setter"""
-        self['account_no'] = local_account
+        self['account_number'] = local_account
 
     @property
     def local_currency(self):
@@ -338,20 +338,20 @@ class AccountBankStatementImport(models.TransientModel):
         ''' Override create method, do auto reconcile after statement created. '''
         for i in range(len(stmts_vals)):
             currency_id = self.env.ref('base.'+stmts_vals[i].pop('currency_code')).id
-            if 'account_number' in stmts_vals[i]:
-                account_no = stmts_vals[i].pop('account_number')
-                stmts_vals[i]['account_no'] = account_no
+            # if 'account_number' in stmts_vals[i]:
+            #     account_no = stmts_vals[i].pop('account_number')
+            #     stmts_vals[i]['account_no'] = account_no
             stmts_vals[i]['currency_id'] = int(currency_id)
         super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals, result)
         statement_ids = result['statement_ids']
-        if len(statement_ids) > 0:
-            for statement in self.env['account.bank.statement'].browse(statement_ids):
-                for statement_line in statement.line_ids:
-                    if statement_line.bg_account and statement_line.bg_serial_number: # this is a bg line
-                        self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
-                    else: # searching invoices
-                        self.bank_statement_auto_reconcile_invoice(statement, statement_line, statement_line.name, statement_line.date, statement_line.amount)
-                statement.period_id = self.env['account.period'].date2period(statement.date)
+        # if len(statement_ids) > 0:
+        #     for statement in self.env['account.bank.statement'].browse(statement_ids):
+        #         for statement_line in statement.line_ids:
+        #             if statement_line.bg_account and statement_line.bg_serial_number: # this is a bg line
+        #                 self.bank_statement_auto_reconcile_bg(statement, statement_line, statement_line.bg_account, statement_line.bg_serial_number)
+        #             else: # searching invoices
+        #                 self.bank_statement_auto_reconcile_invoice(statement, statement_line, statement_line.name, statement_line.date, statement_line.amount)
+        #         statement.period_id = self.env['account.period'].date2period(statement.date)
 
     @api.model
     def bank_statement_auto_reconcile_bg(self, statement, statement_line, bg_account, bg_serial_number):
@@ -432,6 +432,7 @@ class AccountBankStatement(models.Model):
     _inherit = 'account.bank.statement'
 
     start_balance_calc = fields.Float(compute='_start_end_balance')
+    account_number = fields.Char(string='Account Number')
     end_balance_calc = fields.Float(compute='_start_end_balance')
 
     def _start_end_balance(self):
