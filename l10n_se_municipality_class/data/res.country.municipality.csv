@@ -100,7 +100,7 @@ municipality_se_1231,Burlöv,1231,base.se
 municipality_se_1233,Vellinge,1233,base.se
 municipality_se_1256,Östra Göinge,1256,base.se
 municipality_se_1257,Örkelljunga,1257,base.se
-municipality_se_1260,Bjuvs,1260,base.se
+municipality_se_1260,Bjuv,1260,base.se
 municipality_se_1261,Kävlinge,1261,base.se
 municipality_se_1262,Lomma,1262,base.se
 municipality_se_1263,Svedala,1263,base.se
@@ -116,7 +116,7 @@ municipality_se_1276,Klippan,1276,base.se
 municipality_se_1277,Åstorp,1277,base.se
 municipality_se_1278,Båstad,1278,base.se
 municipality_se_1280,Malmö,1280,base.se
-municipality_se_1281,Lunds,1281,base.se
+municipality_se_1281,Lund,1281,base.se
 municipality_se_1282,Landskrona,1282,base.se
 municipality_se_1283,Helsingborg,1283,base.se
 municipality_se_1284,Höganäs,1284,base.se
@@ -131,13 +131,13 @@ municipality_se_1315,Hylte,1315,base.se
 municipality_se_1380,Halmstad,1380,base.se
 municipality_se_1381,Laholm,1381,base.se
 municipality_se_1382,Falkenberg,1382,base.se
-municipality_se_1383,Varbergs,1383,base.se
+municipality_se_1383,Varberg,1383,base.se
 municipality_se_1384,Kungsbacka,1384,base.se
 municipality_se_1401,Härryda,1401,base.se
 municipality_se_1402,Partille,1402,base.se
 municipality_se_1407,Öckerö,1407,base.se
 municipality_se_1415,Stenungsund,1415,base.se
-municipality_se_1419,Tjörns,1419,base.se
+municipality_se_1419,Tjörn,1419,base.se
 municipality_se_1421,Orust,1421,base.se
 municipality_se_1427,Sotenäs,1427,base.se
 municipality_se_1430,Munkedal,1430,base.se
@@ -145,10 +145,10 @@ municipality_se_1435,Tanum,1435,base.se
 municipality_se_1438,Dals-Ed,1438,base.se
 municipality_se_1439,Färgelanda,1439,base.se
 municipality_se_1440,Ale,1440,base.se
-municipality_se_1441,Lerums,1441,base.se
+municipality_se_1441,Lerum,1441,base.se
 municipality_se_1442,Vårgårda,1442,base.se
 municipality_se_1443,Bollebygd,1443,base.se
-municipality_se_1444,Grästorps,1444,base.se
+municipality_se_1444,Grästorp,1444,base.se
 municipality_se_1445,Essunga,1445,base.se
 municipality_se_1446,Karlsborg,1446,base.se
 municipality_se_1447,Gullspång,1447,base.se
@@ -156,7 +156,7 @@ municipality_se_1452,Tranemo,1452,base.se
 municipality_se_1460,Bengtsfors,1460,base.se
 municipality_se_1461,Mellerud,1461,base.se
 municipality_se_1462,Lilla Edet,1462,base.se
-municipality_se_1463,Marks,1463,base.se
+municipality_se_1463,Mark,1463,base.se
 municipality_se_1465,Svenljunga,1465,base.se
 municipality_se_1466,Herrljunga,1466,base.se
 municipality_se_1470,Vara,1470,base.se
@@ -182,7 +182,7 @@ municipality_se_1496,Skövde,1496,base.se
 municipality_se_1497,Hjo,1497,base.se
 municipality_se_1498,Tidaholm,1498,base.se
 municipality_se_1499,Falköping,1499,base.se
-municipality_se_1715,Kils,1715,base.se
+municipality_se_1715,Kil,1715,base.se
 municipality_se_1730,Eda,1730,base.se
 municipality_se_1737,Torsby,1737,base.se
 municipality_se_1760,Storfors,1760,base.se
@@ -194,13 +194,13 @@ municipality_se_1765,Årjäng,1765,base.se
 municipality_se_1766,Sunne,1766,base.se
 municipality_se_1780,Karlstad,1780,base.se
 municipality_se_1781,Kristinehamn,1781,base.se
-municipality_se_1782,Filipstads,1782,base.se
+municipality_se_1782,Filipstad,1782,base.se
 municipality_se_1783,Hagfors,1783,base.se
 municipality_se_1784,Arvika,1784,base.se
 municipality_se_1785,Säffle,1785,base.se
 municipality_se_1814,Lekeberg,1814,base.se
 municipality_se_1860,Laxå,1860,base.se
-municipality_se_1861,Hallsbergs,1861,base.se
+municipality_se_1861,Hallsberg,1861,base.se
 municipality_se_1862,Degerfors,1862,base.se
 municipality_se_1863,Hällefors,1863,base.se
 municipality_se_1864,Ljusnarsberg,1864,base.se
@@ -218,11 +218,11 @@ municipality_se_1962,Norberg,1962,base.se
 municipality_se_1980,Västerås,1980,base.se
 municipality_se_1981,Sala,1981,base.se
 municipality_se_1982,Fagersta,1982,base.se
-municipality_se_1983,Köpings,1983,base.se
+municipality_se_1983,Köping,1983,base.se
 municipality_se_1984,Arboga,1984,base.se
 municipality_se_2021,Vansbro,2021,base.se
 municipality_se_2023,Malung-Sälen,2023,base.se
-municipality_se_2026,Gagnefs,2026,base.se
+municipality_se_2026,Gagnef,2026,base.se
 municipality_se_2029,Leksand,2029,base.se
 municipality_se_2031,Rättvik,2031,base.se
 municipality_se_2034,Orsa,2034,base.se
@@ -231,7 +231,7 @@ municipality_se_2061,Smedjebacken,2061,base.se
 municipality_se_2062,Mora,2062,base.se
 municipality_se_2080,Falu,2080,base.se
 municipality_se_2081,Borlänge,2081,base.se
-municipality_se_2082,Säters,2082,base.se
+municipality_se_2082,Säter,2082,base.se
 municipality_se_2083,Hedemora,2083,base.se
 municipality_se_2084,Avesta,2084,base.se
 municipality_se_2085,Ludvika,2085,base.se
@@ -239,7 +239,7 @@ municipality_se_2101,Ockelbo,2101,base.se
 municipality_se_2104,Hofors,2104,base.se
 municipality_se_2121,Ovanåker,2121,base.se
 municipality_se_2132,Nordanstig,2132,base.se
-municipality_se_2161,Ljusdals,2161,base.se
+municipality_se_2161,Ljusdal,2161,base.se
 municipality_se_2180,Gävle,2180,base.se
 municipality_se_2181,Sandviken,2181,base.se
 municipality_se_2182,Söderhamn,2182,base.se
