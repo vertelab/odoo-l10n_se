@@ -6,13 +6,13 @@
             <field name="name">load.mynt.wizard.wizard.form</field>
             <field name="model">load.mynt.wizard</field>
             <field name="arch" type="xml">
+                <form>
                     <group rowspan="4" string="File to upload">
                             <field name="mynt_directory"/>
                     </group>
                     <group string="Choose a journal">
                                 <field name="journal_id"/>
                     </group>
-                <form>
                        <footer>
                             <button name="import_file" string="Load Mynt File" type="object" class="oe_highlight" />
                             or
