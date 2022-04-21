@@ -49,6 +49,7 @@ class account_bank_statement(models.Model):
     _inherit = 'account.bank.statement'
 
     is_bg = fields.Boolean(string='Is Bankgiro')
+    account_no = fields.Char(string='Account Number')
     move_id = fields.Many2one(comodel_name='account.move', string='Account Move')
 
     @api.model
