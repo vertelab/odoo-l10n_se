@@ -23,6 +23,7 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
+from odoo.exceptions import ValidationError
 import zipfile
 import base64
 import tempfile
@@ -86,14 +87,14 @@ class LoadMynt(models.TransientModel):
                 
     def create_credit_account_move(self, row):
         amount = float(row["Amount"])  * (-1.0)
-        if row["VAT amount"] == "":
+        if row.get("VAT amount","") == "":
            row["VAT amount"] = "0.0" 
-        tax_amount = float(row["VAT amount"]) * (-1.0)
+        tax_amount = float(row.get("VAT amount")) * (-1.0)
         amount_without_tax = amount - tax_amount
         
-        if row["VAT rate"] == "":
+        if row.get("VAT rate") == "":
            row["VAT rate"]  = "0.0" 
-        vat_rate = float(row["VAT rate"].replace("%",""))
+        vat_rate = float(row.get("VAT rate").replace("%",""))
         if vat_rate == 0:
             tax_account = self.env["account.tax"].search([("name","=","MF"),("amount","=","0")])
         elif vat_rate == 6:
@@ -113,19 +114,19 @@ class LoadMynt(models.TransientModel):
         if not credit_account:
             raise ValidationError(f"No valid credit account found, please set it on your selected journal")
             
-        debit_account = self.env["account.account"].search([("code","=",row["Account"])])
+        debit_account = self.env["account.account"].search([("code","=",row.get("Account"))])
         if not debit_account:
             debit_account = self.env["account.account"].search([("code","=","4001")])
             
-        account_move = self.env['account.move'].with_context(check_move_validity=False).create({'journal_id': self.journal_id.id,"move_type":'in_invoice'})
+        account_move = self.env['account.move'].with_context(check_move_validity=False).create({'journal_id': self.journal_id.id,"move_type":'in_invoice',"ref":row.get("Comment"),"narration":row.get("Person","") + " " + row.get("Card name","") + " " + row.get("Card number","")})
         account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
         debit_line = account_move_line.create({
             'account_id': debit_account.id,
             # ~ 'name': row["Description"],
             'debit': amount_without_tax,
-            'exclude_from_invoice_tab': True,
+            'exclude_from_invoice_tab': False,
             'move_id': account_move.id,
-            'name': row["Person"] + ":" + row["Description"],
+            'name': row.get("Description"),
             'tax_ids':[(6, 0, [tax_account.id])],
         })
         debit_line._onchange_mark_recompute_taxes()
@@ -142,8 +143,8 @@ class LoadMynt(models.TransientModel):
         return account_move
         
     def create_debit_account_move(self, row):
-        amount = float(row["Amount"])
-        credit_account = self.env["account.account"].search([("code","=",row["Account"])])
+        amount = float(row.get("Amount"))
+        credit_account = self.env["account.account"].search([("code","=",row.get("Account"))])
         if not credit_account:
             credit_account = self.env["account.account"].search([("code","=","3001")])
             
@@ -155,11 +156,10 @@ class LoadMynt(models.TransientModel):
         account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
         credit_line = account_move_line.create({
             'account_id': credit_account.id,
-            'name': row["Description"],
+            'name': row.get("Description"),
             'credit': amount,
-            'exclude_from_invoice_tab': True,
+            'exclude_from_invoice_tab': False,
             'move_id': account_move.id,
-            'name': row["Person"] + ":" + row["Description"],
         })
         credit_line._onchange_mark_recompute_taxes()
         account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()

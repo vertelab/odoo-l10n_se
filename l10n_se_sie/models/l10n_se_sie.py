@@ -45,8 +45,7 @@ class account_sie_account(models.TransientModel):
 class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'SIE Import Wizard'
-
-    debug = fields.Boolean(default = False)                            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SET TO FALSE WHEN DEPLOYED IF SET TO TRUE THEN THIS FILE WILL CREATE THE MISSING ACCOUNTS AND DO THAT BADLY
+    
     date_start = fields.Date(string = "Date interval")
     date_stop = fields.Date(string = "Stop Date")
     period_ids = fields.Many2many(comodel_name = "account.period", string="Periods" ,) # domain="[('company_id','=',self.env.ref('base.main_company').id)]"
@@ -243,17 +242,8 @@ class account_sie(models.TransientModel):
                 formatstring = ""
                 for account in missing_accounts:
                     formatstring += account[0] + ": "  + account[1] + "\n"
-                    if self.debug:
-                        self.env["account.account"].create({
-                            "code": account[0] ,
-                            "name": account[1],
-                            "reconcile":True,
-                            "user_type_id":self.env.ref('account.data_account_type_non_current_assets').id,
-                        })
-                if not self.debug:
-                    raise Warning(f"Import file did not pass checks! Accounts may be missing. \n{formatstring}")
-                else:
-                    _logger.warning(f"Import file did not pass checks! Accounts may be missing. Creating if you see this in the log on a production server then I done goofed \n{formatstring}")
+                raise Warning(f"Import file did not pass checks! Accounts may be missing. \n{formatstring}")
+                
 
                     # ~ return {
                     # ~ 'warning': {'title': _('Error'), 'message': _('Import file did not pass checks! Accounts may be missing.'),},
@@ -493,7 +483,8 @@ class account_sie(models.TransientModel):
         ver_ids = []
 
         tag_table = {}
-
+        ib_line_vals = []
+        ib_move_id = False
         for line in data:
             if line['label'] == '#VER':
                 
@@ -501,32 +492,6 @@ class account_sie(models.TransientModel):
                 list_ref = line.get(1) + ' ' + line.get(2) + ' ' + line.get(4)  # reference
                 list_sign = line.get(5)  # sign
                 list_regdatum = line.get(5)  # created_date
-                
-                #OBLIGATORY
-                #[label],[1]        ,[2]       ,[3]
-                #VER    , serie    ,vernr  ,verdatum 
-                
-                #VOLONTARY
-                #[4]        ,[5]             ,[6]
-                #vertext ,regdatum ,sign
-                
-                
-                
-                
-                #VER RV 155 20200914 "PAYPAL *UPWRKESCROW    35314369001   SWE, SE"
-
-                #VER A 1 20091101 "" 20091202 "2 Christer Bengtsson"
-                #VER "" BNK2/2016/0001 20160216 "" admin
-
-                #SMART WAY OF SELECTING JOURNALS, NEED TO PLAN EXACLTY HOW THIS WORKS, ATM WE SELECT THE JOURNAL IN THE WIZARD
-                # ~ if self.env['account.journal'].search([('type', '=', line[1]), ('company_id', '=', self.env.ref('base.main_company').id)]):  # Serial are a journal
-                        # ~ journal_type = line[1]
-                # ~ elif [j for j in ['sale', 'sale_refund', 'purchase', 'purchase_refund'] if j in journal_types]:
-                    # ~ journal_type = [j for j in ['sale', 'sale_refund', 'purchase', 'purchase_refund'] if j in journal_types][0]
-                # ~ elif [j for j in ['bank', 'cash'] if j in journal_types]:
-                    # ~ journal_type = [j for j in ['bank', 'cash'] if j in journal_types][0]
-                # ~ else:
-                    # ~ journal_type = 'general'
                 # ~ move_journal_id = self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', self.env.ref('base.main_company').id)])[0].id
 
                 move_journal_id = self.move_journal_id.id
@@ -538,28 +503,8 @@ class account_sie(models.TransientModel):
                     #'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
                     })
                 
-                # This should maybe be changed so that the create date is the date when we created the record instead of us using the regdate from the import file
-                if list_regdatum:
-                    formated_create_date = list_regdatum[0:4] + '-' + list_regdatum[4:6] + '-' + list_regdatum[6:]
-                    self.env.cr.execute(
-                    """
-                    UPDATE account_move SET create_date  = %s
-                    WHERE id = %s
-                    """,
-                    (formated_create_date, ver_id.id),
-                    )
-                    _logger.warning(f"ver_id.create_date = {ver_id.create_date}")
                 
                 ver_ids.append(ver_id.id)
-                
-                
-                #~ #VER "" SAJ/2016/0002 20150205 "" admin
-                #~ {
-                #~ #TRANS kontonr   {objektlista}   belopp transdat transtext   kvantitet   sign
-                #~ #TRANS 1510      {}              -100.0 20150205 "/"         1.0         admin
-                #~ #TRANS 2610 {} 0.0 20150205 "Försäljning 25%" 1.0 admin
-                #~ #TRANS 3000 {} 0.0 20150205 "Skor" 1.0 admin
-                #~ }
                 for l in line.get('lines', []):
                     
                     if l['label'] == '#TRANS':
@@ -571,18 +516,7 @@ class account_sie(models.TransientModel):
                         trans_name = l.get(5)
                         trans_quantity = l.get(6)
                         trans_sign = l.get(7)
-                        # Seems to not be used.
-                        #~ user = self.env['res.users'].search([('login', '=', trans_sign)]) if trans_sign else None
                         code = self.env['account.account'].search([('code', '=', trans_code),('company_id', '=', self.env.ref('base.main_company').id)], limit=1)
-
-                        #~ 3000 regular  report_type income  balance > 0 -> sale balance < 0 -> sale_refund  ( user_type data_account_type_income + balance > 0)
-                        #~ 1210  report_type = asset
-                        #~ 5400  report_type = expense  purchase / purchase_refund
-                        #~ 1500 Receivable
-                        #~ 1932 Liquidity -> report_type -> asset
-                        #~ 1910 Liquidity -> user_type  = ref('account.data_account_type_bank')  -> bank
-                        #~ 1932 Liquidity -> user_type  = ref('account.data_account_type_cash')  -> cash
-
                         if code.user_type_id.report_type == 'income':
                             journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
                         elif code.user_type_id.id == self.env.ref('account.data_account_type_liquidity').id: #changed from data_account_type_bank to data_account_type_liquidity
@@ -630,78 +564,62 @@ class account_sie(models.TransientModel):
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
-                        self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
+                        self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account()
                         
             elif line['label'] == '#IB':
-            #elif line['label'] == "implment later":
-                        #IB 0 1510 269174.65
-                        #IB årsnr konto saldo kvantitet
-
+                        _logger.warning("#IB")
+                        _logger.warning(f"{line=}")
+                        _logger.warning(f"{ib_move_id=}")
                         year_num = int(line.get(1)) #Opening period for current fiscal year 
                         first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
-                        period_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
-                        _logger.warning(f"{period_id=}")
+                        iperiod_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
                         period_record = self.env["account.period"].browse(period_id)
-                        _logger.warning(f"{period_record.date_start}")
                         ib_account = self.env['account.account'].search([('code','=',line.get(2))])
                         ib_amount = line.get(3)
-                        qnt = line.get(4) # We already have a amount, what is the purpose of having a quantity as well
+                        ib_qnt = line.get(4) # We already have a amount, what is the purpose of having a quantity as well
                         
-                        move_journal_id = self.move_journal_id.id
-                        move_id = self.env['account.move'].create({
-                        'period_id': period_id,
-                        'journal_id': move_journal_id,
-                        'date': first_date_of_year,
-                        'ref': "IB",
-                        'is_incoming_balance_move':True,
-                        #'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
-                        })
-                            
+                        ib_move_journal_id = self.move_journal_id.id
+                        if not ib_move_id:
+                            ib_move_id = self.env['account.move'].create({
+                            'period_id': period_id,
+                            'journal_id': move_journal_id,
+                            'date': first_date_of_year,
+                            'ref': "IB",
+                            'is_incoming_balance_move':True,
+                            #'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
+                            })
+                        
                         line_vals = {
-                        'account_id': ib_account.id,
-                        'credit': float(ib_amount) < 0 and float(ib_amount) * -1 or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
-                        'debit': float(ib_amount) > 0 and float(ib_amount) or 0.0,
-                        #'period_id': period_id,
-                        'date': first_date_of_year,
-                        #'quantity': trans_quantity,
-                        'name': "#IB",
-                        'move_id': move_id.id,
+                            'account_id': ib_account.id,
+                            'credit': float(ib_amount) < 0 and float(ib_amount) * -1 or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
+                            'debit': float(ib_amount) > 0 and float(ib_amount) or 0.0,
+                            'date': first_date_of_year,
+                            'name': "#IB",
+                            'move_id': ib_move_id.id,
                         }
-
+                        _logger.warning(f"{line_vals=}")
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
 
-                        #Depending on the accounts used odoo will self balance the account moves by adding an opposite account, problem is that we don't know if that has happened or not.
-                        #Checking if account move is balanced.
-                        opposite_account = self.env['account.account'].search([('code','=','1930')])
-                        move_balance = 0
-                        for line in move_id.line_ids:
-                          move_balance += line.balance
-                        _logger.warning(f"{move_balance=}")
-                        _logger.warning(f"{ib_amount=}")
-                        _logger.warning(f"{float(move_balance) > 0 and float(move_balance) * -1 or 0.0}")
-                        _logger.warning(f"{float(move_balance) > 0 and float(move_balance) * -1 or 0.0}")
-                        if move_balance != 0:
-                           line_vals = {
-                           'account_id': opposite_account.id,
-                           'credit': float(move_balance) > 0 and float(move_balance) or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
-                           'debit': float(move_balance) < 0 and float(move_balance) * -1 or 0.0 or 0.0,
-                           #'period_id': period_id,
-                           'date': first_date_of_year,
-                           #'quantity': trans_quantity,
-                           'name': "#IB",
-                           'move_id': move_id.id,
-                           }
-                           self.with_context(context_copy).env['account.move.line'].create(line_vals)
+        #Depending on the accounts used odoo will self balance the account moves by adding an opposite account, problem is that we don't know if that has happened or not.
+        #Checking if account move is balanced.
+        opposite_account = self.env['account.account'].search([('code','=','1930')])
+        move_balance = 0
+        for line in ib_move_id.line_ids:
+          move_balance += line.balance
+        if move_balance != 0:
+           line_vals = {
+           'account_id': opposite_account.id,
+           'credit': float(move_balance) > 0 and float(move_balance) or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
+           'debit': float(move_balance) < 0 and float(move_balance) * -1 or 0.0 or 0.0,
+           #'period_id': period_id,
+           'date': first_date_of_year,
+           #'quantity': trans_quantity,
+           'name': "#IB",
+           'move_id': ib_move_id.id,
+           }
+           self.with_context(context_copy).env['account.move.line'].create(line_vals)
                            
-                        
-                    # ~ elif line['label'] == '#UB':
-                        #Dont remember how i was supposed to create these, it wasn't account move at least i think?
-                        #UB 0 1630 -1325.00
-                        #UB årsnr konto saldo kvantitet
-                        #context_copy = self.env.context.copy()
-                        #context_copy.update({'check_move_validity':False})
-                        #trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
-                        #self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
+          
         return ver_ids

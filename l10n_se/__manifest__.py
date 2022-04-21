@@ -84,7 +84,7 @@
         
 
      """,
-    'depends': ['account_period', 'base_vat', 'product', 'account'],
+    'depends': ['account_period', 'base_vat', 'product', 'account', 'account_admin_rights'],
     'init_xml': [],
     'data': [
         'views/account_view.xml',
@@ -104,7 +104,7 @@
 
     ],
     'demo': [
-        #'demo/load_account_chart_template_data.xml',
+        'demo/load_account_chart_template_data.xml',
         'demo/l10n_se_demo.xml',
     ],
     'installable': 'True',

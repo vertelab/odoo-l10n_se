@@ -64,7 +64,7 @@
 <!--
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
-            <field name="period_id" search="[('name', '=', '03/2021')]"/>
+            <field name="period_id" search="[('name', '=', '03/2022')]"/>
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
@@ -111,7 +111,7 @@
 invoice_date
             <field name="date_due" eval="time.strftime('%Y')+'-03-23'" />
 -->
-            <field name="period_id" search="[('name', '=', '03/2021')]"/>
+            <field name="period_id" search="[('name', '=', '03/2022')]"/>
             
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
@@ -211,7 +211,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-05-01'" />
 -->
-            <field name="period_id" search="[('name', '=', '05/2021')]"/>
+            <field name="period_id" search="[('name', '=', '05/2022')]"/>
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
@@ -316,7 +316,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-10'" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2021')]"/>
+            <field name="period_id" search="[('name', '=', '06/2022')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -420,7 +420,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2021')]"/>
+            <field name="period_id" search="[('name', '=', '06/2022')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -528,7 +528,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2021')]"/>
+            <field name="period_id" search="[('name', '=', '06/2022')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -641,7 +641,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2021')]"/>
+            <field name="period_id" search="[('name', '=', '06/2022')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -754,7 +754,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-05" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2021')]"/>
+            <field name="period_id" search="[('name', '=', '06/2022')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -858,7 +858,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2021')]"/>
+            <field name="period_id" search="[('name', '=', '06/2022')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />

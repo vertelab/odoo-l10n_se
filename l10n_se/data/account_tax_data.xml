@@ -443,7 +443,12 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
-            }),]"/>
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
+            })]"/>
             
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
             (0, 0, {
@@ -454,6 +459,11 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
@@ -477,7 +487,13 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
-            }),]"/>
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2624'),
+            }),
+            ]"/>
             
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
             (0, 0, {
@@ -488,7 +504,13 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
-            }),]"/>
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2624'),
+            }),
+            ]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
         <record id="vfeu6" model="account.tax.template">
@@ -511,6 +533,11 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
             }),]"/>
             
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
@@ -522,6 +549,11 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
@@ -545,8 +577,30 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }), 
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
             }),]"/>
             
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+             (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'tax',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
+            }),
+                ]
+           "/>
             
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
@@ -569,7 +623,28 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2624'),
             }),]"/>
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+              (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+             (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'tax',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2624'),
+            }),
+            ]
+           "/>
             
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
@@ -592,7 +667,29 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
             }),]"/>
+            
+             <field name="refund_repartition_line_ids" eval="[(5,0,0),
+              (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+             (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'tax',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2634'),
+            }),
+           ]
+           "/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
 
@@ -810,7 +907,14 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2615'),
             }),]"/>
+            
+
             
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
             (0, 0, {
@@ -821,9 +925,16 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2615'),
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
+        
+        
         <record id="mbbui2" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">MBBUI2</field>
@@ -844,6 +955,11 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2625'),
             }),]"/>
             
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
@@ -855,6 +971,11 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2625'),
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
@@ -878,6 +999,11 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2635'),
             }),]"/>
             
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
@@ -889,6 +1015,11 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2645'),
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2635'),
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
