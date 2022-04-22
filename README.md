@@ -1,6 +1,10 @@
 # odoo-l10n_se
 Swedish accounting.
 
+Important! // Viktigt! 
+Read to install!
+https://vertel.se/bokforing/installera-l10n-se
+
 Module | Description
 --- | --- 
 account_change_plan 	|
