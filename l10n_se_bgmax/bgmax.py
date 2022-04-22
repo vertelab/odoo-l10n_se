@@ -292,7 +292,7 @@ class BgMaxIterator(BgMaxRowParser):
             self.avsnitt.append(avsnitt(rec))
             rec = self.next_rec()
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
-                #_logger.warn("rec: %s" % rec)
+                # ~ _logger.warning("rec: %s" % rec)
                 self.avsnitt[-1].add(rec)
                 rec = self.next_rec()
             if rec['type'] == '15':
@@ -314,7 +314,7 @@ class BgMaxIterator(BgMaxRowParser):
             self.avsnitt.append(avsnitt(rec))
             rec = self.next_rec()
             while rec['type'] in ['20','21','22','23','25','26','27','28','29']:
-                #_logger.warn("rec: %s" % rec)
+                # ~ _logger.warning("rec: %s" % rec)
                 self.avsnitt[-1].add(rec)
                 rec = self.next_rec()
             if rec['type'] == '15':
@@ -453,6 +453,7 @@ class BgMaxParser(object):
                     transaction.narration += ' bg %s ' % transaction.remote_account
 
             for bet in avsnitt.bet:
+                # ~ _logger.warning(f"{bet=}")
                 transaction = current_statement.create_transaction()
                 #~ if int(ins.get('bankgiro', 0)):
                     #~ transaction.remote_account = str(int(ins.get('bankgiro', 0)))
@@ -477,7 +478,7 @@ class BgMaxParser(object):
                 #~ transaction.note
                 #~ transaction.value_date
 
-                transaction.pref = bet.get('betalarens_namn', '')
+                transaction.pref = bet.get('betalarens_namn', '').strip() + ": " + bet.get('referens', '').strip()
                 transaction.eref = bet.get('referens') or bet.get('BGC-nummer')
                 transaction.narration = '\n'.join(bet.get('informationstext',[]))
                 if bet.get('betalarens_adress'):
