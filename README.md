@@ -1,8 +1,8 @@
 # odoo-l10n_se
 Swedish accounting.
 
-Important! // Viktigt! 
-Read to install!
+Important! // Viktigt! <br>
+Read to install!<br>
 https://vertel.se/bokforing/installera-l10n-se
 
 Module | Description
