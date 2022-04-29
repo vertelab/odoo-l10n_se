@@ -29,8 +29,6 @@ class KpiMatrixCell(object):  # noqa: B903 (immutable data class)
 class KpiMatrixExtended(KpiMatrix):
 
     def as_dict(self, hide_lines_that_are_empty):
-        #_logger.warning("JAKMAR AS_DICT METHOD OVERRIDEN")
-        #_logger.warning(f"{hide_lines_that_are_empty=}")
         header = [{"cols": []}, {"cols": []}]
         for col in self.iter_cols():
             header[0]["cols"].append(
@@ -51,8 +49,6 @@ class KpiMatrixExtended(KpiMatrix):
 
         body = []
         for row in self.iter_rows():
-            #_logger.warning(f"{row.__dict__}")
-            #_logger.warning(f"{row.kpi.type}")
             if (row.style_props.hide_empty and row.is_empty()) or row.style_props.hide_always or (row.is_empty() and row.kpi.type != "str" and hide_lines_that_are_empty):
                 continue
             row_data = {
@@ -88,8 +84,6 @@ class KpiMatrixExtended(KpiMatrix):
         return {"header": header, "body": body}
         
     def set_values(self, kpi, col_key, vals, drilldown_args,currency_id, tooltips=True):
-        _logger.warning("curr4"*100)
-        _logger.warning(f"{currency_id=}")
         """Set values for a kpi and a colum.
 
         Invoke this after declaring the kpi and the column.
@@ -104,8 +98,6 @@ class KpiMatrixExtended(KpiMatrix):
 
         Invoke this after setting all values.
         """
-        _logger.warning("relcurr4"*100)
-        _logger.warning(f"{currency_id=}")
         for (
             sumcol_key,
             (col_to_sum_keys, label, description, sum_accdet),
@@ -151,9 +143,6 @@ class KpiMatrixExtended(KpiMatrix):
                             acc += SimpleArray(vals)
                         else:
                             acc -= SimpleArray(vals)
-                        ####################Changes 1 currency
-                _logger.warning(f"{Berfore}")
-                _logger.warning(f"{currency_id}")
                 self.set_values_detail_account(
                     row.kpi,
                     sumcol_key,
@@ -171,9 +160,6 @@ class KpiMatrixExtended(KpiMatrix):
 
         Invoke this after declaring the kpi and the column.
         """
-        _logger.warning("3"*100)
-        _logger.warning(f"{currency_id=}")
-        _logger.warning(f"{tooltips=}")
         if not account_id:
             row = self._kpi_rows[kpi]
         else:

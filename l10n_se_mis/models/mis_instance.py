@@ -174,8 +174,6 @@ class MisReport(models.Model): ### Should Be Called MisReport
                             context for the KPI expressions
         :param no_auto_expand_accounts: disable expansion of account details
         """
-        _logger.warning("_declare_and_compute_period _declare_and_compute_period _declare_and_compute_period")
-        _logger.warning(f"{currency_id}")
         self.ensure_one()
 
         # prepare the localsdict
