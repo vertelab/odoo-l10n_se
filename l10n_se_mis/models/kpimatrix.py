@@ -5,11 +5,30 @@ from odoo.addons.mis_builder.models.kpimatrix import KpiMatrix
 import logging
 _logger = logging.getLogger(__name__)
 
+class KpiMatrixCell(object):  # noqa: B903 (immutable data class)
+    def __init__(
+        self,
+        row,
+        subcol,
+        val,
+        val_rendered,
+        val_comment,
+        style_props,
+        drilldown_arg,
+        val_type,
+    ):
+        self.row = row
+        self.subcol = subcol
+        self.val = val
+        self.val_rendered = val_rendered
+        self.val_comment = val_comment
+        self.style_props = style_props
+        self.drilldown_arg = drilldown_arg
+        self.val_type = val_type
+
 class KpiMatrixExtended(KpiMatrix):
 
     def as_dict(self, hide_lines_that_are_empty):
-        #_logger.warning("JAKMAR AS_DICT METHOD OVERRIDEN")
-        #_logger.warning(f"{hide_lines_that_are_empty=}")
         header = [{"cols": []}, {"cols": []}]
         for col in self.iter_cols():
             header[0]["cols"].append(
@@ -30,8 +49,6 @@ class KpiMatrixExtended(KpiMatrix):
 
         body = []
         for row in self.iter_rows():
-            #_logger.warning(f"{row.__dict__}")
-            #_logger.warning(f"{row.kpi.type}")
             if (row.style_props.hide_empty and row.is_empty()) or row.style_props.hide_always or (row.is_empty() and row.kpi.type != "str" and hide_lines_that_are_empty):
                 continue
             row_data = {
@@ -65,3 +82,84 @@ class KpiMatrixExtended(KpiMatrix):
             body.append(row_data)
 
         return {"header": header, "body": body}
+        
+    def set_values(self, kpi, col_key, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True):
+        """Set values for a kpi and a colum.
+
+        Invoke this after declaring the kpi and the column.
+        """
+        self.set_values_detail_account(
+            kpi, col_key, None, vals, drilldown_args, currency_id, use_currency_suffix, tooltips
+        )
+        
+    def set_values_detail_account(
+        self, kpi, col_key, account_id, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True
+        ):
+        """Set values for a kpi and a column and a detail account.
+
+        Invoke this after declaring the kpi and the column.
+        """
+        if not account_id:
+            row = self._kpi_rows[kpi]
+        else:
+            kpi_row = self._kpi_rows[kpi]
+            if account_id in self._detail_rows[kpi]:
+                row = self._detail_rows[kpi][account_id]
+            else:
+                row = KpiMatrixRow(self, kpi, account_id, parent_row=kpi_row)
+                self._detail_rows[kpi][account_id] = row
+        col = self._cols[col_key]
+        cell_tuple = []
+        assert len(vals) == col.colspan
+        assert len(drilldown_args) == col.colspan
+        for val, drilldown_arg, subcol in zip(vals, drilldown_args, col.iter_subcols()):
+            if isinstance(val, DataError):
+                val_rendered = val.name
+                val_comment = val.msg
+            else:
+                
+                val_rendered = self._style_model.render(
+                    self.lang, row.style_props, kpi.type, val, currency_id, use_currency_suffix
+                )
+                if row.kpi.multi and subcol.subkpi:
+                    val_comment = "{}.{} = {}".format(
+                        row.kpi.name,
+                        subcol.subkpi.name,
+                        row.kpi._get_expression_str_for_subkpi(subcol.subkpi),
+                    )
+                else:
+                    val_comment = "{} = {}".format(row.kpi.name, row.kpi.expression)
+            cell_style_props = row.style_props
+            if row.kpi.style_expression:
+                # evaluate style expression
+                try:
+                    style_name = mis_safe_eval(
+                        row.kpi.style_expression, col.locals_dict
+                    )
+                except Exception:
+                    _logger.error(
+                        "Error evaluating style expression <%s>",
+                        row.kpi.style_expression,
+                        exc_info=True,
+                    )
+                if style_name:
+                    style = self._style_model.search([("name", "=", style_name)])
+                    if style:
+                        cell_style_props = self._style_model.merge(
+                            [row.style_props, style[0]]
+                        )
+                    else:
+                        _logger.error("Style '%s' not found.", style_name)
+            cell = KpiMatrixCell(
+                row,
+                subcol,
+                val,
+                val_rendered,
+                tooltips and val_comment or None,
+                cell_style_props,
+                drilldown_arg,
+                kpi.type,
+            )
+            cell_tuple.append(cell)
+        assert len(cell_tuple) == col.colspan
+        col._set_cell_tuple(row, cell_tuple)        

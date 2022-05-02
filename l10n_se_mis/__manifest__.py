@@ -43,6 +43,7 @@
     'data/mis_momsdeklaration_report.xml',
     'data/mis_arbetsgivardeklaration_report.xml',
     'views/mis_report_instance_view.xml',
+    'views/mis_template.xml',
     ],
     'installable': 'True',
     'application': 'False',
