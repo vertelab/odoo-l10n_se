@@ -39,10 +39,9 @@ class MisReportKpiStyle(models.Model):
 
     _inherit = "mis.report.style"
     
+    
     @api.model
-    def to_xlsx_style(self, type, props, currency_id, no_indent=False): #END2
-        import traceback
-        _logger.warning("".join(traceback.format_stack()))
+    def to_xlsx_style(self, type, props, currency_id, use_currency_suffix, no_indent=False): #END2
         xlsx_attributes = [
             ("italic", props.font_style == "italic"),
             ("bold", props.font_weight == "bold"),
@@ -57,11 +56,15 @@ class MisReportKpiStyle(models.Model):
                 num_format += "0" * props.dp
             if props.prefix:
                 num_format = '"{} "{}'.format(props.prefix, num_format)
-            if props.suffix:
-                _logger.warning(f"excel suffix {props.suffix}")
-                _logger.warning(f"{currency_id=}")
-                num_format = '{}" {}"'.format(num_format, currency_id.name)
-                # ~ num_format = '{}" {}"'.format(num_format, props.suffix) ###################
+            currency = currency_id or self.env.company.currency_id####################################
+            _logger.warning("to_xlsx_style"*100)
+            _logger.warning(f"self.name={self}")
+            _logger.warning(f"currency_suffix = {use_currency_suffix}")
+            _logger.warning(f"currency = {currency}")
+            if currency and use_currency_suffix:#######################################
+                num_format = '{}" {}"'.format(num_format, currency_id.name)###########################################
+            elif props.suffix:
+                num_format = '{}" {}"'.format(num_format, props.suffix)
             xlsx_attributes.append(("num_format", num_format))
         elif type == TYPE_PCT:
             num_format = "0"
@@ -75,12 +78,13 @@ class MisReportKpiStyle(models.Model):
         return dict([a for a in xlsx_attributes if a[1] is not None])
     
     @api.model
-    def render(self, lang, style_props, type, value, currency_id, sign="-"):
+    def render(self, lang, style_props, type, value, currency_id, use_currency_suffix, sign="-"):
         if type == TYPE_NUM:
             return self.render_num(
                 lang,
                 value,
                 currency_id,
+                use_currency_suffix,
                 style_props.divider,
                 style_props.dp,
                 style_props.prefix,
@@ -93,14 +97,12 @@ class MisReportKpiStyle(models.Model):
             return self.render_str(lang, value)
 
 
-    @api.model
-    def render_pct(self, lang, value, currency_id, dp=1, sign="-"):
-        return self.render_num(lang, value, currency_id, divider=0.01, dp=dp, suffix="%", sign=sign)
-
     @api.model #END 1
     def render_num(
-        self, lang, value, currency_id, divider=1.0, dp=0, prefix=None, suffix=None, sign="-"
+        self, lang, value, currency_id, use_currency_suffix, divider=1.0, dp=0, prefix=None, suffix=None, sign="-"
     ):
+        # ~ import traceback
+        # ~ _logger.warning("".join(traceback.format_stack()))
         
         currency = currency_id or self.env.company.currency_id
         # format number following user language
@@ -111,10 +113,16 @@ class MisReportKpiStyle(models.Model):
         r = r.replace("-", "\N{NON-BREAKING HYPHEN}")
         if prefix:
             r = prefix + "\N{NO-BREAK SPACE}" + r
-        # ~ if currency_suffix:
-        r = r + "\N{NO-BREAK SPACE}" + currency.name
-        # ~ if suffix:
-            # ~ r = r + "\N{NO-BREAK SPACE}" + suffix
+            
+        currency = currency_id or self.env.company.currency_id####################################
+        _logger.warning("to_xlsx_style"*100)
+        _logger.warning(f"self.name={self}")
+        _logger.warning(f"use_currency_suffix = {use_currency_suffix}")
+        _logger.warning(f"currency = {currency}")
+        if currency and use_currency_suffix:#######################################
+            r = r + "\N{NO-BREAK SPACE}" + currency.name
+        elif suffix:
+            r = r + "\N{NO-BREAK SPACE}" + suffix
         return r
         
         

@@ -44,31 +44,31 @@ class MisReportInstance(models.Model):
     accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
     target_move = fields.Selection(selection_add=[('draft', 'All Unposted Entries')], ondelete={"draft": "set default"})
      
-    def _compute_matrix(self):
-        """Compute a report and return a KpiMatrix.
+    # ~ def _compute_matrix(self):
+        # ~ """Compute a report and return a KpiMatrix.
 
-        The key attribute of the matrix columns (KpiMatrixCol)
-        is guaranteed to be the id of the mis.report.instance.period.
-        """
-        self.ensure_one()
-        aep = self.report_id._prepare_aep(self.query_company_ids, self.currency_id)
-        kpi_matrix = self.report_id.prepare_kpi_matrix(self.multi_company)
-        for period in self.period_ids:
-            description = None
-            if period.mode == MODE_NONE:
-                pass
-            elif not self.display_columns_description:
-                pass
-            elif period.date_from == period.date_to and period.date_from:
-                description = self._format_date(period.date_from)
-            elif period.date_from and period.date_to:
-                date_from = self._format_date(period.date_from)
-                date_to = self._format_date(period.date_to)
-                description = _("from %s to %s") % (date_from, date_to)
-            self._add_column(aep, kpi_matrix, period, period.name, description)
-        kpi_matrix.compute_comparisons()
-        kpi_matrix.compute_sums(self.currency_id) 
-        return kpi_matrix
+        # ~ The key attribute of the matrix columns (KpiMatrixCol)
+        # ~ is guaranteed to be the id of the mis.report.instance.period.
+        # ~ """
+        # ~ self.ensure_one()
+        # ~ aep = self.report_id._prepare_aep(self.query_company_ids, self.currency_id)
+        # ~ kpi_matrix = self.report_id.prepare_kpi_matrix(self.multi_company)
+        # ~ for period in self.period_ids:
+            # ~ description = None
+            # ~ if period.mode == MODE_NONE:
+                # ~ pass
+            # ~ elif not self.display_columns_description:
+                # ~ pass
+            # ~ elif period.date_from == period.date_to and period.date_from:
+                # ~ description = self._format_date(period.date_from)
+            # ~ elif period.date_from and period.date_to:
+                # ~ date_from = self._format_date(period.date_from)
+                # ~ date_to = self._format_date(period.date_to)
+                # ~ description = _("from %s to %s") % (date_from, date_to)
+            # ~ self._add_column(aep, kpi_matrix, period, period.name, description)
+        # ~ kpi_matrix.compute_comparisons()
+        # ~ kpi_matrix.compute_sums(self.currency_id) 
+        # ~ return kpi_matrix
     
     def compute(self):
         self.ensure_one()
@@ -145,6 +145,8 @@ class MisReportInstance(models.Model):
 class MisReport(models.Model): ### Should Be Called MisReport
     _inherit = 'mis.report'
     
+    use_currency_suffix = fields.Boolean("Currency Suffix", help="Use currency set on mis report or the company currency as a suffix.")
+    
     def _declare_and_compute_period(
         self,
         expression_evaluator,
@@ -219,6 +221,7 @@ class MisReport(models.Model): ### Should Be Called MisReport
             subkpis_filter,
             locals_dict,
             currency_id,
+            self.use_currency_suffix,
             no_auto_expand_accounts,
         )
         
@@ -232,6 +235,7 @@ class MisReport(models.Model): ### Should Be Called MisReport
         subkpis_filter,
         locals_dict,
         currency_id,
+        use_currency_suffix,
         no_auto_expand_accounts=False,
     ):
         """This is the main computation loop.
@@ -320,7 +324,7 @@ class MisReport(models.Model): ### Should Be Called MisReport
                     drilldown_args = [None] * col.colspan
                 
                 ####
-                kpi_matrix.set_values(kpi, col_key, vals, drilldown_args,currency_id=currency_id)
+                kpi_matrix.set_values(kpi, col_key, vals, drilldown_args,currency_id=currency_id, use_currency_suffix=use_currency_suffix)
 
                 if (
                     name_error
@@ -344,7 +348,7 @@ class MisReport(models.Model): ### Should Be Called MisReport
                         drilldown_arg["kpi_id"] = kpi.id
                         #currency_id5
                     kpi_matrix.set_values_detail_account(
-                        kpi, col_key, account_id, vals, drilldown_args,currency_id=currency_id
+                        kpi, col_key, account_id, vals, drilldown_args,currency_id=currency_id, use_currency_suffix=use_currency_suffix
                     )
 
             if len(recompute_queue) == 0:

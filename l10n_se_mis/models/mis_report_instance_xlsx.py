@@ -105,9 +105,8 @@ class MisBuilderXlsx(models.AbstractModel):
                 row.style_props.hide_empty and row.is_empty()
             ) or row.style_props.hide_always:
                 continue
-            if objects._name == "mis.report.instance": ## I ASSUME THAT THIS WILL ALWAYS BE ODOO MODEL, IF NOT PLEASE BLAME MARCUS JAKOBSSON 
-                _logger.warning("TRUE???"*100)
-                row_xlsx_style = style_obj.to_xlsx_style(TYPE_STR, row.style_props, objects.currency_id)
+            if objects._name == "mis.report.instance":
+                row_xlsx_style = style_obj.to_xlsx_style(TYPE_STR, row.style_props, objects.currency_id, objects.report_id.use_currency_suffix)
             
             row_format = workbook.add_format(row_xlsx_style)
             col_pos = 0
@@ -126,7 +125,7 @@ class MisBuilderXlsx(models.AbstractModel):
                     sheet.write(row_pos, col_pos, "", row_format)
                     continue
                 cell_xlsx_style = style_obj.to_xlsx_style(
-                    cell.val_type, cell.style_props, objects.currency_id, no_indent=True, 
+                    cell.val_type, cell.style_props, objects.currency_id, objects.report_id.use_currency_suffix, no_indent=True, 
                 )
                 cell_xlsx_style["align"] = "right"
                 cell_format = workbook.add_format(cell_xlsx_style)

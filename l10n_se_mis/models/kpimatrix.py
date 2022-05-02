@@ -83,78 +83,17 @@ class KpiMatrixExtended(KpiMatrix):
 
         return {"header": header, "body": body}
         
-    def set_values(self, kpi, col_key, vals, drilldown_args,currency_id, tooltips=True):
+    def set_values(self, kpi, col_key, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True):
         """Set values for a kpi and a colum.
 
         Invoke this after declaring the kpi and the column.
         """
         self.set_values_detail_account(
-            kpi, col_key, None, vals, drilldown_args,currency_id, tooltips
+            kpi, col_key, None, vals, drilldown_args, currency_id, use_currency_suffix, tooltips
         )
         
-        ####################Changes 1 currency
-    def compute_sums(self, currency_id):
-        """Compute comparisons.
-
-        Invoke this after setting all values.
-        """
-        for (
-            sumcol_key,
-            (col_to_sum_keys, label, description, sum_accdet),
-        ) in self._sum_todo.items():
-            sumcols = [self._cols[k] for (sign, k) in col_to_sum_keys]
-            # TODO check all sumcols are resolved; we need a kind of
-            #      recompute queue here so we don't depend on insertion
-            #      order
-            common_subkpis = self._common_subkpis(sumcols)
-            if any(c.subkpis for c in sumcols) and not common_subkpis:
-                raise UserError(
-                    _(
-                        "Sum cannot be computed in column {} "
-                        "because the columns to sum have no "
-                        "common subkpis"
-                    ).format(label)
-                )
-            sum_col = KpiMatrixCol(
-                sumcol_key,
-                label,
-                description,
-                {},
-                sorted(common_subkpis, key=lambda s: s.sequence),
-            )
-            self._cols[sumcol_key] = sum_col
-            for row in self.iter_rows():
-                acc = SimpleArray([AccountingNone] * (len(common_subkpis) or 1))
-                if row.kpi.accumulation_method == ACC_SUM and not (
-                    row.account_id and not sum_accdet
-                ):
-                    for sign, col_to_sum in col_to_sum_keys:
-                        cell_tuple = self._cols[col_to_sum].get_cell_tuple_for_row(row)
-                        if cell_tuple is None:
-                            vals = [AccountingNone] * (len(common_subkpis) or 1)
-                        else:
-                            vals = [
-                                cell.val
-                                for cell in cell_tuple
-                                if not common_subkpis
-                                or cell.subcol.subkpi in common_subkpis
-                            ]
-                        if sign == "+":
-                            acc += SimpleArray(vals)
-                        else:
-                            acc -= SimpleArray(vals)
-                self.set_values_detail_account(
-                    row.kpi,
-                    sumcol_key,
-                    row.account_id,
-                    acc,
-                    [None] * (len(common_subkpis) or 1),
-                    currency_id=currency_id,
-                    tooltips=False,
-                )
-        ####################Changes 2 currency
     def set_values_detail_account(
-        self, kpi, col_key, account_id, vals, drilldown_args, currency_id, tooltips=True
+        self, kpi, col_key, account_id, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True
         ):
         """Set values for a kpi and a column and a detail account.
 
@@ -178,9 +117,9 @@ class KpiMatrixExtended(KpiMatrix):
                 val_rendered = val.name
                 val_comment = val.msg
             else:
-                ####################Changes 2 currency
+                
                 val_rendered = self._style_model.render(
-                    self.lang, row.style_props, kpi.type, val, currency_id
+                    self.lang, row.style_props, kpi.type, val, currency_id, use_currency_suffix
                 )
                 if row.kpi.multi and subcol.subkpi:
                     val_comment = "{}.{} = {}".format(
