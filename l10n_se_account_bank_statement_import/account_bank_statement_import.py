@@ -336,6 +336,13 @@ class AccountBankStatementImport(models.TransientModel):
     @api.model
     def _create_bank_statements(self, stmts_vals, result):
         ''' Override create method, do auto reconcile after statement created. '''
+
+        for st_vals in stmts_vals:
+            for lvals in st_vals["transactions"]:
+                if "date" in lvals:
+                    period_id = self.env["account.period"].date2period(datetime.strptime(lvals["date"], "%Y-%m-%d")).id
+                    lvals["period_id"] = period_id
+
         for i in range(len(stmts_vals)):
             currency_id = self.env.ref('base.'+stmts_vals[i].pop('currency_code')).id
             # if 'account_number' in stmts_vals[i]:
@@ -364,6 +371,7 @@ class AccountBankStatementImport(models.TransientModel):
                 'date': statement.date,
                 'period_id': statement.period_id.id,
             })
+
             if entry:
                 move_line_list = []
                 if statement_line.amount > 0: # bg is positive, transfer amount from bg account to company main account
@@ -447,13 +455,13 @@ class AccountBankStatement(models.Model):
                 _logger.warn('statement_start_date %s statement_end_date %s' % (statement_start_date,statement_end_date))
                 self.start_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', start_date), ('date', '<', statement_start_date), ('account_id', '=', self.journal_id.payment_debit_account_id.id)]).mapped('balance'))
                 self.end_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', statement_start_date), ('date', '<=', statement_end_date), ('account_id', '=', self.journal_id.payment_debit_account_id.id)]).mapped('balance')) + self.start_balance_calc
-                
+
 
     bg_serial_number = fields.Char(string='BG serial number')
-   
+
     #TODO: Talk about this when we reach odoo 14
     # ~ untrackable_journal_entries_count = fields.Integer(compute='_untrackable_journal_entries_count', string='Untrackable Entries')
-    
+
     # ~ @api.one
     # ~ def _untrackable_journal_entries_count(self):
         # ~ self.untrackable_journal_entries_count = 1 # len(self.get_untrackable_journal_entries())
@@ -514,14 +522,14 @@ class AccountBankStatement(models.Model):
         # _logger.warn('anders: XXX %s' % lines.mapped('name'))
         # ~ raise Warning(self.mapped('line_ids.journal_entry_ids.name'))
         # ~ raise Warning('Hello %s' % lines)
-        
+
         statements = self
         bsl_obj = self.env['account.bank.statement.line']
         # NB : The field account_id can be used at the statement line creation/import to avoid the reconciliation process on it later on,
         # this is why we filter out statements lines where account_id is set
 
-        sql_query = """SELECT stl.id 
-                        FROM account_bank_statement_line stl  
+        sql_query = """SELECT stl.id
+                        FROM account_bank_statement_line stl
                         WHERE account_id IS NULL AND not exists (select 1 from account_move m where m.statement_line_id = stl.id)
                             AND company_id = %s
                 """
@@ -544,11 +552,11 @@ class AccountBankStatement(models.Model):
                             FROM account_move_line aml
                                 JOIN account_account acc ON acc.id = aml.account_id
                                 JOIN account_bank_statement_line stl ON aml.ref = stl.name
-                            WHERE (aml.company_id = %s 
-                                AND aml.partner_id IS NOT NULL) 
+                            WHERE (aml.company_id = %s
+                                AND aml.partner_id IS NOT NULL)
                                 AND (
-                                    (aml.statement_id IS NULL AND aml.account_id IN %s) 
-                                    OR 
+                                    (aml.statement_id IS NULL AND aml.account_id IN %s)
+                                    OR
                                     (acc.internal_type IN ('payable', 'receivable') AND aml.reconciled = false)
                                     )
                                 AND aml.ref IN %s
