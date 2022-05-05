@@ -564,7 +564,7 @@ class account_sie(models.TransientModel):
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
-                        self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account()
+                        self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
                         
             elif line['label'] == '#IB':
                         _logger.warning("#IB")
@@ -606,20 +606,21 @@ class account_sie(models.TransientModel):
         #Checking if account move is balanced.
         opposite_account = self.env['account.account'].search([('code','=','1930')])
         move_balance = 0
-        for line in ib_move_id.line_ids:
-          move_balance += line.balance
-        if move_balance != 0:
-           line_vals = {
-           'account_id': opposite_account.id,
-           'credit': float(move_balance) > 0 and float(move_balance) or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
-           'debit': float(move_balance) < 0 and float(move_balance) * -1 or 0.0 or 0.0,
-           #'period_id': period_id,
-           'date': first_date_of_year,
-           #'quantity': trans_quantity,
-           'name': "#IB",
-           'move_id': ib_move_id.id,
-           }
-           self.with_context(context_copy).env['account.move.line'].create(line_vals)
+        if ib_move_id:
+            for line in ib_move_id.line_ids:
+              move_balance += line.balance
+            if move_balance != 0:
+               line_vals = {
+               'account_id': opposite_account.id,
+               'credit': float(move_balance) > 0 and float(move_balance) or 0.0, #If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
+               'debit': float(move_balance) < 0 and float(move_balance) * -1 or 0.0 or 0.0,
+               #'period_id': period_id,
+               'date': first_date_of_year,
+               #'quantity': trans_quantity,
+               'name': "#IB",
+               'move_id': ib_move_id.id,
+               }
+               self.with_context(context_copy).env['account.move.line'].create(line_vals)
                            
           
         return ver_ids
