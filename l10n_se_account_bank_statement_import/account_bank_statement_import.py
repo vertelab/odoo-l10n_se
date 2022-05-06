@@ -340,7 +340,12 @@ class AccountBankStatementImport(models.TransientModel):
         for st_vals in stmts_vals:
             for lvals in st_vals["transactions"]:
                 if "date" in lvals:
-                    period_id = self.env["account.period"].date2period(datetime.strptime(lvals["date"], "%Y-%m-%d")).id
+                    date = lvals["date"]
+                    try:
+                        date = datetime.strptime(date, "%Y-%m-%d")
+                    except TypeError:
+                        pass 
+                    period_id = self.env["account.period"].date2period(date).id
                     lvals["period_id"] = period_id
 
         for i in range(len(stmts_vals)):
