@@ -147,6 +147,29 @@ class MisReport(models.Model): ### Should Be Called MisReport
     
     use_currency_suffix = fields.Boolean("Currency Suffix", help="Use currency set on mis report or the company currency as a suffix.")
     
+    @api.model
+    def _get_target_move_domain(self, target_move, aml_model_name):
+        """
+        Obtain a domain to apply on a move-line-like model, to get posted
+        entries or return all of them (always excluding cancelled entries).
+
+        :param: target_move: all|posted
+        :param: aml_model_name: an optional move-line-like model name
+                (defaults to accaount.move.line)
+        """
+        if not self._supports_target_move_filter(aml_model_name):
+            return []
+
+        if target_move == "posted":
+            return [("parent_state", "=", "posted")]
+        if target_move == "draft":
+            return [("parent_state", "=", "draft")]
+        elif target_move == "all":
+            # all (in Odoo 13+, there is also the cancel state that we must ignore)
+            return [("parent_state", "in", ("posted", "draft"))]
+        else:
+            raise UserError(_("Unexpected value %s for target_move.") % (target_move,))
+    
     def _declare_and_compute_period(
         self,
         expression_evaluator,
