@@ -57,10 +57,10 @@ class MisReportKpiStyle(models.Model):
             if props.prefix:
                 num_format = '"{} "{}'.format(props.prefix, num_format)
             currency = currency_id or self.env.company.currency_id####################################
-            _logger.warning("to_xlsx_style"*100)
-            _logger.warning(f"self.name={self}")
-            _logger.warning(f"currency_suffix = {use_currency_suffix}")
-            _logger.warning(f"currency = {currency}")
+            # ~ _logger.warning("to_xlsx_style"*100)
+            # ~ _logger.warning(f"self.name={self}")
+            # ~ _logger.warning(f"currency_suffix = {use_currency_suffix}")
+            # ~ _logger.warning(f"currency = {currency}")
             if currency and use_currency_suffix:#######################################
                 num_format = '{}" {}"'.format(num_format, currency_id.name)###########################################
             elif props.suffix:
@@ -115,10 +115,10 @@ class MisReportKpiStyle(models.Model):
             r = prefix + "\N{NO-BREAK SPACE}" + r
             
         currency = currency_id or self.env.company.currency_id####################################
-        _logger.warning("to_xlsx_style"*100)
-        _logger.warning(f"self.name={self}")
-        _logger.warning(f"use_currency_suffix = {use_currency_suffix}")
-        _logger.warning(f"currency = {currency}")
+        # ~ _logger.warning("to_xlsx_style"*100)
+        # ~ _logger.warning(f"self.name={self}")
+        # ~ _logger.warning(f"use_currency_suffix = {use_currency_suffix}")
+        # ~ _logger.warning(f"currency = {currency}")
         if currency and use_currency_suffix:#######################################
             r = r + "\N{NO-BREAK SPACE}" + currency.name
         elif suffix:
