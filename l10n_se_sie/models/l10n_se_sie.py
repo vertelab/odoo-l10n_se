@@ -548,7 +548,7 @@ class account_sie(models.TransientModel):
                                 tag_table[tag_name_prefix] = matching_tag.id
 
                             tags.append((4, tag_table[tag_name_prefix], 0))
-
+                        
                         line_vals = {
                             'account_id': code.id,
                             'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
@@ -559,12 +559,22 @@ class account_sie(models.TransientModel):
                             #'quantity': trans_quantity,
                             'name': trans_name,
                             'move_id': ver_id.id,
+                            # ~ 'tax_line_id':tax_line_id,
                             }
                             
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
                         self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
+                        tax_line_id = self.env['account.tax'].search([('name','=ilike',trans_name)]).id
+                        _logger.warning(f"{tax_line_id=}")
+                        _logger.warning(f"{tax_line_id=}")
+                        _logger.warning(f"{tax_line_id=}")
+                        _logger.warning(f"{tax_line_id=}")
+                        _logger.warning(f"{tax_line_id=}")
+                        _logger.warning(f"{tax_line_id=}")
+                        if tax_line_id: 
+                            trans_id.tax_line_id = tax_line_id
                         
             elif line['label'] == '#IB':
                         _logger.warning("#IB")
