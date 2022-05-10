@@ -28,7 +28,7 @@ from operator import itemgetter
 from openerp.osv import osv
 
 from odoo import models, fields, api, _,exceptions
-from odoo.exceptions import except_orm, Warning, RedirectWarning,UserError, ValidationError
+from odoo.exceptions import except_orm, Warning, RedirectWarning, UserError, ValidationError
 
 import base64
 from odoo.tools.safe_eval import safe_eval as eval
@@ -283,18 +283,6 @@ class AccountInvoice(models.Model):
     _inherit = 'account.move'
     
     def set_tax_account(self, tax_name, account_code):
-        _logger.warning("set_tax_account")
-        _logger.warning("set_tax_account")
-        _logger.warning("set_tax_account")
-        _logger.warning("set_tax_account")
-        _logger.warning("set_tax_account")
-        _logger.warning("set_tax_account")
-        _logger.warning("set_tax_account")
-        _logger.warning("set_tax_account")
-        _logger.warning(f"{tax_name=}")
-        _logger.warning(f"{account_code=}")
-        _logger.warning(f"{self=}")
-        
         correct_account = self.env["account.account"].search([("code","=",account_code)])
         if not correct_account:
             _logger.warning(f"Hittade ingen konto")

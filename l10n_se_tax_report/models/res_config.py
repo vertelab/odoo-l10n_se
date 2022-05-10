@@ -31,8 +31,17 @@ class Company(models.Model):
         
 
 
+
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+    vat_declaration_frequency = fields.Selection(selection=[('month', 'Month'), ('quarter', 'Quarter'),('year', 'Year')], default='quarter',string='Skattedeklarationsfrekvens',help="Hur stor är momsdeklarationsperioden?",config_parameter='l10n_se_tax_report.vat_declaration_frequency')
+    
+    
+    
+    
 # ~ class account_config_settings(models.TransientModel):
-    # ~ _inherit = 'account.config.settings'
+    # ~ _inherit = 'res.config.settings'
 
     # ~ agd_journal = fields.Many2one(comodel_name='account.journal', string='Arbetsgivardeklaration journal')
     # ~ moms_journal = fields.Many2one(comodel_name='account.journal', string='Momsdeklaration journal')
@@ -40,7 +49,6 @@ class Company(models.Model):
     # ~ vat_declaration_frequency = fields.Selection(selection=[(1, 'Month'), (3, 'Quarter'),(12, 'Year')], default=3,string='Skattedeklarationsfrekvens',help="Hur stor är momsdeklarationsperioden?")
     # ~ ag_contact = fields.Many2many(comodel_name='res.partner', string='Arbetsgivare kontaktperson', domain=[('is_company', '=', False)])
 
-    # ~ @api.multi
     # ~ def set_custom_parameters(self):
         # ~ config_parameters = self.env['ir.config_parameter']
         # ~ if self.agd_journal:

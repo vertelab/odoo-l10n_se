@@ -117,8 +117,8 @@ class account_declaration(models.Model):
     def _fiscalyear_id(self):
         return self.env['account.fiscalyear'].search([('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())])
     
-    # ~ def _period_start(self):
-        # ~ return  self.get_next_periods()[0]
+    def _period_start(self):
+        return  self.get_next_periods()[0]
     
     def _accounting_method(self):
         return  self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
@@ -202,6 +202,21 @@ class account_declaration(models.Model):
     # ~ def get_next_periods(self,length=3):
         # ~ last_declaration = self.search([],order='date_stop desc',limit=1)
         # ~ return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None, int(self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.vat_declaration_frequency', default=str(length))))
+    
+    @api.model
+    def get_next_periods(self,length=3):
+        last_declaration = self.search([],order='date_stop desc',limit=1)
+        icp = self.env['ir.config_parameter'].sudo()
+        freq_str = icp.get_param('l10n_se_tax_report.vat_declaration_frequency', default='quarter')
+        if freq_str:
+            _logger.warning(f"{freq_str=}")
+            if freq_str == "month":
+                freq_no = 1
+            if freq_str == "quarter":
+                freq_no = 3
+            if freq_str == "year":
+                freq_no = 12
+            return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None, freq_no)
 
     # ~ @api.one
     def do_draft(self):
@@ -303,16 +318,14 @@ class account_vat_declaration(models.Model):
     _description = 'Moms Declaration Report'
     _report_name = 'Moms'
     
-    # ~ def _period_start(self):
-        # ~ return  self.get_next_periods()[0]
+    def _period_start(self):
+        return  self.get_next_periods()[0]
     
-    # ~ def _period_stop(self):
-        # ~ return  self.get_next_periods()[1]
+    def _period_stop(self):
+        return  self.get_next_periods()[1]
     
-    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
-    # ~ period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
-    period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True)
-    # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
+    period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
+    period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,default=_period_stop)
     
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat", help='Avläsning av transationer från baskontoplanen.')
@@ -321,95 +334,22 @@ class account_vat_declaration(models.Model):
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="vat_declaration_id")
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="vat_declaration_id")
     
-    # ~ This needs to calculated without account.financial.report
-    # ~ @api.onchange('period_start', 'period_stop', 'target_move','accounting_method','accounting_yearend')
-    # ~ def _vat(self):
-        # ~ return
-        # ~ for decl in self:
-            # ~ if decl.period_start and decl.period_stop:
-                # ~ ctx = {
-                    # ~ 'period_start': decl.period_start.id,
-                    # ~ 'period_stop': decl.period_stop.id,
-                    # ~ 'accounting_yearend': decl.accounting_yearend,
-                    # ~ 'accounting_method': decl.accounting_method,
-                    # ~ 'target_move': decl.target_move,
-                # ~ }
-                # ~ decl.vat_momsingavdr = round(sum([self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).sum_tax_period() for row in [48]])) * -1.0
-                # ~ decl.vat_momsutg = round(sum([tax.with_context(ctx).sum_period for row in [10,11,12,30,31,32,60,61,62] for tax in self.env.ref('l10n_se_tax_report.%s' % row).mapped('tax_ids')])) * -1.0
-                # ~ decl.vat_momsbetala = decl.vat_momsutg + decl.vat_momsingavdr
     
-    # ~ @api.multi
-    # ~ def show_journal_entries(self):
-        # ~ ctx = {
-            # ~ 'period_start': self.period_start.id,
-            # ~ 'period_stop': self.period_stop.id,
-            # ~ 'accounting_yearend': self.accounting_yearend,
-            # ~ 'accounting_method': self.accounting_method,
-            # ~ 'target_move': self.target_move,
-        # ~ }
-        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
-        # ~ action.update({
-            # ~ 'display_name': _('Verifikat'),
-            # ~ 'domain': [('id', 'in', self.move_ids.mapped('id'))],
-            # ~ 'context': ctx,
-        # ~ })
-        # ~ return action
+    @api.model
+    def get_next_periods(self,length=3):
+        last_declaration = self.search([],order='date_stop desc',limit=1)
+        icp = self.env['ir.config_parameter'].sudo()
+        freq_str = icp.get_param('l10n_se_tax_report.vat_declaration_frequency', default='quarter')
+        if freq_str:
+            _logger.warning(f"{freq_str=}")
+            if freq_str == "month":
+                freq_no = 1
+            if freq_str == "quarter":
+                freq_no = 3
+            if freq_str == "year":
+                freq_no = 12
+            return self.env['account.period'].get_next_periods(last_declaration.period_stop if last_declaration else None, freq_no)
 
-    # ~ @api.multi
-    # ~ def show_momsingavdr(self):
-        # ~ ctx = {
-                # ~ 'period_start': self.period_start.id,
-                # ~ 'period_stop': self.period_stop.id,
-                # ~ 'accounting_yearend': self.accounting_yearend,
-                # ~ 'accounting_method': self.accounting_method,
-                # ~ 'target_move': self.target_move,
-            # ~ }
-        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        # ~ action.update({
-            # ~ 'display_name': _('VAT In'),
-            # ~ 'domain': [('id', 'in',self.env.ref('l10n_se_tax_report.48').with_context(ctx).get_taxlines().mapped('id'))],
-            # ~ 'context': {},
-        # ~ })
-        # ~ return action
-
-    # ~ @api.multi
-    # ~ def show_momsutg(self):
-        # ~ ctx = {
-                # ~ 'period_start': self.period_start.id,
-                # ~ 'period_stop': self.period_stop.id,
-                # ~ 'accounting_yearend': self.accounting_yearend,
-                # ~ 'accounting_method': self.accounting_method,
-                # ~ 'target_move': self.target_move,
-            # ~ }
-        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        # ~ action.update({
-            # ~ 'display_name': _('VAT Out'),
-            # ~ 'domain': [('id', 'in', [line.id for row in [10,11,12,30,31,32,60,61,62] for line in self.env.ref('l10n_se_tax_report.%s' % row).with_context(ctx).get_taxlines() ])],
-            # ~ 'context': {},
-        # ~ })
-        # ~ return action
-
-    # ~ @api.one
-    # ~ def do_draft(self):
-        # ~ for rec in self:
-            # ~ super(account_vat_declaration, self).do_draft()
-            # ~ for move in self.move_ids:
-                # ~ move.vat_declaration_id = None
-
-    # ~ @api.one
-    # ~ def do_cancel(self):
-        # ~ for rec in self:
-            # ~ super(account_vat_declaration, self).do_draft()
-            # ~ for move in self.move_ids:
-                # ~ move.vat_declaration_id = None
-
-    # ~ @api.multi
-    def test_function(self):
-        return True
-        
-
-
-    # ~ @api.one
     def comfirm_declaration(self): #Atm just moves the report from draf to Confirmend
         for rec in self:
             self.state = 'confirmed'
@@ -420,7 +360,6 @@ class account_declaration_line(models.Model):
 
     declaration_id = fields.Many2one(comodel_name="account.declaration.line.id", string='Declaration')
     move_line_ids = fields.Many2many(comodel_name="account.move.line", string='Move Lines')
-    # ~ report_id = fields.Many2one(comodel_name="account.financial.report")
     account_type = fields.Char(string='Account Type')
     balance = fields.Integer(string='Balance')
     type = fields.Char(string='Type')
@@ -429,15 +368,6 @@ class account_declaration_line(models.Model):
     move_ids = fields.Many2many(comodel_name='account.move')
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
 
-    # ~ @api.multi
-    def show_move_lines(self):
-        _logger.warning('jakmar: implement/change me')
-        # ~ action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
-        # ~ action.update({
-            # ~ 'display_name': _('%s') %self.name,
-            # ~ 'domain': [('id', 'in', self.move_line_ids.mapped('id'))],
-        # ~ })
-        # ~ return action
 
 class account_move(models.Model):
     _inherit = 'account.move'
@@ -472,18 +402,6 @@ class account_move(models.Model):
                 # ~ raise Warning(moves_19.mapped('name'))
                 reconciled_lines = moves_19.mapped('line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').filtered(lambda m: m.year_end_move == False and m.period_id.date_start <= self.env['account.period'].browse(period_stop).date_start).mapped('line_ids') # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax utom betalningar i framtiden
                 lines = reconciled_lines | moves_19.mapped('line_ids').filtered(lambda l: l.tax_ids != False) # Alla 19x account.move.line med tax_line_id
-
-            #~ lines = self.env['account.move'].search(domain)
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('line_ids')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('full_reconcile_id')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('reconciled_line_ids')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('move_id')
-            #~ _logger.warn(lines)
-            #~ lines = lines.mapped('line_ids')
 
         return lines
 

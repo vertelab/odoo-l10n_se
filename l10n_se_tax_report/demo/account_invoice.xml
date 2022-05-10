@@ -23,10 +23,12 @@
         <field name = "value">invoice</field>
     </record>
 
+<!--
     <record id = "demo_param_vat_declaration_param" model="ir.config_parameter">
         <field name = "key">l10n_se_tax_report.vat_declaration_param</field>
         <field name = "value">3</field>
     </record>
+-->
     
 <!--
   Prepare test partners
