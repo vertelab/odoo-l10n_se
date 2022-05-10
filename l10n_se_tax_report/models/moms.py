@@ -367,6 +367,9 @@ class account_declaration_line(models.Model):
     level = fields.Integer(string='Level')
     move_ids = fields.Many2many(comodel_name='account.move')
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
+    
+    def show_move_lines(self):
+        _logger.warning('jakmar: implement/change me')
 
 
 class account_move(models.Model):
