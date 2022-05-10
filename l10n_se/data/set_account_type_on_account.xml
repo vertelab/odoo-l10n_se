@@ -14,7 +14,7 @@
             </field>
         </record>
         
-            <record model="ir.actions.server" id="set_account_type_tax">
+        <record model="ir.actions.server" id="set_account_type_tax">
             <field name="name">Fix old Fiscal Postion Config </field>
             <field name="model_id" ref="account.model_account_fiscal_position"/>
             <field name="state">code</field>
@@ -25,6 +25,34 @@
             <field name="code">
                     for record in records:
                         record.fix_old_tax_config()
+            </field>
+        </record>
+        
+        
+        <record model="ir.actions.server" id="set_accounts_for_world_service">
+            <field name="name">Fix Account Translations Table for World</field>
+            <field name="model_id" ref="account.model_account_fiscal_position"/>
+            <field name="state">code</field>
+            <field name="binding_type">action</field>
+            <field name="code">
+world_fiscal_name = "Handel utanför EU"
+world_fiscal_record = env['account.fiscal.position'].search([('name','=',world_fiscal_name)])
+
+service_account_translation_record = env['account.account'].search([('code','=','4531')])
+
+ovriga_tjanster_6424 = env['account.account'].search([('code','=','6424')])
+ovriga_externa_tjanster_revisor_6500 = env['account.account'].search([('code','=','6500')])
+redovisningstjanster_6530 = env['account.account'].search([('code','=','6530')])
+it_tjanster_6540 = env['account.account'].search([('code','=','6540')])
+konsultarvoden_6550 = env['account.account'].search([('code','=','6550')])
+ovriga_externa_tjanster_6590 = env['account.account'].search([('code','=','6590')])
+
+env['account.fiscal.position.account'].create({'account_src_id':ovriga_tjanster_6424.id,'account_dest_id':service_account_translation_record.id,'position_id':world_fiscal_record.id})
+env['account.fiscal.position.account'].create({'account_src_id':ovriga_externa_tjanster_revisor_6500.id,'account_dest_id':service_account_translation_record.id,'position_id':world_fiscal_record.id})
+env['account.fiscal.position.account'].create({'account_src_id':redovisningstjanster_6530.id,'account_dest_id':service_account_translation_record.id,'position_id':world_fiscal_record.id})
+env['account.fiscal.position.account'].create({'account_src_id':it_tjanster_6540.id,'account_dest_id':service_account_translation_record.id,'position_id':world_fiscal_record.id})
+env['account.fiscal.position.account'].create({'account_src_id':konsultarvoden_6550.id,'account_dest_id':service_account_translation_record.id,'position_id':world_fiscal_record.id})
+env['account.fiscal.position.account'].create({'account_src_id':ovriga_externa_tjanster_6590.id,'account_dest_id':service_account_translation_record.id,'position_id':world_fiscal_record.id})
             </field>
         </record>
 <!--

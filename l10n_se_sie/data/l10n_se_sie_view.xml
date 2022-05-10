@@ -71,14 +71,7 @@
       <field name="value" eval="'ir.actions.server,%d' % dropdown_export_journal" />
     </record>
 -->
-    <record id="action_wizard_account_journal_sie" model="ir.actions.act_window">
-      <field name="name">Export journal SIE</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">account.sie</field>
-      <field name="view_mode">form</field>
-      <field name="target">new</field>
-    </record>
-    <menuitem action="action_wizard_account_journal_sie" id="menu_wizard_account_journal_sie" parent="l10n_se_sie.menu_sie" />
+
     <!--account_account-->
     <record model="ir.actions.server" id="dropdown_export_account">
       <field name="name">Export SIE</field>
@@ -163,6 +156,16 @@
         </form>
       </field>
     </record>
+<!--
+    <record id="action_wizard_account_journal_sie" model="ir.actions.act_window">
+      <field name="name">Export journal SIE</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.sie</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+    <menuitem action="action_wizard_account_journal_sie" id="menu_wizard_account_journal_sie" parent="l10n_se_sie.menu_sie" />
+-->
     <record id="action_wizard_account_sie" model="ir.actions.act_window">
       <field name="name">Export/import SIE-files</field>
       <field name="type">ir.actions.act_window</field>
