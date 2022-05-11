@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Sweden - Intrastat',
-    'summary': '',
+    'summary': 'For keeping track of import / export within the EU.',
     'author': 'Vertel AB',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/l10n_se',
     'description': """
-    
+    https://www.scb.se/lamna-uppgifter/undersokningar/intrastat-in--och-utforsel-av-varor/
     """,
     'depends': ['report_intrastat'],
     'init_xml': [],
