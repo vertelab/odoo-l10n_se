@@ -5,6 +5,62 @@ from odoo.addons.mis_builder.models.kpimatrix import KpiMatrix
 import logging
 _logger = logging.getLogger(__name__)
 
+
+class KpiMatrixRow(object):
+
+    # TODO: ultimately, the kpi matrix will become ignorant of KPI's and
+    #       accounts and know about rows, columns, sub columns and styles only.
+    #       It is already ignorant of period and only knowns about columns.
+    #       This will require a correct abstraction for expanding row details.
+
+    def __init__(self, matrix, kpi, account_id=None, parent_row=None):
+        self._matrix = matrix
+        self.kpi = kpi
+        self.account_id = account_id
+        self.description = ""
+        self.parent_row = parent_row
+        if not self.account_id:
+            self.style_props = self._matrix._style_model.merge(
+                [self.kpi.report_id.style_id, self.kpi.style_id]
+            )
+        else:
+            self.style_props = self._matrix._style_model.merge(
+                [self.kpi.report_id.style_id, self.kpi.auto_expand_accounts_style_id]
+            )
+
+    @property
+    def label(self):
+        if not self.account_id:
+            return self.kpi.description
+        else:
+            return self._matrix.get_account_name(self.account_id)
+
+    @property
+    def row_id(self):
+        if not self.account_id:
+            return self.kpi.name
+        else:
+            return "{}:{}".format(self.kpi.name, self.account_id)
+
+    def iter_cell_tuples(self, cols=None):
+        if cols is None:
+            cols = self._matrix.iter_cols()
+        for col in cols:
+            yield col.get_cell_tuple_for_row(self)
+
+    def iter_cells(self, subcols=None):
+        if subcols is None:
+            subcols = self._matrix.iter_subcols()
+        for subcol in subcols:
+            yield subcol.get_cell_for_row(self)
+
+    def is_empty(self):
+        for cell in self.iter_cells():
+            if cell and cell.val not in (AccountingNone, None):
+                return False
+        return True
+
+
 class KpiMatrixCell(object):  # noqa: B903 (immutable data class)
     def __init__(
         self,

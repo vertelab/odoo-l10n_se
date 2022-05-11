@@ -907,6 +907,61 @@
             <field name="kpi_id" ref="report_br_FinansiellaAnlaggningstillgangar"/>
             <field name="name">bal[1310, 1311, 1312, 1313, 1314, 1315, 1316, 1317, 1318, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1326, 1327, 1328, 1329, 1331, 1332, 1333, 1334, 1336, 1337, 1341, 1342, 1343, 1344, 1346, 1347, 1350, 1351, 1352, 1353, 1354, 1355, 1356, 1357, 1358, 1359, 1360, 1361, 1362, 1363, 1364, 1365, 1366, 1367, 1368, 1369, 1380, 1381, 1382, 1383, 1384, 1385, 1386, 1387, 1388, 1389]</field>
         </record>
+        
+        <!--
+        INVIS ROW TO FIX BELOW ROW
+-->
+
+        <record id="report_style_1_invis" model="mis.report.style">
+            <field name="name">Style for money Invis</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+            <field eval="False" name="dp_inherit"/>
+            <field name="dp">0</field>
+            <field eval="False" name="indent_level_inherit"/>
+            <field name="indent_level">2</field>
+            <field eval="False" name="hide_empty_inherit"/>
+            <field eval="False" name="hide_always_inherit"/>
+            <field eval="True" name="hide_empty"/>
+            <field eval="True" name="hide_always"/>
+        </record>
+        
+        <record id="report_style_2_invis" model="mis.report.style">
+            <field name="name">Style account Invis</field>
+            <field eval="False" name="indent_level_inherit"/>
+            <field name="indent_level">4</field>
+            <field eval="False" name="font_style_inherit"/>
+            <field name="font_style">italic</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+            <field eval="False" name="hide_empty_inherit"/>
+            <field eval="False" name="hide_always_inherit"/>
+            <field eval="True" name="hide_empty"/>
+            <field eval="True" name="hide_always"/>
+        </record>
+        
+        <record id="report_br_FordringarIntresseforetagGemensaInvis" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">FordringarIntresseforetagGemensaInvis</field>
+            <field name="description">Invis Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag</field>
+            <field name="style_id" ref="report_style_1_invis"/>
+            <field name="sequence">30</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2_invis"/>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_title_report_br_FordringarIntresseforetagGemensaInvis" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_FordringarIntresseforetagGemensaInvis"/>
+            <field name="name">bal[1571, 1572, 1671, 1672]</field>
+        </record>
+
+
+<!--
+        INVIS ROW TO FIX BELOW ROW
+-->
+        
         <record id="report_br_Anlaggningstillgangar_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
             <field name="name">Anlaggningstillgangar</field>
@@ -914,11 +969,11 @@
             <field name="style_id" ref="report_style_5"/>
             <field name="type">num</field>
             <field name="budgetable">True</field>
-            <field name="sequence">30</field>
+            <field name="sequence">31</field>
         </record>
         <record id="kpi_title_report_br_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_Anlaggningstillgangar_title"/>
-            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordringarIntresseforetagGemensa+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FinansiellaAnlaggningstillgangar</field>
+            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordringarIntresseforetagGemensaInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FinansiellaAnlaggningstillgangar</field>
         </record>
         <record id="report_br_OmsattningstillgangarAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
@@ -927,7 +982,7 @@
             <field name="style_id" ref="report_style_4"/>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="sequence">31</field>
+            <field name="sequence">32</field>
         </record>
         <record id="report_br_VarulagerMmAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
@@ -936,14 +991,14 @@
             <field name="style_id" ref="report_style_4"/>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="sequence">32</field>
+            <field name="sequence">33</field>
         </record>
         <record id="report_br_LagerRavarorFornodenheter" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
             <field name="name">LagerRavarorFornodenheter</field>
             <field name="description">Lager av råvaror och förnödenheter</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">33</field>
+            <field name="sequence">34</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -957,7 +1012,7 @@
             <field name="name">LagerVarorUnderTillverkning</field>
             <field name="description">Lager av varor under tillverkning</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">34</field>
+            <field name="sequence">35</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -971,7 +1026,7 @@
             <field name="name">LagerFardigaVarorHandelsvaror</field>
             <field name="description">Lager av färdiga varor och handelsvaror</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">35</field>
+            <field name="sequence">36</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -985,7 +1040,7 @@
             <field name="name">OvrigaLagertillgangar</field>
             <field name="description">Övriga lagertillgångar</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">36</field>
+            <field name="sequence">37</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -999,7 +1054,7 @@
             <field name="name">PagaendeArbetenAnnansRakningOmsa</field>
             <field name="description">Pågående arbeten för annans räkning (Tillgång)</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">37</field>
+            <field name="sequence">38</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1013,7 +1068,7 @@
             <field name="name">ForskottTillLeverantorer</field>
             <field name="description">Förskott till leverantörer</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">38</field>
+            <field name="sequence">39</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1027,7 +1082,7 @@
             <field name="name">VarulagerMm</field>
             <field name="description">Varulager m.m.</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">39</field>
+            <field name="sequence">40</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1043,14 +1098,14 @@
             <field name="style_id" ref="report_style_4"/>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="sequence">40</field>
+            <field name="sequence">41</field>
         </record>
         <record id="report_br_Kundfordringar" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
             <field name="name">Kundfordringar</field>
             <field name="description">Kundfordringar</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">41</field>
+            <field name="sequence">42</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1064,7 +1119,7 @@
             <field name="name">FordringarKoncernforetagKortfris</field>
             <field name="description">Kortfristiga fordringar hos koncernföretag</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">42</field>
+            <field name="sequence">43</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1078,7 +1133,7 @@
             <field name="name">FordringarIntresseforetagGemensa</field>
             <field name="description">Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">43</field>
+            <field name="sequence">44</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1092,7 +1147,7 @@
             <field name="name">FordringarOvrigaforetagAgarintre</field>
             <field name="description">Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">44</field>
+            <field name="sequence">45</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1106,7 +1161,7 @@
             <field name="name">OvrigaFordringarKortfristiga</field>
             <field name="description">Övriga kortfristga fordringar</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">45</field>
+            <field name="sequence">46</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1120,7 +1175,7 @@
             <field name="name">UpparbetadEjFaktureradIntakt</field>
             <field name="description">Upparbetad men ej fakturerad intäkt</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">46</field>
+            <field name="sequence">47</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>
@@ -1134,7 +1189,7 @@
             <field name="name">ForutbetaldaKostnaderUpplupnaInt</field>
             <field name="description">Förutbetalda kostnader och upplupna intäkter</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="sequence">47</field>
+            <field name="sequence">48</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
             <field name="budgetable">True</field>

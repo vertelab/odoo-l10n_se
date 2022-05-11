@@ -330,18 +330,18 @@ class account_sie(models.TransientModel):
         #TRANS  kontonr {objektlista} belopp  transdat transtext  kvantitet   sign
         #VER    serie vernr verdatum vertext regdatum sign
         # We seem to not add a regdatum which some parser don't agree with since we add the sign field
-        _logger.warning("BEFORE GOING TROUGH ALL VER")
+        # ~ _logger.warning("BEFORE GOING TROUGH ALL VER")
         ub = {}
         ub_accounts = []
         for ver in ver_ids:
-            _logger.warning(f"{ver=}")
+            # ~ _logger.warning(f"{ver=}")
             if ver.period_id.special == False:
                 str += '#VER %s "%s" %s "%s" %s %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_date.strftime("%Y%m%d")),self.escape_sie_string(ver.create_uid.login))
                 # ~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id, self.escape_sie_string(ver.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(ver.narration))[:20], self.escape_sie_string(ver.create_uid.login))
                 #~ str += '#VER %s "%s" %s "%s" %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), self.escape_sie_string('' if ver.name == '/' else ver.name), self.escape_sie_string(ver.date.replace('-','')), self.escape_sie_string(self.fix_empty(ver.narration)), self.escape_sie_string(ver.create_uid.login))
                 #~ str += '#VER "" %s %s "%s" %s %s\n{\n' % (ver.name, ver.date, ver.narration, ver.create_date, ver.create_uid.login)
                 for trans in ver.line_ids:
-                    _logger.warning(f"jakmar: {trans.display_type}")
+                    # ~ _logger.warning(f"jakmar: {trans.display_type}")
                     if trans.display_type == "line_note" or trans.display_type == 'line_section':
                         continue
                     str += '#TRANS %s {} %s %s "%s" %s %s\n' % (self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit, self.escape_sie_string(trans.date.strftime("%Y%m%d")), self.escape_sie_string(self.fix_empty(trans.name)), trans.quantity, self.escape_sie_string(trans.create_uid.login))
@@ -567,19 +567,13 @@ class account_sie(models.TransientModel):
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
                         self.with_context(context_copy).env['account.move.line'].browse(trans_id.id)._compute_analytic_account_id()
                         tax_line_id = self.env['account.tax'].search([('name','=ilike',trans_name)]).id
-                        _logger.warning(f"{tax_line_id=}")
-                        _logger.warning(f"{tax_line_id=}")
-                        _logger.warning(f"{tax_line_id=}")
-                        _logger.warning(f"{tax_line_id=}")
-                        _logger.warning(f"{tax_line_id=}")
-                        _logger.warning(f"{tax_line_id=}")
                         if tax_line_id: 
                             trans_id.tax_line_id = tax_line_id
                         
             elif line['label'] == '#IB':
-                        _logger.warning("#IB")
-                        _logger.warning(f"{line=}")
-                        _logger.warning(f"{ib_move_id=}")
+                        # ~ _logger.warning("#IB")
+                        # ~ _logger.warning(f"{line=}")
+                        # ~ _logger.warning(f"{ib_move_id=}")
                         year_num = int(line.get(1)) #Opening period for current fiscal year 
                         first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
                         iperiod_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
@@ -607,7 +601,7 @@ class account_sie(models.TransientModel):
                             'name': "#IB",
                             'move_id': ib_move_id.id,
                         }
-                        _logger.warning(f"{line_vals=}")
+                        # ~ _logger.warning(f"{line_vals=}")
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity':False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
