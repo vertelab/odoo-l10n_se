@@ -944,7 +944,7 @@
         
         <record id="report_br_FordringarIntresseforetagGemensaInvis" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
-            <field name="name">FordringarIntresseforetagGemensaInvis</field>
+            <field name="name">FordriIntresforetagGemenInvis</field>
             <field name="description">Invis Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_1_invis"/>
             <field name="sequence">30</field>
@@ -973,7 +973,7 @@
         </record>
         <record id="kpi_title_report_br_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_Anlaggningstillgangar_title"/>
-            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordringarIntresseforetagGemensaInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FinansiellaAnlaggningstillgangar</field>
+            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordriIntresforetagGemenInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FinansiellaAnlaggningstillgangar</field>
         </record>
         <record id="report_br_OmsattningstillgangarAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>

@@ -259,18 +259,25 @@ class AccountingExpressionProcessorExtended(object):
 
     def get_aml_domain_for_dates(self, date_from, date_to, mode, target_move, find_moves_by_period = False, accounting_method='invoice'):
         # ~ _logger.warning(f"mode1: {mode}")
+        type_skuld = self.env.ref('l10n_se.type_OvrigaKortfristigaSkulderMoms').id
+        type_liquidity = self.env.ref('account.data_account_type_liquidity').id
 
-        
+        _logger.warning(f"get_aml_domain_for_dates: {mode}")
         if mode == self.MODE_VARIATION:
             if find_moves_by_period and accounting_method == 'invoice':
                 domain = [("move_id.period_id.date_start", ">=", date_from), ("move_id.period_id.date_stop", "<=", date_to)]
             elif find_moves_by_period and accounting_method == 'cash':
-                domain = [("move_id.payment_period_id.date_start", ">=", date_from), ("move_id.payment_period_id.date_stop", "<=", date_to)]
+                invoices = self.env['account.move'].search([("period_id.date_start", ">=", date_from), ("period_id.date_stop", "<=", date_to)])
+                direct_payments_ids = invoices.filtered(lambda i: type_skuld in i.line_ids.mapped('account_id.user_type_id.id') and type_liquidity in i.line_ids.mapped('account_id.user_type_id.id')).mapped("id")
+                domain = ['|','&',("move_id.payment_period_id.date_start", ">=", date_from), ("move_id.payment_period_id.date_stop", "<=", date_to),("move_id","in",direct_payments_ids)]
             elif accounting_method=='cash':
-                domain = [("move_id.payment_date", ">=", date_from), ("move_id.payment_date", "<=", date_to)]
+                invoices = self.env['account.move'].search([("date", ">=", date_from), ("date", "<=", date_to)])
+                direct_payments_ids = invoices.filtered(lambda i: type_skuld in i.line_ids.mapped('account_id.user_type_id.id') and type_liquidity in i.line_ids.mapped('account_id.user_type_id.id')).mapped("id")
+                domain = ['|','&',("move_id.payment_date", ">=", date_from), ("move_id.payment_date", "<=", date_to),("move_id","in",direct_payments_ids)]
             elif accounting_method=='invoice':
                 domain = [("date", ">=", date_from), ("date", "<=", date_to)]
         elif mode in (self.MODE_INITIAL, self.MODE_END):
+
             # for income and expense account, sum from the beginning
             # of the current fiscal year only, for balance sheet accounts
             # sum from the beginning of time
@@ -304,12 +311,16 @@ class AccountingExpressionProcessorExtended(object):
                     ("date", ">=", fields.Date.to_string(fy_date_from)),
                     ("account_id.user_type_id.include_initial_balance", "=", True),
                 ]
+        #TODO ADD invoices = self.env['account.move'].search([("date", ">=", date_from), ("date", "<=", date_to)]) where we find direct payments to the code below.
+        #This code was a mess before we started messing with it.
             if mode == self.MODE_INITIAL:
                 if find_moves_by_period and accounting_method == "invoice":
                     domain.append(("move_id.period_id.date_start", "<", date_from))
-                if find_moves_by_period and accounting_method == "cash":
+                elif find_moves_by_period and accounting_method == "cash":
+                     #### ADD CODE
                     domain.append(("move_id.payment_period_id.date_start", "<", date_from))
                 elif accounting_method == "cash":
+                    #### ADD CODE
                     domain.append(("move_id.payment_date", "<", date_from))
                 elif accounting_method == "invoice":
                     domain.append(("date", "<", date_from))
@@ -317,11 +328,16 @@ class AccountingExpressionProcessorExtended(object):
                 if find_moves_by_period and accounting_method == "invoice":
                     domain.append(("move_id.period_id.date_stop", "<", date_to))
                 elif find_moves_by_period and accounting_method == "cash":
+                     #### ADD CODE
                     domain.append(("move_id.payment_period_id.date_stop", "<", date_to))
                 elif accounting_method == "cash":
+                     #### ADD CODE
                     domain.append(("move_id.payment_date", "<=", date_to))
                 elif accounting_method == "invoice":
                     domain.append(("date", "<=", date_to))
+            ######################
+                
+
         elif mode == self.MODE_UNALLOCATED:
             date_from_date = fields.Date.from_string(date_from)
             # TODO this takes the fy from the first company
@@ -329,17 +345,21 @@ class AccountingExpressionProcessorExtended(object):
             fy_date_from = self.companies[0].compute_fiscalyear_dates(date_from_date)[
                 "date_from"
             ]
+            #TODO ADD invoices = self.env['account.move'].search([("date", ">=", date_from), ("date", "<=", date_to)]) where we find direct payments to the code below.
+            #This code was a mess before we started messing with it.
             if find_moves_by_period and accounting_method == 'invoice':
                      domain = [
                     ("move_id.period_id.date_start", "<", fields.Date.to_string(fy_date_from)),
                     ("account_id.user_type_id.include_initial_balance", "=", False),
                 ]
             elif find_moves_by_period and accounting_method == 'cash':
+                    #### ADD CODE
                      domain = [
                     ("move_id.payment_period_id.date_start", "<", fields.Date.to_string(fy_date_from)),
                     ("account_id.user_type_id.include_initial_balance", "=", False),
                 ]
             elif accounting_method == 'cash':
+                #### ADD CODE
                 domain = [
                     ("move_id.payment_date", "<", fields.Date.to_string(fy_date_from)),
                     ("user_type_id.include_initial_balance", "=", False),
@@ -352,8 +372,6 @@ class AccountingExpressionProcessorExtended(object):
         if target_move == "posted":
             domain.append(("move_id.state", "=", "posted"))
         result = expression.normalize_domain(domain)
-        # ~ _logger.warning(f"{domain=}")
-        # ~ _logger.warning(f"{result=}")
         return result
 
     def _get_company_rates(self, date):
@@ -410,7 +428,7 @@ class AccountingExpressionProcessorExtended(object):
             if additional_move_line_filter:
                 domain.extend(additional_move_line_filter)
             # fetch sum of debit/credit, grouped by account_id
-            # ~ _logger.warning(domain)
+            _logger.warning(f"BEFORE DOMAIN {domain=}")
             accs = aml_model.read_group(
                 domain,
                 ["debit", "credit", "account_id", "company_id"],
