@@ -35,7 +35,7 @@
     'depends': ['account', 'account_statement_import', 'account_period'],
     'data': ['bank_statement_view.xml'],
     'summary': 'Swedish Account Bank Statement Import',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n-se-account_bank_statement_import',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_bank_statement_import',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'description': """Base Module for Import of Swedish Account Bank Statements.""",
     'installable': 'True',
