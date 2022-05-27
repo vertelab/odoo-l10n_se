@@ -421,14 +421,11 @@ class AccountingExpressionProcessorExtended(object):
                 domain_by_mode[mode] = self.get_aml_domain_for_dates(
                     date_from, date_to, mode, target_move, find_moves_by_period=find_moves_by_period, accounting_method=accounting_method
                 )
-            # ~ _logger.warning(domain)
             domain = list(domain) + domain_by_mode[mode]
-            # ~ _logger.warning(domain)
             domain.append(("account_id", "in", self._map_account_ids[key]))
             if additional_move_line_filter:
                 domain.extend(additional_move_line_filter)
             # fetch sum of debit/credit, grouped by account_id
-            _logger.warning(f"BEFORE DOMAIN {domain=}")
             accs = aml_model.read_group(
                 domain,
                 ["debit", "credit", "account_id", "company_id"],

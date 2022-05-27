@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class account_vat_declaration(models.Model):
     _inherit = 'account.vat.declaration'
-    eskd_file_mis = fields.Binary(string="eSKD-file_mis",readonly=True)
+    eskd_file_mis = fields.Binary(string="eSKD-file",readonly=True)
     # ~ generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', default = lambda self: self._generate_mis_report(), ondelete='cascade', readonly = 'true')
     generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', ondelete='cascade', readonly = 'true')
     find_moves_by_period = fields.Boolean(

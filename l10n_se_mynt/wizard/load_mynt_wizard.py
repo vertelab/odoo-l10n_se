@@ -110,9 +110,9 @@ class LoadMynt(models.TransientModel):
         if not tax_account:
             raise ValidationError(f"No valid tax account found, for vat rate {vat_rate}")
             
-        credit_account = self.journal_id.default_account_id #changed
-        if not credit_account:
-            raise ValidationError(f"No valid credit account found, please set it on your selected journal")
+        # ~ credit_account = self.journal_id.default_account_id #changed
+        # ~ if not credit_account:
+            # ~ raise ValidationError(f"No valid credit account found, please set it on your selected journal")
             
         debit_account = self.env["account.account"].search([("code","=",row.get("Account"))])
         if not debit_account:

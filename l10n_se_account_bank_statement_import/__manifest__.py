@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'author': 'Vertel AB',
     'category': 'Banking addons',
-    'depends': ['account', 'account_statement_import', 'account_period'],
+    'depends': ['account', 'account_statement_import', 'account_period', 'account_reconciliation_widget'],
     'data': ['bank_statement_view.xml'],
     'summary': 'Swedish Account Bank Statement Import',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n-se-account_bank_statement_import',
