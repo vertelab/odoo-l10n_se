@@ -144,6 +144,16 @@ class AccountBankStatementImport(models.TransientModel):
         #~ res = parser.parse(statement_file)
         # _logger.debug("res: %s" % seb.statements)
         #~ raise Warning(seb.statements)
+        # ~ _logger.warning(f"{seb.statements=}")
+        #seb.statements.name = False
+        
+        #Här sätts name på account.move till False, sättet det görs någons stans i parser blir inte unikt, vilket är ett problem då det måste vara unikt.
+        #Är det false så sätter odoo ett unikt namn
+        
+        for sebstatement in seb.statements:
+            for transaction in sebstatement.get("transactions"):
+                transaction.name = False
+        # ~ _logger.warning(f"{seb.statements=}")
         return seb.account_currency, seb.account_number, seb.statements
 
 

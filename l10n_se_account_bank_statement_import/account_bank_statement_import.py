@@ -354,6 +354,8 @@ class AccountBankStatementImport(models.TransientModel):
             #     account_no = stmts_vals[i].pop('account_number')
             #     stmts_vals[i]['account_no'] = account_no
             stmts_vals[i]['currency_id'] = int(currency_id)
+        # ~ _logger.warning("stmts_vals"*10)
+        # ~ _logger.warning(f"{stmts_vals=}")
         super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals, result)
         statement_ids = result['statement_ids']
         # if len(statement_ids) > 0:
