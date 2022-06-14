@@ -766,11 +766,43 @@
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">TFFU</field>
             <field name="description">Inköp av tjänster från ett land utanför EU</field>
-            <field name="amount">0</field>
-            <field name="amount_type">fixed</field>
+            <field name="amount">25</field>
+            <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2645'),
+            }),]"/>
         </record>
+        
         <!-- 23 -->
         <record id="ivis" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
@@ -793,6 +825,38 @@
         </record>
         <!-- D. -->
         <!-- 30 -->
+        <record id="rtffu" model="account.tax.template">
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="name">RTFFU</field>
+            <field name="description">Omvänd skatte skuldighet inköp av tjänster utanför EU, 25%</field>
+            <field name="amount">25</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+            <field name="invoice_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
+            }),]"/>
+            
+            <field name="refund_repartition_line_ids" eval="[(5,0,0),
+            (0, 0, {
+                    'factor_percent': 100,
+                    'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('chart2614'),
+            }),]"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes" />
+        </record>
+        
         <record id="u1mi" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_general" />
             <field name="name">U1MI</field>

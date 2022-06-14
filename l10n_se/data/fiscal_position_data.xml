@@ -212,6 +212,12 @@
             <field name="tax_src_id" ref="i6"/>
             <field name="tax_dest_id" ref="mbbui3"/>
         </record>
+        
+        <record id="K1_fpos_trade_world_tax_it" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="K1_fpos_trade_world"/>
+            <field name="tax_src_id" ref="it"/>
+            <field name="tax_dest_id" ref="tffu"/>
+        </record>
 
         <!-- K1 Trade with world account lines -->
         <record id="K1_fpos_trade_world_acc_chart3000" model="account.fiscal.position.account.template">
@@ -312,6 +318,11 @@
             <field name="position_id" ref="K1_fpos_trade_world"/>
             <field name="tax_src_id" ref="mbbui3"/>
             <field name="tax_dest_id" ref="u3mbbui"/>
+        </record>
+        <record id="K1_fpos_trade_world_tax_balance_tffu" model="account.fiscal.position.tax.balance.template">
+            <field name="position_id" ref="K1_fpos_trade_world"/>
+            <field name="tax_src_id" ref="tffu"/>
+            <field name="tax_dest_id" ref="rtffu"/>
         </record>
         
                 <!-- K2 Trade with Sweden -->
@@ -523,6 +534,11 @@
             <field name="tax_src_id" ref="i6"/>
             <field name="tax_dest_id" ref="mbbui3"/>
         </record>
+        <record id="K2_fpos_trade_world_tax_it" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="K2_fpos_trade_world"/>
+            <field name="tax_src_id" ref="it"/>
+            <field name="tax_dest_id" ref="tffu"/>
+        </record>
 
         <!-- K2 Trade with world account lines -->
         <record id="K2_fpos_trade_world_acc_chart3000" model="account.fiscal.position.account.template">
@@ -623,6 +639,11 @@
             <field name="position_id" ref="K2_fpos_trade_world"/>
             <field name="tax_src_id" ref="mbbui3"/>
             <field name="tax_dest_id" ref="u3mbbui"/>
+        </record>
+                <record id="K2_fpos_trade_world_tax_balance_tffu" model="account.fiscal.position.tax.balance.template">
+            <field name="position_id" ref="K2_fpos_trade_world"/>
+            <field name="tax_src_id" ref="tffu"/>
+            <field name="tax_dest_id" ref="rtffu"/>
         </record>
         
         
@@ -836,6 +857,11 @@
             <field name="tax_src_id" ref="i6"/>
             <field name="tax_dest_id" ref="mbbui3"/>
         </record>
+        <record id="K3_fpos_trade_world_tax_it" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="K3_fpos_trade_world"/>
+            <field name="tax_src_id" ref="it"/>
+            <field name="tax_dest_id" ref="tffu"/>
+        </record>
 
         <!-- K3 Trade with world account lines -->
         <record id="K3_fpos_trade_world_acc_chart3000" model="account.fiscal.position.account.template">
@@ -936,6 +962,11 @@
             <field name="position_id" ref="K3_fpos_trade_world"/>
             <field name="tax_src_id" ref="mbbui3"/>
             <field name="tax_dest_id" ref="u3mbbui"/>
+        </record>
+                <record id="K3_fpos_trade_world_tax_balance_tffu" model="account.fiscal.position.tax.balance.template">
+            <field name="position_id" ref="K3_fpos_trade_world"/>
+            <field name="tax_src_id" ref="tffu"/>
+            <field name="tax_dest_id" ref="rtffu"/>
         </record>
         
 
@@ -1148,6 +1179,11 @@
             <field name="tax_src_id" ref="i6"/>
             <field name="tax_dest_id" ref="mbbui3"/>
         </record>
+        <record id="K4_fpos_trade_world_tax_it" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="K4_fpos_trade_world"/>
+            <field name="tax_src_id" ref="it"/>
+            <field name="tax_dest_id" ref="tffu"/>
+        </record>
 
         <!-- K4 Trade with world account lines -->
         <record id="K4_fpos_trade_world_acc_chart3000" model="account.fiscal.position.account.template">
@@ -1247,6 +1283,11 @@
             <field name="position_id" ref="K4_fpos_trade_world"/>
             <field name="tax_src_id" ref="mbbui3"/>
             <field name="tax_dest_id" ref="u3mbbui"/>
+        </record>
+        <record id="K4_fpos_trade_world_tax_balance_tffu" model="account.fiscal.position.tax.balance.template">
+            <field name="position_id" ref="K4_fpos_trade_world"/>
+            <field name="tax_src_id" ref="tffu"/>
+            <field name="tax_dest_id" ref="rtffu"/>
         </record>
         
         

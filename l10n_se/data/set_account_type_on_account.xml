@@ -27,6 +27,38 @@
                         record.fix_old_tax_config()
             </field>
         </record>
+
+        <record model="ir.actions.server" id="set_correct_orginator_tax_on_lines">
+            <field name="name">Set Correct Orginator tax on lines</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_fiscal_position"/>
+-->
+            <field name="binding_type">action</field>
+            <field name="code">
+                for record in records:
+                    record.set_correct_orignator_tax_lines()
+            </field>
+        </record>
+        
+        
+        <record model="ir.actions.server" id="set_correct_orginator_tax_on_line">
+            <field name="name">Set Correct Orginator tax on line</field>
+            <field name="model_id" ref="account.model_account_move_line"/>
+            <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_fiscal_position"/>
+-->
+            <field name="binding_type">action</field>
+            <field name="code">
+                for record in records:
+                    record.set_correct_orignator_tax_line()
+            </field>
+        </record>
+        
+        
+
         
         
         <record model="ir.actions.server" id="set_accounts_for_world_service">

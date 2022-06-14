@@ -122,7 +122,10 @@
         </record>
         <record id="kpi_report_md_InkopTjanstUtomEg" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_md_InkopTjanstUtomEg"/>
+            <field name="name">bal[4531,4532,4533]</field>
+<!--
             <field name="name">crd[][('tax_line_id.name', '=', 'TFFU')]</field>
+-->
         </record>
         
         <record id="report_md_InkopVaruSverige" model="mis.report.kpi">
@@ -134,7 +137,7 @@
         </record>
         <record id="kpi_report_md_InkopVaruSverige" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_md_InkopVaruSverige"/>
-            <field name="name">crd[][('tax_line_id.name', '=', 'TFFU')]</field>
+            <field name="name">crd[][('tax_line_id.name', '=', 'IVIS')]</field>
         </record>
         
         <record id="report_md_InkopTjanstSverige" model="mis.report.kpi">
@@ -159,6 +162,7 @@
         <record id="kpi_report_md_MomsInkopUtgHog" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_md_MomsInkopUtgHog"/>
             <field name="name">crd[]['|', ('tax_line_id.name', '=', 'RTFEU'),('tax_line_id.name', '=', 'U1MI')]</field>
+            <field name="name">crd[]['|','|', ('tax_line_id.name', '=', 'RTFEU'),('tax_line_id.name', '=', 'U1MI'),('tax_line_id.name', '=', 'RTFFU')]</field>
         </record>
         
         <record id="report_md_MomsInkopUtgMedel" model="mis.report.kpi">
@@ -302,7 +306,7 @@
         </record>
         <record id="kpi_report_md_MomsIngAvdr" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_md_MomsIngAvdr"/>
-            <field name="name">balp[]['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|', ('tax_line_id.name', '=', 'IT'),('tax_line_id.name', '=', 'IT6'),('tax_line_id.name', '=', 'IT12'),('tax_line_id.name', '=', 'I'),('tax_line_id.name', '=', 'VFEU'),('tax_line_id.name', '=', 'VFEU12'),('tax_line_id.name', '=', 'VFEU6'),('tax_line_id.name', '=', 'TFEU'),('tax_line_id.name', '=', 'TFEU12'),('tax_line_id.name', '=', 'TFEU6'),('tax_line_id.name', '=', 'MBBUI1'),('tax_line_id.name', '=', 'MBBUI2'),('tax_line_id.name', '=', 'MBBUI3'),('tax_line_id.name', '=', 'Ii'),('tax_line_id.name', '=', 'I12'),('tax_line_id.name', '=', 'I12i'),('tax_line_id.name', '=', 'I6'),('tax_line_id.name', '=', 'I6i')]</field>
+            <field name="name">balp[]['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|', ('tax_line_id.name', '=', 'TFFU'), ('tax_line_id.name', '=', 'IT'),('tax_line_id.name', '=', 'IT6'),('tax_line_id.name', '=', 'IT12'),('tax_line_id.name', '=', 'I'),('tax_line_id.name', '=', 'VFEU'),('tax_line_id.name', '=', 'VFEU12'),('tax_line_id.name', '=', 'VFEU6'),('tax_line_id.name', '=', 'TFEU'),('tax_line_id.name', '=', 'TFEU12'),('tax_line_id.name', '=', 'TFEU6'),('tax_line_id.name', '=', 'MBBUI1'),('tax_line_id.name', '=', 'MBBUI2'),('tax_line_id.name', '=', 'MBBUI3'),('tax_line_id.name', '=', 'Ii'),('tax_line_id.name', '=', 'I12'),('tax_line_id.name', '=', 'I12i'),('tax_line_id.name', '=', 'I6'),('tax_line_id.name', '=', 'I6i')]</field>
         </record>
         
         <record id="report_md_MomsUlagImport" model="mis.report.kpi">
