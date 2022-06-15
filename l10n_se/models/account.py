@@ -344,7 +344,7 @@ class AccountInvoice(models.Model):
             if not fiscal_position_id:
                 fiscal_position_id = self.move_id.fiscal_position_id
                 
-            if fiscal_position_id:
+            if fiscal_position_id and self.tax_line_id:
                 tax_balance_map_ids = fiscal_position_id.tax_balance_ids
                 tax_balance_dict = {}
                 for tax_balance_map_id in tax_balance_map_ids:
