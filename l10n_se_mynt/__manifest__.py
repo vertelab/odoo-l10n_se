@@ -40,6 +40,8 @@
     'init_xml': [],
     'data': [
         #'data/load_account_chart_template_data.xml',
+        'views/account_move.xml',
+        'views/journal_form_view.xml',
         'wizard/load_mynt_view.xml',
         'security/ir.model.access.csv',
 
