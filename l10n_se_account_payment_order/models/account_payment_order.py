@@ -145,9 +145,10 @@ class AccountPaymentLineCreate(models.TransientModel):
         # ~ _logger.warning(f"jakmar: domain {res}")
         return res
         
-#Model used to save settings for the Account Payment Domain
+        
 class AccountPaymentConfig(models.Model):
         _name = 'account.payment.config'
+        _description = 'Model used to save settings for the Account Payment Domain'
         # ~ allowed_account_type_ids = fields.One2many(comodel_name='account.account.type', string='Allowed Account Types', help='Accounts that belong to these types show up', inverse_name='account_payment_config')
         # ~ disallowed_account_ids = fields.One2many(comodel_name='account.account', string='Disallowed Accounts', help='These Accounts will not show up', inverse_name='account_payment_config')
         _rec_name = 'config_name'
