@@ -311,6 +311,7 @@ class account_declaration(models.Model):
 
 class account_declaration_line_id(models.Model):
     _name = 'account.declaration.line.id'
+    _description = 'Account declaration line id'
 
 class account_vat_declaration(models.Model):
     _name = 'account.vat.declaration'
