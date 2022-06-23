@@ -358,6 +358,7 @@ class account_vat_declaration(models.Model):
 
 class account_declaration_line(models.Model):
     _name = 'account.declaration.line'
+    _description = 'Lines belonging to account declaration'
 
     declaration_id = fields.Many2one(comodel_name="account.declaration.line.id", string='Declaration')
     move_line_ids = fields.Many2many(comodel_name="account.move.line", string='Move Lines')

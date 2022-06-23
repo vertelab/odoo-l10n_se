@@ -34,6 +34,7 @@ _logger = logging.getLogger(__name__)
 
 class ImportBalanceAndResultReports(models.TransientModel):
     _name = 'account.financial.report.balance_result.import'
+    _description = 'Financial report, balance report and result'
 
     data = fields.Binary('File', required=True)
     message = fields.Text(string='Message', readonly=True)

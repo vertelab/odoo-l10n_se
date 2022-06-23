@@ -83,6 +83,7 @@ class account_agd_declaration(models.Model):
     _inherit = 'account.declaration'
     _report_name = 'Agd'
     _order = 'date desc'
+    _description = 'TODO'
 
     line_id = fields.Many2one('account.declaration.line.id', auto_join=True, index=True, ondelete="cascade", required=True)
     def _period_start(self):
