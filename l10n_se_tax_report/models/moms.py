@@ -125,7 +125,7 @@ class account_declaration(models.Model):
     
     name = fields.Char()
     date = fields.Date(help="Planned date, date when to report to the Skatteverket or do the declaration. Usually Monday second week after period, but check calendar at Skatteverket. (January and August differ.)")
-    state = fields.Selection(selection=[('draft','Draft'),('confirmed','Confirmed'),('done','Done'),('canceled','Canceled')],default='draft',track_visibility='onchange')
+    state = fields.Selection(selection=[('draft','Draft'),('confirmed','Confirmed'),('done','Done'),('canceled','Canceled')],default='draft')#TODO,track_visibility='onchange')
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string=u'Räkenskapsår', help='Håll tom för alla öppna räkenskapsår', default=_fiscalyear_id)
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True)
     # ~ period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
