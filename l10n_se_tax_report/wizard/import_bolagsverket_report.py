@@ -36,7 +36,7 @@ _logger = logging.getLogger(__name__)
 
 class ImportBolagsverketReports(models.TransientModel):
     _name = 'account.financial.report.bolagsverket.import'
-    _description = ' '
+    _description = 'TODO'
 
     data = fields.Binary('File', required=True)
     file_name = fields.Char(string='File Name')
