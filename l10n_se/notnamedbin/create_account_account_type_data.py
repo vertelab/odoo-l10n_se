@@ -227,7 +227,7 @@ def get_type(lst):
     elif '1510' in lst:
         return 'receivable'
     elif '2820' in lst:
-        return 'other' #payable 1931
+        return 'payable'
     else:
         return 'other'
 
@@ -308,7 +308,7 @@ def print_xml(sheet_list):
         field_internal_group = ET.SubElement(record, "field", name="internal_group").text = "asset"
         
         #added another group "Övriga kortfristiga skulder(moms)" that has all the tax accounts since they need to be regular otherwise the extra tax lines won't be added.
-        #All the other accounts in "Övriga kortfristiga skulder" need to be recivable in order to be able to use them in invoices.
+        #All the other accounts in "Övriga kortfristiga skulder" need to be payable in order to be able to use them in invoices.
         external_id = "type_OvrigaKortfristigaSkulderMoms"
         record = ET.SubElement(data, 'record', id=external_id, model="account.account.type")
         field_name = ET.SubElement(record, "field", name="name").text = "Övriga kortfristiga skulder moms"

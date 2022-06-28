@@ -72,6 +72,12 @@ class LoadMynt(models.TransientModel):
                 total_amount = 0
                 reverse_move_date = ""
                 _logger.warning(data.namelist())
+                
+                file_name_date = datetime.strptime(csv_reader[0].get("Date"), '%Y-%m')
+                _logger.warning(f"{file_name_date}")
+                bank_statement = create_credit_bank_statement(self,file_name_date)
+                
+                raise Warning(_("Not yet"))
                 for row in csv_reader:
                     # ~ if line_count == 0:
                         # ~ _logger.warning(f'Column names are {", ".join(row)}')
@@ -79,7 +85,8 @@ class LoadMynt(models.TransientModel):
                     
                     if float(row["Amount"]) < 0: #Is a debit transaction
                         reverse_move_date = datetime.strptime(row.get("Date"), '%Y-%m-%d')
-                        account_move = self.create_credit_account_move(row)
+                        # ~ account_move = self.create_credit_account_move(row)
+                        
                         total_amount += account_move.amount_total
                     # ~ else:#Is a credit transaction
                         # ~ account_move = self.create_debit_account_move(row)
@@ -121,7 +128,11 @@ class LoadMynt(models.TransientModel):
                 'move_id': payment_account_move.id,
             })  
             account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()    
-                
+    
+    def create_credit_bank_statement(self, row):
+    
+    def create_credit_bank_statement_line(self, row):
+    
     def create_credit_account_move(self, row):
         amount = float(row["Amount"])  * (-1.0)
         to_check = False
