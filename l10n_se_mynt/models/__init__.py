@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 from . import journal
-# ~ from . import company
+from . import account_card_statement

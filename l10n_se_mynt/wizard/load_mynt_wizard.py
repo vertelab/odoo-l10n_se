@@ -73,6 +73,10 @@ class LoadMynt(models.TransientModel):
                 reverse_move_date = ""
                 _logger.warning(data.namelist())
                 
+                # ~ file_name_date = datetime.strptime(csv_reader[0].get("Date"), '%Y-%m')
+                # ~ _logger.warning(f"{file_name_date}")
+                # ~ bank_statement = create_credit_bank_statement(self,file_name_date)
+                
                 raise Warning(_("Not yet"))
                 for row in csv_reader:
                     # ~ if line_count == 0:
