@@ -10,9 +10,11 @@
                     <group rowspan="4" string="File to upload">
                             <field name="mynt_directory"/>
                     </group>
+<!--
                     <group string="Choose a journal">
                                 <field name="journal_id"/>
                     </group>
+-->
                        <footer>
                             <button name="import_file" string="Load Mynt File" type="object" class="oe_highlight" />
                             or
@@ -31,9 +33,109 @@
         
         <menuitem id="menu_mynt" name="Mynt" parent="account.menu_finance_configuration" sequence="50" />
         <menuitem action="load_mynt_directory" id="menu_wizard_account_mynt" parent="menu_mynt" />
-
+        
+        
+        
+        
+            <record id="view_card_statement_search" model="ir.ui.view">
+            <field name="name">account.bank.card.search</field>
+            <field name="model">account.card.statement</field>
+            <field name="arch" type="xml">
+                <search string="Search Card Statements">
+                    <field name="name" string="Card Statement"/>
+                    <field name="date"/>
 <!--
-        <menuitem id="menu_account_period_create_form" action="account_period_create_form" parent="account.menu_finance_entries" sequence="40"/>
+                    <filter string="New" name="draft" domain="[('state','=','open')]"/>
+                    <filter string="Processing" name="processing" domain="[('state','=','posted')]"/>
+                    <filter string="Validated" name="confirmed" domain="[('state','=','confirm')]"/>
+-->
+<!--
+                    <separator/>
+-->
+                    <filter name="filter_date" date="date"/>
+                    <field name="journal_id" />
+                    <group expand="0" string="Group By">
+                        <filter string="Journal" name="journal" context="{'group_by': 'journal_id'}"/>
+<!--
+                        <filter string="Status" name="status" context="{'group_by': 'state'}"/>
+-->
+                        <filter string="Date" name="date" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+                    
+        
+    <record id="action_view_card_statements" model="ir.actions.act_window">
+            <field name="name">Card Transactions </field>
+            <field name="res_model">account.card.statement</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_card_statement_search"/>    
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Card statement found.
+                </p>
+            </field>
+    </record>
+        
+    
+<!--
+    <menuitem id="card_statement" name="Card Statements" parent="account.menu_finance_entries"/>
+
+    <menuitem name="View All Card Statements" id="menu_card_statement" parent="card_statement"
+            action="action_view_card_statements" sequence="2" />
+-->
+
+
+
+    <record id="account_journal_dashboard_kanban_view_inherit" model="ir.ui.view">
+        <field name="name">account.journal.dashboard.kanban.inherit</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//div[@t-if=&quot;journal_type == &#39;purchase&#39; || journal_type == &#39;sale&#39;&quot;]/div[hasclass('o_kanban_manage_new')]/div" postion="after" >
+                <div>
+                    <a type="action" name="%(l10n_se_mynt.load_mynt_directory)d">
+                        <span t-if="journal_type == 'purchase'">Load Mynt File</span>
+                    </a>
+                </div>
+            </xpath>
+            <xpath expr="//div[@t-if=&quot;journal_type == &#39;purchase&#39; || journal_type == &#39;sale&#39;&quot;]/div[hasclass('o_kanban_manage_reports')]/div" postion="after" >
+                <div>
+                    <a t-if="journal_type == 'purchase'" role="menuitem" type="object" name="open_action_with_context_mynt" context="{'action_name': 'action_view_card_statements', 'search_default_journal': True, 'use_domain':True}">View Card Transactions</a>
+<!--
+                    <a t-if="journal_type == 'purchase'" type="action" name="%(l10n_se_mynt.action_view_card_statements)d" groups="account.group_account_readonly">View Card Transactions</a>
+-->
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+    
+    
+
+            
+    
+<!--
+    <record id="action_view_card_statements_lines" model="ir.actions.act_window">
+            <field name="name">Card Transactions Lines</field>
+            <field name="res_model">account.card.statement.line</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Card statement lines found.
+                </p>
+            </field>
+    </record>
+        
+    
+    <menuitem id="card_statement_lines" name="Card Statements Lines" parent="account.menu_finance_entries"/>
+
+    <menuitem name="View All Card Statements Lines" id="menu_card_statement_lines" parent="card_statement_lines"
+            action="action_view_card_statements_lines" sequence="2" />
+            
 -->
 
     </data>
