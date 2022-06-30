@@ -128,7 +128,7 @@ class LoadMynt(models.TransientModel):
                 })  
                 payment_account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()
                 account_card_statement_id.account_move_id = payment_account_move.id
-                account_card_statement_id.account_journal_id = self.journal_id
+                account_card_statement_id.journal_id = self.journal_id
                 self.env['ir.attachment'].create({
                                 'name': filename,
                                 'type': 'binary',
