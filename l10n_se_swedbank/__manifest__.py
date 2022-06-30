@@ -31,9 +31,9 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_swedbank',
-    'images': ['/static/description/banner.png'], # 560x280 px.
+    'images': ['static/description/banner.png'], # 560x280 px.
     'description': """
-        The module allows importing and reading Swedbank bank statement files
+        The module allows importing and reading Swedbank bank statement files.
     """,
     'depends': ['l10n_se_account_bank_statement_import'],
     #'data': ['l10n_se_sie_view.xml','account_view.xml','l10n_se_sie_data.xml'],

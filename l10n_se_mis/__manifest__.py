@@ -31,7 +31,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
-    'images': ['/static/description/banner.png'], # 560x280 px.
+    'images': ['static/description/banner.png'], # 560x280 px.
     'description': """
         The module works as a base for creating Swedish MIS-reports  
     """,
