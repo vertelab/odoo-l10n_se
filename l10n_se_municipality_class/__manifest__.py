@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se_municipality Swedish Municipalities',
+    'name': 'l10n_se: Municipality Swedish Municipalities',
     'summary': 'A list of Swedish Municipalities',
     'author': 'Vertel AB',
     'contributor': '',
