@@ -23,53 +23,72 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError,UserError
 import zipfile
 import base64
 import tempfile
 from io import BytesIO
 import csv
+from zipfile import BadZipfile
 
 import logging
 _logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
-class LoadMynt(models.TransientModel):
-    _name = 'load.mynt.wizard'
-    _description = 'Mynt Import Wizard'
-    
-    mynt_directory = fields.Binary(string="Choose a file to import")
-    journal_id = fields.Many2one('account.journal', string='Mynt Journal')
-    
-    def import_file(self):
-        self.journal_id = self.env['account.journal'].browse(self.env.context.get('active_id', False))
-        _logger.warning(f"{self.journal_id=}")
-        if not self.journal_id:
-            raise Warning(_("Please select a journal"))
-        if not self.journal_id.is_card_journal:
-            raise Warning(_("Please select a Card journal"))
-        if not self.journal_id.card_debit_account:
-            raise Warning(_("Please select a card debit account on the selected Journal"))
-        if not self.journal_id.card_credit_account:
-            raise Warning(_("Please select a card credit account on the selected Journal"))
+class AccountBankStatementImport(models.TransientModel):
+    """Add process_bgmax method to account.bank.statement.import."""
+    _inherit = 'account.statement.import'
+
+    @api.model
+    def _parse_file(self, statement_file):
+        """Parse a Mynt zip file."""
+        try:
+            _logger.warning(u"Try parsing with Mynt.")
+            return self.extract_zip(statement_file)
+        except BadZipfile as e:
+            _logger.warning("Was not a zip file.")
+            return super(AccountBankStatementImport, self)._parse_file(statement_file)
+        except ValueError as e:
+            _logger.warning("Was a zip file but not a Mynt zip file.")
+            return super(AccountBankStatementImport, self)._parse_file(statement_file)
             
-        if self.mynt_directory:
-            self.extract_zip()
-        else:
-            raise Warning(_("Please add a zip file"))
-        
-        
-    def extract_zip(self):
-        file_data = base64.b64decode(self.mynt_directory)
+            
+    def extract_zip(self,statement_file):
+        account_card_statement_id = False
+        statement_file_copy = statement_file
+        file_data = base64.b64decode(self.statement_file)
         with zipfile.ZipFile(BytesIO(file_data)) as data:
             filenames_csv = [filename for filename in data.namelist() if filename.endswith('.csv')]  # A list of filenames that end with .csv, this is used since i don't know what the csv file is called or if there are several of them.
-            
+            # ~ _logger.warning(f"{data.namelist()}")
+            if not filenames_csv:
+                raise ValueError("For Mynt Zip File,There is no content in the zipped file.")
             for filename in filenames_csv:
                 data_read = data.read(filename) # Is a byte string now with "\r\n" in it.
                 data_read = data_read.decode("utf-8").split("\r\n") #Seem to have to make into regular string and make a list split on "\r\n" for the csv parser to work
                 csv_reader = csv.DictReader(data_read)
-                line_count = 0
+                first_row = next(csv.DictReader(data_read))
+                _logger.warning(f"{first_row}")
+                 #checking all keys exist in dictionary
                 # Column names are Date, Account, Amount, Currency, Original amount, Original currency, VAT amount, VAT rate, Description, Category, Comment, Filename, Settlement status, Person, Card number, Accounting status, Cost center, Project
+                expected_mynt_keys = ('Date', 'Amount', 'Currency', 'Original amount', 'Original currency', 'VAT amount', 'VAT rate', 'Reverse VAT', 'Description', 'Account', 'Category', 'Comment', 'Filename', 'Settlement status', 'Person', 'Team', 'Card number', 'Card name', 'Accounting status')
+                _logger.warning(f"{first_row.keys()}")
+                if set(expected_mynt_keys).issubset(first_row.keys()):
+                    _logger.warning(("given all keys are present in the dictionary. This seems to be a mynt csv file.")) 
+                else: 
+                    _logger.warning(_("given all keys are not present in the dictionary. This is not a mynt csv file.")) 
+                    raise ValueError(_("given all keys are not present in the dictionary. This is not a mynt csv file."))
+                
+                #This far we have a zip file which contains a csv file that follows the mynt format. So we can now check to see if the Journal is configured for mynt import.
+                journal_id = self.env['account.journal'].browse(self.env.context.get('journal_id', False))
+                _logger.warning(f"{journal_id=}")
+                if not journal_id.is_card_journal:
+                    raise Warning(_("For Mynt Zip File, please select a Card journal"))
+                if not journal_id.card_debit_account:
+                    raise Warning(_("For Mynt Zip Files, please select a card debit account on the selected Journal"))
+                if not journal_id.card_credit_account:
+                    raise Warning(_("For Mynt Zip Files, please select a card credit account on the selected Journal"))
+                    
                 total_amount = 0
                 reverse_move_date = ""
                 row1 = next(csv_reader) 
@@ -86,11 +105,11 @@ class LoadMynt(models.TransientModel):
                     
                     if float(row["Amount"]) <= 0: #Is a debit transaction
                         reverse_move_date = datetime.strptime(row.get("Date"), '%Y-%m-%d')
-                        account_move = self.create_account_move(row,"debit")
+                        account_move = self.create_account_move(row,"debit",journal_id)
                         self.create_account_card_statement_line(row,account_move,account_card_statement_id)
                         total_amount += account_move.amount_total
                     elif float(row["Amount"]) >= 0:#Is a credit transaction
-                        account_move = self.create_account_move(row,"credit")
+                        account_move = self.create_account_move(row,"credit",journal_id)
                         self.create_account_card_statement_line(row,account_move,account_card_statement_id)
                         # ~ total_amount += account_move.amount_total
                      # ~ #Add Attachment
@@ -109,34 +128,109 @@ class LoadMynt(models.TransientModel):
                         
                 reverse_move_date = reverse_move_date.replace(day = 5) + relativedelta(months=1)
                 reverse_move_period_id = self.env['account.period'].date2period(reverse_move_date).id
-                card_credit_account = self.journal_id.card_credit_account
-                card_debit_account = self.journal_id.card_debit_account
+                card_credit_account = journal_id.card_credit_account
+                card_debit_account = journal_id.card_debit_account
                 
-                payment_account_move = self.env['account.move'].with_context(check_move_validity=False).create({'journal_id': self.journal_id.id,"move_type":'in_invoice',"ref": "Mynt Samling",'date':reverse_move_date,'invoice_date':reverse_move_date,'period_id':reverse_move_period_id})
-                account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
-                debit_line = account_move_line.create({
-                    'account_id': card_debit_account.id,
-                    'debit': total_amount,
-                    'exclude_from_invoice_tab': False,
-                    'move_id': payment_account_move.id,
-                })
-                credit_line = account_move_line.create({
-                    'account_id': card_credit_account.id,
-                    'credit': total_amount,
-                    'exclude_from_invoice_tab': True,
-                    'move_id': payment_account_move.id,
-                })  
-                payment_account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()
-                account_card_statement_id.account_move_id = payment_account_move.id
-                account_card_statement_id.journal_id = self.journal_id
+                #move_type used to be in_invoice
+                # ~ payment_account_move = self.env['account.move'].with_context(check_move_validity=False).create({'journal_id': journal_id.id,"move_type":'entry',"ref": "Mynt Samling",'date':reverse_move_date,'invoice_date':reverse_move_date,'period_id':reverse_move_period_id})
+                # ~ account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
+                # ~ debit_line = account_move_line.create({
+                    # ~ 'account_id': card_debit_account.id,
+                    # ~ 'debit': total_amount,
+                    # ~ 'exclude_from_invoice_tab': False,
+                    # ~ 'move_id': payment_account_move.id,
+                # ~ })
+                # ~ credit_line = account_move_line.create({
+                    # ~ 'account_id': card_credit_account.id,
+                    # ~ 'credit': total_amount,
+                    # ~ 'exclude_from_invoice_tab': True,
+                    # ~ 'move_id': payment_account_move.id,
+                # ~ })  
+                # ~ payment_account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()
+                # ~ account_card_statement_id.account_move_id = payment_account_move.id
+                account_card_statement_id.journal_id = journal_id
                 self.env['ir.attachment'].create({
-                                'name': filename,
+                                'name': self.statement_filename,
                                 'type': 'binary',
                                 'res_model':"account.card.statement",
                                 'res_id': account_card_statement_id.id,
-                                'datas':self.mynt_directory,
+                                'datas':statement_file,
                             })
-            
+            return account_card_statement_id,"Mynt"
+                
+    def import_single_statement(self, single_statement_data, result):
+        if single_statement_data[1] == "Mynt":
+            result["statement_ids"] = single_statement_data
+            result["notifications"] = "Mynt"
+            return 
+        return super(AccountBankStatementImport, self).import_single_statement(single_statement_data, result)
+                
+    
+    def import_file_button(self):
+        """Process the file chosen in the wizard, create bank statement(s)
+        and return an action."""
+        self.ensure_one()
+        result = {
+            "statement_ids": [],
+            "notifications": [],
+        }
+        logger.info("Start to import bank statement file %s", self.statement_filename)
+        file_data = base64.b64decode(self.statement_file)
+        self.import_single_file(file_data, result)
+        
+        _logger.warning(f"import_file_button {result=}") ##################################################################
+        if result['notifications'] == 'Mynt':
+            return {
+                'name': _('Card Transaction'),
+                'view_id':self.env.ref("l10n_se_mynt.account_card_statement_form").id,
+                'res_id':result['statement_ids'][0].id,
+                # ~ 'domain': domain,
+                'res_model': 'account.card.statement',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+            }
+
+        ##############################################################################################################
+        
+        logger.debug("result=%s", result)
+        if not result["statement_ids"]:
+            raise UserError(
+                _(
+                    "You have already imported this file, or this file "
+                    "only contains already imported transactions."
+                )
+            )
+        self.env["ir.attachment"].create(self._prepare_create_attachment(result))
+        if self.env.context.get("return_regular_interface_action"):
+            action = (
+                self.env.ref("account.action_bank_statement_tree").sudo().read([])[0]
+            )
+            if len(result["statement_ids"]) == 1:
+                action.update(
+                    {
+                        "view_mode": "form,tree",
+                        "views": False,
+                        "res_id": result["statement_ids"][0],
+                    }
+                )
+            else:
+                action["domain"] = [("id", "in", result["statement_ids"])]
+        else:
+            # dispatch to reconciliation interface
+            lines = self.env["account.bank.statement.line"].search(
+                [("statement_id", "in", result["statement_ids"])]
+            )
+            action = {
+                "type": "ir.actions.client",
+                "tag": "bank_statement_reconciliation_view",
+                "context": {
+                    "statement_line_ids": lines.ids,
+                    "company_ids": self.env.user.company_ids.ids,
+                    "notifications": result["notifications"],
+                },
+            }
+        return action
+                     
     def create_account_card_statement_line(self,row,account_move,account_card_statement_id):
         
             currency = self.env['res.currency'].search([('name','=ilike',row.get('Currency'))])
@@ -174,7 +268,7 @@ class LoadMynt(models.TransientModel):
             'accounting_status':row.get('Accouning status',"No value found"), 
             })
     
-    def create_account_move(self, row, credit_or_debit):
+    def create_account_move(self, row, credit_or_debit, journal_id):
         amount = float(row["Amount"])  * (-1.0)
         to_check = False
         if row.get("VAT amount","") == "":
@@ -222,14 +316,15 @@ class LoadMynt(models.TransientModel):
             to_check = True
         
         #Some lines are a Credit Repayment, and are postivte. These are not receipts
-        move_type = "in_receipt"
-        if float(row.get('Amount')) > 0:
-            move_type = "entry"
+        # ~ move_type = "in_receipt"
+        # ~ if float(row.get('Amount')) > 0:
+            # ~ move_type = "entry"
+        move_type = "entry"
             
         period_id = self.env['account.period'].date2period(datetime.strptime(row.get("Date"), '%Y-%m-%d'))
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
             'partner_id':partner_id,
-            'journal_id': self.journal_id.id,
+            'journal_id': journal_id.id,
             "move_type":move_type,
             'ref':row.get("Comment"),
             'invoice_origin':row.get("Person","") + " " + row.get("Card name","") + " " + row.get("Card number",""),

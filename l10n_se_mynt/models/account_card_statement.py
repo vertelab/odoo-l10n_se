@@ -13,6 +13,23 @@ class AccountCardStatement(models.Model):
     account_move_id = fields.Many2one('account.move', string='Entry')
     journal_id = fields.Many2one('account.journal', string='journal')
     
+    def button_journal_entries(self):
+       
+        
+        return {
+            'name': _('Journal Entries'),
+            'view_mode': 'tree,form',
+            'res_model': 'account.move',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', self.account_card_statement_line_ids.account_move_id.ids)],
+            'context': {
+                'journal_id': self.journal_id.id,
+            }
+        }
+
+
+    
     
     def unlink(self):
         for record in self:

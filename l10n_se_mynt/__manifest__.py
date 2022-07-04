@@ -35,7 +35,7 @@
     'description': """Handles Mynt Transactions
 
      """,
-    'depends': ['account','account_period','mail'],
+    'depends': ['account','account_period','mail','l10n_se_account_bank_statement_import'],
     'init_xml': [],
     'data': [
         #'data/load_account_chart_template_data.xml',
