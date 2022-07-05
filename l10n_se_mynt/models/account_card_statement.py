@@ -42,6 +42,7 @@ class AccountCardStatement(models.Model):
  
 class AccountCardStatementLine(models.Model):
     _name = 'account.card.statement.line'
+
     account_card_statement_id = fields.Many2one('account.card.statement', string='Card Transaction', required=True)
     account_move_id = fields.Many2one('account.move', string='Entry', required=True)
     date = fields.Date()
@@ -55,7 +56,7 @@ class AccountCardStatementLine(models.Model):
     description	= fields.Char()
     account = fields.Many2one('account.account', string='Account')
     category = fields.Char()
-    comment = fields.Char()
+    comment = fields.Text()
     filename = fields.Char()
     settlement_status = fields.Char()
     person = fields.Char()
