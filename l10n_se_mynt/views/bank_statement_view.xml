@@ -1,22 +1,18 @@
 <odoo>
     <data>
         
-
-        
-           <record id="account_card_statement_tree" model="ir.ui.view">
+        <record id="account_card_statement_tree" model="ir.ui.view">
             <field name="name">account_card_statement_tree</field>
             <field name="model">account.card.statement</field>
             <field name="type">tree</field>
-
             <field name="arch" type="xml">
-                 <tree>
-                     <field name="name"/>
-                     <field name="date"/>
-                     <field name="account_move_id"/>
-                     <field name="journal_id"/>
-                    <field name="account_card_statement_line_ids"/>
-                 </tree>
-                
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="account_move_id"/>
+                    <field name="journal_id"/>
+                <field name="account_card_statement_line_ids"/>
+                </tree>
             </field>
         </record>
         
@@ -26,22 +22,21 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                  <form>
-
-                   <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" name="button_journal_entries" string="Journal Entries" type="object" icon="fa-bars"/>
-                    </div>
-                    <group>
-                     <field name="name"/>
-                     <field name="date"/>
-<!--
-                     <field name="account_move_id"/>
--->
-                     <field name="journal_id"/>
-                    </group>
-                    <group>
-                        <field name="account_card_statement_line_ids"/>
-                    </group>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="button_journal_entries" string="Journal Entries" type="object" icon="fa-bars"/>
+                        </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+    <!--
+                        <field name="account_move_id"/>
+    -->
+                            <field name="journal_id"/>
+                        </group>
+                        <group>
+                            <field name="account_card_statement_line_ids"/>
+                        </group>
                    </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
@@ -82,9 +77,86 @@
                  </tree>
             </field>
         </record>
-        
 
-            
+        <record id="account_card_statement_line_tree" model="ir.ui.view">
+            <field name="name">account_card_statement_line_tree</field>
+            <field name="model">account.card.statement.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                 <tree>
+                     <field name="account_card_statement_id" optional="hide"/>
+                     <field name="account_move_id" optional="show"/>
+                     <field name="date" optional="show"/>
+                     <field name="amount" optional="show"/>
+                     <field name="currency" optional="show"/>
+                     <field name="original_amount" optional="hide"/>
+                     <field name="original_currency" optional="hide"/>
+                     <field name="vat_amount" optional="show"/>
+                     <field name="vat_rate" optional="show"/>
+                     <field name="reverse_vat" optional="hide"/>
+                     <field name="description" optional="show"/>
+                     <field name="account" optional="show"/>
+                     <field name="category" optional="show"/>
+                     <field name="comment" optional="show"/>
+                     <field name="filename" optional="hide"/>
+                     <field name="settlement_status" optional="hide"/>
+                     <field name="person" optional="show"/>
+                     <field name="team" optional="hide"/>
+                     <field name="card_number" optional="show"/>
+                     <field name="card_name" optional="show"/>
+                     <field name="accounting_status" optional="hide"/>
+                 </tree>
+            </field>
+        </record>
+
+        <record id="account_card_statement_line_form_view" model="ir.ui.view">
+            <field name="name">account_card_statement_line_from_view</field>
+            <field name="model">account.card.statement.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="account_card_statement_id"/>
+                                <field name="account_move_id"/>
+                                <field name="date"/>
+                                <field name="amount"/>
+                                <field name="original_amount"/>
+                                <field name="original_currency"/>
+                                <field name="vat_amount"/>
+                                <field name="vat_rate" />
+                                <field name="reverse_vat"/>
+                                <field name="description" />
+                                <field name="account"/>
+                            </group>
+                            <group>
+                                <field name="category" />
+                                <field name="filename" />
+                                <field name="settlement_status" />
+                                <field name="person" />
+                                <field name="team" />
+                                <field name="card_number" />
+                                <field name="card_name" />
+                                <field name="accounting_status" />
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Comment" name="comment">
+                                <field name="comment" />
+                            </page>
+                            <page string="Currency" name="currency">
+                                <group>
+                                    <group>
+                                        <field name="currency"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>           
         
     </data>
 </odoo>
