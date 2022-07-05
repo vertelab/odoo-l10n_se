@@ -280,8 +280,9 @@ class AccountBankStatementImport(models.TransientModel):
            row["VAT rate"]  = "0.0" 
            to_check = True
         vat_rate = float(row.get("VAT rate").replace("%",""))
-        if vat_rate == 0:
-            tax_account = self.env["account.tax"].search([("name","=","MF"),("amount","=","0")])
+        _logger.warning(f"{vat_rate=}")
+        if vat_rate == 0.0:
+            tax_account = False
         elif vat_rate == 6:
             tax_account = self.env["account.tax"].search([("name","=","I6"),("amount","=","6")])
         elif vat_rate == 12:
@@ -291,7 +292,7 @@ class AccountBankStatementImport(models.TransientModel):
         else: # Default to 25% seems like the safest way of handling weird input data, maybe the should throw an error, since 0%,6%,12% and 25% vat are the only valid ones here in sweden.
             to_check = True
             tax_account = self.env["account.tax"].search([("name","=","I")])
-        if not tax_account:
+        if not tax_account and not vat_rate == 0.0:
             raise ValidationError(f"No valid tax account found, for vat rate {vat_rate}")
                  
         account = self.env["account.account"].search([("code","=",row.get("Account"))])
@@ -319,7 +320,7 @@ class AccountBankStatementImport(models.TransientModel):
         # ~ move_type = "in_receipt"
         # ~ if float(row.get('Amount')) > 0:
             # ~ move_type = "entry"
-        move_type = "entry"
+        move_type = "in_receipt"
             
         period_id = self.env['account.period'].date2period(datetime.strptime(row.get("Date"), '%Y-%m-%d'))
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
@@ -341,6 +342,9 @@ class AccountBankStatementImport(models.TransientModel):
             credit_amount = -amount_without_tax
         else:
             debit_amount = amount_without_tax 
+            
+        if tax_account:
+            tax_account = [(6, 0, [tax_account.id])]
         move_line = account_move_line.create({
             'account_id': account.id,
             'credit': credit_amount,
@@ -348,7 +352,7 @@ class AccountBankStatementImport(models.TransientModel):
             'exclude_from_invoice_tab': False,
             'move_id': account_move.id,
             'name': row.get("Category","")+" "+row.get("Comment",""),
-            'tax_ids':[(6, 0, [tax_account.id])],
+            'tax_ids':tax_account,
         })
         move_line._onchange_mark_recompute_taxes()
         account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()
