@@ -43,10 +43,13 @@
         <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
         <field name="arch" type="xml">
             
-            <xpath expr="//div[@t-if=&quot;journal_type == &#39;bank&#39; || journal_type == &#39;cash&#39;&quot;]/div[hasclass('o_kanban_card_manage_section')]/div[hasclass('o_kanban_card_manage_title')]" postion="after" >
+            <xpath expr="//div[@t-if=&quot;journal_type == &#39;bank&#39; || journal_type == &#39;cash&#39;&quot;]/div[hasclass('o_kanban_card_manage_section')]" postion="after" >
                 <div>
-                    <a  class="oe_kanban_action oe_kanban_action_a" role="menuitem" type="object" name="open_action_with_context_mynt" context="{'action_name': 'action_view_card_statements', 'search_default_journal': True, 'use_domain':True}" style="color: #4c4c4c;font-size: 1.08333333rem;">View Card Transactions</a>
+                    <a role="menuitem" type="object" name="open_action_with_context_mynt" context="{'action_name': 'action_view_card_statements', 'search_default_journal': True, 'use_domain':True}">Card Transactions</a>
                 </div>
+                <!-- <div>
+                    <a  class="oe_kanban_action oe_kanban_action_a" role="menuitem" type="object" name="open_action_with_context_mynt" context="{'action_name': 'action_view_card_statements', 'search_default_journal': True, 'use_domain':True}" style="color: #4c4c4c;font-size: 1.08333333rem;">View Card Transactions</a>
+                </div> -->
             </xpath>
         </field>
     </record>
