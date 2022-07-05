@@ -29,9 +29,6 @@
                         <group>
                             <field name="name"/>
                             <field name="date"/>
-    <!--
-                        <field name="account_move_id"/>
-    -->
                             <field name="journal_id"/>
                         </group>
                         <group>
