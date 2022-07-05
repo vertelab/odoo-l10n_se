@@ -82,7 +82,7 @@ class AccountBankStatementImport(models.TransientModel):
                 #This far we have a zip file which contains a csv file that follows the mynt format. So we can now check to see if the Journal is configured for mynt import.
                 journal_id = self.env['account.journal'].browse(self.env.context.get('journal_id', False))
                 _logger.warning(f"{journal_id=}")
-                if not journal_id.is_card_journal:
+                if not journal_id.type == "card":
                     raise Warning(_("For Mynt Zip File, please select a Card journal"))
                 if not journal_id.card_debit_account:
                     raise Warning(_("For Mynt Zip Files, please select a card debit account on the selected Journal"))
@@ -182,7 +182,7 @@ class AccountBankStatementImport(models.TransientModel):
         if result['notifications'] == 'Mynt':
             return {
                 'name': _('Card Transaction'),
-                'view_id':self.env.ref("l10n_se_mynt.account_card_statement_form").id,
+                'view_id':self.env.ref("account_journal_card_type.account_card_statement_form").id,
                 'res_id':result['statement_ids'][0].id,
                 # ~ 'domain': domain,
                 'res_model': 'account.card.statement',

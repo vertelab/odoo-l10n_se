@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_card_statement,access_card_statement,model_account_card_statement,base.group_user,1,1,1,1
-access_card_statement_line,access_card_statement_line,model_account_card_statement_line,base.group_user,1,1,1,1
