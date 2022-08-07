@@ -38,6 +38,7 @@
     'depends': ['account','account_period','mail','l10n_se_account_bank_statement_import','account_journal_card_type'],
     'init_xml': [],
     'data': [
+        'views/account_journal_dashboard_views.xml',
     ],
     'demo': [
         #'demo/load_account_chart_template_data.xml',
