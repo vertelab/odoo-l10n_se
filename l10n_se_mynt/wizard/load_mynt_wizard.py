@@ -50,7 +50,7 @@ class AccountBankStatementImport(models.TransientModel):
             _logger.warning("Was not a zip file.")
             return super(AccountBankStatementImport, self)._parse_file(statement_file)
         except ValueError as e:
-            _logger.warning("Was a zip file but not a Mynt zip file.")
+            _logger.warning(f"Was a zip file but not a Mynt zip file. {e}")
             return super(AccountBankStatementImport, self)._parse_file(statement_file)
             
             
@@ -94,7 +94,7 @@ class AccountBankStatementImport(models.TransientModel):
                 row1 = next(csv_reader) 
                 card_statement_date = datetime.strptime(row1.get("Date"), '%Y-%m-%d').replace(day = 1)
                 card_statement_date_char = datetime.strftime(card_statement_date,'%Y:%m')
-                account_card_statement_id = self.env["account.card.statement"].create({'date':card_statement_date,'name':_('mynt card transaction: %s') % card_statement_date_char})
+                account_card_statement_id = self.env["account.card.statement"].create({'journal_id': journal_id.id,'date':card_statement_date,'name':_('mynt card transaction: %s') % card_statement_date_char})
                 for row in csv_reader:
                     if row.get('Amount') == '':
                         row['Amount'] = '0'
@@ -317,10 +317,11 @@ class AccountBankStatementImport(models.TransientModel):
             to_check = True
         
         #Some lines are a Credit Repayment, and are postivte. These are not receipts
-        # ~ move_type = "in_receipt"
-        # ~ if float(row.get('Amount')) > 0:
-            # ~ move_type = "entry"
-        move_type = "in_receipt"
+        # ~ move_type = "in_receipt" if not entry it cannot be posted
+        if float(row.get('Amount')) > 0:
+            move_type = "entry"
+        else:
+            move_type = "in_receipt"
             
         period_id = self.env['account.period'].date2period(datetime.strptime(row.get("Date"), '%Y-%m-%d'))
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
