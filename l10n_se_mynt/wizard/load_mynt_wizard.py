@@ -91,11 +91,13 @@ class AccountBankStatementImport(models.TransientModel):
                     
                 total_amount = 0
                 reverse_move_date = ""
-                row1 = next(csv_reader) 
-                card_statement_date = datetime.strptime(row1.get("Date"), '%Y-%m-%d').replace(day = 1)
-                card_statement_date_char = datetime.strftime(card_statement_date,'%Y:%m')
-                account_card_statement_id = self.env["account.card.statement"].create({'journal_id': journal_id.id,'date':card_statement_date,'name':_('mynt card transaction: %s') % card_statement_date_char})
+                first = True 
                 for row in csv_reader:
+                    if first:
+                        card_statement_date = datetime.strptime(row.get("Date"), '%Y-%m-%d').replace(day = 1)
+                        card_statement_date_char = datetime.strftime(card_statement_date,'%Y:%m')
+                        account_card_statement_id = self.env["account.card.statement"].create({'journal_id': journal_id.id,'date':card_statement_date,'name':_('mynt card transaction: %s') % card_statement_date_char})
+                        first = False
                     if row.get('Amount') == '':
                         row['Amount'] = '0'
                     if row.get('Original amount') == '':

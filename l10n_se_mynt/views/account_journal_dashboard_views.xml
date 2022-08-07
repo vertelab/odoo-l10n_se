@@ -71,7 +71,9 @@
 <!--
             <field name="kanban_dashboard_graph" t-att-graph_type="_.contains(['cash','bank','card'],journal_type) ? 'line' : 'bar'" widget="dashboard_graph"/>
 -->
+<!--
             <field name="kanban_dashboard_graph" t-att-graph_type="'bar'" widget="dashboard_graph"/>
+-->
 
           </t>
         </xpath>
