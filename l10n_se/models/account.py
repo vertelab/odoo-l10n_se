@@ -53,6 +53,15 @@ class AccountChartTemplate(models.Model):
     _inherit = 'account.account'
 
     @api.model
+    def fix_ovriga_kortfristiga_skulder(self):
+        #Revert these changes
+        #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 8/25 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo. 
+        OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
+        for acc in self.env['account.account'].search([('user_type_id','=',OvrigaKortfristigaSkulder.id)]):
+            acc.reconcile = True
+        OvrigaKortfristigaSkulder.type = 'payable'
+
+    @api.model
     def fix_account_types(self):
         #current_year_earnings can only have one account which is why we remove it before we fix the rest of the account types.
         current_year_earnings = self.env.ref('account.data_unaffected_earnings')
@@ -126,11 +135,11 @@ class AccountChartTemplate(models.Model):
         _logger.warning("CHANGES")
 
         #Revert these changes
-        #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts
+        #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 8/25 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo. 
         OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
         for acc in self.env['account.account'].search([('user_type_id','=',OvrigaKortfristigaSkulder.id)]):
             acc.reconcile = True
-        OvrigaKortfristigaSkulder.type = 'other'
+        OvrigaKortfristigaSkulder.type = 'payable'
 
         # ~ #Todo make so that the correct account types are generated correctly and all account for those types are reconcile. Fix permanent solution for 1000-1900
         account_xml_ids = ['account.data_account_type_current_assets','account.data_account_type_non_current_assets','account.data_account_type_fixed_assets','l10n_se.type_TecknatEjInbetaltKapital','l10n_se.type_HyresratterLiknandeRattigheter'
