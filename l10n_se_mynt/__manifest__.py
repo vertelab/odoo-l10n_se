@@ -31,14 +31,22 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mynt',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'images': ['static/description/banner.png'],  # 560x280 px.
     'description': """Handles Mynt Transactions
 
      """,
-    'depends': ['account','account_period','mail','l10n_se_account_bank_statement_import','account_journal_card_type'],
+    'depends': [
+        'account',
+        'account_period',
+        'mail',
+        'l10n_se_account_bank_statement_import',
+        'account_journal_card_type'
+    ],
     'init_xml': [],
     'data': [
+        'security/ir.model.access.csv',
         'views/account_journal_dashboard_views.xml',
+        'views/account_move_view.xml',
     ],
     'demo': [
         #'demo/load_account_chart_template_data.xml',

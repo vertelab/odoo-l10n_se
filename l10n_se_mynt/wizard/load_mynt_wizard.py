@@ -137,7 +137,7 @@ class AccountBankStatementImport(models.TransientModel):
                             'datas': base64.b64encode(data.read(row["Filename"])),
                         })
                     else:
-                        account_move.to_check = True  # Missing an attechment, set
+                        account_move.to_check = True  # Missing an attachment, set
 
                 reverse_move_date = reverse_move_date.replace(day=5) + relativedelta(months=1)
                 reverse_move_period_id = self.env['account.period'].date2period(reverse_move_date).id
@@ -259,20 +259,18 @@ class AccountBankStatementImport(models.TransientModel):
             'team': row.get('Team', "No value found"),
             'card_number': row.get('Card number', "No value found"),
             'card_name': row.get('Card name', "No value found"),
-            'accounting_status': row.get('Accouning status', "No value found"),
+            'accounting_status': row.get('Accounting status', "No value found"),
         })
 
     def create_account_move(self, row, credit_or_debit, journal_id):
-        amount = abs(float(row["Amount"]))
+        amount = float(row["Amount"]) - (float(row["VAT amount"]))
 
         tax_account, tax_amount = self._tax_rate(row)
 
         if float(row.get('Amount')) > 0:
             move_type = "in_refund"
         else:
-            move_type = "in_receipt"
-
-        # amount_without_tax = amount - tax_amount
+            move_type = "in_invoice"
 
         account_id = self.env["account.account"].search([("code", "=", row.get("Account"))])
         if not account_id:
@@ -287,7 +285,7 @@ class AccountBankStatementImport(models.TransientModel):
                 partner_id = self.env['res.partner'].create({'name': row.get('Description'), 'company_type': 'company'})
 
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
-            'partner_id': partner_id,
+            'partner_id': partner_id.id,
             'journal_id': journal_id.id,
             "move_type": move_type,
             'ref': row.get("Comment"),
@@ -296,14 +294,16 @@ class AccountBankStatementImport(models.TransientModel):
             'date': row.get("Date"),
             'invoice_date': row.get("Date"),
             'to_check': True,
-            'invoice_line_ids': [(0, 0, {
+            'line_ids': [(0, 0, {
                 'account_id': account_id.id,
-                'price_unit': amount,
+                'credit': abs(amount) if amount > 0 else 0,
+                'debit': abs(amount) if amount < 0 else 0,
                 'exclude_from_invoice_tab': False,
                 'name': row.get("Category", "") + " " + row.get("Comment", ""),
                 'tax_ids': tax_account,
             })]
         })
+        account_move._recompute_dynamic_lines()
         return account_move
 
     def _tax_rate(self, row):

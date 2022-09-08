@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <record id="view_move_form_extended" model="ir.ui.view">
+            <field name="name">account.move.form.extended.mynt</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <button name="button_draft" position="after">
+                    <button name="reconcile_mynt_accounts_wizard" string="Reconcile Bills" type="object" class="btn btn-primary" groups="account.group_account_invoice" attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('move_type', '!=', 'in_refund')]}"/>
+                </button>
+
+                <field name="invoice_outstanding_credits_debits_widget" position="after">
+                    <field name="invoice_outstanding_mynt_credits_debits_widget"
+                           class="oe_invoice_outstanding_credits_debits"
+                           colspan="2" nolabel="1" widget="payment"
+                           attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('move_type', 'in', ('out_receipt', 'in_receipt'))]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="mynt_reconcile_wizard" model="ir.ui.view">
+            <field name="name">mynt account move reconcile wizard</field>
+            <field name="model">mynt.account.move.reconcile.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="account_card_transaction_id"/>
+                            <field name="move_id" />
+<!--                            invisible="1"-->
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="reconcile_mynt_accounts" string="Reconcile" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
