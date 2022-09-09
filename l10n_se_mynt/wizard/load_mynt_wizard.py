@@ -237,9 +237,10 @@ class AccountBankStatementImport(models.TransientModel):
         elif not account:
             # account = self.env["account.account"].search([("code", "=", "4001")])
             account = account_card_statement_id.journal_id.card_credit_account  # takes account on journal
-
-        return self.env["account.card.statement.line"].create({
-            'account_card_statement_id': account_card_statement_id.id,
+            
+        
+        account_card_statement_val_list = {
+            'name':row.get('Date', "No value found") +" "+ row.get('Description', "No value found"),
             'account_move_id': account_move.id,
             'date': row.get('Date', "No value found"),
             'amount': float(row.get('Amount', 0)),
@@ -260,7 +261,15 @@ class AccountBankStatementImport(models.TransientModel):
             'card_number': row.get('Card number', "No value found"),
             'card_name': row.get('Card name', "No value found"),
             'accounting_status': row.get('Accounting status', "No value found"),
-        })
+        }
+        account_card_statement_line = self.env["account.card.statement.line"].create(account_card_statement_val_list)
+        if row.get('Description', "No value found") != "Credit Repayment":
+            account_card_statement_line.account_card_statement_id = account_card_statement_id.id
+        else:
+            account_card_statement_id.statement_line_credit_repayment_id = account_card_statement_line.id
+            
+            
+        return self.env["account.card.statement.line"].create(account_card_statement_val_list)
 
     def create_account_move(self, row, credit_or_debit, journal_id):
         amount = float(row["Amount"]) - (float(row["VAT amount"]))
@@ -284,11 +293,15 @@ class AccountBankStatementImport(models.TransientModel):
             if not partner_id:
                 partner_id = self.env['res.partner'].create({'name': row.get('Description'), 'company_type': 'company'})
 
+
+        # ~ So odoo check before we posts if the combo of partner and ref is unique
+        current_ref = row.get("Comment","")+"/"+ self.env['ir.sequence'].next_by_code('account.move.mynt')
+        
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
             'partner_id': partner_id.id,
             'journal_id': journal_id.id,
             "move_type": move_type,
-            'ref': row.get("Comment"),
+            'ref': current_ref,
             'invoice_origin': row.get("Person", "") + " " + row.get("Card name", "") + " " + row.get("Card number", ""),
             'period_id': period_id.id,
             'date': row.get("Date"),
