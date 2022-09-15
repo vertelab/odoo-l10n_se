@@ -31,7 +31,6 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'license': 'AGPL-3',
     'author': 'Vertel AB',
-    'category': 'Banking addons',
     'depends': ['account', 'account_statement_import', 'account_period', 'account_reconciliation_widget'],
     'data': ['bank_statement_view.xml'],
     'summary': 'Swedish Account Bank Statement Import',
