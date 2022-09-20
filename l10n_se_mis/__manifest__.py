@@ -21,20 +21,20 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports',
-    'summary': 'Create Swedish MIS-reports',
-    'author': 'Vertel AB',
-    'contributor': '',
-    'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_Se',
-    'category': 'Accounting',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'summary': 'Create Swedish MIS-reports',
+    'category': 'Accounting',
     'description': """
         The module works as a base for creating Swedish MIS-reports  
     """,
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_Se',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'depends': ['mis_builder','mis_builder_budget','account_period'],
     'external_dependencies': {
         'python': ['xlrd'],
