@@ -21,23 +21,23 @@
 
 {
     'name': 'l10n_se: Budget',
-    'author': 'Vertel AB',
-    'contributor': '',
-    'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_budget',
-    'images': ['static/description/banner.png'], # 560x280 px.
-    'application': 'False',
     'summary': 'Some predefined budgets',
+    'category': 'Accounting',
     'description': """
         * Resultatbudget
         * Likviditetsbudget
         * Försäljningsbudget
         """,
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_budget',
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'application': 'False',
     'depends': ['account_budget', 'l10n_se'],
     'data': ['account_budget_view.xml', 'account_budget_data.xml'],
     'installable': 'True',
