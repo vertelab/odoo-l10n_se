@@ -21,25 +21,25 @@
 
 {
     'name': 'l10n_se: iZettle Format Bank Statement Import',
+    'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Module for reading iZettle bank statement files',
+    'category': 'Accounting',
+    'description': """
+        Module for reading iZettle bank statement files
+    """,
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_izettle',
+    'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
-    'version': '14.0.0.1.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_izettle',
     'images': ['static/description/banner.png'], # 560x280 px.
     'depends': [
         'account_period', 
         'l10n_se_account_bank_statement_import', 
         'l10n_se_bank', 
         'l10n_se_account_payment_order'],
-    'description': """
-        Module for reading iZettle bank statement files
-    """,
     'external_dependencies': {
         'python': ['xlrd', 'openpyxl'],
     },
