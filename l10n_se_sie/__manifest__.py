@@ -21,21 +21,22 @@
 
 {
     'name': 'l10n_se: SIE-import',
-    'summary': 'Module for importing SIE-files',
-    'author': 'Vertel AB',
-    'contributor': '',
-    'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_sie',
-    'images': ['static/description/banner.png'], # 560x280 px.
-    'license': 'AGPL-3',
+    'summary': 'Module for importing SIE-files',
+    'category': 'Accounting',
     'description': """
         The module adds support for importing and reading SIE-files (.se-files)
     """,
+	 #'sequence': '1',
+	'author': 'Vertel AB',
+	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_sie',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'depends': ['account_period', 'l10n_se'],
     'data': [
 		'data/l10n_se_sie_view.xml',
