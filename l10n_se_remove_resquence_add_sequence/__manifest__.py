@@ -21,21 +21,22 @@
 
 {
     'name': 'l10n_se: Remove resequence',
-    'summary': 'Removes resequencing for account moves and adds sequence to journals',
-    'author': 'Vertel AB',
-    'contributor': '',
-    'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_remove_resquence_add_sequence',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'summary': 'Removes resequencing for account moves and adds sequence to journals',
+    'category': 'Accounting',
     'description': """
     We shouldn't be able to resequnce accounting voucher for Swedish accounting, so that server action is removed.
     Also adding a sequence to journals so that all voucher number uses that sequence.
     """,
+     #'sequence': '1',
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_remove_resquence_add_sequence',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'depends': ['account','base'],
     'init_xml': [],
     'data': ['data/remove_resequence_server_action.xml',
