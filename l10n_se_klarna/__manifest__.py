@@ -21,20 +21,20 @@
 
 {
     'name': 'l10n_se: Klarna Format Bank Statement Import',
-    'summary': 'Module for reading Klarna bank statement files',
-    'author': 'Vertel AB',
-    'contributor': '',
-    'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_klarna',
-    'images': ['static/description/banner.png'], # 560x280 px.
-    'category': 'Accounting',
     'version': '14.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
+    'summary': 'Module for reading Klarna bank statement files',
+    'category': 'Accounting',
     'description': """
         Module for reading Klarna bank statement files
     """,
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_klarna',
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {
         'python': ['xlrd'],
