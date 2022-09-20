@@ -21,18 +21,20 @@
 
 {
     'name': 'l10n_se: DIBS Format Bank Statement Import',
+    'version': '14.0.1.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Module for reading DIBS bank statement files',
+    'category': 'Accounting',
+    'description': """
+    Module for reading DIBS bank statement files
+    """,
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_dibs',
+    'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
-    'version': '14.0.1.0.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_dibs',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'description': """Module for reading DIBS bank statement files""",
     'depends': ['l10n_se_account_bank_statement_import'],
     'external_dependencies': {
     },
