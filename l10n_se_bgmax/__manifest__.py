@@ -20,16 +20,19 @@
 ##############################################################################
 {
     'name': 'l10n_se: BgMax Format Bank Statements Import',
+    'version': '14.0.1',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Read BgMax formatted files from Bankgirocentralen.',
+    'category': 'Accounting',
+    'description': """
+    Read BgMax formatted files from Bankgirocentralen.
+    """,
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_bgmax',
+    'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
-    'version': '14.0.1',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_bgmax',
     'images': ['static/description/banner.png'], # 560x280 px.
     'depends': [
         'account_period', 

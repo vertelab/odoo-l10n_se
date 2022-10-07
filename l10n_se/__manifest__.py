@@ -21,19 +21,19 @@
 
 {
     'name': 'l10n_se: Sweden - Accounting',
+    'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Chart of accounts',
+    'category': 'Accounting',
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se',
+    'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
-    'version': '14.0.0.1.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-
-    'description': """Sweden - Chart of accounts
+    'description': """
+    Sweden - Chart of accounts
 
         * BAS 2021 K1 (Minimal chart of account, rules from SKV-283 v16)
         * BAS 2021 (K2-K4, follows INK2R-form and rules in SKV-294 v11)

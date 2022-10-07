@@ -23,7 +23,7 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
-from odoo.exceptions import ValidationError,UserError
+from odoo.exceptions import ValidationError, UserError
 import zipfile
 import base64
 import tempfile
@@ -32,6 +32,7 @@ import csv
 from zipfile import BadZipfile
 
 import logging
+
 _logger = logging.getLogger(__name__)
 logger = logging.getLogger(__name__)
 
@@ -52,34 +53,44 @@ class AccountBankStatementImport(models.TransientModel):
         except ValueError as e:
             _logger.warning(f"Was a zip file but not a Mynt zip file. {e}")
             return super(AccountBankStatementImport, self)._parse_file(statement_file)
-            
-            
-    def extract_zip(self,statement_file):
+
+    def extract_zip(self, statement_file):
         account_card_statement_id = False
         statement_file_copy = statement_file
         file_data = base64.b64decode(self.statement_file)
         with zipfile.ZipFile(BytesIO(file_data)) as data:
-            filenames_csv = [filename for filename in data.namelist() if filename.endswith('.csv')]  # A list of filenames that end with .csv, this is used since i don't know what the csv file is called or if there are several of them.
-            # ~ _logger.warning(f"{data.namelist()}")
+            # A list of filenames that end with .csv, this is used since I don't know what the csv file is called or
+            # if there are several of them.
+            filenames_csv = [filename for filename in data.namelist() if filename.endswith('.csv')]
+
             if not filenames_csv:
                 raise ValueError("For Mynt Zip File,There is no content in the zipped file.")
             for filename in filenames_csv:
-                data_read = data.read(filename) # Is a byte string now with "\r\n" in it.
-                data_read = data_read.decode("utf-8").split("\r\n") #Seem to have to make into regular string and make a list split on "\r\n" for the csv parser to work
+                data_read = data.read(filename)  # Is a byte string now with "\r\n" in it.
+                # Seem to have to make into regular string and
+                # make a list split on "\r\n" for the csv parser to work
+                data_read = data_read.decode("utf-8").split("\r\n")
                 csv_reader = csv.DictReader(data_read)
                 first_row = next(csv.DictReader(data_read))
                 _logger.warning(f"{first_row}")
-                 #checking all keys exist in dictionary
-                # Column names are Date, Account, Amount, Currency, Original amount, Original currency, VAT amount, VAT rate, Description, Category, Comment, Filename, Settlement status, Person, Card number, Accounting status, Cost center, Project
-                expected_mynt_keys = ('Date', 'Amount', 'Currency', 'Original amount', 'Original currency', 'VAT amount', 'VAT rate', 'Reverse VAT', 'Description', 'Account', 'Category', 'Comment', 'Filename', 'Settlement status', 'Person', 'Team', 'Card number', 'Card name', 'Accounting status')
+
+                # checking all keys exist in dictionary Column names are Date, Account, Amount, Currency, Original
+                # amount, Original currency, VAT amount, VAT rate, Description, Category, Comment, Filename,
+                # Settlement status, Person, Card number, Accounting status, Cost center, Project
+                expected_mynt_keys = (
+                    'Date', 'Amount', 'Currency', 'Original amount', 'Original currency', 'VAT amount', 'VAT rate',
+                    'Reverse VAT', 'Description', 'Account', 'Category', 'Comment', 'Filename', 'Settlement status',
+                    'Person', 'Team', 'Card number', 'Card name', 'Accounting status')
                 _logger.warning(f"{first_row.keys()}")
                 if set(expected_mynt_keys).issubset(first_row.keys()):
-                    _logger.warning(("given all keys are present in the dictionary. This seems to be a mynt csv file.")) 
-                else: 
-                    _logger.warning(_("given all keys are not present in the dictionary. This is not a mynt csv file.")) 
-                    raise ValueError(_("given all keys are not present in the dictionary. This is not a mynt csv file."))
-                
-                #This far we have a zip file which contains a csv file that follows the mynt format. So we can now check to see if the Journal is configured for mynt import.
+                    _logger.warning("given all keys are present in the dictionary. This seems to be a mynt csv file.")
+                else:
+                    _logger.warning(_("given all keys are not present in the dictionary. This is not a mynt csv file."))
+                    raise ValueError(
+                        _("given all keys are not present in the dictionary. This is not a mynt csv file."))
+
+                # This far we have a zip file which contains a csv file that follows the mynt format. So we can now
+                # check to see if the Journal is configured for mynt import.
                 journal_id = self.env['account.journal'].browse(self.env.context.get('journal_id', False))
                 _logger.warning(f"{journal_id=}")
                 if not journal_id.type == "card":
@@ -88,15 +99,17 @@ class AccountBankStatementImport(models.TransientModel):
                     raise Warning(_("For Mynt Zip Files, please select a card debit account on the selected Journal"))
                 if not journal_id.card_credit_account:
                     raise Warning(_("For Mynt Zip Files, please select a card credit account on the selected Journal"))
-                    
+
                 total_amount = 0
                 reverse_move_date = ""
-                first = True 
+                first = True
                 for row in csv_reader:
                     if first:
-                        card_statement_date = datetime.strptime(row.get("Date"), '%Y-%m-%d').replace(day = 1)
-                        card_statement_date_char = datetime.strftime(card_statement_date,'%Y:%m')
-                        account_card_statement_id = self.env["account.card.statement"].create({'journal_id': journal_id.id,'date':card_statement_date,'name':_('mynt card transaction: %s') % card_statement_date_char})
+                        card_statement_date = datetime.strptime(row.get("Date"), '%Y-%m-%d').replace(day=1)
+                        card_statement_date_char = datetime.strftime(card_statement_date, '%Y:%m')
+                        account_card_statement_id = self.env["account.card.statement"].create(
+                            {'journal_id': journal_id.id, 'date': card_statement_date,
+                             'name': _('mynt card transaction: %s') % card_statement_date_char})
                         first = False
                     if row.get('Amount') == '':
                         row['Amount'] = '0'
@@ -104,18 +117,18 @@ class AccountBankStatementImport(models.TransientModel):
                         row['Original amount'] = '0'
                     if row.get('VAT amount') == '':
                         row['VAT amount'] = '0'
-                    
-                    if float(row["Amount"]) <= 0: #Is a debit transaction
+
+                    if float(row["Amount"]) <= 0:  # Is a debit transaction
                         reverse_move_date = datetime.strptime(row.get("Date"), '%Y-%m-%d')
-                        account_move = self.create_account_move(row,"debit",journal_id)
-                        self.create_account_card_statement_line(row,account_move,account_card_statement_id)
+                        account_move = self.create_account_move(row, "debit", journal_id)
+                        self.create_account_card_statement_line(row, account_move, account_card_statement_id)
                         total_amount += account_move.amount_total
-                    elif float(row["Amount"]) >= 0:#Is a credit transaction
-                        account_move = self.create_account_move(row,"credit",journal_id)
-                        self.create_account_card_statement_line(row,account_move,account_card_statement_id)
+                    elif float(row["Amount"]) >= 0:  # Is a credit transaction
+                        account_move = self.create_account_move(row, "credit", journal_id)
+                        self.create_account_card_statement_line(row, account_move, account_card_statement_id)
                         # ~ total_amount += account_move.amount_total
-                     # ~ #Add Attachment
-                    if row["Filename"] and row["Filename"] in data.namelist(): 
+                    # ~ #Add Attachment
+                    if row["Filename"] and row["Filename"] in data.namelist():
                         self.env['ir.attachment'].create({
                             'name': row["Filename"],
                             'type': 'binary',
@@ -124,50 +137,30 @@ class AccountBankStatementImport(models.TransientModel):
                             'datas': base64.b64encode(data.read(row["Filename"])),
                         })
                     else:
-                        account_move.to_check = True# Missing an attechment, set 
-                    # ~ raise ValidationError('You done')
-                        
-                        
-                reverse_move_date = reverse_move_date.replace(day = 5) + relativedelta(months=1)
+                        account_move.to_check = True  # Missing an attachment, set
+
+                reverse_move_date = reverse_move_date.replace(day=5) + relativedelta(months=1)
                 reverse_move_period_id = self.env['account.period'].date2period(reverse_move_date).id
                 card_credit_account = journal_id.card_credit_account
                 card_debit_account = journal_id.card_debit_account
-                
-                #move_type used to be in_invoice
-                # ~ payment_account_move = self.env['account.move'].with_context(check_move_validity=False).create({'journal_id': journal_id.id,"move_type":'entry',"ref": "Mynt Samling",'date':reverse_move_date,'invoice_date':reverse_move_date,'period_id':reverse_move_period_id})
-                # ~ account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
-                # ~ debit_line = account_move_line.create({
-                    # ~ 'account_id': card_debit_account.id,
-                    # ~ 'debit': total_amount,
-                    # ~ 'exclude_from_invoice_tab': False,
-                    # ~ 'move_id': payment_account_move.id,
-                # ~ })
-                # ~ credit_line = account_move_line.create({
-                    # ~ 'account_id': card_credit_account.id,
-                    # ~ 'credit': total_amount,
-                    # ~ 'exclude_from_invoice_tab': True,
-                    # ~ 'move_id': payment_account_move.id,
-                # ~ })  
-                # ~ payment_account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()
-                # ~ account_card_statement_id.account_move_id = payment_account_move.id
+
                 account_card_statement_id.journal_id = journal_id
                 self.env['ir.attachment'].create({
-                                'name': self.statement_filename,
-                                'type': 'binary',
-                                'res_model':"account.card.statement",
-                                'res_id': account_card_statement_id.id,
-                                'datas':statement_file,
-                            })
-            return account_card_statement_id,"Mynt"
-                
+                    'name': self.statement_filename,
+                    'type': 'binary',
+                    'res_model': "account.card.statement",
+                    'res_id': account_card_statement_id.id,
+                    'datas': self.statement_file,
+                })
+            return account_card_statement_id, "Mynt"
+
     def import_single_statement(self, single_statement_data, result):
         if single_statement_data[1] == "Mynt":
             result["statement_ids"] = single_statement_data
             result["notifications"] = "Mynt"
-            return 
+            return
         return super(AccountBankStatementImport, self).import_single_statement(single_statement_data, result)
-                
-    
+
     def import_file_button(self):
         """Process the file chosen in the wizard, create bank statement(s)
         and return an action."""
@@ -179,21 +172,20 @@ class AccountBankStatementImport(models.TransientModel):
         logger.info("Start to import bank statement file %s", self.statement_filename)
         file_data = base64.b64decode(self.statement_file)
         self.import_single_file(file_data, result)
-        
-        _logger.warning(f"import_file_button {result=}") ##################################################################
+
+        _logger.warning(
+            f"import_file_button {result=}")
         if result['notifications'] == 'Mynt':
             return {
                 'name': _('Card Transaction'),
-                'view_id':self.env.ref("account_journal_card_type.account_card_statement_form").id,
-                'res_id':result['statement_ids'][0].id,
+                'view_id': self.env.ref("account_journal_card_type.account_card_statement_form").id,
+                'res_id': result['statement_ids'][0].id,
                 # ~ 'domain': domain,
                 'res_model': 'account.card.statement',
                 'type': 'ir.actions.act_window',
                 'view_mode': 'form',
             }
 
-        ##############################################################################################################
-        
         logger.debug("result=%s", result)
         if not result["statement_ids"]:
             raise UserError(
@@ -232,133 +224,123 @@ class AccountBankStatementImport(models.TransientModel):
                 },
             }
         return action
-                     
-    def create_account_card_statement_line(self,row,account_move,account_card_statement_id):
-        
-            currency = self.env['res.currency'].search([('name','=ilike',row.get('Currency'))])
-            if not currency:
-                currency = self.env.ref('base.main_company').currency_id
-                
-            account = self.env['account.account'].search([('name','=',row.get('Account'))])
-            
-            if not account and float(row.get('Amount')) > 0:
-            # ~ row.get('Description') == 'Credit Repayment': # ~ Kreditupplysning 6061
-                account = self.env["account.account"].search([("code","=","6061")])
-            elif not account:
-                account = self.env["account.account"].search([("code","=","4001")])
-            return self.env["account.card.statement.line"].create({
-            'account_card_statement_id':account_card_statement_id.id,
-            'account_move_id':account_move.id,
-            'date':row.get('Date',"No value found"), 
-            'amount':float(row.get('Amount',0)),
-            'currency':currency.id,
-            'original_amount':float(row.get('Original amount',0)),
-            'original_currency':row.get('Original currency',"No value found"),
-            'vat_amount':float(row.get('VAT amount',0)),
-            'vat_rate':row.get('VAT rate',"No value found"),
-            'reverse_vat':row.get('Reverse VAT',"No value found"), 
-            'description':row.get('Description',"No value found"),
-            'account':account.id,
-            'category':row.get('Category',"No value found"),
-            'comment':row.get('Comment',"No value found"),
-            'filename':row.get('Filename',"No value found"),
-            'settlement_status':row.get('Settlement status',"No value found"),
-            'person':row.get('Person',"No value found"),
-            'team':row.get('Team',"No value found"),
-            'card_number':row.get('Card number',"No value found"),
-            'card_name':row.get('Card name',"No value found"),
-            'accounting_status':row.get('Accouning status',"No value found"), 
-            })
-    
-    def create_account_move(self, row, credit_or_debit, journal_id):
-        amount = float(row["Amount"])  * (-1.0)
-        to_check = False
-        if row.get("VAT amount","") == "":
-           row["VAT amount"] = "0.0" 
-        tax_amount = float(row.get("VAT amount")) * (-1.0)
-        amount_without_tax = amount - tax_amount
-        
-        if row.get("VAT rate") == "" and float(row.get('Amount')) > 0:
-           row["VAT rate"]  = "0.0" 
-           to_check = True
-        vat_rate = float(row.get("VAT rate").replace("%",""))
-        _logger.warning(f"{vat_rate=}")
-        if vat_rate == 0.0:
-            tax_account = False
-        elif vat_rate == 6:
-            tax_account = self.env["account.tax"].search([("name","=","I6"),("amount","=","6")])
-        elif vat_rate == 12:
-            tax_account = self.env["account.tax"].search([("name","=","I12"),("amount","=","12")])
-        elif vat_rate == 25:
-            tax_account = self.env["account.tax"].search([("name","=","I"),("amount","=","25")])
-        else: # Default to 25% seems like the safest way of handling weird input data, maybe the should throw an error, since 0%,6%,12% and 25% vat are the only valid ones here in sweden.
-            to_check = True
-            tax_account = self.env["account.tax"].search([("name","=","I")])
-        if not tax_account and not vat_rate == 0.0:
-            raise ValidationError(f"No valid tax account found, for vat rate {vat_rate}")
-                 
-        account = self.env["account.account"].search([("code","=",row.get("Account"))])
+
+    def create_account_card_statement_line(self, row, account_move, account_card_statement_id):
+        currency = self.env['res.currency'].search([('name', '=ilike', row.get('Currency'))])
+        if not currency:
+            currency = self.env.ref('base.main_company').currency_id
+
+        account = self.env['account.account'].search([('name', '=', row.get('Account'))])
+
         if not account and float(row.get('Amount')) > 0:
-            # ~ row.get('Description') == 'Credit Repayment': # ~ Kreditupplysning 6061
-            account = self.env["account.account"].search([("code","=","6061")])
+            account = self.env["account.account"].search([("code", "=", "6061")])
         elif not account:
-            account = self.env["account.account"].search([("code","=","4001")])
-            to_check = True
+            # account = self.env["account.account"].search([("code", "=", "4001")])
+            account = account_card_statement_id.journal_id.card_credit_account  # takes account on journal
+            
         
+        account_card_statement_val_list = {
+            'name':row.get('Date', "No value found") +" "+ row.get('Description', "No value found"),
+            'account_move_id': account_move.id,
+            'date': row.get('Date', "No value found"),
+            'amount': float(row.get('Amount', 0)),
+            'currency': currency.id,
+            'original_amount': float(row.get('Original amount', 0)),
+            'original_currency': row.get('Original currency', "No value found"),
+            'vat_amount': float(row.get('VAT amount', 0)),
+            'vat_rate': row.get('VAT rate', "No value found"),
+            'reverse_vat': row.get('Reverse VAT', "No value found"),
+            'description': row.get('Description', "No value found"),
+            'account': account.id,
+            'category': row.get('Category', "No value found"),
+            'comment': row.get('Comment', "No value found"),
+            'filename': row.get('Filename', "No value found"),
+            'settlement_status': row.get('Settlement status', "No value found"),
+            'person': row.get('Person', "No value found"),
+            'team': row.get('Team', "No value found"),
+            'card_number': row.get('Card number', "No value found"),
+            'card_name': row.get('Card name', "No value found"),
+            'accounting_status': row.get('Accounting status', "No value found"),
+        }
+        account_card_statement_line = self.env["account.card.statement.line"].create(account_card_statement_val_list)
+        if row.get('Description', "No value found") != "Credit Repayment":
+            account_card_statement_line.account_card_statement_id = account_card_statement_id.id
+        else:
+            account_card_statement_id.statement_line_credit_repayment_id = account_card_statement_line.id
+            
+            
+        return self.env["account.card.statement.line"].create(account_card_statement_val_list)
+
+    def create_account_move(self, row, credit_or_debit, journal_id):
+        amount = float(row["Amount"]) - (float(row["VAT amount"]))
+
+        tax_account, tax_amount = self._tax_rate(row)
+
+        if float(row.get('Amount')) > 0:
+            move_type = "in_refund"
+        else:
+            move_type = "in_invoice"
+
+        account_id = self.env["account.account"].search([("code", "=", row.get("Account"))])
+        if not account_id:
+            account_id = journal_id.card_credit_account
+
+        period_id = self.env['account.period'].date2period(datetime.strptime(row.get("Date"), '%Y-%m-%d'))
+
         partner_id = False
         if row.get('Description'):
-            partner_id = self.env['res.partner'].search([('name','=',row.get('Description'))],limit=1)
+            partner_id = self.env['res.partner'].search([('name', '=', row.get('Description'))], limit=1)
             if not partner_id:
-                partner_id = self.env['res.partner'].create({'name':row.get('Description'),'company_type':'company'})
-        else:
-            to_check = True
-            
+                partner_id = self.env['res.partner'].create({'name': row.get('Description'), 'company_type': 'company'})
+
+
+        # ~ So odoo check before we posts if the combo of partner and ref is unique
+        current_ref = row.get("Comment","")+"/"+ self.env['ir.sequence'].next_by_code('account.move.mynt')
         
-        if "@" in row.get("Comment") :
-            _logger.warning("FOUND @ IN COMMENT" *100)
-            to_check = True
-        
-        #Some lines are a Credit Repayment, and are postivte. These are not receipts
-        # ~ move_type = "in_receipt" if not entry it cannot be posted
-        if float(row.get('Amount')) > 0:
-            move_type = "entry"
-        else:
-            move_type = "in_receipt"
-            
-        period_id = self.env['account.period'].date2period(datetime.strptime(row.get("Date"), '%Y-%m-%d'))
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
-            'partner_id':partner_id,
+            'partner_id': partner_id.id,
             'journal_id': journal_id.id,
-            "move_type":move_type,
-            'ref':row.get("Comment"),
-            'invoice_origin':row.get("Person","") + " " + row.get("Card name","") + " " + row.get("Card number",""),
-            'period_id':period_id.id,
-            'date':row.get("Date"),
-            'invoice_date':row.get("Date"),
-            'to_check':to_check
+            "move_type": move_type,
+            'ref': current_ref,
+            'invoice_origin': row.get("Person", "") + " " + row.get("Card name", "") + " " + row.get("Card number", ""),
+            'period_id': period_id.id,
+            'date': row.get("Date"),
+            'invoice_date': row.get("Date"),
+            'to_check': True,
+            'line_ids': [(0, 0, {
+                'account_id': account_id.id,
+                'credit': abs(amount) if amount > 0 else 0,
+                'debit': abs(amount) if amount < 0 else 0,
+                'exclude_from_invoice_tab': False,
+                'name': row.get("Category", "") + " " + row.get("Comment", ""),
+                'tax_ids': tax_account,
+            })]
         })
-        
-        account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
-        credit_amount = 0
-        debit_amount = 0
-        if credit_or_debit == 'credit':
-            credit_amount = -amount_without_tax
+        account_move._recompute_dynamic_lines()
+        return account_move
+
+    def _tax_rate(self, row):
+        if row.get("VAT amount", "") == "":
+            row["VAT amount"] = "0.0"
+        tax_amount = float(row.get("VAT amount")) * (-1.0)
+
+        if row.get("VAT rate") == "" and float(row.get('Amount')) > 0:
+            row["VAT rate"] = "0.0"
+        vat_rate = float(row.get("VAT rate").replace("%", ""))
+        _logger.warning(f"{vat_rate=}")
+
+        if vat_rate == 6:
+            tax_account = self.env["account.tax"].search([("name", "=", "I6"), ("amount", "=", "6")])
+        elif vat_rate == 12:
+            tax_account = self.env["account.tax"].search([("name", "=", "I12"), ("amount", "=", "12")])
+        elif vat_rate == 25:
+            tax_account = self.env["account.tax"].search([("name", "=", "I"), ("amount", "=", "25")])
         else:
-            debit_amount = amount_without_tax 
-            
+            tax_account = False
+        if not tax_account and not vat_rate == 0.0:
+            raise ValidationError(f"No valid tax account found, for vat rate {vat_rate}")
+
         if tax_account:
             tax_account = [(6, 0, [tax_account.id])]
-        move_line = account_move_line.create({
-            'account_id': account.id,
-            'credit': credit_amount,
-            'debit': debit_amount,
-            'exclude_from_invoice_tab': False,
-            'move_id': account_move.id,
-            'name': row.get("Category","")+" "+row.get("Comment",""),
-            'tax_ids':tax_account,
-        })
-        move_line._onchange_mark_recompute_taxes()
-        account_move.with_context(check_move_validity=False)._recompute_dynamic_lines()
-        return account_move
-        
-   
+
+        return tax_account, tax_amount

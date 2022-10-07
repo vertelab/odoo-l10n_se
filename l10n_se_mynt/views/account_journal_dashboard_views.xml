@@ -6,7 +6,7 @@
       <field name="model">account.journal</field>
       <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view" />
       <field name="arch" type="xml">
-        <xpath expr="//kanban/templates//div[@class='row']" position="inside">
+        <xpath expr="//kanban/templates//div[hasclass('row')]" position="inside">
           <t t-if="(journal_type == 'card')">
             <!-- On the left, display :
                  - A button corresponding to the bank_statements_source, if it wasn't configured, a button for each of them

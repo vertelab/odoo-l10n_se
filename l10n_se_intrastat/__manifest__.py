@@ -21,20 +21,20 @@
 
 {
     'name': 'l10n_se: Sweden - Intrastat',
-    'summary': 'For keeping track of import / export within the EU.',
-    'author': 'Vertel AB',
-    'contributor': '',
-    'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_intrastat',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'summary': 'For keeping track of import / export within the EU.',
+    'category': 'Accounting',
     'description': """
     https://www.scb.se/lamna-uppgifter/undersokningar/intrastat-in--och-utforsel-av-varor/
     """,
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_intrastat',
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'depends': ['report_intrastat'],
     'init_xml': [],
     'data': [

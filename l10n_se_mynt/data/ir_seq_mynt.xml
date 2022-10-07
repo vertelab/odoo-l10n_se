@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="sequence_account_move_mynt" model="ir.sequence">
+            <field name="name">Mynt Invoice Sequence</field>
+            <field name="code">account.move.mynt</field>
+            <field name="prefix">Mynt/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>	
+    </data>
+</odoo>

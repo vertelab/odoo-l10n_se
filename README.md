@@ -5,6 +5,12 @@ Important! // Viktigt! <br>
 Read to install!<br>
 https://vertel.se/bokforing/installera-l10n-se
 
+<b>After `sudo update` with a new nightly version of Odoo:</b> <br>
+sudo rm -rf /usr/share/core-odoo/addons/l10n_se <br>
+sudo rm -rf /usr/share/core-odoo/addons/l10n_se_ocr <br>
+
+
+
 Module | Description
 --- | --- 
 account_change_plan 	|

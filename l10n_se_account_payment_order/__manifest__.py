@@ -21,18 +21,18 @@
 
 {
     'name': 'l10n_se: Swedish Payment Order Configuration',
-    'depends': ['account_payment_order', 'l10n_se'],
+    'version': '14.0.1.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Swedish Payment Order Configuration',
+    'category': 'Accounting',
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_payment_order',
+    'license': 'AGPL-3',
     'contributor': 'Configuration of account for payment order',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
-    'version': '14.0.1.0.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_payment_order',
     'images': ['static/description/banner.png'], # 560x280 px.
+    'depends': ['account_payment_order', 'l10n_se'],
     'description': """
 Configuration of account for payment order.
 ==========================================

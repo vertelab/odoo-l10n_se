@@ -21,18 +21,20 @@
 
 {
     'name': 'l10n_se: Swedish Bank Accounts',
+    'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds support for swedish bank account formats.',
+    'category': 'Accounting',
+    'description': """
+    Adds support for swedish bank account formats.
+    """,
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_bank',
+    'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'category': 'Accounting',
-    'version': '14.0.0.1.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_bank',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'description': """Adds support for swedish bank account formats.""",
     'depends': ['base'],
     'data': [
         'views/res_bank_view.xml',
