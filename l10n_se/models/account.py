@@ -380,7 +380,7 @@ class AccountInvoice(models.Model):
                 
                 dest_tax = tax_balance_dict.get(self.tax_line_id.name)
                 if dest_tax and dest_tax.invoice_repartition_line_ids and self.account_id.code == dest_tax.invoice_repartition_line_ids.account_id.code:
-                    self.name = f"Skatt balans rad för {self.tax_line_id.name}"
+                    self.name = f"{self.tax_line_id.name}"
                     self.tax_line_id = dest_tax
 
 
