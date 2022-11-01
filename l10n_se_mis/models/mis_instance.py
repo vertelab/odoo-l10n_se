@@ -1,11 +1,13 @@
-from openerp import models, fields, api,_
+from openerp import models, fields, api, _
 import logging
+from odoo.exceptions import UserError
 import base64
 from lxml import etree
 from .aep import AccountingExpressionProcessorExtended as AEPE
 from .expression_evaluator import ExpressionEvaluatorExtended as EEE
 from .kpimatrix import KpiMatrixExtended as KME
 from .simple_array import SimpleArray, named_simple_array
+
 # ~ from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
@@ -19,57 +21,66 @@ MODE_NONE = "none"
 MODE_FIX = "fix"
 MODE_REL = "relative"
 
+
 class MisReportInstancePeriod(models.Model):
     _inherit = 'mis.report.instance.period'
-    
+
     def _get_additional_move_line_filter(self):
-        domain = super(MisReportInstancePeriod,self)._get_additional_move_line_filter()
+        domain = super(MisReportInstancePeriod, self)._get_additional_move_line_filter()
         if (
-            self._get_aml_model_name() == "account.move.line"
-            and self.report_instance_id.target_move == "draft"
+                self._get_aml_model_name() == "account.move.line"
+                and self.report_instance_id.target_move == "draft"
         ):
             domain.extend([("move_id.state", "=", "draft")])
+        if (self._get_aml_model_name() == "account.move.line") and self.report_instance_id.hide_opening_closing_period:
+            domain.extend([("move_id.period_id.special", "=", False)])
         return domain
+
 
 class MisReportInstance(models.Model):
     _inherit = 'mis.report.instance'
-    
+
     find_moves_by_period = fields.Boolean(
-        default=False,string="Find Move Based On Period",
-        help="A little confusing but vouchers/invoices has dates and which period they belong to. By default the mis report finds moves based on date. If this is checked then we find them based on period",
+        default=False, string="Find Move Based On Period",
+        help="A little confusing but vouchers/invoices has dates and which period they belong to. By default the mis "
+             "report finds moves based on date. If this is checked then we find them based on period",
         # ~ states={'posted':[('readonly',True)]}
     )
-    hide_lines_that_are_empty = fields.Boolean(default=False,string="Hide empty lines")
-    
-    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'),], default='invoice',string='Redovisningsmetod',help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden i sista perioden/bokslutsperioden")
-    target_move = fields.Selection(selection_add=[('draft', 'All Unposted Entries')], ondelete={"draft": "set default"})
-     
-    # ~ def _compute_matrix(self):
-        # ~ """Compute a report and return a KpiMatrix.
+    hide_lines_that_are_empty = fields.Boolean(default=False, string="Hide empty lines")
 
-        # ~ The key attribute of the matrix columns (KpiMatrixCol)
-        # ~ is guaranteed to be the id of the mis.report.instance.period.
-        # ~ """
-        # ~ self.ensure_one()
-        # ~ aep = self.report_id._prepare_aep(self.query_company_ids, self.currency_id)
-        # ~ kpi_matrix = self.report_id.prepare_kpi_matrix(self.multi_company)
-        # ~ for period in self.period_ids:
-            # ~ description = None
-            # ~ if period.mode == MODE_NONE:
-                # ~ pass
-            # ~ elif not self.display_columns_description:
-                # ~ pass
-            # ~ elif period.date_from == period.date_to and period.date_from:
-                # ~ description = self._format_date(period.date_from)
-            # ~ elif period.date_from and period.date_to:
-                # ~ date_from = self._format_date(period.date_from)
-                # ~ date_to = self._format_date(period.date_to)
-                # ~ description = _("from %s to %s") % (date_from, date_to)
-            # ~ self._add_column(aep, kpi_matrix, period, period.name, description)
-        # ~ kpi_matrix.compute_comparisons()
-        # ~ kpi_matrix.compute_sums(self.currency_id) 
-        # ~ return kpi_matrix
-    
+    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'), ],
+                                         default='invoice', string='Redovisningsmetod',
+                                         help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden "
+                                              "skall välja fakturametoden i sista perioden/bokslutsperioden")
+    target_move = fields.Selection(selection_add=[('draft', 'All Unposted Entries')], ondelete={"draft": "set default"})
+    hide_opening_closing_period = fields.Boolean(string="Hide Opening/Closing Period")
+
+    # ~ def _compute_matrix(self):
+    # ~ """Compute a report and return a KpiMatrix.
+
+    # ~ The key attribute of the matrix columns (KpiMatrixCol)
+    # ~ is guaranteed to be the id of the mis.report.instance.period.
+    # ~ """
+    # ~ self.ensure_one()
+    # ~ aep = self.report_id._prepare_aep(self.query_company_ids, self.currency_id)
+    # ~ kpi_matrix = self.report_id.prepare_kpi_matrix(self.multi_company)
+    # ~ for period in self.period_ids:
+    # ~ description = None
+    # ~ if period.mode == MODE_NONE:
+    # ~ pass
+    # ~ elif not self.display_columns_description:
+    # ~ pass
+    # ~ elif period.date_from == period.date_to and period.date_from:
+    # ~ description = self._format_date(period.date_from)
+    # ~ elif period.date_from and period.date_to:
+    # ~ date_from = self._format_date(period.date_from)
+    # ~ date_to = self._format_date(period.date_to)
+    # ~ description = _("from %s to %s") % (date_from, date_to)
+    # ~ self._add_column(aep, kpi_matrix, period, period.name, description)
+    # ~ kpi_matrix.compute_comparisons()
+    # ~ kpi_matrix.compute_sums(self.currency_id)
+    # ~ return kpi_matrix
+
     def compute(self):
         self.ensure_one()
         kpi_matrix = self._compute_matrix()
@@ -90,7 +101,7 @@ class MisReportInstance(models.Model):
             period._get_aml_model_name(),
         )
 
-        expression_evaluator.find_moves_by_period = self.find_moves_by_period #GO BY PERIOD
+        expression_evaluator.find_moves_by_period = self.find_moves_by_period  # GO BY PERIOD
         expression_evaluator.accounting_method = self.accounting_method
         self.report_id._declare_and_compute_period(
             expression_evaluator,
@@ -103,50 +114,49 @@ class MisReportInstance(models.Model):
             period._get_additional_query_filter,
             no_auto_expand_accounts=self.no_auto_expand_accounts,
         )
-        
-   
-        
+
     def drilldown(self, arg):
-            self.ensure_one()
-            period_id = arg.get("period_id")
-            expr = arg.get("expr")
-            account_id = arg.get("account_id")
-            if period_id and expr and AEPE.has_account_var(expr):
-                period = self.env["mis.report.instance.period"].browse(period_id)
-                aep = AEPE(
+        self.ensure_one()
+        period_id = arg.get("period_id")
+        expr = arg.get("expr")
+        account_id = arg.get("account_id")
+        if period_id and expr and AEPE.has_account_var(expr):
+            period = self.env["mis.report.instance.period"].browse(period_id)
+            aep = AEPE(
                 self.query_company_ids, self.currency_id, self.report_id.account_model
             )
-                aep.parse_expr(expr)
-                aep.done_parsing()
-                domain = aep.get_aml_domain_for_expr(
-                    expr,
-                    period.date_from,
-                    period.date_to,
-                    None,  # target_move now part of additional_move_line_filter
-                    account_id,
-                    find_moves_by_period = self.find_moves_by_period, #ADDED
-                    accounting_method = self.accounting_method, #ADDED
-                )
-                domain.extend(period._get_additional_move_line_filter())
-                return {
-                    "name": self._get_drilldown_action_name(arg),
-                    "domain": domain,
-                    "type": "ir.actions.act_window",
-                    "res_model": period._get_aml_model_name(),
-                    "views": [[False, "list"], [False, "form"]],
-                    "view_mode": "list",
-                    "target": "current",
-                    "context": {"active_test": False},
-                }
-            else:
-                return False
-                
+            aep.parse_expr(expr)
+            aep.done_parsing()
+            domain = aep.get_aml_domain_for_expr(
+                expr,
+                period.date_from,
+                period.date_to,
+                None,  # target_move now part of additional_move_line_filter
+                account_id,
+                find_moves_by_period=self.find_moves_by_period,  # ADDED
+                accounting_method=self.accounting_method,  # ADDED
+            )
+            domain.extend(period._get_additional_move_line_filter())
+            return {
+                "name": self._get_drilldown_action_name(arg),
+                "domain": domain,
+                "type": "ir.actions.act_window",
+                "res_model": period._get_aml_model_name(),
+                "views": [[False, "list"], [False, "form"]],
+                "view_mode": "list",
+                "target": "current",
+                "context": {"active_test": False},
+            }
+        else:
+            return False
 
-class MisReport(models.Model): ### Should Be Called MisReport
+
+class MisReport(models.Model):  ### Should Be Called MisReport
     _inherit = 'mis.report'
-    
-    use_currency_suffix = fields.Boolean("Currency Suffix", help="Use currency set on mis report or the company currency as a suffix.")
-    
+
+    use_currency_suffix = fields.Boolean("Currency Suffix",
+                                         help="Use currency set on mis report or the company currency as a suffix.")
+
     @api.model
     def _get_target_move_domain(self, target_move, aml_model_name):
         """
@@ -169,19 +179,19 @@ class MisReport(models.Model): ### Should Be Called MisReport
             return [("parent_state", "in", ("posted", "draft"))]
         else:
             raise UserError(_("Unexpected value %s for target_move.") % (target_move,))
-    
+
     def _declare_and_compute_period(
-        self,
-        expression_evaluator,
-        kpi_matrix,
-        col_key,
-        col_label,
-        col_description,
-        currency_id,
-        subkpis_filter=None,
-        get_additional_query_filter=None,
-        locals_dict=None,
-        no_auto_expand_accounts=False,
+            self,
+            expression_evaluator,
+            kpi_matrix,
+            col_key,
+            col_label,
+            col_description,
+            currency_id,
+            subkpis_filter=None,
+            get_additional_query_filter=None,
+            locals_dict=None,
+            no_auto_expand_accounts=False,
     ):
         """Evaluate a report for a given period, populating a KpiMatrix.
 
@@ -247,19 +257,19 @@ class MisReport(models.Model): ### Should Be Called MisReport
             self.use_currency_suffix,
             no_auto_expand_accounts,
         )
-        
+
     def _declare_and_compute_col(  # noqa: C901 (TODO simplify this fnction)
-        self,
-        expression_evaluator,
-        kpi_matrix,
-        col_key,
-        col_label,
-        col_description,
-        subkpis_filter,
-        locals_dict,
-        currency_id,
-        use_currency_suffix,
-        no_auto_expand_accounts=False,
+            self,
+            expression_evaluator,
+            kpi_matrix,
+            col_key,
+            col_label,
+            col_description,
+            subkpis_filter,
+            locals_dict,
+            currency_id,
+            use_currency_suffix,
+            no_auto_expand_accounts=False,
     ):
         """This is the main computation loop.
 
@@ -345,22 +355,23 @@ class MisReport(models.Model): ### Should Be Called MisReport
                         )
                 if len(drilldown_args) != col.colspan:
                     drilldown_args = [None] * col.colspan
-                
+
                 ####
-                kpi_matrix.set_values(kpi, col_key, vals, drilldown_args,currency_id=currency_id, use_currency_suffix=use_currency_suffix)
+                kpi_matrix.set_values(kpi, col_key, vals, drilldown_args, currency_id=currency_id,
+                                      use_currency_suffix=use_currency_suffix)
 
                 if (
-                    name_error
-                    or no_auto_expand_accounts
-                    or not kpi.auto_expand_accounts
+                        name_error
+                        or no_auto_expand_accounts
+                        or not kpi.auto_expand_accounts
                 ):
                     continue
 
                 for (
-                    account_id,
-                    vals,
-                    drilldown_args,
-                    _name_error,
+                        account_id,
+                        vals,
+                        drilldown_args,
+                        _name_error,
                 ) in expression_evaluator.eval_expressions_by_account(
                     expressions, locals_dict
                 ):
@@ -369,9 +380,10 @@ class MisReport(models.Model): ### Should Be Called MisReport
                             continue
                         drilldown_arg["period_id"] = col_key
                         drilldown_arg["kpi_id"] = kpi.id
-                        #currency_id5
+                        # currency_id5
                     kpi_matrix.set_values_detail_account(
-                        kpi, col_key, account_id, vals, drilldown_args,currency_id=currency_id, use_currency_suffix=use_currency_suffix
+                        kpi, col_key, account_id, vals, drilldown_args, currency_id=currency_id,
+                        use_currency_suffix=use_currency_suffix
                     )
 
             if len(recompute_queue) == 0:
@@ -403,7 +415,6 @@ class MisReport(models.Model): ### Should Be Called MisReport
             kpi_matrix.declare_kpi(kpi)
         return kpi_matrix
 
-
     def get_kpis_by_account_id(self, company):
         """ Return { account_id: set(kpi) } """
         aep = self._prepare_aep(company)
@@ -416,11 +427,10 @@ class MisReport(models.Model): ### Should Be Called MisReport
                 for account_id in account_ids:
                     res[account_id].add(kpi)
         return res
-        
-        
-class MisReportInstanceFixAnalyticTag(models.Model): ### Should Be Called MisReportInstance
-    _inherit = "mis.report.instance"
 
+
+class MisReportInstanceFixAnalyticTag(models.Model):  ### Should Be Called MisReportInstance
+    _inherit = "mis.report.instance"
 
     @api.model
     def get_filter_descriptions_from_context(self):
@@ -448,17 +458,15 @@ class MisReportInstanceFixAnalyticTag(models.Model): ### Should Be Called MisRep
             analytic_tag_names = []
             for tag in analytic_tag_value:
                 tag_record = self.env['account.analytic.tag'].browse(tag)
-                if tag_record: 
+                if tag_record:
                     for account_analytic_distribution in tag_record.analytic_distribution_ids:
                         account_analytic_distribution.account_id.name
                         analytic_tag_names.append(account_analytic_distribution.account_id.name)
             # ~ analytic_tag_names = self.resolve_2many_commands(
-                # ~ "analytic_tag_ids", analytic_tag_value, ["name"]
+            # ~ "analytic_tag_ids", analytic_tag_value, ["name"]
             # ~ )
             filter_descriptions.append(
                 _("Analytic Tags: %s")
                 % ", ".join([rec for rec in analytic_tag_names])
             )
         return filter_descriptions
-
-

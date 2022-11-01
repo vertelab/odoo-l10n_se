@@ -22,9 +22,11 @@
 
 from odoo import models, fields, api, _
 
+
 class Municipality(models.Model):
     _name = 'res.country.municipality'
-    name = fields.Char()
+    _description = 'Country Municipality'
 
+    name = fields.Char()
     code = fields.Char()
     country_id = fields.Many2one('res.country')
