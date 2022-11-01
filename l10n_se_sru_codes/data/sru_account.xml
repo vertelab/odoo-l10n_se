@@ -1,4 +1,11 @@
 <data>
+  <record id="account_sru_code_2018" model="account.sru.code">
+    <field name="sru_code">2018</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2"></field>
+    <field name="benamning">Inkomstdeklaration 2</field>
+    <field name="text_intervall_original">2019 P1</field>
+  </record>
   <record id="account_sru_code_7201" model="account.sru.code">
     <field name="sru_code">7201</field>
     <field name="notes">None</field>
@@ -518,11 +525,10 @@
   </record>
   <record id="account_sru_code_7518" model="account.sru.code">
     <field name="sru_code">7518</field>
-    <field name="notes">None</field>
+    <field name="notes">Skippar 807x, 808x eftersom dem finns på 7521</field>
     <field name="rad_ink_2">3.12</field>
     <field name="benamning">Resultat från andelar i koncernföretag</field>
     <field name="text_intervall_original">– 80xx exkl. (807x, 808x)</field>
-    <field name="text_intervall">807x, 808x</field>
   </record>
   <record id="account_sru_code_7415" model="account.sru.code">
     <field name="sru_code">7415</field>
@@ -566,11 +572,10 @@
   </record>
   <record id="account_sru_code_7520" model="account.sru.code">
     <field name="sru_code">7520</field>
-    <field name="notes">None</field>
+    <field name="notes">Skippar 827x, 828x eftersom dem finns på 7521</field>
     <field name="rad_ink_2">3.15</field>
     <field name="benamning">Resultat från övriga anläggningstillgångar</field>
     <field name="text_intervall_original">– 82xx exkl. (827x, 828x)</field>
-    <field name="text_intervall">827x, 828x</field>
   </record>
   <record id="account_sru_code_7417" model="account.sru.code">
     <field name="sru_code">7417</field>
@@ -627,7 +632,8 @@
     <field name="rad_ink_2">3.22</field>
     <field name="benamning">Avsättning till periodiseringsfond</field>
     <field name="text_intervall_original">8810, 8811</field>
-    <field name="text_intervall">8810, 8811</field>
+    <field name="text_intervall">8811</field>
+    <field name="text_intervall_exclude">Skippar 8810 eftersom den finns på 7420</field>
   </record>
   <record id="account_sru_code_7421" model="account.sru.code">
     <field name="sru_code">7421</field>
