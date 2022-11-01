@@ -1,11 +1,4 @@
 <data>
-  <record id="account_sru_code_2018" model="account.sru.code">
-    <field name="sru_code">2018</field>
-    <field name="notes">None</field>
-    <field name="rad_ink_2"></field>
-    <field name="benamning">Inkomstdeklaration 2</field>
-    <field name="text_intervall_original">2019 P1</field>
-  </record>
   <record id="account_sru_code_7201" model="account.sru.code">
     <field name="sru_code">7201</field>
     <field name="notes">None</field>
