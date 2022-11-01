@@ -10,6 +10,15 @@ _logger = logging.getLogger(__name__)
 class AccountAccount(models.Model):
     _inherit = 'account.account'
     sru_codes = fields.Many2many('account.sru.code', 'sru_codes_account_account', 'op_sru_id', 'op_account_id', string='SRU Codes')
+    sru_codes_count = fields.Integer(string='Number of SRU codes',compute="_compute_sru_codes_count",store=True)
+    
+    @api.depends("sru_codes")
+    def _compute_sru_codes_count(self):
+        for record in self:
+            if record.sru_codes:
+                record.sru_codes_count = len(record.sru_codes)
+            else:
+                record.sru_codes_count = 0
     
 class AccountSRU(models.Model):
     
@@ -41,6 +50,8 @@ class AccountSRU(models.Model):
                 record.write({"accounts":[(6, 0, account_ids.ids)]})
             else:
                 record.write({"accounts":[(6, 0, [])]})
+            for account in record.accounts:
+                account._compute_sru_codes_count()
 
     def set_accounts_domain(self):
         for record in self:

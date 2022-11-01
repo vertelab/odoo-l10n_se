@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="view_account_search_inherit" model="ir.ui.view">
+            <field name="name">view_account_search_inherit</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_search"/>
+            
+            <field name="arch" type="xml">
+                <search  position="inside">
+                    <filter string="No SRU Code" name="nosrucode" domain="[('sru_codes_count','=',0)]"/>
+                    <filter string="One SRU Code" name="onesrucode" domain="[('sru_codes_count','=',1)]"/>
+                    <filter string="More than One SRU Code" name="morethanonesrucode" domain="[('sru_codes_count','>',1)]"/>
+                </search>
+            </field>
+        </record>
+
+        
+        
         <record id="view_account_extend_list" model="ir.ui.view">
             <field name="name">account_list_sru</field>
             <field name="model">account.account</field>
             <field name="inherit_id" ref="account.view_account_list"/>
             <field name="arch" type="xml">
                <field name="code" position="after">
-                <field name="sru_codes" widget="many2many_tags"/>             
+                <field name="sru_codes" widget="many2many_tags"/>      
+                <field name="sru_codes_count"/>       
                </field>
             </field>
         </record>
@@ -18,6 +35,7 @@
             <field name="arch" type="xml">
                <field name="group_id" position="after">
                 <field name="sru_codes"/>
+                <field name="sru_codes_count" optional="hide"/>
                </field>
             </field>
         </record>
