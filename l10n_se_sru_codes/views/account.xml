@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_extend_list" model="ir.ui.view">
+            <field name="name">account_list_sru</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_list"/>
+            <field name="arch" type="xml">
+               <field name="code" position="after">
+                <field name="sru_codes" widget="many2many_tags"/>             
+               </field>
+            </field>
+        </record>
+        <record id="view_account_extend_form" model="ir.ui.view">
+            <field name="name">account_form_sru</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+               <field name="group_id" position="after">
+                <field name="sru_codes"/>
+               </field>
+            </field>
+        </record>
+        
+         <record model="ir.ui.view" id="account_sru_code_tree">
+            <field name="name">account_sru_code_tree</field>
+            <field name="model">account.sru.code</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+              <tree>
+                    <field name="sru_code" optional="show"/>
+                    <field name="rad_ink_2" optional="hide"/>
+                    <field name="accounts" widget="many2many_tags" optional="show"/>
+                    <field name="text_intervall_original" optional="hide"/>
+                    <field name="text_intervall" optional="hide"/>
+                    <field name="text_intervall_exclude" optional="hide"/>
+                    <field name="benamning" optional="show"/>
+                    <field name="notes"  optional="hide"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="account_sru_code_form">
+            <field name="name">account_sru_code_form</field>
+            <field name="model">account.sru.code</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+              <form string="SRU Codes">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sru_code"/>
+                                <field name="rad_ink_2"/>
+                                <field name="accounts" widget="many2many_tags" />
+                                <field name="text_intervall_original"/>
+                                <field name="text_intervall"/>
+                                <field name="text_intervall_exclude"/>
+                                <field name="text_intervall_formated"/>
+                                <field name="text_intervall_formated_exclude"/>
+                                <field name="benamning" />
+                                <field name="notes" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        
+    <record id="account_sru_code_search" model="ir.ui.view">
+        <field name="name">account_sru_code_search</field>
+        <field name="model">account.sru.code</field>
+        <field name="arch" type="xml">
+              <search string="SRU Codes">
+                <field name="sru_code" string="Sru Code"/>
+                <field name="rad_ink_2"/>
+                <field name="accounts" string="Accounts"/>
+                <field name="text_intervall_original"/>
+                <field name="text_intervall"/>
+                <field name="text_intervall_exclude"/>
+                <field name="text_intervall_formated"/>
+                <field name="text_intervall_formated_exclude"/>
+                <field name="benamning"/>
+                <field name="notes"/>
+            </search>
+            </field>
+        </record>
+        
+    <record id="action_view_sru_codes" model="ir.actions.act_window">
+            <field name="name">SRU codes</field>
+            <field name="res_model">account.sru.code</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No SRU rules found. Let's create one!
+                </p>
+            </field>
+    </record>
+    
+    <menuitem id="menu_sru" name="SRU" parent="account.menu_finance_configuration" sequence="50" />
+    <menuitem name="SRU codes" id="menu_sru_codes" parent="menu_sru" action="action_view_sru_codes" sequence="2" />
+        
+    </data>
+</odoo>
+
+
+
+

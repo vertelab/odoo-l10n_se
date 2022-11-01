@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.server" id="set_sru_domains">
+            <field name="name">Set Domain based on intervall</field>
+            <field name="model_id" ref="model_account_sru_code"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="model_account_sru_code"/>
+            <field name="binding_type">action</field>
+            <field name="code">
+                for record in records:
+                    record.set_accounts_domain()
+            </field>
+        </record>
+        <record model="ir.actions.server" id="use_sru_domains">
+            <field name="name">Use Domain based on intervall</field>
+            <field name="model_id" ref="model_account_sru_code"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="model_account_sru_code"/>
+            <field name="binding_type">action</field>
+            <field name="code">
+                for record in records:
+                    record.use_accounts_domain()
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+
+
+
+

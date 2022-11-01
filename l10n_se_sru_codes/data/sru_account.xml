@@ -1,0 +1,686 @@
+<data>
+  <record id="account_sru_code_7201" model="account.sru.code">
+    <field name="sru_code">7201</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.1</field>
+    <field name="benamning">Koncessioner, patent, licenser, varumärken, hyresrätter, goodwill och liknande rättigheter</field>
+    <field name="text_intervall_original">10xx exkl. 1088</field>
+    <field name="text_intervall">10xx</field>
+    <field name="text_intervall_exclude">1088</field>
+  </record>
+  <record id="account_sru_code_7202" model="account.sru.code">
+    <field name="sru_code">7202</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.2</field>
+    <field name="benamning">Förskott avseende immateriella anläggningstillgångar</field>
+    <field name="text_intervall_original">1088</field>
+    <field name="text_intervall">1088</field>
+  </record>
+  <record id="account_sru_code_7214" model="account.sru.code">
+    <field name="sru_code">7214</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.3</field>
+    <field name="benamning">Byggnader och mark</field>
+    <field name="text_intervall_original">11xx exkl. (112x, 118x)</field>
+    <field name="text_intervall">11xx</field>
+    <field name="text_intervall_exclude">112x, 118x</field>
+  </record>
+  <record id="account_sru_code_7215" model="account.sru.code">
+    <field name="sru_code">7215</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.4 </field>
+    <field name="benamning">Maskiner, inventarier och övriga materiella anläggningstillgångar</field>
+    <field name="text_intervall_original">12xx exkl. 128x</field>
+    <field name="text_intervall">12xx</field>
+    <field name="text_intervall_exclude">128x</field>
+  </record>
+  <record id="account_sru_code_7216" model="account.sru.code">
+    <field name="sru_code">7216</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.5</field>
+    <field name="benamning">Förbättringsutgifter på annans fastighet</field>
+    <field name="text_intervall_original">112x</field>
+    <field name="text_intervall">112x</field>
+  </record>
+  <record id="account_sru_code_7217" model="account.sru.code">
+    <field name="sru_code">7217</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.6</field>
+    <field name="benamning">Pågående nyanläggningar och förskott avseende materiella anläggningstillgångar</field>
+    <field name="text_intervall_original">118x, 128x</field>
+    <field name="text_intervall">118x, 128x</field>
+  </record>
+  <record id="account_sru_code_7230" model="account.sru.code">
+    <field name="sru_code">7230</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.7</field>
+    <field name="benamning">Andelar i koncernföretag</field>
+    <field name="text_intervall_original">131x</field>
+    <field name="text_intervall">131x</field>
+  </record>
+  <record id="account_sru_code_7231" model="account.sru.code">
+    <field name="sru_code">7231</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.8</field>
+    <field name="benamning">Andelar i intresseföretag och gemensamt styrda företag</field>
+    <field name="text_intervall_original">133x exkl. (1336 och 1337)</field>
+    <field name="text_intervall">133x</field>
+    <field name="text_intervall_exclude">1336,1337</field>
+  </record>
+  <record id="account_sru_code_7233" model="account.sru.code">
+    <field name="sru_code">7233</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.9</field>
+    <field name="benamning">Ägarintresse i övriga företag och andra långfristiga värdepappersinnehav</field>
+    <field name="text_intervall_original">135x, 1336, 1337</field>
+    <field name="text_intervall">135x, 1336, 1337</field>
+  </record>
+  <record id="account_sru_code_7232" model="account.sru.code">
+    <field name="sru_code">7232</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.10</field>
+    <field name="benamning">Fordringar hos koncern-, intresse och gemensamt styrda företag</field>
+    <field name="text_intervall_original">132x, 134x exkl. (1346, 1347)</field>
+    <field name="text_intervall">132x, 134x</field>
+    <field name="text_intervall_exclude">1346,1347</field>
+  </record>
+  <record id="account_sru_code_7234" model="account.sru.code">
+    <field name="sru_code">7234</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.11</field>
+    <field name="benamning">Lån till delägare eller närstående</field>
+    <field name="text_intervall_original">136x</field>
+    <field name="text_intervall">136x</field>
+  </record>
+  <record id="account_sru_code_7235" model="account.sru.code">
+    <field name="sru_code">7235</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.12</field>
+    <field name="benamning">Fordringar hos övriga företag som det finns ett ett ägarintresse i och Andra långfristiga fordringar</field>
+    <field name="text_intervall_original">137x, 138x, 1346, 1347</field>
+    <field name="text_intervall">137x, 138x, 1346, 1347</field>
+  </record>
+  <record id="account_sru_code_7241" model="account.sru.code">
+    <field name="sru_code">7241</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.13</field>
+    <field name="benamning">Råvaror och förnödenheter</field>
+    <field name="text_intervall_original">141x, 142x</field>
+    <field name="text_intervall">141x, 142x</field>
+  </record>
+  <record id="account_sru_code_7242" model="account.sru.code">
+    <field name="sru_code">7242</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.14</field>
+    <field name="benamning">Varor under tillverkning</field>
+    <field name="text_intervall_original">144x</field>
+    <field name="text_intervall">144x</field>
+  </record>
+  <record id="account_sru_code_7243" model="account.sru.code">
+    <field name="sru_code">7243</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.15</field>
+    <field name="benamning">Färdiga varor och handelsvaror</field>
+    <field name="text_intervall_original">145x, 146x</field>
+    <field name="text_intervall">145x, 146x</field>
+  </record>
+  <record id="account_sru_code_7244" model="account.sru.code">
+    <field name="sru_code">7244</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.16</field>
+    <field name="benamning">Övriga lagertillgångar</field>
+    <field name="text_intervall_original">149x</field>
+    <field name="text_intervall">149x</field>
+  </record>
+  <record id="account_sru_code_7245" model="account.sru.code">
+    <field name="sru_code">7245</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.17</field>
+    <field name="benamning">Pågående arbeten för annans räkning</field>
+    <field name="text_intervall_original">147x</field>
+    <field name="text_intervall">147x</field>
+  </record>
+  <record id="account_sru_code_7246" model="account.sru.code">
+    <field name="sru_code">7246</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.18</field>
+    <field name="benamning">Förskott till leverantörer</field>
+    <field name="text_intervall_original">148x</field>
+    <field name="text_intervall">148x</field>
+  </record>
+  <record id="account_sru_code_7251" model="account.sru.code">
+    <field name="sru_code">7251</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.19</field>
+    <field name="benamning">Kundfordringar</field>
+    <field name="text_intervall_original">151x–155x, 158x</field>
+    <field name="text_intervall">151x–155x, 158x</field>
+  </record>
+  <record id="account_sru_code_7252" model="account.sru.code">
+    <field name="sru_code">7252</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.20</field>
+    <field name="benamning">Fordringar hos koncern-, intresse- och gemensamt styrda företag</field>
+    <field name="text_intervall_original">156x-157x, 166x,167x exkl. 1573, 1673</field>
+    <field name="text_intervall">156x-157x, 166x,167x</field>
+    <field name="text_intervall_exclude">1573,1673</field>
+  </record>
+  <record id="account_sru_code_7261" model="account.sru.code">
+    <field name="sru_code">7261</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.21</field>
+    <field name="benamning">Fordringar hos övriga företag som det finns ett ägarintresse i och Övriga fordringar</field>
+    <field name="text_intervall_original">161x, 163x-165x, 1673, 168x-169x, 1573</field>
+    <field name="text_intervall">161x, 163x-165x, 1673, 168x-169x, 1573</field>
+  </record>
+  <record id="account_sru_code_7262" model="account.sru.code">
+    <field name="sru_code">7262</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.22</field>
+    <field name="benamning">Upparbetad men ej fakturerad intäkt</field>
+    <field name="text_intervall_original">162x</field>
+    <field name="text_intervall">162x</field>
+  </record>
+  <record id="account_sru_code_7263" model="account.sru.code">
+    <field name="sru_code">7263</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.23</field>
+    <field name="benamning">Förutbetalda kostnader och upplupna intäkter</field>
+    <field name="text_intervall_original">17xx</field>
+    <field name="text_intervall">17xx</field>
+  </record>
+  <record id="account_sru_code_7270" model="account.sru.code">
+    <field name="sru_code">7270</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.24</field>
+    <field name="benamning">Andelar i koncernföretag</field>
+    <field name="text_intervall_original">186x</field>
+    <field name="text_intervall">186x</field>
+  </record>
+  <record id="account_sru_code_7271" model="account.sru.code">
+    <field name="sru_code">7271</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.25</field>
+    <field name="benamning">Övriga kortfristiga placeringar</field>
+    <field name="text_intervall_original">18xx exkl. 186x</field>
+    <field name="text_intervall">18xx</field>
+    <field name="text_intervall_exclude">186x</field>
+  </record>
+  <record id="account_sru_code_7281" model="account.sru.code">
+    <field name="sru_code">7281</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.26</field>
+    <field name="benamning">Kassa, bank och redovisningsmedel</field>
+    <field name="text_intervall_original">19xx</field>
+    <field name="text_intervall">19xx</field>
+  </record>
+  <record id="account_sru_code_7301" model="account.sru.code">
+    <field name="sru_code">7301</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.27</field>
+    <field name="benamning">Bundet eget kapital</field>
+    <field name="text_intervall_original">208x</field>
+    <field name="text_intervall">208x</field>
+  </record>
+  <record id="account_sru_code_7302" model="account.sru.code">
+    <field name="sru_code">7302</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.28</field>
+    <field name="benamning">Fritt eget kapital</field>
+    <field name="text_intervall_original">209x</field>
+    <field name="text_intervall">209x</field>
+  </record>
+  <record id="account_sru_code_7321" model="account.sru.code">
+    <field name="sru_code">7321</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.29</field>
+    <field name="benamning">Periodiseringsfonder</field>
+    <field name="text_intervall_original">211x-213x</field>
+    <field name="text_intervall">211x-213x</field>
+  </record>
+  <record id="account_sru_code_7322" model="account.sru.code">
+    <field name="sru_code">7322</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.30</field>
+    <field name="benamning">Ackumulerade överavskrivningar</field>
+    <field name="text_intervall_original">215x</field>
+    <field name="text_intervall">215x</field>
+  </record>
+  <record id="account_sru_code_7323" model="account.sru.code">
+    <field name="sru_code">7323</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.31</field>
+    <field name="benamning">Övriga obeskattade reserver</field>
+    <field name="text_intervall_original">216x-219x</field>
+    <field name="text_intervall">216x-219x</field>
+  </record>
+  <record id="account_sru_code_7331" model="account.sru.code">
+    <field name="sru_code">7331</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.32</field>
+    <field name="benamning">Avsättningar för pensioner och liknande förpliktelser enligt lagen (1967:531) om tryggande av pensionsutfästelserr m.m.</field>
+    <field name="text_intervall_original">221x</field>
+    <field name="text_intervall">221x</field>
+  </record>
+  <record id="account_sru_code_7332" model="account.sru.code">
+    <field name="sru_code">7332</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.33</field>
+    <field name="benamning">Övriga avsättningar för pensioner och liknande förpliktelser</field>
+    <field name="text_intervall_original">223x</field>
+    <field name="text_intervall">223x</field>
+  </record>
+  <record id="account_sru_code_7333" model="account.sru.code">
+    <field name="sru_code">7333</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.34</field>
+    <field name="benamning">Övriga avsättningar</field>
+    <field name="text_intervall_original">222x-229x exkl. 223x</field>
+    <field name="text_intervall">222x-229x</field>
+    <field name="text_intervall_exclude">223x</field>
+  </record>
+  <record id="account_sru_code_7350" model="account.sru.code">
+    <field name="sru_code">7350</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.35</field>
+    <field name="benamning">Obligationslån</field>
+    <field name="text_intervall_original">231x-232x</field>
+    <field name="text_intervall">231x-232x</field>
+  </record>
+  <record id="account_sru_code_7351" model="account.sru.code">
+    <field name="sru_code">7351</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.36</field>
+    <field name="benamning">Checkräkningskredit</field>
+    <field name="text_intervall_original">233x</field>
+    <field name="text_intervall">233x</field>
+  </record>
+  <record id="account_sru_code_7352" model="account.sru.code">
+    <field name="sru_code">7352</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.37</field>
+    <field name="benamning">Övriga skulder till kreditinstitut</field>
+    <field name="text_intervall_original">234x-235x</field>
+    <field name="text_intervall">234x-235x</field>
+  </record>
+  <record id="account_sru_code_7353" model="account.sru.code">
+    <field name="sru_code">7353</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.38</field>
+    <field name="benamning">Skulder till koncern-, intresse och gemensamt styrda företag</field>
+    <field name="text_intervall_original">236x-237x exkl. (2373)</field>
+    <field name="text_intervall">236x-237x</field>
+    <field name="text_intervall_exclude">2373</field>
+  </record>
+  <record id="account_sru_code_7354" model="account.sru.code">
+    <field name="sru_code">7354</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.39</field>
+    <field name="benamning">Skulder till övriga företag som det finns ett ägarintresse i och övriga skulder</field>
+    <field name="text_intervall_original">238x-239x, 2373</field>
+    <field name="text_intervall">238x-239x, 2373</field>
+  </record>
+  <record id="account_sru_code_7360" model="account.sru.code">
+    <field name="sru_code">7360</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.40</field>
+    <field name="benamning">Checkräkningskredit</field>
+    <field name="text_intervall_original">248x</field>
+    <field name="text_intervall">248x</field>
+  </record>
+  <record id="account_sru_code_7361" model="account.sru.code">
+    <field name="sru_code">7361</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.41</field>
+    <field name="benamning">Övriga skulder till kreditinstitut</field>
+    <field name="text_intervall_original">241x</field>
+    <field name="text_intervall">241x</field>
+  </record>
+  <record id="account_sru_code_7362" model="account.sru.code">
+    <field name="sru_code">7362</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.42</field>
+    <field name="benamning">Förskott från kunder</field>
+    <field name="text_intervall_original">242x</field>
+    <field name="text_intervall">242x</field>
+  </record>
+  <record id="account_sru_code_7363" model="account.sru.code">
+    <field name="sru_code">7363</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.43</field>
+    <field name="benamning">Pågående arbeten för annans räkning</field>
+    <field name="text_intervall_original">243x</field>
+    <field name="text_intervall">243x</field>
+  </record>
+  <record id="account_sru_code_7364" model="account.sru.code">
+    <field name="sru_code">7364</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.44</field>
+    <field name="benamning">Fakturerad men ej upparbetad intäkt</field>
+    <field name="text_intervall_original">245x</field>
+    <field name="text_intervall">245x</field>
+  </record>
+  <record id="account_sru_code_7365" model="account.sru.code">
+    <field name="sru_code">7365</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.45</field>
+    <field name="benamning">Leverantörsskulder</field>
+    <field name="text_intervall_original">244x</field>
+    <field name="text_intervall">244x</field>
+  </record>
+  <record id="account_sru_code_7366" model="account.sru.code">
+    <field name="sru_code">7366</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.46</field>
+    <field name="benamning">Växelskulder</field>
+    <field name="text_intervall_original">2492</field>
+    <field name="text_intervall">2492</field>
+  </record>
+  <record id="account_sru_code_7367" model="account.sru.code">
+    <field name="sru_code">7367</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.47</field>
+    <field name="benamning">Skulder till koncern-, intresse och gemensamt styrda företag</field>
+    <field name="text_intervall_original">246x-247x, 286x-287x exkl. (2473, 2873)</field>
+    <field name="text_intervall">246x-247x, 286x-287x</field>
+    <field name="text_intervall_exclude">2473,2873</field>
+  </record>
+  <record id="account_sru_code_7369" model="account.sru.code">
+    <field name="sru_code">7369</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.48</field>
+    <field name="benamning">Skulder till övriga företag som det finns ett ägarintresse i och Övriga skulder</field>
+    <field name="text_intervall_original">249x exkl. 2492, 26xx-27xx, 28xx exkl. 286x-287x, 2473, 2873</field>
+    <field name="text_intervall">249x,26xx-27xx, 28xx, 2473, 2873</field>
+    <field name="text_intervall_exclude">2492,286x-287x</field>
+  </record>
+  <record id="account_sru_code_7368" model="account.sru.code">
+    <field name="sru_code">7368</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.49</field>
+    <field name="benamning">Skatteskulder</field>
+    <field name="text_intervall_original">25xx</field>
+    <field name="text_intervall">25xx</field>
+  </record>
+  <record id="account_sru_code_7370" model="account.sru.code">
+    <field name="sru_code">7370</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">2.50</field>
+    <field name="benamning">Upplupna kostnader och förutbetalda intäkter</field>
+    <field name="text_intervall_original">29xx</field>
+    <field name="text_intervall">29xx</field>
+  </record>
+  <record id="account_sru_code_7410" model="account.sru.code">
+    <field name="sru_code">7410</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.1</field>
+    <field name="benamning">Nettoomsättning</field>
+    <field name="text_intervall_original">30xx-37xx</field>
+    <field name="text_intervall">30xx-37xx</field>
+  </record>
+  <record id="account_sru_code_7411" model="account.sru.code">
+    <field name="sru_code">7411</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.2</field>
+    <field name="benamning">Förändring av lager av produkter i arbete, färdiga varor och pågående arbete för annans räkning</field>
+    <field name="text_intervall_original">+ 49xx exkl. (4910-4929, 496x, 498x)</field>
+    <field name="text_intervall">49xx</field>
+    <field name="text_intervall_exclude">4910-4929, 496x, 498x</field>
+  </record>
+  <record id="account_sru_code_7510" model="account.sru.code">
+    <field name="sru_code">7510</field>
+    <field name="notes">För andra rader med ”-” och en exclude så inkuderar den. Men här skippar pga av konflikt med 7511 och 7512.</field>
+    <field name="rad_ink_2">3.2</field>
+    <field name="benamning">Förändring av lager av produkter i arbete, färdiga varor och pågående arbete för annans räkning</field>
+    <field name="text_intervall_original">– 49xx exkl. (4910-4929, 496x, 498x)</field>
+  </record>
+  <record id="account_sru_code_7412" model="account.sru.code">
+    <field name="sru_code">7412</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.3</field>
+    <field name="benamning">Aktiverat arbete för egen räkning</field>
+    <field name="text_intervall_original">38xx</field>
+    <field name="text_intervall">38xx</field>
+  </record>
+  <record id="account_sru_code_7413" model="account.sru.code">
+    <field name="sru_code">7413</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.4</field>
+    <field name="benamning">Övriga rörelseintäkter</field>
+    <field name="text_intervall_original">39xx</field>
+    <field name="text_intervall">39xx</field>
+  </record>
+  <record id="account_sru_code_7511" model="account.sru.code">
+    <field name="sru_code">7511</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.5</field>
+    <field name="benamning">Råvaror och förnödenheter</field>
+    <field name="text_intervall_original">40xx-47xx, 4910-4929</field>
+    <field name="text_intervall">40xx-47xx, 4910-4929</field>
+  </record>
+  <record id="account_sru_code_7512" model="account.sru.code">
+    <field name="sru_code">7512</field>
+    <field name="notes">Tar inte med 40xx-47xx eftersom den redan finns i 7511</field>
+    <field name="rad_ink_2">3.6</field>
+    <field name="benamning">Handelsvaror</field>
+    <field name="text_intervall_original">40xx-47xx, 496x, 498x</field>
+    <field name="text_intervall">496x, 498x</field>
+  </record>
+  <record id="account_sru_code_7513" model="account.sru.code">
+    <field name="sru_code">7513</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.7</field>
+    <field name="benamning">Övriga externa kostnader</field>
+    <field name="text_intervall_original">50xx-69xx</field>
+    <field name="text_intervall">50xx-69xx</field>
+  </record>
+  <record id="account_sru_code_7514" model="account.sru.code">
+    <field name="sru_code">7514</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.8</field>
+    <field name="benamning">Personalkostnader</field>
+    <field name="text_intervall_original">70xx-76xx</field>
+    <field name="text_intervall">70xx-76xx</field>
+  </record>
+  <record id="account_sru_code_7515" model="account.sru.code">
+    <field name="sru_code">7515</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.9</field>
+    <field name="benamning">Av- och nedskrivningar av materiella och immateriella anläggningstillgångar</field>
+    <field name="text_intervall_original">77xx-78xx exkl. (774x, 779x)</field>
+    <field name="text_intervall">77xx-78xx</field>
+    <field name="text_intervall_exclude">774x, 779x</field>
+  </record>
+  <record id="account_sru_code_7516" model="account.sru.code">
+    <field name="sru_code">7516</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.10</field>
+    <field name="benamning">Nedskrivningar av omsättningstillgångar utöver normala nedskrivningar</field>
+    <field name="text_intervall_original">774x, 779x</field>
+    <field name="text_intervall">774x, 779x</field>
+  </record>
+  <record id="account_sru_code_7517" model="account.sru.code">
+    <field name="sru_code">7517</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.11</field>
+    <field name="benamning">Övriga rörelsekostnader</field>
+    <field name="text_intervall_original">79xx</field>
+    <field name="text_intervall">79xx</field>
+  </record>
+  <record id="account_sru_code_7414" model="account.sru.code">
+    <field name="sru_code">7414</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.12</field>
+    <field name="benamning">Resultat från andelar i koncernföretag</field>
+    <field name="text_intervall_original">+ 80xx exkl. (807x, 808x)</field>
+    <field name="text_intervall">80xx</field>
+    <field name="text_intervall_exclude">807x, 808x</field>
+  </record>
+  <record id="account_sru_code_7518" model="account.sru.code">
+    <field name="sru_code">7518</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.12</field>
+    <field name="benamning">Resultat från andelar i koncernföretag</field>
+    <field name="text_intervall_original">– 80xx exkl. (807x, 808x)</field>
+    <field name="text_intervall">807x, 808x</field>
+  </record>
+  <record id="account_sru_code_7415" model="account.sru.code">
+    <field name="sru_code">7415</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.13</field>
+    <field name="benamning">Resultat från andelar i intresseföretag och gemensamt styrda företag</field>
+    <field name="text_intervall_original"> + 81xx exkl. (817x, 818x samt 8123 och 8133)</field>
+    <field name="text_intervall">81xx</field>
+    <field name="text_intervall_exclude">817x, 818x, 8123, 8133</field>
+  </record>
+  <record id="account_sru_code_7519" model="account.sru.code">
+    <field name="sru_code">7519</field>
+    <field name="notes">Tar inte med 8123, 8133 efter som dem redan finns på 7423. Skippar också 817x, 818x eftersom dem redan finns på 7521.</field>
+    <field name="rad_ink_2">3.13</field>
+    <field name="benamning">Resultat från andelar i intresseföretag och gemensamt styrda företag</field>
+    <field name="text_intervall_original">– 81xx exkl. (817x, 818x samt 8123 och 8133)</field>
+  </record>
+  <record id="account_sru_code_7423" model="account.sru.code">
+    <field name="sru_code">7423</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.14</field>
+    <field name="benamning">Resultat från övriga företag som det finns ett ägarintresse i</field>
+    <field name="text_intervall_original"> + 8123, 8133</field>
+    <field name="text_intervall">8123, 8133</field>
+  </record>
+  <record id="account_sru_code_7530" model="account.sru.code">
+    <field name="sru_code">7530</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.14</field>
+    <field name="benamning">Resultat från övriga företag som det finns ett ägarintresse i</field>
+    <field name="text_intervall_original"> - 8123, 8133</field>
+  </record>
+  <record id="account_sru_code_7416" model="account.sru.code">
+    <field name="sru_code">7416</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.15</field>
+    <field name="benamning">Resultat från övriga anläggningstillgångar</field>
+    <field name="text_intervall_original">+ 82xx exkl. (827x, 828x)</field>
+    <field name="text_intervall">82xx</field>
+    <field name="text_intervall_exclude">827x, 828x</field>
+  </record>
+  <record id="account_sru_code_7520" model="account.sru.code">
+    <field name="sru_code">7520</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.15</field>
+    <field name="benamning">Resultat från övriga anläggningstillgångar</field>
+    <field name="text_intervall_original">– 82xx exkl. (827x, 828x)</field>
+    <field name="text_intervall">827x, 828x</field>
+  </record>
+  <record id="account_sru_code_7417" model="account.sru.code">
+    <field name="sru_code">7417</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.16</field>
+    <field name="benamning">Övriga ränteintäkter och liknande resultatposter</field>
+    <field name="text_intervall_original">83xx exkl. (837x, 838x)</field>
+    <field name="text_intervall">83xx</field>
+    <field name="text_intervall_exclude">837x, 838x</field>
+  </record>
+  <record id="account_sru_code_7521" model="account.sru.code">
+    <field name="sru_code">7521</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.17</field>
+    <field name="benamning">Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar</field>
+    <field name="text_intervall_original">807x, 808x, 817x, 818x, 827x, 828x, 837x, 838x</field>
+    <field name="text_intervall">807x, 808x, 817x, 818x, 827x, 828x, 837x, 838x</field>
+  </record>
+  <record id="account_sru_code_7522" model="account.sru.code">
+    <field name="sru_code">7522</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.18</field>
+    <field name="benamning">Räntekostnader och liknande resultatposter</field>
+    <field name="text_intervall_original">84xx</field>
+    <field name="text_intervall">84xx</field>
+  </record>
+  <record id="account_sru_code_7524" model="account.sru.code">
+    <field name="sru_code">7524</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.19</field>
+    <field name="benamning">Lämnade koncernbidrag</field>
+    <field name="text_intervall_original">883x</field>
+    <field name="text_intervall">883x</field>
+  </record>
+  <record id="account_sru_code_7419" model="account.sru.code">
+    <field name="sru_code">7419</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.20</field>
+    <field name="benamning">Mottagna koncernbidrag</field>
+    <field name="text_intervall_original">882x</field>
+    <field name="text_intervall">882x</field>
+  </record>
+  <record id="account_sru_code_7420" model="account.sru.code">
+    <field name="sru_code">7420</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.21</field>
+    <field name="benamning">Återföring av periodiseringsfond</field>
+    <field name="text_intervall_original">8810,8819</field>
+    <field name="text_intervall">8810, 8819</field>
+  </record>
+  <record id="account_sru_code_7525" model="account.sru.code">
+    <field name="sru_code">7525</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.22</field>
+    <field name="benamning">Avsättning till periodiseringsfond</field>
+    <field name="text_intervall_original">8810, 8811</field>
+    <field name="text_intervall">8810, 8811</field>
+  </record>
+  <record id="account_sru_code_7421" model="account.sru.code">
+    <field name="sru_code">7421</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.23</field>
+    <field name="benamning">Förändring av överavskrivningar</field>
+    <field name="text_intervall_original">+ 885x</field>
+    <field name="text_intervall">885x</field>
+  </record>
+  <record id="account_sru_code_7526" model="account.sru.code">
+    <field name="sru_code">7526</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.23</field>
+    <field name="benamning">Förändring av överavskrivningar</field>
+    <field name="text_intervall_original">– 885x</field>
+  </record>
+  <record id="account_sru_code_7422" model="account.sru.code">
+    <field name="sru_code">7422</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.24</field>
+    <field name="benamning">Övriga bokslutsdispositioner</field>
+    <field name="text_intervall_original">+ 886x-889x</field>
+    <field name="text_intervall">886x-889x</field>
+  </record>
+  <record id="account_sru_code_7527" model="account.sru.code">
+    <field name="sru_code">7527</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.24</field>
+    <field name="benamning">Övriga bokslutsdispositioner</field>
+    <field name="text_intervall_original">– 886x-889x, 884x</field>
+  </record>
+  <record id="account_sru_code_7528" model="account.sru.code">
+    <field name="sru_code">7528</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.25</field>
+    <field name="benamning">Skatt på årets resultat</field>
+    <field name="text_intervall_original">89xx exkl. 899x</field>
+    <field name="text_intervall">89xx</field>
+    <field name="text_intervall_exclude">899x</field>
+  </record>
+  <record id="account_sru_code_7450" model="account.sru.code">
+    <field name="sru_code">7450</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.26</field>
+    <field name="benamning">Årets resultat, vinst (flyttas till p. 4.1)  (+)</field>
+    <field name="text_intervall_original">+ 899x</field>
+    <field name="text_intervall">899x</field>
+  </record>
+  <record id="account_sru_code_7550" model="account.sru.code">
+    <field name="sru_code">7550</field>
+    <field name="notes">None</field>
+    <field name="rad_ink_2">3.27</field>
+    <field name="benamning">Årets resultat, förlust (flyttas till p. 4.2) (-)</field>
+    <field name="text_intervall_original">– 899x</field>
+  </record>
+</data>
