@@ -269,7 +269,7 @@ class AccountBankStatementImport(models.TransientModel):
             account_card_statement_id.statement_line_credit_repayment_id = account_card_statement_line.id
             
             
-        return self.env["account.card.statement.line"].create(account_card_statement_val_list)
+        return account_card_statement_line
 
     def create_account_move(self, row, credit_or_debit, journal_id):
         amount = float(row["Amount"]) - (float(row["VAT amount"]))
