@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+    <record id="account_rotrut_skv_code_bygg" model="account.rotrut.type">
+        <field name="skv_code">Bygg</field>
+        <field name="name">Bygg</field>
+        <field name="rotrut">rot</field>
+    </record>
+    <record id="account_rotrut_skv_code_el" model="account.rotrut.type">
+        <field name="skv_code">El</field>
+        <field name="name">El</field>
+        <field name="rotrut">rot</field>
+    </record>
+    <record id="account_rotrut_skv_code_glasplat" model="account.rotrut.type">
+        <field name="skv_code">GlasPlatarbete</field>
+        <field name="name">Glas och plåtarbete</field>
+        <field name="rotrut">rot</field>
+    </record>
+    <record id="account_rotrut_skv_code_mark" model="account.rotrut.type">
+        <field name="skv_code">MarkDraneringarbete</field>
+        <field name="name">Markdräneringarbete</field>
+        <field name="rotrut">rot</field>
+    </record>
+    <record id="account_rotrut_skv_code_murning" model="account.rotrut.type">
+        <field name="skv_code">Murning</field>
+        <field name="name">Murning</field>
+        <field name="rotrut">rot</field>
+    </record>
+    <record id="account_rotrut_skv_code_malning" model="account.rotrut.type">
+        <field name="skv_code">MalningTapetsering</field>
+        <field name="name">Målning och tapetsering</field>
+        <field name="rotrut">rot</field>
+    </record>
+    <record id="account_rotrut_skv_code_vvs" model="account.rotrut.type">
+        <field name="skv_code">Vvs</field>
+        <field name="name">Vvs</field>
+        <field name="rotrut">rot</field>
+    </record>
+    <record id="account_rotrut_skv_code_stadning" model="account.rotrut.type">
+        <field name="skv_code">Stadning</field>
+        <field name="name">Städning</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_kladtextil" model="account.rotrut.type">
+        <field name="skv_code">KladOchTextilvard</field>
+        <field name="name">Kläd och Textilvård</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_snoskottning" model="account.rotrut.type">
+        <field name="skv_code">Snoskottning</field>
+        <field name="name">Snöskottning</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_tradgard" model="account.rotrut.type">
+        <field name="skv_code">Tradgardsarbete</field>
+        <field name="name">Trädgardsarbete</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_barnpassning" model="account.rotrut.type">
+        <field name="skv_code">Barnpassning</field>
+        <field name="name">Barnpassning</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_personligomsorg" model="account.rotrut.type">
+        <field name="skv_code">Personligomsorg</field>
+        <field name="name">Personlig omsorg</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_flyttjanster" model="account.rotrut.type">
+        <field name="skv_code">Flyttjanster</field>
+        <field name="name">Flyttjänster</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_ittjanster" model="account.rotrut.type">
+        <field name="skv_code">ItTjanster</field>
+        <field name="name">IT-tjanster</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_reparationvitvaror" model="account.rotrut.type">
+        <field name="skv_code">ReparationAvVitvaror</field>
+        <field name="name">Reparation av vitvaror</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_moblering" model="account.rotrut.type">
+        <field name="skv_code">Moblering</field>
+        <field name="name">Möblering</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_tillsynbostad" model="account.rotrut.type">
+        <field name="skv_code">TillsynAvBostad</field>
+        <field name="name">Tillsyn av bostad</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_transport" model="account.rotrut.type">
+        <field name="skv_code">TransportTillForsaljning</field>
+        <field name="name">Transport till försäljning</field>
+        <field name="rotrut">rut</field>
+    </record>
+    <record id="account_rotrut_skv_code_tvatt" model="account.rotrut.type">
+        <field name="skv_code">TvattVidTvattinrattning</field>
+        <field name="name">Tvätt vid tvättinrättning</field>
+        <field name="rotrut">rut</field>
+    </record>
+    
+    </data>
+</odoo>
