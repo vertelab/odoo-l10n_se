@@ -6,8 +6,12 @@
             <xpath expr="//div[@name='journal_div']" position="after">
                 <field name="is_rotrut"/>
             </xpath>
-            <xpath expr="//field[@name='tax_ids']" position="after">
-                <field name="is_rotrut" invisible="1"/>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='tax_ids']" position="after">
+                <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
             </xpath>
         </field>

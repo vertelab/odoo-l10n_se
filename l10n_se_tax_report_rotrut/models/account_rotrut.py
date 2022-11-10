@@ -1,5 +1,6 @@
 from odoo import models, fields, api, _
 
+
 class AccountRotRut(models.Model):
     _name = "account.rotrut"
     _description = "Accounting Rotrut types"
