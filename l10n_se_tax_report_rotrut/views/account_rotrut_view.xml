@@ -21,11 +21,9 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Accounting Rotrut">
-                <field name="skv_code_id"/>
-                <!-- <field name="name" /> -->
-                <field name="housing_co_reg_number" />
-                <field name="property_designation" />
-                <field name="rotrut_type" />
+                <field name="skv_code"/>
+                <field name="name" />
+                <field name="rotrut" />
             </tree>
         </field>
     </record>
@@ -38,15 +36,9 @@
             <form string="Rotrut view">
                 <sheet string="Rotrut view">
                     <group>
-                        <group>
-                            <field name="rotrut_type" widget="radio"/>
-                            <field name="skv_code_id" domain="[('rotrut', '=', rotrut_type)]"/>
-                        </group>
-                        <group name="extra settings">
-                            <field name="apartment_number" attrs="{'invisible': [('rotrut_type', '=', 'rut')]}"/>
-                            <field name="housing_co_reg_number" attrs="{'invisible': [('rotrut_type', '=', 'rut')]}"/>
-                            <field name="property_designation" attrs="{'invisible': [('rotrut_type', '=', 'rut')]}"/>
-                        </group>
+                        <field name="skv_code"/>
+                        <field name="name" />
+                        <field name="rotrut" readonly="False"/>
                     </group>
                 </sheet>
             </form>

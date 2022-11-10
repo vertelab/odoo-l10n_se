@@ -1,0 +1,15 @@
+<odoo>
+    <record id="account_view_move_form_isrotrut" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='journal_div']" position="after">
+                <field name="is_rotrut"/>
+            </xpath>
+            <xpath expr="//field[@name='tax_ids']" position="after">
+                <field name="is_rotrut" invisible="1"/>
+                <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
