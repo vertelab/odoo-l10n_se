@@ -139,7 +139,7 @@
             <field name="name">Intrastat</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">report.intrastat</field>
-            <field name="view_mode">tree,kanban</field>
+            <field name="view_mode">graph,pivot</field>
             <field name="search_view_id" ref="view_report_intrastat_search"/>
         </record>
 

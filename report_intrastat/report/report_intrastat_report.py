@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import fields, models
-from odoo.tools.sql import drop_view_if_exists
+from odoo import api, fields, models, tools
 
 
 class ReportIntrastat(models.Model):
@@ -27,8 +27,8 @@ class ReportIntrastat(models.Model):
     company_id = fields.Many2one('res.company', string="Company", readonly=True)
 
     def init(self):
-        drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute("""
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        self._cr.execute("""
             create or replace view report_intrastat as (
                 select
                     to_char(coalesce(inv.date, inv.invoice_date), 'YYYY') as name,
@@ -69,7 +69,7 @@ class ReportIntrastat(models.Model):
                         left join res_country inv_country on (inv_country.id = inv_address.country_id))
                     on (inv_address.id = coalesce(inv.partner_shipping_id, inv.partner_id))
                 where
-                    inv.state in ('open','paid')
+                    inv.state in ('draft','posted')
                     and inv_line.product_id is not null
                     and inv_country.intrastat=true
                 group by to_char(coalesce(inv.date, inv.invoice_date), 'YYYY'), to_char(coalesce(inv.date, inv.invoice_date), 'MM'),intrastat.id,inv.move_type,pt.intrastat_id, inv_country.code,inv.name,  inv.currency_id, inv.company_id
