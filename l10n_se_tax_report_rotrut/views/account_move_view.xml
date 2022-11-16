@@ -4,8 +4,8 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='journal_div']" position="after">
-                <field name="is_rotrut"/>
-                <field name="rotrut_percent" attrs="{'invisible': [('is_rotrut', '=', False)]}"/>
+                <field name="is_rotrut" attrs="{'readonly': [('state','!=','draft')]}"/>
+                <field name="rotrut_percent" attrs="{'invisible': [('is_rotrut', '=', False)], 'readonly': [('state','!=','draft')]}"/>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='tax_ids']" position="after">
