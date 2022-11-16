@@ -5,6 +5,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='journal_div']" position="after">
                 <field name="is_rotrut"/>
+                <field name="rotrut_percent" attrs="{'invisible': [('is_rotrut', '=', False)]}"/>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='tax_ids']" position="after">
@@ -13,6 +14,9 @@
 
             <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
+            </xpath>
+            <xpath expr="//group[@class='oe_subtotal_footer oe_right']/field[@name='amount_by_group']" position="after">
+                <field name="rotrut_amount" string="Rot/Rut avdrag" attrs="{'invisible': [('is_rotrut', '=', False)]}"/>
             </xpath>
         </field>
     </record>
