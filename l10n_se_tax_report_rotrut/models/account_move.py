@@ -8,7 +8,7 @@ class AccountMove(models.Model):
 
     is_rotrut = fields.Boolean(string='Rot/Rut-avdrag')
     rotrut_percent = fields.Float(string='Rot/Rut procent')
-    rotrut_amount = fields.Monetary(compute='_compute_amount')
+    rotrut_amount = fields.Monetary(string="Rot/Rut avdrag", compute='_compute_amount')
 
 
     @api.depends(
@@ -31,11 +31,20 @@ class AccountMove(models.Model):
         )
     def _compute_amount(self):
         super()._compute_amount()
-        self.rotrut_amount = self.amount_total
+        self.rotrut_amount = 0
+        line = None
         for move in self:
+
+            for line in move.line_ids:
+                if line.rotrut_id: move.rotrut_amount += line.price_subtotal
+
+            if line:
+                for tax in line.tax_ids:
+                    move.rotrut_amount *= 1 + (tax.amount / 100)
+            
             if move.is_rotrut:
                 if move.rotrut_percent > 0:
-                    move.rotrut_amount = -abs(self.amount_total * self.rotrut_percent / 100)
+                    move.rotrut_amount = -abs(move.rotrut_amount * self.rotrut_percent / 100)
                     move.amount_total += move.rotrut_amount
                     move.amount_total_signed += move.rotrut_amount
                     move.amount_residual = move.amount_total

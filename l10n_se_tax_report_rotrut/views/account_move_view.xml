@@ -16,7 +16,7 @@
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
             </xpath>
             <xpath expr="//group[@class='oe_subtotal_footer oe_right']/field[@name='amount_by_group']" position="after">
-                <field name="rotrut_amount" string="Rot/Rut avdrag" attrs="{'invisible': [('is_rotrut', '=', False)]}"/>
+                <field name="rotrut_amount" attrs="{'invisible': [('is_rotrut', '=', False)]}"/>
             </xpath>
         </field>
     </record>
