@@ -10,10 +10,12 @@
 
             <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
+                <field name="rotrut_percent"/>
             </xpath>
 
             <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
+                <field name="rotrut_percent"/>
             </xpath>
             <xpath expr="//group[@class='oe_subtotal_footer oe_right']/field[@name='amount_by_group']" position="after">
                 <field name="rotrut_amount" attrs="{'invisible': [('is_rotrut', '=', False)]}"/>
