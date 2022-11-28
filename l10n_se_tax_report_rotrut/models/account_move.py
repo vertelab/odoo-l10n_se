@@ -9,7 +9,7 @@ class AccountMove(models.Model):
 
     is_rotrut = fields.Boolean(string='Rot/Rut-avdrag')
     #rotrut_percent = fields.Float(string='Rot/Rut procent')
-    rotrut_percent = fields.Float(related='rotrut_percent_id.rotrut_percent', store = True)
+    rotrut_percent = fields.Float(store=True)
     rotrut_amount = fields.Monetary(string="Rot/Rut avdrag", compute='_compute_amount')
 
 
