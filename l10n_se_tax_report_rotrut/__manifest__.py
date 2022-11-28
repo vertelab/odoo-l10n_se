@@ -31,7 +31,7 @@
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/',
     'license': 'AGPL-3',
-    'depends': ['l10n_se', 'hr', 'account'],
+    'depends': ['l10n_se', 'hr', 'account', 'sales_team'],
     'data': [
         'data/skv_code.xml',
         'views/account_rotrut_view.xml',

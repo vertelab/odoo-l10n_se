@@ -100,7 +100,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <p t-if="o.narration">
                 <strong>Narration:</strong>
                 <span t-field="o.narration"/>
