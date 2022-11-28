@@ -5,17 +5,16 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='journal_div']" position="after">
                 <field name="is_rotrut" attrs="{'readonly': [('state','!=','draft')]}"/>
-                <field name="rotrut_percent" attrs="{'invisible': [('is_rotrut', '=', False)], 'readonly': [('state','!=','draft')]}"/>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
-                <field name="rotrut_percent"/>
+                <field name="rotrut_percent" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
             </xpath>
 
             <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
-                <field name="rotrut_percent"/>
+                <field name="rotrut_percent" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
             </xpath>
             <xpath expr="//group[@class='oe_subtotal_footer oe_right']/field[@name='amount_by_group']" position="after">
                 <field name="rotrut_amount" attrs="{'invisible': [('is_rotrut', '=', False)]}"/>

@@ -8,8 +8,6 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     is_rotrut = fields.Boolean(string='Rot/Rut-avdrag')
-    #rotrut_percent = fields.Float(string='Rot/Rut procent')
-    rotrut_percent = fields.Float(related='rotrut_percent_id.rotrut_percent', store = True)
     rotrut_amount = fields.Monetary(string="Rot/Rut avdrag", compute='_compute_amount')
 
 
@@ -28,8 +26,8 @@ class AccountMove(models.Model):
         'line_ids.amount_residual_currency',
         'line_ids.payment_id.state',
         'line_ids.full_reconcile_id',
+        'line_ids.rotrut_percent',
         'is_rotrut',
-        'rotrut_percent'
     )
     def _compute_amount(self):
         super()._compute_amount()
@@ -39,16 +37,12 @@ class AccountMove(models.Model):
 
             for line in move.line_ids:
                 if line.rotrut_id:
-                    move.rotrut_amount += line.price_subtotal
-
-            if line:
-                for tax in line.tax_ids:
-                    move.rotrut_amount *= 1 + (tax.amount / 100)
+                    line_with_tax = line.price_subtotal * (1 + line.tax_ids.amount / 100)
+                    move.rotrut_amount += (line_with_tax * line.rotrut_percent / 100)
 
             if move.is_rotrut:
-                if move.rotrut_percent > 0:
-                    move.rotrut_amount = -abs(move.rotrut_amount * self.rotrut_percent / 100)
-                    move.amount_total += move.rotrut_amount
-                    move.amount_total_signed += move.rotrut_amount
-                    move.amount_residual = move.amount_total
-                    move.amount_residual_signed = move.amount_total
+                move.rotrut_amount = -abs(move.rotrut_amount)   # make rotrut_amount a negative value
+                move.amount_total += move.rotrut_amount
+                move.amount_total_signed += move.rotrut_amount
+                move.amount_residual = move.amount_total
+                move.amount_residual_signed = move.amount_total
