@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="rotrut_sales_work" model="account.account">
+            <field name="code">3221</field>
+            <field name="name">Försäljning ROT/RUT arbetskostnad 25%</field>
+            <field name="user_type_id">13</field>
+            <field name="reconcile">False</field>
+        </record>
+        <record id="rotrut_sales_material" model="account.account">
+            <field name="code">3222</field>
+            <field name="name">Försäljning ROT/RUT material 25%</field>
+            <field name="user_type_id">13</field>
+            <field name="reconcile">False</field>
+        </record>
+    </data>
+</odoo>

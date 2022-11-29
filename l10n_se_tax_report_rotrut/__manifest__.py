@@ -33,6 +33,7 @@
     'license': 'AGPL-3',
     'depends': ['l10n_se', 'hr', 'account', 'sales_team'],
     'data': [
+        'data/account.xml',
         'data/skv_code.xml',
         'views/account_rotrut_view.xml',
         'views/account_move_view.xml',
