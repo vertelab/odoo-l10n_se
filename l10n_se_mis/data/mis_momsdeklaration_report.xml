@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="report_md" model="mis.report">
+            <field name="name">Momsdeklaration</field>
+        </record>
+        
+        <record id="report_md_ForsMomsEjAnnan" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsMomsEjAnnan</field>
+            <field name="description">#05: Momspliktig försäljning som inte ingår i annan ruta nedan</field>
+            <field name="sequence">2</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsMomsEjAnnan" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsMomsEjAnnan"/>
+            <field name="name">bal[3000, 3001, 3002, 3003, 3510, 3511, 3518, 3520, 3540, 3550, 3560, 3561, 3562, 3563, 3570, 3590, 3600, 3610, 3611, 3612, 3613, 3619, 3620, 3730, 3731, 3732, 3740]* -1</field>
+        </record>
+        
+        <record id="report_md_Momspliktiga" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">UttagMoms</field>
+            <field name="description">#06: Momspliktiga uttag</field>
+            <field name="sequence">3</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_Momspliktiga" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_Momspliktiga"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'MU1')]</field>
+        </record>
+        
+        <record id="report_md_UlagMargbesk" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">UlagMargbesk</field>
+            <field name="description">#07: Beskattningsunderlag vid vinstmarginalbeskattning</field>
+            <field name="sequence">4</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_UlagMargbesk" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_UlagMargbesk"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'MBBU')]</field>
+        </record>
+        
+        <record id="report_md_HyrinkomstFriv" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">HyrinkomstFriv</field>
+            <field name="description">#08: Hyresinkomster vid frivillig skattskyldighet</field>
+            <field name="sequence">5</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_HyrinkomstFriv" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_HyrinkomstFriv"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'MPFF')]</field>
+        </record>
+        
+        <record id="report_md_MomsUtgHog" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsUtgHog</field>
+            <field name="description">#10: Utgående moms 25 %</field>
+            <field name="sequence">6</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsUtgHog" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsUtgHog"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'MP1'),('tax_line_id.name', '=', 'MP1i')]</field>
+        </record>
+        
+        <record id="report_md_MomsUtgMedel" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsUtgMedel</field>
+            <field name="description">#11: Utgående moms 12 %</field>
+            <field name="sequence">7</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsUtgMedel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsUtgMedel"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'MP2'),('tax_line_id.name', '=', 'MP2i')]</field>
+        </record>
+        
+        <record id="report_md_MomsUtgLag" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsUtgLag</field>
+            <field name="description">#12: Utgående moms 6 %</field>
+            <field name="sequence">8</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsUtgLag" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsUtgLag"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'MP3'),('tax_line_id.name', '=', 'MP3i')]</field>
+        </record>
+        
+        <record id="report_md_InkopVaruAnnatEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">InkopVaruAnnatEg</field>
+            <field name="description">#20: Inköp av varor från annat EU-land</field>
+            <field name="sequence">9</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_InkopVaruAnnatEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_InkopVaruAnnatEg"/>
+            <field name="name">bal[4515,4516,4517,4518]</field>
+        </record>
+        
+        <record id="report_md_InkopTjanstAnnatEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">InkopTjanstAnnatEg</field>
+            <field name="description">#21: Inköp av tjänster från annat EU-land</field>
+            <field name="sequence">10</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_InkopTjanstAnnatEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_InkopTjanstAnnatEg"/>
+            <field name="name">bal[4535,4536,4537,4538]</field>
+        </record>
+        
+        <record id="report_md_InkopTjanstUtomEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">InkopTjanstUtomEg</field>
+            <field name="description">#22: Inköp av tjänster från land utanför EU</field>
+            <field name="sequence">11</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_InkopTjanstUtomEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_InkopTjanstUtomEg"/>
+            <field name="name">bal[4531,4532,4533]</field>
+<!--
+            <field name="name">crd[][('tax_line_id.name', '=', 'TFFU')]</field>
+-->
+        </record>
+        
+        <record id="report_md_InkopVaruSverige" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">InkopVaruSverige</field>
+            <field name="description">#23: Inköp av varor i Sverige</field>
+            <field name="sequence">12</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_InkopVaruSverige" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_InkopVaruSverige"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'IVIS')]</field>
+        </record>
+        
+        <record id="report_md_InkopTjanstSverige" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">InkopTjanstSverige</field>
+            <field name="description">#24: Inköp av tjänster i Sverige</field>
+            <field name="sequence">13</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_InkopTjanstSverige" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_InkopTjanstSverige"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'ITIS')]</field>
+        </record>
+        
+          <record id="report_md_MomsInkopUtgHog" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsInkopUtgHog</field>
+            <field name="description">#30: Utgående moms 25%</field>
+            <field name="sequence">14</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsInkopUtgHog" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsInkopUtgHog"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'RTFEU'),('tax_line_id.name', '=', 'U1MI')]</field>
+            <field name="name">crd[]['|','|', ('tax_line_id.name', '=', 'RTFEU'),('tax_line_id.name', '=', 'U1MI'),('tax_line_id.name', '=', 'RTFFU')]</field>
+        </record>
+        
+        <record id="report_md_MomsInkopUtgMedel" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsInkopUtgMedel</field>
+            <field name="description">#31: Utgående moms 12%</field>
+            <field name="sequence">15</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsInkopUtgMedel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsInkopUtgMedel"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'RTFEU12'),('tax_line_id.name', '=', 'U2MI')]</field>
+        </record>
+        
+        <record id="report_md_MomsInkopUtgLag" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsInkopUtgLag</field>
+            <field name="description">#32: Utgående moms 6%</field>
+            <field name="sequence">16</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsInkopUtgLag" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsInkopUtgLag"/>
+            <field name="name">crd[]['|', ('tax_line_id.name', '=', 'RTFEU6'),('tax_line_id.name', '=', 'U3MI')]</field>
+        </record>
+        
+        <record id="report_md_ForsVaruAnnatEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsVaruAnnatEg</field>
+            <field name="description">#35: Försäljning av varor till annat EU-land</field>
+            <field name="sequence">17</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsVaruAnnatEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsVaruAnnatEg"/>
+            <field name="name">	crd[3106,3108]</field>
+        </record>      
+        
+        <record id="report_md_ForsVaruUtomEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsVaruUtomEg</field>
+            <field name="description">#36: Försäljning av varor utanför EU</field>
+            <field name="sequence">18</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsVaruUtomEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsVaruUtomEg"/>
+            <field name="name">crd[3105]</field>
+        </record>
+        
+        <record id="report_md_InkopVaruMellan3p" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">InkopVaruMellan3p</field>
+            <field name="description">#37: Mellanmans inköp av varor vid trepartshandel</field>
+            <field name="sequence">19</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_InkopVaruMellan3p" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_InkopVaruMellan3p"/>
+            <field name="name">crd[][('tax_line_id.name', '=', '3VEU')]</field>
+        </record>   
+
+        <record id="report_md_ForsVaruMellan3p" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsVaruMellan3p</field>
+            <field name="description">#38: Mellanmans försäljning av varor vid trepartshandel</field>
+            <field name="sequence">20</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsVaruMellan3p" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsVaruMellan3p"/>
+            <field name="name">crd[][('tax_line_id.name', '=', '3FEU')]</field>
+        </record>   
+        
+        <record id="report_md_ForsTjSkskAnnatEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsTjSkskAnnatEg</field>
+            <field name="description">#39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land</field>
+            <field name="sequence">21</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsTjSkskAnnatEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsTjSkskAnnatEg"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'FTEU')]</field>
+        </record>   
+        
+        <record id="report_md_ForsTjOvrUtomEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsTjOvrUtomEg</field>
+            <field name="description">#40: Övrig försäljning av tjänster omsatta utom landet</field>
+            <field name="sequence">22</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsTjOvrUtomEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsTjOvrUtomEg"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'OTTU')]</field>
+        </record>
+
+        <record id="report_md_ForsTjOvrUtomEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsTjOvrUtomEg</field>
+            <field name="description">#40: Övrig försäljning av tjänster omsatta utom landet</field>
+            <field name="sequence">23</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsTjOvrUtomEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsTjOvrUtomEg"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'OTTU')]</field>
+        </record> 
+        
+        <record id="report_md_ForsKopareSkskSverige" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsKopareSkskSverige</field>
+            <field name="description">#41: Försäljning när köparen är skattskyldig i Sverige</field>
+            <field name="sequence">24</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsKopareSkskSverige" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsKopareSkskSverige"/>
+            <field name="name">	crd[][('tax_line_id.name', '=', 'OMSS')]</field>
+        </record>  
+        
+        <record id="report_md_ForsOvrigt" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">ForsOvrigt</field>
+            <field name="description">#42: Övrig försäljning m.m. ???</field>
+            <field name="sequence">25</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_ForsOvrigt" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_ForsOvrigt"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'MF')]</field>
+        </record>  
+              
+        <record id="report_md_MomsIngAvdr" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsIngAvdr</field>
+            <field name="description">#48: Ingående moms att dra av</field>
+            <field name="sequence">26</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsIngAvdr" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsIngAvdr"/>
+            <field name="name">balp[]['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|', ('tax_line_id.name', '=', 'TFFU'), ('tax_line_id.name', '=', 'IT'),('tax_line_id.name', '=', 'IT6'),('tax_line_id.name', '=', 'IT12'),('tax_line_id.name', '=', 'I'),('tax_line_id.name', '=', 'VFEU'),('tax_line_id.name', '=', 'VFEU12'),('tax_line_id.name', '=', 'VFEU6'),('tax_line_id.name', '=', 'TFEU'),('tax_line_id.name', '=', 'TFEU12'),('tax_line_id.name', '=', 'TFEU6'),('tax_line_id.name', '=', 'MBBUI1'),('tax_line_id.name', '=', 'MBBUI2'),('tax_line_id.name', '=', 'MBBUI3'),('tax_line_id.name', '=', 'Ii'),('tax_line_id.name', '=', 'I12'),('tax_line_id.name', '=', 'I12i'),('tax_line_id.name', '=', 'I6'),('tax_line_id.name', '=', 'I6i')]</field>
+        </record>
+        
+        <record id="report_md_MomsUlagImport" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsUlagImport</field>
+            <field name="description">#50: Beskattningsunderlag vid import</field>
+            <field name="sequence">27</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsUlagImport" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsUlagImport"/>
+            <field name="name">bal[4545,4546,4547]</field>
+        </record>
+      
+        <record id="report_md_MomsImportUtgHog" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsImportUtgHog</field>
+            <field name="description">#60: Utgående moms 25%</field>
+            <field name="sequence">28</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsImportUtgHog" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsImportUtgHog"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'U1MBBUI')]</field>
+        </record>
+        
+        <record id="report_md_MomsImportUtgMedel" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsImportUtgMedel</field>
+            <field name="description">#61: Utgående moms 12%</field>
+            <field name="sequence">29</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsImportUtgMedel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsImportUtgMedel"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'U2MBBUI')]</field>
+        </record>
+        
+        <record id="report_md_MomsImportUtgLag" model="mis.report.kpi">
+            <field name="report_id" ref="report_md"/>
+            <field name="name">MomsImportUtgLag</field>
+            <field name="description">#62: Utgående moms 6%</field>
+            <field name="sequence">30</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_md_MomsImportUtgLag" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_md_MomsImportUtgLag"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'U3MBBUI')]</field>
+        </record>
+    </data>
+</odoo>
