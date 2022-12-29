@@ -18,9 +18,11 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
     'name': 'l10n_se: Sweden - Accounting',
     'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Chart of accounts',
     'category': 'Accounting',
     'author': 'Vertel AB',
@@ -29,7 +31,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'images': ['static/description/banner.png'],
+    'images': ['static/description/banner.png'], # 560x280 px.
     'description': """
     Sweden - Chart of accounts
 
@@ -86,34 +88,19 @@
     'init_xml': [],
     'data': [
         'views/account_view.xml',
-
-        'data/account_account_type.xml',
+        'data/account_account_template_data.xml',
         'data/l10n_se_account_chart_template.xml',
-        'data/account_account_template.xml',
-        'data/account_tax_template.xml',
-
-        'data/hr_account_tax_template.xml',
-        'data/account_account_template_wt_tax.xml',
-
-        # account chart template
-        'data/account_chart_template/k1_account_chart_template.xml',
-        'data/account_chart_template/k2_account_chart_template.xml',
-        'data/account_chart_template/k3_account_chart_template.xml',
-        'data/account_chart_template/k4_account_chart_template.xml',
-
-        # fiscal positions
-        'data/fiscal_positions/k1_fiscal_position.xml',
-        'data/fiscal_positions/k2_fiscal_position.xml',
-        'data/fiscal_positions/k3_fiscal_position.xml',
-        'data/fiscal_positions/k4_fiscal_position.xml',
-
-        'security/ir.model.access.csv',
-
+        'data/account_account_type.xml',
+        'data/account_chart_template_k23.xml',
+        'data/account_tax_data.xml',
+        'data/account_account_template_wt_tax_data.xml',
+        'data/fiscal_position_data.xml',
         'data/l10n_se_account_chart_post_data.xml',
-        'data/account_reconcile_model.xml',
-
-        # 'data/load_account_chart_template_data.xml',
+        'data/account_reconcile_model_data.xml',
+        'data/account_tax_template_hr_data.xml',
         'data/set_account_type_on_account.xml',
+        'security/ir.model.access.csv',
+        #'data/load_account_chart_template_data.xml',
 
     ],
     'demo': [
@@ -123,5 +110,4 @@
     'installable': 'True',
     'application': 'False',
 }
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

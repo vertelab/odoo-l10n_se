@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record model="ir.actions.server" id="set_account_type1">
+       <record model="ir.actions.server" id="set_account_type1">
             <field name="name">Set Account Types on Accounts </field>
             <field name="model_id" ref="account.model_account_account"/>
             <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_account"/>
+-->
             <field name="binding_type">action</field>
             <field name="code">
-                record.fix_account_types()
+                    record.fix_account_types()
             </field>
         </record>
 
@@ -15,9 +18,12 @@
             <field name="name">Fix Personal Kostnader </field>
             <field name="model_id" ref="account.model_account_account"/>
             <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_account"/>
+-->
             <field name="binding_type">action</field>
             <field name="code">
-                record.fix_type_personalkostnader()
+                    record.fix_type_personalkostnader()
             </field>
         </record>
 
@@ -25,20 +31,26 @@
             <field name="name">Fix Ovriga KortFristga Skulder </field>
             <field name="model_id" ref="account.model_account_account"/>
             <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_account"/>
+-->
             <field name="binding_type">action</field>
             <field name="code">
-                record.fix_ovriga_kortfristiga_skulder()
+                    record.fix_ovriga_kortfristiga_skulder()
             </field>
         </record>
-
+        
         <record model="ir.actions.server" id="set_account_type_tax">
             <field name="name">Fix old Fiscal Postion Config </field>
             <field name="model_id" ref="account.model_account_fiscal_position"/>
             <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_fiscal_position"/>
+-->
             <field name="binding_type">action</field>
             <field name="code">
-                for record in records:
-                record.fix_old_tax_config()
+                    for record in records:
+                        record.fix_old_tax_config()
             </field>
         </record>
 
@@ -46,26 +58,35 @@
             <field name="name">Set Correct Orginator tax on lines</field>
             <field name="model_id" ref="account.model_account_move"/>
             <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_fiscal_position"/>
+-->
             <field name="binding_type">action</field>
             <field name="code">
                 for record in records:
-                record.set_correct_orignator_tax_lines()
+                    record.set_correct_orignator_tax_lines()
             </field>
         </record>
-
-
+        
+        
         <record model="ir.actions.server" id="set_correct_orginator_tax_on_line">
             <field name="name">Set Correct Orginator tax on line</field>
             <field name="model_id" ref="account.model_account_move_line"/>
             <field name="state">code</field>
+<!--
+            <field name="binding_model_id" ref="account.model_account_fiscal_position"/>
+-->
             <field name="binding_type">action</field>
             <field name="code">
                 for record in records:
-                record.set_correct_orignator_tax_line()
+                    record.set_correct_orignator_tax_line()
             </field>
         </record>
+        
+        
 
-
+        
+        
         <record model="ir.actions.server" id="set_accounts_for_world_service">
             <field name="name">Fix Account Translations Table for World</field>
             <field name="model_id" ref="account.model_account_fiscal_position"/>
@@ -92,6 +113,10 @@ env['account.fiscal.position.account'].create({'account_src_id':konsultarvoden_6
 env['account.fiscal.position.account'].create({'account_src_id':ovriga_externa_tjanster_6590.id,'account_dest_id':service_account_translation_record.id,'position_id':world_fiscal_record.id})
             </field>
         </record>
-
+<!--
+        <function model = "account.account" name="fix_account_types"/>
+-->
+        
+        
     </data>
 </odoo>

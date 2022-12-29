@@ -1,23 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="trustee_assets" model="account.account.type">
-            <field name="name">Trustee Asset</field>
-            <field name="type">other</field>
-            <field name="include_initial_balance" eval="True" />
-            <field name="internal_group">asset</field>
-        </record>
-        <record id="untaxed_reserve" model="account.account.type">
-            <field name="name">Untaxed reserve</field>
-            <field name="type">other</field>
-            <field name="include_initial_balance" eval="True" />
-            <field name="internal_group">equity</field>
-        </record>
-        <record id="tax" model="account.account.type">
-            <field name="name">Tax in Balance sheet</field>
-            <field name="type">other</field>
-            <field name="internal_group">expense</field>
-        </record>
-
         <record id="account.data_account_type_revenue" model="account.account.type">
             <field name="name">Nettoomsättning</field>
             <field name="element_name">Nettoomsattning</field>

@@ -1,50 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-<!--    <record id="mx_coa" model="account.chart.template">-->
-<!--        <field name="property_stock_account_input_categ_id" ref="cuenta205_06_01"/>-->
-<!--        <field name="property_stock_account_output_categ_id" ref="cuenta107_05_01"/>-->
-<!--        <field name="property_stock_valuation_account_id" ref="cuenta115_01"/>-->
-<!--    </record>-->
-
-        <record id="chart_template_K1_2017" model="account.chart.template">
-          <field name="property_account_receivable_id" ref="chart1510" />
-          <field name="property_account_payable_id" ref="chart2440" />
-          <field name="property_account_expense_categ_id" ref="chart8990"/>
-          <field name="property_account_income_categ_id" ref="chart3004"/>
-          <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
-          <field name="expense_currency_exchange_account_id" ref="chart8999"/>
-          <field name="default_pos_receivable_account_id" ref="chart1910"/>
+    <data>
+        <record id="l10n_se.chart_template_K1_2017" model="account.chart.template">
+            <field name="property_account_receivable_id" ref="chart1510" />
+            <field name="property_account_payable_id" ref="chart2440" />
+            <field name="property_account_expense_categ_id" ref="chart8990"/>
+            <field name="property_account_income_categ_id" ref="chart3004"/>
+            <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
+            <field name="expense_currency_exchange_account_id" ref="chart8999"/>
+            <field name="default_pos_receivable_account_id" ref="chart1910"/>
         </record>
 
-        <record id="chart_template_K2_2017" model="account.chart.template">
-          <field name="property_account_receivable_id" ref="chart1510" />
-          <field name="property_account_payable_id" ref="chart2440" />
-          <field name="property_account_expense_categ_id" ref="chart8990"/>
-          <field name="property_account_income_categ_id" ref="chart3004"/>
-          <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
-          <field name="expense_currency_exchange_account_id" ref="chart8999"/>
-          <field name="default_pos_receivable_account_id" ref="chart1910"/>
+        <record id="l10n_se.chart_template_K2_2017" model="account.chart.template">
+            <field name="property_account_receivable_id" ref="chart1510" />
+            <field name="property_account_payable_id" ref="chart2440" />
+            <field name="property_account_expense_categ_id" ref="chart8990"/>
+            <field name="property_account_income_categ_id" ref="chart3004"/>
+            <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
+            <field name="expense_currency_exchange_account_id" ref="chart8999"/>
+            <field name="default_pos_receivable_account_id" ref="chart1910"/>
         </record>
-        
-        <record id="chart_template_K3_2017" model="account.chart.template">
-          <field name="property_account_receivable_id" ref="chart1510" />
-          <field name="property_account_payable_id" ref="chart2440" />
-          <field name="property_account_expense_categ_id" ref="chart8990"/>
-          <field name="property_account_income_categ_id" ref="chart3004"/>
-          <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
-          <field name="expense_currency_exchange_account_id" ref="chart8999"/>
-          <field name="default_pos_receivable_account_id" ref="chart1910"/>
+
+        <record id="l10n_se.chart_template_K3_2017" model="account.chart.template">
+            <field name="property_account_receivable_id" ref="chart1510" />
+            <field name="property_account_payable_id" ref="chart2440" />
+            <field name="property_account_expense_categ_id" ref="chart8990"/>
+            <field name="property_account_income_categ_id" ref="chart3004"/>
+            <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
+            <field name="expense_currency_exchange_account_id" ref="chart8999"/>
+            <field name="default_pos_receivable_account_id" ref="chart1910"/>
         </record>
-        
-        <record id="chart_template_K4_2017" model="account.chart.template">
-          <field name="property_account_receivable_id" ref="chart1510" />
-          <field name="property_account_payable_id" ref="chart2440" />
-          <field name="property_account_expense_categ_id" ref="chart8990"/>
-          <field name="property_account_income_categ_id" ref="chart3004"/>
-          <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
-          <field name="expense_currency_exchange_account_id" ref="chart8999"/>
-          <field name="default_pos_receivable_account_id" ref="chart1910"/>
+
+        <record id="l10n_se.chart_template_K4_2017" model="account.chart.template">
+            <field name="property_account_receivable_id" ref="chart1510" />
+            <field name="property_account_payable_id" ref="chart2440" />
+            <field name="property_account_expense_categ_id" ref="chart8990"/>
+            <field name="property_account_income_categ_id" ref="chart3004"/>
+            <field name="income_currency_exchange_account_id" ref="K2_7500_2017"/>
+            <field name="expense_currency_exchange_account_id" ref="chart8999"/>
+            <field name="default_pos_receivable_account_id" ref="chart1910"/>
         </record>
+    </data>
 </odoo>
 
 

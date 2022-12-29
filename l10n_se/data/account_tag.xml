@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record id="tag_g" model="account.account.tag">
+            <field name="name">G. Moms att betala eller få tillbaka.</field>
+            <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
+        </record>
+        <record id="tag_49" model="account.account.tag">
+            <field name="name">49. Moms att betala ut eller få tillbaka.</field>
+            <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
+        </record>
+        <record id="tag_a" model="account.account.tag">
+            <field name="name">A. Momspliktig försäljning eller uttag exklusive moms.</field>
+            <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
+        </record>
+        <record id="tag_5" model="account.account.tag">
+            <field name="name">5. Momspliktig försäljning som inte ingår i annan ruta nedan</field>
+            <field name="applicability">taxes</field>
+            <field name="country_id">196</field>
+        </record>
+    </data>
+</odoo>
