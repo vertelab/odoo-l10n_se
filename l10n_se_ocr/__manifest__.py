@@ -34,8 +34,10 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'depends': ['attachment_ocr'],
-    'data': [],
+    'depends': ['attachment_ocr', 'account', 'account_edi'],
+    'data': [
+        'views/account_journal_view.xml',
+    ],
     'installable': 'True',
     'application': 'False',
 }
