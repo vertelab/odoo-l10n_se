@@ -21,8 +21,8 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Accounting Rotrut">
-                <field name="skv_code"/>
                 <field name="name" />
+                <field name="skv_code"/>
                 <field name="rotrut" />
             </tree>
         </field>
@@ -36,8 +36,8 @@
             <form string="Rotrut view">
                 <sheet string="Rotrut view">
                     <group>
-                        <field name="skv_code"/>
                         <field name="name" />
+                        <field name="skv_code"/>
                         <field name="rotrut" readonly="False"/>
                     </group>
                 </sheet>
