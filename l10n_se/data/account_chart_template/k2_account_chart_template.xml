@@ -103,132 +103,132 @@
         <record id="K2_1070_2017" model="account.account.template">
             <field name="name">Goodwill </field>
             <field name="code">1070</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Goodwill"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1078_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på goodwill </field>
             <field name="code">1078</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Goodwill"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1079_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på goodwill </field>
             <field name="code">1079</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Goodwill"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1080_2017" model="account.account.template">
             <field name="name">Förskott för immateriella anläggningstillgångar </field>
             <field name="code">1080</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ForskottImmateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1088_2017" model="account.account.template">
             <field name="name">Förskott för immateriella anläggningstillgångar </field>
             <field name="code">1088</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_ForskottImmateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förskott i samband med förvärv, t.ex. handpenning och deposition.</field>
         </record>
         <record id="K2_1110_2017" model="account.account.template">
             <field name="name">Byggnader </field>
             <field name="code">1110</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1111_2017" model="account.account.template">
             <field name="name">Byggnader på egen mark </field>
             <field name="code">1111</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1112_2017" model="account.account.template">
             <field name="name">Byggnader på annans mark </field>
             <field name="code">1112</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1118_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på byggnader </field>
             <field name="code">1118</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1119_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på byggnader </field>
             <field name="code">1119</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1120_2017" model="account.account.template">
             <field name="name">Förbättringsutgifter på annans fastighet</field>
             <field name="code">1120</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ForbattringsutgifterAnnansFastighet"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1129_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på förbättringsutgifter på annans fastighet</field>
             <field name="code">1129</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ForbattringsutgifterAnnansFastighet"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1130_2017" model="account.account.template">
             <field name="name">Mark </field>
             <field name="code">1130</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1140_2017" model="account.account.template">
             <field name="name">Tomter och obebyggda markområden </field>
             <field name="code">1140</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1150_2017" model="account.account.template">
             <field name="name">Markanläggningar </field>
             <field name="code">1150</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1158_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på markanläggningar </field>
             <field name="code">1158</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1159_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på markanläggningar </field>
             <field name="code">1159</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
         <record id="K2_1180_2017" model="account.account.template">
             <field name="name">Pågående nyanläggningar och förskott för byggnader och mark </field>
             <field name="code">1180</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1181_2017" model="account.account.template">
             <field name="name">Pågående ny-, till- och ombyggnad </field>
             <field name="code">1181</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1188_2017" model="account.account.template">
             <field name="name">Förskott för byggnader och mark </field>
             <field name="code">1188</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1210_2017" model="account.account.template">
@@ -269,189 +269,189 @@
         <record id="K2_1220_2017" model="account.account.template">
             <field name="name">Inventarier och verktyg </field>
             <field name="code">1220</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1221_2017" model="account.account.template">
             <field name="name">Inventarier </field>
             <field name="code">1221</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1222_2017" model="account.account.template">
             <field name="name">Byggnadsinventarier </field>
             <field name="code">1222</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1223_2017" model="account.account.template">
             <field name="name">Markinventarier </field>
             <field name="code">1223</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1225_2017" model="account.account.template">
             <field name="name">Verktyg </field>
             <field name="code">1225</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1228_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på inventarier och verktyg </field>
             <field name="code">1228</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1229_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på inventarier och verktyg </field>
             <field name="code">1229</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1230_2017" model="account.account.template">
             <field name="name">Installationer </field>
             <field name="code">1230</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1231_2017" model="account.account.template">
             <field name="name">Installationer på egen fastighet </field>
             <field name="code">1231</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1232_2017" model="account.account.template">
             <field name="name">Installationer på annans fastig het </field>
             <field name="code">1232</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1238_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på installationer </field>
             <field name="code">1238</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1239_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på installationer </field>
             <field name="code">1239</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1240_2017" model="account.account.template">
             <field name="name">Bilar och andra transportmedel </field>
             <field name="code">1240</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1241_2017" model="account.account.template">
             <field name="name">Personbilar </field>
             <field name="code">1241</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1242_2017" model="account.account.template">
             <field name="name">Lastbilar </field>
             <field name="code">1242</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1243_2017" model="account.account.template">
             <field name="name">Truckar </field>
             <field name="code">1243</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1244_2017" model="account.account.template">
             <field name="name">Arbetsmaskiner </field>
             <field name="code">1244</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1245_2017" model="account.account.template">
             <field name="name">Traktorer </field>
             <field name="code">1245</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1246_2017" model="account.account.template">
             <field name="name">Motorcyklar, mopeder och skotrar </field>
             <field name="code">1246</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1247_2017" model="account.account.template">
             <field name="name">Båtar, flygplan och helikoptrar </field>
             <field name="code">1247</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1248_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på bilar och andra transportmedel </field>
             <field name="code">1248</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1249_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på bilar och andra transportmedel </field>
             <field name="code">1249</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1250_2017" model="account.account.template">
             <field name="name">Datorer </field>
             <field name="code">1250</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1251_2017" model="account.account.template">
             <field name="name">Datorer, företaget </field>
             <field name="code">1251</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1257_2017" model="account.account.template">
             <field name="name">Datorer, personal </field>
             <field name="code">1257</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1258_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på datorer </field>
             <field name="code">1258</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K2_1259_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på datorer </field>
             <field name="code">1259</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -2511,26 +2511,26 @@
         <record id="K2_2490_2017" model="account.account.template">
             <field name="name">Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer </field>
             <field name="code">2490</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_2491_2017" model="account.account.template">
             <field name="name">Avräkning spelarrangörer</field>
             <field name="code">2491</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_2492_2017" model="account.account.template">
             <field name="name">Växelskulder</field>
             <field name="code">2492</field>
-            <field name="user_type_id" ref="account.data_account_type_payable"/>
+            <field name="user_type_id" ref="l10n_se.type_Vaxelskulder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2499_2017" model="account.account.template">
             <field name="name">Andra övriga kortfristiga skulder </field>
             <field name="code">2499</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_2510_2017" model="account.account.template">

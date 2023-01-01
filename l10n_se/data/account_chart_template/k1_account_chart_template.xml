@@ -118,39 +118,39 @@
         <record id="K1_1070_2017" model="account.account.template">
             <field name="name">Goodwill </field>
             <field name="code">1070</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Goodwill"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
 
         <record id="K1_1078_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på goodwill </field>
             <field name="code">1078</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Goodwill"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_1079_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på goodwill </field>
             <field name="code">1079</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Goodwill"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_1080_2017" model="account.account.template">
             <field name="name">Förskott för immateriella anläggningstillgångar </field>
             <field name="code">1080</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ForskottImmateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_1088_2017" model="account.account.template">
             <field name="name">Förskott för immateriella anläggningstillgångar </field>
             <field name="code">1088</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_ForskottImmateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förskott i samband med förvärv, t.ex. handpenning och deposition.</field>
         </record>
         <record id="K1_1110_2017" model="account.account.template">
             <field name="name">Byggnader </field>
             <field name="code">1110</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -158,7 +158,7 @@
         <record id="K1_1111_2017" model="account.account.template">
             <field name="name">Byggnader på egen mark </field>
             <field name="code">1111</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -166,7 +166,7 @@
         <record id="K1_1112_2017" model="account.account.template">
             <field name="name">Byggnader på annans mark </field>
             <field name="code">1112</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -174,7 +174,7 @@
         <record id="K1_1118_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på byggnader </field>
             <field name="code">1118</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -182,7 +182,7 @@
         <record id="K1_1119_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på byggnader </field>
             <field name="code">1119</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -190,21 +190,21 @@
         <record id="K1_1120_2017" model="account.account.template">
             <field name="name">Förbättringsutgifter på annans fastighet</field>
             <field name="code">1120</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ForbattringsutgifterAnnansFastighet"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
 
         <record id="K1_1129_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på förbättringsutgifter på annans fastighet</field>
             <field name="code">1129</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ForbattringsutgifterAnnansFastighet"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
 
         <record id="K1_1130_2017" model="account.account.template">
             <field name="name">Mark </field>
             <field name="code">1130</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -212,7 +212,7 @@
         <record id="K1_1140_2017" model="account.account.template">
             <field name="name">Tomter och obebyggda markområden </field>
             <field name="code">1140</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -220,7 +220,7 @@
         <record id="K1_1150_2017" model="account.account.template">
             <field name="name">Markanläggningar </field>
             <field name="code">1150</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -228,7 +228,7 @@
         <record id="K1_1158_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på markanläggningar </field>
             <field name="code">1158</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -236,7 +236,7 @@
         <record id="K1_1159_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på markanläggningar </field>
             <field name="code">1159</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_ByggnaderMark"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Förutom byggnader och mark, även maskiner som är avsedda för byggnadens allmänna användning.</field>
         </record>
@@ -244,21 +244,21 @@
         <record id="K1_1180_2017" model="account.account.template">
             <field name="name">Pågående nyanläggningar och förskott för byggnader och mark </field>
             <field name="code">1180</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
 
         <record id="K1_1181_2017" model="account.account.template">
             <field name="name">Pågående ny-, till- och ombyggnad </field>
             <field name="code">1181</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
 
         <record id="K1_1188_2017" model="account.account.template">
             <field name="name">Förskott för byggnader och mark </field>
             <field name="code">1188</field>
-            <field name="user_type_id" ref="account.data_account_type_prepayments"/>
+            <field name="user_type_id" ref="l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
 
@@ -305,7 +305,7 @@
         <record id="K1_1220_2017" model="account.account.template">
             <field name="name">Inventarier och verktyg </field>
             <field name="code">1220</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -313,7 +313,7 @@
         <record id="K1_1221_2017" model="account.account.template">
             <field name="name">Inventarier </field>
             <field name="code">1221</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -321,7 +321,7 @@
         <record id="K1_1222_2017" model="account.account.template">
             <field name="name">Byggnadsinventarier </field>
             <field name="code">1222</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -329,7 +329,7 @@
         <record id="K1_1223_2017" model="account.account.template">
             <field name="name">Markinventarier </field>
             <field name="code">1223</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -337,7 +337,7 @@
         <record id="K1_1225_2017" model="account.account.template">
             <field name="name">Verktyg </field>
             <field name="code">1225</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -345,91 +345,91 @@
         <record id="K1_1228_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på inventarier och verktyg </field>
             <field name="code">1228</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1229_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på inventarier och verktyg </field>
             <field name="code">1229</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1230_2017" model="account.account.template">
             <field name="name">Installationer </field>
             <field name="code">1230</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1231_2017" model="account.account.template">
             <field name="name">Installationer på egen fastighet </field>
             <field name="code">1231</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1232_2017" model="account.account.template">
             <field name="name">Installationer på annans fastig het </field>
             <field name="code">1232</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1238_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på installationer </field>
             <field name="code">1238</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1239_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på installationer </field>
             <field name="code">1239</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1240_2017" model="account.account.template">
             <field name="name">Bilar och andra transportmedel </field>
             <field name="code">1240</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1241_2017" model="account.account.template">
             <field name="name">Personbilar </field>
             <field name="code">1241</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1242_2017" model="account.account.template">
             <field name="name">Lastbilar </field>
             <field name="code">1242</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1243_2017" model="account.account.template">
             <field name="name">Truckar </field>
             <field name="code">1243</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1244_2017" model="account.account.template">
             <field name="name">Arbetsmaskiner </field>
             <field name="code">1244</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K1_1245_2017" model="account.account.template">
             <field name="name">Traktorer </field>
             <field name="code">1245</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -437,7 +437,7 @@
         <record id="K1_1246_2017" model="account.account.template">
             <field name="name">Motorcyklar, mopeder och skotrar </field>
             <field name="code">1246</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -445,7 +445,7 @@
         <record id="K1_1247_2017" model="account.account.template">
             <field name="name">Båtar, flygplan och helikoptrar </field>
             <field name="code">1247</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -453,7 +453,7 @@
         <record id="K1_1248_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på bilar och andra transportmedel </field>
             <field name="code">1248</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -461,7 +461,7 @@
         <record id="K1_1249_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på bilar och andra transportmedel </field>
             <field name="code">1249</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -469,7 +469,7 @@
         <record id="K1_1250_2017" model="account.account.template">
             <field name="name">Datorer </field>
             <field name="code">1250</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -477,7 +477,7 @@
         <record id="K1_1251_2017" model="account.account.template">
             <field name="name">Datorer, företaget </field>
             <field name="code">1251</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -485,7 +485,7 @@
         <record id="K1_1257_2017" model="account.account.template">
             <field name="name">Datorer, personal </field>
             <field name="code">1257</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -493,7 +493,7 @@
         <record id="K1_1258_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på datorer </field>
             <field name="code">1258</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -501,7 +501,7 @@
         <record id="K1_1259_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på datorer </field>
             <field name="code">1259</field>
-            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_InventarierVerktygInstallationer"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
@@ -2600,26 +2600,26 @@
         <record id="K1_2490_2017" model="account.account.template">
             <field name="name">Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer </field>
             <field name="code">2490</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2491_2017" model="account.account.template">
             <field name="name">Avräkning spelarrangörer</field>
             <field name="code">2491</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2492_2017" model="account.account.template">
             <field name="name">Växelskulder</field>
             <field name="code">2492</field>
-            <field name="user_type_id" ref="account.data_account_type_payable"/>
+            <field name="user_type_id" ref="l10n_se.type_Vaxelskulder"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K1_2499_2017" model="account.account.template">
             <field name="name">Andra övriga kortfristiga skulder </field>
             <field name="code">2499</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2510_2017" model="account.account.template">
@@ -5607,91 +5607,91 @@
         <record id="K1_7010_2017" model="account.account.template">
             <field name="name">Löner till kollektivanställda </field>
             <field name="code">7010</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7011_2017" model="account.account.template">
             <field name="name">Löner till kollektivanställda </field>
             <field name="code">7011</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7012_2017" model="account.account.template">
             <field name="name">Vinstandelar till kollektivanställda </field>
             <field name="code">7012</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7013_2017" model="account.account.template">
             <field name="name">Lön växa-stöd kollektivanställda 10,21 %</field>
             <field name="code">7013</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7017_2017" model="account.account.template">
             <field name="name">Avgångsvederlag till kollektivanställda </field>
             <field name="code">7017</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7018_2017" model="account.account.template">
             <field name="name">Bruttolöneavdrag, kollektivanställda </field>
             <field name="code">7018</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7019_2017" model="account.account.template">
             <field name="name">Upplupna löner och vinstandelar till kollektivanställda </field>
             <field name="code">7019</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7030_2017" model="account.account.template">
             <field name="name">Löner till kollektivanställda (utlandsanställda)</field>
             <field name="code">7030</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7031_2017" model="account.account.template">
             <field name="name">Löner till kollektivanställda (utlandsanställda)</field>
             <field name="code">7031</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7032_2017" model="account.account.template">
             <field name="name">Vinstandelar till kollektivanställda (utlandsanställda)</field>
             <field name="code">7032</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7037_2017" model="account.account.template">
             <field name="name">Avgångsvederlag till kollektivanställda (utlandsanställda)</field>
             <field name="code">7037</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7038_2017" model="account.account.template">
             <field name="name">Bruttolöneavdrag, kollektivanställda (utlandsanställda)</field>
             <field name="code">7038</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7039_2017" model="account.account.template">
             <field name="name">Upplupna löner och vinstandelar till kollektivanställda (utlandsanställda)</field>
             <field name="code">7039</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7080_2017" model="account.account.template">
             <field name="name">Löner till kollektivanställda för ej arbetad tid </field>
             <field name="code">7080</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7081_2017" model="account.account.template">
             <field name="name">Sjuklöner till kollektivanställda </field>
             <field name="code">7081</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7082_2017" model="account.account.template">
@@ -5703,781 +5703,781 @@
         <record id="K1_7083_2017" model="account.account.template">
             <field name="name">Föräldraersättning till kollektivanställda </field>
             <field name="code">7083</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7089_2017" model="account.account.template">
             <field name="name">Övriga löner till kollektivanställda för ej arbetad tid </field>
             <field name="code">7089</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7090_2017" model="account.account.template">
             <field name="name">Förändring av semesterlöneskuld </field>
             <field name="code">7090</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7200_2017" model="account.account.template">
             <field name="name">Löner till tjänstemän och företagsledare (gruppkonto) </field>
             <field name="code">7200</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7210_2017" model="account.account.template">
             <field name="name">Löner till tjänstemän </field>
             <field name="code">7210</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7211_2017" model="account.account.template">
             <field name="name">Löner till tjänstemän </field>
             <field name="code">7211</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7212_2017" model="account.account.template">
             <field name="name">Vinstandelar till tjänstemän </field>
             <field name="code">7212</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7213_2017" model="account.account.template">
             <field name="name">Lön växa-stöd tjänstemän 10,21 %</field>
             <field name="code">7213</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7217_2017" model="account.account.template">
             <field name="name">Avgångsvederlag till tjänstemän </field>
             <field name="code">7217</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7218_2017" model="account.account.template">
             <field name="name">Bruttolöneavdrag, tjänstemän </field>
             <field name="code">7218</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7219_2017" model="account.account.template">
             <field name="name">Upplupna löner och vinstandelar till tjänstemän </field>
             <field name="code">7219</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7220_2017" model="account.account.template">
             <field name="name">Löner till företagsledare </field>
             <field name="code">7220</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7221_2017" model="account.account.template">
             <field name="name">Löner till företagsledare </field>
             <field name="code">7221</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7222_2017" model="account.account.template">
             <field name="name">Tantiem till företagsledare </field>
             <field name="code">7222</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7227_2017" model="account.account.template">
             <field name="name">Avgångsvederlag till företagsledare </field>
             <field name="code">7227</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7228_2017" model="account.account.template">
             <field name="name">Bruttolöneavdrag, företagsledare </field>
             <field name="code">7228</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7229_2017" model="account.account.template">
             <field name="name">Upplupna löner och tantiem till företagsledare </field>
             <field name="code">7229</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7230_2017" model="account.account.template">
             <field name="name">Löner till tjänstemän och ftgsledare (utlandsanställda)</field>
             <field name="code">7230</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7231_2017" model="account.account.template">
             <field name="name">Löner till tjänstemän och ftgsledare (utlandsanställda)</field>
             <field name="code">7231</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7232_2017" model="account.account.template">
             <field name="name">Vinstandelar till tjänstemän och ftgsledare (utlandsanställda)</field>
             <field name="code">7232</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7237_2017" model="account.account.template">
             <field name="name">Avgångsvederlag till tjänstemän och ftgsledare (utlandsanställda)</field>
             <field name="code">7237</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7238_2017" model="account.account.template">
             <field name="name">Bruttolöneavdrag, tjänstemän och ftgsledare (utlandsanställda)</field>
             <field name="code">7238</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7239_2017" model="account.account.template">
             <field name="name">Upplupna löner och vinstandelar till tjänstemän och ftgsledare (utlandsanställda)</field>
             <field name="code">7239</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7240_2017" model="account.account.template">
             <field name="name">Styrelsearvoden</field>
             <field name="code">7240</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7280_2017" model="account.account.template">
             <field name="name">Löner till tjänstemän och företagsledare för ej arbetad tid </field>
             <field name="code">7280</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7281_2017" model="account.account.template">
             <field name="name">Sjuklöner till tjänstemän </field>
             <field name="code">7281</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7282_2017" model="account.account.template">
             <field name="name">Sjuklöner till företagsledare </field>
             <field name="code">7282</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7283_2017" model="account.account.template">
             <field name="name">Föräldraersättning till tjänstemän </field>
             <field name="code">7283</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7284_2017" model="account.account.template">
             <field name="name">Föräldraersättning till företagsledare </field>
             <field name="code">7284</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7285_2017" model="account.account.template">
             <field name="name">Semesterlöner till tjänstemän </field>
             <field name="code">7285</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7286_2017" model="account.account.template">
             <field name="name">Semesterlöner till företagsledare </field>
             <field name="code">7286</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7288_2017" model="account.account.template">
             <field name="name">Övriga löner till tjänstemän för ej arbetad tid </field>
             <field name="code">7288</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7289_2017" model="account.account.template">
             <field name="name">Övriga löner till företagsledare för ej arbetad tid </field>
             <field name="code">7289</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7290_2017" model="account.account.template">
             <field name="name">Förändring av semesterlöneskuld </field>
             <field name="code">7290</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7291_2017" model="account.account.template">
             <field name="name">Förändring av semesterlöneskuld till tjänstemän </field>
             <field name="code">7291</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7292_2017" model="account.account.template">
             <field name="name">Förändring av semesterlöneskuld till företagsledare </field>
             <field name="code">7292</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7300_2017" model="account.account.template">
             <field name="name">Kostnadsersättningar och förmåner (gruppkonto) </field>
             <field name="code">7300</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7310_2017" model="account.account.template">
             <field name="name">Kontanta extraersättningar </field>
             <field name="code">7310</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7311_2017" model="account.account.template">
             <field name="name">Ersättningar för sammanträden m.m. </field>
             <field name="code">7311</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7312_2017" model="account.account.template">
             <field name="name">Ersättningar för förslagsverksamhet och uppfinningar </field>
             <field name="code">7312</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7313_2017" model="account.account.template">
             <field name="name">Ersättningar för/bidrag till bostadskostnader </field>
             <field name="code">7313</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7314_2017" model="account.account.template">
             <field name="name">Ersättningar för/bidrag till måltidskostnader </field>
             <field name="code">7314</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7315_2017" model="account.account.template">
             <field name="name">Ersättningar för/bidrag till resor till och från arbetsplatsen </field>
             <field name="code">7315</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7316_2017" model="account.account.template">
             <field name="name">Ersättningar för/bidrag till arbetskläder </field>
             <field name="code">7316</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7317_2017" model="account.account.template">
             <field name="name">Ersättningar för/bidrag till arbetsmaterial och arbetsverktyg </field>
             <field name="code">7317</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7318_2017" model="account.account.template">
             <field name="name">Felräkningspengar </field>
             <field name="code">7318</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7319_2017" model="account.account.template">
             <field name="name">Övriga kontanta extraersättningar </field>
             <field name="code">7319</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7320_2017" model="account.account.template">
             <field name="name">Traktamenten vid tjänsteresa </field>
             <field name="code">7320</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7321_2017" model="account.account.template">
             <field name="name">Skattefria traktamenten, Sverige </field>
             <field name="code">7321</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7322_2017" model="account.account.template">
             <field name="name">Skattepliktiga traktamenten, Sverige </field>
             <field name="code">7322</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7323_2017" model="account.account.template">
             <field name="name">Skattefria traktamenten, utlandet </field>
             <field name="code">7323</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7324_2017" model="account.account.template">
             <field name="name">Skattepliktiga traktamenten, utlandet </field>
             <field name="code">7324</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7330_2017" model="account.account.template">
             <field name="name">Bilersättningar </field>
             <field name="code">7330</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7331_2017" model="account.account.template">
             <field name="name">Skattefria bilersättningar </field>
             <field name="code">7331</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7332_2017" model="account.account.template">
             <field name="name">Skattepliktiga bilersättningar </field>
             <field name="code">7332</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7333_2017" model="account.account.template">
             <field name="name">Ersättning för trängselskatt, skattefri</field>
             <field name="code">7333</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7350_2017" model="account.account.template">
             <field name="name">Ersättningar för föreskrivna arbetskläder </field>
             <field name="code">7350</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7370_2017" model="account.account.template">
             <field name="name">Representationsersättningar </field>
             <field name="code">7370</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7380_2017" model="account.account.template">
             <field name="name">Kostnader för förmåner till anställda </field>
             <field name="code">7380</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7381_2017" model="account.account.template">
             <field name="name">Kostnader för fri bostad </field>
             <field name="code">7381</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7382_2017" model="account.account.template">
             <field name="name">Kostnader för fria eller subventionerade måltider </field>
             <field name="code">7382</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7383_2017" model="account.account.template">
             <field name="name">Kostnader för fria resor till och från arbetsplatsen </field>
             <field name="code">7383</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7384_2017" model="account.account.template">
             <field name="name">Kostnader för fria eller subventionerade arbetskläder </field>
             <field name="code">7384</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7385_2017" model="account.account.template">
             <field name="name">Kostnader för fri bil </field>
             <field name="code">7385</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7386_2017" model="account.account.template">
             <field name="name">Subventionerad ränta </field>
             <field name="code">7386</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7387_2017" model="account.account.template">
             <field name="name">Kostnader för lånedatorer </field>
             <field name="code">7387</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7388_2017" model="account.account.template">
             <field name="name">Anställdas ersättning för erhållna förmåner </field>
             <field name="code">7388</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7389_2017" model="account.account.template">
             <field name="name">Övriga kostnader för förmåner </field>
             <field name="code">7389</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7390_2017" model="account.account.template">
             <field name="name">Övriga kostnadsersättningar och förmåner </field>
             <field name="code">7390</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7391_2017" model="account.account.template">
             <field name="name">Kostnad för trängselskatteförmån</field>
             <field name="code">7391</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7392_2017" model="account.account.template">
             <field name="name">Kostnad för förmån av hushållsnära tjänster</field>
             <field name="code">7392</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7400_2017" model="account.account.template">
             <field name="name">Pensionskostnader (gruppkonto) </field>
             <field name="code">7400</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7410_2017" model="account.account.template">
             <field name="name">Pensionsförsäkringspremier </field>
             <field name="code">7410</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7411_2017" model="account.account.template">
             <field name="name">Premier för kollektiva pensionsförsäkringar </field>
             <field name="code">7411</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7412_2017" model="account.account.template">
             <field name="name">Premier för individuella pensionsförsäkringar </field>
             <field name="code">7412</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7418_2017" model="account.account.template">
             <field name="name">Återbäring från försäkringsföretag </field>
             <field name="code">7418</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7420_2017" model="account.account.template">
             <field name="name">Förändring av pensionsskuld </field>
             <field name="code">7420</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7430_2017" model="account.account.template">
             <field name="name">Avdrag för räntedel i pensionskostnad </field>
             <field name="code">7430</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7440_2017" model="account.account.template">
             <field name="name">Förändring av pensionsstiftelsekapital </field>
             <field name="code">7440</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7441_2017" model="account.account.template">
             <field name="name">Avsättning till pensionsstiftelse </field>
             <field name="code">7441</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7448_2017" model="account.account.template">
             <field name="name">Gottgörelse från pensionsstiftelse </field>
             <field name="code">7448</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7460_2017" model="account.account.template">
             <field name="name">Pensionsutbetalningar </field>
             <field name="code">7460</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7461_2017" model="account.account.template">
             <field name="name">Pensionsutbetalningar till f.d. kollektivanställda </field>
             <field name="code">7461</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7462_2017" model="account.account.template">
             <field name="name">Pensionsutbetalningar till f.d. tjänstemän </field>
             <field name="code">7462</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7463_2017" model="account.account.template">
             <field name="name">Pensionsutbetalningar till f.d. företagsledare </field>
             <field name="code">7463</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7470_2017" model="account.account.template">
             <field name="name">Förvaltnings- och kreditförsäkringsavgifter </field>
             <field name="code">7470</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7490_2017" model="account.account.template">
             <field name="name">Övriga pensionskostnader </field>
             <field name="code">7490</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7510_2017" model="account.account.template">
             <field name="name">Arbetsgivaravgifter 31,42 %</field>
             <field name="code">7510</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7511_2017" model="account.account.template">
             <field name="name">Arbetsgivaravgifter för löner och ersättningar</field>
             <field name="code">7511</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7512_2017" model="account.account.template">
             <field name="name">Arbetsgivaravgifter för förmånsvärden</field>
             <field name="code">7512</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7515_2017" model="account.account.template">
             <field name="name">Arbetsgivaravgifter på skattepliktiga kostnadsersättningar</field>
             <field name="code">7515</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7516_2017" model="account.account.template">
             <field name="name">Arbetsgivaravgifter på arvoden</field>
             <field name="code">7516</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7518_2017" model="account.account.template">
             <field name="name">Arbetsgivaravgifter på bruttolöneavdrag m.m.</field>
             <field name="code">7518</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7519_2017" model="account.account.template">
             <field name="name">Arbetsgivaravgifter för semester- och löneskulder</field>
             <field name="code">7519</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7530_2017" model="account.account.template">
             <field name="name">Särskild löneskatt </field>
             <field name="code">7530</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7531_2017" model="account.account.template">
             <field name="name">Särskild löneskatt för vissa försäkringsersättningar m.m. </field>
             <field name="code">7531</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7532_2017" model="account.account.template">
             <field name="name">Särskild löneskatt pensionskostnader, deklarationspost</field>
             <field name="code">7532</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7533_2017" model="account.account.template">
             <field name="name">Särskild löneskatt för pensionskostnader </field>
             <field name="code">7533</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7550_2017" model="account.account.template">
             <field name="name">Avkastningsskatt på pensionsmedel </field>
             <field name="code">7550</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7551_2017" model="account.account.template">
             <field name="name">Avkastningsskatt 15 % försäkringsföretag m.fl. samt avsatt till pensioner</field>
             <field name="code">7551</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7552_2017" model="account.account.template">
             <field name="name">Avkastningsskatt 15 % utländska pensionsförsäkringar</field>
             <field name="code">7552</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7553_2017" model="account.account.template">
             <field name="name">Avkastningsskatt 30 % utländska försäkringsföretag m.fl.</field>
             <field name="code">7553</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7554_2017" model="account.account.template">
             <field name="name">Avkastningsskatt 30 % utländska kapitalförsäkringar</field>
             <field name="code">7554</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7570_2017" model="account.account.template">
             <field name="name">Premier för arbetsmarknadsförsäkringar </field>
             <field name="code">7570</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7571_2017" model="account.account.template">
             <field name="name">Arbetsmarknadsförsäkringar</field>
             <field name="code">7571</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7572_2017" model="account.account.template">
             <field name="name">Arbetsmarknadsförsäkringar pensionsförsäkringspremier, deklarationspost</field>
             <field name="code">7572</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7580_2017" model="account.account.template">
             <field name="name">Gruppförsäkringspremier </field>
             <field name="code">7580</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7581_2017" model="account.account.template">
             <field name="name">Grupplivförsäkringspremier </field>
             <field name="code">7581</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7582_2017" model="account.account.template">
             <field name="name">Gruppsjukförsäkringspremier </field>
             <field name="code">7582</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7583_2017" model="account.account.template">
             <field name="name">Gruppolycksfallsförsäkringspremier </field>
             <field name="code">7583</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7589_2017" model="account.account.template">
             <field name="name">Övriga gruppförsäkringspremier </field>
             <field name="code">7589</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7590_2017" model="account.account.template">
             <field name="name">Övriga sociala och andra avgifter enligt lag och avtal </field>
             <field name="code">7590</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7600_2017" model="account.account.template">
             <field name="name">Övriga personalkostnader (gruppkonto) </field>
             <field name="code">7600</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7610_2017" model="account.account.template">
             <field name="name">Utbildning </field>
             <field name="code">7610</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7620_2017" model="account.account.template">
             <field name="name">Sjuk- och hälsovård </field>
             <field name="code">7620</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7621_2017" model="account.account.template">
             <field name="name">Sjuk- och hälsovård, avdragsgill </field>
             <field name="code">7621</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7622_2017" model="account.account.template">
             <field name="name">Sjuk- och hälsovård, ej avdragsgill </field>
             <field name="code">7622</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7623_2017" model="account.account.template">
             <field name="name">Sjukvårdsförsäkring, ej avdragsgill</field>
             <field name="code">7623</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7630_2017" model="account.account.template">
             <field name="name">Personalrepresentation </field>
             <field name="code">7630</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7631_2017" model="account.account.template">
             <field name="name">Personalrepresentation, avdragsgill </field>
             <field name="code">7631</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7632_2017" model="account.account.template">
             <field name="name">Personalrepresentation, ej avdragsgill </field>
             <field name="code">7632</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7650_2017" model="account.account.template">
             <field name="name">Sjuklöneförsäkring </field>
             <field name="code">7650</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7670_2017" model="account.account.template">
             <field name="name">Förändring av personalstiftelsekapital </field>
             <field name="code">7670</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7671_2017" model="account.account.template">
             <field name="name">Avsättning till personalstiftelse </field>
             <field name="code">7671</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7678_2017" model="account.account.template">
             <field name="name">Gottgörelse från personalstiftelse </field>
             <field name="code">7678</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7690_2017" model="account.account.template">
             <field name="name">Övriga personalkostnader </field>
             <field name="code">7690</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7691_2017" model="account.account.template">
             <field name="name">Personalrekrytering </field>
             <field name="code">7691</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7692_2017" model="account.account.template">
             <field name="name">Begravningshjälp </field>
             <field name="code">7692</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7693_2017" model="account.account.template">
             <field name="name">Fritidsverksamhet </field>
             <field name="code">7693</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7699_2017" model="account.account.template">
             <field name="name">Övriga personalkostnader </field>
             <field name="code">7699</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7710_2017" model="account.account.template">
