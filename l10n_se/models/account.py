@@ -24,15 +24,13 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 
-
 # from openerp.osv import osv
 
-from odoo import models, fields, api, _,exceptions
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import except_orm, Warning, RedirectWarning, UserError, ValidationError
 
 import base64
 from odoo.tools.safe_eval import safe_eval as eval
-
 
 try:
     from xlrd import open_workbook
@@ -40,64 +38,68 @@ except ImportError:
     raise Warning('excel library missing, pip install xlrd')
 
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')], ondelete = {'bg':'cascade','pg':'cascade'})
-    
+    type = fields.Selection(selection_add=[('bg', 'Bankgiro'), ('pg', 'Plusgiro')],
+                            ondelete={'bg': 'cascade', 'pg': 'cascade'})
+
 
 class AccountChartTemplate(models.Model):
     _inherit = 'account.account'
 
     @api.model
     def fix_ovriga_kortfristiga_skulder(self):
-        #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 8/25 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo. 
+        # Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 8/25 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo.
         OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
-        for acc in self.env['account.account'].search([('user_type_id','=',OvrigaKortfristigaSkulder.id)]):
+        for acc in self.env['account.account'].search([('user_type_id', '=', OvrigaKortfristigaSkulder.id)]):
             acc.reconcile = True
         OvrigaKortfristigaSkulder.type = 'payable'
 
     @api.model
     def fix_type_personalkostnader(self):
-        #Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria bilersättningar ) som skuld kont när vi har en millersättning utlägg
+        # Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria bilersättningar ) som skuld kont när vi har en millersättning utlägg
         type_personalkostnader = self.env.ref('l10n_se.type_Personalkostnader')
-        for acc in self.env['account.account'].search([('user_type_id','=',type_personalkostnader.id)]):
+        for acc in self.env['account.account'].search([('user_type_id', '=', type_personalkostnader.id)]):
             acc.reconcile = True
         type_personalkostnader.type = 'payable'
 
     @api.model
     def fix_account_types(self):
-        #current_year_earnings can only have one account which is why we remove it before we fix the rest of the account types.
+        # current_year_earnings can only have one account which is why we remove it before we fix the rest of the account types.
         current_year_earnings = self.env.ref('account.data_unaffected_earnings')
-        current_year_earnings.write({"name":'Current Year Earnings'})
-        current_year_earnings.write({"account_range":"[('code', 'in', [])]"})
-        current_year_earnings.write({"account_range":False})
-        
+        current_year_earnings.write({"name": 'Current Year Earnings'})
+        current_year_earnings.write({"account_range": "[('code', 'in', [])]"})
+        current_year_earnings.write({"account_range": False})
+
         for t in self.env['account.account.type'].search([]):
             if t.account_range:
                 for a in self.env['account.account'].search(eval(t.account_range)):
                     if a.user_type_id != t:
-                       a.user_type_id = t
+                        a.user_type_id = t
 
-        #Hard coded/Not based on the excel sheet that
-        accounts = self.env['account.account'].search(['|',('code', '=', '1330'),('code', '=', '1338')])
+        # Hard coded/Not based on the excel sheet that
+        accounts = self.env['account.account'].search(['|', ('code', '=', '1330'), ('code', '=', '1338')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag')
 
-        accounts = self.env['account.account'].search(['|',('code', '=', '1340'),('code', '=', '1348')])
+        accounts = self.env['account.account'].search(['|', ('code', '=', '1340'), ('code', '=', '1348')])
         for account in accounts:
-            account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga')
+            account.user_type_id = self.env.ref(
+                'l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga')
 
-        accounts = self.env['account.account'].search(['|',('code', '=', '1570'),('code', '=', '1670')])
+        accounts = self.env['account.account'].search(['|', ('code', '=', '1570'), ('code', '=', '1670')])
         for account in accounts:
-            account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
-            
+            account.user_type_id = self.env.ref(
+                'l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+
         # ~ accounts = self.env['account.account'].search(['|','|',('code', '=', '2087'),('code', '=', '2088'),('code', '=', '2089')])
         # ~ for account in accounts:
-            # ~ account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+        # ~ account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
         accounts = self.env['account.account'].search([('code', '=', '2090')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_BalanseratResultat')
@@ -106,7 +108,7 @@ class AccountChartTemplate(models.Model):
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_SkulderIntresseforetagGemensamtStyrdaForetagLangfristiga')
 
-        accounts = self.env['account.account'].search(['|',('code', '=', '2470'),('code', '=', '2870')])
+        accounts = self.env['account.account'].search(['|', ('code', '=', '2470'), ('code', '=', '2870')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_SkulderIntresseforetagGemensamtStyrdaForetagKortfristiga')
 
@@ -116,13 +118,16 @@ class AccountChartTemplate(models.Model):
 
         # ~ accounts = self.env['account.account'].search([('code', '>=', '2900'),('code', '<=', '2999')])
         # ~ for account in accounts:
-            # ~ account.user_type_id = self.env.ref('l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter')
+        # ~ account.user_type_id = self.env.ref('l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter')
 
         accounts = self.env['account.account'].search([('code', '=', '4900')])
         for account in accounts:
-            account.user_type_id = self.env.ref('l10n_se.type_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning')
+            account.user_type_id = self.env.ref(
+                'l10n_se.type_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning')
 
-        accounts = self.env['account.account'].search(['|','|','|','|',('code', '=', '8110'),('code', '=', '8116'),('code', '=', '8117'),('code', '=', '8120'),('code', '=', '8130')])
+        accounts = self.env['account.account'].search(
+            ['|', '|', '|', '|', ('code', '=', '8110'), ('code', '=', '8116'), ('code', '=', '8117'),
+             ('code', '=', '8120'), ('code', '=', '8130')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_ResultatAndelarIntresseforetagGemensamtStyrda')
 
@@ -134,55 +139,79 @@ class AccountChartTemplate(models.Model):
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_OvrigaBokslutsdispositioner')
 
-        #Setting the correct type for the moms accounts since they need to belong to a account type that is of the type "regular", otherwise they don't behave correctly when making invoices.
-        accounts = self.env['account.account'].search([('code', 'in', ['2610','2611','2612','2613','2614','2615','2616','2618','2620','2621','2622','2623','2624','2625','2626','2628','2630','2631','2632','2633','2634','2635','2636','2638','2640','2641','2642','2645','2646','2647','2648','2649','2650','2852'])])
+        # Setting the correct type for the moms accounts since they need to belong to a account type that is of the type "regular", otherwise they don't behave correctly when making invoices.
+        accounts = self.env['account.account'].search([('code', 'in',
+                                                        ['2610', '2611', '2612', '2613', '2614', '2615', '2616', '2618',
+                                                         '2620', '2621', '2622', '2623', '2624', '2625', '2626', '2628',
+                                                         '2630', '2631', '2632', '2633', '2634', '2635', '2636', '2638',
+                                                         '2640', '2641', '2642', '2645', '2646', '2647', '2648', '2649',
+                                                         '2650', '2852'])])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_OvrigaKortfristigaSkulderMoms')
-        
-        #Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria bilersättningar ) som skuld kont när vi har en millersättning utlägg 26/8
+
+        # Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria bilersättningar ) som skuld kont när vi har en millersättning utlägg 26/8
         type_personalkostnader = self.env.ref('l10n_se.type_Personalkostnader')
-        for acc in self.env['account.account'].search([('user_type_id','=',type_personalkostnader.id)]):
+        for acc in self.env['account.account'].search([('user_type_id', '=', type_personalkostnader.id)]):
             acc.reconcile = True
         type_personalkostnader.type = 'payable'
 
-        #Revert these changes
-        #Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 25/8 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo. 
+        # Revert these changes
+        # Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 25/8 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo.
         OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
-        for acc in self.env['account.account'].search([('user_type_id','=',OvrigaKortfristigaSkulder.id)]):
+        for acc in self.env['account.account'].search([('user_type_id', '=', OvrigaKortfristigaSkulder.id)]):
             acc.reconcile = True
         OvrigaKortfristigaSkulder.type = 'payable'
 
         # ~ #Todo make so that the correct account types are generated correctly and all account for those types are reconcile. Fix permanent solution for 1000-1900
-        account_xml_ids = ['account.data_account_type_current_assets','account.data_account_type_non_current_assets','account.data_account_type_fixed_assets','l10n_se.type_TecknatEjInbetaltKapital','l10n_se.type_HyresratterLiknandeRattigheter'
-        ,'l10n_se.type_Goodwill','l10n_se.type_ForskottImmateriellaAnlaggningstillgangar','l10n_se.type_ByggnaderMark','l10n_se.type_InventarierVerktygInstallationer','l10n_se.type_ForbattringsutgifterAnnansFastighet','l10n_se.type_OvrigaMateriellaAnlaggningstillgangar','l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar'
-        ,'l10n_se.type_AndelarKoncernforetag','l10n_se.type_FordringarKoncernforetagLangfristiga','l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag','l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga','l10n_se.type_AgarintressenOvrigaForetag','l10n_se.type_AndraLangfristigaVardepappersinnehav'
-        ,'l10n_se.type_LanDelagareNarstaende','l10n_se.type_AndraLangfristigaFordringar','l10n_se.type_LagerRavarorFornodenheter','l10n_se.type_LagerVarorUnderTillverkning' ,'l10n_se.type_LagerFardigaVarorHandelsvaror','l10n_se.type_OvrigaLagertillgangar','l10n_se.type_PagaendeArbetenAnnansRakningOmsattningstillgangar','l10n_se.type_ForskottTillLeverantorer'
-        ,'l10n_se.type_FordringarKoncernforetagKortfristiga','l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga','l10n_se.type_FordringarOvrigaforetagAgarintresseKortfristiga','l10n_se.type_UpparbetadEjFaktureradIntakt','l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter']
+        account_xml_ids = ['account.data_account_type_current_assets', 'account.data_account_type_non_current_assets',
+                           'account.data_account_type_fixed_assets', 'l10n_se.type_TecknatEjInbetaltKapital',
+                           'l10n_se.type_HyresratterLiknandeRattigheter'
+            , 'l10n_se.type_Goodwill', 'l10n_se.type_ForskottImmateriellaAnlaggningstillgangar',
+                           'l10n_se.type_ByggnaderMark', 'l10n_se.type_InventarierVerktygInstallationer',
+                           'l10n_se.type_ForbattringsutgifterAnnansFastighet',
+                           'l10n_se.type_OvrigaMateriellaAnlaggningstillgangar',
+                           'l10n_se.type_PagaendeNyanlaggningarForskottMateriellaAnlaggningstillgangar'
+            , 'l10n_se.type_AndelarKoncernforetag', 'l10n_se.type_FordringarKoncernforetagLangfristiga',
+                           'l10n_se.type_AndelarIntresseforetagGemensamtStyrdaForetag',
+                           'l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagLangfristiga',
+                           'l10n_se.type_AgarintressenOvrigaForetag',
+                           'l10n_se.type_AndraLangfristigaVardepappersinnehav'
+            , 'l10n_se.type_LanDelagareNarstaende', 'l10n_se.type_AndraLangfristigaFordringar',
+                           'l10n_se.type_LagerRavarorFornodenheter', 'l10n_se.type_LagerVarorUnderTillverkning',
+                           'l10n_se.type_LagerFardigaVarorHandelsvaror', 'l10n_se.type_OvrigaLagertillgangar',
+                           'l10n_se.type_PagaendeArbetenAnnansRakningOmsattningstillgangar',
+                           'l10n_se.type_ForskottTillLeverantorer'
+            , 'l10n_se.type_FordringarKoncernforetagKortfristiga',
+                           'l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga',
+                           'l10n_se.type_FordringarOvrigaforetagAgarintresseKortfristiga',
+                           'l10n_se.type_UpparbetadEjFaktureradIntakt',
+                           'l10n_se.type_ForutbetaldaKostnaderUpplupnaIntakter']
         accounts_types = [self.env.ref(x) for x in account_xml_ids]
         for acctype in accounts_types:
-            for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
+            for acc in self.env['account.account'].search([('user_type_id', '=', acctype.id)]):
                 acc.reconcile = True
             acctype.type = 'other'
 
         # ~ # Denna fanns i listan innan ett tag och blev satt till recievable, men nu ska den vara other igen. 1800-1899
-        account_xml_ids = ['l10n_se.type_OvrigaKortfristigaPlaceringar','l10n_se.type_AndelarKoncernforetagKortfristiga']
+        account_xml_ids = ['l10n_se.type_OvrigaKortfristigaPlaceringar',
+                           'l10n_se.type_AndelarKoncernforetagKortfristiga']
         accounts_types = [self.env.ref(x) for x in account_xml_ids]
         for acctype in accounts_types:
             acctype.type = 'other'
-            for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
+            for acc in self.env['account.account'].search([('user_type_id', '=', acctype.id)]):
                 acc.reconcile = False
 
         # 1900 -1999 Denna fanns i listan innan ett tag och blev satt till liquidity, men nu ska den vara other igen.
-        account_xml_ids =	['account.data_account_type_liquidity']
+        account_xml_ids = ['account.data_account_type_liquidity']
         accounts_types = [self.env.ref(x) for x in account_xml_ids]
         for acctype in accounts_types:
             acctype.type = 'liquidity'
-            for acc in self.env['account.account'].search([('user_type_id','=',acctype.id)]):
-                if acc.code not in ("1914","1915","1916","1933","1934"):
-                #if acc.code not in ("1914","1915","1916","1933","1934","1935","1936","1937","1938"): This one was needed on a server, so the amount of odoo created accounts are not set in stone.
+            for acc in self.env['account.account'].search([('user_type_id', '=', acctype.id)]):
+                if acc.code not in ("1914", "1915", "1916", "1933", "1934"):
+                    # if acc.code not in ("1914","1915","1916","1933","1934","1935","1936","1937","1938"): This one was needed on a server, so the amount of odoo created accounts are not set in stone.
                     acc.reconcile = False
 
-    
+
 # class account_bank_accounts_wizard(models.TransientModel):
 #     _inherit = 'account.bank.accounts.wizard'
 #
@@ -192,7 +221,8 @@ class AccountChartTemplate(models.Model):
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
-    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id', string='Tax Balance Mapping', copy=True)
+    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id',
+                                      string='Tax Balance Mapping', copy=True)
 
     # ~ @api.multi
     def get_map_balance_row(self, values):
@@ -203,18 +233,20 @@ class AccountFiscalPosition(models.Model):
             tax = line.tax_dest_id
         if tax:
             return {
-                'invoice_tax_line_id': values.get('invoice_tax_line_id'), # ??? Looks like it does nothing
+                'invoice_tax_line_id': values.get('invoice_tax_line_id'),  # ??? Looks like it does nothing
                 'tax_line_id': tax.id,
                 'type': 'tax',
                 'name': values.get('name'),
                 'price_unit': values.get('price_unit'),
                 'quantity': values.get('quantity'),
-                'price': -values.get('price', 0), # debit (+) or credit (-)
+                'price': -values.get('price', 0),  # debit (+) or credit (-)
                 'account_id': tax.account_id and tax.account_id.id,
                 'account_analytic_id': values.get('account_analytic_id'),
                 'invoice_id': values.get('invoice_id'),
-                'tax_ids': values.get('tax_ids'), # Looks like it will contain any previous taxes that will be included in the base value for this tax
+                'tax_ids': values.get('tax_ids'),
+                # Looks like it will contain any previous taxes that will be included in the base value for this tax
             }
+
     def fix_old_tax_config(self):
         _logger.warning(self)
         for record in self:
@@ -226,26 +258,27 @@ class AccountFiscalPosition(models.Model):
                 dest_tax = line.tax_dest_id
                 _logger.warning(f"dest {dest_tax.name}")
                 dest_account_id = ""
-                
+
                 for line in dest_tax.invoice_repartition_line_ids:
                     if line.account_id:
                         dest_account_id = line.account_id
                         break
-                        
+
                 # ~ _logger.warning(f"{dest_tax_reperation=}")
                 already_added = False
                 # ~ _logger.warning(f"{dest_account_id=}")
-                
+
                 for account in tax_src.invoice_repartition_line_ids.mapped("account_id"):
                     if account == dest_account_id:
                         already_added = True
                     # ~ _logger.warning(f"{account}")
                 # ~ _logger.warning(f"{already_added}")
-                
+
                 if not already_added:
-                    val = {"factor_percent":-100,"repartition_type":"tax","account_id":dest_account_id.id}
+                    val = {"factor_percent": -100, "repartition_type": "tax", "account_id": dest_account_id.id}
                     # ~ _logger.warning(f"{val}")
-                    tax_src.write({"invoice_repartition_line_ids":[(0,0,val)],'refund_repartition_line_ids':[(0,0,val)]})
+                    tax_src.write(
+                        {"invoice_repartition_line_ids": [(0, 0, val)], 'refund_repartition_line_ids': [(0, 0, val)]})
                     # ~ _logger.warning(f"{dest_tax.name}")
                 # ~ tax_src.write("invoice_repartition_line_ids":[(4,dest_tax,0)])
 
@@ -256,7 +289,7 @@ class AccountFiscalPositionTaxBalance(models.Model):
     _rec_name = 'position_id'
 
     position_id = fields.Many2one('account.fiscal.position', string='Fiscal Position',
-        required=True, ondelete='cascade')
+                                  required=True, ondelete='cascade')
     tax_src_id = fields.Many2one('account.tax', string='Tax on Product', required=True)
     tax_dest_id = fields.Many2one('account.tax', string='Tax to Balance Against', required=True)
 
@@ -270,13 +303,14 @@ class AccountFiscalPositionTaxBalance(models.Model):
 class AccountFiscalPositionTemplate(models.Model):
     _inherit = 'account.fiscal.position.template'
 
-    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance.template', 'position_id', string='Tax Balance Mapping', copy=True)
+    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance.template', 'position_id',
+                                      string='Tax Balance Mapping', copy=True)
     auto_apply = fields.Boolean(string='Detect Automatically', help="Apply automatically this fiscal position.")
     vat_required = fields.Boolean(string='VAT required', help="Apply only if partner has a VAT number.")
     country_id = fields.Many2one('res.country', string='Country',
-        help="Apply only if delivery or invoicing country match.")
+                                 help="Apply only if delivery or invoicing country match.")
     country_group_id = fields.Many2one('res.country.group', string='Country Group',
-        help="Apply only if delivery or invocing country match the group.")
+                                       help="Apply only if delivery or invocing country match the group.")
 
 
 class AccountFiscalPositionTaxBalanceTemplate(models.Model):
@@ -285,7 +319,7 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
     _rec_name = 'position_id'
 
     position_id = fields.Many2one('account.fiscal.position.template', string='Fiscal Position',
-        required=True, ondelete='cascade')
+                                  required=True, ondelete='cascade')
     tax_src_id = fields.Many2one('account.tax.template', string='Tax on Product', required=True)
     tax_dest_id = fields.Many2one('account.tax.template', string='Tax to Balance Against', required=True)
 
@@ -296,25 +330,23 @@ class AccountFiscalPositionTaxBalanceTemplate(models.Model):
     ]
 
 
-    
-
 class AccountInvoice(models.Model):
     # ~ _inherit = 'account.invoice'
     _inherit = 'account.move'
-    
+
     def set_tax_account(self, tax_name, account_code):
-        correct_account = self.env["account.account"].search([("code","=",account_code)])
+        correct_account = self.env["account.account"].search([("code", "=", account_code)])
         if not correct_account:
             _logger.warning(f"Hittade ingen konto")
             raise UserError(f"Couldnt find account {account_name}")
         _logger.warning(f"{correct_account=}")
-        
-        correct_tax = self.env["account.tax"].search([("name","=",tax_name)])
+
+        correct_tax = self.env["account.tax"].search([("name", "=", tax_name)])
         if not correct_account:
             _logger.warning(f"Hittade ingen skatt")
             raise UserError(f"Couldnt find tax {tax_name}")
         _logger.warning(f"{correct_tax=}")
-        
+
         for line in self.line_ids:
             if line.tax_line_id:
                 _logger.warning(f"og tax name = {line.tax_line_id.name}")
@@ -323,7 +355,7 @@ class AccountInvoice(models.Model):
                 if line.tax_line_id.name == tax_name:
                     _logger.warning(f"Found a match {line.tax_line_id.name} = {tax_name}")
                     line.account_id = correct_account
-                    
+
     @api.depends('company_id', 'invoice_filter_type_domain')
     def _compute_suitable_journal_ids(self):
         for m in self:
@@ -334,18 +366,16 @@ class AccountInvoice(models.Model):
             else:
                 domain = [('company_id', '=', company_id)]
             m.suitable_journal_ids = self.env['account.journal'].search(domain)
-            
 
     def set_correct_orignator_tax_lines(self):
         for move in self:
             fiscal_position = move.fiscal_position_id
             for line in move.line_ids:
                 line.set_correct_orignator_tax_line(fiscal_position)
-                    
-        
+
     class AccountMoveLine(models.Model):
         _inherit = 'account.move.line'
-        
+
         @api.onchange('account_id')
         def _compute_mapped_fiscal_position_account(self):
             for line in self:
@@ -361,15 +391,14 @@ class AccountInvoice(models.Model):
                 rep_line = record.tax_repartition_line_id
                 # A constraint on account.tax.repartition.line ensures both those fields are mutually exclusive
                 record.tax_line_id = rep_line.invoice_tax_id or rep_line.refund_tax_id
-            
+
             for record in self:
                 record.set_correct_orignator_tax_line()
-                
-            
-        def set_correct_orignator_tax_line(self, fiscal_position_id = False):
+
+        def set_correct_orignator_tax_line(self, fiscal_position_id=False):
             if not fiscal_position_id:
                 fiscal_position_id = self.move_id.fiscal_position_id
-                
+
             if fiscal_position_id and self.tax_line_id:
                 tax_balance_map_ids = fiscal_position_id.tax_balance_ids
                 tax_balance_dict = {}
@@ -377,12 +406,11 @@ class AccountInvoice(models.Model):
                     src_tax = tax_balance_map_id.tax_src_id
                     dest_tax = tax_balance_map_id.tax_dest_id
                     tax_balance_dict[src_tax.name] = dest_tax
-                
+
                 dest_tax = tax_balance_dict.get(self.tax_line_id.name)
                 if dest_tax and dest_tax.invoice_repartition_line_ids and self.account_id.code == dest_tax.invoice_repartition_line_ids.account_id.code:
                     self.name = f"{self.tax_line_id.name}"
                     self.tax_line_id = dest_tax
-
 
 
 class account_chart_template(models.Model):
@@ -395,7 +423,7 @@ class account_chart_template(models.Model):
     bas_sru = fields.Binary(string="BAS SRU")
     bas_chart = fields.Binary(string="BAS Chart of Account")
     bas_k2 = fields.Boolean(string='Ej K2', default=True)
-    bas_basic = fields.Boolean(string='Endast grundläggande konton',default=True)
+    bas_basic = fields.Boolean(string='Endast grundläggande konton', default=True)
 
     @api.onchange('bas_chart')
     def update_bas_chart(self):
@@ -415,86 +443,94 @@ class account_chart_template(models.Model):
 
         # return
         for l in range(0, ws.nrows):
-            if ws.cell_value(l, 2) == 1 or ws.cell_value(l, 2) in range(10, 20) or ws.cell_value(l, 2) in range(1000, 1999):
+            if ws.cell_value(l, 2) == 1 or ws.cell_value(l, 2) in range(10, 20) or ws.cell_value(l, 2) in range(1000,
+                                                                                                                1999):
                 user_type = 'account.data_account_type_asset'
-            if ws.cell_value(l, 2) in range(15,26) or ws.cell_value(l,2) in range(1500,1599) :
+            if ws.cell_value(l, 2) in range(15, 26) or ws.cell_value(l, 2) in range(1500, 1599):
                 user_type = 'account.data_account_type_receivable'
-            if ws.cell_value(l, 2) in range(1900,1999):
+            if ws.cell_value(l, 2) in range(1900, 1999):
                 user_type = 'account.data_account_type_bank'
-            if ws.cell_value(l,2) == 1910:
+            if ws.cell_value(l, 2) == 1910:
                 user_type = 'account.data_account_type_cash'
 
-            if ws.cell_value(l,2) == 2 or ws.cell_value(l,2) in range(20,30) or ws.cell_value(l,2) in range(2000,2999) :
-                    user_type = 'account.data_account_type_liability'
-            if ws.cell_value(l,2) == 20 or ws.cell_value(l,2) in range(2000,2050):
-                    user_type = 'account.conf_account_type_equity'
-            if ws.cell_value(l,2) in [23,24] or ws.cell_value(l,2) in range(2300,2700):
-                    user_type = 'account.data_account_type_payable'
-            if ws.cell_value(l,2) in [26,27] or ws.cell_value(l,2) in range(2600,2800):
-                    user_type = 'account.conf_account_type_tax'
+            if ws.cell_value(l, 2) == 2 or ws.cell_value(l, 2) in range(20, 30) or ws.cell_value(l, 2) in range(2000,
+                                                                                                                2999):
+                user_type = 'account.data_account_type_liability'
+            if ws.cell_value(l, 2) == 20 or ws.cell_value(l, 2) in range(2000, 2050):
+                user_type = 'account.conf_account_type_equity'
+            if ws.cell_value(l, 2) in [23, 24] or ws.cell_value(l, 2) in range(2300, 2700):
+                user_type = 'account.data_account_type_payable'
+            if ws.cell_value(l, 2) in [26, 27] or ws.cell_value(l, 2) in range(2600, 2800):
+                user_type = 'account.conf_account_type_tax'
 
-            if ws.cell_value(l,2) == 3 or ws.cell_value(l,2) == '30-34'  or ws.cell_value(l,2) in range(30,40) or ws.cell_value(l,2) in range(3000,4000):
-                    user_type = 'account.data_account_type_income'
-            if ws.cell_value(l,2) in [4,5,6,7] or ws.cell_value(l,2) in ['5-6'] or  ws.cell_value(l,2) in range(30,80) or ws.cell_value(l,2) in ['40-45'] or ws.cell_value(l,2) in range(4000,8000):
-                    user_type = 'account.data_account_type_expense'
+            if ws.cell_value(l, 2) == 3 or ws.cell_value(l, 2) == '30-34' or ws.cell_value(l, 2) in range(30,
+                                                                                                          40) or ws.cell_value(
+                    l, 2) in range(3000, 4000):
+                user_type = 'account.data_account_type_income'
+            if ws.cell_value(l, 2) in [4, 5, 6, 7] or ws.cell_value(l, 2) in ['5-6'] or ws.cell_value(l, 2) in range(30,
+                                                                                                                     80) or ws.cell_value(
+                    l, 2) in ['40-45'] or ws.cell_value(l, 2) in range(4000, 8000):
+                user_type = 'account.data_account_type_expense'
 
+            if ws.cell_value(l, 2) == 8 or ws.cell_value(l, 2) in [80, 81, 82, 83] or ws.cell_value(l, 2) in range(8000,
+                                                                                                                   8400):
+                user_type = 'account.data_account_type_income'
+            if ws.cell_value(l, 2) in [84, 88] or ws.cell_value(l, 2) in range(8400, 8500) or ws.cell_value(l,
+                                                                                                            2) in range(
+                    8800, 8900):
+                user_type = 'account.data_account_type_expense'
+            if ws.cell_value(l, 2) in [89] or ws.cell_value(l, 2) in range(8900, 9000):
+                user_type = 'account.data_account_type_expense'
 
-            if ws.cell_value(l,2) == 8 or ws.cell_value(l,2) in [80,81,82,83] or ws.cell_value(l,2) in range(8000,8400):
-                    user_type = 'account.data_account_type_income'
-            if ws.cell_value(l,2) in [84,88] or ws.cell_value(l,2) in range(8400,8500) or ws.cell_value(l,2) in range(8800,8900):
-                    user_type = 'account.data_account_type_expense'
-            if ws.cell_value(l,2) in [89] or ws.cell_value(l,2) in range(8900,9000):
-                    user_type = 'account.data_account_type_expense'
-
-            if ws.cell_value(l,2) in range(1,9) or ws.cell_value(l,2) in ['5-6']: # kontoklass
+            if ws.cell_value(l, 2) in range(1, 9) or ws.cell_value(l, 2) in ['5-6']:  # kontoklass
                 last_account_class = self.env['account.account.template'].create({
-                    'code': ws.cell_value(l,2),
-                    'name': ws.cell_value(l,3),
+                    'code': ws.cell_value(l, 2),
+                    'name': ws.cell_value(l, 3),
                     'user_type': self.env.ref(user_type).id,
                     'type': 'view',
                     'chart_template_id': self.id,
-                  })
-            if ws.cell_value(l, 2) in range(10,99) or ws.cell_value(l,2) in ['30-34','40-45']: # kontogrupp
+                })
+            if ws.cell_value(l, 2) in range(10, 99) or ws.cell_value(l, 2) in ['30-34', '40-45']:  # kontogrupp
                 last_account_group = self.env['account.account.template'].create(
                     {
-                        'code': ws.cell_value(l,2),
-                        'name': ws.cell_value(l,3),
+                        'code': ws.cell_value(l, 2),
+                        'name': ws.cell_value(l, 3),
                         'type': 'view',
                         'user_type': self.env.ref(user_type).id,
-                        'parent_id':last_account_class.id,
+                        'parent_id': last_account_class.id,
                         'chart_template_id': self.id,
-                        })
+                    })
 
-            if ws.cell_value(l,2) in range(1000,9999):
+            if ws.cell_value(l, 2) in range(1000, 9999):
                 last_account = self.env['account.account.template'].create({
-                    'code': ws.cell_value(l,2),
-                    'name': ws.cell_value(l,3),
+                    'code': ws.cell_value(l, 2),
+                    'name': ws.cell_value(l, 3),
                     'type': 'other',
-                    'parent_id':last_account_group.id,
+                    'parent_id': last_account_group.id,
                     'user_type': self.env.ref(user_type).id,
                     'chart_template_id': self.id,
-                    'bas_k34': True if  ws.cell_value(l,1) == not_k2 else False,
-                    'bas_basic': True if ws.cell_value(l,1) == basic_code else False,
-                    })
-                if ws.cell_value(l,5) in range(1000,9999):
+                    'bas_k34': True if ws.cell_value(l, 1) == not_k2 else False,
+                    'bas_basic': True if ws.cell_value(l, 1) == basic_code else False,
+                })
+                if ws.cell_value(l, 5) in range(1000, 9999):
                     last_account = self.env['account.account.template'].create({
-                        'code': ws.cell_value(l,5),
-                        'name': ws.cell_value(l,6),
+                        'code': ws.cell_value(l, 5),
+                        'name': ws.cell_value(l, 6),
                         'type': 'other',
-                        'parent_id':last_account_group.id,
+                        'parent_id': last_account_group.id,
                         'user_type': self.env.ref(user_type).id,
                         'chart_template_id': self.id,
-                        'bas_k34': True if  ws.cell_value(l, 4) == not_k2 else False,
+                        'bas_k34': True if ws.cell_value(l, 4) == not_k2 else False,
                         'bas_basic': True if ws.cell_value(l, 4) == basic_code else False,
-                        })
+                    })
 
-            #~ if ws.cell_value(l,1) == basic_code and self.bas_basic:
-                #~ _logger.warn("%s %s" % (ws.cell_value(l,2),ws.cell_value(l,3)))
-                #~ for account_l in range(l,ws.nrows):
-                    #~ if ws.cell_value(l,4) == basic_code:
-                        #~ _logger.warn("%s %s" % (ws.cell_value(l,5),ws.cell_value(l,6)))
-                    #~ if ws.cell_value(l,2) > 0:
-                        #~ break
+            # ~ if ws.cell_value(l,1) == basic_code and self.bas_basic:
+            # ~ _logger.warn("%s %s" % (ws.cell_value(l,2),ws.cell_value(l,3)))
+            # ~ for account_l in range(l,ws.nrows):
+            # ~ if ws.cell_value(l,4) == basic_code:
+            # ~ _logger.warn("%s %s" % (ws.cell_value(l,5),ws.cell_value(l,6)))
+            # ~ if ws.cell_value(l,2) > 0:
+            # ~ break
 
     # ~ @api.multi
     def generate_fiscal_position(self, tax_template_ref, acc_template_ref, company):
@@ -509,7 +545,8 @@ class account_chart_template(models.Model):
         res = super(account_chart_template, self).generate_fiscal_position(tax_template_ref, acc_template_ref, company)
         positions = self.env['account.fiscal.position.template'].search([('chart_template_id', '=', self.id)])
         for position in positions:
-            template_xmlid = self.env['ir.model.data'].search([('model', '=', position._name), ('res_id', '=', position.id)])
+            template_xmlid = self.env['ir.model.data'].search(
+                [('model', '=', position._name), ('res_id', '=', position.id)])
             new_xmlid = 'l10n_se.' + str(company.id) + '_' + template_xmlid.name
             new_fp = self.env.ref(new_xmlid)
             for balance in position.tax_balance_ids:
@@ -553,34 +590,36 @@ class account_account_template(models.Model):
     #
     #     return self.env.ref(user_type) if user_type else None
 
+
 class account_tax_template(models.Model):
     _inherit = 'account.tax.template'
 
-    def account2tax_ids(self,account_code):
+    def account2tax_ids(self, account_code):
         tax_ids = []
-#        if user_type == 'account.data_account_type_income':
-        if  account_code in range(3000,3670):
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP1')])[0].id])]
-        if  account_code in [3002,3402]:
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP2')])[0].id])]
-        if  account_code in [3003,3403]:
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','MP3')])[0].id])]
-        if  account_code in [3004,3100,3105,3108,3404]:
+        #        if user_type == 'account.data_account_type_income':
+        if account_code in range(3000, 3670):
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'MP1')])[0].id])]
+        if account_code in [3002, 3402]:
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'MP2')])[0].id])]
+        if account_code in [3003, 3403]:
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'MP3')])[0].id])]
+        if account_code in [3004, 3100, 3105, 3108, 3404]:
             tax_ids = []
-#        if user_type == 'account.data_account_type_expense':
-        if  account_code in range(4000,4600):
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
-        if  account_code in [4516,4532,4536,4546]:
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I12')])[0].id])]
-        if  account_code in [4517,4533,4537,4547]:
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
-        if  account_code in [4518,4538]:
+        #        if user_type == 'account.data_account_type_expense':
+        if account_code in range(4000, 4600):
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'I')])[0].id])]
+        if account_code in [4516, 4532, 4536, 4546]:
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'I12')])[0].id])]
+        if account_code in [4517, 4533, 4537, 4547]:
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'I6')])[0].id])]
+        if account_code in [4518, 4538]:
             tax_ids = []
-        if  account_code in range(5000,6600):
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I')])[0].id])]
-        if  account_code in [5810]:
-            tax_ids = [(6,0,[self.env['account.tax.template'].search([('description','=','I6')])[0].id])]
+        if account_code in range(5000, 6600):
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'I')])[0].id])]
+        if account_code in [5810]:
+            tax_ids = [(6, 0, [self.env['account.tax.template'].search([('description', '=', 'I6')])[0].id])]
         return tax_ids
+
 
 class account_account_type(models.Model):
     _inherit = 'account.account.type'
@@ -624,16 +663,16 @@ class account_account_type(models.Model):
     # Change account type names from core(account)
     @api.model
     def _change_name(self):
-        for k,v in self.name_exchange_dict.items():
+        for k, v in self.name_exchange_dict.items():
             self.env['account.account.type'].search([('element_name', '=', k)]).write({'name': v})
-                 
+
     @api.model
     def set_account_type(self):
         for record in self:
             for account in self.env['account.account'].search(eval(record.account_range)):
                 if account.user_type_id != record:
-                   account.user_type_id = record
-                   _logger.warn('Account %s set type to %s' %(account.name, record.name))
+                    account.user_type_id = record
+                    _logger.warn('Account %s set type to %s' % (account.name, record.name))
 
     @api.model
     def return_eval(self):
@@ -651,38 +690,39 @@ class account_account_type(models.Model):
         self.ensure_one()
         return self.env['account.account'].search(eval(self.account_range))
 
-    def account2user_type(self,account_code):
+    def account2user_type(self, account_code):
         user_type = 'account.data_account_type_asset'
-        if account_code == 1 or account_code in range(10,20) or account_code in range(1000,1999) :
+        if account_code == 1 or account_code in range(10, 20) or account_code in range(1000, 1999):
             user_type = 'account.data_account_type_asset'
-        if account_code in range(15,26) or account_code in range(1500,1599) :
+        if account_code in range(15, 26) or account_code in range(1500, 1599):
             user_type = 'account.data_account_type_receivable'
-        if account_code in range(1900,1999):
+        if account_code in range(1900, 1999):
             user_type = 'account.data_account_type_bank'
         if account_code == 1910:
             user_type = 'account.data_account_type_cash'
 
-        if account_code == 2 or account_code in range(20,30) or account_code in range(2000,2999) :
-                user_type = 'account.data_account_type_liability'
-        if account_code == 20 or account_code in range(2000,2050):
-                user_type = 'account.conf_account_type_equity'
-        if account_code in [23,24] or account_code in range(2300,2700):
-                user_type = 'account.data_account_type_payable'
-        if account_code in [26,27] or account_code in range(2600,2800):
-                user_type = 'account.conf_account_type_tax'
+        if account_code == 2 or account_code in range(20, 30) or account_code in range(2000, 2999):
+            user_type = 'account.data_account_type_liability'
+        if account_code == 20 or account_code in range(2000, 2050):
+            user_type = 'account.conf_account_type_equity'
+        if account_code in [23, 24] or account_code in range(2300, 2700):
+            user_type = 'account.data_account_type_payable'
+        if account_code in [26, 27] or account_code in range(2600, 2800):
+            user_type = 'account.conf_account_type_tax'
 
-        if account_code == 3 or account_code == '30-34'  or account_code in range(30,40) or account_code in range(3000,4000):
-                user_type = 'account.data_account_type_income'
-        if account_code in [4,5,6,7] or account_code in ['5-6'] or  account_code in range(30,80) or account_code in ['40-45'] or account_code in range(4000,8000):
-                user_type = 'account.data_account_type_expense'
+        if account_code == 3 or account_code == '30-34' or account_code in range(30, 40) or account_code in range(3000,
+                                                                                                                  4000):
+            user_type = 'account.data_account_type_income'
+        if account_code in [4, 5, 6, 7] or account_code in ['5-6'] or account_code in range(30, 80) or account_code in [
+            '40-45'] or account_code in range(4000, 8000):
+            user_type = 'account.data_account_type_expense'
 
-
-        if account_code == 8 or account_code in [80,81,82,83] or account_code in range(8000,8400):
-                user_type = 'account.data_account_type_income'
-        if account_code in [84,88] or account_code in range(8400,8500) or account_code in range(8800,8900):
-                user_type = 'account.data_account_type_expense'
-        if account_code in [89] or account_code in range(8900,9000):
-                user_type = 'account.data_account_type_expense'
+        if account_code == 8 or account_code in [80, 81, 82, 83] or account_code in range(8000, 8400):
+            user_type = 'account.data_account_type_income'
+        if account_code in [84, 88] or account_code in range(8400, 8500) or account_code in range(8800, 8900):
+            user_type = 'account.data_account_type_expense'
+        if account_code in [89] or account_code in range(8900, 9000):
+            user_type = 'account.data_account_type_expense'
         return self.env.ref(user_type) if user_type else None
 
 
@@ -719,36 +759,106 @@ class Company(models.Model):
             fy.create_period1()
 
 
-
 class AccountChartTemplate(models.Model):
     _inherit = 'account.chart.template'
-    def _load(self, sale_tax_rate, purchase_tax_rate, company):
-            res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
-            loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
-            lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
-            loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
-            loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
-            avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
-            avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
-            personalskatt = self.env['account.account'].search([('code', '=', '2710')])
-            account_values = {
-                'UlagAvgHel': {'invoice_repartition_line_ids':  [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_7210.id,}),], 'refund_repartition_line_ids': [(5,0,0),(0, 0, { 'factor_percent': 100,'repartition_type': 'base', }),(0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_7210.id, }),]},
-                'UlagVXLon': {'invoice_repartition_line_ids': [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': lon_vaxa_stod_tjansteman.id,}),], 'refund_repartition_line_ids': [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, {'factor_percent': 100,'repartition_type': 'tax','account_id': lon_vaxa_stod_tjansteman.id, }),]},
-                'UlagAvgAldersp': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_16_36.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_16_36.id,}),]},
-                'UlagAlderspSkLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_6_15.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': loner_till_tjansteman_6_15.id,}),]},
-                'AvgHel': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),]},
-                'AvgVXLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_sarskild_loneskatt.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_sarskild_loneskatt.id,}),]},
-                'AvgAldersp': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),]},
-                'AvgAlderspSkLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),], 'refund_repartition_line_ids': [(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': avrakning_lagstadgade_sociala_avgifter.id,}),]},
-                'AgPre': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),]},
-                'SkAvdrLon': {'invoice_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),], 'refund_repartition_line_ids':[(5,0,0),(0, 0, {'factor_percent': 100,'repartition_type': 'base',}),(0,0, { 'factor_percent': 100,'repartition_type': 'tax','account_id': personalskatt.id,}),]},
-            }
 
-            for k,v in account_values.items():
-                self.env['account.tax'].search([('name', '=', k)]).write(v)
-            
-            self.env['account.account'].fix_account_types()
-            return res
-            
-            
-        
+    def _load(self, sale_tax_rate, purchase_tax_rate, company):
+        res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
+        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
+        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
+        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
+        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
+        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
+        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
+        personalskatt = self.env['account.account'].search([('code', '=', '2710')])
+        account_values = {
+            'UlagAvgHel': {'invoice_repartition_line_ids': [(5, 0, 0), (
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': loner_till_tjansteman_7210.id, }), ],
+                           'refund_repartition_line_ids': [(5, 0, 0), (
+                           0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                                 'repartition_type': 'tax',
+                                                                                                 'account_id': loner_till_tjansteman_7210.id, }), ]},
+            'UlagVXLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': lon_vaxa_stod_tjansteman.id, }), ],
+                          'refund_repartition_line_ids': [(5, 0, 0),
+                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                                  'account_id': lon_vaxa_stod_tjansteman.id, }), ]},
+            'UlagAvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': loner_till_tjansteman_16_36.id, }), ],
+                               'refund_repartition_line_ids': [(5, 0, 0), (
+                               0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+                                                                                              {'factor_percent': 100,
+                                                                                               'repartition_type': 'tax',
+                                                                                               'account_id': loner_till_tjansteman_16_36.id, }), ]},
+            'UlagAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': loner_till_tjansteman_6_15.id, }), ],
+                                 'refund_repartition_line_ids': [(5, 0, 0), (
+                                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+                                                                                                {'factor_percent': 100,
+                                                                                                 'repartition_type': 'tax',
+                                                                                                 'account_id': loner_till_tjansteman_6_15.id, }), ]},
+            'AvgHel': {'invoice_repartition_line_ids': [(5, 0, 0),
+                                                        (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+                                                        0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                               'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+                       'refund_repartition_line_ids': [(5, 0, 0),
+                                                       (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+                                                       0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                              'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+            'AvgVXLon': {'invoice_repartition_line_ids': [(5, 0, 0),
+                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                                  'account_id': avrakning_sarskild_loneskatt.id, }), ],
+                         'refund_repartition_line_ids': [(5, 0, 0),
+                                                         (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+                                                         (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                                 'account_id': avrakning_sarskild_loneskatt.id, }), ]},
+            'AvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+                           'refund_repartition_line_ids': [(5, 0, 0), (
+                           0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                                 'repartition_type': 'tax',
+                                                                                                 'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+            'AvgAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+                                'refund_repartition_line_ids': [(5, 0, 0), (
+                                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+                                                                                               {'factor_percent': 100,
+                                                                                                'repartition_type': 'tax',
+                                                                                                'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+            'AgPre': {'invoice_repartition_line_ids': [(5, 0, 0),
+                                                       (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+                                                       0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                              'account_id': personalskatt.id, }), ],
+                      'refund_repartition_line_ids': [(5, 0, 0),
+                                                      (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+                                                      0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                             'account_id': personalskatt.id, }), ]},
+            'SkAvdrLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': personalskatt.id, }), ],
+                          'refund_repartition_line_ids': [(5, 0, 0),
+                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                                  'account_id': personalskatt.id, }), ]},
+        }
+
+        for k, v in account_values.items():
+            self.env['account.tax'].search([('name', '=', k)]).write(v)
+
+        # self.env['account.account'].fix_account_types()
+        return res
