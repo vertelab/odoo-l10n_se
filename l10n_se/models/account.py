@@ -769,111 +769,111 @@ class Company(models.Model):
             fy.create_period1()
 
 
-class AccountChartTemplate(models.Model):
-    _inherit = 'account.chart.template'
+# class AccountChartTemplate(models.Model):
+#     _inherit = 'account.chart.template'
+#
+#     def _load(self, sale_tax_rate, purchase_tax_rate, company):
+#         res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
+#         loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
+#         lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
+#         loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
+#         loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
+#         avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
+#         avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
+#         personalskatt = self.env['account.account'].search([('code', '=', '2710')])
+#         account_values = {
+#             'UlagAvgHel': {'invoice_repartition_line_ids': [(5, 0, 0), (
+#                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+#                                                                                       'repartition_type': 'tax',
+#                                                                                       'account_id': loner_till_tjansteman_7210.id, }), ],
+#                            'refund_repartition_line_ids': [(5, 0, 0), (
+#                                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+#                                                            (0, 0, {'factor_percent': 100,
+#                                                                    'repartition_type': 'tax',
+#                                                                    'account_id': loner_till_tjansteman_7210.id, }), ]},
+#             'UlagVXLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+#                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+#                                                                                       'repartition_type': 'tax',
+#                                                                                       'account_id': lon_vaxa_stod_tjansteman.id, }), ],
+#                           'refund_repartition_line_ids': [(5, 0, 0),
+#                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+#                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                   'account_id': lon_vaxa_stod_tjansteman.id, }), ]},
+#             'UlagAvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
+#                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+#                                                                                       'repartition_type': 'tax',
+#                                                                                       'account_id': loner_till_tjansteman_16_36.id, }), ],
+#                                'refund_repartition_line_ids': [(5, 0, 0), (
+#                                    0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+#                                                                                                   {
+#                                                                                                       'factor_percent': 100,
+#                                                                                                       'repartition_type': 'tax',
+#                                                                                                       'account_id': loner_till_tjansteman_16_36.id, }), ]},
+#             'UlagAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+#                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+#                                                                                       'repartition_type': 'tax',
+#                                                                                       'account_id': loner_till_tjansteman_6_15.id, }), ],
+#                                  'refund_repartition_line_ids': [(5, 0, 0), (
+#                                      0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+#                                                                                                     {
+#                                                                                                         'factor_percent': 100,
+#                                                                                                         'repartition_type': 'tax',
+#                                                                                                         'account_id': loner_till_tjansteman_6_15.id, }), ]},
+#             'AvgHel': {'invoice_repartition_line_ids': [(5, 0, 0),
+#                                                         (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+#                                                             0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                    'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+#                        'refund_repartition_line_ids': [(5, 0, 0),
+#                                                        (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+#                                                            0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                   'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+#             'AvgVXLon': {'invoice_repartition_line_ids': [(5, 0, 0),
+#                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+#                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                   'account_id': avrakning_sarskild_loneskatt.id, }), ],
+#                          'refund_repartition_line_ids': [(5, 0, 0),
+#                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+#                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                  'account_id': avrakning_sarskild_loneskatt.id, }), ]},
+#             'AvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
+#                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+#                                                                                       'repartition_type': 'tax',
+#                                                                                       'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+#                            'refund_repartition_line_ids': [(5, 0, 0), (
+#                                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+#                                                            (0, 0, {'factor_percent': 100,
+#                                                                    'repartition_type': 'tax',
+#                                                                    'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+#             'AvgAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+#                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+#                                                                                       'repartition_type': 'tax',
+#                                                                                       'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+#                                 'refund_repartition_line_ids': [(5, 0, 0), (
+#                                     0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+#                                                                                                    {
+#                                                                                                        'factor_percent': 100,
+#                                                                                                        'repartition_type': 'tax',
+#                                                                                                        'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+#             'AgPre': {'invoice_repartition_line_ids': [(5, 0, 0),
+#                                                        (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+#                                                            0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                   'account_id': personalskatt.id, }), ],
+#                       'refund_repartition_line_ids': [(5, 0, 0),
+#                                                       (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
+#                                                           0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                  'account_id': personalskatt.id, }), ]},
+#             'SkAvdrLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
+#                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+#                                                                                       'repartition_type': 'tax',
+#                                                                                       'account_id': personalskatt.id, }), ],
+#                           'refund_repartition_line_ids': [(5, 0, 0),
+#                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
+#                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+#                                                                   'account_id': personalskatt.id, }), ]},
+#         }
+#
+#         for k, v in account_values.items():
+#             self.env['account.tax'].search([('name', '=', k)]).write(v)
 
-    def _load(self, sale_tax_rate, purchase_tax_rate, company):
-        res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
-        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
-        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
-        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
-        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
-        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
-        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
-        personalskatt = self.env['account.account'].search([('code', '=', '2710')])
-        account_values = {
-            'UlagAvgHel': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': loner_till_tjansteman_7210.id, }), ],
-                           'refund_repartition_line_ids': [(5, 0, 0), (
-                               0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                           (0, 0, {'factor_percent': 100,
-                                                                   'repartition_type': 'tax',
-                                                                   'account_id': loner_till_tjansteman_7210.id, }), ]},
-            'UlagVXLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': lon_vaxa_stod_tjansteman.id, }), ],
-                          'refund_repartition_line_ids': [(5, 0, 0),
-                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                  'account_id': lon_vaxa_stod_tjansteman.id, }), ]},
-            'UlagAvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': loner_till_tjansteman_16_36.id, }), ],
-                               'refund_repartition_line_ids': [(5, 0, 0), (
-                                   0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
-                                                                                                  {
-                                                                                                      'factor_percent': 100,
-                                                                                                      'repartition_type': 'tax',
-                                                                                                      'account_id': loner_till_tjansteman_16_36.id, }), ]},
-            'UlagAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': loner_till_tjansteman_6_15.id, }), ],
-                                 'refund_repartition_line_ids': [(5, 0, 0), (
-                                     0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
-                                                                                                    {
-                                                                                                        'factor_percent': 100,
-                                                                                                        'repartition_type': 'tax',
-                                                                                                        'account_id': loner_till_tjansteman_6_15.id, }), ]},
-            'AvgHel': {'invoice_repartition_line_ids': [(5, 0, 0),
-                                                        (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                            0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                   'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
-                       'refund_repartition_line_ids': [(5, 0, 0),
-                                                       (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                           0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                  'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
-            'AvgVXLon': {'invoice_repartition_line_ids': [(5, 0, 0),
-                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                  'account_id': avrakning_sarskild_loneskatt.id, }), ],
-                         'refund_repartition_line_ids': [(5, 0, 0),
-                                                         (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                         (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                 'account_id': avrakning_sarskild_loneskatt.id, }), ]},
-            'AvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
-                           'refund_repartition_line_ids': [(5, 0, 0), (
-                               0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                           (0, 0, {'factor_percent': 100,
-                                                                   'repartition_type': 'tax',
-                                                                   'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
-            'AvgAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
-                                'refund_repartition_line_ids': [(5, 0, 0), (
-                                    0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
-                                                                                                   {
-                                                                                                       'factor_percent': 100,
-                                                                                                       'repartition_type': 'tax',
-                                                                                                       'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
-            'AgPre': {'invoice_repartition_line_ids': [(5, 0, 0),
-                                                       (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                           0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                  'account_id': personalskatt.id, }), ],
-                      'refund_repartition_line_ids': [(5, 0, 0),
-                                                      (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                          0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                 'account_id': personalskatt.id, }), ]},
-            'SkAvdrLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': personalskatt.id, }), ],
-                          'refund_repartition_line_ids': [(5, 0, 0),
-                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                  'account_id': personalskatt.id, }), ]},
-        }
-
-        for k, v in account_values.items():
-            self.env['account.tax'].search([('name', '=', k)]).write(v)
-
-        self.env['account.account'].fix_account_types()
-        return res
+        # self.env['account.account'].fix_account_types()
+        # return res

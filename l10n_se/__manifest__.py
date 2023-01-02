@@ -113,7 +113,7 @@
         'data/account_reconcile_model.xml',
 
         # 'data/load_account_chart_template_data.xml',
-        'data/set_account_type_on_account.xml',
+        # 'data/set_account_type_on_account.xml',
 
     ],
     'demo': [
