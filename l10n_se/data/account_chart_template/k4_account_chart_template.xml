@@ -114,19 +114,19 @@
         <record id="K4_1060_2017" model="account.account.template">
             <field name="name">Hyresrätter, tomträtter och liknande</field>
             <field name="code">1060</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_HyresratterLiknandeRattigheter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_1068_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på hyresrätter, tomträtter och liknande </field>
             <field name="code">1068</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_HyresratterLiknandeRattigheter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_1069_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på hyresrätter, tomträtter och liknande </field>
             <field name="code">1069</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_HyresratterLiknandeRattigheter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_1070_2017" model="account.account.template">
@@ -1531,21 +1531,21 @@
         <record id="K4_1810_2017" model="account.account.template">
             <field name="name">Andelar i börsnoterade företag </field>
             <field name="code">1810</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaKortfristigaPlaceringar"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.</field>
         </record>
         <record id="K4_1820_2017" model="account.account.template">
             <field name="name">Obligationer </field>
             <field name="code">1820</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaKortfristigaPlaceringar"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.</field>
         </record>
         <record id="K4_1830_2017" model="account.account.template">
             <field name="name">Konvertibla skuldebrev </field>
             <field name="code">1830</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaKortfristigaPlaceringar"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.</field>
         </record>
@@ -1927,6 +1927,7 @@
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+<!--
         <record id="K4_2120_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2020</field>
             <field name="code">2120</field>
@@ -1934,6 +1935,7 @@
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+-->
         <record id="K4_2121_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2021</field>
             <field name="code">2121</field>
@@ -1997,6 +1999,7 @@
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+<!--
         <record id="K4_2130_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2020 – nr 2</field>
             <field name="code">2130</field>
@@ -2004,6 +2007,7 @@
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+-->
         <record id="K4_2131_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2021 – nr 2</field>
             <field name="code">2131</field>
@@ -2721,7 +2725,7 @@
         <record id="K4_2790_2017" model="account.account.template">
             <field name="name">Övriga löneavdrag </field>
             <field name="code">2790</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_2791_2017" model="account.account.template">
@@ -3558,28 +3562,28 @@
         <record id="K4_3800_2017" model="account.account.template">
             <field name="name">Aktiverat arbete för egen räkning (gruppkonto) </field>
             <field name="code">3800</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
         <record id="K4_3840_2017" model="account.account.template">
             <field name="name">Aktiverat arbete (material) </field>
             <field name="code">3840</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
         <record id="K4_3850_2017" model="account.account.template">
             <field name="name">Aktiverat arbete (omkostnader) </field>
             <field name="code">3850</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
         <record id="K4_3870_2017" model="account.account.template">
             <field name="name">Aktiverat arbete (personal) </field>
             <field name="code">3870</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
@@ -7638,13 +7642,13 @@
         <record id="K4_8820_2017" model="account.account.template">
             <field name="name">Mottagna koncernbidrag</field>
             <field name="code">8820</field>
-            <field name="user_type_id" ref="account.data_account_type_other_income"/>
+            <field name="user_type_id" ref="l10n_se.type_ErhallnaKoncernbidrag"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_8830_2017" model="account.account.template">
             <field name="name">Lämnade koncernbidrag</field>
             <field name="code">8830</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaBokslutsdispositioner"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_8840_2017" model="account.account.template">

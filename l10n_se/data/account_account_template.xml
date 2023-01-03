@@ -410,7 +410,7 @@
         <record id="K2_7500_2017" model="account.account.template">
             <field name="name">Sociala och andra avgifter enligt lag och avtal (gruppkonto)</field>
             <field name="code">7500</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses" />
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader" />
             <field name="chart_template_id" ref="chart_template_general" />
         </record>
 

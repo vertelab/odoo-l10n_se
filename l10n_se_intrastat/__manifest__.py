@@ -35,10 +35,12 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['report_intrastat'],
+    'depends': ['intrastat_product_generic', 'intrastat_product'],
+    # ~ 'depends': ['report_intrastat','intrastat_product_generic', 'intrastat_product'],
     'init_xml': [],
     'data': [
-        'data/report.intrastat.code.csv'
+        # ~ 'data/intrastat_code.xml',
+        'data/intrastat_code_oca.xml',
     ],
     'demo_xml' : [
     ],

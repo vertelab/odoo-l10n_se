@@ -85,19 +85,19 @@
         <record id="K2_1060_2017" model="account.account.template">
             <field name="name">Hyresrätter, tomträtter och liknande</field>
             <field name="code">1060</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_HyresratterLiknandeRattigheter"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1068_2017" model="account.account.template">
             <field name="name">Ackumulerade nedskrivningar på hyresrätter, tomträtter och liknande </field>
             <field name="code">1068</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_HyresratterLiknandeRattigheter"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1069_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på hyresrätter, tomträtter och liknande </field>
             <field name="code">1069</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_HyresratterLiknandeRattigheter"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_1070_2017" model="account.account.template">
@@ -1475,21 +1475,21 @@
         <record id="K2_1810_2017" model="account.account.template">
             <field name="name">Andelar i börsnoterade företag </field>
             <field name="code">1810</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaKortfristigaPlaceringar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.</field>
         </record>
         <record id="K2_1820_2017" model="account.account.template">
             <field name="name">Obligationer </field>
             <field name="code">1820</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaKortfristigaPlaceringar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.</field>
         </record>
         <record id="K2_1830_2017" model="account.account.template">
             <field name="name">Konvertibla skuldebrev </field>
             <field name="code">1830</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaKortfristigaPlaceringar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Innehav av värdepapper eller andra placeringar som inte är anläggningstillgångar och som inte redovisas i någon annan post under Omsättningstillgångar och som ni planerar att avyttra inom 12 månader från bokföringsårets slut.</field>
         </record>
@@ -1855,147 +1855,151 @@
         <record id="K2_2120_2017" model="account.account.template">
             <field name="name">Periodiseringsfonder </field>
             <field name="code">2120</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+<!--
         <record id="K2_2120_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2020</field>
             <field name="code">2120</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+-->
         <record id="K2_2121_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2021</field>
             <field name="code">2121</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2122_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2022</field>
             <field name="code">2122</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2123_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2023</field>
             <field name="code">2123</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2125_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2015</field>
             <field name="code">2125</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2126_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2016</field>
             <field name="code">2126</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2127_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2017</field>
             <field name="code">2127</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2128_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2018  </field>
             <field name="code">2128</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2129_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2019 </field>
             <field name="code">2129</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2130_2017" model="account.account.template">
             <field name="name">Periodiseringsfonder </field>
             <field name="code">2130</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+<!--
         <record id="K2_2130_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2020 – nr 2</field>
             <field name="code">2130</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
+-->
         <record id="K2_2131_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2021 – nr 2</field>
             <field name="code">2131</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2132_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2022 – nr 2</field>
             <field name="code">2132</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2133_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2023 – nr 2</field>
             <field name="code">2133</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2134_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2024 – nr 2</field>
             <field name="code">2134</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2135_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2015 – nr 2</field>
             <field name="code">2135</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2136_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2016 – nr 2</field>
             <field name="code">2136</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2137_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2017 – nr 2</field>
             <field name="code">2137</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2138_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2018 – nr 2</field>
             <field name="code">2138</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
         <record id="K2_2139_2017" model="account.account.template">
             <field name="name">Periodiseringsfond 2019 – nr 2</field>
             <field name="code">2139</field>
-            <field name="user_type_id" ref="l10n_se.untaxed_reserve"/>
+            <field name="user_type_id" ref="l10n_se.type_Periodiseringsfonder"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Man kan avsätta upp till 25% av resultat efter finansiella poster till periodiseringsfonden. Det är ett sätt att skjuta upp bolagsskatten i upp till fem år. Avsättningen måste återföras till beskattning senast på det sjätte året efter det att avsättningen gjordes.</field>
         </record>
@@ -2089,7 +2093,7 @@
         <record id="K2_2250_2017" model="account.account.template">
             <field name="name">Övriga avsättningar för skatter </field>
             <field name="code">2250</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaAvsattningar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
             <field name="note">Andra avsättningar än för pensioner, t.ex. garantiåtaganden.</field>
@@ -2097,7 +2101,7 @@
         <record id="K2_2252_2017" model="account.account.template">
             <field name="name">Avsättningar för tvistiga skatter </field>
             <field name="code">2252</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaAvsattningar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
             <field name="note">Andra avsättningar än för pensioner, t.ex. garantiåtaganden.</field>
@@ -2105,7 +2109,7 @@
         <record id="K2_2253_2017" model="account.account.template">
             <field name="name">Avsättningar särskild löneskatt, deklarationspost</field>
             <field name="code">2253</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaAvsattningar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
             <field name="note">Andra avsättningar än för pensioner, t.ex. garantiåtaganden.</field>
@@ -2113,7 +2117,7 @@
         <record id="K2_2290_2017" model="account.account.template">
             <field name="name">Övriga avsättningar </field>
             <field name="code">2290</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaAvsattningar"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
             <field name="note">Andra avsättningar än för pensioner, t.ex. garantiåtaganden.</field>
@@ -2283,7 +2287,7 @@
         <record id="K2_2373_2017" model="account.account.template">
             <field name="name">Långfristiga skulder till övriga företag som det finns ett ägarintresse i</field>
             <field name="code">2373</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="l10n_se.type_SkulderOvrigaForetagAgarintresseLangfristiga"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
@@ -2598,63 +2602,63 @@
         <record id="K2_2661_2017" model="account.account.template">
             <field name="name">Reklamskatt </field>
             <field name="code">2661</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2669_2017" model="account.account.template">
             <field name="name">Övriga punktskatter </field>
             <field name="code">2669</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2731_2017" model="account.account.template">
             <field name="name">Avräkning lagstadgade sociala avgifter </field>
             <field name="code">2731</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2732_2017" model="account.account.template">
             <field name="name">Avräkning särskild löneskatt </field>
             <field name="code">2732</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2740_2017" model="account.account.template">
             <field name="name">Avtalade sociala avgifter </field>
             <field name="code">2740</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2750_2017" model="account.account.template">
             <field name="name">Utmätning i lön m.m. </field>
             <field name="code">2750</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2761_2017" model="account.account.template">
             <field name="name">Avräkning semesterlöner </field>
             <field name="code">2761</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2762_2017" model="account.account.template">
             <field name="name">Semesterlönekassa </field>
             <field name="code">2762</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
         <record id="K2_2790_2017" model="account.account.template">
             <field name="name">Övriga löneavdrag </field>
             <field name="code">2790</field>
-            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
@@ -3492,28 +3496,28 @@
         <record id="K2_3800_2017" model="account.account.template">
             <field name="name">Aktiverat arbete för egen räkning (gruppkonto) </field>
             <field name="code">3800</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
         <record id="K2_3840_2017" model="account.account.template">
             <field name="name">Aktiverat arbete (material) </field>
             <field name="code">3840</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
         <record id="K2_3850_2017" model="account.account.template">
             <field name="name">Aktiverat arbete (omkostnader) </field>
             <field name="code">3850</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
         <record id="K2_3870_2017" model="account.account.template">
             <field name="name">Aktiverat arbete (personal) </field>
             <field name="code">3870</field>
-            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
+            <field name="user_type_id" ref="l10n_se.type_AktiveratArbeteEgenRakning"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="note">Kostnader för eget arbete där resultatet av arbetet tas upp som en tillgång i balansräkningen.</field>
         </record>
@@ -7489,19 +7493,19 @@
         <record id="K2_8820_2017" model="account.account.template">
             <field name="name">Mottagna koncernbidrag</field>
             <field name="code">8820</field>
-            <field name="user_type_id" ref="account.data_account_type_other_income"/>
+            <field name="user_type_id" ref="l10n_se.type_ErhallnaKoncernbidrag"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_8830_2017" model="account.account.template">
             <field name="name">Lämnade koncernbidrag</field>
             <field name="code">8830</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_LamnadeKoncernbidrag"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_8840_2017" model="account.account.template">
             <field name="name">Lämnade gottgörelser</field>
             <field name="code">8840</field>
-            <field name="user_type_id" ref="account.data_account_type_equity"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaBokslutsdispositioner"/>
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
         </record>
         <record id="K2_8850_2017" model="account.account.template">
