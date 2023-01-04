@@ -154,6 +154,6 @@
 <!--
     <menuitem name="Arbetsgivardeklaration" parent="menu_report_authoritiesmenu_report_authorities" action="action_account_agd_declaration" id="menu_account_agd_declaration" groups="account.group_account_user,account.group_account_manager" />
 -->
-    <menuitem name="Arbetsgivardeklaration" parent="menu_report_authorities" action="action_account_agd_declaration" id="menu_account_agd_declaration" />
+    <menuitem name="Arbetsgivardeklaration" parent="l10n_se_tax_report.menu_report_authorities" action="action_account_agd_declaration" id="menu_account_agd_declaration" />
   </data>
 </odoo>

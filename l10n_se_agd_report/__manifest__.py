@@ -20,46 +20,30 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Account Tax Report',
+    'name': 'l10n_se: Agd Report',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Sweden - Account Tax Report',
+    'summary': 'Agd report',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_report',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'website': '',
+    'images': [''], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'repository': '',
     'description': """
-Swedish accounting Tax Report
+Swedish Agd Report
 =============================
-Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
+Adds some Swedish employer reports (Arbetsgivardeklaration)
      """,
     'author': 'Vertel AB',
     # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se', 'account_payment_order','calendar','mis_builder','payroll_account','l10n_se_mis', 'l10n_se_hr_payroll',],
+    'depends': ['l10n_se_tax_report',],
     'data': [
-        'data/account_data.xml',
-        # ~ 'data/account_financial.xml',
-        'views/account_view.xml',
-        'views/res_config_view.xml',
-        # ~ 'wizard/import_b_and_r_report.xml', funkar inte i 12
-        # ~ 'wizard/import_bolagsverket_report.xml', funkar inte i 12
-        'views/moms_report.xml',
-        # ~ 'views/agd_report.xml',
-        # ~ 'views/sru_report.xml',
-        # ~ 'views/periodic_compilation.xml',
-        'report/report.xml',
-        # ~ 'account_invoice_demo.xml',
+        'views/agd_report.xml',
         'security/ir.model.access.csv',
-        'views/mis_report_view.xml',
-         ],
-    'demo_xml' : [
-        # ~ 'demo/account_invoice.yml',
-        'demo/account_invoice.xml',
     ],
     'installable': 'True',
 }

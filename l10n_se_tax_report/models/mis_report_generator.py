@@ -1,4 +1,4 @@
-from openerp import models, fields, api
+from odoo import models, fields, api, _
 import logging
 import base64
 from lxml import etree
@@ -205,7 +205,7 @@ class account_vat_declaration(models.Model):
                     })
                     self.write({'move_id': entry.id})
             else:
-                raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))   
+                raise UserWarning(_('You are missing either a credit account, debit account or a tax account, please add these'))   
                         
                     
                     
