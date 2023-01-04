@@ -2196,37 +2196,37 @@
         <record id="K4_2310_2017" model="account.account.template">
             <field name="name">Obligations- och förlagslån </field>
             <field name="code">2310</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_2320_2017" model="account.account.template">
             <field name="name">Konvertibla lån och liknande </field>
             <field name="code">2320</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_2321_2017" model="account.account.template">
             <field name="name">Konvertibla lån</field>
             <field name="code">2321</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_2322_2017" model="account.account.template">
             <field name="name">Lån förenade med optionsrätt</field>
             <field name="code">2322</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_2323_2017" model="account.account.template">
             <field name="name">Vinstandelslån </field>
             <field name="code">2323</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_2324_2017" model="account.account.template">
             <field name="name">Kapitalandelslån </field>
             <field name="code">2324</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_2330_2017" model="account.account.template">
@@ -5642,7 +5642,7 @@
         <record id="K4_7010_2017" model="account.account.template">
             <field name="name">Löner till kollektivanställda </field>
             <field name="code">7010</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_7011_2017" model="account.account.template">
@@ -6700,7 +6700,7 @@
         <record id="K4_7940_2017" model="account.account.template">
             <field name="name">Orealiserade positiva/negativa värdeförändringar på säkringsinstrument</field>
             <field name="code">7940</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Kostnader som ligger utanför företagets normala verksamhet, t.ex. valutakursförluster och realisationsförlust vid försäljning av icke- finansiella anläggningstillgångar.</field>
         </record>
@@ -7428,126 +7428,126 @@
         <record id="K4_8410_2017" model="account.account.template">
             <field name="name">Räntekostnader för långfristiga skulder </field>
             <field name="code">8410</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8411_2017" model="account.account.template">
             <field name="name">Räntekostnader för obligations-, förlags- och konvertibla lån </field>
             <field name="code">8411</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8412_2017" model="account.account.template">
             <field name="name">Räntedel i årets pensionskostnad </field>
             <field name="code">8412</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8413_2017" model="account.account.template">
             <field name="name">Räntekostnader för checkräkningskredit </field>
             <field name="code">8413</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8415_2017" model="account.account.template">
             <field name="name">Räntekostnader för andra skulder till kreditinstitut </field>
             <field name="code">8415</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8417_2017" model="account.account.template">
             <field name="name">Räntekostnader för dold räntekompensation m.m. </field>
             <field name="code">8417</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8418_2017" model="account.account.template">
             <field name="name">Avdragspost för räntesubventioner </field>
             <field name="code">8418</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8419_2017" model="account.account.template">
             <field name="name">Övriga räntekostnader för långfristiga skulder </field>
             <field name="code">8419</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8420_2017" model="account.account.template">
             <field name="name">Räntekostnader för kortfristiga skulder </field>
             <field name="code">8420</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8421_2017" model="account.account.template">
             <field name="name">Räntekostnader till kreditinstitut </field>
             <field name="code">8421</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8422_2017" model="account.account.template">
             <field name="name">Dröjsmålsräntor för leverantörsskulder </field>
             <field name="code">8422</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8423_2017" model="account.account.template">
             <field name="name">Räntekostnader för skatter och avgifter </field>
             <field name="code">8423</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8424_2017" model="account.account.template">
             <field name="name">Räntekostnader byggnadskreditiv</field>
             <field name="code">8424</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8429_2017" model="account.account.template">
             <field name="name">Övriga räntekostnader för kortfristiga skulder </field>
             <field name="code">8429</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8430_2017" model="account.account.template">
             <field name="name">Valutakursdifferenser på skulder </field>
             <field name="code">8430</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8431_2017" model="account.account.template">
             <field name="name">Valutakursvinster på skulder </field>
             <field name="code">8431</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8436_2017" model="account.account.template">
             <field name="name">Valutakursförluster på skulder </field>
             <field name="code">8436</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8440_2017" model="account.account.template">
             <field name="name">Erhållna räntebidrag </field>
             <field name="code">8440</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
@@ -7575,28 +7575,28 @@
         <record id="K4_8460_2017" model="account.account.template">
             <field name="name">Räntekostnader till koncernföretag </field>
             <field name="code">8460</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8461_2017" model="account.account.template">
             <field name="name">Räntekostnader till moderföretag </field>
             <field name="code">8461</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8462_2017" model="account.account.template">
             <field name="name">Räntekostnader till dotterföretag </field>
             <field name="code">8462</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8463_2017" model="account.account.template">
             <field name="name">Räntekostnader till andra koncernföretag </field>
             <field name="code">8463</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
@@ -7610,14 +7610,14 @@
         <record id="K4_8490_2017" model="account.account.template">
             <field name="name">Övriga skuldrelaterade poster </field>
             <field name="code">8490</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K4_8491_2017" model="account.account.template">
             <field name="name">Erhållet ackord på skulder till kreditinstitut m.m. </field>
             <field name="code">8491</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
@@ -7648,13 +7648,13 @@
         <record id="K4_8830_2017" model="account.account.template">
             <field name="name">Lämnade koncernbidrag</field>
             <field name="code">8830</field>
-            <field name="user_type_id" ref="l10n_se.type_OvrigaBokslutsdispositioner"/>
+            <field name="user_type_id" ref="l10n_se.type_LamnadeKoncernbidrag"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_8840_2017" model="account.account.template">
             <field name="name">Lämnade gottgörelser</field>
             <field name="code">8840</field>
-            <field name="user_type_id" ref="account.data_account_type_equity"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaBokslutsdispositioner"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
         </record>
         <record id="K4_8850_2017" model="account.account.template">
@@ -7771,7 +7771,7 @@
         <record id="K4_8940_2017" model="account.account.template">
             <field name="name">Uppskjuten skatt </field>
             <field name="code">8940</field>
-            <field name="user_type_id" ref="l10n_se.type_SkattAretsResultat"/>
+            <field name="user_type_id" ref="l10n_se.tax"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">&lt;p&gt;Beräknad skatt på årets resultat.&lt;/p&gt;&lt;p&gt; Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.&lt;/p&gt;</field>
         </record>

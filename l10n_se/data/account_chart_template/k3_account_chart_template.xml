@@ -838,7 +838,7 @@
         <record id="K3_1370_2017" model="account.account.template">
             <field name="name">Uppskjuten skattefordran </field>
             <field name="code">1370</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
@@ -2196,37 +2196,37 @@
         <record id="K3_2310_2017" model="account.account.template">
             <field name="name">Obligations- och förlagslån </field>
             <field name="code">2310</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_2320_2017" model="account.account.template">
             <field name="name">Konvertibla lån och liknande </field>
             <field name="code">2320</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_2321_2017" model="account.account.template">
             <field name="name">Konvertibla lån</field>
             <field name="code">2321</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_2322_2017" model="account.account.template">
             <field name="name">Lån förenade med optionsrätt</field>
             <field name="code">2322</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_2323_2017" model="account.account.template">
             <field name="name">Vinstandelslån </field>
             <field name="code">2323</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_2324_2017" model="account.account.template">
             <field name="name">Kapitalandelslån </field>
             <field name="code">2324</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_2330_2017" model="account.account.template">
@@ -5619,7 +5619,7 @@
         <record id="K3_7010_2017" model="account.account.template">
             <field name="name">Löner till kollektivanställda </field>
             <field name="code">7010</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_7011_2017" model="account.account.template">
@@ -6677,7 +6677,7 @@
         <record id="K3_7940_2017" model="account.account.template">
             <field name="name">Orealiserade positiva/negativa värdeförändringar på säkringsinstrument</field>
             <field name="code">7940</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
             <field name="note">Kostnader som ligger utanför företagets normala verksamhet, t.ex. valutakursförluster och realisationsförlust vid försäljning av icke- finansiella anläggningstillgångar.</field>
         </record>
@@ -7531,21 +7531,21 @@
         <record id="K3_8450_2017" model="account.account.template">
             <field name="name">Orealiserade värdeförändringar på skulder </field>
             <field name="code">8450</field>
-            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
+            <field name="user_type_id" ref="account.data_account_type_expenses"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K3_8451_2017" model="account.account.template">
             <field name="name">Orealiserade värdeförändringar på skulder </field>
             <field name="code">8451</field>
-            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
+            <field name="user_type_id" ref="account.data_account_type_expenses"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
         <record id="K3_8455_2017" model="account.account.template">
             <field name="name">Orealiserade värdeförändringar på säkringsinstrument </field>
             <field name="code">8455</field>
-            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
+            <field name="user_type_id" ref="account.data_account_type_expenses"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
@@ -7580,7 +7580,7 @@
         <record id="K3_8480_2017" model="account.account.template">
             <field name="name">Aktiverade ränteutgifter </field>
             <field name="code">8480</field>
-            <field name="user_type_id" ref="l10n_se.type_RantekostnaderLiknandeResultatposter"/>
+            <field name="user_type_id" ref="account.data_account_type_expenses"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
             <field name="note">Resultat från finansiella skulder, t.ex. räntor på lån, positiva och negativa valutakursdifferenser samt dröjsmåls-räntor på leverantörsskulder.</field>
         </record>
@@ -7625,13 +7625,13 @@
         <record id="K3_8830_2017" model="account.account.template">
             <field name="name">Lämnade koncernbidrag</field>
             <field name="code">8830</field>
-            <field name="user_type_id" ref="l10n_se.type_OvrigaBokslutsdispositioner"/>
+            <field name="user_type_id" ref="l10n_se.type_LamnadeKoncernbidrag"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_8840_2017" model="account.account.template">
             <field name="name">Lämnade gottgörelser</field>
             <field name="code">8840</field>
-            <field name="user_type_id" ref="account.data_account_type_equity"/>
+            <field name="user_type_id" ref="l10n_se.type_OvrigaBokslutsdispositioner"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
         </record>
         <record id="K3_8850_2017" model="account.account.template">
@@ -7748,7 +7748,7 @@
         <record id="K3_8940_2017" model="account.account.template">
             <field name="name">Uppskjuten skatt </field>
             <field name="code">8940</field>
-            <field name="user_type_id" ref="l10n_se.type_SkattAretsResultat"/>
+            <field name="user_type_id" ref="l10n_se.tax"/>
             <field name="chart_template_id" ref="chart_template_K3_2017"/>
             <field name="note">&lt;p&gt;Beräknad skatt på årets resultat.&lt;/p&gt;&lt;p&gt; Om du inte redan har räknat ut skatten för innevarande år kan du lämna fältet blankt. Skatten räknas ut senare, i sektionen 'Skatt'.&lt;/p&gt;</field>
         </record>

@@ -412,6 +412,7 @@
             <field name="code">7500</field>
             <field name="user_type_id" ref="l10n_se.type_Personalkostnader" />
             <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="chart8990" model="account.account.template">

@@ -2214,37 +2214,37 @@
         <record id="K1_2310_2017" model="account.account.template">
             <field name="name">Obligations- och förlagslån </field>
             <field name="code">2310</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2320_2017" model="account.account.template">
             <field name="name">Konvertibla lån och liknande </field>
             <field name="code">2320</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2321_2017" model="account.account.template">
             <field name="name">Konvertibla lån</field>
             <field name="code">2321</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2322_2017" model="account.account.template">
             <field name="name">Lån förenade med optionsrätt</field>
             <field name="code">2322</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2323_2017" model="account.account.template">
             <field name="name">Vinstandelslån </field>
             <field name="code">2323</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2324_2017" model="account.account.template">
             <field name="name">Kapitalandelslån </field>
             <field name="code">2324</field>
-            <field name="user_type_id" ref="account.data_account_type_non_current_assets"/>
+            <field name="user_type_id" ref="l10n_se.type_Obligationslan"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_2330_2017" model="account.account.template">
@@ -5752,7 +5752,7 @@
         <record id="K1_7082_2017" model="account.account.template">
             <field name="name">Semesterlöner till kollektivanställda </field>
             <field name="code">7082</field>
-            <field name="user_type_id" ref="account.data_account_type_expenses"/>
+            <field name="user_type_id" ref="l10n_se.type_Personalkostnader"/>
             <field name="chart_template_id" ref="chart_template_K1_2017"/>
         </record>
         <record id="K1_7083_2017" model="account.account.template">
