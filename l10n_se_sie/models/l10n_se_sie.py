@@ -489,7 +489,7 @@ class account_sie(models.TransientModel):
             if line['label'] == '#VER':
                 
                 list_date = line.get(3)  # date
-                list_ref = line.get(1) + ' ' + line.get(2) + ' ' + line.get(4)  # reference
+                list_ref = line.get(1," ") + ' ' + line.get(2," ") + ' ' + line.get(4," ")  # reference
                 list_sign = line.get(5)  # sign
                 list_regdatum = line.get(5)  # created_date
                 # ~ move_journal_id = self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', self.env.ref('base.main_company').id)])[0].id

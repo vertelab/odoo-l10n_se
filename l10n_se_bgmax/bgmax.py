@@ -632,6 +632,7 @@ class BgExcelTransactionReport(object):
             if(index == 13):
                 th = { 'Antal': 'name', u'L\xf6pnummer': 'bg_serial_number' , 'Datum': 'date', 'Totalt belopp': 'amount'}
                 header = {c:i for i, c in enumerate(row)}
+                _logger.warning(f"jakmar {header=}")
                 self.header = {th[key]:value for key, value in header.items()}
             else:
                 transaction_dict = {key:row[self.header[key]] for key in self.header}
