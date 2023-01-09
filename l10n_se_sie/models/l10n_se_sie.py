@@ -576,7 +576,7 @@ class account_sie(models.TransientModel):
                         # ~ _logger.warning(f"{ib_move_id=}")
                         year_num = int(line.get(1)) #Opening period for current fiscal year 
                         first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
-                        iperiod_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
+                        period_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
                         period_record = self.env["account.period"].browse(period_id)
                         ib_account = self.env['account.account'].search([('code','=',line.get(2))])
                         ib_amount = line.get(3)
