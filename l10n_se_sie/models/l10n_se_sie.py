@@ -577,7 +577,7 @@ class account_sie(models.TransientModel):
                         year_num = int(line.get(1)) #Opening period for current fiscal year 
                         first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
                         period_id = self.env['account.period'].search([('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year), ('special', '=', True)]).id
-                        period_record = self.env["account.period"].browse(period_id)
+                        #period_record = self.env["account.period"].browse(period_id)
                         ib_account = self.env['account.account'].search([('code','=',line.get(2))])
                         ib_amount = line.get(3)
                         ib_qnt = line.get(4) # We already have a amount, what is the purpose of having a quantity as well
@@ -585,7 +585,7 @@ class account_sie(models.TransientModel):
                         ib_move_journal_id = self.move_journal_id.id
                         if not ib_move_id:
                             ib_move_id = self.env['account.move'].create({
-                            'period_id': period_id,
+                            'period_id': period_id.id,
                             'journal_id': move_journal_id,
                             'date': first_date_of_year,
                             'ref': "IB",
