@@ -115,6 +115,14 @@
               <group string="Choose a journal">
                     <field name="move_journal_id"/>
                 </group>
+                <group string="Configure Serie To Journal">
+                    <field name="serie_to_journal_ids">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="journal_id"/>
+                        </tree>
+                    </field>
+                </group>
               <field name="show_account_lines" invisible="1"/>
               <div>
                 <group string="Import Accounts">

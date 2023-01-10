@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
-from odoo.exceptions import Warning, RedirectWarning
+from odoo.exceptions import Warning, RedirectWarning, UserError
 from odoo import http
 import base64
 from datetime import datetime
@@ -9,6 +9,12 @@ import odoo
 import logging
 _logger = logging.getLogger(__name__)
 
+class account_sie_serie_to_journal(models.TransientModel):
+    _name = 'account.sie.serie.to.journal'
+    
+    name = fields.Char(string = "Serie")
+    journal_id = fields.Many2one(comodel_name = "account.journal", string = "Journal",help="Used to set journal based on Serie of #VER",)
+    sie_export = fields.Many2one(comodel_name = "account.sie")
 
 class account_sie_account(models.TransientModel):
     _name = 'account.sie.account'
@@ -45,7 +51,7 @@ class account_sie_account(models.TransientModel):
 class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'SIE Import Wizard'
-    
+    serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal')
     date_start = fields.Date(string = "Date interval")
     date_stop = fields.Date(string = "Stop Date")
     period_ids = fields.Many2many(comodel_name = "account.period", string="Periods" ,) # domain="[('company_id','=',self.env.ref('base.main_company').id)]"
@@ -125,11 +131,14 @@ class account_sie(models.TransientModel):
         text_list = []
         # Clean away empty lines and carriage return. Ceterum censeo Bill Gates esse delendam.
         for line in data.split('\n'):
+            # ~ _logger.warning(f"before {line=}")
             line = line.strip()
+            # ~ _logger.warning(f"after {line=}")
             if line:
                 text_list.append(line)
+        # ~ _logger.warning(f"{text_list=}")
         data = self.read_file(text_list)
-        _logger.debug(data)
+        # ~ _logger.warning(data)
         return data
 
     def check_import_file(self, data=None, check_periods=True):
@@ -167,6 +176,7 @@ class account_sie(models.TransientModel):
 
     @api.model
     def read_line(self, line, i=0):
+        #TRANS 2013 {} 15887 "" "" 0
         res = []
         field = ''
         citation = False
@@ -181,6 +191,9 @@ class account_sie(models.TransientModel):
                 if citation:
                     if line[i] == '"':
                         citation = False
+                        if field == '' and "#TRANS" in line:
+                            #just an empty "", we still need that in order to deterimine which value was in which index.
+                            field = "Empty Citation"
                     else:
                         field += line[i]
                 elif line[i] == '{':
@@ -205,27 +218,31 @@ class account_sie(models.TransientModel):
 
     @api.model
     def read_file(self, text_list, i = 0):
+        # ~ _logger.warning(f"{text_list}")
         res = []
         last_line = None
         while i < len(text_list):
             _logger.debug(i)
+            # ~ _logger.warning(f"before {i=} {text_list[i]=}")
             if text_list[i] == '{':
-                _logger.debug('down')
+                # ~ _logger.debug('down')
                 l, i = self.read_file(text_list, i + 1)
                 last_line['lines'] = l
             elif text_list[i] == '}':
-                _logger.debug('up')
+                # ~ _logger.debug('up')
                 return res, i
             else:
+                # ~ _logger.warning(f"after {i=} {text_list[i]=}")
+                
                 l = self.read_line(text_list[i])
-                _logger.debug(l)
+                # ~ _logger.warning(f"{l=}")
                 last_line = {}
                 for x in range(len(l)):
                     if x == 0:
                         last_line['label'] = l[x]
                     else:
                         last_line[x] = l[x]
-                _logger.debug(last_line)
+                # ~ _logger.warning(f"{last_line=}")
                 res.append(last_line)
             i += 1
         return res
@@ -493,8 +510,24 @@ class account_sie(models.TransientModel):
                 list_sign = line.get(5)  # sign
                 list_regdatum = line.get(5)  # created_date
                 # ~ move_journal_id = self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', self.env.ref('base.main_company').id)])[0].id
-
+                
                 move_journal_id = self.move_journal_id.id
+                
+                serie_to_journal_lines = self.serie_to_journal_ids.filtered(lambda x: x.name == line.get(1))
+                #_logger.warning(f"{serie_to_journal_lines=} , {serie_to_journal_lines.name=} , {serie_to_journal_lines.journal_id=}")
+                
+                if len(serie_to_journal_lines) > 1:
+                    serie_to_journal_lines_warning = "There are two lines the same series.\n"
+                    for serie_to_journal_line in serie_to_journal_lines:
+                        serie_to_journal_lines_warning += f"{serie_to_journal_line.name} = {serie_to_journal_line.journal_id.name} \n"
+                    serie_to_journal_lines_warning += "Please remove one of the lines."
+                    raise UserError(serie_to_journal_lines_warning)
+                    
+                elif len(serie_to_journal_lines) == 1:
+                    move_journal_id = serie_to_journal_lines.journal_id.id
+                    
+                
+                
                 ver_id = self.env['account.move'].create({
                     'period_id': self.env['account.period'].search([],limit = 1).find(dt=list_date).id,
                     'journal_id': move_journal_id,
@@ -508,6 +541,10 @@ class account_sie(models.TransientModel):
                 for l in line.get('lines', []):
                     
                     if l['label'] == '#TRANS':
+                        #https://sie.se/wp-content/uploads/2020/05/SIE_filformat_ver_4B_080930.pdf
+                        #Documentation om hur en ver post ska se ut, den har ett antal frivilliga poster så det är jätte strörrande
+                        #Format:#TRANS kontonr {objektlista} belopp transdat(Frivilig) transtext(Frivilig) kvantitet(Frivilig) sign(Frivilig)
+                        
                         trans_code = l[1]
                         trans_object = [(l[2][i*2], l[2][i*2+1]) for i in range(int(len(l[2])/2))]
                         trans_balance = l[3]
@@ -530,10 +567,13 @@ class account_sie(models.TransientModel):
                         period_id = self.env['account.period'].search([],limit=1).find(dt=list_date).id
                         _logger.debug('\naccount_id :%s\nbalance: %s\nperiod_id: %s' %(code, trans_balance, period_id))
 
-                        if trans_date:
+                        if trans_date and trans_date != "Empty Citation":
                             formated_date = trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:]
                         else:
                             formated_date = ver_id.date
+                            
+                        if trans_name and trans_name == "Empty Citation":
+                            trans_name = ""
 
                         tags = []
                         tag_model = self.env['account.analytic.tag']
@@ -582,11 +622,11 @@ class account_sie(models.TransientModel):
                         ib_amount = line.get(3)
                         ib_qnt = line.get(4) # We already have a amount, what is the purpose of having a quantity as well
                         
-                        ib_move_journal_id = self.move_journal_id.id
+                        ib_move_journal_id = self.move_journal_id.id 
                         if not ib_move_id:
                             ib_move_id = self.env['account.move'].create({
-                            'period_id': period_id.id,
-                            'journal_id': move_journal_id,
+                            'period_id': period_id,
+                            'journal_id': ib_move_journal_id,
                             'date': first_date_of_year,
                             'ref': "IB",
                             'is_incoming_balance_move':True,
