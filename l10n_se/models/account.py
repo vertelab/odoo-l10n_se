@@ -725,6 +725,14 @@ class account_account_type(models.Model):
             user_type = 'account.data_account_type_expense'
         return self.env.ref(user_type) if user_type else None
 
+    def _account_type_lookup(self, code=False):
+        if code:
+            account_type_ids = self.env['account.account.type'].search([('account_range', '!=', False)])
+            type_list = account_type_ids.filtered(lambda xd: str(code) in eval(xd.account_range)[0][-1])
+            return type_list
+        else:
+            return False
+
 
 # class account_financial_report(models.Model):
 #     _inherit = 'account.financial.report'
