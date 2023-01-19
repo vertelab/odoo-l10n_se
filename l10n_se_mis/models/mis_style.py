@@ -62,7 +62,7 @@ class MisReportKpiStyle(models.Model):
             # ~ _logger.warning(f"currency_suffix = {use_currency_suffix}")
             # ~ _logger.warning(f"currency = {currency}")
             if currency and use_currency_suffix:#######################################
-                num_format = '{}" {}"'.format(num_format, currency_id.name)###########################################
+                num_format = '{}" {}"'.format(num_format, currency.name)###########################################
             elif props.suffix:
                 num_format = '{}" {}"'.format(num_format, props.suffix)
             xlsx_attributes.append(("num_format", num_format))
