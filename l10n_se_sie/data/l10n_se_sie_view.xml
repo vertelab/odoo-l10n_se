@@ -142,6 +142,7 @@
                   </tree>
                 </field>
                 <button string="Create Accounts" name="create_accounts" type="object" class="oe_highlight"/>
+                <button string="Get Missing Accounts" name="get_missing_accounts" type="object" class="oe_highlight" style="margin-left:10px;"/>
               </div>
             </page>
           </notebook>
@@ -179,7 +180,7 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.sie</field>
       <field name="view_mode">form</field>
-      <field name="target">new</field>
+      <field name="target">inline</field>
     </record>
     <menuitem action="action_wizard_account_sie" id="menu_wizard_account_sie" parent="l10n_se_sie.menu_sie" />
   </data>
