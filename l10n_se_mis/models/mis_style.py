@@ -56,11 +56,8 @@ class MisReportKpiStyle(models.Model):
                 num_format += "0" * props.dp
             if props.prefix:
                 num_format = '"{} "{}'.format(props.prefix, num_format)
-            currency = currency_id or self.env.company.currency_id####################################
-            # ~ _logger.warning("to_xlsx_style"*100)
-            # ~ _logger.warning(f"self.name={self}")
-            # ~ _logger.warning(f"currency_suffix = {use_currency_suffix}")
-            # ~ _logger.warning(f"currency = {currency}")
+            # ~ currency = currency_id or self.env.company.currency_id#################################### använd currency id som sista utväg
+            currency = currency_id
             if currency and use_currency_suffix:#######################################
                 num_format = '{}" {}"'.format(num_format, currency.name)###########################################
             elif props.suffix:
@@ -114,7 +111,8 @@ class MisReportKpiStyle(models.Model):
         if prefix:
             r = prefix + "\N{NO-BREAK SPACE}" + r
             
-        currency = currency_id or self.env.company.currency_id####################################
+        # ~ currency = currency_id or self.env.company.currency_id#################################### Använd företagets som sista utväg valuta som sista utväg
+        currency = currency_id
         # ~ _logger.warning("to_xlsx_style"*100)
         # ~ _logger.warning(f"self.name={self}")
         # ~ _logger.warning(f"use_currency_suffix = {use_currency_suffix}")
