@@ -247,7 +247,7 @@
         </record>
         <record id="kpi_title_report_rr_Rorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_Rorelsekostnader_title"/>
-            <field name="name">HandelsvarorKostnader+OvrigaExternaKostnader+Personalkostnader+AvskrivningarNedskrivningarMater+NedskrivningarOmsattningstillgan+OvrigaRorelsekostnader</field>
+            <field name="name">(HandelsvarorKostnader+OvrigaExternaKostnader+Personalkostnader+AvskrivningarNedskrivningarMater+NedskrivningarOmsattningstillgan+OvrigaRorelsekostnader)*-1</field>
         </record>
         <record id="report_rr_Rorelseresultat_title" model="mis.report.kpi">
             <field name="report_id" ref="report_rr"/>
