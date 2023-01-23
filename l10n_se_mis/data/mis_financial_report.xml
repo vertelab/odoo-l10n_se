@@ -393,7 +393,7 @@
         </record>
         <record id="kpi_title_report_rr_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_ResultatEfterFinansiellaPoster_title"/>
-            <field name="name">Rorelseresultat-FinansiellaPoster</field>
+            <field name="name">Rorelseresultat+FinansiellaPoster</field>
         </record>
         <record id="report_rr_BokslutsdispositionerAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_rr"/>
