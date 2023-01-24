@@ -697,7 +697,7 @@ class account_sie(models.TransientModel):
                     [('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year),
                      ('special', '=', True)]).id
                 # period_record = self.env["account.period"].browse(period_id)
-                ib_account = self.env['account.account'].search([('code', '=', line.get(2))])
+                ib_account = self.env['account.account'].search([('code', '=', line.get(2)),('company_id','=',self.env.ref('base.main_company').id)])
                 ib_amount = line.get(3)
                 ib_qnt = line.get(4)  # We already have a amount, what is the purpose of having a quantity as well
 
