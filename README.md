@@ -1,5 +1,5 @@
 # odoo-l10n_se
-Swedish accounting.1
+Swedish accounting.
 
 Testa webhook2
 Important! // Viktigt! <br>
