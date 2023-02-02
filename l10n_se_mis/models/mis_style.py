@@ -75,9 +75,9 @@ class MisReportKpiStyle(models.Model):
         return dict([a for a in xlsx_attributes if a[1] is not None])
     
     @api.model
-    def render(self, lang, style_props, type, value, currency_id, use_currency_suffix, sign="-"):
+    def render_currency(self, lang, style_props, type, value, currency_id, use_currency_suffix, sign="-"):
         if type == TYPE_NUM:
-            return self.render_num(
+            return self.render_num_currency(
                 lang,
                 value,
                 currency_id,
@@ -95,7 +95,7 @@ class MisReportKpiStyle(models.Model):
 
 
     @api.model #END 1
-    def render_num(
+    def render_num_currency(
         self, lang, value, currency_id, use_currency_suffix, divider=1.0, dp=0, prefix=None, suffix=None, sign="-"
     ):
         # ~ import traceback

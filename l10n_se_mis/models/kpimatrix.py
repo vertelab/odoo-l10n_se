@@ -139,16 +139,16 @@ class KpiMatrixExtended(KpiMatrix):
 
         return {"header": header, "body": body}
         
-    def set_values(self, kpi, col_key, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True):
+    def set_values_currency(self, kpi, col_key, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True):
         """Set values for a kpi and a colum.
 
         Invoke this after declaring the kpi and the column.
         """
-        self.set_values_detail_account(
+        self.set_values_detail_account_currency(
             kpi, col_key, None, vals, drilldown_args, currency_id, use_currency_suffix, tooltips
         )
         
-    def set_values_detail_account(
+    def set_values_detail_account_currency(
         self, kpi, col_key, account_id, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True
         ):
         """Set values for a kpi and a column and a detail account.
@@ -174,7 +174,7 @@ class KpiMatrixExtended(KpiMatrix):
                 val_comment = val.msg
             else:
                 
-                val_rendered = self._style_model.render(
+                val_rendered = self._style_model.render_currency(
                     self.lang, row.style_props, kpi.type, val, currency_id, use_currency_suffix
                 )
                 if row.kpi.multi and subcol.subkpi:
