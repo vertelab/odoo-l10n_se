@@ -271,6 +271,11 @@ class account_sie(models.TransientModel):
                     account_type = self.env['account.account.type']._account_type_lookup(code=account[0])
                     if not account_type:
                         account_type = self.env.ref('account.data_account_type_fixed_assets')
+                    
+                    be_reconcilable = False
+                    if account_type.type == "receivable" or account_type.type == "payable":
+                        be_reconcilable = True
+                    
                     # check if account line exist
                     sie_account_id = self.env['account.sie.account'].search([
                         ('code', '=', account[0]), ('wizard_id', '=', self.id)
@@ -278,13 +283,13 @@ class account_sie(models.TransientModel):
                     if not sie_account_id:
                         self.write({
                             'account_line_ids': [
-                                (0, 0, {'code': account[0], 'name': account[1], 'user_type': account_type[0].id})
+                                (0, 0, {'code': account[0], 'name': account[1], 'user_type': account_type[0].id,"reconcile":be_reconcilable})
                             ]
                         })
                     else:
                         self.write({
                             'account_line_ids': [
-                                (1, sie_account_id.id, {'code': account[0], 'name': account[1]})
+                                (1, sie_account_id.id, {'code': account[0], 'name': account[1],"reconcile":be_reconcilable})
                             ]
                         })
 
