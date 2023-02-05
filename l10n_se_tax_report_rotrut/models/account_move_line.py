@@ -1,6 +1,8 @@
 from odoo import models, fields, api, _
 import logging
+
 _logger = logging.getLogger(__name__)
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
@@ -22,7 +24,7 @@ class AccountMoveLine(models.Model):
             elif line.rotrut_id.rotrut == 'rut':
                 if line.is_material == False:
                     line.rotrut_percent = 50
-    
+
     @api.onchange('is_material')
     def _material_cost_percent(self):
         for line in self:
@@ -32,7 +34,6 @@ class AccountMoveLine(models.Model):
                 line.rotrut_percent = 30
             elif line.rotrut_id.rotrut == 'rut':
                 line.rotrut_percent = 50
-
 
     # @api.model
     # def create(self, vals):
@@ -65,4 +66,3 @@ class AccountMoveLine(models.Model):
     #         })
 
     #     })
-           

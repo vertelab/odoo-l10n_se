@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record id="action_account_edi_document" model="ir.actions.act_window">
+            <field name="name">EDI Document</field>
+            <field name="res_model">account.edi.document</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="account_edi_document" parent="account.account_account_menu" action="action_account_edi_document" name="EDI Document"/>
+
+    </data>
+</odoo>
