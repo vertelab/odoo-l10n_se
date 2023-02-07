@@ -542,7 +542,7 @@ class account_chart_template(models.Model):
             :param company_id: company_id selected from wizard.multi.charts.accounts.
             :returns: True
         """
-        raise Warning('a ref %s' % tax_template_ref)
+        #raise Warning('a ref %s' % tax_template_ref)
         
         res = super(account_chart_template, self).generate_fiscal_position(tax_template_ref, acc_template_ref, company)
         positions = self.env['account.fiscal.position.template'].search([('chart_template_id', '=', self.id)])
