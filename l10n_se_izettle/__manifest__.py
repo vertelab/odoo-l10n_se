@@ -35,11 +35,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': [
-        'account_period', 
-        'l10n_se_account_bank_statement_import', 
-        'l10n_se_bank', 
-        'l10n_se_account_payment_order'],
+    'depends': ['account_period','l10n_se_account_bank_statement_import','l10n_se_bank','l10n_se_account_payment_order'],
     'external_dependencies': {
         'python': ['xlrd', 'openpyxl'],
     },
