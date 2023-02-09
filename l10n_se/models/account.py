@@ -774,13 +774,15 @@ class AccountChartTemplate(models.Model):
 
     def _load(self, sale_tax_rate, purchase_tax_rate, company):
         res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
-        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
-        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
-        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
-        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
-        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
-        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
-        personalskatt = self.env['account.account'].search([('code', '=', '2710')])
+        _logger.warning("load"*100)
+        _logger.warning(f"{company=}, {self.env.company=}")
+        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210'),("company_id","=",company.id)])
+        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213'),("company_id","=",company.id)])
+        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214'),("company_id","=",company.id)])
+        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215'),("company_id","=",company.id)])
+        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731'),("company_id","=",company.id)])
+        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732'),("company_id","=",company.id)])
+        personalskatt = self.env['account.account'].search([('code', '=', '2710'),("company_id","=",company.id)])
         account_values = {
             'UlagAvgHel': {'invoice_repartition_line_ids': [(5, 0, 0), (
             0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
@@ -868,7 +870,7 @@ class AccountChartTemplate(models.Model):
         }
 
         for k, v in account_values.items():
-            self.env['account.tax'].search([('name', '=', k)]).write(v)
+            self.env['account.tax'].search([('name', '=', k),("company_id","=",company.id)]).write(v)
 
         # self.env['account.account'].fix_account_types()
         return res
