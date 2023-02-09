@@ -31,8 +31,13 @@ class AccountMove(models.Model):
 
                         account_type = self.env['account.account'].search([('code', '=', '1513')]).user_type_id
                         _logger.warning(account_type)
+
+                        #self.env['account.account'].search([('code','=','1513')]).user_type_id = 13
+                        _logger.warning(self.env['account.account'].search([('code','=','1513')]).user_type_id)
+
                         self.env['account.account'].search([('code', '=', '1513')]).user_type_id = 13
                         _logger.warning(self.env['account.account'].search([('code', '=', '1513')]).user_type_id)
+
 
                         line_vals.append(
                             (0, 0, {

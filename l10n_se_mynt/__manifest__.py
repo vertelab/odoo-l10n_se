@@ -35,13 +35,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'],  # 560x280 px.
-    'depends': [
-        'account',
-        'account_period',
-        'mail',
-        'l10n_se_account_bank_statement_import',
-        'account_journal_card_type'
-    ],
+    'depends': ['account','account_period','mail','l10n_se_account_bank_statement_import','account_journal_card_type',],
     'init_xml': [],
     'data': [
         'data/ir_seq_mynt.xml',

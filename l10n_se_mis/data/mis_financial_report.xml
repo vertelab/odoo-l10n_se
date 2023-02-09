@@ -247,7 +247,7 @@
         </record>
         <record id="kpi_title_report_rr_Rorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_Rorelsekostnader_title"/>
-            <field name="name">HandelsvarorKostnader+OvrigaExternaKostnader+Personalkostnader+AvskrivningarNedskrivningarMater+NedskrivningarOmsattningstillgan+OvrigaRorelsekostnader</field>
+            <field name="name">(HandelsvarorKostnader+OvrigaExternaKostnader+Personalkostnader+AvskrivningarNedskrivningarMater+NedskrivningarOmsattningstillgan+OvrigaRorelsekostnader)*-1</field>
         </record>
         <record id="report_rr_Rorelseresultat_title" model="mis.report.kpi">
             <field name="report_id" ref="report_rr"/>
@@ -393,7 +393,7 @@
         </record>
         <record id="kpi_title_report_rr_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_ResultatEfterFinansiellaPoster_title"/>
-            <field name="name">Rorelseresultat-FinansiellaPoster</field>
+            <field name="name">Rorelseresultat+FinansiellaPoster</field>
         </record>
         <record id="report_rr_BokslutsdispositionerAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_rr"/>
@@ -893,6 +893,7 @@
             <field name="kpi_id" ref="report_br_AndraLangfristigaFordringar"/>
             <field name="name">bal[1380, 1381, 1382, 1383, 1384, 1385, 1386, 1387, 1388, 1389]</field>
         </record>
+<!--
         <record id="report_br_FinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
             <field name="name">FinansiellaAnlaggningstillgangar</field>
@@ -907,6 +908,7 @@
             <field name="kpi_id" ref="report_br_FinansiellaAnlaggningstillgangar"/>
             <field name="name">bal[1310, 1311, 1312, 1313, 1314, 1315, 1316, 1317, 1318, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1326, 1327, 1328, 1329, 1331, 1332, 1333, 1334, 1336, 1337, 1341, 1342, 1343, 1344, 1346, 1347, 1350, 1351, 1352, 1353, 1354, 1355, 1356, 1357, 1358, 1359, 1360, 1361, 1362, 1363, 1364, 1365, 1366, 1367, 1368, 1369, 1380, 1381, 1382, 1383, 1384, 1385, 1386, 1387, 1388, 1389]</field>
         </record>
+-->
         
         <!--
         INVIS ROW TO FIX BELOW ROW
@@ -973,7 +975,7 @@
         </record>
         <record id="kpi_title_report_br_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_Anlaggningstillgangar_title"/>
-            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordriIntresforetagGemenInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FinansiellaAnlaggningstillgangar</field>
+            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordriIntresforetagGemenInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FordringarIntresseforetagGemensa</field>
         </record>
         <record id="report_br_OmsattningstillgangarAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>

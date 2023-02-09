@@ -56,13 +56,10 @@ class MisReportKpiStyle(models.Model):
                 num_format += "0" * props.dp
             if props.prefix:
                 num_format = '"{} "{}'.format(props.prefix, num_format)
-            currency = currency_id or self.env.company.currency_id####################################
-            # ~ _logger.warning("to_xlsx_style"*100)
-            # ~ _logger.warning(f"self.name={self}")
-            # ~ _logger.warning(f"currency_suffix = {use_currency_suffix}")
-            # ~ _logger.warning(f"currency = {currency}")
+            # ~ currency = currency_id or self.env.company.currency_id#################################### använd currency id som sista utväg
+            currency = currency_id
             if currency and use_currency_suffix:#######################################
-                num_format = '{}" {}"'.format(num_format, currency_id.name)###########################################
+                num_format = '{}" {}"'.format(num_format, currency.name)###########################################
             elif props.suffix:
                 num_format = '{}" {}"'.format(num_format, props.suffix)
             xlsx_attributes.append(("num_format", num_format))
@@ -78,9 +75,9 @@ class MisReportKpiStyle(models.Model):
         return dict([a for a in xlsx_attributes if a[1] is not None])
     
     @api.model
-    def render(self, lang, style_props, type, value, currency_id, use_currency_suffix, sign="-"):
+    def render_currency(self, lang, style_props, type, value, currency_id, use_currency_suffix, sign="-"):
         if type == TYPE_NUM:
-            return self.render_num(
+            return self.render_num_currency(
                 lang,
                 value,
                 currency_id,
@@ -98,7 +95,7 @@ class MisReportKpiStyle(models.Model):
 
 
     @api.model #END 1
-    def render_num(
+    def render_num_currency(
         self, lang, value, currency_id, use_currency_suffix, divider=1.0, dp=0, prefix=None, suffix=None, sign="-"
     ):
         # ~ import traceback
@@ -114,7 +111,8 @@ class MisReportKpiStyle(models.Model):
         if prefix:
             r = prefix + "\N{NO-BREAK SPACE}" + r
             
-        currency = currency_id or self.env.company.currency_id####################################
+        # ~ currency = currency_id or self.env.company.currency_id#################################### Använd företagets som sista utväg valuta som sista utväg
+        currency = currency_id
         # ~ _logger.warning("to_xlsx_style"*100)
         # ~ _logger.warning(f"self.name={self}")
         # ~ _logger.warning(f"use_currency_suffix = {use_currency_suffix}")

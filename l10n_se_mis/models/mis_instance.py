@@ -7,6 +7,7 @@ from .aep import AccountingExpressionProcessorExtended as AEPE
 from .expression_evaluator import ExpressionEvaluatorExtended as EEE
 from .kpimatrix import KpiMatrixExtended as KME
 from .simple_array import SimpleArray, named_simple_array
+from odoo.addons.mis_builder.models.accounting_none import AccountingNone
 
 # ~ from odoo import _, api, fields, models
 
@@ -20,6 +21,12 @@ SRC_SUMCOL = "sumcol"
 MODE_NONE = "none"
 MODE_FIX = "fix"
 MODE_REL = "relative"
+
+class AutoStruct(object):
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
 
 
 class MisReportInstancePeriod(models.Model):
@@ -103,7 +110,7 @@ class MisReportInstance(models.Model):
 
         expression_evaluator.find_moves_by_period = self.find_moves_by_period  # GO BY PERIOD
         expression_evaluator.accounting_method = self.accounting_method
-        self.report_id._declare_and_compute_period(
+        self.report_id._declare_and_compute_period_currency(
             expression_evaluator,
             kpi_matrix,
             period.id,
@@ -180,7 +187,7 @@ class MisReport(models.Model):  ### Should Be Called MisReport
         else:
             raise UserError(_("Unexpected value %s for target_move.") % (target_move,))
 
-    def _declare_and_compute_period(
+    def _declare_and_compute_period_currency(
             self,
             expression_evaluator,
             kpi_matrix,
@@ -245,7 +252,7 @@ class MisReport(models.Model):  ### Should Be Called MisReport
         # use AEP to do the accounting queries
         expression_evaluator.aep_do_queries()
 
-        self._declare_and_compute_col(
+        self._declare_and_compute_col_currency(
             expression_evaluator,
             kpi_matrix,
             col_key,
@@ -258,7 +265,7 @@ class MisReport(models.Model):  ### Should Be Called MisReport
             no_auto_expand_accounts,
         )
 
-    def _declare_and_compute_col(  # noqa: C901 (TODO simplify this fnction)
+    def _declare_and_compute_col_currency(  # noqa: C901 (TODO simplify this fnction)
             self,
             expression_evaluator,
             kpi_matrix,
@@ -357,7 +364,7 @@ class MisReport(models.Model):  ### Should Be Called MisReport
                     drilldown_args = [None] * col.colspan
 
                 ####
-                kpi_matrix.set_values(kpi, col_key, vals, drilldown_args, currency_id=currency_id,
+                kpi_matrix.set_values_currency(kpi, col_key, vals, drilldown_args, currency_id=currency_id,
                                       use_currency_suffix=use_currency_suffix)
 
                 if (
@@ -381,7 +388,7 @@ class MisReport(models.Model):  ### Should Be Called MisReport
                         drilldown_arg["period_id"] = col_key
                         drilldown_arg["kpi_id"] = kpi.id
                         # currency_id5
-                    kpi_matrix.set_values_detail_account(
+                    kpi_matrix.set_values_detail_account_currency(
                         kpi, col_key, account_id, vals, drilldown_args, currency_id=currency_id,
                         use_currency_suffix=use_currency_suffix
                     )
