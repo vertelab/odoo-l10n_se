@@ -40,7 +40,7 @@ Adds some Swedish employer reports (Arbetsgivardeklaration)
      """,
     'author': 'Vertel AB',
     # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se_tax_report',],
+    'depends': ['l10n_se_tax_report','payroll_account',],
     'data': [
         'views/agd_report.xml',
         'security/ir.model.access.csv',
