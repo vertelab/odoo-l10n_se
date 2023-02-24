@@ -17,7 +17,7 @@ class AccountMove(models.Model):
 
     #@api.onchange('line_ids','invoice_line_ids')
     def _onchange_recompute_dynamic_rotrutlines(self):
-        #_logger.warning(uuid.uuid4())
+        # _logger.warning(uuid.uuid4())
         for move in self:
             rotrut_workcost_account = move.journal_id.rotrut_workcost_account_id
             rotrut_material_account = move.journal_id.rotrut_material_account_id
@@ -46,6 +46,10 @@ class AccountMove(models.Model):
                         #self.env['account.account'].search([('code','=','1513')]).user_type_id = self.env.ref('')
                         _logger.warning(self.env['account.account'].search([('code','=','1513')]).user_type_id)
 
+                        self.env['account.account'].search([('code', '=', '1513')]).user_type_id = 13
+                        _logger.warning(self.env['account.account'].search([('code', '=', '1513')]).user_type_id)
+
+
                         line_vals.append(
                             (0,0,{
                             #"account_id": self.env['account.account'].search([('code','=','1513')]),
@@ -60,17 +64,17 @@ class AccountMove(models.Model):
                             "recompute_tax_line": True,
                         }))
                         if line_vals:
-                            #_logger.warning(line_vals)
-                            move.update({'line_ids':line_vals})
-                            #self.env['account.account'].search([('code','=','1513')]).user_type_id = account_type
+                            # _logger.warning(line_vals)
+                            move.update({'line_ids': line_vals})
+                            # self.env['account.account'].search([('code','=','1513')]).user_type_id = account_type
 
                     #elif line.account_id.code == '3221':
                     elif line.account_id == rotrut_workcost_account:
                         for line3001 in move.line_ids:
                             if line3001.uuid == line.uuid:
                                 line3001.debit = line.credit * 1.25 * line.rotrut_percent / 100
-                                #account_type = self.env['account.account'].search([('code','=','1513')]).user_type_id
-                                #_logger.warning(account_type)
+                                # account_type = self.env['account.account'].search([('code','=','1513')]).user_type_id
+                                # _logger.warning(account_type)
                                 break
 
 
@@ -82,11 +86,9 @@ class AccountMove(models.Model):
             self.line_ids = self.line_ids.filtered(lambda line: not line.is_obsolete)
             self.line_ids.recompute_tax_line = True
         self._onchange_recompute_dynamic_rotrutlines()
-        #self.env['account.account'].search([('code','=','1513')]).user_type_id = 1
-        res = super()._recompute_dynamic_lines(recompute_all_taxes,recompute_tax_base_amount)
+        # self.env['account.account'].search([('code','=','1513')]).user_type_id = 1
+        res = super()._recompute_dynamic_lines(recompute_all_taxes, recompute_tax_base_amount)
         return res
-
-
 
     def fetch_leftover_rotrut_line(self):
         line_uuid = None
@@ -106,11 +108,10 @@ class AccountMove(models.Model):
                                 _logger.warning('tjoho')
                                 exists = True
                     if not exists:
-                        #move.update({'line_ids': [3,line3001._origin.id,0]})
+                        # move.update({'line_ids': [3,line3001._origin.id,0]})
                         _logger.warning(line3001._origin.id)
                         return line3001
         return False
-
 
     @api.depends(
         'line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched',
@@ -144,7 +145,7 @@ class AccountMove(models.Model):
                     move.rotrut_amount += (line_with_tax * line.rotrut_percent / 100)
 
             if move.is_rotrut:
-                move.rotrut_amount = -abs(move.rotrut_amount)   # make rotrut_amount a negative value
+                move.rotrut_amount = -abs(move.rotrut_amount)  # make rotrut_amount a negative value
                 move.amount_total += move.rotrut_amount
                 move.amount_total_signed += move.rotrut_amount
                 move.amount_residual = move.amount_total

@@ -39,8 +39,10 @@ Swedish accounting Tax Report
 Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
      """,
     'author': 'Vertel AB',
-    # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar', 'account','mis_builder','payroll_account','l10n_se_mis', 'l10n_se_hr_payroll'],
+
+    # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account','payroll_account', 'account','report_py3o','mis_builder'],
+    'depends': ['l10n_se', 'account_payment_order', 'calendar', 'mis_builder','l10n_se_mis', 'l10n_se_hr_payroll',],
+
     'data': [
         'data/account_data.xml',
         # ~ 'data/account_financial.xml',
@@ -49,15 +51,16 @@ Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklarat
         # ~ 'wizard/import_b_and_r_report.xml', funkar inte i 12
         # ~ 'wizard/import_bolagsverket_report.xml', funkar inte i 12
         'views/moms_report.xml',
-        'views/agd_report.xml',
+        # ~ 'views/agd_report.xml',
         # ~ 'views/sru_report.xml',
         # ~ 'views/periodic_compilation.xml',
         'report/report.xml',
         # ~ 'account_invoice_demo.xml',
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/mis_report_view.xml',
-         ],
-    'demo_xml' : [
+     ],
+    'demo_xml': [
         # ~ 'demo/account_invoice.yml',
         'demo/account_invoice.xml',
     ],

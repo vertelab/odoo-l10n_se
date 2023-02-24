@@ -1,4 +1,4 @@
-from openerp import models, fields, api
+from odoo import models, fields, api, _
 import logging
 import base64
 from lxml import etree
@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 class account_vat_declaration(models.Model):
     _inherit = 'account.vat.declaration'
     eskd_file_mis = fields.Binary(string="eSKD-file",readonly=True)
+    company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company.id, required=True)
     # ~ generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', default = lambda self: self._generate_mis_report(), ondelete='cascade', readonly = 'true')
     generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', ondelete='cascade', readonly = 'true')
     find_moves_by_period = fields.Boolean(
@@ -20,10 +21,8 @@ class account_vat_declaration(models.Model):
         for dec in self:
             dec.generated_mis_report_id.name = dec.name
     
-    @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method','accounting_yearend')
+    @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method','accounting_yearend','company_id')
     def _vat(self):
-         _logger.warning(self.accounting_yearend)
-         _logger.warning(self.accounting_method)
          for decl in self:
              decl.vat_momsutg = 0
              decl.vat_momsingavdr = 0
@@ -33,8 +32,9 @@ class account_vat_declaration(models.Model):
                 decl.generated_mis_report_id.period_ids.write({'manual_date_from':decl.period_start.date_start})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_to':decl.period_stop.date_stop})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
+                decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
-                        decl.generated_mis_report_id.write({'accounting_method':'invoice'})
+                        decl.generated_mis_report_id.write({'company_id':decl.company_id})
                 else:
                         decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
                 
@@ -205,7 +205,7 @@ class account_vat_declaration(models.Model):
                     })
                     self.write({'move_id': entry.id})
             else:
-                raise Warning(_('Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s') %(len(kontomoms), momsskuld, momsfordran, skattekonto))   
+                raise UserWarning(_('You are missing either a credit account, debit account or a tax account, please add these'))   
                         
                     
                     
@@ -226,15 +226,15 @@ class account_vat_declaration(models.Model):
         
         
     @api.model
-    def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param,accounting_method_param, find_moves_by_period_param):
+    def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param,accounting_method_param, find_moves_by_period_param, company_id):
         report_instance = self.env["mis.report.instance"].create(
             dict(
                 report_id = self.env.ref('l10n_se_mis.report_md').id,
-                company_id = self.env.ref("base.main_company").id,
                 target_move = target_move_param,
                 name = "MIS Report:" + name_param,
                 accounting_method = accounting_method_param,
                 find_moves_by_period = find_moves_by_period_param,
+                company_id = company_id.id,
                 period_ids=[
                     (
                         0,
@@ -264,7 +264,8 @@ class account_vat_declaration(models.Model):
             record.period_stop.date_stop, 
             record.target_move, record.name, 
             accounting_method, 
-            record.find_moves_by_period
+            record.find_moves_by_period,
+            record.company_id,
         )
         
         return record

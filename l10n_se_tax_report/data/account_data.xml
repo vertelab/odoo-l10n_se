@@ -447,21 +447,21 @@
   </data>
 -->
   <data>
-    <record id="moms_journal" model="account.journal">
+	      <record id="moms_journal" model="account.journal">
       <field name="name">Momsjournal</field>
       <field name="type">general</field>
       <field name="code">MOMS</field>
-      <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1650')]" />
-      <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2650')]" />
-    </record>
+      <!--      <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1650')]" />
+      <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2650')]" /> -->
+	  </record> 
     
     <record id="agd_journal" model="account.journal">
       <field name="name">Agdjournal</field>
       <field name="type">general</field>
       <field name="code">AGD</field>
-      <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1630')]" />
-      <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2850')]" />
-    </record>
+      <!--      <field name="default_debit_account_id" model="account.account" search="[('code', '=', '1630')]" />
+      <field name="default_credit_account_id" model="account.account" search="[('code', '=', '2850')]" /> -->
+	  </record> -->
     
     <record id="categ_accounting" model="calendar.event.type">
       <field name="name">Accouning Report</field>
