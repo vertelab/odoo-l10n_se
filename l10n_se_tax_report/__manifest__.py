@@ -41,7 +41,7 @@ Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklarat
     'author': 'Vertel AB',
 
     # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account','payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se', 'account_payment_order', 'calendar', 'mis_builder','l10n_se_mis', 'l10n_se_hr_payroll',],
+    'depends': ['l10n_se', 'account_payment_order', 'calendar', 'mis_builder','l10n_se_mis'],
 
     'data': [
         'data/account_data.xml',
