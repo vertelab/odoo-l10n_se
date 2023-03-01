@@ -24,7 +24,7 @@ from . import res_config
 from . import moms
 # ~ from . import agd
 # ~ from . import sru
-# ~ from . import periodic_compilation
+from . import periodic_compilation
 from . import mis_report_generator
 from . import demo_invoice
 

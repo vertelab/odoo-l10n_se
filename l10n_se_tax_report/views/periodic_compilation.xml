@@ -19,8 +19,8 @@
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
-                        <div class="oe_right oe_button_box" name="buttons">
-                            <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines">
+                        <div class="oe_button_box" name="buttons">
+                            <button type="object" class="btn btn-secondary" icon="fa-level-up" name="show_invoice_lines">
                                 <!-- <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines" context="{'default_partner_id': active_id}"> -->
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
@@ -32,7 +32,7 @@
                                     <span class="o_stat_text">Fakturarader</span>
                                 </div>
                             </button>
-                            <button type="object" class="oe_stat_button" icon="fa-file" name="show_invoices" context="{'default_partner_id': active_id}">
+                            <button type="object" class="btn btn-secondary" icon="fa-file" name="show_invoices" context="{'default_partner_id': active_id}">
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
                                         <field name="invoice_ids_count" />
@@ -150,11 +150,15 @@
             <field name="name">Periodisk sammanställning</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.periodic.compilation</field>
-            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
             <field name="view_mode">tree,form,calendar</field>
             <field name="search_view_id" ref="view_moms_filter" />
         </record>
-        <menuitem name="Periodic Compilation" id="menu_report_periodic_compilation" action="action_account_periodic_compilation" parent="menu_report_authorities" />
+        
+
+        
+        <menuitem name="Periodic Compilation" parent="menu_report_authorities"  id="menu_report_periodic_compilation" action="action_account_periodic_compilation"/>
+
         <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
             <field name="name">account.declaration.line.form</field>
             <field name="model">account.declaration.line</field>
@@ -170,8 +174,12 @@
                                 <field name="type" />
                                 <field name="balance" />
                                 <field name="level" />
+<!--
                                 <field name="afr_id" />
+-->
+<!--
                                 <field name="sign" />
+-->
                             </group>
                         </group>
                         <notebook>
@@ -221,9 +229,11 @@
         <record id="action_invoice_line" model="ir.actions.act_window">
             <field name="name">Invoice Lines</field>
             <field name="res_model">account.move.line</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="view_id" ref="view_invoice_line_tree" />
         </record>
+        
+            
     </data>
 </odoo>
