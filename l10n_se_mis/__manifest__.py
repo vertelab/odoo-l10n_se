@@ -35,15 +35,17 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder','mis_builder_budget','account_period'],
+    'depends': ['mis_builder', 'mis_builder_budget', 'account_period'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
-    'data': ['data/mis_financial_report.xml',
-    'data/mis_momsdeklaration_report.xml',
-    'data/mis_arbetsgivardeklaration_report.xml',
-    'views/mis_report_instance_view.xml',
-    'views/mis_template.xml',
+    'data': [
+        'data/mis_financial_report.xml',
+        'data/mis_momsdeklaration_report.xml',
+        'data/mis_arbetsgivardeklaration_report.xml',
+        'views/mis_report_instance_view.xml',
+        'views/mis_template.xml',
+        'security/security.xml',
     ],
     'installable': 'True',
     'application': 'False',

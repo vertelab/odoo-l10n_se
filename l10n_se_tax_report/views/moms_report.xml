@@ -153,6 +153,7 @@
         <tree string="Momsdeklaration">
           <field name="name" />
           <field name="date" />
+          <field name="company_id" />
           <field name="fiscalyear_id" />
           <field name="period_start" />
           <field name="state" />

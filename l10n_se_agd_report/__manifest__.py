@@ -27,20 +27,22 @@
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': '',
-    'images': [''], # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_agd_report',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': '',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'description': """
 Swedish Agd Report
 =============================
 Adds some Swedish employer reports (Arbetsgivardeklaration)
      """,
     'author': 'Vertel AB',
+    # Any module necessary for this one to work correctly
     # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se_tax_report',],
+    
+    'depends': ['l10n_se_tax_report','payroll_account',],
     'data': [
         'views/agd_report.xml',
         'security/ir.model.access.csv',
