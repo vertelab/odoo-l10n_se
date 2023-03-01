@@ -8,6 +8,7 @@
       <field name="arch" type="xml">
         <field name="company_id" position="before">
           <field name="chemical_tax" />
+          <field name="elkretsen_miljoavgift" />
         </field>
       </field>
     </record>
@@ -19,6 +20,7 @@
       <field name="arch" type="xml">
         <field name="active" position="after">
           <field name="chemical_tax" optional="hide" />
+          <field name="elkretsen_miljoavgift" optional="hide" />
         </field>
       </field>
     </record>
@@ -31,6 +33,7 @@
         <field name="property_account_expense_categ_id" position="after">
           <field name="chemical_tax"  />
           <field name="chemical_max_tax"/>
+          <field name="elkretsen_miljoavgift" />
         </field>
       </field>
     </record>    
