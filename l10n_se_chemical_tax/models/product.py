@@ -20,7 +20,7 @@ class ProductCategory(models.Model):
     
     chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category", store=True)
     chemical_max_tax = fields.Float(string="Chemical max tax", help="Chemical max tax for products in this category")
-    elkretsen_miljoavgift = fields.Float(string="elkretsen_miljoavgift", help="environmental fee for products in this category")
+    #elkretsen_miljoavgift = fields.Float(string="elkretsen_miljoavgift", help="environmental fee for products in this category")
 
 
 
@@ -39,5 +39,5 @@ class ProductProduct(models.Model):
     chemical_tax = fields.Float(string="Chemical tax", help="Computed chemical tax", compute="_chemical_compute", store=True) 
     
     chemical_max_tax = fields.Float(string="Chemical max tax", help="Chemical max tax for products in this category")
-    elkretsen_miljoavgift = fields.Float(string="elkretsen_miljoavgift", help="environmental fee for products in this category")
+    #elkretsen_miljoavgift = fields.Float(string="elkretsen_miljoavgift", help="environmental fee for products in this category")
 
