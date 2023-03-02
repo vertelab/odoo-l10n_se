@@ -9,9 +9,9 @@ class AccountMove(models.Model):
 
     invoice_outstanding_mynt_credits_debits_widget = fields.Text(
         groups="account.group_account_invoice,account.group_account_readonly",
-        compute='_compute_payments_widget_to_reconcile_mynt',store=True)
+        compute='_compute_payments_widget_to_reconcile_mynt', store=True)
 
-    @api.depends('state','balance')
+    @api.depends('state', 'amount_total')
     def _compute_payments_widget_to_reconcile_mynt(self):
         for move in self:
             move.invoice_outstanding_credits_debits_widget = json.dumps(False)
