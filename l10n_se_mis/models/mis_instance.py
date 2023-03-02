@@ -45,7 +45,9 @@ class MisReportInstancePeriod(models.Model):
                 and self.report_instance_id.target_move == "draft"
         ):
             domain.extend([("move_id.state", "=", "draft")])
-        if (self._get_aml_model_name() == "account.move.line") and self.hide_opening_closing_period:
+        if (self._get_aml_model_name() == "account.move.line") and self.report_instance_id.hide_opening_closing_period:
+            domain.extend([("move_id.period_id.special", "=", False)])
+        elif (self._get_aml_model_name() == "account.move.line") and self.hide_opening_closing_period:
             domain.extend([("move_id.period_id.special", "=", False)])
         return domain
 
