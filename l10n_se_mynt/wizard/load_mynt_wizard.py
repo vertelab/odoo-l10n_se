@@ -264,10 +264,11 @@ class AccountBankStatementImport(models.TransientModel):
             'accounting_status': row.get('Accounting status', "No value found"),
         }
         account_card_statement_line = self.env["account.card.statement.line"].create(account_card_statement_val_list)
-        if row.get('Description', "No value found") != "Credit Repayment":
+        if row.get('Category', "No value found") != "Top up":
             account_card_statement_line.account_card_statement_id = account_card_statement_id.id
         else:
-            account_card_statement_id.statement_line_credit_repayment_id = account_card_statement_line.id
+            # account_card_statement_id.statement_line_credit_repayment_id = account_card_statement_line.id
+            account_card_statement_line.repayment_account_card_statement_id = account_card_statement_id.id
 
         return account_card_statement_line
 

@@ -10,6 +10,7 @@ class AccountMove(models.Model):
     invoice_outstanding_mynt_credits_debits_widget = fields.Text(
         groups="account.group_account_invoice,account.group_account_readonly",
         compute='_compute_payments_widget_to_reconcile_mynt', store=True)
+    line_is_updated = fields.Boolean(string="Line is Updated")
 
     @api.depends('state', 'amount_total')
     def _compute_payments_widget_to_reconcile_mynt(self):
@@ -89,9 +90,24 @@ class AccountMove(models.Model):
             'views': [[view_id, 'form']],
         }
 
+    def update_move_line(self):
+        if not self.line_is_updated and not self.fiscal_position_id:
+            fiscal_position_id = self.env['account.fiscal.position'].get_fiscal_position(self.partner_id.id)
+            self.fiscal_position_id = fiscal_position_id
+
+            fiscal_position_account_id = self.fiscal_position_id.account_ids.mapped('account_src_id')
+            fiscal_position_tax_id = self.fiscal_position_id.tax_ids.mapped('tax_src_id')
+
+            account_id = self.fiscal_position_id.map_account(account=fiscal_position_account_id[0])
+            tax_ids = self.fiscal_position_id.map_tax(taxes=fiscal_position_tax_id[0])
+
+            self.invoice_line_ids.write({'account_id': account_id.id, 'tax_ids': [(6, 0, tax_ids.ids)]})
+            self._recompute_dynamic_lines()
+
 
 class AccountMoveMyntWizard(models.TransientModel):
     _name = 'mynt.account.move.reconcile.wizard'
+    _description = 'Mynt Reconcile Wizard'
 
     def _set_default_card_mynt_transaction(self):
         start_of_current_month = date.today().replace(day=1)
