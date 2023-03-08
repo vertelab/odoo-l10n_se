@@ -124,7 +124,8 @@ class account_declaration(models.Model):
 
     def _accounting_method(self):
         return self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
-
+        
+    company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company.id, required=True)
     name = fields.Char()
     date = fields.Date(
         help="Planned date, date when to report to the Skatteverket or do the declaration. Usually Monday second week "

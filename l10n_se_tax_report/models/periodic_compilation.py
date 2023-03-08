@@ -112,6 +112,7 @@ class account_periodic_compilation(models.Model):
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
     def _vat(self):
+        _logger.warning("compilation _vat"*100)
         for record in self: 
             if record.period_start:
                 ctx = {
@@ -162,6 +163,7 @@ class account_periodic_compilation(models.Model):
         return action
 
     def do_draft(self):
+        _logger.warning("compilation do_draft"*100)
         for record in self:
             for invoice in record.env['account.move'].search([( 'periodic_compilation_id', '=', record.id  )]):
                 invoice.periodic_compilation_id = None
@@ -170,11 +172,13 @@ class account_periodic_compilation(models.Model):
         
 
     def do_cancel(self):
+        _logger.warning("compilation do_cancel"*100)
         for record in self:
             for invoice in record.invoice_ids:
                 invoice.periodic_compilation_id = None
 
     def calculate(self): # make a short cut to print financial report
+        _logger.warning("compilation calculate"*100)
         for record in self:
             if record.state not in ['draft']:
                 raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
@@ -184,13 +188,22 @@ class account_periodic_compilation(models.Model):
         # ~ raise Warning ('%s  --------  %s' %  ( self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]), self.env['account.period'].get_period_ids(self.period_start, self.period_stop) ))
         
         partner_ids = []
+        if self.target_move == "all":
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id)])
+        elif self.target_move == "posted":
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id),('state','=','posted')])
+        elif self.target_move == "draft":
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id),('state','=','draft')])
+        else:
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id)])
+        
         
         # for invoice in self.env['account.invoice'].search([('period_id.id', 'in', self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]):
-        for invoice in self.env['account.move'].search([('period_id.id', '=', self.period_start.id)]):
-            pc_supplied_goods = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'VTEU' in line.invoice_line_tax_ids.mapped('name') ])
-            pc_triangulation = sum([line.price_subtotal for line in invoice.invoice_line_ids if '3FEU' in line.invoice_line_tax_ids.mapped('name') ])
+        for invoice in invoices:
+            pc_supplied_goods = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'VTEU' in line.tax_ids.mapped('name') ])
+            pc_triangulation = sum([line.price_subtotal for line in invoice.invoice_line_ids if '3FEU' in line.tax_ids.mapped('name') ])
             # TODO: REWRITE THIS FLAMING PILE OF GARBAGE ASAP:
-            pc_services_supplied = sum([line.price_subtotal for line in invoice.invoice_line_ids if set(['FTEU','VAT for EU Services to Belgien','VAT for EU Services to Bulgarien','VAT for EU Services to Cypern','VAT for EU Services to Danmark','VAT for EU Services to Estland','VAT for EU Services to Finland','VAT for EU Services to Frankrike','VAT for EU Services to Grekland','VAT for EU Services to Irland','VAT for EU Services to Italien','VAT for EU Services to Kroatien','VAT for EU Services to Lettland','VAT for EU Services to Litauen','VAT for EU Services to Luxemburg','VAT for EU Services to Malta','VAT for EU Services to Nederländerna','VAT for EU Services to Polen']) & set(line.invoice_line_tax_ids.mapped('name')) ])
+            pc_services_supplied = sum([line.price_subtotal for line in invoice.invoice_line_ids if set(['FTEU','VAT for EU Services to Belgien','VAT for EU Services to Bulgarien','VAT for EU Services to Cypern','VAT for EU Services to Danmark','VAT for EU Services to Estland','VAT for EU Services to Finland','VAT for EU Services to Frankrike','VAT for EU Services to Grekland','VAT for EU Services to Irland','VAT for EU Services to Italien','VAT for EU Services to Kroatien','VAT for EU Services to Lettland','VAT for EU Services to Litauen','VAT for EU Services to Luxemburg','VAT for EU Services to Malta','VAT for EU Services to Nederländerna','VAT for EU Services to Polen']) & set(line.tax_ids.mapped('name')) ])
 
             # ~ raise Warning( 'pc_supplied_goods = %s, pc_triangulation = %s, pc_services_supplied = %s' % (pc_supplied_goods, pc_triangulation, pc_services_supplied ) )
             # ~ _logger.warn("\n\n\n\n\n\n\n pc_supplied_goods :: %s" % pc_supplied_goods)
@@ -226,7 +239,7 @@ class account_periodic_compilation(models.Model):
         return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
 
     def show_invoices(self):
-        action = self.env['ir.actions.act_window']._for_xml_id('account.action_invoice_tree1')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_move_journal_line')
         action.update({
             'display_name': _('Invoices'),
             'domain': [('periodic_compilation_id', '=', self.id )],
