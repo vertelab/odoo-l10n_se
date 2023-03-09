@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    is_rotrut = fields.Boolean(string='Rot/Rut-avdrag', related='move_id.is_rotrut')
+    is_rotrut = fields.Boolean(string='Rot/Rut-avdrag', related='journal_id.is_rotrut')
     rotrut_id = fields.Many2one('account.rotrut', string='Utfört arbete', store=True)
     rotrut_percent = fields.Float(string='Rot/Rut procent')
     is_material = fields.Boolean(string='Material', default=False, store=True)
@@ -27,13 +27,29 @@ class AccountMoveLine(models.Model):
 
     @api.onchange('is_material')
     def _material_cost_percent(self):
-        for line in self:
-            if line.is_material == True:
-                line.rotrut_percent = 0
-            elif line.rotrut_id.rotrut == 'rot':
-                line.rotrut_percent = 30
-            elif line.rotrut_id.rotrut == 'rut':
-                line.rotrut_percent = 50
+        if self.is_material == True:
+            self.rotrut_percent = 0
+        elif self.rotrut_id.rotrut == 'rot':
+            self.rotrut_percent = 30
+        elif self.rotrut_id.rotrut == 'rut':
+            self.rotrut_percent = 50
+    
+    @api.onchange('is_material')
+    def _set_account_id(self):
+        if self.is_material == True:
+            _logger.warning(f"{self.account_id=}")
+            rotrut_account = self.env['account.account'].search([('code','=','3222')])
+            self.account_id = rotrut_account.id
+        elif self.is_material == False:
+            account = self.product_id.product_tmpl_id.get_product_accounts()
+            if account:
+                self.account_id = account['income']
+            else:
+                account = self.default_get('account_id')
+                self.account_id = self.env['account.account'].browse(account['account_id'])
+
+
+    
 
     # @api.model
     # def create(self, vals):

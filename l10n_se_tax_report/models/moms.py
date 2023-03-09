@@ -124,7 +124,8 @@ class account_declaration(models.Model):
 
     def _accounting_method(self):
         return self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
-
+        
+    company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company.id, required=True)
     name = fields.Char()
     date = fields.Date(
         help="Planned date, date when to report to the Skatteverket or do the declaration. Usually Monday second week "
@@ -347,12 +348,11 @@ class account_vat_declaration(models.Model):
 
     def _period_stop(self):
         return self.get_next_periods()[1]
-
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,
                                    default=_period_start)
     period_stop = fields.Many2one(comodel_name='account.period', string='Slut period', required=True,
                                   default=_period_stop)
-
+    
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat",
                                    help='Avläsning av transationer från baskontoplanen.')
     vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat",

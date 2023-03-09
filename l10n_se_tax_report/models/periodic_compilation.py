@@ -62,13 +62,14 @@ class account_periodic_compilation(models.Model):
         return  self.get_next_periods()[0]
     period_start = fields.Many2one(comodel_name='account.period', string='Start period', required=True,default=_period_start)
     # ~ period_stop = fields.Many2one(comodel_name='account.period', string='Slut period',default=_period_stop)
-    invoice_ids = fields.One2many(comodel_name='account.invoice',inverse_name="periodic_compilation_id")
+    invoice_ids = fields.One2many(comodel_name='account.move',inverse_name="periodic_compilation_id")
     line_ids = fields.One2many(comodel_name='account.declaration.line',inverse_name="periodic_compilation_id")
     move_ids = fields.One2many(comodel_name='account.move',inverse_name="periodic_compilation_id")
     
-    @api.one
+
     def _invoice_ids_count(self):
-        self.invoice_ids_count = len(self.invoice_ids)
+        for record in self:
+            record.invoice_ids_count = len(record.invoice_ids)
     invoice_ids_count = fields.Integer(compute='_invoice_ids_count')
 
 
@@ -110,25 +111,25 @@ class account_periodic_compilation(models.Model):
             self.name = '%s %s' % (self._report_name,self.env['account.period'].period2month(self.period_start,short=False))
 
     # ~ @api.onchange('period_start','target_move','accounting_method','accounting_yearend')
-    @api.one
     def _vat(self):
-        if self.period_start:
-            ctx = {
-                'period_start': self.period_start.id,
-                'period_stop': self.period_start.id,
-                'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
-                'target_move': self.target_move,
-            }
-            self.SumSkAvdr = round(self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
-            self.SumAvgBetala = round(self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
-            self.ag_betala = self.SumAvgBetala + self.SumSkAvdr
+        _logger.warning("compilation _vat"*100)
+        for record in self: 
+            if record.period_start:
+                ctx = {
+                    'period_start': record.period_start.id,
+                    'period_stop': record.period_start.id,
+                    'accounting_yearend': record.accounting_yearend,
+                    'accounting_method': record.accounting_method,
+                    'target_move': record.target_move,
+                }
+                record.SumSkAvdr = round(record.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).sum_tax_period()) * -1.0
+                record.SumAvgBetala = round(record.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).sum_tax_period()) * -1.0
+                record.ag_betala = record.SumAvgBetala + record.SumSkAvdr
 
     SumSkAvdr    = fields.Float(compute='_vat')
     SumAvgBetala = fields.Float(compute='_vat')
     ag_betala  = fields.Float(compute='_vat')
 
-    @api.multi
     def show_SumSkAvdr(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -137,7 +138,7 @@ class account_periodic_compilation(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_account_moves_all_a')
         action.update({
             'display_name': _('VAT Ag'),
             'domain': [('id', 'in', self.env.ref('l10n_se_tax_report.agd_report_SumSkAvdr').with_context(ctx).get_taxlines().mapped('id'))],
@@ -145,7 +146,6 @@ class account_periodic_compilation(models.Model):
         })
         return action
 
-    @api.multi
     def show_SumAvgBetala(self):
         ctx = {
                 'period_start': self.period_start.id,
@@ -154,7 +154,7 @@ class account_periodic_compilation(models.Model):
                 'accounting_method': self.accounting_method,
                 'target_move': self.target_move,
             }
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_account_moves_all_a')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_account_moves_all_a')
         action.update({
             'display_name': _('VAT Ag'),
             'domain': [('id', 'in', self.env.ref('l10n_se_tax_report.agd_report_SumAvgBetala').with_context(ctx).get_taxlines().mapped('id'))],
@@ -162,35 +162,48 @@ class account_periodic_compilation(models.Model):
         })
         return action
 
-    @api.one
     def do_draft(self):
-        for invoice in self.env['account.invoice'].search([( 'periodic_compilation_id', '=', self.id  )]):
-            invoice.periodic_compilation_id = None
-        self.line_ids.unlink()
-        self.state='draft'
+        _logger.warning("compilation do_draft"*100)
+        for record in self:
+            for invoice in record.env['account.move'].search([( 'periodic_compilation_id', '=', record.id  )]):
+                invoice.periodic_compilation_id = None
+            record.line_ids.unlink()
+            record.state='draft'
         
-    @api.one
-    def do_cancel(self):
-        for invoice in self.invoice_ids:
-            invoice.periodic_compilation_id = None
 
-    @api.one
+    def do_cancel(self):
+        _logger.warning("compilation do_cancel"*100)
+        for record in self:
+            for invoice in record.invoice_ids:
+                invoice.periodic_compilation_id = None
+
     def calculate(self): # make a short cut to print financial report
-        if self.state not in ['draft']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
-        if self.state in ['draft']:
-            self.state = 'confirmed'
+        _logger.warning("compilation calculate"*100)
+        for record in self:
+            if record.state not in ['draft']:
+                raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+            if record.state in ['draft']:
+                record.state = 'confirmed'
 
         # ~ raise Warning ('%s  --------  %s' %  ( self.env['account.invoice'].search([('period_id.id','=',self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]), self.env['account.period'].get_period_ids(self.period_start, self.period_stop) ))
         
         partner_ids = []
+        if self.target_move == "all":
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id)])
+        elif self.target_move == "posted":
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id),('state','=','posted')])
+        elif self.target_move == "draft":
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id),('state','=','draft')])
+        else:
+            invoices = self.env['account.move'].search([('period_id.id', '=', self.period_start.id)])
+        
         
         # for invoice in self.env['account.invoice'].search([('period_id.id', 'in', self.env['account.period'].get_period_ids(self.period_start, self.period_stop) )]):
-        for invoice in self.env['account.invoice'].search([('period_id.id', '=', self.period_start.id)]):
-            pc_supplied_goods = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'VTEU' in line.invoice_line_tax_ids.mapped('name') ])
-            pc_triangulation = sum([line.price_subtotal for line in invoice.invoice_line_ids if '3FEU' in line.invoice_line_tax_ids.mapped('name') ])
+        for invoice in invoices:
+            pc_supplied_goods = sum([line.price_subtotal for line in invoice.invoice_line_ids if 'VTEU' in line.tax_ids.mapped('name') ])
+            pc_triangulation = sum([line.price_subtotal for line in invoice.invoice_line_ids if '3FEU' in line.tax_ids.mapped('name') ])
             # TODO: REWRITE THIS FLAMING PILE OF GARBAGE ASAP:
-            pc_services_supplied = sum([line.price_subtotal for line in invoice.invoice_line_ids if set(['FTEU','VAT for EU Services to Belgien','VAT for EU Services to Bulgarien','VAT for EU Services to Cypern','VAT for EU Services to Danmark','VAT for EU Services to Estland','VAT for EU Services to Finland','VAT for EU Services to Frankrike','VAT for EU Services to Grekland','VAT for EU Services to Irland','VAT for EU Services to Italien','VAT for EU Services to Kroatien','VAT for EU Services to Lettland','VAT for EU Services to Litauen','VAT for EU Services to Luxemburg','VAT for EU Services to Malta','VAT for EU Services to Nederländerna','VAT for EU Services to Polen']) & set(line.invoice_line_tax_ids.mapped('name')) ])
+            pc_services_supplied = sum([line.price_subtotal for line in invoice.invoice_line_ids if set(['FTEU','VAT for EU Services to Belgien','VAT for EU Services to Bulgarien','VAT for EU Services to Cypern','VAT for EU Services to Danmark','VAT for EU Services to Estland','VAT for EU Services to Finland','VAT for EU Services to Frankrike','VAT for EU Services to Grekland','VAT for EU Services to Irland','VAT for EU Services to Italien','VAT for EU Services to Kroatien','VAT for EU Services to Lettland','VAT for EU Services to Litauen','VAT for EU Services to Luxemburg','VAT for EU Services to Malta','VAT for EU Services to Nederländerna','VAT for EU Services to Polen']) & set(line.tax_ids.mapped('name')) ])
 
             # ~ raise Warning( 'pc_supplied_goods = %s, pc_triangulation = %s, pc_services_supplied = %s' % (pc_supplied_goods, pc_triangulation, pc_services_supplied ) )
             # ~ _logger.warn("\n\n\n\n\n\n\n pc_supplied_goods :: %s" % pc_supplied_goods)
@@ -225,9 +238,8 @@ class account_periodic_compilation(models.Model):
         last_declaration = self.search([],order='date_stop desc',limit=1)
         return self.env['account.period'].get_next_periods(last_declaration.period_start if last_declaration else None, 1)
 
-    @api.multi
     def show_invoices(self):
-        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_invoice_tree1')
+        action = self.env['ir.actions.act_window']._for_xml_id('account.action_move_journal_line')
         action.update({
             'display_name': _('Invoices'),
             'domain': [('periodic_compilation_id', '=', self.id )],
@@ -235,18 +247,17 @@ class account_periodic_compilation(models.Model):
         })
         return action
 
-    @api.multi
     def show_invoice_lines(self):
-        action = self.env['ir.actions.act_window'].for_xml_id('l10n_se_tax_report', 'action_invoice_line')
+        action = self.env['ir.actions.act_window']._for_xml_id('l10n_se_tax_report.action_invoice_line')
         action.update({
             'display_name': _('Invoices'),
-            'domain': [('invoice_id.periodic_compilation_id', '=', self.id )],
+            'domain': [('move_id.periodic_compilation_id', '=', self.id )],
             'context': {},
         })
         return action
 
 class account_invoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
     # ~ @api.one
@@ -266,9 +277,9 @@ class account_move(models.Model):
     periodic_compilation_id = fields.Many2one(comodel_name="account.periodic.compilation")
 
 class account_invoice_line(models.Model):
-    _inherit = 'account.invoice.line'
+    _inherit = 'account.move.line'
 
-    pc_vat = fields.Char(string='VAT', related='invoice_id.partner_id.vat')
+    pc_vat = fields.Char(string='VAT', related='move_id.partner_id.vat')
 
 
 
@@ -289,12 +300,11 @@ class account_declaration_line(models.Model):
     pc_purchasers_vat = fields.Char(string="Skatt / VAT",related='partner_id.vat')
     pc_name = fields.Char(string="Name",related='partner_id.name')
 
-    @api.multi
     def show_invoice_lines(self):
-        action = self.env['ir.actions.act_window'].for_xml_id('l10n_se_tax_report', 'action_invoice_line')
+        action = self.env['ir.actions.act_window']._for_xml_id('l10n_se_tax_report.action_invoice_line')
         action.update({
             'display_name': _('Verifikat'),
-            'domain': [('invoice_id', 'in', self.periodic_compilation_id.invoice_ids.mapped('id')), ('partner_id', '=' ,self.partner_id.id,)],
+            'domain': [('move_id', 'in', self.periodic_compilation_id.invoice_ids.mapped('id')), ('partner_id', '=' ,self.partner_id.id,)],
             'context': '',
         })
         return action

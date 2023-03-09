@@ -227,20 +227,21 @@ class AccountBankStatementImport(models.TransientModel):
 
     def create_account_card_statement_line(self, row, account_move, account_card_statement_id):
         currency = self.env['res.currency'].search([('name', '=ilike', row.get('Currency'))])
+        company_id = self._context.get('default_company_id', self.env.company.id)
         if not currency:
             currency = self.env.ref('base.main_company').currency_id
 
-        account = self.env['account.account'].search([('name', '=', row.get('Account'))])
+        account = self.env['account.account'].search([
+            ('name', '=', row.get('Account')), ('company_id', '=', company_id)])
 
         if not account and float(row.get('Amount')) > 0:
-            account = self.env["account.account"].search([("code", "=", "6061")])
+            account = self.env["account.account"].search([("code", "=", "6061"), ('company_id', '=', company_id)])
         elif not account:
             # account = self.env["account.account"].search([("code", "=", "4001")])
             account = account_card_statement_id.journal_id.card_credit_account  # takes account on journal
-            
-        
+
         account_card_statement_val_list = {
-            'name':row.get('Date', "No value found") +" "+ row.get('Description', "No value found"),
+            'name': row.get('Date', "No value found") + " " + row.get('Description', "No value found"),
             'account_move_id': account_move.id,
             'date': row.get('Date', "No value found"),
             'amount': float(row.get('Amount', 0)),
@@ -263,15 +264,16 @@ class AccountBankStatementImport(models.TransientModel):
             'accounting_status': row.get('Accounting status', "No value found"),
         }
         account_card_statement_line = self.env["account.card.statement.line"].create(account_card_statement_val_list)
-        if row.get('Description', "No value found") != "Credit Repayment":
+        if row.get('Category', "No value found") != "Top up":
             account_card_statement_line.account_card_statement_id = account_card_statement_id.id
         else:
-            account_card_statement_id.statement_line_credit_repayment_id = account_card_statement_line.id
-            
-            
+            # account_card_statement_id.statement_line_credit_repayment_id = account_card_statement_line.id
+            account_card_statement_line.repayment_account_card_statement_id = account_card_statement_id.id
+
         return account_card_statement_line
 
     def create_account_move(self, row, credit_or_debit, journal_id):
+        company_id = self._context.get('default_company_id', self.env.company.id)
         amount = float(row["Amount"]) - (float(row["VAT amount"]))
 
         tax_account, tax_amount = self._tax_rate(row)
@@ -281,7 +283,8 @@ class AccountBankStatementImport(models.TransientModel):
         else:
             move_type = "in_invoice"
 
-        account_id = self.env["account.account"].search([("code", "=", row.get("Account"))])
+        account_id = self.env["account.account"].search([("code", "=", row.get("Account")),
+                                                         ('company_id', '=', company_id)])
         if not account_id:
             account_id = journal_id.card_credit_account
 
@@ -293,9 +296,8 @@ class AccountBankStatementImport(models.TransientModel):
             if not partner_id:
                 partner_id = self.env['res.partner'].create({'name': row.get('Description'), 'company_type': 'company'})
 
-
         # ~ So odoo check before we posts if the combo of partner and ref is unique
-        current_ref = row.get("Comment","")+"/"+ self.env['ir.sequence'].next_by_code('account.move.mynt')
+        current_ref = row.get("Comment", "") + "/" + self.env['ir.sequence'].next_by_code('account.move.mynt')
         
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
             'partner_id': partner_id.id,

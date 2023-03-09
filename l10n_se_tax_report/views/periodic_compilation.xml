@@ -19,8 +19,8 @@
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
-                        <div class="oe_right oe_button_box" name="buttons">
-                            <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines">
+                        <div class="oe_button_box" name="buttons">
+                            <button type="object" class="btn btn-secondary" icon="fa-level-up" name="show_invoice_lines">
                                 <!-- <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines" context="{'default_partner_id': active_id}"> -->
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
@@ -32,7 +32,7 @@
                                     <span class="o_stat_text">Fakturarader</span>
                                 </div>
                             </button>
-                            <button type="object" class="oe_stat_button" icon="fa-file" name="show_invoices" context="{'default_partner_id': active_id}">
+                            <button type="object" class="btn btn-secondary" icon="fa-file" name="show_invoices" context="{'default_partner_id': active_id}">
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
                                         <field name="invoice_ids_count" />
@@ -52,6 +52,7 @@
                         <group>
                             <!-- Datum + Period -->
                             <group>
+                            
                                 <field name="date" />
                             </group>
                             <newline />
@@ -104,7 +105,6 @@
             <field name="model">account.vat.declaration</field>
             <field name="arch" type="xml">
                 <search string="Search VAT Declaration">
-<!-- Something here breaks in odoo 12
                     <field name="name" />
                     <field name="fiscalyear_id" />
                     <field name="period_start" />
@@ -113,14 +113,35 @@
                     <field name="state" string="State" />
                     <separator />
                     <group expand="0" string="Group By">
-                        <filter string="State" domain="[]" context="{'group_by': 'state'}" />
-                        <filter string="Fiscalyear" domain="[]" context="{'group_by': 'fiscalyear_id'}" />
-                        <filter string="Period" domain="[]" context="{'group_by': 'period_start'}" />
+                        <filter name="State"  string="State" context="{'group_by': 'state'}" />
+                        <filter name="Fiscalyear"  string="Fiscalyear"  context="{'group_by': 'fiscalyear_id'}" />
+                        <filter name="Period" string="Period"  context="{'group_by': 'period_start'}" />
                     </group>
--->
                 </search>
             </field>
         </record>
+        
+<!--
+    <record id="view_document_search" model="ir.ui.view">
+        <field name="model">rk.document</field>
+        <field name="arch" type="xml">
+            <search string="Official Document">
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('message_ids.tracking_value_ids.old_value_char', 'ilike', self)]" />
+                <field name="is_official" />
+                <field name="is_secret" />
+                <filter name="secrecy_marker" domain="[('is_secret', '=', True)]" string="Secrecy marker" />
+                <filter name="matter_is_missing" domain="[('matter_id', '=', False)]" string="Matter is missing" />
+                <group expand="1" string="Group By">
+                    <filter name="matter" string="Matter" context="{'group_by': 'matter_id'}" />
+                    <separator orientation="vertical" />
+                    <filter name="classification" string="Classification" context="{'group_by': 'classification_id'}" />
+                    <filter name="document_type" context="{'group_by': 'document_type_id'}" string="Document Type" />
+                </group>
+            </search>
+        </field>
+    </record>
+-->
+
         <record id="view_periodic_tree" model="ir.ui.view">
             <field name="name">account.vat.declaration.tree</field>
             <field name="model">account.vat.declaration</field>
@@ -150,7 +171,9 @@
             <field name="name">Periodisk sammanställning</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.periodic.compilation</field>
+<!--
             <field name="view_type">form</field>
+-->
             <field name="view_mode">tree,form,calendar</field>
             <field name="search_view_id" ref="view_moms_filter" />
         </record>
@@ -170,8 +193,12 @@
                                 <field name="type" />
                                 <field name="balance" />
                                 <field name="level" />
+<!--
                                 <field name="afr_id" />
+-->
+<!--
                                 <field name="sign" />
+-->
                             </group>
                         </group>
                         <notebook>
@@ -195,7 +222,7 @@
                 </field>
             </field>
         </record>
-        <record id="view_invoice_line_tree" model="ir.ui.view">
+        <record id="view_move_line_tree" model="ir.ui.view">
             <field name="name">account.move.line.tree</field>
             <field name="model">account.move.line</field>
             <field name="arch" type="xml">
@@ -221,9 +248,11 @@
         <record id="action_invoice_line" model="ir.actions.act_window">
             <field name="name">Invoice Lines</field>
             <field name="res_model">account.move.line</field>
+<!--
             <field name="view_type">form</field>
+-->
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_invoice_line_tree" />
+            <field name="view_id" ref="view_move_line_tree" />
         </record>
     </data>
 </odoo>

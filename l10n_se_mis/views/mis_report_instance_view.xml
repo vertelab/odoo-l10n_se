@@ -13,5 +13,16 @@
                 </xpath>
               </field>
         </record>
+
+        <record id="mis_report_instance_period_view_form_inherit" model="ir.ui.view">
+            <field name="name">l10n_mis_add_period_view</field>
+            <field name="model">mis.report.instance.period</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_instance_period_view_form"/>
+            <field name="arch" type="xml">
+                <field name="source" position="after">
+                    <field name="hide_opening_closing_period"/>
+                </field>
+              </field>
+        </record>
     </data>
 </odoo>

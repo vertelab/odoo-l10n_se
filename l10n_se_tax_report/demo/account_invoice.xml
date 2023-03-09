@@ -66,7 +66,7 @@
 <!--
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
-            <field name="period_id" search="[('name', '=', '03/2022')]"/>
+            <field name="period_id" search="[('name', '=', '03/2023')]"/>
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
@@ -113,7 +113,7 @@
 invoice_date
             <field name="date_due" eval="time.strftime('%Y')+'-03-23'" />
 -->
-            <field name="period_id" search="[('name', '=', '03/2022')]"/>
+            <field name="period_id" search="[('name', '=', '03/2023')]"/>
             
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
@@ -213,7 +213,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-05-01'" />
 -->
-            <field name="period_id" search="[('name', '=', '05/2022')]"/>
+            <field name="period_id" search="[('name', '=', '05/2023')]"/>
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
@@ -318,7 +318,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-10'" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2023')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -422,7 +422,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2023')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -530,7 +530,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2023')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -643,7 +643,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2023')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -756,7 +756,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-05" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2023')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -860,7 +860,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2023')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -967,39 +967,39 @@ invoice_date
         
         <!-- ==== Post invoices ==== -->
         <!-- Ensure every detail related to the partner is set (fiscal position, payment terms, bank,...)-->
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_1')]"/>
         </function>
         
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_2')]"/>
         </function>
         
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_3')]"/>
         </function>
         
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_4')]"/>
         </function>
         
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_5')]"/>
         </function>
         
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_6')]"/>
         </function>
         
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_7')]"/>
         </function>
         
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_8')]"/>
         </function>
 
-        <function model="account.move" name="_onchange_partner_id">
+        <function model="account.move" name="_onchange_partner_id" context="{'check_move_validity': False}">
             <value eval="[ref('new_demo_invoice_9')]"/>
         </function>
         

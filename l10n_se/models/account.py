@@ -54,9 +54,9 @@ class AccountChartTemplate(models.Model):
 
     @api.model
     def fix_ovriga_kortfristiga_skulder(self):
-        # Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 8/25 detta är
-        # ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör
-        # något annat i odoo.
+
+        # Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 8/25 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo.
+
         OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
         for acc in self.env['account.account'].search([('user_type_id', '=', OvrigaKortfristigaSkulder.id)]):
             acc.reconcile = True
@@ -64,8 +64,9 @@ class AccountChartTemplate(models.Model):
 
     @api.model
     def fix_type_personalkostnader(self):
-        # Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria
-        # bilersättningar ) som skuld kont när vi har en millersättning utlägg
+
+        # Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria bilersättningar ) som skuld kont när vi har en millersättning utlägg
+
         type_personalkostnader = self.env.ref('l10n_se.type_Personalkostnader')
         for acc in self.env['account.account'].search([('user_type_id', '=', type_personalkostnader.id)]):
             acc.reconcile = True
@@ -73,8 +74,9 @@ class AccountChartTemplate(models.Model):
 
     @api.model
     def fix_account_types(self):
-        # current_year_earnings can only have one account which is why we remove it before we fix the rest of the
-        # account types.
+
+        # current_year_earnings can only have one account which is why we remove it before we fix the rest of the account types.
+
         current_year_earnings = self.env.ref('account.data_unaffected_earnings')
         current_year_earnings.write({"name": 'Current Year Earnings'})
         current_year_earnings.write({"account_range": "[('code', 'in', [])]"})
@@ -101,9 +103,11 @@ class AccountChartTemplate(models.Model):
             account.user_type_id = self.env.ref(
                 'l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
 
-        # ~ accounts = self.env['account.account'].search(['|','|',('code', '=', '2087'),('code', '=', '2088'),
-        # ('code', '=', '2089')]) ~ for account in accounts: ~ account.user_type_id = self.env.ref(
-        # 'l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+
+        # ~ accounts = self.env['account.account'].search(['|','|',('code', '=', '2087'),('code', '=', '2088'),('code', '=', '2089')])
+        # ~ for account in accounts:
+        # ~ account.user_type_id = self.env.ref('l10n_se.type_FordringarIntresseforetagGemensamtStyrdaForetagKortfristiga')
+
         accounts = self.env['account.account'].search([('code', '=', '2090')])
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_BalanseratResultat')
@@ -143,8 +147,8 @@ class AccountChartTemplate(models.Model):
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_OvrigaBokslutsdispositioner')
 
-        # Setting the correct type for the moms accounts since they need to belong to a account type that is of the
-        # type "regular", otherwise they don't behave correctly when making invoices.
+
+        # Setting the correct type for the moms accounts since they need to belong to a account type that is of the type "regular", otherwise they don't behave correctly when making invoices.
         accounts = self.env['account.account'].search([('code', 'in',
                                                         ['2610', '2611', '2612', '2613', '2614', '2615', '2616', '2618',
                                                          '2620', '2621', '2622', '2623', '2624', '2625', '2626', '2628',
@@ -154,23 +158,25 @@ class AccountChartTemplate(models.Model):
         for account in accounts:
             account.user_type_id = self.env.ref('l10n_se.type_OvrigaKortfristigaSkulderMoms')
 
-        # Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria
-        # bilersättningar ) som skuld kont när vi har en millersättning utlägg 26/8
+
+        # Fix  l10n_se.type_Personalkostnader, detta är gjort så att vi kan använda oss av 7331(Skattefria bilersättningar ) som skuld kont när vi har en millersättning utlägg 26/8
+
         type_personalkostnader = self.env.ref('l10n_se.type_Personalkostnader')
         for acc in self.env['account.account'].search([('user_type_id', '=', type_personalkostnader.id)]):
             acc.reconcile = True
         type_personalkostnader.type = 'payable'
 
-        # Revert these changes Fix  account.data_account_type_current_liabilities, set type to payable and all
-        # accounts 25/8 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en
-        # payment order. Kanske förstör något annat i odoo.
+        # Revert these changes
+        # Fix  account.data_account_type_current_liabilities, set type to payable and all accounts 25/8 detta är ändrat till payable så att vi kan snappa upp löne spec verfikat när vi gör en payment order. Kanske förstör något annat i odoo.
+
         OvrigaKortfristigaSkulder = self.env.ref('account.data_account_type_current_liabilities')
         for acc in self.env['account.account'].search([('user_type_id', '=', OvrigaKortfristigaSkulder.id)]):
             acc.reconcile = True
         OvrigaKortfristigaSkulder.type = 'payable'
 
-        # ~ #Todo make so that the correct account types are generated correctly and all account for those types are
-        #  reconcile. Fix permanent solution for 1000-1900
+
+        # ~ #Todo make so that the correct account types are generated correctly and all account for those types are reconcile. Fix permanent solution for 1000-1900
+
         account_xml_ids = ['account.data_account_type_current_assets', 'account.data_account_type_non_current_assets',
                            'account.data_account_type_fixed_assets', 'l10n_se.type_TecknatEjInbetaltKapital',
                            'l10n_se.type_HyresratterLiknandeRattigheter'
@@ -200,8 +206,9 @@ class AccountChartTemplate(models.Model):
                 acc.reconcile = True
             acctype.type = 'other'
 
-        # ~ # Denna fanns i listan innan ett tag och blev satt till recievable, men nu ska den vara other igen.
-        # 1800-1899
+
+        # ~ # Denna fanns i listan innan ett tag och blev satt till recievable, men nu ska den vara other igen. 1800-1899
+
         account_xml_ids = ['l10n_se.type_OvrigaKortfristigaPlaceringar',
                            'l10n_se.type_AndelarKoncernforetagKortfristiga']
         accounts_types = [self.env.ref(x) for x in account_xml_ids]
@@ -217,8 +224,8 @@ class AccountChartTemplate(models.Model):
             acctype.type = 'liquidity'
             for acc in self.env['account.account'].search([('user_type_id', '=', acctype.id)]):
                 if acc.code not in ("1914", "1915", "1916", "1933", "1934"):
-                    # if acc.code not in ("1914","1915","1916","1933","1934","1935","1936","1937","1938"): This one
-                    # was needed on a server, so the amount of odoo created accounts are not set in stone.
+
+                    # if acc.code not in ("1914","1915","1916","1933","1934","1935","1936","1937","1938"): This one was needed on a server, so the amount of odoo created accounts are not set in stone.
                     acc.reconcile = False
 
 
@@ -475,11 +482,13 @@ class account_chart_template(models.Model):
 
             if ws.cell_value(l, 2) == 3 or ws.cell_value(l, 2) == '30-34' or ws.cell_value(l, 2) in range(30,
                                                                                                           40) or ws.cell_value(
-                l, 2) in range(3000, 4000):
+
+                    l, 2) in range(3000, 4000):
                 user_type = 'account.data_account_type_income'
             if ws.cell_value(l, 2) in [4, 5, 6, 7] or ws.cell_value(l, 2) in ['5-6'] or ws.cell_value(l, 2) in range(30,
                                                                                                                      80) or ws.cell_value(
-                l, 2) in ['40-45'] or ws.cell_value(l, 2) in range(4000, 8000):
+                    l, 2) in ['40-45'] or ws.cell_value(l, 2) in range(4000, 8000):
+
                 user_type = 'account.data_account_type_expense'
 
             if ws.cell_value(l, 2) == 8 or ws.cell_value(l, 2) in [80, 81, 82, 83] or ws.cell_value(l, 2) in range(8000,
@@ -487,7 +496,9 @@ class account_chart_template(models.Model):
                 user_type = 'account.data_account_type_income'
             if ws.cell_value(l, 2) in [84, 88] or ws.cell_value(l, 2) in range(8400, 8500) or ws.cell_value(l,
                                                                                                             2) in range(
-                8800, 8900):
+
+                    8800, 8900):
+
                 user_type = 'account.data_account_type_expense'
             if ws.cell_value(l, 2) in [89] or ws.cell_value(l, 2) in range(8900, 9000):
                 user_type = 'account.data_account_type_expense'
@@ -552,6 +563,8 @@ class account_chart_template(models.Model):
             :param company_id: company_id selected from wizard.multi.charts.accounts.
             :returns: True
         """
+        #raise Warning('a ref %s' % tax_template_ref)
+        
         res = super(account_chart_template, self).generate_fiscal_position(tax_template_ref, acc_template_ref, company)
         positions = self.env['account.fiscal.position.template'].search([('chart_template_id', '=', self.id)])
         for position in positions:
@@ -735,6 +748,14 @@ class account_account_type(models.Model):
             user_type = 'account.data_account_type_expense'
         return self.env.ref(user_type) if user_type else None
 
+    def _account_type_lookup(self, code=False):
+        if code:
+            account_type_ids = self.env['account.account.type'].search([('account_range', '!=', False)])
+            type_list = account_type_ids.filtered(lambda xd: str(code) in eval(xd.account_range)[0][-1])
+            return type_list
+        else:
+            return False
+
 
 # class account_financial_report(models.Model):
 #     _inherit = 'account.financial.report'
@@ -774,59 +795,59 @@ class AccountChartTemplate(models.Model):
 
     def _load(self, sale_tax_rate, purchase_tax_rate, company):
         res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
-        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210')])
-        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213')])
-        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214')])
-        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215')])
-        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731')])
-        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732')])
-        personalskatt = self.env['account.account'].search([('code', '=', '2710')])
+
+        loner_till_tjansteman_7210 = self.env['account.account'].search([('code', '=', '7210'),("company_id","=",company.id)])
+        lon_vaxa_stod_tjansteman = self.env['account.account'].search([('code', '=', '7213'),("company_id","=",company.id)])
+        loner_till_tjansteman_16_36 = self.env['account.account'].search([('code', '=', '7214'),("company_id","=",company.id)])
+        loner_till_tjansteman_6_15 = self.env['account.account'].search([('code', '=', '7215'),("company_id","=",company.id)])
+        avrakning_lagstadgade_sociala_avgifter = self.env['account.account'].search([('code', '=', '2731'),("company_id","=",company.id)])
+        avrakning_sarskild_loneskatt = self.env['account.account'].search([('code', '=', '2732'),("company_id","=",company.id)])
+        personalskatt = self.env['account.account'].search([('code', '=', '2710'),("company_id","=",company.id)])
         account_values = {
             'UlagAvgHel': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': loner_till_tjansteman_7210.id, }), ],
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': loner_till_tjansteman_7210.id, }), ],
                            'refund_repartition_line_ids': [(5, 0, 0), (
-                               0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                           (0, 0, {'factor_percent': 100,
-                                                                   'repartition_type': 'tax',
-                                                                   'account_id': loner_till_tjansteman_7210.id, }), ]},
+                           0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                                 'repartition_type': 'tax',
+                                                                                                 'account_id': loner_till_tjansteman_7210.id, }), ]},
             'UlagVXLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': lon_vaxa_stod_tjansteman.id, }), ],
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': lon_vaxa_stod_tjansteman.id, }), ],
                           'refund_repartition_line_ids': [(5, 0, 0),
                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
                                                                   'account_id': lon_vaxa_stod_tjansteman.id, }), ]},
             'UlagAvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': loner_till_tjansteman_16_36.id, }), ],
+
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': loner_till_tjansteman_16_36.id, }), ],
                                'refund_repartition_line_ids': [(5, 0, 0), (
-                                   0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
-                                                                                                  {
-                                                                                                      'factor_percent': 100,
-                                                                                                      'repartition_type': 'tax',
-                                                                                                      'account_id': loner_till_tjansteman_16_36.id, }), ]},
+                               0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+                                                                                              {'factor_percent': 100,
+                                                                                               'repartition_type': 'tax',
+                                                                                               'account_id': loner_till_tjansteman_16_36.id, }), ]},
             'UlagAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': loner_till_tjansteman_6_15.id, }), ],
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': loner_till_tjansteman_6_15.id, }), ],
                                  'refund_repartition_line_ids': [(5, 0, 0), (
-                                     0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
-                                                                                                    {
-                                                                                                        'factor_percent': 100,
-                                                                                                        'repartition_type': 'tax',
-                                                                                                        'account_id': loner_till_tjansteman_6_15.id, }), ]},
+                                 0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+                                                                                                {'factor_percent': 100,
+                                                                                                 'repartition_type': 'tax',
+                                                                                                 'account_id': loner_till_tjansteman_6_15.id, }), ]},
             'AvgHel': {'invoice_repartition_line_ids': [(5, 0, 0),
                                                         (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                            0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                   'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+                                                        0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                               'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
                        'refund_repartition_line_ids': [(5, 0, 0),
                                                        (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                           0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                  'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+                                                       0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                              'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+
             'AvgVXLon': {'invoice_repartition_line_ids': [(5, 0, 0),
                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
@@ -836,36 +857,36 @@ class AccountChartTemplate(models.Model):
                                                          (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
                                                                  'account_id': avrakning_sarskild_loneskatt.id, }), ]},
             'AvgAldersp': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
                            'refund_repartition_line_ids': [(5, 0, 0), (
-                               0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
-                                                           (0, 0, {'factor_percent': 100,
-                                                                   'repartition_type': 'tax',
-                                                                   'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+                           0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                                 'repartition_type': 'tax',
+                                                                                                 'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
             'AvgAlderspSkLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ],
                                 'refund_repartition_line_ids': [(5, 0, 0), (
-                                    0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
-                                                                                                   {
-                                                                                                       'factor_percent': 100,
-                                                                                                       'repartition_type': 'tax',
-                                                                                                       'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
+                                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0,
+                                                                                               {'factor_percent': 100,
+                                                                                                'repartition_type': 'tax',
+                                                                                                'account_id': avrakning_lagstadgade_sociala_avgifter.id, }), ]},
             'AgPre': {'invoice_repartition_line_ids': [(5, 0, 0),
                                                        (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                           0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                  'account_id': personalskatt.id, }), ],
+                                                       0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                              'account_id': personalskatt.id, }), ],
                       'refund_repartition_line_ids': [(5, 0, 0),
                                                       (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (
-                                                          0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                                                                 'account_id': personalskatt.id, }), ]},
+                                                      0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
+                                                             'account_id': personalskatt.id, }), ]},
             'SkAvdrLon': {'invoice_repartition_line_ids': [(5, 0, 0), (
-                0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
-                                                                                      'repartition_type': 'tax',
-                                                                                      'account_id': personalskatt.id, }), ],
+            0, 0, {'factor_percent': 100, 'repartition_type': 'base', }), (0, 0, {'factor_percent': 100,
+                                                                                  'repartition_type': 'tax',
+                                                                                  'account_id': personalskatt.id, }), ],
+
                           'refund_repartition_line_ids': [(5, 0, 0),
                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'base', }),
                                                           (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
@@ -873,7 +894,8 @@ class AccountChartTemplate(models.Model):
         }
 
         for k, v in account_values.items():
-            self.env['account.tax'].search([('name', '=', k)]).write(v)
+            self.env['account.tax'].search([('name', '=', k),("company_id","=",company.id)]).write(v)
+
 
         # self.env['account.account'].fix_account_types()
         return res
