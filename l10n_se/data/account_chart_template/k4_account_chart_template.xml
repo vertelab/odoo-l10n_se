@@ -493,14 +493,14 @@
         <record id="K4_1260_2017" model="account.account.template">
             <field name="name">Leasade tillgångar </field>
             <field name="code">1260</field>
-            <field name="user_type_id" ref="l10n_se.type_OvrigaMateriellaAnlaggningstillgangar"/>
+            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
         <record id="K4_1269_2017" model="account.account.template">
             <field name="name">Ackumulerade avskrivningar på leasade tillgångar </field>
             <field name="code">1269</field>
-            <field name="user_type_id" ref="l10n_se.type_OvrigaMateriellaAnlaggningstillgangar"/>
+            <field name="user_type_id" ref="account.data_account_type_fixed_assets"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Om du fyller i detta fält måste du även fylla i motsvarande not i sektionen 'Noter'.</field>
         </record>
