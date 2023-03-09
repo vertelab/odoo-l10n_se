@@ -838,7 +838,7 @@
         <record id="K4_1370_2017" model="account.account.template">
             <field name="name">Uppskjuten skattefordran </field>
             <field name="code">1370</field>
-            <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="reconcile" eval="True"/>
         </record>
@@ -7260,7 +7260,7 @@
         <record id="K4_8295_2017" model="account.account.template">
             <field name="name">Orealiserade värdeförändringar på derivatinstrument </field>
             <field name="code">8295</field>
-            <field name="user_type_id" ref="l10n_se.type_ResultatOvrigaFinansiellaAnlaggningstillgangar"/>
+            <field name="user_type_id" ref="account.data_account_type_other_income"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Nettot av intäkter och kostnader från företagets övriga värdepapper och fordringar som är anläggningstillgångar, med undantag av nedskrivningar. T.ex. ränteintäkter (även på värdepapper avseende koncern- och intresseföretag), utdelningar, positiva och negativa valutakursdifferenser och realisationsresultat.</field>
         </record>
@@ -7316,21 +7316,21 @@
         <record id="K4_8320_2017" model="account.account.template">
             <field name="name">Värdering till verkligt värde, omsättningstillgångar</field>
             <field name="code">8320</field>
-            <field name="user_type_id" ref="l10n_se.type_OvrigaRanteintakterLiknandeResultatposter"/>
+            <field name="user_type_id" ref="account.data_account_type_other_income"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
         </record>
         <record id="K4_8321_2017" model="account.account.template">
             <field name="name">Orealiserade värdeförändringar på omsättningstillgångar </field>
             <field name="code">8321</field>
-            <field name="user_type_id" ref="l10n_se.type_OvrigaRanteintakterLiknandeResultatposter"/>
+            <field name="user_type_id" ref="account.data_account_type_other_income"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
         </record>
         <record id="K4_8325_2017" model="account.account.template">
             <field name="name">Orealiserade värdeförändringar på derivatinstrument (oms.-tillg.) </field>
             <field name="code">8325</field>
-            <field name="user_type_id" ref="l10n_se.type_OvrigaRanteintakterLiknandeResultatposter"/>
+            <field name="user_type_id" ref="account.data_account_type_other_income"/>
             <field name="chart_template_id" ref="chart_template_K4_2017"/>
             <field name="note">Resultat från finansiella omsättningstillgångar med undantag för nedskrivningar. T.ex. ränteintäkter (även dröjsmålsräntor på kundfordringar), utdelningar och positiva valutakursdifferenser.</field>
         </record>
