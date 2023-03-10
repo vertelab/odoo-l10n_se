@@ -20,50 +20,30 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Account Tax Report',
+    'name': 'l10n_se: Account Financial Report',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Sweden - Account Tax Report',
+    'summary': 'Sweden - Account Financial Report',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_report',
+    'website': '',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'description': """
-Swedish accounting Tax Report
-=============================
-Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
+Swedish Account Financial Report
      """,
     'author': 'Vertel AB',
 
-    # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account','payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se', 'account_payment_order', 'calendar', 'mis_builder','l10n_se_mis', 'l10n_se_hr_payroll'],
+    'depends': ['l10n_se'],
 
-    'data': [
-        'data/account_data.xml',
-        # ~ 'data/account_financial.xml',
-        'views/account_view.xml',
-        'views/res_config_view.xml',
-        # ~ 'wizard/import_b_and_r_report.xml', funkar inte i 12
-        # ~ 'wizard/import_bolagsverket_report.xml', funkar inte i 12
-        'views/moms_report.xml',
-        # ~ 'views/agd_report.xml',
-        # ~ 'views/sru_report.xml',
-        # ~ 'views/periodic_compilation.xml',
-        'report/report.xml',
-        # ~ 'account_invoice_demo.xml',
-        'security/ir.model.access.csv',
-        'security/security.xml',
-        'views/mis_report_view.xml',
-     ],
-    'demo_xml': [
-        # ~ 'demo/account_invoice.yml',
-        'demo/account_invoice.xml',
-    ],
+    'data': ['views/financial_reports_line_view.xml',
+             'views/financial_reports_instance_view.xml',
+             'security/ir.model.access.csv'],
+
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

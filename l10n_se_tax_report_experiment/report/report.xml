@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_arsredovisning" model="ir.actions.report.xml">
+            <field name="model">account.sru.declaration</field>
+            <field name="string">Årsredovisning</field>
+            <field name="report_type">py3o</field>
+            <field name="name">Årsredovisning</field>
+            <field name="report_name">arsredovisning.odt</field>
+            <field name="file">arsredovisning.odt</field>
+            <field name="attachment_use" eval="True" />
+            <field name="attachment">object.name+'.odt'</field>
+            <field name="py3o_filetype">odt</field>
+            <field name="module">l10n_se_tax_report</field>
+            <field name="py3o_template_fallback">report/arsredovisning.odt</field>
+            <field name="py3o_template_fallback">/odoo/templates/py3o/report/arsredovisning.odt</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_config_settings" model="ir.ui.view">
+            <field name="name">account settings.inherited.l10n_se_tax_report</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings" />
+            <field name="arch" type="xml">
+                <group name="accounting" position="before">
+                    <group>
+                        <field name="agd_journal" />
+                        <field name="moms_journal" />
+                        <field name="accounting_method" />
+                        <field name="vat_declaration_frequency" />
+                        <field name="ag_contact" widget="many2many_tags" />
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>
