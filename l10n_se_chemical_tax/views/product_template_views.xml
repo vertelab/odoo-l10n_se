@@ -12,6 +12,7 @@
         </field>
       </field>
     </record>
+
     
     <record id="product_product_tree_view" model="ir.ui.view">
       <field name="name">chemical_tax_tree</field>
@@ -36,18 +37,6 @@
           <!--field name="elkretsen_miljoavgift" /-->
         </field>
       </field>
-    </record>    
-    
-    <!--record id="view_order_product_pivot" model="ir.ui.view">
-      <field name="name">chemical_tax_form</field>
-      <field name="model">sale.report</field>
-      <field name="inherit_id" ref="sale.view_order_product_pivot"/>
-      <field name="arch" type="xml">
-        <pivot name="property_account_expense_categ_id" position="after">
-          <field name="chemical_tax"  />
-          <field name="chemical_max_tax"/>
-        </pivot>
-      </field>
-    </record-->    
+    </record> 
   </data>
 </odoo>
