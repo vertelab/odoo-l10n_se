@@ -42,13 +42,9 @@ class AccountMove(models.Model):
                         #account_type = self.env['account.account'].search([('code','=','1513')]).user_type_id
                         account_type = rotrut_receivable_account.user_type_id
                         _logger.warning(account_type)
-                        self.env['account.account'].search([('code','=','1513')]).user_type_id = 13
+                        self.env['account.account'].search([('code','=','1513')]).user_type_id = 13    # Ändra kontotyp till Nettoomsättning (behövdes tidigare men verkar inte vara nödvändingt längre.)
                         #self.env['account.account'].search([('code','=','1513')]).user_type_id = self.env.ref('')
                         _logger.warning(self.env['account.account'].search([('code','=','1513')]).user_type_id)
-
-                        self.env['account.account'].search([('code', '=', '1513')]).user_type_id = 13
-                        _logger.warning(self.env['account.account'].search([('code', '=', '1513')]).user_type_id)
-
 
                         line_vals.append(
                             (0,0,{
