@@ -17,6 +17,19 @@ _logger = logging.getLogger(__name__)
 
 class AccountTax(models.Model):
     _inherit = "account.tax"
+
+    # amount_type = fields.Selection(default='percent', string="Tax Computation", required=True,
+    #     selection=[('group', 'Group of Taxes'), ('fixed', 'Fixed'), ('percent', 'Percentage of Price'),('chemical_tax', 'Chemical Tax'), ('division', 'Percentage of Price Tax Included')], ondelete = {'chemical_tax': 'set default'},
+    #     help="""
+    # - Group of Taxes: The tax is a set of sub taxes.
+    # - Fixed: The tax amount stays the same whatever the price.
+    # - Percentage of Price: The tax amount is a % of the price:
+    #     e.g 100 * (1 + 10%) = 110 (not price included)
+    #     e.g 110 / (1 + 10%) = 100 (price included)
+    # - Percentage of Price Tax Included: The tax amount is a division of the price:
+    #     e.g 180 / (1 - 10%) = 200 (not price included)
+    #     e.g 200 * (1 - 10%) = 180 (price included)
+    #     """)
     
     amount_type = fields.Selection(selection_add = [('chemical_tax', 'Chemical Tax')], ondelete = {'chemical_tax': 'set default'})
     # ~ tax_group_id = fields.Selection(selection_add = [('chemical_tax', 'ChemTax')], ondelete = {'chemical_tax': 'set default'})
@@ -58,5 +71,7 @@ class AccountTax(models.Model):
         # ~ # default value for custom amount_type
         # ~ return 0.0
     
-   
+class AccountTaxTemplate(models.Model):
+    _inherit = "account.tax.template"
+    amount_type = fields.Selection(selection_add = [('chemical_tax', 'Chemical Tax')], ondelete = {'chemical_tax': 'set default'})
 

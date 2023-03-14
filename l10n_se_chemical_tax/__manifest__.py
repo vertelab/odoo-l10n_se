@@ -40,9 +40,9 @@
      #   "bin": ["openssl",], 
      #   "python": ["acme_tiny", "IPy",],
      #},
-    'data': [
+    'data': [                
+                'views/product_template_views.xml',
                 'data/account_tax_data.xml',
-                'views/product_template_views.xml'
             ],
     'demo': [],
     'application': False,

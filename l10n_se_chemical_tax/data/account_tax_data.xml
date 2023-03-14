@@ -14,7 +14,7 @@
         </record>
         
         <!-- -->
-        <record id="kemskatti" model="account.tax.template">
+        <!-- <record id="kemskatti" model="account.tax.template">
             <field name="chart_template_id" ref="l10n_se.chart_template_general" />
             <field name="name">Kemskatti</field>
             <field name="description">Kemikalieskatt (ink)</field>
@@ -43,8 +43,8 @@
                 'account_id': ref('l10n_se.chart2660'),
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
-            <field name="sequence">0</field><!-- make sure system choose it by default -->
-        </record>   
+            <field name="sequence">0</field> --> <!-- make sure system choose it by default --> 
+        </record>  
 
         
            
