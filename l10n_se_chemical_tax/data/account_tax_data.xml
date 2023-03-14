@@ -44,7 +44,7 @@
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="sequence">0</field> --> <!-- make sure system choose it by default --> 
-        </record>  
+        <!-- </record>   -->
 
         
            
