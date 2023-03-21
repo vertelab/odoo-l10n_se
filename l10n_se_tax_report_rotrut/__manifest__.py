@@ -27,16 +27,21 @@
     'description': """
     Adds Swedish tax and employer reports (RotRut avdrag)
     """,
-    #'images': ['images/main_screenshot.png'],
+    'images': ['static/description/banner.png'], # 560x280 px.
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_report_rotrut',
     'license': 'AGPL-3',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    # Any module necessary for this one to work correctly
+
     'depends': ['l10n_se', 'hr', 'account', 'sales_team'],
     'data': [
         'data/account.xml',
         'data/skv_code.xml',
-        'views/account_rotrut_view.xml',
+        'views/account_journal_view.xml',
         'views/account_move_view.xml',
+        'views/account_report_view.xml',
+        'views/account_rotrut_view.xml',
         'views/res_partner_view.xml',
         'security/ir.model.access.csv',
     ],
@@ -44,3 +49,5 @@
     'installable': True,    
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

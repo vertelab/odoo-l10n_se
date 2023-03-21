@@ -35,12 +35,15 @@
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_chemical_tax',
     'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
-    'depends': ["product", "l10n_se", "stock", "sale"],
+    'depends': ["product", "l10n_se", "stock", "sale", "product_net_weight"],
      #"external_dependencies": {
      #   "bin": ["openssl",], 
      #   "python": ["acme_tiny", "IPy",],
      #},
-    'data': ['views/product_template_views.xml'],
+    'data': [                
+                'views/product_template_views.xml',
+                'data/account_tax_data.xml',
+            ],
     'demo': [],
     'application': False,
     'installable': True,    

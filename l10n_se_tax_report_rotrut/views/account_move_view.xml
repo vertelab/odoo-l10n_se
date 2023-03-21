@@ -4,20 +4,20 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='journal_div']" position="after">
-                <field name="is_rotrut" attrs="{'readonly': [('state','!=','draft')]}"/>
+                <field name="is_rotrut" attrs="{'invisible': True}"/>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
                 <field name="is_material" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"></field>
-                <field name="rotrut_percent" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
+                <field name="rotrut_percent" attrs="{'column_invisible': [('parent.is_rotrut','=',False)], 'readonly': [('is_material', '==', True)]}"/>
                 <field name="uuid" attrs="{'column_invisible': True}"/>
             </xpath>
 
             <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='tax_ids']" position="after">
                 <field name="rotrut_id" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
                 <field name="is_material" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"></field>
-                <field name="rotrut_percent" attrs="{'column_invisible': [('parent.is_rotrut','=',False)]}"/>
+                <field name="rotrut_percent" attrs="{'column_invisible': [('parent.is_rotrut','=',False)], 'readonly': [('is_material', '==', True)]}"/>
                 <field name="uuid" attrs="{'column_invisible': True}"/>
             </xpath>
             <xpath expr="//group[hasclass('oe_subtotal_footer','oe_right')]/field[@name='amount_by_group']" position="after">

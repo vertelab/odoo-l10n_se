@@ -4,14 +4,23 @@
         <record id="rotrut_sales_work" model="account.account">
             <field name="code">3221</field>
             <field name="name">Försäljning ROT/RUT arbetskostnad 25%</field>
-            <field name="user_type_id">13</field>
+            <field name="user_type_id" ref="account.data_account_type_revenue"/>
             <field name="reconcile">False</field>
         </record>
         <record id="rotrut_sales_material" model="account.account">
             <field name="code">3222</field>
             <field name="name">Försäljning ROT/RUT material 25%</field>
-            <field name="user_type_id">13</field>
+            <field name="user_type_id" ref="account.data_account_type_revenue"/>
             <field name="reconcile">False</field>
+        </record>
+        <record id="rotrut_journal" model="account.journal">
+            <field name="name">Rot/Rut</field>
+            <field name="code">ROT</field>
+            <field name="type">sale</field>
+            <field name="is_rotrut" eval="True"/>
+            <field name="rotrut_workcost_account_id" ref="l10n_se_tax_report_rotrut.rotrut_sales_work"/>
+            <field name="rotrut_material_account_id" ref="l10n_se_tax_report_rotrut.rotrut_sales_material"/>
+            <!-- <field name="rotrut_receivable_account_id" ref=""/> -->
         </record>
     </data>
 </odoo>

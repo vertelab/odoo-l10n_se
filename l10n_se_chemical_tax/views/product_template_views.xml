@@ -8,9 +8,11 @@
       <field name="arch" type="xml">
         <field name="company_id" position="before">
           <field name="chemical_tax" />
+          <!---field name="elkretsen_miljoavgift" /-->
         </field>
       </field>
     </record>
+
     
     <record id="product_product_tree_view" model="ir.ui.view">
       <field name="name">chemical_tax_tree</field>
@@ -19,6 +21,7 @@
       <field name="arch" type="xml">
         <field name="active" position="after">
           <field name="chemical_tax" optional="hide" />
+          <!--field name="elkretsen_miljoavgift" optional="hide" /-->
         </field>
       </field>
     </record>
@@ -31,20 +34,9 @@
         <field name="property_account_expense_categ_id" position="after">
           <field name="chemical_tax"  />
           <field name="chemical_max_tax"/>
+          <!--field name="elkretsen_miljoavgift" /-->
         </field>
       </field>
-    </record>    
-    
-    <!--record id="view_order_product_pivot" model="ir.ui.view">
-      <field name="name">chemical_tax_form</field>
-      <field name="model">sale.report</field>
-      <field name="inherit_id" ref="sale.view_order_product_pivot"/>
-      <field name="arch" type="xml">
-        <pivot name="property_account_expense_categ_id" position="after">
-          <field name="chemical_tax"  />
-          <field name="chemical_max_tax"/>
-        </pivot>
-      </field>
-    </record-->    
+    </record> 
   </data>
 </odoo>

@@ -1,6 +1,8 @@
 from openerp import models, fields, api, _
 import logging
 from odoo.exceptions import UserError
+from collections import defaultdict
+
 import base64
 from lxml import etree
 from .aep import AccountingExpressionProcessorExtended as AEPE
@@ -8,6 +10,8 @@ from .expression_evaluator import ExpressionEvaluatorExtended as EEE
 from .kpimatrix import KpiMatrixExtended as KME
 from .simple_array import SimpleArray, named_simple_array
 from odoo.addons.mis_builder.models.accounting_none import AccountingNone
+from odoo.addons.mis_builder.models.mis_report import SubKPITupleLengthError, SubKPIUnknownTypeError, TYPE_STR
+from odoo.addons.mis_builder.models.mis_safe_eval import DataError
 
 # ~ from odoo import _, api, fields, models
 
@@ -22,15 +26,17 @@ MODE_NONE = "none"
 MODE_FIX = "fix"
 MODE_REL = "relative"
 
+
 class AutoStruct(object):
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
 
-
 class MisReportInstancePeriod(models.Model):
     _inherit = 'mis.report.instance.period'
+
+    hide_opening_closing_period = fields.Boolean(string="Hide Opening/Closing Period")
 
     def _get_additional_move_line_filter(self):
         domain = super(MisReportInstancePeriod, self)._get_additional_move_line_filter()
@@ -40,6 +46,8 @@ class MisReportInstancePeriod(models.Model):
         ):
             domain.extend([("move_id.state", "=", "draft")])
         if (self._get_aml_model_name() == "account.move.line") and self.report_instance_id.hide_opening_closing_period:
+            domain.extend([("move_id.period_id.special", "=", False)])
+        elif (self._get_aml_model_name() == "account.move.line") and self.hide_opening_closing_period:
             domain.extend([("move_id.period_id.special", "=", False)])
         return domain
 
