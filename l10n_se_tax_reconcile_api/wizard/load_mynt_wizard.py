@@ -35,7 +35,7 @@ _logger = logging.getLogger(__name__)
 
 class TaxApi(models.TransientModel):
     _name = 'tax.api'
-    _description = 'Api caller class to skatteverket(Taxart)'
+    _description = 'Skatteverket(Swedish Tax Corp) API implementation'
     
     journal_id = fields.Many2one('account.journal', string='Journal')
    
