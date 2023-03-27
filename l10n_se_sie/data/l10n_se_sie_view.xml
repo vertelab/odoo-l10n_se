@@ -114,6 +114,7 @@
               </group>
               <group string="Choose a journal">
                     <field name="move_journal_id"/>
+                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                 </group>
                 <group string="Configure Serie To Journal">
                     <field name="serie_to_journal_ids">
