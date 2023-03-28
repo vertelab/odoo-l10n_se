@@ -70,14 +70,14 @@ class account_vat_declaration(models.Model):
         
         self.create_eskd_xml_file()
 
-        moms_journal = self.env['account.journal'].search([('name','=','Momsjournal'),('type','=','general'),('code','=','MOMS')])
+        moms_journal = self.env['account.journal'].search([('company_id','=',self.company_id.id),('name','=','Momsjournal'),('type','=','general'),('code','=','MOMS')])
         if not moms_journal:
             raise Warning('Konfigurera din momsdeklaration journal!, den behöver heta Momsjournal, vara av typen general/diverse, ha MOMS som code')
         else:
             # ~ moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
             momsskuld = moms_journal.default_credit_account_id
             momsfordran = moms_journal.default_debit_account_id
-            skattekonto = self.env['account.account'].search([('code', '=', '1630')])
+            skattekonto = self.env['account.account'].search([('company_id','=',self.company_id.id),('code', '=', '1630')])
             if momsskuld and momsfordran and skattekonto:
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
@@ -187,7 +187,7 @@ class account_vat_declaration(models.Model):
                     # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
                         # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                        oresavrundning = self.env['account.account'].search([('code', '=', '3740')])
+                        oresavrundning = self.env['account.account'].search([('company_id','=',self.company_id.i),('code', '=', '3740')])
                         oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
                         # ~ test of öresavrundning.
                         # ~ _logger.warning('<<<<< VALUES: oresavrundning = %s oresavrundning_amount = %s' % (oresavrundning, oresavrundning_amount))
