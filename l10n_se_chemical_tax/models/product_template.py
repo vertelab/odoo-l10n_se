@@ -15,8 +15,9 @@ _logger = logging.getLogger(__name__)
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
-    chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category", compute="_compute_chem_tax_template", inverse="_set_chem_tax_template",
-    search='_search_chem_tax_template', readonly=True)
+    chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category",
+                                compute="_compute_chem_tax_template", inverse="_set_chem_tax_template",
+                                search='_search_chem_tax_template', readonly=True)
 
     @api.depends('product_variant_ids', 'product_variant_ids.chemical_tax')
     def _compute_chem_tax_template(self):
