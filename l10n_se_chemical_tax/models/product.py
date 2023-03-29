@@ -28,13 +28,22 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
     
     
-    @api.depends("net_weight","categ_id.chemical_tax", "categ_id.chemical_max_tax")
+    @api.depends("net_weight","hs_code_id.chemical_tax", "hs_code_id.chemical_max_tax", )
+    def _chemical_compute(self):        
+
+        for product in self:
+            product.chemical_max_tax = product.hs_code_id.chemical_max_tax
+            product.chemical_tax = product.hs_code_id.chemical_tax * product.net_weight
+            if product.chemical_tax > product.chemical_max_tax:
+                product.chemical_tax = product.chemical_max_tax
+
+    """ @api.depends("net_weight","categ_id.chemical_tax", "categ_id.chemical_max_tax")
     def _chemical_compute(self):
         for product in self:
             product.chemical_max_tax = product.categ_id.chemical_max_tax
             product.chemical_tax = product.categ_id.chemical_tax * product.net_weight
             if product.chemical_tax > product.chemical_max_tax:
-                product.chemical_tax = product.chemical_max_tax
+                product.chemical_tax = product.chemical_max_tax          """   
      
     chemical_tax = fields.Float(string="Chemical tax", help="Computed chemical tax", compute="_chemical_compute", store=True) 
     
