@@ -29,6 +29,19 @@ class SaleOrder(models.Model):
             order.amount_by_group = new_amount_by_group
 
 
+    @api.depends('state', 'order_line.invoice_status')
+    def _get_invoice_status(self):
+        _logger.warning("_get_invoice_status"*100)
+        res = super(SaleOrder, self)._get_invoice_status()
+        for record in self:
+            for line in record.order_line:
+                line.max_sold_chem_tax = 0
+                if record.invoice_status == "invoiced":
+                    if line.product_id and line.product_id.hs_code_id and line.product_id.chemical_tax == line.product_id.hs_code_id.chemical_max_tax:
+                        line.max_sold_chem_tax = line.product_uom_qty
+        return res
+                    
+
 
     @api.depends('order_line.price_total','order_line.tax_id','order_line.tax_id.hidden_tax')
     def _amount_all(self):
@@ -47,7 +60,15 @@ class SaleOrder(models.Model):
         return res
         
 
-    
+class SaleOrderLine1(models.Model):
+    _inherit = "sale.order.line"
+
+    max_sold_chem_tax = fields.Integer(
+        string=_('Number Of sold products for the max chemical tax amount'),
+        readonly=True,
+    )
+
+
             
        
 class SaleOrderLine(models.Model):
@@ -59,6 +80,7 @@ class SaleOrderLine(models.Model):
         readonly=True
     )
 
+
     product_id = fields.Many2one(
         comodel_name="product.product",
         readonly=True,
@@ -68,27 +90,28 @@ class SaleOrderLine(models.Model):
         readonly=True,
     )
 
+
     @api.depends('price_unit', 'product_id.categ_id.chemical_tax')
     def _get_price_reduce(self):
         for line in self:
             line.price_reduce = line.price_unit * (1.0 - line.discount / 100.0)
 
 
-class SaleReport(models.Model):
-    _inherit = "sale.report"
+# class SaleReport(models.Model):
+#     _inherit = "sale.report"
     
-    chemical_tax = fields.Float(
-        string=_('Chemical tax'),
-        readonly=True
-    )
+#     chemical_tax = fields.Float(
+#         string=_('Chemical tax'),
+#         readonly=True
+#     )
 
-    product_id = fields.Many2one(
-        comodel_name="product.product",
-        readonly=True,
-    )
+#     product_id = fields.Many2one(
+#         comodel_name="product.product",
+#         readonly=True,
+#     )
 
-    def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
-        fields['chemical_tax'] = ", p.chemical_tax as chemical_tax"
-        groupby += ', p.chemical_tax'
-        _logger.warning("fields=%s groupby = %s" % (fields, groupby))
-        return super(SaleReport, self)._query(with_clause, fields, groupby, from_clause)
+#     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
+#         fields['chemical_tax'] = ", p.chemical_tax as chemical_tax"
+#         groupby += ', p.chemical_tax'
+#         _logger.warning("fields=%s groupby = %s" % (fields, groupby))
+#         return super(SaleReport, self)._query(with_clause, fields, groupby, from_clause)
