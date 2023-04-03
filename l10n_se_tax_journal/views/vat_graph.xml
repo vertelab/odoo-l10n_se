@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="account_journal_dashboard_kanban_view_inherited" model="ir.ui.view">
+            <field name="name">account.journal.dashboard.kanban.inherited</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view" />
+            <field name="arch" type="xml">               
+                <xpath expr="//t[@t-call='JournalBodyGraph']" position="after">
+                    <t t-if="journal_type == 'moms'" t-call="JournalBodyGraph"/>                    
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
