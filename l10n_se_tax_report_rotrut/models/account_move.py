@@ -42,13 +42,9 @@ class AccountMove(models.Model):
                         #account_type = self.env['account.account'].search([('code','=','1513')]).user_type_id
                         account_type = rotrut_receivable_account.user_type_id
                         _logger.warning(account_type)
-                        self.env['account.account'].search([('code','=','1513')]).user_type_id = 13
+                        self.env['account.account'].search([('code','=','1513')]).user_type_id = 13    # Ändra kontotyp till Nettoomsättning
                         #self.env['account.account'].search([('code','=','1513')]).user_type_id = self.env.ref('')
                         _logger.warning(self.env['account.account'].search([('code','=','1513')]).user_type_id)
-
-                        self.env['account.account'].search([('code', '=', '1513')]).user_type_id = 13
-                        _logger.warning(self.env['account.account'].search([('code', '=', '1513')]).user_type_id)
-
 
                         line_vals.append(
                             (0,0,{
@@ -68,14 +64,13 @@ class AccountMove(models.Model):
                             move.update({'line_ids': line_vals})
                             # self.env['account.account'].search([('code','=','1513')]).user_type_id = account_type
 
-                    #elif line.account_id.code == '3221':
-                    elif line.account_id == rotrut_workcost_account:
-                        for line3001 in move.line_ids:
-                            if line3001.uuid == line.uuid:
-                                line3001.debit = line.credit * 1.25 * line.rotrut_percent / 100
-                                # account_type = self.env['account.account'].search([('code','=','1513')]).user_type_id
-                                # _logger.warning(account_type)
-                                break
+                    # elif line.account_id == rotrut_workcost_account:
+                    #     for line3001 in move.line_ids:
+                    #         if line3001.uuid == line.uuid:
+                    #             line3001.debit = line.credit * 1.25 * line.rotrut_percent / 100
+                    #             # account_type = self.env['account.account'].search([('code','=','1513')]).user_type_id
+                    #             # _logger.warning(account_type)
+                    #             break
 
 
 
@@ -153,6 +148,7 @@ class AccountMove(models.Model):
     
     def write(self,vals):
         if 'line_ids' in vals:
+            _logger.warning(f"{vals=}")
             for line in vals['line_ids']:
                 if line[0] == 1 and type(line[2]) is dict:
                     elem = line[2]

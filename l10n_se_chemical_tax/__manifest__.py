@@ -26,21 +26,19 @@
     'version': '14.0.0.0.0',
     'summary': 'Report chemical tax for swedish tax agency (skatteverket)',
 
-    'category': 'Localization', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
+    'category': 'Localization',  # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': """
         Long description of module's purpose
     """,
-    #'sequence': 1,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_chemical_tax',
-    'images': ['static/description/banner.png'], # 560x280
+    'images': ['static/description/banner.png'],  # 560x280
     'license': 'AGPL-3',
-    'depends': ["product", "l10n_se", "stock", "sale"],
-     #"external_dependencies": {
-     #   "bin": ["openssl",], 
-     #   "python": ["acme_tiny", "IPy",],
-     #},
-    'data': ['views/product_template_views.xml'],
+    'depends': ["product", "l10n_se", "stock", "sale", "product_net_weight", "product_harmonized_system"],
+    'data': [                
+        'views/product_template_views.xml',
+        'data/account_tax_data.xml',
+    ],
     'demo': [],
     'application': False,
     'installable': True,    

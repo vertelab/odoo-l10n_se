@@ -729,7 +729,7 @@ class account_account_type(models.Model):
 
     def _account_type_lookup(self, code=False):
         if code:
-            account_type_ids = self.env['account.account.type'].search([('account_range', '!=', False)])
+            account_type_ids = self.env['account.account.type'].search([('account_range', '!=', False)],limit=1)
             type_list = account_type_ids.filtered(lambda xd: str(code) in eval(xd.account_range)[0][-1])
             return type_list
         else:

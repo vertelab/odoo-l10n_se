@@ -30,7 +30,7 @@ class account_sie_account(models.TransientModel):
         # data_account_type_current_assets
         # data_account_type_fixed_assets
         return self.env.ref('account.data_account_type_fixed_assets')
-
+        
     wizard_id = fields.Many2one(comodel_name='account.sie', string='Wizard')
     checked = fields.Boolean(string='')
     reconcile = fields.Boolean(string='')
@@ -77,6 +77,7 @@ class account_sie(models.TransientModel):
     show_account_lines = fields.Boolean(string='Show Account Lines')
     move_journal_id = fields.Many2one(comodel_name="account.journal", string="Journal",
                                       help="All imported account.moves will get this journal", )
+    company_id = fields.Many2one(related='move_journal_id.company_id')
 
     accounts_type = fields.Selection(selection=[
         ('view', 'View'),
@@ -177,6 +178,7 @@ class account_sie(models.TransientModel):
         self.ensure_one()
         for line in self.account_line_ids:
             self.env['account.account'].create({
+                'company_id':self.company_id.id,
                 'name': line.name,
                 'code': line.code,
                 'internal_type': line.type,
@@ -277,8 +279,7 @@ class account_sie(models.TransientModel):
                         be_reconcilable = True
                     
                     # check if account line exist
-                    sie_account_id = self.env['account.sie.account'].search([
-                        ('code', '=', account[0]), ('wizard_id', '=', self.id)
+                    sie_account_id = self.env['account.sie.account'].search([('code', '=', account[0]), ('wizard_id', '=', self.id)
                     ], limit=1)
                     if not sie_account_id:
                         self.write({
@@ -562,14 +563,16 @@ class account_sie(models.TransientModel):
                     # ~ _logger.warning(f"WHAT: {self.env['account.period'].search([], limit=1)}")
                     # self.env['account.period'].find(dt=line[3]) #Expected singleton
                     self.env['account.period'].search([], limit=1).find(
-                        dt=line[3])  # The find method has self.ensure_one, which is why i find one record.
+                        dt=line[3],company_id=self.company_id.id)  # The find method has self.ensure_one, which is why i find one record.
                 except RedirectWarning:
+                    _logger.warning(f"{line[3]=}")
                     if not missing_period:
                         missing_period = [line[3], line[3]]
                     elif line[3] < missing_period[0]:
                         missing_period[0] = line[3]
                     elif line[3] > missing_period[1]:
                         missing_period[1] = line[3]
+        _logger.warning(f"{missing_period=}")
         return missing_period
 
     def _import_ver(self, data):
@@ -605,7 +608,7 @@ class account_sie(models.TransientModel):
                     move_journal_id = serie_to_journal_lines.journal_id.id
 
                 ver_id = self.env['account.move'].create({
-                    'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date).id,
+                    'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date, company_id=self.company_id.id).id,
                     'journal_id': move_journal_id,
                     'date': list_date[0:4] + '-' + list_date[4:6] + '-' + list_date[6:],
                     'ref': list_ref,
@@ -629,7 +632,7 @@ class account_sie(models.TransientModel):
                         trans_quantity = l.get(6)
                         trans_sign = l.get(7)
                         code = self.env['account.account'].search(
-                            [('code', '=', trans_code), ('company_id', '=', self.env.ref('base.main_company').id)],
+                            [('code', '=', trans_code), ("company_id",'=',self.company_id.id)],
                             limit=1)
                         if code.user_type_id.report_type == 'income':
                             journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
@@ -643,7 +646,7 @@ class account_sie(models.TransientModel):
                             journal_types.append('purchase' and float(trans_balance) > 0.0 or 'purchase_refund')
 
                         # ~ raise Warning(self.env['account.move.line'].search([])[0].date)
-                        period_id = self.env['account.period'].search([], limit=1).find(dt=list_date).id
+                        period_id = self.env['account.period'].search([], limit=1).find(dt=list_date,company_id=self.company_id.id).id
                         _logger.debug('\naccount_id :%s\nbalance: %s\nperiod_id: %s' % (code, trans_balance, period_id))
 
                         if trans_date and trans_date != "Empty Citation":
@@ -699,10 +702,10 @@ class account_sie(models.TransientModel):
                 year_num = int(line.get(1))  # Opening period for current fiscal year
                 first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
                 period_id = self.env['account.period'].search(
-                    [('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year),
+                    [('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year),("company_id",'=',self.company_id.id),
                      ('special', '=', True)]).id
                 # period_record = self.env["account.period"].browse(period_id)
-                ib_account = self.env['account.account'].search([('code', '=', line.get(2)),('company_id','=',self.env.ref('base.main_company').id)])
+                ib_account = self.env['account.account'].search([('code', '=', line.get(2)),("company_id",'=',self.company_id.id)])
                 ib_amount = line.get(3)
                 ib_qnt = line.get(4)  # We already have a amount, what is the purpose of having a quantity as well
 
@@ -733,7 +736,7 @@ class account_sie(models.TransientModel):
 
         # Depending on the accounts used odoo will self balance the account moves by adding an opposite account, problem is that we don't know if that has happened or not.
         # Checking if account move is balanced.
-        opposite_account = self.env['account.account'].search([('code', '=', '1930')])
+        opposite_account = self.env['account.account'].search([("company_id",'=',self.company_id.id),('code', '=', '1930')])
         move_balance = 0
         if ib_move_id:
             for line in ib_move_id.line_ids:

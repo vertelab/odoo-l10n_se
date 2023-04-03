@@ -1,18 +1,39 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+import logging
+import re
+
+from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError, ValidationError
+from odoo.osv import expression
 
 
-# class scaffold_test(models.Model):
-#     _name = 'scaffold_test.scaffold_test'
-#     _description = 'scaffold_test.scaffold_test'
+from odoo.tools import float_compare
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+_logger = logging.getLogger(__name__)
+
+
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+    chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category",
+                                compute="_compute_chem_tax_template", inverse="_set_chem_tax_template",
+                                search='_search_chem_tax_template', readonly=True)
+
+    @api.depends('product_variant_ids', 'product_variant_ids.chemical_tax')
+    def _compute_chem_tax_template(self):
+        unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
+        for template in unique_variants:
+            template.chemical_tax = template.product_variant_ids.chemical_tax
+        for template in (self - unique_variants):
+            template.chemical_tax = 0.0
+
+    def _search_chem_tax_template(self, operator, value):
+        products = self.env['product.product'].search([('chemical_tax', operator, value)], limit=None)
+        return [('id', 'in', products.mapped('product_tmpl_id').ids)]
+    
+    def _set_chem_tax_template(self):
+        for template in self:
+            if len(template.product_variant_ids) == 1:
+                template.product_variant_ids.chemical_tax = template.chemical_tax
+
+
