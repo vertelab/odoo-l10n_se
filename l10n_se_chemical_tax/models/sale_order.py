@@ -20,12 +20,12 @@ class SaleOrder(models.Model):
         for order in self:
             new_amount_by_group = []
             for line in order.amount_by_group:
-                _logger.warning(f"{line[0]=}")
+                # ~ _logger.warning(f"{line[0]=}")
                 tax_group = self.env['account.tax.group'].search([('name','=',line[0])])
-                _logger.warning(f"{tax_group} {tax_group.name} {tax_group.hidden_tax}")
+                # ~ _logger.warning(f"{tax_group} {tax_group.name} {tax_group.hidden_tax}")
                 if not tax_group.hidden_tax:
                    new_amount_by_group.append(line)
-            _logger.warning(new_amount_by_group)
+            # ~ _logger.warning(new_amount_by_group)
             order.amount_by_group = new_amount_by_group
 
 
@@ -41,60 +41,61 @@ class SaleOrder(models.Model):
                         line.max_sold_chem_tax = line.product_uom_qty
         return res
                     
-
-
-    @api.depends('order_line.price_total','order_line.tax_id','order_line.tax_id.hidden_tax')
-    def _amount_all(self):
-        res = super(SaleOrder,self)._amount_all()
-        """
-        Compute the total amounts of the SO.
-        """
-        for order in self:
-            for line in order.order_line:
-                chem_tax = 0
-                if line.tax_id.filtered(lambda x: x.hidden_tax) and line.product_id.hs_code_id and order.partner_id:
-                   hidden_tax = line.tax_id.filtered(lambda x: x.hidden_tax)
-                   chem_tax = hidden_tax._compute_amount(line.price_subtotal,line.price_unit,line.product_uom_qty,line.product_id,order.partner_id)
-                   order.amount_untaxed += chem_tax
-                   order.amount_tax -= chem_tax
-        return res
-        
-
-class SaleOrderLine1(models.Model):
+class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     max_sold_chem_tax = fields.Integer(
         string=_('Number Of sold products for the max chemical tax amount'),
         readonly=True,
     )
+    
+    @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id')
+    def _compute_amount(self):
+        """
+        Compute the amounts of the SO line.
+        """
+        super(SaleOrderLine,self)._compute_amount() 
+        for line in self:
+            for tax in line.tax_id:
+                if tax.hidden_tax == True:
+                    if line.product_id.hs_code_id and line.order_id.partner_id:
+                        hidden_tax = line.tax_id.filtered(lambda x: x.hidden_tax)
+                        chem_tax = hidden_tax._compute_amount(line.price_subtotal,line.price_unit,line.product_uom_qty,line.product_id,line.order_id.partner_id)
+                        line.price_subtotal += chem_tax
+                        line.price_tax -= chem_tax
+                    _logger.warning('%s'%line.tax_id.compute_all(line.price_subtotal, line.order_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.order_id.partner_shipping_id))     
+            
+               
+  
+
 
 
             
        
-class SaleOrderLine(models.Model):
-    _inherit = "sale.order.line"
-    _inherit = "product.category"    
+# ~ class SaleOrderLine(models.Model):
+    # ~ _inherit = "sale.order.line"
+    # ~ _inherit = "product.category"    
 
-    chemical_tax = fields.Float(
-        string=_('Chemical tax'),
-        readonly=True
-    )
-
-
-    product_id = fields.Many2one(
-        comodel_name="product.product",
-        readonly=True,
-    )
-    price_with_chemtax = fields.Many2one(
-        comodel_name="product.product",
-        readonly=True,
-    )
+    # ~ chemical_tax = fields.Float(
+        # ~ string=_('Chemical tax'),
+        # ~ readonly=True
+    # ~ )
 
 
-    @api.depends('price_unit', 'product_id.categ_id.chemical_tax')
-    def _get_price_reduce(self):
-        for line in self:
-            line.price_reduce = line.price_unit * (1.0 - line.discount / 100.0)
+    # ~ product_id = fields.Many2one(
+        # ~ comodel_name="product.product",
+        # ~ readonly=True,
+    # ~ )
+    # ~ price_with_chemtax = fields.Many2one(
+        # ~ comodel_name="product.product",
+        # ~ readonly=True,
+    # ~ )
+
+
+    # ~ @api.depends('price_unit', 'product_id.categ_id.chemical_tax')
+    # ~ def _get_price_reduce(self):
+        # ~ for line in self:
+            # ~ line.price_reduce = line.price_unit * (1.0 - line.discount / 100.0)
 
 
 # class SaleReport(models.Model):

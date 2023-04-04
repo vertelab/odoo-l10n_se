@@ -38,6 +38,7 @@
     'data': [                
         'views/product_template_views.xml',
         'data/account_tax_data.xml',
+        'report/invoice_report.xml'
     ],
     'demo': [],
     'application': False,

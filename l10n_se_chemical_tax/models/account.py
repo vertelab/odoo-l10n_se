@@ -25,20 +25,20 @@ class AccountTax(models.Model):
     amount_type = fields.Selection(selection_add=[('chemical_tax', 'Chemical Tax')],
                                    ondelete={'chemical_tax': 'set default'})
 
-    # ~ tax_group_id = fields.Selection(selection_add = [('chemical_tax', 'ChemTax')], ondelete = {'chemical_tax':
-    # 'set default'})
-
+           
     def _compute_amount(self, base_amount, price_unit, quantity=1.0, product=None, partner=None):
         """ Returns the amount of a single tax. base_amount is the actual amount on which the tax is applied, which is
             price_unit * quantity eventually affected by previous taxes (if tax is include_base_amount XOR price_include)
         """
         amount = super(AccountTax, self)._compute_amount(base_amount, price_unit, quantity, product, partner)
+        if not product:
+            return amount
         price_include = self._context.get('force_price_include', self.price_include)
         if self.amount_type == 'chemical_tax' and not price_include:
             return quantity * product.chemical_tax
         if self.amount_type == 'chemical_tax' and price_include:
             return (self.amount * quantity) + (quantity * product.chemical_tax)
-            # ~ return base_amount + (quantity * product.chemical_tax)          
+            ## ~ return base_amount + (quantity * product.chemical_tax)          
         return amount
 
 
@@ -50,103 +50,48 @@ class AccountTaxTemplate(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-
+    
+    
+    hidden_tax = fields.Float(string="Hidden tax", readonly=True)
+    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=True)
+    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=True)
     chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category")
-
-    # @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'chemical_tax')
-    # def _onchange_price_subtotal(self):
-    #     for line in self:
-    #         if not line.move_id.is_invoice(include_receipts=True):
-    #             continue
-
-    #         line.update(line._get_price_total_and_subtotal())
-    #         line.update(line._get_fields_onchange_subtotal())
-
-    # @api.onchange('product_id')
-    # def _onchange_product_id(self):
-    #     for line in self:
-    #         if not line.product_id or line.display_type in ('line_section', 'line_note'):
-    #             continue
-
-    #         line.name = line._get_computed_name()
-    #         line.account_id = line._get_computed_account()
-    #         taxes = line._get_computed_taxes()
-    #         if taxes and line.move_id.fiscal_position_id:
-    #             taxes = line.move_id.fiscal_position_id.map_tax(taxes, partner=line.partner_id)
-    #         line.tax_ids = taxes
-    #         line.product_uom_id = line._get_computed_uom()
-    #         line.price_unit = line._get_computed_price_unit()
-    #         line.chemical_tax = line.product_id.chemical_tax
-
-    # @api.model
-    # def _get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes,
-    #                                         move_type):
-    #     ''' This method is used to compute 'price_total' & 'price_subtotal'.
-
-    #     :param price_unit:  The current price unit.
-    #     :param quantity:    The current quantity.
-    #     :param discount:    The current discount.
-    #     :param currency:    The line's currency.
-    #     :param product:     The line's product.
-    #     :param partner:     The line's partner.
-    #     :param taxes:       The applied taxes.
-    #     :param move_type:   The type of the move.
-    #     :return:            A dictionary containing 'price_subtotal' & 'price_total'.
-    #     '''
-    #     res = {}
-
-    #     # Compute 'price_subtotal'.
-    #     line_discount_price_unit = price_unit * (1 - (discount / 100.0))
-    #     subtotal = quantity * line_discount_price_unit
-
-    #     # Compute 'price_total'.
-    #     if taxes:
-    #         taxes_res = taxes._origin.with_context(force_sign=1).compute_all(line_discount_price_unit,
-    #                                                                          quantity=quantity, currency=currency,
-    #                                                                          product=product, partner=partner,
-    #                                                                          is_refund=move_type in (
-    #                                                                          'out_refund', 'in_refund'))
-    #         res['price_subtotal'] = taxes_res['total_excluded']
-    #         res['price_subtotal'] = res['price_subtotal'] + (self.quantity * self.chemical_tax)
-
-    #         res['price_total'] = taxes_res['total_included']
-    #         res['price_total'] = res['price_total'] + (self.quantity * self.chemical_tax)
-    #     else:
-    #         res['price_total'] = res['price_subtotal'] = subtotal + (self.quantity * self.chemical_tax)
-    #     # In case of multi currency, round before it's use for computing debit credit
-    #     if currency:
-    #         res = {k: currency.round(v) for k, v in res.items()}
-    #     return res
-
+    
+    @api.model
+    def x_get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes, move_type):
+        res = super(AccountMoveLine, self)._get_price_total_and_subtotal_model(price_unit, quantity, discount, currency, product, partner, taxes, move_type)
+        for tax in taxes:
+            if product and product.hs_code_id:
+                # ~ if tax.hidden_tax and tax.price_include:
+                        # ~ chemical_tax = tax._compute_amount(res['price_subtotal'], price_unit, quantity, product, partner)
+                        _logger.warning(f"{res['price_subtotal']=}")
+                        # ~ res['price_subtotal'] -= chemical_tax
+                        
+                        # ~ res['price_total'] = res['price_total'] + chemical_tax
+                # ~ if tax.hidden_tax and not tax.price_include:
+                        # ~ chemical_tax = tax._compute_amount(res['price_subtotal'], price_unit, quantity, product, partner)
+                        # ~ res['price_subtotal'] = res['price_subtotal'] + chemical_tax
+                    
+        return res
 
 class AccountMove(models.Model):
     _inherit = "account.move"
-
-    #hidden_tax = fields.Boolean(string="Hide Chemical Tax")
 
     amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, tracking=True,
                                      compute='_compute_amount')
 
     chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category", readonly=True)
 
-
-    # @api.depends('price_unit', 'categ_id.chemical_tax')
-
-    # @api.depends("account_tax_id.amount_untaxed", "account_tax_id.hidden_tax")
-
-    """ def _compute_amount(self, amount_by_group, amount_untaxed, partner=None):
-        
-        #amount = super(AccountMove, self)._compute_amount(amount_by_group, amount_untaxed, partner)
-        
-        #self.amount_untaxed = self.amount_untaxed + self.amount_by_group
-        price_include = self._context.get('force_price_include', self.price_include)
-        if self.hidden_tax == False and not price_include:
-           return amount_untaxed * product.chemical_tax         
-        if self.hidden_tax == True:
-            return (self.amount * quantity) + (quantity * product.chemical_tax) 
-        else:
-            return  (self.amount * quantity)                 
-        #return amount   """
+    @api.depends('line_ids.price_subtotal', 'line_ids.tax_base_amount', 'line_ids.tax_line_id', 'partner_id', 'currency_id','line_ids.tax_ids','line_ids.tax_ids.hidden_tax')
+    def _compute_invoice_taxes_by_group(self):
+        res = super(AccountMove, self)._compute_invoice_taxes_by_group()
+        for move in self:
+            new_amount_by_group = []
+            for line in move.amount_by_group:
+                tax_group = self.env['account.tax.group'].search([('name','=',line[0])])
+                if not tax_group.hidden_tax:
+                   new_amount_by_group.append(line)
+            move.amount_by_group = new_amount_by_group
     
     @api.depends(
         'line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched',
@@ -169,31 +114,32 @@ class AccountMove(models.Model):
     def _compute_amount(self):
         res = super(AccountMove, self)._compute_amount()
         for move in self:
-            ## Remove hidden tax from amount tax and add it to amount_untaxed
+            # ~ ## Remove hidden tax from amount tax and add it to amount_untaxed
             for line in move.line_ids:
-                if line.tax_ids.filtered(lambda x: x.hidden_tax):
-                    hidden_tax = line.tax_ids.filtered(lambda x: x.hidden_tax)._compute_amount(line.price_subtotal,line.price_unit,line.quantity,line.product_id,move.partner_id)
-                    move.amount_untaxed = move.amount_untaxed + hidden_tax
-                    move.amount_tax = move.amount_tax - hidden_tax
+                line.hidden_tax = 0
+                line.subtotal_plus_hidden_tax = line.price_subtotal
+                line.price_unit_plus_hidden_tax = line.price_unit
+                for tax in line.tax_ids:
+                    if tax.hidden_tax:
+                        hidden_tax = line.tax_ids.filtered(lambda x: x.hidden_tax)._compute_amount(line.price_subtotal,line.price_unit,line.quantity,line.product_id,move.partner_id)
+                        # ~ move.amount_total = move.amount_total - hidden_tax
+                        move.amount_untaxed = move.amount_untaxed + hidden_tax
+                        line.hidden_tax += hidden_tax
+                        if not tax.price_include:
+                            line.subtotal_plus_hidden_tax = line.price_subtotal + hidden_tax
+                            line.price_unit_plus_hidden_tax = line.price_unit + hidden_tax
+                # ~ price_unit_plus_hidden_tax
+                
+                    
+                    
         return res
-    
+            
 
-    @api.depends('line_ids.price_subtotal', 'line_ids.tax_base_amount', 'line_ids.tax_line_id', 'partner_id', 'currency_id','line_ids.tax_ids','line_ids.tax_ids.hidden_tax')
-    def _compute_invoice_taxes_by_group(self):
-        res = super(AccountMove, self)._compute_invoice_taxes_by_group()
-        for move in self:
-            new_amount_by_group = []
-            for line in move.amount_by_group:
-                _logger.warning(f"{line[0]=}")
-                tax_group = self.env['account.tax.group'].search([('name','=',line[0])])
-                _logger.warning(f"{tax_group} {tax_group.name} {tax_group.hidden_tax}")
-                if not tax_group.hidden_tax:
-                   new_amount_by_group.append(line)
-            move.amount_by_group = new_amount_by_group
+            
 
 
 class AccountFiscalPosition(models.Model):
     _inherit = "account.fiscal.position"
 
     hidden_tax = fields.Boolean(string="Hide Chemical Tax", default=False)
-    # amount_untaxed = fields.Monetary(string='Untaxed Amount', readonly=True)
+    
