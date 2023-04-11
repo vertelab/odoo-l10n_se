@@ -77,21 +77,25 @@
     </record> 
 
     <template id="report_saleorder_document_chemtax" name="report saleorder document chemtax" inherit_id="sale.report_saleorder_document">
-        <xpath expr="//td[@name='td_amount_untaxed']" position="after">
+        <xpath expr="//t[@t-call='web.external_layout']/div[hasclass('page')]/table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_taxes']" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
+        </xpath>
+        <xpath expr="//t[@t-call='web.external_layout']/div[hasclass('page')]/table[@class='table table-sm o_main_table']/tbody/t/tr/t/td[@name='td_taxes']" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
+        </xpath>
+        <!--xpath expr="//td[@name='td_amount_untaxed']" position="after">
             <span t-esc="doc.amount_untaxed "/>
+        </xpath-->
+    </template>
+    
+    <template id="sale_order_portal_content_chemtax" name="sale order portal content chemtax" inherit_id="sale.sale_order_portal_content">
+        <xpath expr="//table[@id='sales_order_table']/thead/tr/th[5]" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
+        </xpath>
+        <xpath expr="//table[@id='sales_order_table']/tbody/t/tr/t/td[5]" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
         </xpath>
     </template>
-
-    <!--record id="view_order_form" model="ir.ui.view">
-      <field name="name">sale_view_order_form_chemtax</field>
-      <field name="model">sale.order</field>
-      <field name="inherit_id" ref="sale.view_order_form" />
-      <field name="arch" type="xml">
-        <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered_method']" position="after">
-          <field name="chemical_tax" optional="hide" /> 
-        </xpath>
-      </field>
-    </record-->
 
     <record id="view_move_form" model="ir.ui.view">
           <field name="name">chemical_tax_tree</field>
@@ -104,26 +108,6 @@
             </xpath>
           </field>
     </record>
-    <!--record id="partner.form" model="ir.ui.view">
-      <field name="name">partner_form_chemical_tax</field>
-      <field name="model">res.partner</field>
-      <field name="inherit_id" ref="res.partner.form" />
-      <field name="arch" type="xml">
-        <field name="user_id" position="inside">
-          <field name="use_chemtax"/> 
-          <field name="app_project" attrs="{'invisible': [('use_chemtax', '=', True)]}"/>         
-        </field>
-      </field>
-    </record-->
-    <!--record id="view_partner_form" model="ir.ui.view">
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//group[@name='sale']" position="inside">
-                <field name="use_chemtax" />
-            </xpath>
-        </field>
-    </record-->
    
   </data>
 </odoo>
