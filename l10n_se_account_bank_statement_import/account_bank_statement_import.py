@@ -349,11 +349,13 @@ class AccountBankStatementImport(models.TransientModel):
                     lvals["period_id"] = period_id
 
         for i in range(len(stmts_vals)):
-            currency_id = self.env.ref('base.'+stmts_vals[i].pop('currency_code')).id
+            _logger.warning(f"{stmts_vals[i]=}")
+            if "currency_code" in stmts_vals[i]:
+               currency_id = self.env.ref('base.'+stmts_vals[i].pop('currency_code')).id
             # if 'account_number' in stmts_vals[i]:
             #     account_no = stmts_vals[i].pop('account_number')
             #     stmts_vals[i]['account_no'] = account_no
-            stmts_vals[i]['currency_id'] = int(currency_id)
+               stmts_vals[i]['currency_id'] = int(currency_id)
         # ~ _logger.warning("stmts_vals"*10)
         # ~ _logger.warning(f"{stmts_vals=}")
         super(AccountBankStatementImport, self)._create_bank_statements(stmts_vals, result)
