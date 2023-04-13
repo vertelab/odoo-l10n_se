@@ -31,7 +31,7 @@ class SaleOrder(models.Model):
 
     @api.depends('state', 'order_line.invoice_status')
     def _get_invoice_status(self):
-        _logger.warning("_get_invoice_status"*100)
+        # ~ _logger.warning("_get_invoice_status"*100)
         res = super(SaleOrder, self)._get_invoice_status()
         for record in self:
             for line in record.order_line:
@@ -40,10 +40,19 @@ class SaleOrder(models.Model):
                     if line.product_id and line.product_id.hs_code_id and line.product_id.chemical_tax == line.product_id.hs_code_id.chemical_max_tax:
                         line.max_sold_chem_tax = line.product_uom_qty
         return res
+        
+        
+
                     
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
+    
+    hidden_tax = fields.Float(string="Hidden tax", readonly=True)
+    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,0))
+    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,0))   
 
+    chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category")
+    
     max_sold_chem_tax = fields.Integer(
         string=_('Number Of sold products for the max chemical tax amount'),
         readonly=True,
@@ -56,21 +65,21 @@ class SaleOrderLine(models.Model):
         """
         super(SaleOrderLine,self)._compute_amount() 
         for line in self:
+            line.hidden_tax = 0
+            line.subtotal_plus_hidden_tax = line.price_subtotal
+            line.price_unit_plus_hidden_tax = line.price_unit
             for tax in line.tax_id:
                 if tax.hidden_tax == True:
                     if line.product_id.hs_code_id and line.order_id.partner_id:
                         hidden_tax = line.tax_id.filtered(lambda x: x.hidden_tax)
                         chem_tax = hidden_tax._compute_amount(line.price_subtotal,line.price_unit,line.product_uom_qty,line.product_id,line.order_id.partner_id)
                         line.price_subtotal += chem_tax
-                        line.price_tax -= chem_tax
-                    _logger.warning('%s'%line.tax_id.compute_all(line.price_subtotal, line.order_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.order_id.partner_shipping_id))     
-            
-               
-  
+                        line.price_tax -= chem_tax                        
+                        _logger.warning('%s'%line.tax_id.compute_all(line.price_subtotal, line.order_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.order_id.partner_shipping_id))     
+                        if not tax.price_include:
+                            line.subtotal_plus_hidden_tax += chem_tax
+                            line.price_unit_plus_hidden_tax = line.price_unit + (chem_tax/line.product_uom_qty)   
 
-
-
-            
        
 # ~ class SaleOrderLine(models.Model):
     # ~ _inherit = "sale.order.line"

@@ -1,0 +1,20 @@
+<odoo>
+    <template id="sale_invoice_document" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//t[@t-call='web.external_layout']/div[hasclass('page')]/table/tbody/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[@name='td_priceunit']" position="replace">
+            <td name="td_priceunit" class="text-right">
+                <span t-field="line.price_unit_plus_hidden_tax"/>
+            </td>
+        </xpath> 
+        
+        <!-- remove taxes column from saleorder-->
+        <xpath expr="//t[@t-call='web.external_layout']/div[hasclass('page')]/table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_taxes']" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
+        </xpath>
+        <xpath expr="//t[@t-call='web.external_layout']/div[hasclass('page')]/table[@class='table table-sm o_main_table']/tbody/t/tr/t/td[@name='td_taxes']" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
+        </xpath>
+    </template>
+ 
+    
+</odoo>
+
