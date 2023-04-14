@@ -130,10 +130,11 @@ class AccountMove(models.Model):
         return res
 
 class AccountFiscalPosition(models.Model):
-    _inherit = "account.fiscal.position"
+    _name = "account.fiscal.position"
+    _inherit = ["account.fiscal.position"]
     
-    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id',
-                                      string='Tax Balance Mapping', copy=True)
+    # ~ tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id',
+                                      # ~ string='Tax Balance Mapping', copy=True)
                                       
     hidden_tax = fields.Boolean(string="Hide Chemical Tax", default=False)
     
