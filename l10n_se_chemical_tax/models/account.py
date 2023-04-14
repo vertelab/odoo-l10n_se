@@ -128,13 +128,12 @@ class AccountMove(models.Model):
                             line.subtotal_plus_hidden_tax = line.price_subtotal + hidden_tax
                             line.price_unit_plus_hidden_tax = line.price_unit + (hidden_tax/line.quantity)
         return res
-            
-
-            
-
 
 class AccountFiscalPosition(models.Model):
     _inherit = "account.fiscal.position"
-
+    
+    tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id',
+                                      string='Tax Balance Mapping', copy=True)
+                                      
     hidden_tax = fields.Boolean(string="Hide Chemical Tax", default=False)
     
