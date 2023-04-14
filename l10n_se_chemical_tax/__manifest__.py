@@ -19,11 +19,11 @@
 #
 ##############################################################################
 #
-# https://www.odoo.com/documentation/14.0/reference/module.html
+# https://www.odoo.com/documentation/16.0/reference/module.html
 #
 {
     'name': 'Chemical tax - Sweden',
-    'version': '14.0.0.0.0',
+    'version': '16.0.0.0.0',
     'summary': 'Report chemical tax for swedish tax agency (skatteverket)',
 
     'category': 'Localization',  # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
