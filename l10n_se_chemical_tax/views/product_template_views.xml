@@ -65,16 +65,16 @@
       </field>
     </record> 
 
-    <!--record id="view_account_position_form" model="ir.ui.view">
+    <record id="view_account_position_form" model="ir.ui.view">
       <field name="name">account_chemical_tax_form</field>
       <field name="model">account.fiscal.position</field>
       <field name="inherit_id" ref="account.view_account_position_form"/>
       <field name="arch" type="xml">
-        <field name="vat_required" position="after">
+        <field name="auto_apply" position="after">
           <field name="hidden_tax" />
         </field>
       </field>
-    </record--> 
+    </record> 
     
     <record id="view_order_form" model="ir.ui.view">
           <field name="name">sale_chemical_tax_tree</field>
