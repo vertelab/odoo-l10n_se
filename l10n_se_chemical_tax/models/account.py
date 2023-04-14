@@ -121,17 +121,12 @@ class AccountMove(models.Model):
                 for tax in line.tax_ids:
                     if tax.hidden_tax:
                         hidden_tax = line.tax_ids.filtered(lambda x: x.hidden_tax)._compute_amount(line.price_subtotal,line.price_unit,line.quantity,line.product_id,move.partner_id)
-                        # ~ move.amount_total = move.amount_total - hidden_tax
+                       
                         move.amount_untaxed = move.amount_untaxed + hidden_tax
                         line.hidden_tax += hidden_tax
                         if not tax.price_include:
                             line.subtotal_plus_hidden_tax = line.price_subtotal + hidden_tax
                             line.price_unit_plus_hidden_tax = line.price_unit + (hidden_tax/line.quantity)
-                            #line.price_unit_plus_hidden_tax = line.price_unit + hidden_tax
-                # ~ price_unit_plus_hidden_tax
-                
-                    
-                    
         return res
             
 
