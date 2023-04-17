@@ -52,8 +52,8 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
     
     hidden_tax = fields.Float(string="Hidden tax", readonly=True)
-    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,0))
-    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,0))
+    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))
+    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))
     chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category")
     
     @api.model
@@ -61,16 +61,8 @@ class AccountMoveLine(models.Model):
         res = super(AccountMoveLine, self)._get_price_total_and_subtotal_model(price_unit, quantity, discount, currency, product, partner, taxes, move_type)
         for tax in taxes:
             if product and product.hs_code_id:
-                # ~ if tax.hidden_tax and tax.price_include:
-                        # ~ chemical_tax = tax._compute_amount(res['price_subtotal'], price_unit, quantity, product, partner)
-                        _logger.warning(f"{res['price_subtotal']=}")
-                        # ~ res['price_subtotal'] -= chemical_tax
-                        
-                        # ~ res['price_total'] = res['price_total'] + chemical_tax
-                # ~ if tax.hidden_tax and not tax.price_include:
-                        # ~ chemical_tax = tax._compute_amount(res['price_subtotal'], price_unit, quantity, product, partner)
-                        # ~ res['price_subtotal'] = res['price_subtotal'] + chemical_tax
-                    
+
+                        _logger.warning(f"{res['price_subtotal']=}")                    
         return res
 
 class AccountMove(models.Model):
@@ -121,20 +113,17 @@ class AccountMove(models.Model):
                 for tax in line.tax_ids:
                     if tax.hidden_tax:
                         hidden_tax = line.tax_ids.filtered(lambda x: x.hidden_tax)._compute_amount(line.price_subtotal,line.price_unit,line.quantity,line.product_id,move.partner_id)
-                       
                         move.amount_untaxed = move.amount_untaxed + hidden_tax
                         line.hidden_tax += hidden_tax
                         if not tax.price_include:
                             line.subtotal_plus_hidden_tax = line.price_subtotal + hidden_tax
-                            line.price_unit_plus_hidden_tax = line.price_unit + (hidden_tax/line.quantity)
+                            line.price_unit_plus_hidden_tax = line.subtotal_plus_hidden_tax/line.quantity
+
         return res
 
 class AccountFiscalPosition(models.Model):
     _name = "account.fiscal.position"
     _inherit = ["account.fiscal.position"]
-    
-    # ~ tax_balance_ids = fields.One2many('account.fiscal.position.tax.balance', 'position_id',
-                                      # ~ string='Tax Balance Mapping', copy=True)
-                                      
+   
     hidden_tax = fields.Boolean(string="Hide Chemical Tax", default=False)
     
