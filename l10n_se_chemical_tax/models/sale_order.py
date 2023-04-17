@@ -48,8 +48,8 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
     
     hidden_tax = fields.Float(string="Hidden tax", readonly=True)
-    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,0))
-    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,0))   
+    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))
+    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))   
 
     chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category")
     
@@ -78,7 +78,7 @@ class SaleOrderLine(models.Model):
                         _logger.warning('%s'%line.tax_id.compute_all(line.price_subtotal, line.order_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.order_id.partner_shipping_id))     
                         if not tax.price_include:
                             line.subtotal_plus_hidden_tax += chem_tax
-                            line.price_unit_plus_hidden_tax = line.price_unit + (chem_tax/line.product_uom_qty)   
+                            line.price_unit_plus_hidden_tax = line.subtotal_plus_hidden_tax/line.product_uom_qty   
 
        
 # ~ class SaleOrderLine(models.Model):
