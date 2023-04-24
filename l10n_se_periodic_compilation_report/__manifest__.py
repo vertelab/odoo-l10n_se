@@ -20,10 +20,10 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Account Tax Report',
+    'name': 'l10n_se: Periodic Compilation Report',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Sweden - Account Tax Report',
+    'summary': 'Sweden - Periodic Compilation Report',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel AB',
@@ -34,35 +34,21 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'description': """
-Swedish accounting Tax Report
+Swedish accounting Periodic Compilation
 =============================
 Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
      """,
     'author': 'Vertel AB',
 
     # ~ 'depends': ['l10n_se', 'account_period', 'account_payment_order','calendar','l10n_se_hr_payroll_account','payroll_account', 'account','report_py3o','mis_builder'],
-    'depends': ['l10n_se', 'account_payment_order', 'calendar', 'mis_builder','l10n_se_mis'],
+    'depends': ['l10n_se_tax_report'],
 
     'data': [
-        'data/account_data.xml',
-        # ~ 'data/account_financial.xml',
-        'views/account_view.xml',
-        'views/res_config_view.xml',
-        # ~ 'wizard/import_b_and_r_report.xml', funkar inte i 12
-        # ~ 'wizard/import_bolagsverket_report.xml', funkar inte i 12
-        'views/moms_report.xml',
-        # ~ 'views/agd_report.xml',
-        # ~ 'views/sru_report.xml',
-        'report/report.xml',
-        # ~ 'account_invoice_demo.xml',
+        'views/periodic_compilation.xml',
         'security/ir.model.access.csv',
         'security/security.xml',
-        'views/mis_report_view.xml',
-     ],
-    'demo_xml': [
-        # ~ 'demo/account_invoice.yml',
-        'demo/account_invoice.xml',
-    ],
+        ],
+    
     'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
