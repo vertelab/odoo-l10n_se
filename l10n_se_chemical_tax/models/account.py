@@ -52,8 +52,8 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
     
     hidden_tax = fields.Float(string="Hidden tax", readonly=True)
-    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))
-    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))
+    subtotal_plus_hidden_tax = fields.Float(string="Subtotal plus hidden_tax", readonly=False, digits=(0,2))
+    price_unit_plus_hidden_tax = fields.Float(string="Unit price plus hidden_tax", readonly=False, digits=(0,2))
     chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category")
     
     @api.model

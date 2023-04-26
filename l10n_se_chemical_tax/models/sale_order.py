@@ -48,8 +48,8 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
     
     hidden_tax = fields.Float(string="Hidden tax", readonly=True)
-    subtotal_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))
-    price_unit_plus_hidden_tax = fields.Float(string="subtotal_plus_hidden_tax", readonly=False, digits=(0,2))   
+    subtotal_plus_hidden_tax = fields.Float(string="Subtotal plus hidden_tax", readonly=False, digits=(0,2))
+    price_unit_plus_hidden_tax = fields.Float(string="Unit price plus hidden_tax", readonly=False, digits=(0,2))   
 
     chemical_tax = fields.Float(string="Chemical tax", help="Chemical tax for products in this category")
     
@@ -80,48 +80,5 @@ class SaleOrderLine(models.Model):
                             line.subtotal_plus_hidden_tax += chem_tax
                             line.price_unit_plus_hidden_tax = line.subtotal_plus_hidden_tax/line.product_uom_qty   
 
-       
-# ~ class SaleOrderLine(models.Model):
-    # ~ _inherit = "sale.order.line"
-    # ~ _inherit = "product.category"    
-
-    # ~ chemical_tax = fields.Float(
-        # ~ string=_('Chemical tax'),
-        # ~ readonly=True
-    # ~ )
 
 
-    # ~ product_id = fields.Many2one(
-        # ~ comodel_name="product.product",
-        # ~ readonly=True,
-    # ~ )
-    # ~ price_with_chemtax = fields.Many2one(
-        # ~ comodel_name="product.product",
-        # ~ readonly=True,
-    # ~ )
-
-
-    # ~ @api.depends('price_unit', 'product_id.categ_id.chemical_tax')
-    # ~ def _get_price_reduce(self):
-        # ~ for line in self:
-            # ~ line.price_reduce = line.price_unit * (1.0 - line.discount / 100.0)
-
-
-# class SaleReport(models.Model):
-#     _inherit = "sale.report"
-    
-#     chemical_tax = fields.Float(
-#         string=_('Chemical tax'),
-#         readonly=True
-#     )
-
-#     product_id = fields.Many2one(
-#         comodel_name="product.product",
-#         readonly=True,
-#     )
-
-#     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
-#         fields['chemical_tax'] = ", p.chemical_tax as chemical_tax"
-#         groupby += ', p.chemical_tax'
-#         _logger.warning("fields=%s groupby = %s" % (fields, groupby))
-#         return super(SaleReport, self)._query(with_clause, fields, groupby, from_clause)
