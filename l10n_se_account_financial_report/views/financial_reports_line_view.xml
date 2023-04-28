@@ -1,50 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
-
-
-        <!-- <record id="a" model="account.financial.report.line">
-            <field name="name">A. Momspliktig försäljning eller uttag exklusive moms</field>
-            <field name="sequence">10</field>
-            <field name="parent_id" ref="l10n_se_tax_report.root" />
-            <field name="type">accounts</field>
-            <field name="sign" eval="1" />
-            <field name="style_overwrite" eval="2" />
-        </record>
-        <record id="5" model="account.financial.report.line">
-            <field name="name">5. Momspliktig försäljning som inte ingår i annan ruta nedan</field>
-            <field name="sequence">11</field>
-            <field name="parent_id" ref="account.financial.report.line.parent_id.a" />
-            <field name="type">accounts</field>
-            <field name="sign" eval="-1" />
-            <field name="style_overwrite" eval="4" />
-            <field name="tax_ids" eval="[(6, 0, [])]" />
-            <field name="domain_account_move_line">[('code', 'in', ['3000', '3001', '3002', '3003', '3510', '3511', '3518', '3520', '3540', '3550', '3560', '3561', '3562', '3563', '3570', '3590', '3600', '3610', '3611', '3612', '3613', '3619', '3620', '3730', '3731', '3732', '3740'])]</field>
-        </record> -->
-
-
-        <record id="financial_reports_tree_view" model="ir.ui.view">
-            <field name="name">financial.reports.tree.view</field>
-            <field name="model">financial.reports</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="lines" />
-                </tree>
-            </field>
-        </record>
-
-        <record id="financial_reports_tree_action" model="ir.actions.act_window">
-            <field name="res_model">financial.reports</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="name">Financial reports action</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="financial_reports_tree_view"/>
-        </record>
-
-        <menuitem id="financial_reports_menu" parent="account.menu_finance_configuration"
-        name="Report Generator" sequence="201"/>
-        <menuitem id="financial_reports_view_menu" parent="financial_reports_menu"
-        name="Financial Reports" action="financial_reports_tree_action" sequence="202"/>
-
-    </data>
+  <data>
+    <!-- <record id="a" model="account.financial.report.line">
+         <field name="name">A. Momspliktig försäljning eller uttag exklusive moms</field>
+         <field name="sequence">10</field>
+         <field name="parent_id" ref="l10n_se_tax_report.root" />
+         <field name="type">accounts</field>
+         <field name="sign" eval="1" />
+         <field name="style_overwrite" eval="2" />
+         </record>
+         <record id="5" model="account.financial.report.line">
+         <field name="name">5. Momspliktig försäljning som inte ingår i annan ruta nedan</field>
+         <field name="sequence">11</field>
+         <field name="parent_id" ref="account.financial.report.line.parent_id.a" />
+         <field name="type">accounts</field>
+         <field name="sign" eval="-1" />
+         <field name="style_overwrite" eval="4" />
+         <field name="tax_ids" eval="[(6, 0, [])]" />
+         <field name="domain_account_move_line">[('code', 'in', ['3000', '3001', '3002', '3003', '3510', '3511', '3518', '3520', '3540', '3550', '3560', '3561', '3562', '3563', '3570', '3590', '3600', '3610', '3611', '3612', '3613', '3619', '3620', '3730', '3731', '3732', '3740'])]</field>
+         </record> -->
+    <record id="financial_reports_tree_view" model="ir.ui.view">
+      <field name="name">financial.reports.tree.view</field>
+      <field name="model">financial.reports</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" string="Name" />
+          <field name="lines" string="Lines" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="financial_reports_form_view" model="ir.ui.view">
+      <field name="name">financial.reports.form.view</field>
+      <field name="model">financial.reports</field>
+      <field name="arch" type="xml">
+        <form string="Financial Reports Lines">
+          <sheet>
+            <field name="name" string="Name" />
+            <field name="lines" string="Lines" />
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="financial_reports_line_form_view" model="ir.ui.view">
+      <field name="name">financial.reports.line.form.view</field>
+      <field name="model">financial.reports.line</field>
+      <field name="arch" type="xml">
+        <form string="Financial Reports Lines">
+          <sheet>
+            <string>Name:</string>
+            <field name="name" string="Name" />
+            <br />
+            <string>Domain Code:</string>
+            <field name="domain_code" stirng="Domain Code" />
+            <br />
+            <string>Domain Account Move Line:</string>
+            <field name="domain_account_move_line" />
+            <br />
+            <string>Domain Tax Line:</string>
+            <field name="domain_tax_line" />
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="financial_reports_tree_action" model="ir.actions.act_window">
+      <field name="res_model">financial.reports</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="name">Financial reports action</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="financial_reports_tree_view" />
+    </record>
+    
+    <menuitem id="financial_reports_menu" parent="account.menu_finance_configuration" name="Report Generator" sequence="201" />
+    <menuitem id="financial_reports_view_menu" parent="financial_reports_menu" name="Financial Reports" action="financial_reports_tree_action" sequence="202" />
+    
+  </data>
 </odoo>

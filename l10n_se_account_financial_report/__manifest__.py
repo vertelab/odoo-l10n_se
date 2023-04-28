@@ -42,6 +42,7 @@ Swedish Account Financial Report
 
     'data': ['views/financial_reports_line_view.xml',
              'views/financial_reports_instance_view.xml',
+             'views/financial_reports_line_results_view.xml',
              'security/ir.model.access.csv'],
 
     'installable': 'True',

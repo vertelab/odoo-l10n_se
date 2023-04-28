@@ -30,15 +30,16 @@ class FinancialReports(models.Model):
     _name = "financial.reports"
     _description = "financial reports"
 
+    name = fields.Char(string="name")
     # Har en lista av account.finacial.report.line
     # Har från och till datum.
-    start_date= fields.Date(string="Start Date")
-    end_date= fields.Date(string="End Date")
+    # start_date= fields.Date(string="Start Date")
+    # end_date= fields.Date(string="End Date")
 
     # Har en funktion för att gå igenom alla rader och skriva ut resultatet. For loop
 
     lines = fields.One2many("financial.reports.line","parent_id")
-    
+        
 
     # def _compute_catsh_lines(self):
     #     for line in self.lines:

@@ -1,52 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
-
-        <record id="financial_reports_instance_tree_view" model="ir.ui.view">
-            <field name="name">financial.reports.instance.tree.view</field>
-            <field name="model">financial.reports.instance</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name" />
-                </tree>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="financial_reports_instance_view_form">
-            <field name="name">financial.reports.instance.view.form</field>
-            <field name="model">financial.reports.instance</field>
-            <field name="priority" eval="15" />
-            <field name="arch" type="xml">
-                <form string="Financial Reports Instance">
-                    <sheet>
-                        <div class="oe_title">
-                            <h1>
-                                <field name="name" placeholder="Name" />
-                            </h1>
-                        </div>
-                        <group>
-                            <group colspan="4">
-                                <field name="start_date"/>
-                                <field name="end_date"/>
-                                <field name="line_ids"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="financial_reports_instance_tree_action" model="ir.actions.act_window">
-            <field name="res_model">financial.reports.instance</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="name">Financial reports instance action</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="financial_reports_instance_tree_view"/>
-        </record>
-
-        <menuitem id="financial_reports_instance_menu" parent="account.menu_finance_reports"
-        name="Report Generator" sequence="201"/>
-        <menuitem id="financial_reports__instance_view_menu" parent="financial_reports_instance_menu"
-        name="Financial Reports Instance" action="financial_reports_instance_tree_action" sequence="202"/>
-    </data>
+  <data>
+      
+    <record id="financial_reports_instance_tree_view" model="ir.ui.view">
+      <field name="name">financial.reports.instance.tree.view</field>
+      <field name="model">financial.reports.instance</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+    
+    <record model="ir.ui.view" id="financial_reports_instance_view_form">
+      <field name="name">financial.reports.instance.view.form</field>
+      <field name="model">financial.reports.instance</field>
+      <field name="priority" eval="15" />
+      <field name="arch" type="xml">
+        <form string="Financial Reports Instance">
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name" placeholder="Name" />
+              </h1>
+            </div>
+            <group>
+              <group colspan="4">
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="report_id" />
+              </group>
+            </group>
+            <button class="oe_stat_button" name="%(financial_reports_line_results_tree_action)d" type="action">Financial Result</button>
+            <button name="create_button" type="object">Show Report</button>
+            <!--
+                 <button ><field name="report_id" string="Show Report"/></button>
+            -->
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="financial_reports_instance_tree_action" model="ir.actions.act_window">
+      <field name="res_model">financial.reports.instance</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="name">Financial reports instance action</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="financial_reports_instance_tree_view" />
+    </record>
+    
+    <menuitem id="financial_reports_instance_menu" parent="account.menu_finance_reports" name="Report Generator" sequence="201" />
+    <menuitem id="financial_reports__instance_view_menu" parent="financial_reports_instance_menu" name="Financial Reports Instance" action="financial_reports_instance_tree_action" sequence="202" />
+    
+  </data>
 </odoo>

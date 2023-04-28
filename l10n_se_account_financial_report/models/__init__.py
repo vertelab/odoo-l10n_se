@@ -21,5 +21,6 @@
 from . import financial_reports
 from . import financial_reports_line
 from . import financial_reports_instance
+from . import financial_reports_line_results
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
