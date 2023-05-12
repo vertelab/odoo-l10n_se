@@ -99,6 +99,7 @@ class account_vat_declaration(models.Model):
                         # ~ gather the amount for lines that has the same account
                         if line.account_id.name in move_line_dict: #~ Check if we already added to the dict
                             move_line_dict[line.account_id.name]['credit']+=line.debit
+                            move_line_dict[line.account_id.name]['credit']-=line.credit
                         else:
                             move_line_dict[line.account_id.name] = {'account_id':line.account_id.id,'credit':line.debit}
                     
@@ -119,6 +120,7 @@ class account_vat_declaration(models.Model):
                         # ~ gather the amount for lines that has the same account
                         if line.account_id.name in move_line_dict: #~ Check if we already added to the dict
                             move_line_dict[line.account_id.name]['debit']+=line.credit
+                            move_line_dict[line.account_id.name]['debit']-=line.debit
                         else:
                             move_line_dict[line.account_id.name] = {'account_id':line.account_id.id,'debit':line.credit}
                     # ~ _logger.warning(f"jakmar {move_line_dict}")
@@ -187,7 +189,7 @@ class account_vat_declaration(models.Model):
                     # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
                         # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                        oresavrundning = self.env['account.account'].search([('company_id','=',self.company_id.i),('code', '=', '3740')])
+                        oresavrundning = self.env['account.account'].search([('company_id','=',self.company_id.id),('code', '=', '3740')])
                         oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
                         # ~ test of öresavrundning.
                         # ~ _logger.warning('<<<<< VALUES: oresavrundning = %s oresavrundning_amount = %s' % (oresavrundning, oresavrundning_amount))
