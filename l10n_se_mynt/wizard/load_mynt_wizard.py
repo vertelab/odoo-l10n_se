@@ -298,9 +298,7 @@ class AccountBankStatementImport(models.TransientModel):
 
         # ~ So odoo check before we posts if the combo of partner and ref is unique
         current_ref = row.get("Comment", "") + "/" + self.env['ir.sequence'].next_by_code('account.move.mynt')
-        
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
-            'partner_id': partner_id.id,
             'journal_id': journal_id.id,
             "move_type": move_type,
             'ref': current_ref,
@@ -309,15 +307,16 @@ class AccountBankStatementImport(models.TransientModel):
             'date': row.get("Date"),
             'invoice_date': row.get("Date"),
             'to_check': True,
-            'line_ids': [(0, 0, {
-                'account_id': account_id.id,
-                'credit': abs(amount) if amount > 0 else 0,
-                'debit': abs(amount) if amount < 0 else 0,
-                'exclude_from_invoice_tab': False,
-                'name': row.get("Category", "") + " " + row.get("Comment", ""),
-                'tax_ids': tax_account,
-            })]
         })
+        account_move.with_context(check_move_validity=False).write({"line_ids":[(0, 0, {
+                 'account_id': account_id.id,
+                 'credit': abs(amount) if amount > 0 else 0,
+                 'debit': abs(amount) if amount < 0 else 0,
+                 'exclude_from_invoice_tab': False,
+                 'name': row.get("Category", "") + " " + row.get("Comment", ""),
+                 'tax_ids': tax_account,
+         })]})
+        account_move.partner_id = partner_id
         account_move._recompute_dynamic_lines()
         return account_move
 
