@@ -37,7 +37,8 @@
     'depends': ['account', 'account_statement_import_camt','account_statement_import_camt54'],
     'data': [
         'views/account_journal.xml',
-        'wizard/import_wizard.xml',
+        'views/account_bank_statement.xml'
+        #'wizard/import_wizard.xml',
     ],
     'demo': [],
     'qweb': [],

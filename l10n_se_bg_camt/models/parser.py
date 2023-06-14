@@ -12,21 +12,23 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning, UserError, Val
 
 _logger = logging.getLogger(__name__)
 
+class AccountBankStatementLine(models.Model):
+    _inherit = "account.bank.statement.line"
+    bgnr_ref = fields.Char("Bank Giro Referens", help="Used to divide bankgiro into seperate bankstatments")
+
 class CamtParser(models.AbstractModel):
     _inherit = "account.statement.import.camt.parser"
     
+    
     def get_bank_giro_account(self, ns, node):
-        # ~ _logger.warning("get_bank_giro_account"*100)    
         is_bgnr_account = False
-        ##Don't know if this will always be the case but it seems that if there is dbtr_bgnr_nodes then those are the ones that is our own bankgiro account. Else we controll the cdtr_bgnr_nodes.
-        cdtr_bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:CdtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
-        dbtr_bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:DbtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
-        
-        if dbtr_bgnr_nodes:
-            bgnr_nodes = dbtr_bgnr_nodes
+        sign_node = node.xpath("ns:CdtDbtInd", namespaces={"ns": ns}) 
+        if not sign_node:
+            sign_node = node.xpath("../../ns:CdtDbtInd", namespaces={"ns": ns})
+        if sign_node and sign_node[0].text == "CRDT":
+            bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:CdtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
         else:
-            bgnr_nodes = cdtr_bgnr_nodes
-            
+            bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:DbtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
         for bgnr_node in bgnr_nodes:
             is_bgnr = bgnr_node.xpath("./ns:SchmeNm/ns:Prtry", namespaces={"ns": ns})
             if is_bgnr[0].text != "BGNR":
@@ -38,7 +40,195 @@ class CamtParser(models.AbstractModel):
         return is_bgnr_account
         
 
-    
+    def parse_transaction_details_bgnr(self, ns, node, transaction):
+        """Parse TxDtls node."""
+        # message
+        self.add_value_from_node(
+            ns,
+            node,
+            [
+                "./ns:RmtInf/ns:Ustrd|./ns:RtrInf/ns:AddtlInf",
+                "./ns:AddtlNtryInf",
+                "./ns:Refs/ns:InstrId",
+            ],
+            transaction,
+            "payment_ref",
+            join_str="\n",
+        )
+
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:RmtInf/ns:Ustrd"],
+            transaction["narration"],
+            "%s (RmtInf/Ustrd)" % _("Unstructured Reference"),
+            join_str=" ",
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref"],
+            transaction["narration"],
+            "%s (RmtInf/Strd/CdtrRefInf/Ref)" % _("Structured Reference"),
+            join_str=" ",
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:AddtlTxInf"],
+            transaction["narration"],
+            "%s (AddtlTxInf)" % _("Additional Transaction Information"),
+            join_str=" ",
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:RtrInf/ns:Rsn/ns:Cd"],
+            transaction["narration"],
+            "%s (RtrInf/Rsn/Cd)" % _("Return Reason Code"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:RtrInf/ns:Rsn/ns:Cd"],
+            transaction["narration"],
+            "%s (RtrInf/Rsn/Prtry)" % _("Return Reason Code (Proprietary)"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:RtrInf/ns:AddtlInf"],
+            transaction["narration"],
+            "%s (RtrInf/AddtlInf)" % _("Return Reason Additional Information"),
+            join_str=" ",
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:Refs/ns:MsgId"],
+            transaction["narration"],
+            "%s (Refs/MsgId)" % _("Msg Id"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:Refs/ns:AcctSvcrRef"],
+            transaction["narration"],
+            "%s (Refs/AcctSvcrRef)" % _("Account Servicer Reference"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:Refs/ns:EndToEndId"],
+            transaction["narration"],
+            "%s (Refs/EndToEndId)" % _("End To End Id"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:Refs/ns:InstrId"],
+            transaction["narration"],
+            "%s (Refs/InstrId)" % _("Instructed Id"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:Refs/ns:TxId"],
+            transaction["narration"],
+            "%s (Refs/TxId)" % _("Transaction Identification"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:Refs/ns:MntId"],
+            transaction["narration"],
+            "%s (Refs/MntId)" % _("Mandate Id"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            ["./ns:Refs/ns:ChqNb"],
+            transaction["narration"],
+            "%s (Refs/ChqNb)" % _("Cheque Number"),
+        )
+
+        self.add_value_from_node(
+            ns, node, ["./ns:AddtlTxInf"], transaction, "payment_ref", join_str="\n"
+        )
+        # eref
+        self.add_value_from_node(
+            ns,
+            node,
+            [
+                "./ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref",
+                "./ns:Refs/ns:EndToEndId",
+                "./ns:Ntry/ns:AcctSvcrRef",
+            ],
+            transaction,
+            "ref",
+        )
+        amount = self.parse_amount_bgnr(ns, node)
+        if amount != 0.0:
+            transaction["amount"] = amount
+        # remote party values
+        party_type = "Dbtr"
+        party_type_node = node.xpath("../../ns:CdtDbtInd", namespaces={"ns": ns})
+        if party_type_node and party_type_node[0].text != "CRDT":
+            party_type = "Cdtr"
+        party_node = node.xpath(
+            "./ns:RltdPties/ns:%s" % party_type, namespaces={"ns": ns}
+        )
+        if party_node:
+            name_node = node.xpath(
+                "./ns:RltdPties/ns:{pt}/ns:Nm | ./ns:RltdPties/ns:{pt}/ns:Pty/ns:Nm".format(
+                    pt=party_type
+                ),
+                namespaces={"ns": ns},
+            )
+            if name_node:
+                transaction["partner_name"] = name_node[0].text
+            else:
+                self.add_value_from_node(
+                    ns,
+                    party_node[0],
+                    "./ns:PstlAdr/ns:AdrLine",
+                    transaction,
+                    "partner_name",
+                )
+            self.add_value_from_node(
+                ns,
+                party_node[0],
+                "./ns:PstlAdr/ns:StrtNm|"
+                "./ns:PstlAdr/ns:BldgNb|"
+                "./ns:PstlAdr/ns:BldgNm|"
+                "./ns:PstlAdr/ns:PstBx|"
+                "./ns:PstlAdr/ns:PstCd|"
+                "./ns:PstlAdr/ns:TwnNm|"
+                "./ns:PstlAdr/ns:TwnLctnNm|"
+                "./ns:PstlAdr/ns:DstrctNm|"
+                "./ns:PstlAdr/ns:CtrySubDvsn|"
+                "./ns:PstlAdr/ns:Ctry|"
+                "./ns:PstlAdr/ns:AdrLine",
+                transaction["narration"],
+                "%s (PstlAdr)" % _("Postal Address"),
+                join_str=" | ",
+            )
+        # Get remote_account from iban or from domestic account:
+        account_node = node.xpath(
+            "./ns:RltdPties/ns:%sAcct/ns:Id" % party_type, namespaces={"ns": ns}
+        )
+        if account_node:
+            iban_node = account_node[0].xpath("./ns:IBAN", namespaces={"ns": ns})
+            if iban_node:
+                transaction["account_number"] = iban_node[0].text
+            else:
+                self.add_value_from_node(
+                    ns,
+                    account_node[0],
+                    "./ns:Othr/ns:Id",
+                    transaction,
+                    "account_number",
+                )
     
     def parse(self, data):
         if self._context.get('journal_id',False) and self.env['account.journal'].browse(self._context.get('journal_id',False)) and not self.env['account.journal'].browse(self._context.get('journal_id',False)).is_bankgiro_journal:
@@ -62,12 +252,17 @@ class CamtParser(models.AbstractModel):
         account_number = None
         for node in root[0][1:]:
             statement = self.parse_statement_bgnr(ns, node)
+            # ~ _logger.warning(f"{statement=}")
             if len(statement["transactions"]):
                 if "currency" in statement:
                     currency = statement.pop("currency")
                 if "account_number" in statement:
                     account_number = statement.pop("account_number")
+                # ~ _logger.warning(f"{statement=}")
                 statements.append(statement)
+        # ~ _logger.warning(f"{currency=}")
+        # ~ _logger.warning(f"{account_number=}")
+        # ~ _logger.warning(f"{statements=}")
         return currency, account_number, statements
     
     
@@ -121,7 +316,7 @@ class CamtParser(models.AbstractModel):
             return 0.0
         sign = 1
         amount = 0.0
-        sign_node = node.xpath("ns:CdtDbtInd", namespaces={"ns": ns})
+        sign_node = node.xpath("ns:CdtDbtInd", namespaces={"ns": ns}) 
         if not sign_node:
             sign_node = node.xpath("../../ns:CdtDbtInd", namespaces={"ns": ns})
         if sign_node and sign_node[0].text == "CRDT":
@@ -134,11 +329,9 @@ class CamtParser(models.AbstractModel):
         if amount_node:
             amount = sign * float(amount_node[0].text)
         return amount
-
-  
+        
     def parse_entry_bgnr(self, ns, node):
         """Parse an Ntry node and yield transactions"""
-
         transaction = {
             "payment_ref": "/",
             "amount": 0,
@@ -147,11 +340,11 @@ class CamtParser(models.AbstractModel):
         }  # fallback defaults
         self.add_value_from_node(ns, node, "./ns:BookgDt/ns:Dt", transaction, "date")
         
-
         amount = self.parse_amount_bgnr(ns, node)
         if amount != 0.0:
             transaction["amount"] = amount
-
+        
+            
         self.add_value_from_node(
             ns,
             node,
@@ -204,15 +397,15 @@ class CamtParser(models.AbstractModel):
         transaction["transaction_type"] = (
             "-".join(transaction["transaction_type"].values()) or ""
         )
-
-        self.add_value_from_node(
-            ns,
-            node,
-            ["./ns:NtryRef"],
-            transaction["narration"],
-            "%s (NtryRef)" % _("BG Reference"),
-            join_str=" ",
-        )
+        
+        
+        sign_node = node.xpath("ns:CdtDbtInd", namespaces={"ns": ns}) 
+        if not sign_node:
+            sign_node = node.xpath("../../ns:CdtDbtInd", namespaces={"ns": ns})
+        if sign_node and sign_node[0].text == "CRDT":
+            bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:CdtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
+        else:
+            bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:DbtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
         
         self.add_value_from_node(
             ns,
@@ -221,22 +414,9 @@ class CamtParser(models.AbstractModel):
                 "./ns:NtryRef",
             ],
             transaction,
-            "payment_ref",
+            "bgnr_ref",
             join_str="\n",
         )
-        
-        
-        
-        
-
-
-        cdtr_bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:CdtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
-        dbtr_bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:DbtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
-        if dbtr_bgnr_nodes:
-            bgnr_nodes = dbtr_bgnr_nodes
-        else:
-            bgnr_nodes = cdtr_bgnr_nodes
-        
         
         bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:CdtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
         for bgnr_node in bgnr_nodes:
@@ -245,17 +425,160 @@ class CamtParser(models.AbstractModel):
                 return
         if not bgnr_nodes:
             return
+            
+        details_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls", namespaces={"ns": ns})
+        if len(details_nodes) == 0:
+            self.generate_narration(transaction)
+            
+            res_partner = self.env['res.partner'].search([('name','=',transaction.get('partner_name'))], limit=1)
+            _logger.warning(f"{res_partner=}")
+            if not res_partner:
+                res_partner = self.env['res.partner'].create({'name':transaction.get('partner_name')})
+                _logger.warning(f"{res_partner=}")
+            transaction['partner_id'] = res_partner.id
+            
+            yield transaction
+            return
+            
+        transaction_base = transaction
+        for node in details_nodes:
+            transaction = transaction_base.copy()
+            self.parse_transaction_details_bgnr(ns, node, transaction)
+            self.generate_narration(transaction)
+            
+            res_partner = self.env['res.partner'].search([('name','=',transaction.get('partner_name'))], limit=1)
+            _logger.warning(f"{res_partner=}")
+            if not res_partner:
+                res_partner = self.env['res.partner'].create({'name':transaction.get('partner_name'),'company_type': 'company'})
+                _logger.warning(f"{res_partner=}")
+            transaction['partner_id'] = res_partner.id
+            
+            yield transaction
+            
+
+    def parse_entry(self, ns, node):
+        # ~ res = super(CamtParser, self).parse_entry(ns, node)
         
-        self.generate_narration(transaction)
+        """Parse an Ntry node and yield transactions"""
+        transaction = {
+            "payment_ref": "/",
+            "amount": 0,
+            "narration": {},
+            "transaction_type": {},
+        }  # fallback defaults
+        self.add_value_from_node(ns, node, "./ns:BookgDt/ns:Dt", transaction, "date")
+        amount = self.parse_amount(ns, node)
+        if amount != 0.0:
+            transaction["amount"] = amount
+        self.add_value_from_node(
+            ns,
+            node,
+            [
+                "./ns:NtryDtls/ns:RmtInf/ns:Strd/ns:CdtrRefInf/ns:Ref",
+                "./ns:NtryDtls/ns:Btch/ns:PmtInfId",
+                "./ns:NtryDtls/ns:TxDtls/ns:Refs/ns:AcctSvcrRef",
+            ],
+            transaction,
+            "ref",
+        )
 
-        yield transaction
-        return
+        # enrich the notes with some more infos when they are available
+        self.add_value_from_node(
+            ns,
+            node,
+            "./ns:AddtlNtryInf",
+            transaction["narration"],
+            "%s (AddtlNtryInf)" % _("Additional Entry Information"),
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            "./ns:RvslInd",
+            transaction["narration"],
+            "%s (RvslInd)" % _("Reversal Indicator"),
+        )
 
+        self.add_value_from_node(
+            ns,
+            node,
+            "./ns:BkTxCd/ns:Domn/ns:Cd",
+            transaction["transaction_type"],
+            "Code",
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            "./ns:BkTxCd/ns:Domn/ns:Fmly/ns:Cd",
+            transaction["transaction_type"],
+            "FmlyCd",
+        )
+        self.add_value_from_node(
+            ns,
+            node,
+            "./ns:BkTxCd/ns:Domn/ns:Fmly/ns:SubFmlyCd",
+            transaction["transaction_type"],
+            "SubFmlyCd",
+        )
+        transaction["transaction_type"] = (
+            "-".join(transaction["transaction_type"].values()) or ""
+        )
+        
+        ##ADDITIONS to handlde bgnr nodes
+        bgnr_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls/ns:RltdPties/ns:CdtrAcct/ns:Id/ns:Othr", namespaces={"ns": ns})
+        for bgnr_node in bgnr_nodes:
+            is_bgnr = bgnr_node.xpath("./ns:SchmeNm/ns:Prtry", namespaces={"ns": ns})[0].text
+            if is_bgnr == "BGNR":
+                
+                details_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls", namespaces={"ns": ns})
+                
+                if len(details_nodes) == 0:
+                    self.generate_narration(transaction)
+                    self.add_value_from_node(
+                    ns,
+                    node,
+                    [
+                        "./ns:NtryRef",
+                    ],
+                    transaction,
+                    "payment_ref",
+                    join_str="\n",
+                    )
+                    yield transaction
+                    return
+                else:
+                    general_tansaction = transaction.copy()
+                    self.generate_narration(general_tansaction)
+                    general_tansaction['narration'] = "                         General Narration \n" + general_tansaction['narration'] + "\n\n                         Detailed Narration \n"
+                    transaction_base = transaction
+                    for node in details_nodes:
+                        transaction = transaction_base.copy()
+                        self.parse_transaction_details(ns, node, transaction)
+                        self.generate_narration(transaction)
+                        self.add_value_from_node(
+                        ns,
+                        node,
+                        [
+                        "./ns:NtryRef",
+                        ],
+                        transaction,
+                        "payment_ref",
+                        join_str="\n",
+                        )
+                    general_tansaction['narration'] = general_tansaction['narration'] + transaction['narration'] + "\n"
+                    yield general_tansaction
+                    return
+                
 
+        ##ADDITIONS
 
-
-     
-    
-            
-            
-   
+        details_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls", namespaces={"ns": ns})
+        if len(details_nodes) == 0:
+            self.generate_narration(transaction)
+            yield transaction
+            return
+        transaction_base = transaction
+        for node in details_nodes:
+            transaction = transaction_base.copy()
+            self.parse_transaction_details(ns, node, transaction)
+            self.generate_narration(transaction)
+            yield transaction
