@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <record id="reconcile_model_izettle" model="account.reconcile.model">
-            <field name="name">iZettle avgift</field>
-        </record>
-    </data>
-</odoo>

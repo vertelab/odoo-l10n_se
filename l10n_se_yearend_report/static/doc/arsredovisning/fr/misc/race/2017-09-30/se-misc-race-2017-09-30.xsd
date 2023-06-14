@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.taxonomier.se/se/fr/misc/race/2017-09-30" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:se-misc-race="http://www.taxonomier.se/se/fr/misc/race/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:se-misc-base="http://www.taxonomier.se/se/fr/misc-base/2017-09-30" xmlns:se-misc-ext="http://www.taxonomier.se/se/fr/misc/misc-ext/2017-09-30" xmlns:xl="http://www.xbrl.org/2003/XLink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:se-misc-face="http://www.taxonomier.se/se/fr/misc/face/2017-09-30">
-  <xsd:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
-  <xsd:import namespace="http://www.taxonomier.se/se/fr/misc/face/2017-09-30" schemaLocation="../../form/se-misc-face/2017-09-30/se-misc-face-2017-09-30.xsd"/>
-</xsd:schema>

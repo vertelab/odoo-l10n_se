@@ -1,5 +1,0 @@
-<odoo>
-   <data noupdate="1">
-        <delete model="ir.actions.act_window" id="account.action_account_resequence"/>
-    </data>
-</odoo>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.bolagsverket.se/se/fr/gaap/k2/rcoa/2017-09-30" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:se-k2-rcoa="http://www.bolagsverket.se/se/fr/gaap/k2/rcoa/2017-09-30" xmlns:link="http://www.xbrl.org/2003/linkbase">
-  <xsd:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
-  <xsd:import namespace="http://www.bolagsverket.se/se/fr/gaap/k2/fcoa/2017-09-30" schemaLocation="../../form/se-k2-fcoa/2017-09-30/se-k2-fcoa-2017-09-30.xsd"/>
-</xsd:schema>

@@ -1,1 +1,0 @@
-from . import tax_journal_vat

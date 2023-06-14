@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrli="http://www.xbrl.org/2003/instance">
-  <link:labelLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link">
-    <link:loc xlink:type="locator" xlink:href="se-cd-base-2017-09-30.xsd#se-cd-base_AllmanInformation" xlink:label="AllmanInformation" xlink:title="AllmanInformation"/>
-    <link:label xlink:type="resource" xlink:label="label_AllmanInformation" xlink:role="http://www.xbrl.org/2003/role/verboseLabel" xlink:title="label_AllmanInformation" xml:lang="sv" id="label_AllmanInformation">Allmän information (Presentation)</link:label>
-    <link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="AllmanInformation" xlink:to="label_AllmanInformation" xlink:title="label: AllmanInformation to label_AllmanInformation"/>
-  </link:labelLink>
-</link:linkbase>

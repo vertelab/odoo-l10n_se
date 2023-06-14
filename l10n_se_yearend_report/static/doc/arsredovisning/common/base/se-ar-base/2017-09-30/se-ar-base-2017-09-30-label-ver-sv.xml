@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<link:linkbase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <link:labelLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link">
-    <link:loc xlink:type="locator" xlink:href="se-ar-base-2017-09-30.xsd#se-ar-base_RevisionsberattelseAbstract" xlink:label="RevisionsberattelseAbstract" xlink:title="RevisionsberattelseAbstract"/>
-    <link:label xlink:type="resource" xlink:label="label_RevisionsberattelseAbstract" xlink:role="http://www.xbrl.org/2003/role/verboseLabel" xlink:title="label_RevisionsberattelseAbstract" xml:lang="sv" id="label_RevisionsberattelseAbstract">Revisionsberättelse (Presentation)</link:label>
-    <link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="RevisionsberattelseAbstract" xlink:to="label_RevisionsberattelseAbstract" xlink:title="label: RevisionsberattelseAbstract to label_RevisionsberattelseAbstract"/>
-  </link:labelLink>
-</link:linkbase>

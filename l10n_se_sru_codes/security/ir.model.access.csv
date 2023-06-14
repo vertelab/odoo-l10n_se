@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-billing_account_sru_code_access,billing users read write create delete,model_account_sru_code,account.group_account_invoice,1,1,1,1
-all_account_sru_code_access,all users read,model_account_sru_code,base.group_user,1,0,0,0
