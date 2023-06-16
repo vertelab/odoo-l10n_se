@@ -36,7 +36,7 @@
     'data': [
         'data/k2_account_chart_template.xml',
         'views/view_account_chart_template_form.xml',
-        'views/chart_template_server_action.xml',
+        'views/account_chart_template_server_action.xml',
     ],
     'demo': [
     ],
