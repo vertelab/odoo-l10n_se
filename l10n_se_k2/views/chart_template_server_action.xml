@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="supplement_core_k2_action" model="ir.actions.server">
+            <field name="name">Supplement Core K2</field>
+            <field name="model_id" ref="account.model_account_chart_template"/>
+            <field name="binding_model_id" ref="account.model_account_chart_template"/>
+            <field name="state">code</field>
+            <field name="code">
+vertel_k2 = env.ref('l10n_se_k2.chart_template_K2_2017')
+core_k2 = env['account.chart.template'].browse(env['ir.model.data'].search([('name','=','l10nse_chart_template_K2'),('module','=','l10n_se')]).res_id)
+
+for account_template in vertel_k2.account_ids:
+    existing_account_template = core_k2.account_ids.filtered(lambda x: x.code == account_template.code)
+
+    if existing_account_template:
+        existing_account_template.write({
+            'code': account_template.code,
+            'name': account_template.name,
+        })
+    else:
+        template = env['account.account.template'].create({
+            'code': account_template.code,
+            'name': account_template.name,
+            'chart_template_id': core_k2.id
+        })
+            
+            </field>
+        </record>
+    </data>
+</odoo>
