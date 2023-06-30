@@ -20,12 +20,12 @@
 ##############################################################################
 
 {
-    'name': 'Account: Camt Import',
+    'name': 'l10n_se: BG Camt Import',
     'version': '14.0.0.0.1',
     'summary': 'Modifies the level of detail when doing an import',
     'category': 'Accounting',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_camt_import',
+    'website': 'https://vertel.se/apps/odoo-account/l10n_se_bg_camt',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
