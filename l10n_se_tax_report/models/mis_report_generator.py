@@ -120,6 +120,7 @@ class account_vat_declaration(models.Model):
                         # ~ gather the amount for lines that has the same account
                         if line.account_id.name in move_line_dict: #~ Check if we already added to the dict
                             move_line_dict[line.account_id.name]['debit']+=line.credit
+                            move_line_dict[line.account_id.name]['debit']-=line.debit
                         else:
                             move_line_dict[line.account_id.name] = {'account_id':line.account_id.id,'debit':line.credit}
                     # ~ _logger.warning(f"jakmar {move_line_dict}")

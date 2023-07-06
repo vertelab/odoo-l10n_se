@@ -30,32 +30,60 @@ class FinancialReportsLineResults(models.Model):
     _name = "financial.reports.line.results"
     _description = "financial reports line results"
     
-    # ~ line_id = fields.Many2one("financial.reports.line")
-    account_ids = fields.Many2one("account.move.line")
-    # ~ få ut alla konton ur domänerna genom for loop
-    # ~ samma som samlingen av domäner
-    jurnal_id = fields.Many2one(related="account_ids.account_id")
     name = fields.Char()
-    # ~ line_name = fields.Char(related="line_id.name", store=True, readonly=False)
     # ~ credit sammlat av alla konton
     credit = fields.Char()
     # ~ debit sammlat av alla konton
     debit = fields.Char()
     
     domain_id = fields.One2many("financial.reports.line","domain_account_move_line")
+    instance_id = fields.Many2many(comodel_name='financial.reports.instance')
     
-    # ~ @api.model
-    # ~ def create(self, values):
-        # ~ """Override default Odoo create function and extend."""
-        # ~ # Do your custom logic here
-        # ~ record = self.env['inancial.reports.line.results'].create({'name': 'Example'})
-        # ~ return super(ResPartner, self).create(record)
+    copy_domain_code = fields.Char()
+    copy_domain_account = fields.Char()
+    copy_domain_tax =fields.Char()
     
-    
-    # ~ def create_button(self):
-        # ~ _logger.error(f"{self.line_name=}")
+    def show_accounts(self):
+        for rec in self:
+            aco = []
+            if rec.copy_domain_account:
+                accounts = self.copy_domain_account.split(',')
+                for account in accounts:
+                    account_domain = "[('account_id','=','"+account+"')]"
+                    _logger.error(f"{account_domain=}")
+                    account_result = self.env['account.move.line'].search(eval(account_domain))
+                    _logger.error(f"{account_result.ids=}")
+                    # ~ sheck if två lika dana konton
+                    aco.extend(account_result.ids)
+                    
+            if rec.copy_domain_tax:
+                taxes = self.copy_domain_tax.split(',')
+                for tax in taxes:
+                    tax_domain = "[('account_id','=','"+tax+"')]"
+                    _logger.error(f"{tax_domain=}")
+                    tax_result = self.env['account.move.line'].search(eval(tax_domain))
+                    _logger.error(f"{tax_result.ids=}")
+                    # ~ sheck if två lika dana konton
+                    aco.extend(tax_result.ids)
             
-    
+            if rec.copy_domain_code:
+                code_result = self.env['account.move.line'].search(eval(rec.copy_domain_code))
+                _logger.error(f"{code_result.ids=}")
+                # ~ sheck if två lika dana konton
+                aco.extend(code_result.ids)
+                
+            action = {
+            "type": "ir.actions.act_window",
+            "name": "Show Accounts",
+            "res_model": "account.move.line",
+            "view_mode": "tree",
+            "target": "current",
+            "domain": [("id","in", aco)],
+            # ~ "context": ctx,
+            }
+                
+            return action
+
     
     
     

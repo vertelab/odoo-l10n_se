@@ -21,6 +21,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+import re
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -32,12 +33,13 @@ class FinancialReportsLine(models.Model):
 
     # Har ett namn.
     name = fields.Char(string="name", required=True)
-
     parent_id = fields.Many2one(comodel_name='financial.reports')
-    # ~ tax_ids = fields.Many2many(comodel_name='account.tax', string='Account Tax')
+    # ~ domain
     domain_account_move_line = fields.Char(string="Account Move Line Domain", store=True)
-    domain_tax_line = fields.Char(string="Domain Tax Line", store=True)
-    domain_code = fields.Char(string="Domain Code", store=True)
+    # ~ expressions
+    domain_expressions_line = fields.Char(string="Domain Expressions Line", store=True)
+    # ~ programer code
+    domain_code_move_line = fields.Char(string="Domain Code", store=True)
         
     @api.model
     def create(self, vals):
@@ -55,23 +57,30 @@ class FinancialReportsLine(models.Model):
                 except:
                     raise UserError(f"{record.domain_account_move_line} is not a valid domain")
                     
-            if record.domain_tax_line:
-                taxes = record.domain_tax_line.split(',')
+            if record.domain_expressions_line:
+
+                taxes = record.domain_expressions_line.split(' ')
                 for tax in taxes:
-                    tax_domain = "[('account_id','=','"+tax+"')]"
-                    _logger.error(f"{tax_domain=}")
-                try:
-                    tax_result = self.env['account.move.line'].search(eval(tax_domain))
-                    _logger.error(f"{tax_result=}")
-                except:
-                    raise UserError(f"{record.domain_tax_line} is not a valid domain")
+                    regex_bal = re.search('bal\[(\d*,*)*\]')
+                    _logger.error(f"{regex_bal=}")
+                    regex_crd = re.search('crd\[(\d*,*)*\]')
+                    _logger.error(f"{regex_crd=}")
+                    regex_deb = re.search('deb\[(\d*,*)*\]')
+                    _logger.error(f"{regex_deb=}")
+                    # ~ tax_domain = "[('account_id','=','"+tax+"')]"
+                    # ~ _logger.error(f"{tax_domain=}")
+                # ~ try:
+                    # ~ tax_result = self.env['account.move.line'].search(eval(tax_domain))
+                    # ~ _logger.error(f"{tax_result=}")
+                # ~ except:
+                    # ~ raise UserError(f"{record.domain_expressions_line} is not a valid domain")
                     
-            if record.domain_code:
+            if record.domain_code_move_line:
                 try:
-                    code_result = self.env['account.move.line'].search(eval(record.domain_code))
+                    code_result = self.env['account.move.line'].search(eval(record.domain_code_move_line))
                     _logger.error(f"{code_result=}")
                 except:
-                    raise UserError(f"{record.domain_code} is not a valid domain")
+                    raise UserError(f"{record.domain_code_move_line} is not a valid domain")
         return res
         
     def write(self, vals):
@@ -89,8 +98,8 @@ class FinancialReportsLine(models.Model):
             except:
                 raise UserError(f"{self.domain_account_move_line} is not a valid domain")
                 
-        if self.domain_tax_line:
-            taxes = self.domain_tax_line.split(',')
+        if self.domain_expressions_line:
+            taxes = self.domain_expressions_line.split(',')
             for tax in taxes:
                 tax_domain = "[('account_id','=','"+tax+"')]"
                 # ~ _logger.error(f"{tax_domain=}")
@@ -101,14 +110,14 @@ class FinancialReportsLine(models.Model):
                 # ~ for dom in tax_result:
                     # ~ _logger.error("hej")
             except:
-                raise UserError(f"{self.domain_tax_line} is not a valid domain")
+                raise UserError(f"{self.domain_expressions_line} is not a valid domain")
         
-        if self.domain_code:
+        if self.domain_code_move_line:
             try:
-                code_result = self.env['account.move.line'].search(eval(self.domain_code))
+                code_result = self.env['account.move.line'].search(eval(self.domain_code_move_line))
                 _logger.error(f"{code_result=}")
             except:
-                    raise UserError(f"{self.domain_code} is not a valid domain")
+                    raise UserError(f"{self.domain_code_move_line} is not a valid domain")
         # ~ return res
 
 

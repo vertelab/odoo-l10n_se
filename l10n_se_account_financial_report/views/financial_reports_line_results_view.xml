@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     
-<!--
-    xpath?
--->
-    
   <record id="financial_reports_line_results_tree_view" model="ir.ui.view">
     <field name="name">financial.reports.line.results.tree.view</field>
     <field name="model">financial.reports.line.results</field>
     <field name="arch" type="xml">
       <tree>
-<!--
-        <field name="line_name" string="Name" >
--->
-<!--
-            <field name="name"/>
--->
-<!--
-        </field>
--->
         <field name="name" string="Name" />
         <field name="credit" string="Credit" />
         <field name="debit" string="Debit" />
-<!--
-        <field name="line_id"/>
--->
-<!--
-        <field name="account_id"/>
--->
+        <button name="show_accounts" string="?" type="object"/>
       </tree>
     </field>
   </record>
+  
+  <record id="financial_reports_line_results_tree_action_view" model="ir.ui.view">
+    <field name="name">financial.reports.line.results.tree.view</field>
+    <field name="model">financial.reports.line.results</field>
+    <field name="arch" type="xml">
+        <tree>
+<!--
+            <field name="account_result"/>
+            <field name="tax_result"/>
+            <field name="account_result"/>
+-->
+        </tree>
+    </field>
+</record>
   
   <record id="financial_reports_line_results_tree_action" model="ir.actions.act_window">
     <field name="res_model">financial.reports.line.results</field>
     <field name="type">ir.actions.act_window</field>
     <field name="name">Financial reports line results action</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree</field>
     <field name="view_id" ref="financial_reports_line_results_tree_view" />
   </record>
   
