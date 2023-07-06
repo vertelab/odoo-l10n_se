@@ -77,12 +77,19 @@ class AccountBankStatementImport(models.TransientModel):
                 # checking all keys exist in dictionary Column names are Date, Account, Amount, Currency, Original
                 # amount, Original currency, VAT amount, VAT rate, Description, Category, Comment, Filename,
                 # Settlement status, Person, Card number, Accounting status, Cost center, Project
-                expected_mynt_keys = (
+                expected_mynt_keys_v1 = (
                     'Date', 'Amount', 'Currency', 'Original amount', 'Original currency', 'VAT amount', 'VAT rate',
                     'Reverse VAT', 'Description', 'Account', 'Category', 'Comment', 'Filename', 'Settlement status',
                     'Person', 'Team', 'Card number', 'Card name', 'Accounting status')
+                    
+                expected_mynt_keys_v2 = (
+                    'Transaction date','Settlement date','Amount', 'Currency', 'Original amount', 'Original currency', 'VAT amount', 'VAT rate',
+                    'Reverse VAT', 'Description', 'Account', 'Category', 'Comment', 'Filename', 'Settlement status',
+                    'Person', 'Team', 'Card number', 'Card name', 'Accounting status')
                 _logger.warning(f"{first_row.keys()}")
-                if set(expected_mynt_keys).issubset(first_row.keys()):
+                if set(expected_mynt_keys_v1).issubset(first_row.keys()):
+                    _logger.warning("given all keys are present in the dictionary. This seems to be a mynt csv file.")
+                elif set(expected_mynt_keys_v2).issubset(first_row.keys()):
                     _logger.warning("given all keys are present in the dictionary. This seems to be a mynt csv file.")
                 else:
                     _logger.warning(_("given all keys are not present in the dictionary. This is not a mynt csv file."))
@@ -103,9 +110,10 @@ class AccountBankStatementImport(models.TransientModel):
                 total_amount = 0
                 reverse_move_date = ""
                 first = True
+                _logger.warning(f"{data.namelist()}")
                 for row in csv_reader:
                     if first:
-                        card_statement_date = datetime.strptime(row.get("Date"), '%Y-%m-%d').replace(day=1)
+                        card_statement_date = datetime.strptime(row.get("Date",row.get("Transaction date")), '%Y-%m-%d').replace(day=1)
                         card_statement_date_char = datetime.strftime(card_statement_date, '%Y:%m')
                         account_card_statement_id = self.env["account.card.statement"].create(
                             {'journal_id': journal_id.id, 'date': card_statement_date,
@@ -119,7 +127,7 @@ class AccountBankStatementImport(models.TransientModel):
                         row['VAT amount'] = '0'
 
                     if float(row["Amount"]) <= 0:  # Is a debit transaction
-                        reverse_move_date = datetime.strptime(row.get("Date"), '%Y-%m-%d')
+                        reverse_move_date = datetime.strptime(row.get("Date",row.get("Transaction date")), '%Y-%m-%d')
                         account_move = self.create_account_move(row, "debit", journal_id)
                         self.create_account_card_statement_line(row, account_move, account_card_statement_id)
                         total_amount += account_move.amount_total
@@ -128,6 +136,8 @@ class AccountBankStatementImport(models.TransientModel):
                         self.create_account_card_statement_line(row, account_move, account_card_statement_id)
                         # ~ total_amount += account_move.amount_total
                     # ~ #Add Attachment
+                    _logger.warning(f'{row["Filename"]=} {row["Filename"] in data.namelist()=}')
+                    _logger.warning(f'{data.namelist()[0]+row["Filename"]}')
                     if row["Filename"] and row["Filename"] in data.namelist():
                         self.env['ir.attachment'].create({
                             'name': row["Filename"],
@@ -135,6 +145,14 @@ class AccountBankStatementImport(models.TransientModel):
                             'res_model': "account.move",
                             'res_id': account_move.id,
                             'datas': base64.b64encode(data.read(row["Filename"])),
+                        })
+                    elif row["Filename"] and data.namelist()[0]+row["Filename"] in data.namelist(): # For some reason when we unzip and zip again the namelist changes 
+                        self.env['ir.attachment'].create({
+                            'name': row["Filename"],
+                            'type': 'binary',
+                            'res_model': "account.move",
+                            'res_id': account_move.id,
+                            'datas': base64.b64encode(data.read(data.namelist()[0]+row["Filename"])),
                         })
                     else:
                         account_move.to_check = True  # Missing an attachment, set
@@ -155,12 +173,37 @@ class AccountBankStatementImport(models.TransientModel):
             return account_card_statement_id, "Mynt"
 
     def import_single_statement(self, single_statement_data, result):
+        _logger.warning("import_single_statement" * 100)
+        _logger.warning(f"{self} {single_statement_data} {result}")
         if single_statement_data[1] == "Mynt":
             result["statement_ids"] = single_statement_data
             result["notifications"] = "Mynt"
             return
         return super(AccountBankStatementImport, self).import_single_statement(single_statement_data, result)
-
+        
+    def _import_file(self):
+        self.ensure_one()
+        result = {
+            "statement_ids": [],
+            "notifications": [],
+        }
+        logger.info("Start to import bank statement file %s", self.statement_filename)
+        file_data = base64.b64decode(self.statement_file)
+        self.import_single_file(file_data, result)
+        if result["notifications"] == "Mynt":
+            return result
+        else:
+            return super(AccountBankStatementImport, self)._import_file()
+            
+    def import_file_and_reconcile_button(self):
+        """Process the file chosen in the wizard, create bank statement(s)
+        and jump directly to the reconcilition widget"""
+        result = self._import_file()
+        if result["notifications"] == "Mynt":
+            return
+        else:
+            return super(AccountBankStatementImport, self).import_file_and_reconcile_button()
+            
     def import_file_button(self):
         """Process the file chosen in the wizard, create bank statement(s)
         and return an action."""
@@ -243,7 +286,7 @@ class AccountBankStatementImport(models.TransientModel):
         account_card_statement_val_list = {
             'name': row.get('Date', "No value found") + " " + row.get('Description', "No value found"),
             'account_move_id': account_move.id,
-            'date': row.get('Date', "No value found"),
+            'date': row.get('Date', row.get("Transaction date")),
             'amount': float(row.get('Amount', 0)),
             'currency': currency.id,
             'original_amount': float(row.get('Original amount', 0)),
@@ -288,7 +331,7 @@ class AccountBankStatementImport(models.TransientModel):
         if not account_id:
             account_id = journal_id.card_credit_account
 
-        period_id = self.env['account.period'].date2period(datetime.strptime(row.get("Date"), '%Y-%m-%d'))
+        period_id = self.env['account.period'].date2period(datetime.strptime(row.get("Date",row.get("Transaction date")), '%Y-%m-%d'))
 
         partner_id = False
         if row.get('Description'):
@@ -298,26 +341,25 @@ class AccountBankStatementImport(models.TransientModel):
 
         # ~ So odoo check before we posts if the combo of partner and ref is unique
         current_ref = row.get("Comment", "") + "/" + self.env['ir.sequence'].next_by_code('account.move.mynt')
-        
         account_move = self.env['account.move'].with_context(check_move_validity=False).create({
-            'partner_id': partner_id.id,
             'journal_id': journal_id.id,
             "move_type": move_type,
             'ref': current_ref,
             'invoice_origin': row.get("Person", "") + " " + row.get("Card name", "") + " " + row.get("Card number", ""),
             'period_id': period_id.id,
-            'date': row.get("Date"),
-            'invoice_date': row.get("Date"),
+            'date': row.get("Date",row.get("Transaction date")),
+            'invoice_date': row.get("Date",row.get("Transaction date")),
             'to_check': True,
-            'line_ids': [(0, 0, {
-                'account_id': account_id.id,
-                'credit': abs(amount) if amount > 0 else 0,
-                'debit': abs(amount) if amount < 0 else 0,
-                'exclude_from_invoice_tab': False,
-                'name': row.get("Category", "") + " " + row.get("Comment", ""),
-                'tax_ids': tax_account,
-            })]
         })
+        account_move.with_context(check_move_validity=False).write({"line_ids":[(0, 0, {
+                 'account_id': account_id.id,
+                 'credit': abs(amount) if amount > 0 else 0,
+                 'debit': abs(amount) if amount < 0 else 0,
+                 'exclude_from_invoice_tab': False,
+                 'name': row.get("Category", "") + " " + row.get("Comment", ""),
+                 'tax_ids': tax_account,
+         })]})
+        account_move.partner_id = partner_id
         account_move._recompute_dynamic_lines()
         return account_move
 

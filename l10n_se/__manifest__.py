@@ -99,6 +99,7 @@
         'data/account_reconcile_model_data.xml',
         'data/account_tax_template_hr_data.xml',
         'data/set_account_type_on_account.xml',
+        'data/custom_address_formats.xml',
         'security/ir.model.access.csv',
         #'data/load_account_chart_template_data.xml',
 

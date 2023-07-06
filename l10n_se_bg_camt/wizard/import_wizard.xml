@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+      <record id="account_statement_import_form_inherit" model="ir.ui.view">
+      <field name="name">account_statement_import_form_inherit</field>
+      <field name="model">account.statement.import</field>
+      <field name="inherit_id" ref="account_statement_import.account_statement_import_form" />
+      <field name="arch" type="xml">
+        <field name="statement_file" position="after">
+            <group>
+                <field name="combine_zip_file" />
+            </group>
+        </field>
+      </field>
+    </record>
+
+  </data>
+</odoo>

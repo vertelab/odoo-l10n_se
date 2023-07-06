@@ -65,33 +65,59 @@
       </field>
     </record> 
 
+<!--
     <record id="view_account_position_form" model="ir.ui.view">
       <field name="name">account_chemical_tax_form</field>
       <field name="model">account.fiscal.position</field>
       <field name="inherit_id" ref="account.view_account_position_form"/>
       <field name="arch" type="xml">
-        <field name="vat_required" position="after">
+        <field name="auto_apply" position="after">
           <field name="hidden_tax" />
         </field>
       </field>
     </record> 
-
-    <template id="report_saleorder_document_chemtax" name="report saleorder document chemtax" inherit_id="sale.report_saleorder_document">
-        <xpath expr="//td[@name='td_amount_untaxed']" position="after">
-            <span t-esc="doc.amount_untaxed "/>
+-->
+    
+    <record id="add_view_account_position_form" model="ir.ui.view">
+      <field name="name">add_account_chemical_tax_form</field>
+      <field name="model">account.fiscal.position</field>
+      <field name="inherit_id" ref="account.view_account_position_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="after">
+          <field name="hidden_tax" />
+        </xpath>        
+      </field>
+    </record> 
+    
+    <record id="view_order_form" model="ir.ui.view">
+          <field name="name">sale_chemical_tax_tree</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form" />
+          <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="after">              
+              <field name="price_unit_plus_hidden_tax" optional="hide" />
+              <field name="subtotal_plus_hidden_tax" optional="hide" />
+            </xpath>
+          </field>
+    </record>  
+    
+    <template id="sale_order_portal_content_chemtax" name="sale order portal content chemtax" inherit_id="sale.sale_order_portal_content">      
+        <xpath expr="//table[@id='sales_order_table']/tbody/t/tr/t/td[3]" position="replace">
+            <td t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                <div t-if="line.discount &gt;= 0" t-field="line.price_unit_plus_hidden_tax" t-att-style="line.discount and 'text-decoration: line-through' or None" t-att-class="(line.discount and 'text-danger' or '') + ' text-right'"/>
+                <div t-if="line.discount">
+                    <t t-esc="(1-line.discount / 100.0) * line.price_unit_plus_hidden_tax" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;decimal_precision&quot;: &quot;Product Price&quot;}"/>
+                </div>
+            </td>
+        </xpath>
+      
+        <xpath expr="//table[@id='sales_order_table']/thead/tr/th[5]" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
+        </xpath>
+        <xpath expr="//table[@id='sales_order_table']/tbody/t/tr/t/td[5]" position="attributes">
+             <attribute name="style">display: none !important;</attribute>
         </xpath>
     </template>
-
-    <!--record id="view_order_form" model="ir.ui.view">
-      <field name="name">sale_view_order_form_chemtax</field>
-      <field name="model">sale.order</field>
-      <field name="inherit_id" ref="sale.view_order_form" />
-      <field name="arch" type="xml">
-        <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered_method']" position="after">
-          <field name="chemical_tax" optional="hide" /> 
-        </xpath>
-      </field>
-    </record-->
 
     <record id="view_move_form" model="ir.ui.view">
           <field name="name">chemical_tax_tree</field>
@@ -104,26 +130,6 @@
             </xpath>
           </field>
     </record>
-    <!--record id="partner.form" model="ir.ui.view">
-      <field name="name">partner_form_chemical_tax</field>
-      <field name="model">res.partner</field>
-      <field name="inherit_id" ref="res.partner.form" />
-      <field name="arch" type="xml">
-        <field name="user_id" position="inside">
-          <field name="use_chemtax"/> 
-          <field name="app_project" attrs="{'invisible': [('use_chemtax', '=', True)]}"/>         
-        </field>
-      </field>
-    </record-->
-    <!--record id="view_partner_form" model="ir.ui.view">
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//group[@name='sale']" position="inside">
-                <field name="use_chemtax" />
-            </xpath>
-        </field>
-    </record-->
    
   </data>
 </odoo>
