@@ -35,6 +35,8 @@
     'depends': ['l10n_se'],
     'data': [
         'data/k2_account_chart_template.xml',
+        'data/account_tax_template.xml',
+        'data/fiscal_position_data.xml',
         'views/view_account_chart_template_form.xml',
         'views/account_chart_template_server_action.xml',
     ],

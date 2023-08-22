@@ -18,7 +18,8 @@
                 'account_id': ref('chart2610'),
             }),
             ]"/>
-
+            
+            
         <field name="refund_repartition_line_ids" eval="[(5,0,0),
             (0, 0, {
                     'factor_percent': 100,
@@ -28,7 +29,10 @@
                 'factor_percent': 100,
                 'repartition_type': 'tax',
                 'account_id': ref('chart2610'),
-            }),]"/>
+            }),
+            ]"/>
+
+       
 
             <field name="tax_group_id" ref="account.tax_group_taxes" />
             <field name="sequence">0</field><!-- make sure system choose it by default -->
@@ -1503,14 +1507,6 @@
                 U2  Utgående moms 12%
         -->
 
-        <record id="chart3001" model="account.account.template">
-            <field name="name">Försäljning inom Sverige, 25 % moms</field>
-            <field name="code">3001</field>
-            <field name="user_type_id" ref="account.data_account_type_revenue" />
-            <field name="chart_template_id" ref="l10n_se.chart_template_general" />
-            <field name="tax_ids" eval="[(6,0,[ref('mp1')])]"/>
-            <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-        </record>
 
 
         <record id="mu1" model="account.tax.template">
@@ -1522,7 +1518,7 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'account_id': ref('chart3001'),
+                'account_id': ref('l10n_se_k2.chart3001'),
             }),]"/>
 
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
@@ -1533,18 +1529,10 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'account_id': ref('chart3001'),
+                'account_id': ref('l10n_se_k2.chart3001'),
             }),]"/>
         </record>
 
-        <record id="chart3002" model="account.account.template">
-            <field name="name">Försäljning inom Sverige, 12 % moms</field>
-            <field name="code">3002</field>
-            <field name="user_type_id" ref="account.data_account_type_revenue" />
-            <field name="chart_template_id" ref="l10n_se.chart_template_general" />
-            <field name="tax_ids" eval="[(6,0,[ref('mp2')])]"/>
-            <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-        </record>
 
 
         <record id="mu2" model="account.tax.template">
@@ -1556,7 +1544,7 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'account_id': ref('l10n_se.chart3002'),
+                'account_id': ref('l10n_se_k2.chart3002'),
             }),]"/>
 
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
@@ -1567,18 +1555,10 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'account_id': ref('l10n_se.chart3002'),
+                'account_id': ref('l10n_se_k2.chart3002'),
             }),]"/>
         </record>
 
-        <record id="chart3003" model="account.account.template">
-            <field name="name">Försäljning inom Sverige, 6 % moms</field>
-            <field name="code">3003</field>
-            <field name="user_type_id" ref="account.data_account_type_revenue" />
-            <field name="chart_template_id" ref="chart_template_K2_2017"/>
-            <field name="tax_ids" eval="[(6,0,[ref('mp3')])]"/>
-            <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
-        </record>
 
 
         <record id="mu3" model="account.tax.template">
@@ -1590,7 +1570,7 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'account_id': ref('chart3003'),
+                'account_id': ref('l10n_se_k2.chart3003'),
             }),]"/>
 
             <field name="refund_repartition_line_ids" eval="[(5,0,0),
@@ -1601,13 +1581,15 @@
             (0,0, {
                 'factor_percent': 100,
                 'repartition_type': 'tax',
-                'account_id': ref('chart3003'),
+                'account_id': ref('l10n_se_k2.chart3003'),
             }),]"/>
         </record>
 
 <!--
         MARIA SPECIFIKA ACCOUNT_TAX
 -->
+
+
         <record id="fveu0" model="account.tax.template">
             <field name="chart_template_id" ref="chart_template_K2_2017"/>
             <field name="name">FVEU0</field>
@@ -1659,6 +1641,25 @@
             }),]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes" />
         </record>
+        
+		<record id="chart3001" model="account.account.template">
+			<field name="tax_ids" eval="[(6,0,[ref('mp1')])]"/>
+		</record>
+		<record id="chart3002" model="account.account.template">
+			<field name="tax_ids" eval="[(6,0,[ref('mp2')])]"/>
+		</record>
+		<record id="chart3003" model="account.account.template">
+			<field name="tax_ids" eval="[(6,0,[ref('mp3')])]"/>
+		</record>
+		<record id="chart4001" model="account.account.template">
+			<field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
+		</record>
+		<record id="chart4002" model="account.account.template">
+			<field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
+		</record>
+		<record id="chart4003" model="account.account.template">
+			<field name="tax_ids" eval="[(6,0,[ref('i')])]"/>
+		</record>
 
     </data>
 </odoo>
