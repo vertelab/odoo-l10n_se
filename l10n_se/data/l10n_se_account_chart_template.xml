@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+         <!-- General chart_template -->
+        <record id="chart_template_general" model="account.chart.template">
+          <field name="name">Generel Konto Plan med dem gemensamma kontona</field>
+          <field name="currency_id" ref="base.SEK"/>
+          <field name="bank_account_code_prefix">K2513</field>
+          <field name="cash_account_code_prefix">K2516</field>
+          <field name="transfer_account_code_prefix">K2517</field>
+          <field name="code_digits">4</field>
+        </record>
+        
+<!--
+        Used by data/account_chart_template_k23.xml
+-->
+        <record id="chart1955" model="account.account.template">
+            <field name="name">Bank transfer</field>
+            <field name="code">1955</field>
+            <field name="user_type_id" ref="account.data_account_type_current_assets" />
+            <field name="reconcile" eval="True" />
+        </record>
+        
+
+    <record id="res_partner-SKV" model="res.partner">
+      <field name="company_id" ref="base.main_company" />
+      <field name="name">Skatteverket</field>
+      <field name="tz">Europe/Stockholm</field>
+      <field name="is_company">False</field>
+    </record>
+    
+    <record id="trustee_assets" model="account.account.type">
+            <field name="name">Trustee Asset</field>
+            <field name="type">other</field>
+            <field name="include_initial_balance" eval="True" />
+        </record>
+        <record id="untaxed_reserve" model="account.account.type">
+            <field name="name">Untaxed reserve</field>
+            <field name="type">other</field>
+            <field name="include_initial_balance" eval="True" />
+        </record>
+        <record id="tax" model="account.account.type">
+            <field name="name">Tax in Balance sheet</field>
+            <field name="type">other</field>
+        </record>
+        <!-- The common account.account.template between K1,K2,K3 --> 
+        <record id="chart2610" model="account.account.template">
+            <field name="name">Utgående moms, 25 %</field>
+            <field name="code">2610</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2611" model="account.account.template">
+            <field name="name">Utgående moms på försäljning inom Sverige, 25 %</field>
+            <field name="code">2611</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2612" model="account.account.template">
+            <field name="name">Utgående moms på egna uttag, 25 %</field>
+            <field name="code">2612</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2613" model="account.account.template">
+            <field name="name">Utgående moms för uthyrning, 25 %</field>
+            <field name="code">2613</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2614" model="account.account.template">
+            <field name="name">Utgående moms omvänd skattskyldighet, 25 %</field>
+            <field name="code">2614</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2615" model="account.account.template">
+            <field name="name">Utgående moms import av varor, 25 %</field>
+            <field name="code">2615</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2616" model="account.account.template">
+            <field name="name">Utgående moms VMB 25 %</field>
+            <field name="code">2616</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2618" model="account.account.template">
+            <field name="name">Vilande utgående moms, 25 %</field>
+            <field name="code">2618</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2620" model="account.account.template">
+            <field name="name">Utgående moms, 12 %</field>
+            <field name="code">2620</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2621" model="account.account.template">
+            <field name="name">Utgående moms på försäljning inom Sverige, 12 %</field>
+            <field name="code">2621</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2622" model="account.account.template">
+            <field name="name">Utgående moms på egna uttag, 12 %</field>
+            <field name="code">2622</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2623" model="account.account.template">
+            <field name="name">Utgående moms för uthyrning, 12 %</field>
+            <field name="code">2623</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2624" model="account.account.template">
+            <field name="name">Utgående moms omvänd skattskyldighet, 12 %</field>
+            <field name="code">2624</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2625" model="account.account.template">
+            <field name="name">Utgående moms import av varor, 12 %</field>
+            <field name="code">2625</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2626" model="account.account.template">
+            <field name="name">Utgående moms VMB 12 %</field>
+            <field name="code">2626</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2628" model="account.account.template">
+            <field name="name">Vilande utgående moms, 12 %</field>
+            <field name="code">2628</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2630" model="account.account.template">
+            <field name="name">Utgående moms, 6 %</field>
+            <field name="code">2630</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2631" model="account.account.template">
+            <field name="name">Utgående moms på försäljning inom Sverige, 6 %</field>
+            <field name="code">2631</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2632" model="account.account.template">
+            <field name="name">Utgående moms på egna uttag, 6 %</field>
+            <field name="code">2632</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2633" model="account.account.template">
+            <field name="name">Utgående moms för uthyrning, 6 %</field>
+            <field name="code">2633</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2634" model="account.account.template">
+            <field name="name">Utgående moms omvänd skattskyldighet, 6 %</field>
+            <field name="code">2634</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2635" model="account.account.template">
+            <field name="name">Utgående moms import av varor, 6 %</field>
+            <field name="code">2635</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2636" model="account.account.template">
+            <field name="name">Utgående moms VMB 6 %</field>
+            <field name="code">2636</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2638" model="account.account.template">
+            <field name="name">Vilande utgående moms, 6 %</field>
+            <field name="code">2638</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2640" model="account.account.template">
+            <field name="name">Ingående moms</field>
+            <field name="code">2640</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2641" model="account.account.template">
+            <field name="name">Debiterad ingående moms</field>
+            <field name="code">2641</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2642" model="account.account.template">
+            <field name="name">Debiterad ingående moms i anslutning till frivillig skattskyldighet</field>
+            <field name="code">2642</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2645" model="account.account.template">
+            <field name="name">Beräknad ingående moms på förvärv från utlandet</field>
+            <field name="code">2645</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2646" model="account.account.template">
+            <field name="name">Ingående moms på uthyrning</field>
+            <field name="code">2646</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2647" model="account.account.template">
+            <field name="name">Ingående moms omvänd skattskyldighet varor och tjänster i Sverige</field>
+            <field name="code">2647</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2648" model="account.account.template">
+            <field name="name">Vilande ingående moms</field>
+            <field name="code">2648</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2649" model="account.account.template">
+            <field name="name">Ingående moms, blandad verksamhet</field>
+            <field name="code">2649</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2650" model="account.account.template">
+            <field name="name">Redovisningskonto för moms</field>
+            <field name="code">2650</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2660" model="account.account.template">
+            <field name="name">Särskilda punktskatter</field>
+            <field name="code">2660</field>
+            <field name="user_type_id" ref="l10n_se.tax" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2710" model="account.account.template">
+            <field name="name">Personalskatt</field>
+            <field name="code">2710</field>
+            <field name="user_type_id" ref="l10n_se.tax" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2730" model="account.account.template">
+            <field name="name">Lagstadgade sociala avgifter och särskild löneskatt</field>
+            <field name="code">2730</field>
+            <field name="user_type_id" ref="l10n_se.tax" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2760" model="account.account.template">
+            <field name="name">Semestermedel</field>
+            <field name="code">2760</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+        <record id="chart2850" model="account.account.template">
+            <field name="name">Avräkning för skatter och avgifter (skattekonto)</field>
+            <field name="code">2850</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+            <field name="chart_template_id" ref="chart_template_general" />
+            <field name="reconcile" eval="True" />
+        </record>
+    <record id="chart1410" model="account.account.template">
+      <field name="name">Lager av råvaror</field>
+      <field name="code">1410</field>
+      <field name="user_type_id" ref="account.data_account_type_direct_costs" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="note">Lager av råvaror eller förnödenheter som har köpts för att bearbetas eller för att vara komponenter i den egna tillverkgningen.</field>
+    </record>
+    <record id="chart1510" model="account.account.template">
+      <field name="name">Kundfordringar</field>
+      <field name="code">1510</field>
+      <field name="user_type_id" ref="account.data_account_type_receivable" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="reconcile" eval="True" />
+    </record>
+    <record id="chart1630" model="account.account.template">
+      <field name="name">Avräkning för skatter och avgifter (skattekonto)</field>
+      <field name="code">1630</field>
+      <field name="user_type_id" ref="account.data_account_type_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="note">T.ex. aktuella skattefordringar.</field>
+      <field name="reconcile" eval="True" />
+    </record>
+    <record id="chart1650" model="account.account.template">
+      <field name="name">Momsfordran</field>
+      <field name="code">1650</field>
+      <field name="user_type_id" ref="account.data_account_type_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+    </record>
+    <record id="chart1910" model="account.account.template">
+      <field name="name">Kassa</field>
+      <field name="code">1910</field>
+      <field name="user_type_id" ref="account.data_account_type_liquidity" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="chart1920" model="account.account.template">
+      <field name="name">PlusGiro</field>
+      <field name="code">1920</field>
+      <field name="user_type_id" ref="account.data_account_type_liquidity" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="chart1930" model="account.account.template">
+      <field name="name">Företagskonto/checkkonto/affärskonto</field>
+      <field name="code">1930</field>
+      <field name="user_type_id" ref="account.data_account_type_liquidity" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="chart2440" model="account.account.template">
+      <field name="name">Leverantörsskulder</field>
+      <field name="code">2440</field>
+      <field name="user_type_id" ref="account.data_account_type_payable" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="reconcile" eval="True" />
+    </record>
+    <record id="chart3000" model="account.account.template">
+      <field name="name">Försäljning inom Sverige</field>
+      <field name="code">3000</field>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="reconcile" eval="True" />
+      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+    </record>
+    <record id="chart3004" model="account.account.template">
+      <field name="name">Försäljning inom Sverige, momsfri</field>
+      <field name="code">3004</field>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+    </record>
+    <record id="chart3740" model="account.account.template">
+      <field name="name">Öres- och kronutjämning</field>
+      <field name="code">3740</field>
+      <field name="user_type_id" ref="account.data_account_type_revenue" />
+      <field name="chart_template_id" ref="chart_template_general" />
+      <field name="note">Intäkter som genererats av företagets ordinarie verksamhet, t.ex. varuförsäljning och tjänsteintäkter.</field>
+    </record>
+        <record id="K2_7000_2017" model="account.account.template">
+      <field name="name">Löner till kollektivanställda (gruppkonto)</field>
+      <field name="code">7000</field>
+      <field name="user_type_id" ref="account.data_account_type_expenses" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="K2_7500_2017" model="account.account.template">
+      <field name="name">Sociala och andra avgifter enligt lag och avtal (gruppkonto)</field>
+      <field name="code">7500</field>
+      <field name="user_type_id" ref="account.data_account_type_expenses" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="chart8990" model="account.account.template">
+      <field name="name">Resultat</field>
+      <field name="code">8990</field>
+      <field name="user_type_id" ref="account.data_account_type_equity" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="chart8999" model="account.account.template">
+      <field name="name">Årets resultat</field>
+      <field name="code">8999</field>
+      <field name="user_type_id" ref="account.data_account_type_equity" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+    <record id="chart_template_general" model="account.chart.template">
+      <field name="property_account_receivable_id" ref="chart1510" />
+      <field name="property_account_payable_id" ref="chart2440" />
+      <!--
+           <field name="expense_currency_exchange_account_id" ref="a654"/>
+           <field name="income_currency_exchange_account_id" ref="a754"/>
+      -->
+    </record>
+    
+<!--
+    TILL FÖR MARIA SKATTEKONTON
+-->
+<!--
+    <record id="chart6999" model="account.account.template">
+      <field name="name">Ingående moms, blandad verksamhet </field>
+      <field name="code">6999</field>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+-->
+<!--
+
+    <record id="chart3108" model="account.account.template">
+      <field name="name">Ingående moms, blandad verksamhet </field>
+      <field name="code">3108</field>
+      <field name="user_type_id" ref="account.data_account_type_non_current_liabilities" />
+      <field name="chart_template_id" ref="chart_template_general" />
+    </record>
+-->
+
+
+
+    </data>
+</odoo>

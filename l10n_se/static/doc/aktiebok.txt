@@ -1,0 +1,19 @@
+Aktiebolag är enligt aktiebolagslagen (2005:551) skyldiga att föra aktiebok. Det följande är ett utdrag från kapitel 5 i aktiebolagslagen som berör skyldigheten att föra aktiebok:
+
+Skyldighet att föra aktiebok
+1 § I ett aktiebolag skall det finnas en aktiebok. Aktieboken skall innehålla de uppgifter om aktier och aktieägare som föreskrivs i denna lag. Den skall ha till ändamål att
+
+1. ligga till grund för utövandet av aktieägares rättigheter mot bolaget, och
+2. ge bolaget, aktieägare och andra underlag för att bedöma ägarförhållandena i bolaget.
+
+Aktiebokens form
+2 § Aktieboken skall föras med automatiserad behandling. I bolag som inte är avstämningsbolag får aktieboken även föras i bunden bok eller i ett betryggande lösblads- eller kortsystem.
+
+En aktiebok skall upprättas när samtliga stiftare till aktiebolaget har undertecknat stiftelseurkunden och samtidigt skall uppgift om alla tecknade aktier föras in i aktieboken. När en person visar upp ett aktiebrev eller på annat sätt kan styrka sitt förvärv av aktier skall denne genast registreras som aktieägare i aktiebolaget. Aktieboken skall hållas tillgänglig av aktiebolaget för alla som vill ta del av denna.
+
+I ett aktiebolag som inte är ett avstämningsbolag skall aktieboken innehålla uppgift om varje akties nummer, aktieägarnas namn och org-/personnummer samt postadress, vilket aktieslag varje aktie tillhör, huruvida aktiebrev har utfärdats och om aktien omfattas av förbehåll (hembud).
+
+I en aktiebok skall aktierna tas upp i nummerföljd och aktieboken skall bevaras så länge aktiebolaget består och 10 år efter aktiebolagets upplösning.
+
+I aktiebolag som är avstämningsbolag förs aktieboken av en central värdepappersförvarare, i Sverige är det för närvarande Värdepapperscentralen (VPC), som ingår i NSCD, som för aktiebok åt avstämningsbolag. I aktiebolag som inte är avstämningsbolag är det styrelsens ansvar att föra aktiebok.
+
