@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="wizard_result_balance_reports" model="ir.ui.view">
+        <field name="name">Import SRU connections</field>
+        <field name="model">account.financial.report.balance_result.import</field>
+        <field name="arch" type="xml">
+            <form string="Import">
+                <group rowspan="4" string="Import XLS-file">
+                    <p>Create income declaration reports from XLS-files provided by <a href="http://www.bas.se/kontoplaner/sru/">BAS</a>.</p>
+                    <field name="data"/>
+                    <field name="message"/>
+                </group>
+                <footer>
+                    <button name="send_form" string="Import" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_result_balance_reports" model="ir.actions.act_window">
+        <field name="name">Import SRU connections</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.financial.report.balance_result.import</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem action="action_wizard_result_balance_reports" id="menu_wizard_result_balance_reports" parent="account.menu_account_reports"/>
+
+  </data>
+</odoo>

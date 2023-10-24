@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+     <record id="view_merge_chart_wizard_form" model="ir.ui.view">
+          <field name="name">merge.chart.wizard.form</field>
+          <field name="model">merge.chart.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Merge Charts">
+                    <group>
+                        <field name="company_id"/>
+                        <field name="current_chart"/>
+                        <field name="supplement_chart"/>
+                    </group>
+					<group>    
+		
+						<field name="missing_account_line_ids">
+						  <tree editable="bottom">
+							<field name="created"/>
+							<field name="code"/>
+							<field name="name"/>
+							<field name="account_type"/>
+							<field name="reconcile"/>
+						  </tree>
+						</field>
+						<field string="Accounts With Different Names" name="diff_account_line_ids_name" >
+						  <tree editable="bottom">
+							<field name="code"/>
+							<field name="name"/>
+							<field name="current_name"/>
+						  </tree>
+						</field>
+						<field string="Accounts With Different Account Types" name="diff_account_line_ids_account_types" >
+						  <tree editable="bottom">
+							<field name="code"/>
+							<field name="account_type"/>
+							<field name="current_account_type"/>
+							<field name="reconcile"/>
+							<field name="current_reconcile"/>
+						  </tree>
+						</field>
+						<button string="Get Missing Accounts" name="compare_and_list_missing_accounts" type="object" class="oe_highlight" style="margin-left:10px;"/>
+					</group>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_merge_chart_wizard" model="ir.actions.act_window">
+            <field name="name">Merge Charts</field>
+            <field name="res_model">merge.chart.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_merge_chart_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    
+    
+    
+    
+    <menuitem action="action_merge_chart_wizard" id="menu_merge_chart_wizard" parent="account.menu_finance_configuration" />
+  </data>
+</odoo>

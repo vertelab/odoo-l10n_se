@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+merge_chart,Full accounting,model_merge_chart_wizard,account.group_account_user,1,1,1,1
+merge_account_account,Full accounting,model_merge_account_account,account.group_account_user,1,1,1,1

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" "https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">
+<eSKDUpload Version="6.0">
+  <OrgNr>599900-0465</OrgNr>
+  <Ag>
+    <Period>201507</Period>
+    <LonBrutto>110000</LonBrutto>
+    <Forman>20000</Forman>
+    <AvdrKostn>30000</AvdrKostn>
+    <SumUlagAvg>100000</SumUlagAvg>
+    <UlagAvgHel>83000</UlagAvgHel>
+    <AvgHel>26078</AvgHel>
+    <UlagAvgAldersp>4000</UlagAvgAldersp>
+    <AvgAldersp>619</AvgAldersp>
+    <UlagAlderspSkLon>5000</UlagAlderspSkLon>
+    <AvgAlderspSkLon>510</AvgAlderspSkLon>
+    <UlagAvgAmbassad>3000</UlagAvgAmbassad>
+    <AvgAmbassad>646</AvgAmbassad>
+    <KodAmerika>3</KodAmerika>
+    <UlagAvgAmerika>5000</UlagAvgAmerika>
+    <AvgAmerika>388</AvgAmerika>
+    <UlagStodForetag>30000</UlagStodForetag>
+    <AvdrStodForetag>3000</AvdrStodForetag>
+    <UlagStodUtvidgat>7000</UlagStodUtvidgat>
+    <AvdrStodUtvidgat>511</AvdrStodUtvidgat>
+    <SumAvgBetala>24730</SumAvgBetala>
+    <UlagSkAvdrLon>120000</UlagSkAvdrLon>
+    <SkAvdrLon>60000</SkAvdrLon>
+    <UlagSkAvdrPension>1000</UlagSkAvdrPension>
+    <SkAvdrPension>300</SkAvdrPension>
+    <UlagSkAvdrRanta>2000</UlagSkAvdrRanta>
+    <SkAvdrRanta>600</SkAvdrRanta>
+    <UlagSumSkAvdr>123000</UlagSumSkAvdr>
+    <SumSkAvdr>60900</SumSkAvdr>
+    <SjukLonKostnEhs>12000</SjukLonKostnEhs>
+    <TextUpplysningAg>Bla bla bla bla</TextUpplysningAg>
+  </Ag>
+</eSKDUpload>

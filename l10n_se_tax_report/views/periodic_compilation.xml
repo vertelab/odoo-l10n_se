@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+             <menuitem id="next_id_23" name="Periods" parent="account.menu_finance_configuration" sequence="5" />
+             <menuitem id="menu_action_account_fiscalyear" action="action_account_fiscalyear" parent="next_id_23"/>
+             <menuitem id="menu_action_account_period_form" action="action_account_period_form" parent="account.menu_finance_entries" sequence="50"/>
+        -->
+        <record id="view_account_periodic_compilation" model="ir.ui.view">
+            <field name="name">periodic.compilation.form</field>
+            <field name="model">account.periodic.compilation</field>
+            <field name="arch" type="xml">
+                <form string="Periodic Compilation 123">
+                    <header>
+                        <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />
+                        <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
+                        <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
+                        <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="buttons">
+                            <button type="object" class="btn btn-secondary" icon="fa-level-up" name="show_invoice_lines">
+                                <!-- <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines" context="{'default_partner_id': active_id}"> -->
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <!--
+                                             <field name="vat_momsutg" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                        -->
+                                    </span>
+                                    <!-- show invoce lines -->
+                                    <span class="o_stat_text">Fakturarader</span>
+                                </div>
+                            </button>
+                            <button type="object" class="btn btn-secondary" icon="fa-file" name="show_invoices" context="{'default_partner_id': active_id}">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="invoice_ids_count" />
+                                    </span>
+                                    <!-- show invoces -->
+                                    <span class="o_stat_text">Fakturor</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <!-- Rubrik -->
+                            <label for="name" class="oe_edit_only" />
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <!-- Datum + Period -->
+                            <group>
+                            
+                                <field name="date" />
+                            </group>
+                            <newline />
+                            <group col="4">
+                                <field name="period_start" string="Period" domain="[('fiscalyear_id', '=', fiscalyear_id),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" />
+                                <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '>=', period_start),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" nolabel="1" />
+                            </group>
+                            <newline />
+                        </group>
+                        <notebook>
+                            <!-- Flikar -->
+                            <page string="Inställningar">
+                                <group>
+                                    <field name="fiscalyear_id" attrs="{'readonly': [('state', '!=','draft')]}" />
+                                    <newline />
+                                    <field name="target_move" attrs="{'readonly': [('state', '!=','draft')]}" />
+                                    <newline />
+                                    <field name="accounting_method" attrs="{'readonly': [('state', '!=','draft')]}" />
+                                    <field name="accounting_yearend" attrs="{'invisible': [('accounting_method', '!=', 'cash')],'readonly': [('state', '!=','draft')]} " />
+                                </group>
+                            </page>
+                            <page string="Upplysningstext">
+                                <field name="free_text" nolabel="1" attrs="{'readonly': [('state', '!=','draft')]}" />
+                            </page>
+                            <page string="Rader">
+                                <field name="line_ids" nolabel="1">
+                                    <tree create='0' delete='0' edit='0' editable='top'>
+                                        <!-- RIGHT ALIGN
+                                             https://www.odoo.com/es_ES/forum/ayuda-1/question/right-align-labels-in-tree-view-v7-for-some-fields-numeric-fields-18989 -->
+                                        <field name="pc_name" />
+                                        <field name="pc_purchasers_vat" />
+                                        <field name="pc_supplied_goods" />
+                                        <field name="pc_triangulation" />
+                                        <field name="pc_services_supplied" />
+                                        <button name="show_invoice_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Invoice Lines" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_periodic_filter" model="ir.ui.view">
+            <field name="name">account.vat.declaration.filter</field>
+            <field name="model">account.vat.declaration</field>
+            <field name="arch" type="xml">
+                <search string="Search VAT Declaration">
+                    <field name="name" />
+                    <field name="fiscalyear_id" />
+                    <field name="period_start" />
+                    <field name="period_stop" />
+                    <field name="date" string="Date" />
+                    <field name="state" string="State" />
+                    <separator />
+                    <group expand="0" string="Group By">
+                        <filter name="State"  string="State" context="{'group_by': 'state'}" />
+                        <filter name="Fiscalyear"  string="Fiscalyear"  context="{'group_by': 'fiscalyear_id'}" />
+                        <filter name="Period" string="Period"  context="{'group_by': 'period_start'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+<!--
+    <record id="view_document_search" model="ir.ui.view">
+        <field name="model">rk.document</field>
+        <field name="arch" type="xml">
+            <search string="Official Document">
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('message_ids.tracking_value_ids.old_value_char', 'ilike', self)]" />
+                <field name="is_official" />
+                <field name="is_secret" />
+                <filter name="secrecy_marker" domain="[('is_secret', '=', True)]" string="Secrecy marker" />
+                <filter name="matter_is_missing" domain="[('matter_id', '=', False)]" string="Matter is missing" />
+                <group expand="1" string="Group By">
+                    <filter name="matter" string="Matter" context="{'group_by': 'matter_id'}" />
+                    <separator orientation="vertical" />
+                    <filter name="classification" string="Classification" context="{'group_by': 'classification_id'}" />
+                    <filter name="document_type" context="{'group_by': 'document_type_id'}" string="Document Type" />
+                </group>
+            </search>
+        </field>
+    </record>
+-->
+
+        <record id="view_periodic_tree" model="ir.ui.view">
+            <field name="name">account.vat.declaration.tree</field>
+            <field name="model">account.vat.declaration</field>
+            <field name="arch" type="xml">
+                <tree string="Periodisk sammanställning">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="fiscalyear_id" />
+                    <field name="period_start" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_moms_calendar" model="ir.ui.view">
+            <field name="name">account.vat.declaration.cal</field>
+            <field name="model">account.vat.declaration</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date" string="Momsdeklaration">
+                    <field name="name" />
+                    <field name="fiscalyear_id" />
+                    <field name="period_start" />
+                    <field name="state" />
+                </calendar>
+            </field>
+        </record>
+        <record id="action_account_periodic_compilation" model="ir.actions.act_window">
+            <field name="name">Periodisk sammanställning</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.periodic.compilation</field>
+<!--
+            <field name="view_type">form</field>
+-->
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="search_view_id" ref="view_moms_filter" />
+        </record>
+        <menuitem name="Periodic Compilation" id="menu_report_periodic_compilation" action="action_account_periodic_compilation" parent="menu_report_authorities" />
+        <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
+            <field name="name">account.declaration.line.form</field>
+            <field name="model">account.declaration.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Declaration Lines">
+                    <sheet string="Declaration Lines">
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="declaration_id" />
+                                <field name="account_type" />
+                                <field name="type" />
+                                <field name="balance" />
+                                <field name="level" />
+<!--
+                                <field name="afr_id" />
+-->
+<!--
+                                <field name="sign" />
+-->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Move Lines">
+                                <tree>
+                                    <field name="move_line_ids" />
+                                </tree>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_move_tree" model="ir.ui.view">
+            <field name="name">account.move.tree.inherited.l10n_se_tax_report</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_tree" />
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="full_reconcile_id" />
+                </field>
+            </field>
+        </record>
+        <record id="view_move_line_tree" model="ir.ui.view">
+            <field name="name">account.move.line.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Line">
+                    <field name="name" />
+                    <field name="pc_vat" />
+                    <!--
+                         <field name="account_id" groups="account.group_account_user"/>
+                    -->
+                    <field name="quantity" />
+                    <!--
+                         <field name="uom_id" groups="product.group_uom"/>
+                    -->
+                    <field name="price_unit" />
+                    <!--
+                         <field name="discount" groups="base.group_no_one"/>
+                    -->
+                    <field name="price_subtotal" />
+                    <field name="currency_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        <record id="action_invoice_line" model="ir.actions.act_window">
+            <field name="name">Invoice Lines</field>
+            <field name="res_model">account.move.line</field>
+<!--
+            <field name="view_type">form</field>
+-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_move_line_tree" />
+        </record>
+    </data>
+</odoo>
