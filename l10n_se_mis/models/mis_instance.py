@@ -1,4 +1,4 @@
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 import logging
 from odoo.exceptions import UserError
 from collections import defaultdict

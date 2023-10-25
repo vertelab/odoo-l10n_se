@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import fields, api, models, _
+from odoo import fields, api, models, _
 import logging
 _logger = logging.getLogger(__name__)
 

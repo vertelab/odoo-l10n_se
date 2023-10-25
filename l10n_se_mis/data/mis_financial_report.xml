@@ -975,7 +975,7 @@
         </record>
         <record id="kpi_title_report_br_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_Anlaggningstillgangar_title"/>
-            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordriIntresforetagGemenInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FordringarIntresseforetagGemensa</field>
+            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordriIntresforetagGemenInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FordriIntresforetagGemenInvis</field>
         </record>
         <record id="report_br_OmsattningstillgangarAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>

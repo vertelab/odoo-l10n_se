@@ -1,4 +1,3 @@
-from openerp import models, fields, api,_
 import sys
 
 from odoo import _, api, fields, models
