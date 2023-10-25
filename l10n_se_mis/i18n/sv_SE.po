@@ -4,18 +4,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20220426\n"
+"Project-Id-Version: Odoo Server 16.0-20231023\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-27 08:40+0000\n"
-"PO-Revision-Date: 2022-05-27 10:55+0200\n"
+"POT-Creation-Date: 2023-10-25 12:59+0000\n"
+"PO-Revision-Date: 2023-10-25 15:07+0200\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
-"Last-Translator: \n"
-"Language: sv\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsMomsEjAnnan
@@ -114,8 +114,7 @@ msgstr ""
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsTjSkskAnnatEg
-msgid ""
-"#39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land"
+msgid "#39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -166,8 +165,8 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagAvgHel
 msgid ""
-"#55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 "
-"- 59 - 61 - 65 - 69)"
+"#55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - "
+"61 - 65 - 69)"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -258,13 +257,12 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:ir.model.fields,help:l10n_se_mis.field_mis_report_instance__find_moves_by_period
 msgid ""
-"A little confusing but vouchers/invoices has dates and which period they "
-"belong to. By default the mis report finds moves based on date. If this is "
-"checked then we find them based on period"
+"A little confusing but vouchers/invoices has dates and which period they belong "
+"to. By default the mis report finds moves based on date. If this is checked then "
+"we find them based on period"
 msgstr ""
-"Fakturor har datum och vilken period de "
-"tillhör. Som standard hittar rapporten Fatkuror baserat på datum. Om detta "
-"är markerat hittar vi dem baserat på period"
+"Fakturor har datum och vilken period de tillhör. Som standard hittar rapporten "
+"Fatkuror baserat på datum. Om detta är markerat hittar vi dem baserat på period"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AckumuleradeOveravskrivningar
@@ -287,18 +285,21 @@ msgid "All Unposted Entries"
 msgstr ""
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Analytic Account Group: %s"
 msgstr "Objekt Konto Grupp: %s"
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Analytic Account: %s"
 msgstr "Objekt Konto: %s"
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Analytic Tags: %s"
@@ -327,8 +328,8 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:ir.model.fields,help:l10n_se_mis.field_mis_report_instance__accounting_method
 msgid ""
-"Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall "
-"välja fakturametoden i sista perioden/bokslutsperioden"
+"Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja "
+"fakturametoden i sista perioden/bokslutsperioden"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -348,8 +349,7 @@ msgstr ""
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_AvskrivningarNedskrivningarMater
-msgid ""
-"Av- och nedskrivningar av materiella och immateriella anläggningstillgångar"
+msgid "Av- och nedskrivningar av materiella och immateriella anläggningstillgångar"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -365,8 +365,8 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AvsattningarPensionerLiknandeFor
 msgid ""
-"Avsättningar för pensioner och liknande förpliktelser enligt lagen "
-"(1967:531) om tryggande av pensionsutfästelse m.m."
+"Avsättningar för pensioner och liknande förpliktelser enligt lagen (1967:531) om "
+"tryggande av pensionsutfästelse m.m."
 msgstr ""
 
 #. module: l10n_se_mis
@@ -400,6 +400,7 @@ msgid "Byggnader och mark"
 msgstr ""
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Column %s with move lines source must have from/to dates."
@@ -409,15 +410,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report__use_currency_suffix
 msgid "Currency Suffix"
 msgstr "Valuta Suffix"
-
-#. module: l10n_se_mis
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report__display_name
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__display_name
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance_period__display_name
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_style__display_name
-#: model:ir.model.fields,field_description:l10n_se_mis.field_report_mis_builder_mis_report_instance_xlsx__display_name
-msgid "Display Name"
-msgstr ""
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_EgetKapital_title
@@ -457,11 +449,6 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FaktureradEjUpparbetadIntakt
 msgid "Fakturerad men ej upparbetad intäkt"
-msgstr ""
-
-#. module: l10n_se_mis
-#: model:mis.report.kpi,description:l10n_se_mis.report_br_FinansiellaAnlaggningstillgangar
-msgid "Finansiella anläggningstillgångar"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -527,11 +514,12 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ForandringLagerProdukterIArbeteF
 msgid ""
-"Förändringar av lager av produkter i arbete, färdiga varor och pågående "
-"arbeten för annans räkning"
+"Förändringar av lager av produkter i arbete, färdiga varor och pågående arbeten "
+"för annans räkning"
 msgstr ""
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_report_instance_xlsx.py:0
 #, python-format
 msgid "Generated on {} at {}"
@@ -543,9 +531,15 @@ msgid "Goodwill"
 msgstr ""
 
 #. module: l10n_se_mis
+#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__hide_opening_closing_period
+#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance_period__hide_opening_closing_period
+msgid "Hide Opening/Closing Period"
+msgstr "Dölj öppnings-/stängningsperiod"
+
+#. module: l10n_se_mis
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__hide_lines_that_are_empty
 msgid "Hide empty lines"
-msgstr "Göm tomma rader"
+msgstr "Dölj tomma rader"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_HyresratterLiknandeRattigheter
@@ -553,19 +547,10 @@ msgid "Hyresrätter och liknande rättigheter"
 msgstr ""
 
 #. module: l10n_se_mis
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report__id
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__id
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance_period__id
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_style__id
-#: model:ir.model.fields,field_description:l10n_se_mis.field_report_mis_builder_mis_report_instance_xlsx__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/aep.py:0
 #, python-format
-msgid ""
-"If currency_id is not provided, all companies must have the same currency."
+msgid "If currency_id is not provided, all companies must have the same currency."
 msgstr "Om valuta_id inte anges måste alla företag ha samma valuta."
 
 #. module: l10n_se_mis
@@ -586,11 +571,11 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarIntresseforetagGemensaInvis
 msgid ""
-"Invis Kortfristiga fordringar hos intresseföretag och gemensamt styrda "
-"företag"
+"Invis Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag"
 msgstr ""
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid ""
@@ -599,11 +584,11 @@ msgid ""
 "This can be fixed by either:\n"
 "\t- Changing the KPI value to a tuple of length {}\n"
 "or\n"
-"\t- Changing the KPI to `multi` mode and giving an explicit value for each "
-"sub-KPI."
+"\t- Changing the KPI to `multi` mode and giving an explicit value for each sub-KPI."
 msgstr ""
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid ""
@@ -653,8 +638,7 @@ msgstr ""
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarIntresseforetagGemensa
-msgid ""
-"Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag"
+msgid "Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -664,8 +648,7 @@ msgstr ""
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarOvrigaforetagAgarintre
-msgid ""
-"Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
+msgid "Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -695,8 +678,7 @@ msgstr ""
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_SkulderOvrigaForetagAgarintresse
-msgid ""
-"Kortfristiga skulder till övriga företag som det finns ett ägarintresse i"
+msgid "Kortfristiga skulder till övriga företag som det finns ett ägarintresse i"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -722,15 +704,6 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_LagerVarorUnderTillverkning
 msgid "Lager av varor under tillverkning"
-msgstr ""
-
-#. module: l10n_se_mis
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report____last_update
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance____last_update
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance_period____last_update
-#: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_style____last_update
-#: model:ir.model.fields,field_description:l10n_se_mis.field_report_mis_builder_mis_report_instance_xlsx____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -760,8 +733,7 @@ msgstr ""
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarOvrigaForetagAgarintre
-msgid ""
-"Långfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
+msgid "Långfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -802,7 +774,7 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:ir.model,name:l10n_se_mis.model_mis_report
 msgid "MIS Report Template"
-msgstr ""
+msgstr "Mall för MIS-rapport"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_MaskinerAndraTekniskaAnlaggninga
@@ -822,8 +794,7 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_NedskrivningarFinansiellaAnlaggn
 msgid ""
-"Nedskrivningar av finansiella anläggningstillgångar och kortfristiga "
-"placeringar"
+"Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -879,8 +850,7 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_PagaendeNyanlaggningarForskottMa
 msgid ""
-"Pågående nyanläggningar och förskott avseende materiella "
-"anläggningstillgångar"
+"Pågående nyanläggningar och förskott avseende materiella anläggningstillgångar"
 msgstr ""
 
 #. module: l10n_se_mis
@@ -996,7 +966,7 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__target_move
 msgid "Target Moves"
-msgstr ""
+msgstr "Faktura Filter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_TecknatEjInbetaltKapital
@@ -1014,6 +984,7 @@ msgid "Tillgångar "
 msgstr ""
 
 #. module: l10n_se_mis
+#. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Unexpected value %s for target_move."
@@ -1037,8 +1008,7 @@ msgstr ""
 #. module: l10n_se_mis
 #: model:ir.model.fields,help:l10n_se_mis.field_mis_report__use_currency_suffix
 msgid "Use currency set on mis report or the company currency as a suffix."
-msgstr ""
-"Använd valuta inställd på mis rapport eller företagets valuta som suffix."
+msgstr "Använd valuta inställd på mis rapport eller företagets valuta som suffix."
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_VarulagerMm

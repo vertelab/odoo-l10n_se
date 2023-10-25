@@ -4,28 +4,32 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20220426\n"
+"Project-Id-Version: Odoo Server 16.0-20231023\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-27 08:55+0000\n"
-"PO-Revision-Date: 2022-05-27 11:05+0200\n"
+"POT-Creation-Date: 2023-10-25 12:49+0000\n"
+"PO-Revision-Date: 2023-10-25 15:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: sv\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
-msgid "<span class=\"o_stat_text\">Arbetgivaravgift</span>"
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+msgid "<span class=\"o_stat_text\">Betalning</span>"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
-msgid "<span class=\"o_stat_text\">Betalning</span>"
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
+msgid "<span class=\"o_stat_text\">Fakturarader</span>"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
+msgid "<span class=\"o_stat_text\">Fakturor</span>"
 msgstr ""
 
 #. module: l10n_se_tax_report
@@ -34,32 +38,30 @@ msgid "<span class=\"o_stat_text\">Ingående</span>"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
-msgid "<span class=\"o_stat_text\">Skatt</span>"
-msgstr ""
-
-#. module: l10n_se_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
 msgid "<span class=\"o_stat_text\">Utgående</span>"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
 msgid "<span class=\"o_stat_text\">Verifikat</span>"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__find_moves_by_period
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+msgid "<span> - </span>"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__find_moves_by_period
 msgid ""
 "A little confusing but vouchers/invoices has dates and which period they "
 "belong to. By default the mis report finds moves based on date. If this is "
 "checked then we find them based on period"
 msgstr ""
-"Fakturor har datum och vilken period de "
-"tillhör. Som standard hittar mis rapporten fakturor  baserat på "
-"datum. Om detta är markerat hittar vi dem baserat på period"
+"Fakturor har datum och vilken period de tillhör. Som standard hittar mis "
+"rapporten fakturor  baserat på datum. Om detta är markerat hittar vi dem "
+"baserat på period"
 
 #. module: l10n_se_tax_report
 #: model:ir.model,name:l10n_se_tax_report.model_account_account
@@ -72,61 +74,50 @@ msgid "Account Type"
 msgstr "Konto Typ"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_needaction
+#: model:ir.model,name:l10n_se_tax_report.model_account_declaration_line_id
+msgid "Account declaration line id"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_needaction
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_needaction
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_needaction
 msgid "Action Needed"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__ag_betala
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__ag_betala
 msgid "Ag Betala"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_bank_statement_line__agd_declaration_id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__agd_declaration_id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_move__agd_declaration_id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_payment__agd_declaration_id
-msgid "Agd Declaration"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__target_move__all
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__target_move__all
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__target_move__all
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__target_move__all
 msgid "All Entries"
 msgstr "Alla Fakturor"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__target_move__posted
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__target_move__posted
 msgid "All Posted Entries"
 msgstr "Alla Bokförda Fakturor"
+
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__target_move__draft
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__target_move__draft
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__target_move__draft
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__target_move__draft
 msgid "All Unposted Entries"
 msgstr "Alla Fakturor I Utkast"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__accounting_method
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__accounting_method
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__accounting_method
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__accounting_method
 msgid ""
 "Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall "
 "välja fakturametoden i sista perioden/bokslutsperioden"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.actions.act_window,name:l10n_se_tax_report.action_account_agd_declaration
-#: model:ir.ui.menu,name:l10n_se_tax_report.menu_account_agd_declaration
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_agd_calendar
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_agd_tree
-msgid "Arbetsgivardeklaration"
 msgstr ""
 
 #. module: l10n_se_tax_report
@@ -140,11 +131,11 @@ msgid "Arbetsgivare kontaktperson"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Antal Bilagor"
 
 #. module: l10n_se_tax_report
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__vat_momsbetala
@@ -163,32 +154,33 @@ msgid "Balance"
 msgstr "Balans"
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
 msgid "Beräkna"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__accounting_yearend
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__accounting_yearend
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__accounting_yearend
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__accounting_yearend
 msgid "Bokslutsperiod"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
 msgid "Cancel"
 msgstr "Avbryt"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__state__canceled
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__state__canceled
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__state__canceled
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__state__canceled
 msgid "Canceled"
 msgstr "Avbruten"
 
 #. module: l10n_se_tax_report
+#. odoo-python
 #: code:addons/l10n_se_tax_report/models/moms.py:0
 #, python-format
 msgid "Cannot recalculate."
@@ -200,18 +192,25 @@ msgid "Companies"
 msgstr "Bolag"
 
 #. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__company_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__company_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__company_id
+msgid "Company"
+msgstr "Företag"
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_financial_report_bolagsverket_import__xml_sheet__complete
 msgid "Complete"
-msgstr ""
+msgstr "Klar"
 
 #. module: l10n_se_tax_report
 #: model:ir.model,name:l10n_se_tax_report.model_res_config_settings
 msgid "Config Settings"
-msgstr "Konfigurationsinställningar"
+msgstr "Inställningar"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__state__confirmed
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__state__confirmed
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__state__confirmed
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__state__confirmed
 msgid "Confirmed"
 msgstr "Bekräfta"
@@ -222,103 +221,106 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__create_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__create_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__create_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line_id__create_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_balance_result_import__create_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_bolagsverket_import__create_uid
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__create_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__create_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__create_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__create_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line_id__create_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_balance_result_import__create_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_bolagsverket_import__create_date
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__create_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__date
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__date
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_periodic_filter
 msgid "Date"
 msgstr "Datum"
 
 #. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__declaration_id
 msgid "Declaration"
-msgstr ""
+msgstr "Deklaration"
 
 #. module: l10n_se_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_vat_declaration_line_form
 msgid "Declaration Lines"
-msgstr ""
+msgstr "Deklarations Rader"
 
 #. module: l10n_se_tax_report
 #: model:ir.model,name:l10n_se_tax_report.model_account_declaration
 msgid "Declaration Report"
+msgstr "Deklarations Rapport"
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_journal__default_credit_account_id
+msgid "Default Credit Account"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_account__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__display_name
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_journal__default_debit_account_id
+msgid "Default Debit Account"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__display_name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__display_name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line_id__display_name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_balance_result_import__display_name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_bolagsverket_import__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_tax__display_name
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__display_name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_ir_config_parameter__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_mis_report_instance__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Visningsnamn"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__state__done
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__state__done
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__state__done
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__state__done
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
 msgid "Done"
 msgstr "Klar"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__state__draft
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__state__draft
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__state__draft
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__state__draft
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
 msgid "Draft"
 msgstr "Utkast"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__date_stop
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__date_stop
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__date_stop
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__date_stop
 msgid "End of Period"
 msgstr "Periodens slut"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__event_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__event_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__event_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__event_id
 msgid "Event"
 msgstr "Evenemang"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__accounting_method__invoice
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__accounting_method__invoice
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__accounting_method__invoice
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__accounting_method__invoice
 msgid "Fakturametoden"
 msgstr ""
@@ -335,34 +337,37 @@ msgid "File Name"
 msgstr ""
 
 #. module: l10n_se_tax_report
+#. odoo-python
 #: code:addons/l10n_se_tax_report/wizard/import_bolagsverket_report.py:0
 #, python-format
 msgid "Financial Report Lines"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__find_moves_by_period
+#: model:ir.model,name:l10n_se_tax_report.model_account_financial_report_balance_result_import
+msgid "Financial report, balance report and result"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__find_moves_by_period
 msgid "Find Move Based On Period"
 msgstr "Hitta fakturor baserat på period"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_follower_ids
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_periodic_filter
+msgid "Fiscalyear"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_follower_ids
 msgid "Followers"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -375,20 +380,32 @@ msgid "Full Reconcile"
 msgstr ""
 
 #. module: l10n_se_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_periodic_filter
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__has_message
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__has_message
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,help:l10n_se_tax_report.field_res_config_settings__vat_declaration_frequency
 msgid "Hur stor är momsdeklarationsperioden?"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__fiscalyear_id
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__fiscalyear_id
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__fiscalyear_id
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__fiscalyear_id
 msgid "Håll tom för alla öppna räkenskapsår"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__accounting_yearend
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__accounting_yearend
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__accounting_yearend
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__accounting_yearend
 msgid ""
 "I bokslutsperioden skall även utestående fordringar ingå i "
@@ -396,61 +413,76 @@ msgid ""
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_account__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line_id__id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_balance_result_import__id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_bolagsverket_import__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_tax__id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_ir_config_parameter__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_mis_report_instance__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_partner__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__message_needaction
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__message_unread
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__message_needaction
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__message_unread
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__message_needaction
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__message_needaction
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__message_has_error
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__message_has_sms_error
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__message_has_error
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__message_has_sms_error
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__message_has_error
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__message_has_error
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
 msgid "Inställningar"
 msgstr ""
 
 #. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__invoice_ids
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__invoice_ids_count
+msgid "Invoice Ids Count"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_move_line_tree
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.actions.act_window,name:l10n_se_tax_report.action_invoice_line
+msgid "Invoice Lines"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#. odoo-python
 #: code:addons/l10n_se_tax_report/models/periodic_compilation.py:0
 #, python-format
 msgid "Invoices"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_is_follower
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_is_follower
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_is_follower
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_is_follower
 msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model,name:l10n_se_tax_report.model_account_journal
+msgid "Journal"
 msgstr ""
 
 #. module: l10n_se_tax_report
@@ -459,55 +491,46 @@ msgid "Journal Entry"
 msgstr "Verifikat"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_agd_declaration__accounting_method__cash
+#: model:ir.model,name:l10n_se_tax_report.model_account_move_line
+msgid "Journal Item"
+msgstr "Transaktion"
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_declaration__accounting_method__cash
+#: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_periodic_compilation__accounting_method__cash
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_vat_declaration__accounting_method__cash
 msgid "Kontantmetoden"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: code:addons/l10n_se_tax_report/models/mis_report_generator.py:0
-#, python-format
-msgid "Kontomoms: %sst, momsskuld: %s, momsfordran: %s, skattekonto: %s"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_account____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration____last_update
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration____last_update
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line____last_update
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line_id____last_update
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_balance_result_import____last_update
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_bolagsverket_import____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_tax____last_update
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation____last_update
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_ir_config_parameter____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_mis_report_instance____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr "Senast redigerad"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__write_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__write_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__write_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line_id__write_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_balance_result_import__write_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_bolagsverket_import__write_uid
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__write_uid
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__write_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__write_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__write_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line_id__write_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_balance_result_import__write_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_financial_report_bolagsverket_import__write_date
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__write_date
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__write_date
 msgid "Last Updated on"
 msgstr ""
@@ -518,10 +541,20 @@ msgid "Level"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__line_id
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__line_ids
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__pc_supplied_goods
+msgid "Levererade varor"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__line_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__line_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__line_ids
 msgid "Line"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model,name:l10n_se_tax_report.model_account_declaration_line
+msgid "Lines belonging to account declaration"
 msgstr ""
 
 #. module: l10n_se_tax_report
@@ -530,8 +563,8 @@ msgid "MIS Report Instance"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_main_attachment_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -542,15 +575,15 @@ msgid "Message"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_has_error
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_has_error
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_has_error
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_has_error
 msgid "Message Delivery error"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_ids
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_ids
 msgid "Messages"
 msgstr ""
@@ -580,21 +613,22 @@ msgid "Month"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__move_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__move_ids
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__move_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__move_ids
 msgid "Move"
 msgstr ""
 
 #. module: l10n_se_tax_report
+#. odoo-python
 #: code:addons/l10n_se_tax_report/models/mis_report_generator.py:0
 #, python-format
 msgid "Move %s is already assigned to %s"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__move_ids_count
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__move_ids_count
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__move_ids_count
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__move_ids_count
 msgid "Move Ids Count"
 msgstr ""
@@ -611,70 +645,84 @@ msgid "Myndighetsrapportering"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__name
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__pc_name
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__name
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__name
 msgid "Name"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__message_needaction_counter
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__message_needaction_counter
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__message_needaction_counter
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__message_has_error_counter
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__message_has_error_counter
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__message_has_error_counter
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__message_unread_counter
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__message_unread_counter
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__message_unread_counter
-msgid "Number of unread messages"
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__partner_id
+msgid "Partner"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__payment_ids_count
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__payment_ids_count
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__payment_ids_count
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__payment_ids_count
 msgid "Payment Ids Count"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__payslip_ids
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
-msgid "Payslips"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_periodic_filter
 msgid "Period"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__date
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_bank_statement_line__periodic_compilation_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__periodic_compilation_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_move__periodic_compilation_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_payment__periodic_compilation_id
+#: model:ir.ui.menu,name:l10n_se_tax_report.menu_report_periodic_compilation
+msgid "Periodic Compilation"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
+msgid "Periodic Compilation 123"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.actions.act_window,name:l10n_se_tax_report.action_account_periodic_compilation
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_periodic_tree
+msgid "Periodisk sammanställning"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__date
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__date
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__date
 msgid ""
 "Planned date, date when to report to the Skatteverket or do the "
@@ -683,27 +731,10 @@ msgid ""
 msgstr ""
 
 #. module: l10n_se_tax_report
+#. odoo-python
 #: code:addons/l10n_se_tax_report/models/sru.py:0
 #, python-format
 msgid "Please add fiscal year for %s"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: code:addons/l10n_se_tax_report/models/agd.py:0
-#, python-format
-msgid "Please configurate arbetsgivare kontaktperson"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: code:addons/l10n_se_tax_report/models/agd.py:0
-#, python-format
-msgid "Please configurate avsändare"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: code:addons/l10n_se_tax_report/models/agd.py:0
-#, python-format
-msgid "Please fill the function for partner: %s"
 msgstr ""
 
 #. module: l10n_se_tax_report
@@ -712,40 +743,41 @@ msgid "Quarter"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
 msgid "Rader"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__accounting_method
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__accounting_method
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__accounting_method
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__accounting_method
 msgid "Redovisningsmetod"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__report_file
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__report_file
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__report_file
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__report_file
 msgid "Report-file"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__fiscalyear_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__fiscalyear_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__fiscalyear_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__fiscalyear_id
 msgid "Räkenskapsår"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_has_sms_error
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__message_has_sms_error
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_se_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_moms_filter
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_periodic_filter
 msgid "Search VAT Declaration"
 msgstr ""
 
@@ -760,13 +792,12 @@ msgid "Sheet"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
-msgid "Show Move Lines"
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
+msgid "Show Invoice Lines"
 msgstr ""
 
 #. module: l10n_se_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.l10n_mis_inherit_account_moms_declaration
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 msgid "Show Report"
 msgstr "Visa rapport"
 
@@ -776,38 +807,44 @@ msgid "Simple"
 msgstr ""
 
 #. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__pc_purchasers_vat
+msgid "Skatt / VAT"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_res_config_settings__vat_declaration_frequency
 msgid "Skattedeklarationsfrekvens"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__period_stop
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__period_stop
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__period_stop
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__period_stop
 msgid "Slut period"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__period_start
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__period_start
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__period_start
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__period_start
 msgid "Start period"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__state
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__state
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__state
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__state
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_periodic_filter
 msgid "State"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__SumAvgBetala
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__SumAvgBetala
 msgid "Sumavgbetala"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__SumSkAvdr
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__SumSkAvdr
 msgid "Sumskavdr"
 msgstr ""
 
@@ -817,11 +854,16 @@ msgid "System Parameter"
 msgstr "Systemparameter"
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__target_move
+#: model:ir.model,name:l10n_se_tax_report.model_account_financial_report_bolagsverket_import
+msgid "TODO"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__target_move
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__target_move
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__target_move
 msgid "Target Moves"
-msgstr ""
+msgstr "Faktura Filter"
 
 #. module: l10n_se_tax_report
 #: model:ir.model,name:l10n_se_tax_report.model_account_tax
@@ -829,38 +871,63 @@ msgid "Tax"
 msgstr "Skatt"
 
 #. module: l10n_se_tax_report
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration_line__pc_purchasers_vat
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_move_line__pc_vat
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__pc_services_supplied
+msgid "Tillhandahållna tjänster"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__pc_triangulation
+msgid "Triangulering"
+msgstr ""
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__type
 msgid "Type"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_unread
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_unread
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__free_text
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__free_text
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__free_text
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__free_text
-#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_agd_declaration
 #: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_periodic_compilation
 msgid "Upplysningstext"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: code:addons/l10n_se_tax_report/models/agd.py:0
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_move_line__pc_vat
+msgid "VAT"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#. odoo-python
 #: code:addons/l10n_se_tax_report/models/periodic_compilation.py:0
 #, python-format
 msgid "VAT Ag"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration_line__pc_triangulation
+msgid "Value of a triangulation"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration_line__pc_services_supplied
+msgid "Value of services supplied"
+msgstr ""
+
+#. module: l10n_se_tax_report
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration_line__pc_supplied_goods
+msgid "Value of supplies of goods"
 msgstr ""
 
 #. module: l10n_se_tax_report
@@ -887,26 +954,26 @@ msgid "Vat Out"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: code:addons/l10n_se_tax_report/models/agd.py:0
+#. odoo-python
 #: code:addons/l10n_se_tax_report/models/periodic_compilation.py:0
 #: code:addons/l10n_se_tax_report/models/sru.py:0
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__move_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__move_id
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__move_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__move_id
 #, python-format
 msgid "Verifikat"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__website_message_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__website_message_ids
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__website_message_ids
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__website_message_ids
 msgid "Website Messages"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model.fields,help:l10n_se_tax_report.field_account_agd_declaration__website_message_ids
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_declaration__website_message_ids
+#: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__website_message_ids
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__website_message_ids
 msgid "Website communication history"
 msgstr ""
@@ -914,13 +981,22 @@ msgstr ""
 #. module: l10n_se_tax_report
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__res_config_settings__vat_declaration_frequency__year
 msgid "Year"
-msgstr ""
+msgstr "År"
 
 #. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_bank_statement_line__year_end_move
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_move__year_end_move
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_payment__year_end_move
 msgid "Year End Move"
+msgstr "Årsavslut"
+
+#. module: l10n_se_tax_report
+#. odoo-python
+#: code:addons/l10n_se_tax_report/models/mis_report_generator.py:0
+#, python-format
+msgid ""
+"You are missing either a credit account, debit account or a tax account, "
+"please add these"
 msgstr ""
 
 #. module: l10n_se_tax_report
@@ -929,46 +1005,19 @@ msgid "account vat decaration id"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model,name:l10n_se_tax_report.model_account_agd_declaration
-msgid "account.agd.declaration"
+#: model:ir.model,name:l10n_se_tax_report.model_account_periodic_compilation
+msgid "account.periodic.compilation"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: model:ir.model,name:l10n_se_tax_report.model_account_declaration_line
-msgid "account.declaration.line"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model,name:l10n_se_tax_report.model_account_declaration_line_id
-msgid "account.declaration.line.id"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model,name:l10n_se_tax_report.model_account_financial_report_balance_result_import
-msgid "account.financial.report.balance_result.import"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model,name:l10n_se_tax_report.model_account_financial_report_bolagsverket_import
-msgid "account.financial.report.bolagsverket.import"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__eskd_file
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__eskd_file
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__eskd_file
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__eskd_file
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__eskd_file_mis
 msgid "eSKD-file"
 msgstr ""
 
 #. module: l10n_se_tax_report
-#: code:addons/l10n_se_tax_report/models/agd.py:0
-#, python-format
-msgid "kontoskatte: %sst, skattekonto: %s"
-msgstr ""
-
-#. module: l10n_se_tax_report
-#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_agd_declaration__generated_mis_report_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__generated_mis_report_id
 msgid "mis_report_instance"
 msgstr ""
