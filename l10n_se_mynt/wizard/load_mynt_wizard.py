@@ -108,7 +108,7 @@ class AccountBankStatementImport(models.TransientModel):
                     raise Warning(_("For Mynt Zip Files, please select a card credit account on the selected Journal"))
 
                 total_amount = 0
-                reverse_move_date = ""
+                #reverse_move_date = ""
                 first = True
                 _logger.warning(f"{data.namelist()}")
                 for row in csv_reader:
@@ -127,7 +127,7 @@ class AccountBankStatementImport(models.TransientModel):
                         row['VAT amount'] = '0'
 
                     if float(row["Amount"]) <= 0:  # Is a debit transaction
-                        reverse_move_date = datetime.strptime(row.get("Date",row.get("Transaction date")), '%Y-%m-%d')
+                        #reverse_move_date = datetime.strptime(row.get("Date",row.get("Transaction date")), '%Y-%m-%d')
                         account_move = self.create_account_move(row, "debit", journal_id)
                         self.create_account_card_statement_line(row, account_move, account_card_statement_id)
                         total_amount += account_move.amount_total
@@ -157,8 +157,8 @@ class AccountBankStatementImport(models.TransientModel):
                     else:
                         account_move.to_check = True  # Missing an attachment, set
 
-                reverse_move_date = reverse_move_date.replace(day=5) + relativedelta(months=1)
-                reverse_move_period_id = self.env['account.period'].date2period(reverse_move_date).id
+                #reverse_move_date = reverse_move_date.replace(day=5) + relativedelta(months=1)
+                #reverse_move_period_id = self.env['account.period'].date2period(reverse_move_date).id
                 card_credit_account = journal_id.card_credit_account
                 card_debit_account = journal_id.card_debit_account
 
