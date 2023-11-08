@@ -175,9 +175,9 @@
             <field name="view_type">form</field>
 -->
             <field name="view_mode">tree,form,calendar</field>
-            <field name="search_view_id" ref="view_moms_filter" />
+            <field name="search_view_id" ref="l10n_se_tax_report.view_moms_filter" />
         </record>
-        <menuitem name="Periodic Compilation" id="menu_report_periodic_compilation" action="action_account_periodic_compilation" parent="menu_report_authorities" />
+        <menuitem name="Periodic Compilation" id="menu_report_periodic_compilation" action="action_account_periodic_compilation" parent="l10n_se_tax_report.menu_report_authorities" />
         <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
             <field name="name">account.declaration.line.form</field>
             <field name="model">account.declaration.line</field>
