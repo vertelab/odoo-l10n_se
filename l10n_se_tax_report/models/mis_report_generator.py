@@ -33,7 +33,7 @@ class account_vat_declaration(models.Model):
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
-                        decl.generated_mis_report_id.write({'company_id':decl.company_id})
+                        decl.generated_mis_report_id.write({'accounting_method':'invoice'})
                 else:
                         decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
                 
