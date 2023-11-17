@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports',
-    'version': '16.0.0.0.0',
+    'version': '17.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Create Swedish MIS-reports',
     'category': 'Accounting',
@@ -34,8 +34,8 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
-    'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder', 'mis_builder_budget','account_period_vrtl'],
+    'images': ['static/description/banner.png'],  # 560x280 px.
+    'depends': ['mis_builder', 'mis_builder_budget', 'account_period_vrtl'],
     'external_dependencies': {
         'python': ['xlrd'],
     },

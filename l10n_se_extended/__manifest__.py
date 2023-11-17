@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Sweden - Accounting',
-    'version': '16.0.0.1.0',
+    'version': '17.0.0.1.0',
     # Version ledger: 16.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Chart of accounts',
     'category': 'Accounting/Localizations/Account Charts',
@@ -31,9 +31,9 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'images': ['static/description/banner.png'],  # 560x280 px.
     'description': """
-    Sweden - Chart of accounts
+        Sweden - Chart of accounts
 
         * BAS 2021 K1 (Minimal chart of account, rules from SKV-283 v16)
         * BAS 2021 (K2-K4, follows INK2R-form and rules in SKV-294 v11)
@@ -84,17 +84,18 @@
         
 
      """,
-    'depends': ['account_period_vrtl', 'account', 'l10n_se'],
+    'depends': ['account', 'l10n_se'],
     'init_xml': [],
     'data': [
-        'data/l10n_se_account_chart_template.xml',
-        'data/account_chart_template_k23.xml',
+        # 'data/l10n_se_account_chart_template.xml',
+        # 'data/account_chart_template_k23.xml',
         'data/account_tax_data.xml',
-        'data/account_account_template_wt_tax_data.xml',
-        'data/fiscal_position_data.xml',
-        'data/l10n_se_account_chart_post_data.xml',
+        # 'data/account_account_template_wt_tax_data.xml',
+        # 'data/fiscal_position_data.xml',
+        # 'data/l10n_se_account_chart_post_data.xml',
         'data/account_tax_template_hr_data.xml',
         'data/custom_address_formats.xml',
+        'data/tax_partner.xml',
         'wizard/merge_chart_wizard.xml',
         'security/ir.model.access.csv',
 
