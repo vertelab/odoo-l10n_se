@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Sweden - Accounting',
-    'version': '16.0.0.1.0',
+    'version': '17.0.0.1.0',
     # Version ledger: 16.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Chart of accounts',
     'category': 'Accounting/Localizations/Account Charts',
@@ -87,22 +87,22 @@
     'depends': ['account_period_vrtl', 'account', 'l10n_se'],
     'init_xml': [],
     'data': [
-        'data/l10n_se_account_chart_template.xml',
-        'data/account_chart_template_k23.xml',
-        'data/account_tax_data.xml',
-        'data/account_account_template_wt_tax_data.xml',
-        'data/fiscal_position_data.xml',
-        'data/l10n_se_account_chart_post_data.xml',
-        'data/account_tax_template_hr_data.xml',
-        'data/custom_address_formats.xml',
-        'wizard/merge_chart_wizard.xml',
-        'security/ir.model.access.csv',
+        #'data/l10n_se_account_chart_template.xml',
+        #'data/account_chart_template_k23.xml',
+        #'data/account_tax_data.xml',
+        #'data/account_account_template_wt_tax_data.xml',
+        #'data/fiscal_position_data.xml',
+        #'data/l10n_se_account_chart_post_data.xml',
+        #'data/account_tax_template_hr_data.xml',
+        #'data/custom_address_formats.xml',
+        #'wizard/merge_chart_wizard.xml',
+        #'security/ir.model.access.csv',
 
     ],
-    'demo': [
+    #'demo': [
         #'demo/load_account_chart_template_data.xml',
         #'demo/l10n_se_demo.xml',
-    ],
+    #],
     'installable': 'True',
     'application': 'False',
 }
