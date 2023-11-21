@@ -19,7 +19,14 @@ class account_vat_declaration(models.Model):
     def _change_mis_report_name(self):
         for dec in self:
             dec.generated_mis_report_id.name = dec.name
-    
+
+    @api.depends('state')
+    def _sync_state_to_mis_report(self):
+        _logger.warning("_sync_state_to_mis_report")
+        for record in self:
+            if record.generated_mis_report_id:
+               record.generated_mis_report_id.state = record.state
+
     @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method','accounting_yearend','company_id')
     def _vat(self):
          _logger.warning("vat"*100)
@@ -49,6 +56,8 @@ class account_vat_declaration(models.Model):
                     decl.vat_momsingavdr+=line.debit
                     
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
+                
+                
 
             
     def calculate(self):
@@ -56,6 +65,7 @@ class account_vat_declaration(models.Model):
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
         if self.state in ['draft']:
             self.state = 'confirmed'
+            self.generated_mis_report_id.state = self.state
 
         # ~ mark moves used to build the mis report, i should probebly save the moves on the report somewhere at some. Not a problem atm.
         move_line_recordset= self.get_move_line_recordset([])
@@ -216,15 +226,22 @@ class account_vat_declaration(models.Model):
             create_eskd_xml_file = None
             super(account_vat_declaration, rec).do_draft()
             for move in rec.move_ids:
-                move.vat_declaration_id = None 
+                move.vat_declaration_id = None
+            rec.generated_mis_report_id.state = rec.state
 
 
     def do_cancel(self):
         for rec in self:
-            super(account_vat_declaration, rec).do_draft()
+            super(account_vat_declaration, rec).do_cancel()
             create_eskd_xml_file = None
             for move in rec.move_ids:
                 move.vat_declaration_id = None
+            rec.generated_mis_report_id.state = rec.state
+   
+    def do_done(self):
+        for rec in self:
+            super(account_vat_declaration, rec).do_done()
+            rec.generated_mis_report_id.state = rec.state
         
         
     @api.model
