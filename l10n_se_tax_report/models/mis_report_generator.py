@@ -22,6 +22,7 @@ class account_vat_declaration(models.Model):
     
     @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method','accounting_yearend','company_id')
     def _vat(self):
+         _logger.warning("vat"*100)
          for decl in self:
              decl.vat_momsutg = 0
              decl.vat_momsingavdr = 0
@@ -33,20 +34,20 @@ class account_vat_declaration(models.Model):
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
-                        decl.generated_mis_report_id.write({'accounting_method':'invoice'})
+                        decl.generated_mis_report_id.write({'company_id':decl.company_id})
                 else:
                         decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
-                
-                matrix = decl.generated_mis_report_id._compute_matrix()
-                vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
-                for row in matrix.iter_rows():
-                    vals = [c.val for c in row.iter_cells()]
-                    # ~ _logger.debug("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
-                    # ~ _logger.info('jakmar name: {} value: {}'.format(row.kpi.name,vals[0]))
-                    if row.kpi.name == 'MomsIngAvdr':
-                        decl.vat_momsingavdr = vals[0]
-                    if row.kpi.name in vat_momsutg_list_names:
-                        decl.vat_momsutg  += vals[0]
+                       
+                momsUtgMovesRecordSet = decl.get_move_line_recordset(['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag'])
+                for line in momsUtgMovesRecordSet:
+                    decl.vat_momsutg+=line.credit
+                    decl.vat_momsutg-=line.debit
+                    
+                momsIngMovesRecordSet = decl.get_move_line_recordset(['MomsIngAvdr'])
+                for line in momsIngMovesRecordSet:
+                    decl.vat_momsingavdr-=line.credit
+                    decl.vat_momsingavdr+=line.debit
+                    
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
 
             
