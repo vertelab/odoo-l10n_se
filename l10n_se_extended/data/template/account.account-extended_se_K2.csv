@@ -1,0 +1,1129 @@
+id,code,name,account_type,reconcile,name@sv_SE
+a1020,1020,Koncessioner m.m.,asset_non_current,False,Koncessioner m.m.
+a1028,1028,Ackumulerade nedskrivningar på koncessioner m.m.,asset_non_current,False,Ackumulerade nedskrivningar på koncessioner m.m.
+a1029,1029,Ackumulerade avskrivningar på koncessioner m.m.,asset_non_current,False,Ackumulerade avskrivningar på koncessioner m.m.
+a1030,1030,Patent,asset_non_current,False,Patent
+a1038,1038,Ackumulerade nedskrivningar på patent,asset_non_current,False,Ackumulerade nedskrivningar på patent
+a1039,1039,Ackumulerade avskrivningar på patent,asset_non_current,False,Ackumulerade avskrivningar på patent
+a1040,1040,Licenser,asset_non_current,False,Licenser
+a1048,1048,Ackumulerade nedskrivningar på licenser,asset_non_current,False,Ackumulerade nedskrivningar på licenser
+a1049,1049,Ackumulerade avskrivningar på licenser,asset_non_current,False,Ackumulerade avskrivningar på licenser
+a1050,1050,Varumärken,asset_non_current,False,Varumärken
+a1058,1058,Ackumulerade nedskrivningar på varumärken,asset_non_current,False,Ackumulerade nedskrivningar på varumärken
+a1059,1059,Ackumulerade avskrivningar på varumärken,asset_non_current,False,Ackumulerade avskrivningar på varumärken
+a1060,1060,"Hyresrätter, tomträtter och liknande",asset_non_current,False,"Hyresrätter, tomträtter och liknande"
+a1068,1068,"Ackumulerade nedskrivningar på hyresrätter, tomträtter och liknande",asset_non_current,False,"Ackumulerade nedskrivningar på hyresrätter, tomträtter och liknande"
+a1069,1069,"Ackumulerade avskrivningar på hyresrätter, tomträtter och liknande",asset_non_current,False,"Ackumulerade avskrivningar på hyresrätter, tomträtter och liknande"
+a1070,1070,Goodwill,asset_non_current,False,Goodwill
+a1078,1078,Ackumulerade nedskrivningar på goodwill,asset_non_current,False,Ackumulerade nedskrivningar på goodwill
+a1079,1079,Ackumulerade avskrivningar på goodwill,asset_non_current,False,Ackumulerade avskrivningar på goodwill
+a1080,1080,Förskott för immateriella anläggningstillgångar,asset_non_current,False,Förskott för immateriella anläggningstillgångar
+a1088,1088,Förskott för immateriella anläggningstillgångar,asset_prepayments,False,Förskott för immateriella anläggningstillgångar
+a1110,1110,Byggnader,asset_fixed,False,Byggnader
+a1111,1111,Byggnader på egen mark,asset_fixed,False,Byggnader på egen mark
+a1112,1112,Byggnader på annans mark,asset_fixed,False,Byggnader på annans mark
+a1118,1118,Ackumulerade nedskrivningar på byggnader,asset_fixed,False,Ackumulerade nedskrivningar på byggnader
+a1119,1119,Ackumulerade avskrivningar på byggnader,asset_fixed,False,Ackumulerade avskrivningar på byggnader
+a1120,1120,Förbättringsutgifter på annans fastighet,asset_non_current,False,Förbättringsutgifter på annans fastighet
+a1129,1129,Ackumulerade avskrivningar på förbättringsutgifter på annans fastighet,asset_non_current,False,Ackumulerade avskrivningar på förbättringsutgifter på annans fastighet
+a1130,1130,Mark,asset_fixed,False,Mark
+a1140,1140,Tomter och obebyggda markområden,asset_fixed,False,Tomter och obebyggda markområden
+a1150,1150,Markanläggningar,asset_fixed,False,Markanläggningar
+a1158,1158,Ackumulerade nedskrivningar på markanläggningar,asset_fixed,False,Ackumulerade nedskrivningar på markanläggningar
+a1159,1159,Ackumulerade avskrivningar på markanläggningar,asset_fixed,False,Ackumulerade avskrivningar på markanläggningar
+a1180,1180,Pågående nyanläggningar och förskott för byggnader och mark,asset_prepayments,False,Pågående nyanläggningar och förskott för byggnader och mark
+a1181,1181,"Pågående ny-, till- och ombyggnad",asset_prepayments,False,"Pågående ny-, till- och ombyggnad"
+a1188,1188,Förskott för byggnader och mark,asset_prepayments,False,Förskott för byggnader och mark
+a1210,1210,Maskiner och andra tekniska anläggningar,asset_fixed,False,Maskiner och andra tekniska anläggningar
+a1211,1211,Maskiner,asset_fixed,False,Maskiner
+a1213,1213,Andra tekniska anläggningar,asset_fixed,False,Andra tekniska anläggningar
+a1218,1218,Ackumulerade nedskrivningar på maskiner och andra tekniska anläggningar,asset_fixed,False,Ackumulerade nedskrivningar på maskiner och andra tekniska anläggningar
+a1219,1219,Ackumulerade avskrivningar på maskiner och andra tekniska anläggningar,asset_fixed,False,Ackumulerade avskrivningar på maskiner och andra tekniska anläggningar
+a1220,1220,Inventarier och verktyg,asset_fixed,False,Inventarier och verktyg
+a1221,1221,Inventarier,asset_fixed,False,Inventarier
+a1222,1222,Byggnadsinventarier,asset_fixed,False,Byggnadsinventarier
+a1223,1223,Markinventarier,asset_fixed,False,Markinventarier
+a1225,1225,Verktyg,asset_fixed,False,Verktyg
+a1228,1228,Ackumulerade nedskrivningar på inventarier och verktyg,asset_fixed,False,Ackumulerade nedskrivningar på inventarier och verktyg
+a1229,1229,Ackumulerade avskrivningar på inventarier och verktyg,asset_fixed,False,Ackumulerade avskrivningar på inventarier och verktyg
+a1230,1230,Installationer,asset_fixed,False,Installationer
+a1231,1231,Installationer på egen fastighet,asset_fixed,False,Installationer på egen fastighet
+a1232,1232,Installationer på annans fastig het,asset_fixed,False,Installationer på annans fastig het
+a1238,1238,Ackumulerade nedskrivningar på installationer,asset_fixed,False,Ackumulerade nedskrivningar på installationer
+a1239,1239,Ackumulerade avskrivningar på installationer,asset_fixed,False,Ackumulerade avskrivningar på installationer
+a1240,1240,Bilar och andra transportmedel,asset_fixed,False,Bilar och andra transportmedel
+a1241,1241,Personbilar,asset_fixed,False,Personbilar
+a1242,1242,Lastbilar,asset_fixed,False,Lastbilar
+a1243,1243,Truckar,asset_fixed,False,Truckar
+a1244,1244,Arbetsmaskiner,asset_fixed,False,Arbetsmaskiner
+a1245,1245,Traktorer,asset_fixed,False,Traktorer
+a1246,1246,"Motorcyklar, mopeder och skotrar",asset_fixed,False,"Motorcyklar, mopeder och skotrar"
+a1247,1247,"Båtar, flygplan och helikoptrar",asset_fixed,False,"Båtar, flygplan och helikoptrar"
+a1248,1248,Ackumulerade nedskrivningar på bilar och andra transportmedel,asset_fixed,False,Ackumulerade nedskrivningar på bilar och andra transportmedel
+a1249,1249,Ackumulerade avskrivningar på bilar och andra transportmedel,asset_fixed,False,Ackumulerade avskrivningar på bilar och andra transportmedel
+a1250,1250,Datorer,asset_fixed,False,Datorer
+a1251,1251,"Datorer, företaget",asset_fixed,False,"Datorer, företaget"
+a1257,1257,"Datorer, personal",asset_fixed,False,"Datorer, personal"
+a1258,1258,Ackumulerade nedskrivningar på datorer,asset_fixed,False,Ackumulerade nedskrivningar på datorer
+a1259,1259,Ackumulerade avskrivningar på datorer,asset_fixed,False,Ackumulerade avskrivningar på datorer
+a1280,1280,Pågående nyanläggningar och förskott för maskiner och inventarier,asset_prepayments,False,Pågående nyanläggningar och förskott för maskiner och inventarier
+a1281,1281,"Pågående nyanläggningar, maskiner och inventarier",asset_prepayments,False,"Pågående nyanläggningar, maskiner och inventarier"
+a1288,1288,Förskott för maskiner och inventarier,asset_prepayments,False,Förskott för maskiner och inventarier
+a1290,1290,Övriga materiella anläggningstillgångar,asset_fixed,False,Övriga materiella anläggningstillgångar
+a1291,1291,Konst och liknande tillgångar,asset_fixed,False,Konst och liknande tillgångar
+a1292,1292,Djur som klassificeras som anläggningstillgång,asset_fixed,False,Djur som klassificeras som anläggningstillgång
+a1298,1298,Ackumulerade nedskrivningar på övriga materiella anläggningstillgångar,asset_fixed,False,Ackumulerade nedskrivningar på övriga materiella anläggningstillgångar
+a1299,1299,Ackumulerade avskrivningar på övriga materiella anläggningstillgångar,asset_fixed,False,Ackumulerade avskrivningar på övriga materiella anläggningstillgångar
+a1310,1310,Andelar i koncernföretag,asset_non_current,False,Andelar i koncernföretag
+a1311,1311,Aktier i noterade svenska koncernföretag,asset_non_current,False,Aktier i noterade svenska koncernföretag
+a1312,1312,Aktier i onoterade svenska koncernföretag,asset_non_current,False,Aktier i onoterade svenska koncernföretag
+a1313,1313,Aktier i noterade utländska koncernföretag,asset_non_current,False,Aktier i noterade utländska koncernföretag
+a1314,1314,Aktier i onoterade utländska koncernföretag,asset_non_current,False,Aktier i onoterade utländska koncernföretag
+a1316,1316,Andra andelar i svenska koncernföretag,asset_non_current,False,Andra andelar i svenska koncernföretag
+a1317,1317,Andra andelar i utländska koncernförertag,asset_non_current,False,Andra andelar i utländska koncernförertag
+a1318,1318,Ackumulerade nedskrivningar av andelar i koncernföretag,asset_non_current,False,Ackumulerade nedskrivningar av andelar i koncernföretag
+a1320,1320,Långfristiga fordringar hos koncernföretag,asset_receivable,True,Långfristiga fordringar hos koncernföretag
+a1321,1321,Långfristiga fordringar hos moderföretag,asset_receivable,True,Långfristiga fordringar hos moderföretag
+a1322,1322,Långfristiga fordringar hos dotterföretag,asset_receivable,True,Långfristiga fordringar hos dotterföretag
+a1323,1323,Långfristiga fordringar hos andra koncernföretag,asset_receivable,True,Långfristiga fordringar hos andra koncernföretag
+a1328,1328,Ackumulerade nedskrivningar av långfristiga fordringar hos koncernföretag,asset_receivable,True,Ackumulerade nedskrivningar av långfristiga fordringar hos koncernföretag
+a1330,1330,"Andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",asset_non_current,False,"Andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a1331,1331,Andelar i intresseföretag,asset_non_current,False,Andelar i intresseföretag
+a1332,1332,Ackumulerade nedskrivningar av andelar i intresseföretag,asset_non_current,False,Ackumulerade nedskrivningar av andelar i intresseföretag
+a1333,1333,Andelar i gemensamt styrda företag,asset_non_current,False,Andelar i gemensamt styrda företag
+a1334,1334,Ackumulerade nedskrivningar av andelar i gemensamt styrda företag,asset_non_current,False,Ackumulerade nedskrivningar av andelar i gemensamt styrda företag
+a1336,1336,Andelar i övriga företag som det finns ett ägarintresse i,asset_non_current,False,Andelar i övriga företag som det finns ett ägarintresse i
+a1337,1337,Ackumulerade nedskrivningar av andelar i övriga företag som det finns ett ägarintresse i,asset_non_current,False,Ackumulerade nedskrivningar av andelar i övriga företag som det finns ett ägarintresse i
+a1338,1338,"Ackumulerade nedskrivningar av andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",asset_non_current,False,"Ackumulerade nedskrivningar av andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a1340,1340,"Långfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",liability_non_current,False,"Långfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a1341,1341,Långfristiga fordringar hos intresseföretag,liability_non_current,False,Långfristiga fordringar hos intresseföretag
+a1342,1342,Ackumulerade nedskrivningar av långfristiga fordringar hos intresseföretag,liability_non_current,False,Ackumulerade nedskrivningar av långfristiga fordringar hos intresseföretag
+a1343,1343,Långfristiga fordringar hos gemensamt styrda företag,liability_non_current,False,Långfristiga fordringar hos gemensamt styrda företag
+a1344,1344,Ackumulerade nedskrivningar av långfristiga fordringar hos gemensamt styrda företag,liability_non_current,False,Ackumulerade nedskrivningar av långfristiga fordringar hos gemensamt styrda företag
+a1346,1346,Långfristiga fordringar hos övriga företag som det finns ett ägarintresse i,liability_non_current,False,Långfristiga fordringar hos övriga företag som det finns ett ägarintresse i
+a1347,1347,Ackumulerade nedskrivningar av långfristiga fordringar hos övriga företag som det finns ett ägarintresse i,liability_non_current,False,Ackumulerade nedskrivningar av långfristiga fordringar hos övriga företag som det finns ett ägarintresse i
+a1348,1348,"Ackumulerade nedskrivningar av långfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",liability_non_current,False,"Ackumulerade nedskrivningar av långfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a1350,1350,Andelar och värdepapper i andra företag,asset_non_current,False,Andelar och värdepapper i andra företag
+a1351,1351,Andelar i noterade företag,asset_non_current,False,Andelar i noterade företag
+a1352,1352,Andra andelar,asset_non_current,False,Andra andelar
+a1353,1353,Andelar i bostadsrättsföreningar,asset_non_current,False,Andelar i bostadsrättsföreningar
+a1354,1354,Obligationer,asset_non_current,False,Obligationer
+a1356,1356,"Andelar i ekonomiska föreningar, övriga företag",asset_non_current,False,"Andelar i ekonomiska föreningar, övriga företag"
+a1357,1357,"Andelar i handelsbolag, andra företag",asset_non_current,False,"Andelar i handelsbolag, andra företag"
+a1358,1358,Ackumulerade nedskrivningar av andra andelar och värdepapper,asset_non_current,False,Ackumulerade nedskrivningar av andra andelar och värdepapper
+a1360,1360,"Lån till delägare eller närstående enligt ABL, långfristig del",liability_non_current,False,"Lån till delägare eller närstående enligt ABL, långfristig del"
+a1369,1369,"Ackumulerade nedskrivningar av lån till delägare eller närstående enligt ABL, långfristig del",liability_non_current,False,"Ackumulerade nedskrivningar av lån till delägare eller närstående enligt ABL, långfristig del"
+a1380,1380,Andra långfristiga fordringar,liability_non_current,False,Andra långfristiga fordringar
+a1381,1381,Långfristiga reversfordringar,liability_non_current,False,Långfristiga reversfordringar
+a1382,1382,Långfristiga fordringar hos anställda,liability_non_current,False,Långfristiga fordringar hos anställda
+a1383,1383,"Lämnade depositioner, långfristiga",liability_non_current,False,"Lämnade depositioner, långfristiga"
+a1384,1384,Derivat,liability_non_current,False,Derivat
+a1385,1385,Värde av kapitalförsäkring,liability_non_current,False,Värde av kapitalförsäkring
+a1387,1387,Långfristiga kontraktsfordringar,liability_non_current,False,Långfristiga kontraktsfordringar
+a1388,1388,Långfristiga kundfordringar,liability_non_current,False,Långfristiga kundfordringar
+a1389,1389,Ackumulerade nedskrivningar av andra långfristiga fordringar,liability_non_current,False,Ackumulerade nedskrivningar av andra långfristiga fordringar
+a1419,1419,Förändring av lager av råvaror,expense_direct_cost,False,Förändring av lager av råvaror
+a1420,1420,Lager av tillsatsmaterial och förnödenheter,expense_direct_cost,False,Lager av tillsatsmaterial och förnödenheter
+a1429,1429,Förändring av lager av tillsatsmaterial och förnödenheter,expense_direct_cost,False,Förändring av lager av tillsatsmaterial och förnödenheter
+a1440,1440,Produkter i arbete,asset_current,False,Produkter i arbete
+a1449,1449,Förändring av produkter i arbete,asset_current,False,Förändring av produkter i arbete
+a1450,1450,Lager av färdiga varor,asset_current,False,Lager av färdiga varor
+a1459,1459,Förändring av lager av färdiga varor,asset_current,False,Förändring av lager av färdiga varor
+a1460,1460,Lager av handelsvaror,asset_current,False,Lager av handelsvaror
+a1465,1465,Lager av varor VMB,asset_current,False,Lager av varor VMB
+a1466,1466,Nedskrivning av varor VMB,asset_current,False,Nedskrivning av varor VMB
+a1467,1467,Lager av varor VMB förenklad,asset_current,False,Lager av varor VMB förenklad
+a1469,1469,Förändring av lager av handelsvaror,asset_current,False,Förändring av lager av handelsvaror
+a1470,1470,Pågående arbeten,asset_current,False,Pågående arbeten
+a1471,1471,"Pågående arbeten, nedlagda kostnader",asset_current,False,"Pågående arbeten, nedlagda kostnader"
+a1478,1478,"Pågående arbeten, fakturering",asset_current,False,"Pågående arbeten, fakturering"
+a1479,1479,Förändring av pågående arbeten,asset_current,False,Förändring av pågående arbeten
+a1480,1480,Förskott för varor och tjänster,asset_prepayments,False,Förskott för varor och tjänster
+a1481,1481,Remburser,asset_prepayments,False,Remburser
+a1489,1489,Övriga förskott till leverantörer,asset_prepayments,False,Övriga förskott till leverantörer
+a1490,1490,Övriga lagertillgångar,asset_non_current,False,Övriga lagertillgångar
+a1491,1491,Lager av värdepapper,asset_non_current,False,Lager av värdepapper
+a1492,1492,Lager av fastigheter,asset_non_current,False,Lager av fastigheter
+a1493,1493,Djur som klassificeras som omsättningstillgång,asset_non_current,False,Djur som klassificeras som omsättningstillgång
+a1511,1511,Kundfordringar,asset_receivable,True,Kundfordringar
+a1512,1512,Belånade kundfordringar (factoring),asset_receivable,True,Belånade kundfordringar (factoring)
+a1513,1513,Kundfordringar – delad faktura,asset_receivable,True,Kundfordringar – delad faktura
+a1516,1516,Tvistiga kundfordringar,asset_receivable,True,Tvistiga kundfordringar
+a1518,1518,Ej reskontraförda kundfordringar,asset_receivable,True,Ej reskontraförda kundfordringar
+a1519,1519,Nedskrivning av kundfordringar,asset_receivable,True,Nedskrivning av kundfordringar
+a1520,1520,Växelfordringar,asset_receivable,True,Växelfordringar
+a1525,1525,Osäkra växelfordringar,asset_receivable,True,Osäkra växelfordringar
+a1529,1529,Nedskrivning av växelfordringar,asset_receivable,True,Nedskrivning av växelfordringar
+a1530,1530,Kontraktsfordringar,asset_receivable,True,Kontraktsfordringar
+a1531,1531,Kontraktsfordringar,asset_receivable,True,Kontraktsfordringar
+a1532,1532,Belånade kontraktsfordringar,asset_receivable,True,Belånade kontraktsfordringar
+a1536,1536,Tvistiga kontraktsfordringar,asset_receivable,True,Tvistiga kontraktsfordringar
+a1539,1539,Nedskrivning av kontraktsfordringar,asset_receivable,True,Nedskrivning av kontraktsfordringar
+a1550,1550,Konsignationsfordringar,asset_receivable,True,Konsignationsfordringar
+a1560,1560,Kundfordringar hos koncernföretag,asset_receivable,True,Kundfordringar hos koncernföretag
+a1561,1561,Kundfordringar hos moderföretag,asset_receivable,True,Kundfordringar hos moderföretag
+a1562,1562,Kundfordringar hos dotterföretag,asset_receivable,True,Kundfordringar hos dotterföretag
+a1563,1563,Kundfordringar hos andra koncernföretag,asset_receivable,True,Kundfordringar hos andra koncernföretag
+a1568,1568,Ej reskontraförda kundfordringar hos koncernföretag,asset_receivable,True,Ej reskontraförda kundfordringar hos koncernföretag
+a1569,1569,Nedskrivning av kundfordringar hos koncernföretag,asset_receivable,True,Nedskrivning av kundfordringar hos koncernföretag
+a1570,1570,"Kundfordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",asset_receivable,True,"Kundfordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a1571,1571,Kundfordringar hos intresseföretag,liability_current,True,Kundfordringar hos intresseföretag
+a1572,1572,Kundfordringar hos gemensamt styrda företag,liability_current,True,Kundfordringar hos gemensamt styrda företag
+a1573,1573,Kundfordringar hos övriga företag som det finns ett ägarintresse i,liability_current,True,Kundfordringar hos övriga företag som det finns ett ägarintresse i
+a1580,1580,Fordringar för kontokort och kuponger,asset_receivable,True,Fordringar för kontokort och kuponger
+a1610,1610,Kortfristiga fordringar hos anställda,liability_payable,True,Kortfristiga fordringar hos anställda
+a1611,1611,Reseförskott,liability_payable,True,Reseförskott
+a1612,1612,Kassaförskott,liability_payable,True,Kassaförskott
+a1613,1613,Övriga förskott,liability_payable,True,Övriga förskott
+a1614,1614,Tillfälliga lån till anställda,liability_payable,True,Tillfälliga lån till anställda
+a1619,1619,Övriga fordringar hos anställda,liability_payable,True,Övriga fordringar hos anställda
+a1620,1620,Upparbetad men ej fakturerad intäkt,liability_payable,True,Upparbetad men ej fakturerad intäkt
+a1640,1640,Skattefordringar,liability_payable,True,Skattefordringar
+a1660,1660,Kortfristiga fordringar hos koncernföretag,asset_receivable,True,Kortfristiga fordringar hos koncernföretag
+a1661,1661,Kortfristiga fordringar hos moderföretag,asset_receivable,True,Kortfristiga fordringar hos moderföretag
+a1662,1662,Kortfristiga fordringar hos dotterföretag,asset_receivable,True,Kortfristiga fordringar hos dotterföretag
+a1663,1663,Kortfristiga fordringar hos andra koncernföretag,asset_receivable,True,Kortfristiga fordringar hos andra koncernföretag
+a1670,1670,"Kortfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",asset_receivable,True,"Kortfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a1671,1671,Kortfristiga fordringar hos intresseföretag,liability_current,True,Kortfristiga fordringar hos intresseföretag
+a1672,1672,Kortfristiga fordringar hos gemensamt styrda företag,liability_current,True,Kortfristiga fordringar hos gemensamt styrda företag
+a1673,1673,Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i,liability_current,True,Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i
+a1680,1680,Andra kortfristiga fordringar,liability_payable,True,Andra kortfristiga fordringar
+a1681,1681,Utlägg för kunder,liability_payable,True,Utlägg för kunder
+a1682,1682,Kortfristiga lånefordringar,liability_payable,True,Kortfristiga lånefordringar
+a1683,1683,Derivat,liability_payable,True,Derivat
+a1684,1684,Kortfristiga fordringar hos leverantörer,liability_payable,True,Kortfristiga fordringar hos leverantörer
+a1685,1685,Kortfristiga fordringar hos delägare eller närstående,liability_payable,True,Kortfristiga fordringar hos delägare eller närstående
+a1687,1687,Kortfristig del av långfristiga fordringar,liability_payable,True,Kortfristig del av långfristiga fordringar
+a1688,1688,Fordran arbetsmarknadsförsäkringar,liability_payable,True,Fordran arbetsmarknadsförsäkringar
+a1689,1689,Övriga kortfristiga fordringar,liability_payable,True,Övriga kortfristiga fordringar
+a1690,1690,Fordringar för tecknat men ej inbetalt aktiekapital,liability_current,True,Fordringar för tecknat men ej inbetalt aktiekapital
+a1710,1710,Förutbetalda hyreskostnader,asset_prepayments,False,Förutbetalda hyreskostnader
+a1720,1720,Förutbetalda leasingavgifter,asset_prepayments,False,Förutbetalda leasingavgifter
+a1730,1730,Förutbetalda försäkringspremier,asset_prepayments,False,Förutbetalda försäkringspremier
+a1740,1740,Förutbetalda räntekostnader,asset_prepayments,False,Förutbetalda räntekostnader
+a1750,1750,Upplupna hyresintäkter,asset_prepayments,False,Upplupna hyresintäkter
+a1760,1760,Upplupna ränteintäkter,asset_prepayments,False,Upplupna ränteintäkter
+a1770,1770,Tillgångar av kostnadsnatur,asset_prepayments,False,Tillgångar av kostnadsnatur
+a1780,1780,Upplupna avtalsintäkter,asset_prepayments,False,Upplupna avtalsintäkter
+a1790,1790,Övriga förutbetalda kostnader och upplupna intäkter,asset_prepayments,False,Övriga förutbetalda kostnader och upplupna intäkter
+a1810,1810,Andelar i börsnoterade företag,asset_current,False,Andelar i börsnoterade företag
+a1820,1820,Obligationer,asset_current,False,Obligationer
+a1830,1830,Konvertibla skuldebrev,asset_current,False,Konvertibla skuldebrev
+a1860,1860,"Andelar i koncernföretag, kortfristigt",asset_non_current,False,"Andelar i koncernföretag, kortfristigt"
+a1880,1880,Andra kortfristiga placeringar,asset_current,False,Andra kortfristiga placeringar
+a1886,1886,Derivat,asset_current,False,Derivat
+a1889,1889,Andelar i övriga företag,asset_current,False,Andelar i övriga företag
+a1890,1890,Nedskrivning av kortfristiga placeringar,asset_current,False,Nedskrivning av kortfristiga placeringar
+a1911,1911,Huvudkassa,asset_cash,False,Huvudkassa
+a1912,1912,Kassa 2,asset_cash,False,Kassa 2
+a1913,1913,Kassa 3,asset_cash,False,Kassa 3
+a1940,1940,Övriga bankkonton,asset_cash,False,Övriga bankkonton
+a1950,1950,Bankcertifikat,asset_cash,False,Bankcertifikat
+a1960,1960,Koncernkonto moderföretag,asset_cash,False,Koncernkonto moderföretag
+a1970,1970,Särskilda bankkonton,asset_cash,False,Särskilda bankkonton
+a1972,1972,Upphovsmannakonto,asset_cash,False,Upphovsmannakonto
+a1973,1973,Skogskonto,asset_cash,False,Skogskonto
+a1974,1974,Spärrade bankmedel,asset_cash,False,Spärrade bankmedel
+a1979,1979,Övriga särskilda bankkonton,asset_cash,False,Övriga särskilda bankkonton
+a1980,1980,Valutakonton,asset_cash,False,Valutakonton
+a1990,1990,Redovisningsmedel,asset_cash,False,Redovisningsmedel
+a2010,2010,"Eget kapital, delägare 1",equity,False,"Eget kapital, delägare 1"
+a2011,2011,Egna varuuttag,equity,False,Egna varuuttag
+a2013,2013,Övriga egna uttag,equity,False,Övriga egna uttag
+a2017,2017,Årets kapitaltillskott,equity,False,Årets kapitaltillskott
+a2018,2018,Övriga egna insättningar,equity,False,Övriga egna insättningar
+a2019,2019,"Årets resultat, delägare 1",equity,False,"Årets resultat, delägare 1"
+a2020,2020,"Eget kapital, delägare 2",equity,False,"Eget kapital, delägare 2"
+a2030,2030,"Eget kapital, delägare 3",equity,False,"Eget kapital, delägare 3"
+a2040,2040,"Eget kapital, delägare 4",equity,False,"Eget kapital, delägare 4"
+a2050,2050,Avsättning till expansionsfond,equity,False,Avsättning till expansionsfond
+a2060,2060,"Eget kapital i ideella föreningar, stiftelser och registrerade trossamfund",equity,False,"Eget kapital i ideella föreningar, stiftelser och registrerade trossamfund"
+a2061,2061,Eget kapital/stiftelsekapital/grundkapital,equity,False,Eget kapital/stiftelsekapital/grundkapital
+a2065,2065,Förändring i fond för verkligt värde,equity,False,Förändring i fond för verkligt värde
+a2066,2066,Värdesäkringsfond,equity,False,Värdesäkringsfond
+a2067,2067,Balanserad vinst eller förlust/balanserat kapital,equity,False,Balanserad vinst eller förlust/balanserat kapital
+a2068,2068,Vinst eller förlust från föregående år,equity,False,Vinst eller förlust från föregående år
+a2069,2069,Årets resultat,equity,False,Årets resultat
+a2070,2070,Ändamålsbestämda medel,equity,False,Ändamålsbestämda medel
+a2071,2071,Ändamål 1,equity,False,Ändamål 1
+a2072,2072,Ändamål 2,equity,False,Ändamål 2
+a2080,2080,Bundet eget kapital,equity,False,Bundet eget kapital
+a2081,2081,Aktiekapital,equity,False,Aktiekapital
+a2082,2082,Ej registrerat aktiekapital,equity,False,Ej registrerat aktiekapital
+a2083,2083,Medlemsinsatser,equity,False,Medlemsinsatser
+a2084,2084,Förlagsinsatser,equity,False,Förlagsinsatser
+a2085,2085,Uppskrivningsfond,equity,False,Uppskrivningsfond
+a2086,2086,Reservfond,equity,False,Reservfond
+a2087,2087,Bunden överkursfond (aktiebolag),equity,False,Bunden överkursfond (aktiebolag)
+a2087,2087,Insatsemission (ekonomiska föreningar),equity,False,Insatsemission (ekonomiska föreningar)
+a2088,2088,Fond för yttre underhåll,equity,False,Fond för yttre underhåll
+a2089,2089,Fond för utvecklingsutgifter,equity,False,Fond för utvecklingsutgifter
+a2090,2090,Fritt eget kapital,equity,False,Fritt eget kapital
+a2091,2091,Balanserad vinst eller förlust,equity,False,Balanserad vinst eller förlust
+a2093,2093,Erhållna aktieägartillskott,equity,False,Erhållna aktieägartillskott
+a2094,2094,Egna aktier,equity,False,Egna aktier
+a2095,2095,Fusionsresultat,equity,False,Fusionsresultat
+a2097,2097,Fri överkursfond,equity,False,Fri överkursfond
+a2098,2098,Vinst eller förlust från föregående år,equity,False,Vinst eller förlust från föregående år
+a2099,2099,Årets resultat,equity,False,Årets resultat
+a2110,2110,Periodiseringsfonder,equity,False,Periodiseringsfonder
+a2120,2120,Periodiseringsfonder,equity,False,Periodiseringsfonder
+a2120,2120,Periodiseringsfond 2020,equity,False,Periodiseringsfond 2020
+a2121,2121,Periodiseringsfond 2021,equity,False,Periodiseringsfond 2021
+a2122,2122,Periodiseringsfond 2022,equity,False,Periodiseringsfond 2022
+a2123,2123,Periodiseringsfond 2023,equity,False,Periodiseringsfond 2023
+a2125,2125,Periodiseringsfond 2015,equity,False,Periodiseringsfond 2015
+a2126,2126,Periodiseringsfond 2016,equity,False,Periodiseringsfond 2016
+a2127,2127,Periodiseringsfond 2017,equity,False,Periodiseringsfond 2017
+a2128,2128,Periodiseringsfond 2018,equity,False,Periodiseringsfond 2018
+a2129,2129,Periodiseringsfond 2019,equity,False,Periodiseringsfond 2019
+a2130,2130,Periodiseringsfonder,equity,False,Periodiseringsfonder
+a2130,2130,Periodiseringsfond 2020 – nr 2,equity,False,Periodiseringsfond 2020 – nr 2
+a2131,2131,Periodiseringsfond 2021 – nr 2,equity,False,Periodiseringsfond 2021 – nr 2
+a2132,2132,Periodiseringsfond 2022 – nr 2,equity,False,Periodiseringsfond 2022 – nr 2
+a2133,2133,Periodiseringsfond 2023 – nr 2,equity,False,Periodiseringsfond 2023 – nr 2
+a2134,2134,Periodiseringsfond 2024 – nr 2,equity,False,Periodiseringsfond 2024 – nr 2
+a2135,2135,Periodiseringsfond 2015 – nr 2,equity,False,Periodiseringsfond 2015 – nr 2
+a2136,2136,Periodiseringsfond 2016 – nr 2,equity,False,Periodiseringsfond 2016 – nr 2
+a2137,2137,Periodiseringsfond 2017 – nr 2,equity,False,Periodiseringsfond 2017 – nr 2
+a2138,2138,Periodiseringsfond 2018 – nr 2,equity,False,Periodiseringsfond 2018 – nr 2
+a2139,2139,Periodiseringsfond 2019 – nr 2,equity,False,Periodiseringsfond 2019 – nr 2
+a2150,2150,Ackumulerade överavskrivningar,liability_non_current,False,Ackumulerade överavskrivningar
+a2151,2151,Ackumulerade överavskrivningar på immateriella anläggningstillgångar,liability_non_current,False,Ackumulerade överavskrivningar på immateriella anläggningstillgångar
+a2152,2152,Ackumulerade överavskrivningar på byggnader och markanläggningar,liability_non_current,False,Ackumulerade överavskrivningar på byggnader och markanläggningar
+a2153,2153,Ackumulerade överavskrivningar på maskiner och inventarier,liability_non_current,False,Ackumulerade överavskrivningar på maskiner och inventarier
+a2160,2160,Ersättningsfond,equity,False,Ersättningsfond
+a2161,2161,Ersättningsfond maskiner och inventarier,equity,False,Ersättningsfond maskiner och inventarier
+a2162,2162,Ersättningsfond byggnader och markanläggningar,equity,False,Ersättningsfond byggnader och markanläggningar
+a2164,2164,Ersättningsfond för djurlager i jordbruk och renskötsel,equity,False,Ersättningsfond för djurlager i jordbruk och renskötsel
+a2190,2190,Övriga obeskattade reserver,equity,False,Övriga obeskattade reserver
+a2196,2196,Lagerreserv,equity,False,Lagerreserv
+a2199,2199,Övriga obeskattade reserver,equity,False,Övriga obeskattade reserver
+a2210,2210,Avsättningar för pensioner enligt tryggandelagen,liability_non_current,False,Avsättningar för pensioner enligt tryggandelagen
+a2220,2220,Avsättningar för garantier,liability_non_current,False,Avsättningar för garantier
+a2230,2230,Övriga avsättningar för pensioner och liknande förpliktelser,liability_non_current,False,Övriga avsättningar för pensioner och liknande förpliktelser
+a2250,2250,Övriga avsättningar för skatter,liability_non_current,False,Övriga avsättningar för skatter
+a2252,2252,Avsättningar för tvistiga skatter,liability_non_current,False,Avsättningar för tvistiga skatter
+a2253,2253,"Avsättningar särskild löneskatt, deklarationspost",liability_non_current,False,"Avsättningar särskild löneskatt, deklarationspost"
+a2290,2290,Övriga avsättningar,liability_non_current,False,Övriga avsättningar
+a2310,2310,Obligations- och förlagslån,asset_non_current,False,Obligations- och förlagslån
+a2320,2320,Konvertibla lån och liknande,asset_non_current,False,Konvertibla lån och liknande
+a2321,2321,Konvertibla lån,asset_non_current,False,Konvertibla lån
+a2322,2322,Lån förenade med optionsrätt,asset_non_current,False,Lån förenade med optionsrätt
+a2323,2323,Vinstandelslån,asset_non_current,False,Vinstandelslån
+a2324,2324,Kapitalandelslån,asset_non_current,False,Kapitalandelslån
+a2330,2330,Checkräkningskredit,liability_payable,True,Checkräkningskredit
+a2331,2331,Checkräkningskredit 1,liability_payable,True,Checkräkningskredit 1
+a2332,2332,Checkräkningskredit 2,liability_payable,True,Checkräkningskredit 2
+a2331,2331,Utnyttjad checkräkningskredit 1,liability_payable,True,Utnyttjad checkräkningskredit 1
+a2332,2332,Utnyttjad checkräkningskredit 2,liability_payable,True,Utnyttjad checkräkningskredit 2
+a2335,2335,Beviljad checkräkningskredit 1,liability_payable,True,Beviljad checkräkningskredit 1
+a2336,2336,Beviljad checkräkningskredit 2,liability_payable,True,Beviljad checkräkningskredit 2
+a2340,2340,Byggnadskreditiv,liability_non_current,False,Byggnadskreditiv
+a2350,2350,Andra långfristiga skulder till kreditinstitut,liability_non_current,False,Andra långfristiga skulder till kreditinstitut
+a2351,2351,"Fastighetslån, långfristig del",liability_non_current,False,"Fastighetslån, långfristig del"
+a2355,2355,Långfristiga lån i utländsk valuta från kreditinstitut,liability_non_current,False,Långfristiga lån i utländsk valuta från kreditinstitut
+a2359,2359,Övriga långfristiga lån från kreditinstitut,liability_non_current,False,Övriga långfristiga lån från kreditinstitut
+a2360,2360,Långfristiga skulder till koncernföretag,liability_non_current,False,Långfristiga skulder till koncernföretag
+a2361,2361,Långfristiga skulder till moderföretag,liability_non_current,False,Långfristiga skulder till moderföretag
+a2362,2362,Långfristiga skulder till dotterföretag,liability_non_current,False,Långfristiga skulder till dotterföretag
+a2363,2363,Långfristiga skulder till andra koncernföretag,liability_non_current,False,Långfristiga skulder till andra koncernföretag
+a2370,2370,"Långfristiga skulder till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",liability_non_current,False,"Långfristiga skulder till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a2371,2371,Långfristiga skulder till intresseföretag,liability_non_current,False,Långfristiga skulder till intresseföretag
+a2372,2372,Långfristiga skulder till gemensamt styrda företag,liability_non_current,False,Långfristiga skulder till gemensamt styrda företag
+a2373,2373,Långfristiga skulder till övriga företag som det finns ett ägarintresse i,liability_non_current,False,Långfristiga skulder till övriga företag som det finns ett ägarintresse i
+a2390,2390,Övriga långfristiga skulder,liability_non_current,False,Övriga långfristiga skulder
+a2391,2391,"Avbetalningskontrakt, långfristig del",liability_non_current,False,"Avbetalningskontrakt, långfristig del"
+a2392,2392,Villkorliga långfristiga skulder,liability_non_current,False,Villkorliga långfristiga skulder
+a2393,2393,"Lån från närstående personer, långfristig del",liability_non_current,False,"Lån från närstående personer, långfristig del"
+a2394,2394,Långfristiga leverantörskrediter,liability_non_current,False,Långfristiga leverantörskrediter
+a2395,2395,Andra långfristiga lån i utländsk valuta,liability_non_current,False,Andra långfristiga lån i utländsk valuta
+a2396,2396,Derivat,liability_non_current,False,Derivat
+a2397,2397,"Mottagna depositioner, långfristiga",liability_non_current,False,"Mottagna depositioner, långfristiga"
+a2399,2399,Övriga långfristiga skulder,liability_non_current,False,Övriga långfristiga skulder
+a2410,2410,Andra kortfristiga låneskulder till kreditinstitut,liability_non_current,True,Andra kortfristiga låneskulder till kreditinstitut
+a2411,2411,Kortfristiga lån från kreditinstitut,liability_non_current,True,Kortfristiga lån från kreditinstitut
+a2412,2412,"Byggnadskreditiv, kortfristig del",liability_non_current,True,"Byggnadskreditiv, kortfristig del"
+a2417,2417,Kortfristig del av långfristiga skulder till kreditinstitut,liability_non_current,True,Kortfristig del av långfristiga skulder till kreditinstitut
+a2419,2419,Övriga kortfristiga skulder till kreditinstitut,liability_non_current,True,Övriga kortfristiga skulder till kreditinstitut
+a2420,2420,Förskott från kunder,asset_prepayments,True,Förskott från kunder
+a2421,2421,Ej inlösta presentkort,asset_prepayments,True,Ej inlösta presentkort
+a2429,2429,Övriga förskott från kunder,asset_prepayments,True,Övriga förskott från kunder
+a2430,2430,Pågående arbeten,asset_current,True,Pågående arbeten
+a2431,2431,"Pågående arbeten, fakturering",asset_current,True,"Pågående arbeten, fakturering"
+a2438,2438,"Pågående arbeten, nedlagda kostnader",asset_current,True,"Pågående arbeten, nedlagda kostnader"
+a2439,2439,Beräknad förändring av pågående arbeten,asset_current,True,Beräknad förändring av pågående arbeten
+a2441,2441,Leverantörsskulder,liability_payable,True,Leverantörsskulder
+a2443,2443,Konsignationsskulder,liability_payable,True,Konsignationsskulder
+a2445,2445,Tvistiga leverantörsskulder,liability_payable,True,Tvistiga leverantörsskulder
+a2448,2448,Ej reskontraförda leverantörsskulder,liability_payable,True,Ej reskontraförda leverantörsskulder
+a2450,2450,Fakturerad men ej upparbetad intäkt,asset_prepayments,False,Fakturerad men ej upparbetad intäkt
+a2460,2460,Leverantörsskulder till koncernföretag,liability_non_current,False,Leverantörsskulder till koncernföretag
+a2461,2461,Leverantörsskulder till moderföretag,liability_non_current,False,Leverantörsskulder till moderföretag
+a2462,2462,Leverantörsskulder till dotterföretag,liability_non_current,False,Leverantörsskulder till dotterföretag
+a2463,2463,Leverantörsskulder till andra koncernföretag,liability_non_current,False,Leverantörsskulder till andra koncernföretag
+a2470,2470,"Leverantörsskulder till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",liability_non_current,False,"Leverantörsskulder till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a2471,2471,Leverantörsskulder till intresseföretag,liability_non_current,False,Leverantörsskulder till intresseföretag
+a2472,2472,Leverantörsskulder till gemensamt styrda företag,liability_non_current,False,Leverantörsskulder till gemensamt styrda företag
+a2473,2473,Leverantörsskulder till övriga företag som det finns ett ägarintresse i,liability_non_current,False,Leverantörsskulder till övriga företag som det finns ett ägarintresse i
+a2480,2480,"Checkräkningskredit, kortfristig",liability_payable,True,"Checkräkningskredit, kortfristig"
+a2490,2490,"Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer",liability_non_current,False,"Övriga kortfristiga skulder till kreditinstitut, kunder och leverantörer"
+a2491,2491,Avräkning spelarrangörer,liability_non_current,False,Avräkning spelarrangörer
+a2492,2492,Växelskulder,liability_payable,True,Växelskulder
+a2499,2499,Andra övriga kortfristiga skulder,liability_non_current,False,Andra övriga kortfristiga skulder
+a2510,2510,Skatteskulder,liability_current,True,Skatteskulder
+a2512,2512,Beräknad inkomstskatt,liability_current,True,Beräknad inkomstskatt
+a2513,2513,Beräknad fastighetsskatt/fastighetsavgift,liability_current,True,Beräknad fastighetsskatt/fastighetsavgift
+a2514,2514,Beräknad särskild löneskatt på pensionskostnader,liability_current,True,Beräknad särskild löneskatt på pensionskostnader
+a2515,2515,Beräknad avkastningsskatt,liability_current,True,Beräknad avkastningsskatt
+a2517,2517,Beräknad utländsk skatt,liability_current,True,Beräknad utländsk skatt
+a2518,2518,Betald F-skatt,liability_current,True,Betald F-skatt
+a2661,2661,Reklamskatt,liability_non_current,False,Reklamskatt
+a2669,2669,Övriga punktskatter,liability_non_current,False,Övriga punktskatter
+a2731,2731,Avräkning lagstadgade sociala avgifter,liability_non_current,False,Avräkning lagstadgade sociala avgifter
+a2732,2732,Avräkning särskild löneskatt,liability_non_current,False,Avräkning särskild löneskatt
+a2740,2740,Avtalade sociala avgifter,liability_non_current,False,Avtalade sociala avgifter
+a2750,2750,Utmätning i lön m.m.,liability_non_current,False,Utmätning i lön m.m.
+a2761,2761,Avräkning semesterlöner,liability_non_current,False,Avräkning semesterlöner
+a2762,2762,Semesterlönekassa,liability_non_current,False,Semesterlönekassa
+a2790,2790,Övriga löneavdrag,liability_non_current,False,Övriga löneavdrag
+a2791,2791,Personalens intressekonto,liability_non_current,False,Personalens intressekonto
+a2792,2792,Lönsparande,liability_non_current,False,Lönsparande
+a2793,2793,Gruppförsäkringspremier,liability_non_current,False,Gruppförsäkringspremier
+a2794,2794,Fackföreningsavgifter,liability_non_current,False,Fackföreningsavgifter
+a2795,2795,Mätnings- och granskningsarvoden,liability_non_current,False,Mätnings- och granskningsarvoden
+a2799,2799,Övriga löneavdrag,liability_non_current,False,Övriga löneavdrag
+a2810,2810,Avräkning för factoring och belånade kontraktsfordringar,liability_non_current,False,Avräkning för factoring och belånade kontraktsfordringar
+a2811,2811,Avräkning för factoring,liability_non_current,False,Avräkning för factoring
+a2812,2812,Avräkning för belånade kontraktsfordringar,liability_non_current,False,Avräkning för belånade kontraktsfordringar
+a2820,2820,Kortfristiga skulder till anställda,liability_non_current,False,Kortfristiga skulder till anställda
+a2821,2821,Löneskulder,liability_non_current,False,Löneskulder
+a2822,2822,Reseräkningar,liability_non_current,False,Reseräkningar
+a2823,2823,"Tantiem, gratifikationer",liability_non_current,False,"Tantiem, gratifikationer"
+a2829,2829,Övriga kortfristiga skulder till anställda,liability_non_current,False,Övriga kortfristiga skulder till anställda
+a2830,2830,Avräkning för annans räkning,liability_non_current,False,Avräkning för annans räkning
+a2840,2840,Kortfristiga låneskulder,liability_non_current,False,Kortfristiga låneskulder
+a2841,2841,Kortfristig del av långfristiga skulder,liability_non_current,False,Kortfristig del av långfristiga skulder
+a2849,2849,Övriga kortfristiga låneskulder,liability_non_current,False,Övriga kortfristiga låneskulder
+a2852,2852,"Anståndsbelopp för moms, arbetsgivaravgifter och personalskatt",liability_non_current,False,"Anståndsbelopp för moms, arbetsgivaravgifter och personalskatt"
+a2860,2860,Kortfristiga skulder till koncernföretag,liability_non_current,False,Kortfristiga skulder till koncernföretag
+a2861,2861,Kortfristiga skulder till moderföretag,liability_non_current,False,Kortfristiga skulder till moderföretag
+a2862,2862,Kortfristiga skulder till dotterföretag,liability_non_current,False,Kortfristiga skulder till dotterföretag
+a2863,2863,Kortfristiga skulder till andra koncernföretag,liability_non_current,False,Kortfristiga skulder till andra koncernföretag
+a2870,2870,"Kortfristiga skulder till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",liability_non_current,False,"Kortfristiga skulder till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a2871,2871,Kortfristiga skulder till intresseföretag,liability_non_current,False,Kortfristiga skulder till intresseföretag
+a2872,2872,Kortfristiga skulder till gemensamt styrda företag,liability_non_current,False,Kortfristiga skulder till gemensamt styrda företag
+a2873,2873,Kortfristiga skulder till övriga företag som det finns ett ägarintresse i,liability_non_current,False,Kortfristiga skulder till övriga företag som det finns ett ägarintresse i
+a2880,2880,Skuld erhållna bidrag,liability_non_current,False,Skuld erhållna bidrag
+a2890,2890,Övriga kortfristiga skulder,liability_non_current,False,Övriga kortfristiga skulder
+a2891,2891,Skulder under indrivning,liability_non_current,False,Skulder under indrivning
+a2892,2892,Inre reparationsfond/underhållsfond,liability_non_current,False,Inre reparationsfond/underhållsfond
+a2893,2893,"Skulder till närstående personer, kortfristig del",liability_non_current,False,"Skulder till närstående personer, kortfristig del"
+a2895,2895,Derivat (kortfristiga skulder),liability_non_current,False,Derivat (kortfristiga skulder)
+a2897,2897,"Mottagna depositioner, kortfristiga",liability_non_current,False,"Mottagna depositioner, kortfristiga"
+a2898,2898,Outtagen vinstutdelning,liability_non_current,False,Outtagen vinstutdelning
+a2899,2899,Övriga kortfristiga skulder,liability_non_current,False,Övriga kortfristiga skulder
+a2910,2910,Upplupna löner,liability_payable,True,Upplupna löner
+a2911,2911,Löneskulder,liability_payable,True,Löneskulder
+a2912,2912,Ackordsöverskott,liability_payable,True,Ackordsöverskott
+a2919,2919,Övriga upplupna löner,liability_payable,True,Övriga upplupna löner
+a2920,2920,Upplupna semesterlöner,liability_payable,True,Upplupna semesterlöner
+a2930,2930,Upplupna pensionskostnader,liability_payable,True,Upplupna pensionskostnader
+a2931,2931,Upplupna pensionsutbetalningar,liability_payable,True,Upplupna pensionsutbetalningar
+a2940,2940,Upplupna lagstadgade sociala och andra avgifter,liability_payable,True,Upplupna lagstadgade sociala och andra avgifter
+a2941,2941,Beräknade upplupna lagstadgade sociala avgifter,liability_payable,True,Beräknade upplupna lagstadgade sociala avgifter
+a2942,2942,Beräknad upplupen särskild löneskatt,liability_payable,True,Beräknad upplupen särskild löneskatt
+a2943,2943,"Beräknad upplupen särskild löneskatt på pensionskostnader, deklarationspost",liability_payable,True,"Beräknad upplupen särskild löneskatt på pensionskostnader, deklarationspost"
+a2944,2944,Beräknad upplupen avkastningsskatt på pensionskostnader,liability_payable,True,Beräknad upplupen avkastningsskatt på pensionskostnader
+a2950,2950,Upplupna avtalade sociala avgifter,liability_payable,True,Upplupna avtalade sociala avgifter
+a2951,2951,Upplupna avtalade arbetsmarknadsförsäkringar,liability_payable,True,Upplupna avtalade arbetsmarknadsförsäkringar
+a2959,2959,"Upplupna avtalade pensionsförsäkringsavgifter, deklarationspost",liability_payable,True,"Upplupna avtalade pensionsförsäkringsavgifter, deklarationspost"
+a2960,2960,Upplupna räntekostnader,liability_payable,True,Upplupna räntekostnader
+a2970,2970,Förutbetalda intäkter,liability_payable,True,Förutbetalda intäkter
+a2971,2971,Förutbetalda hyresintäkter,liability_payable,True,Förutbetalda hyresintäkter
+a2972,2972,Förutbetalda medlemsavgifter,liability_payable,True,Förutbetalda medlemsavgifter
+a2979,2979,Övriga förutbetalda intäkter,liability_payable,True,Övriga förutbetalda intäkter
+a2980,2980,Upplupna avtalskostnader,liability_payable,True,Upplupna avtalskostnader
+a2990,2990,Övriga upplupna kostnader och förutbetalda intäkter,liability_payable,True,Övriga upplupna kostnader och förutbetalda intäkter
+a2991,2991,Beräknat arvode för bokslut,liability_payable,True,Beräknat arvode för bokslut
+a2992,2992,Beräknat arvode för revision,liability_payable,True,Beräknat arvode för revision
+a2993,2993,Ospecificerad skuld till leverantörer,liability_payable,True,Ospecificerad skuld till leverantörer
+a2998,2998,Övriga upplupna kostnader och förutbetalda intäkter,liability_payable,True,Övriga upplupna kostnader och förutbetalda intäkter
+a2999,2999,OBS-konto,liability_payable,True,OBS-konto
+a3100,3100,Försäljning av varor utanför Sverige,income,False,Försäljning av varor utanför Sverige
+a3105,3105,Försäljning varor till land utanför EU,income,False,Försäljning varor till land utanför EU
+a3106,3106,"Försäljning varor till annat EU-land, momspliktig",income,False,"Försäljning varor till annat EU-land, momspliktig"
+a3108,3108,"Försäljning varor till annat EU-land, momsfri",income,False,"Försäljning varor till annat EU-land, momsfri"
+a3200,3200,Försäljning VMB och omvänd moms,income,False,Försäljning VMB och omvänd moms
+a3211,3211,Försäljning positiv VMB 25 %,income,False,Försäljning positiv VMB 25 %
+a3212,3212,Försäljning negativ VMB 25 %,income,False,Försäljning negativ VMB 25 %
+a3231,3231,"Försäljning inom byggsektorn, omvänd skattskyldighet moms",income,False,"Försäljning inom byggsektorn, omvänd skattskyldighet moms"
+a3300,3300,Försäljning av tjänster utanför Sverige,income,False,Försäljning av tjänster utanför Sverige
+a3305,3305,Försäljning tjänster till land utanför EU,income,False,Försäljning tjänster till land utanför EU
+a3308,3308,Försäljning tjänster till annat EU-land,income,False,Försäljning tjänster till annat EU-land
+a3400,3400,"Försäljning, egna uttag",income,False,"Försäljning, egna uttag"
+a3401,3401,"Egna uttag momspliktiga, 25 %",income,False,"Egna uttag momspliktiga, 25 %"
+a3402,3402,"Egna uttag momspliktiga, 12 %",income,False,"Egna uttag momspliktiga, 12 %"
+a3403,3403,"Egna uttag momspliktiga, 6 %",income,False,"Egna uttag momspliktiga, 6 %"
+a3404,3404,"Egna uttag, momsfria",income,False,"Egna uttag, momsfria"
+a3500,3500,Fakturerade kostnader (gruppkonto),income,False,Fakturerade kostnader (gruppkonto)
+a3510,3510,Fakturerat emballage,income,False,Fakturerat emballage
+a3511,3511,Fakturerat emballage,income,False,Fakturerat emballage
+a3518,3518,Returnerat emballage,income,False,Returnerat emballage
+a3520,3520,Fakturerade frakter,income,False,Fakturerade frakter
+a3521,3521,"Fakturerade frakter, EU-land",income,False,"Fakturerade frakter, EU-land"
+a3522,3522,"Fakturerade frakter, export",income,False,"Fakturerade frakter, export"
+a3530,3530,Fakturerade tull- och speditionskostnader m.m.,income,False,Fakturerade tull- och speditionskostnader m.m.
+a3540,3540,Faktureringsavgifter,income,False,Faktureringsavgifter
+a3541,3541,"Faktureringsavgifter, EU-land",income,False,"Faktureringsavgifter, EU-land"
+a3542,3542,"Faktureringsavgifter, export",income,False,"Faktureringsavgifter, export"
+a3550,3550,Fakturerade resekostnader,income,False,Fakturerade resekostnader
+a3560,3560,Fakturerade kostnader till koncernföretag,income,False,Fakturerade kostnader till koncernföretag
+a3561,3561,Fakturerade kostnader till moderföretag,income,False,Fakturerade kostnader till moderföretag
+a3562,3562,Fakturerade kostnader till dotterföretag,income,False,Fakturerade kostnader till dotterföretag
+a3563,3563,Fakturerade kostnader till andra koncernföretag,income,False,Fakturerade kostnader till andra koncernföretag
+a3570,3570,"Fakturerade kostnader till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",income,False,"Fakturerade kostnader till intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a3590,3590,Övriga fakturerade kostnader,income,False,Övriga fakturerade kostnader
+a3600,3600,Rörelsens sidointäkter (gruppkonto),income,False,Rörelsens sidointäkter (gruppkonto)
+a3610,3610,Försäljning av material,income,False,Försäljning av material
+a3611,3611,Försäljning av råmaterial,income,False,Försäljning av råmaterial
+a3612,3612,Försäljning av skrot,income,False,Försäljning av skrot
+a3613,3613,Försäljning av förbrukningsmaterial,income,False,Försäljning av förbrukningsmaterial
+a3619,3619,Försäljning av övrigt material,income,False,Försäljning av övrigt material
+a3620,3620,Tillfällig uthyrning av personal,income,False,Tillfällig uthyrning av personal
+a3630,3630,Tillfällig uthyrning av transportmedel,income,False,Tillfällig uthyrning av transportmedel
+a3670,3670,Intäkter från värdepapper,income,False,Intäkter från värdepapper
+a3671,3671,Försäljning av värdepapper,income,False,Försäljning av värdepapper
+a3672,3672,Utdelning från värdepapper,income,False,Utdelning från värdepapper
+a3679,3679,Övriga intäkter från värdepapper,income,False,Övriga intäkter från värdepapper
+a3680,3680,Management fees,income,False,Management fees
+a3690,3690,Övriga sidointäkter,income,False,Övriga sidointäkter
+a3700,3700,Intäktskorrigeringar (gruppkonto),income,False,Intäktskorrigeringar (gruppkonto)
+a3710,3710,Ofördelade intäktsreduktioner,income,False,Ofördelade intäktsreduktioner
+a3730,3730,Lämnade rabatter,income,False,Lämnade rabatter
+a3731,3731,Lämnade kassarabatter,income,False,Lämnade kassarabatter
+a3732,3732,Lämnade mängdrabatter,income,False,Lämnade mängdrabatter
+a3750,3750,Punktskatter,income,False,Punktskatter
+a3751,3751,Intäktsförda punktskatter (kreditkonto),income,False,Intäktsförda punktskatter (kreditkonto)
+a3752,3752,Skuldförda punktskatter (debetkonto),income,False,Skuldförda punktskatter (debetkonto)
+a3790,3790,Övriga intäktskorrigeringar,income,False,Övriga intäktskorrigeringar
+a3800,3800,Aktiverat arbete för egen räkning (gruppkonto),expense_direct_cost,False,Aktiverat arbete för egen räkning (gruppkonto)
+a3840,3840,Aktiverat arbete (material),expense_direct_cost,False,Aktiverat arbete (material)
+a3850,3850,Aktiverat arbete (omkostnader),expense_direct_cost,False,Aktiverat arbete (omkostnader)
+a3870,3870,Aktiverat arbete (personal),expense_direct_cost,False,Aktiverat arbete (personal)
+a3900,3900,Övriga rörelseintäkter (gruppkonto),income,False,Övriga rörelseintäkter (gruppkonto)
+a3910,3910,Hyres- och arrendeintäkter,income,False,Hyres- och arrendeintäkter
+a3911,3911,Hyresintäkter,income,False,Hyresintäkter
+a3912,3912,Arrendeintäkter,income,False,Arrendeintäkter
+a3913,3913,Frivilligt momspliktiga hyresintäkter,income,False,Frivilligt momspliktiga hyresintäkter
+a3914,3914,Övriga momspliktiga hyresintäkter,income,False,Övriga momspliktiga hyresintäkter
+a3920,3920,"Provisionsintäkter, licensintäkter och royalties",income,False,"Provisionsintäkter, licensintäkter och royalties"
+a3921,3921,Provisionsintäkter,income,False,Provisionsintäkter
+a3922,3922,Licensintäkter och royalties,income,False,Licensintäkter och royalties
+a3925,3925,Franchiseintäkter,income,False,Franchiseintäkter
+a3950,3950,"Återvunna, tidigare avskrivna kundfordringar",income,False,"Återvunna, tidigare avskrivna kundfordringar"
+a3960,3960,Valutakursvinster på fordringar och skulder av rörelsekaraktär,income,False,Valutakursvinster på fordringar och skulder av rörelsekaraktär
+a3970,3970,Vinst vid avyttring av immateriella och materiella anläggningstillgångar,income,False,Vinst vid avyttring av immateriella och materiella anläggningstillgångar
+a3971,3971,Vinst vid avyttring av immateriella anläggningstillgångar,income,False,Vinst vid avyttring av immateriella anläggningstillgångar
+a3972,3972,Vinst vid avyttring av byggnader och mark,income,False,Vinst vid avyttring av byggnader och mark
+a3973,3973,Vinst vid avyttring av maskiner och inventarier,income,False,Vinst vid avyttring av maskiner och inventarier
+a3980,3980,Erhållna offentliga stöd m.m.,income,False,Erhållna offentliga stöd m.m.
+a3981,3981,Erhållna EU-bidrag,income,False,Erhållna EU-bidrag
+a3985,3985,Erhållna statliga bidrag,income,False,Erhållna statliga bidrag
+a3987,3987,Erhållna kommunala bidrag,income,False,Erhållna kommunala bidrag
+a3988,3988,Erhållna bidrag och ersättningar för personal,income,False,Erhållna bidrag och ersättningar för personal
+a3989,3989,Övriga erhållna bidrag,income,False,Övriga erhållna bidrag
+a3990,3990,Övriga ersättningar och intäkter,income,False,Övriga ersättningar och intäkter
+a3991,3991,Konfliktersättning,income,False,Konfliktersättning
+a3992,3992,Erhållna skadestånd,income,False,Erhållna skadestånd
+a3993,3993,Erhållna donationer och gåvor,income,False,Erhållna donationer och gåvor
+a3994,3994,Försäkringsersättningar,income,False,Försäkringsersättningar
+a3995,3995,Erhållet ackord på skulder av rörelsekaraktär,income,False,Erhållet ackord på skulder av rörelsekaraktär
+a3996,3996,Erhållna reklambidrag,income,False,Erhållna reklambidrag
+a3997,3997,Sjuklöneersättning,income,False,Sjuklöneersättning
+a3999,3999,Övriga rörelseintäkter,income,False,Övriga rörelseintäkter
+a4200,4200,Sålda varor VMB,expense_direct_cost,False,Sålda varor VMB
+a4211,4211,Sålda varor positiv VMB 25 %,expense_direct_cost,False,Sålda varor positiv VMB 25 %
+a4212,4212,Sålda varor negativ VMB 25 %,expense_direct_cost,False,Sålda varor negativ VMB 25 %
+a4400,4400,Momspliktiga inköp i Sverige,expense_direct_cost,False,Momspliktiga inköp i Sverige
+a4415,4415,"Inköpta varor i Sverige, omvänd skattskyldighet, 25 % moms",expense_direct_cost,False,"Inköpta varor i Sverige, omvänd skattskyldighet, 25 % moms"
+a4416,4416,"Inköpta varor i Sverige, omvänd skattskyldighet, 12 % moms",expense_direct_cost,False,"Inköpta varor i Sverige, omvänd skattskyldighet, 12 % moms"
+a4417,4417,"Inköpta varor i Sverige, omvänd skattskyldighet, 6 % moms",expense_direct_cost,False,"Inköpta varor i Sverige, omvänd skattskyldighet, 6 % moms"
+a4425,4425,"Inköpta tjänster i Sverige, omvänd
+skattskyldighet, 25 % moms",expense_direct_cost,False,"Inköpta tjänster i Sverige, omvänd
+skattskyldighet, 25 % moms"
+a4426,4426,"Inköpta tjänster i Sverige, omvänd skattskyldighet, 12 %",expense_direct_cost,False,"Inköpta tjänster i Sverige, omvänd skattskyldighet, 12 %"
+a4427,4427,"Inköpta tjänster i Sverige, omvänd skattskyldighet, 6 %",expense_direct_cost,False,"Inköpta tjänster i Sverige, omvänd skattskyldighet, 6 %"
+a4500,4500,Övriga momspliktiga inköp,expense_direct_cost,False,Övriga momspliktiga inköp
+a4515,4515,"Inköp av varor från annat EU-land, 25 %",expense_direct_cost,False,"Inköp av varor från annat EU-land, 25 %"
+a4516,4516,"Inköp av varor från annat EU-land, 12 %",expense_direct_cost,False,"Inköp av varor från annat EU-land, 12 %"
+a4517,4517,"Inköp av varor från annat EU-land, 6 %",expense_direct_cost,False,"Inköp av varor från annat EU-land, 6 %"
+a4518,4518,"Inköp av varor från annat EU-land, momsfri",expense_direct_cost,False,"Inköp av varor från annat EU-land, momsfri"
+a4531,4531,"Inköp av tjänster från ett land utanför EU, 25 % moms",expense_direct_cost,False,"Inköp av tjänster från ett land utanför EU, 25 % moms"
+a4532,4532,"Inköp av tjänster från ett land utanför EU, 12 % moms",expense_direct_cost,False,"Inköp av tjänster från ett land utanför EU, 12 % moms"
+a4533,4533,"Inköp av tjänster från ett land utanför EU, 6 % moms",expense_direct_cost,False,"Inköp av tjänster från ett land utanför EU, 6 % moms"
+a4535,4535,"Inköp av tjänster från annat EU-land, 25 %",expense_direct_cost,False,"Inköp av tjänster från annat EU-land, 25 %"
+a4536,4536,"Inköp av tjänster från annat EU-land, 12 %",expense_direct_cost,False,"Inköp av tjänster från annat EU-land, 12 %"
+a4537,4537,"Inköp av tjänster från annat EU-land, 6 %",expense_direct_cost,False,"Inköp av tjänster från annat EU-land, 6 %"
+a4538,4538,"Inköp av tjänster från annat EU-land, momsfri",expense_direct_cost,False,"Inköp av tjänster från annat EU-land, momsfri"
+a4545,4545,"Import av varor, 25 % moms",expense_direct_cost,False,"Import av varor, 25 % moms"
+a4546,4546,"Import av varor, 12 % moms",expense_direct_cost,False,"Import av varor, 12 % moms"
+a4547,4547,"Import av varor, 6 % moms",expense_direct_cost,False,"Import av varor, 6 % moms"
+a4600,4600,Legoarbeten och underentreprenader (gruppkonto),expense_direct_cost,False,Legoarbeten och underentreprenader (gruppkonto)
+a4700,4700,Reduktion av inköpspriser (gruppkonto),expense_direct_cost,False,Reduktion av inköpspriser (gruppkonto)
+a4730,4730,Erhållna rabatter,expense_direct_cost,False,Erhållna rabatter
+a4731,4731,Erhållna kassarabatter,expense_direct_cost,False,Erhållna kassarabatter
+a4732,4732,Erhållna mängdrabatter (inkl. bonus),expense_direct_cost,False,Erhållna mängdrabatter (inkl. bonus)
+a4733,4733,Erhållet aktivitetsstöd,expense_direct_cost,False,Erhållet aktivitetsstöd
+a4790,4790,Övriga reduktioner av inköpspriser,expense_direct_cost,False,Övriga reduktioner av inköpspriser
+a4900,4900,Förändring av lager (gruppkonto),expense_direct_cost,False,Förändring av lager (gruppkonto)
+a4910,4910,Förändring av lager av råvaror,expense_direct_cost,False,Förändring av lager av råvaror
+a4920,4920,Förändring av lager av tillsatsmaterial och förnödenheter,expense_direct_cost,False,Förändring av lager av tillsatsmaterial och förnödenheter
+a4940,4940,Förändring av produkter i arbete,expense_direct_cost,False,Förändring av produkter i arbete
+a4944,4944,"Förändring av produkter i arbete, material och utlägg",expense_direct_cost,False,"Förändring av produkter i arbete, material och utlägg"
+a4945,4945,"Förändring av produkter i arbete, omkostnader",expense_direct_cost,False,"Förändring av produkter i arbete, omkostnader"
+a4947,4947,"Förändring av produkter i arbete, personalkostnader",expense_direct_cost,False,"Förändring av produkter i arbete, personalkostnader"
+a4950,4950,Förändring av lager av färdiga varor,expense_direct_cost,False,Förändring av lager av färdiga varor
+a4960,4960,Förändring av lager av handelsvaror,expense_direct_cost,False,Förändring av lager av handelsvaror
+a4970,4970,"Förändring av pågående arbeten, nedlagda kostnader",expense_direct_cost,False,"Förändring av pågående arbeten, nedlagda kostnader"
+a4974,4974,"Förändring av pågående arbeten, material och utlägg",expense_direct_cost,False,"Förändring av pågående arbeten, material och utlägg"
+a4975,4975,"Förändring av pågående arbeten, omkostnader",expense_direct_cost,False,"Förändring av pågående arbeten, omkostnader"
+a4977,4977,"Förändring av pågående arbeten, personalkostnader",expense_direct_cost,False,"Förändring av pågående arbeten, personalkostnader"
+a4980,4980,Förändring av lager av värdepapper,expense_direct_cost,False,Förändring av lager av värdepapper
+a4981,4981,Sålda värdepappers anskaffningsvärde,expense_direct_cost,False,Sålda värdepappers anskaffningsvärde
+a4987,4987,Nedskrivning av värdepapper,expense_direct_cost,False,Nedskrivning av värdepapper
+a4988,4988,Återföring av nedskrivning av värdepapper,expense_direct_cost,False,Återföring av nedskrivning av värdepapper
+a5000,5000,Lokalkostnader (gruppkonto),expense,False,Lokalkostnader (gruppkonto)
+a5010,5010,Lokalhyra,expense,False,Lokalhyra
+a5011,5011,Hyra för kontorslokaler,expense,False,Hyra för kontorslokaler
+a5012,5012,Hyra för garage,expense,False,Hyra för garage
+a5013,5013,Hyra för lagerlokaler,expense,False,Hyra för lagerlokaler
+a5020,5020,El för belysning,expense,False,El för belysning
+a5030,5030,Värme,expense,False,Värme
+a5040,5040,Vatten och avlopp,expense,False,Vatten och avlopp
+a5050,5050,Lokaltillbehör,expense,False,Lokaltillbehör
+a5060,5060,Städning och renhållning,expense,False,Städning och renhållning
+a5061,5061,Städning,expense,False,Städning
+a5062,5062,Sophämtning,expense,False,Sophämtning
+a5063,5063,Hyra för sopcontainer,expense,False,Hyra för sopcontainer
+a5064,5064,Snöröjning,expense,False,Snöröjning
+a5065,5065,Trädgårdsskötsel,expense,False,Trädgårdsskötsel
+a5070,5070,Reparation och underhåll av lokaler,expense,False,Reparation och underhåll av lokaler
+a5090,5090,Övriga lokalkostnader,expense,False,Övriga lokalkostnader
+a5098,5098,"Övriga lokalkostnader, avdragsgilla",expense,False,"Övriga lokalkostnader, avdragsgilla"
+a5099,5099,"Övriga lokalkostnader, ej avdragsgilla",expense,False,"Övriga lokalkostnader, ej avdragsgilla"
+a5100,5100,Fastighetskostnader (gruppkonto),expense,False,Fastighetskostnader (gruppkonto)
+a5110,5110,Tomträttsavgäld/arrende,expense,False,Tomträttsavgäld/arrende
+a5120,5120,El för belysning,expense,False,El för belysning
+a5130,5130,Värme,expense,False,Värme
+a5131,5131,Uppvärmning,expense,False,Uppvärmning
+a5132,5132,Sotning,expense,False,Sotning
+a5140,5140,Vatten och avlopp,expense,False,Vatten och avlopp
+a5160,5160,Städning och renhållning,expense,False,Städning och renhållning
+a5161,5161,Städning,expense,False,Städning
+a5162,5162,Sophämtning,expense,False,Sophämtning
+a5163,5163,Hyra för sopcontainer,expense,False,Hyra för sopcontainer
+a5164,5164,Snöröjning,expense,False,Snöröjning
+a5165,5165,Trädgårdsskötsel,expense,False,Trädgårdsskötsel
+a5170,5170,Reparation och underhåll av fastighet,expense,False,Reparation och underhåll av fastighet
+a5190,5190,Övriga fastighetskostnader,expense,False,Övriga fastighetskostnader
+a5191,5191,Fastighetsskatt/fastighetsavgift,expense,False,Fastighetsskatt/fastighetsavgift
+a5192,5192,Fastighetsförsäkringspremier,expense,False,Fastighetsförsäkringspremier
+a5193,5193,Fastighetsskötsel och förvaltning,expense,False,Fastighetsskötsel och förvaltning
+a5198,5198,"Övriga fastighetskostnader, avdragsgilla",expense,False,"Övriga fastighetskostnader, avdragsgilla"
+a5199,5199,"Övriga fastighetskostnader, ej avdragsgilla",expense,False,"Övriga fastighetskostnader, ej avdragsgilla"
+a5200,5200,Hyra av anläggningstillgångar (gruppkonto),expense,False,Hyra av anläggningstillgångar (gruppkonto)
+a5210,5210,Hyra av maskiner och andra tekniska anläggningar,expense,False,Hyra av maskiner och andra tekniska anläggningar
+a5211,5211,Korttidshyra av maskiner och andra tekniska anläggningar,expense,False,Korttidshyra av maskiner och andra tekniska anläggningar
+a5212,5212,Leasing av maskiner och andra tekniska anläggningar,expense,False,Leasing av maskiner och andra tekniska anläggningar
+a5220,5220,Hyra av inventarier och verktyg,expense,False,Hyra av inventarier och verktyg
+a5221,5221,Korttidshyra av inventarier och verktyg,expense,False,Korttidshyra av inventarier och verktyg
+a5222,5222,Leasing av inventarier och verktyg,expense,False,Leasing av inventarier och verktyg
+a5250,5250,Hyra av datorer,expense,False,Hyra av datorer
+a5251,5251,Korttidshyra av datorer,expense,False,Korttidshyra av datorer
+a5252,5252,Leasing av datorer,expense,False,Leasing av datorer
+a5290,5290,Övriga hyreskostnader för anläggningstillgångar,expense,False,Övriga hyreskostnader för anläggningstillgångar
+a5300,5300,Energikostnader (gruppkonto),expense,False,Energikostnader (gruppkonto)
+a5310,5310,El för drift,expense,False,El för drift
+a5320,5320,Gas,expense,False,Gas
+a5330,5330,Eldningsolja,expense,False,Eldningsolja
+a5340,5340,Stenkol och koks,expense,False,Stenkol och koks
+a5350,5350,"Torv, träkol, ved och annat träbränsle",expense,False,"Torv, träkol, ved och annat träbränsle"
+a5360,5360,"Bensin, fotogen och motorbrännolja",expense,False,"Bensin, fotogen och motorbrännolja"
+a5370,5370,"Fjärrvärme, kyla och ånga",expense,False,"Fjärrvärme, kyla och ånga"
+a5380,5380,Vatten,expense,False,Vatten
+a5390,5390,Övriga energikostnader,expense,False,Övriga energikostnader
+a5400,5400,Förbrukningsinventarier och förbrukningsmaterial (gruppkonto),expense,False,Förbrukningsinventarier och förbrukningsmaterial (gruppkonto)
+a5410,5410,Förbrukningsinventarier,expense,False,Förbrukningsinventarier
+a5411,5411,Förbrukningsinventarier med en livslängd på mer än ett år,expense,False,Förbrukningsinventarier med en livslängd på mer än ett år
+a5412,5412,Förbrukningsinventarier med en livslängd på ett år eller mindre,expense,False,Förbrukningsinventarier med en livslängd på ett år eller mindre
+a5420,5420,Programvaror,expense,False,Programvaror
+a5430,5430,Transportinventarier,expense,False,Transportinventarier
+a5440,5440,Förbrukningsemballage,expense,False,Förbrukningsemballage
+a5460,5460,Förbrukningsmaterial,expense,False,Förbrukningsmaterial
+a5480,5480,Arbetskläder och skyddsmaterial,expense,False,Arbetskläder och skyddsmaterial
+a5490,5490,Övriga förbrukningsinventarier och förbrukningsmaterial,expense,False,Övriga förbrukningsinventarier och förbrukningsmaterial
+a5491,5491,Övriga förbrukningsinventarier med en livslängd på mer än ett år,expense,False,Övriga förbrukningsinventarier med en livslängd på mer än ett år
+a5492,5492,Övriga förbrukningsinventarier med en livslängd på ett år eller mindre,expense,False,Övriga förbrukningsinventarier med en livslängd på ett år eller mindre
+a5493,5493,Övrigt förbrukningsmaterial,expense,False,Övrigt förbrukningsmaterial
+a5500,5500,Reparation och underhåll (gruppkonto),expense,False,Reparation och underhåll (gruppkonto)
+a5510,5510,Reparation och underhåll av maskiner och andra tekniska anläggningar,expense,False,Reparation och underhåll av maskiner och andra tekniska anläggningar
+a5520,5520,"Reparation och underhåll av inventarier, verktyg och datorer m.m.",expense,False,"Reparation och underhåll av inventarier, verktyg och datorer m.m."
+a5530,5530,Reparation och underhåll av installationer,expense,False,Reparation och underhåll av installationer
+a5550,5550,Reparation och underhåll av förbrukningsinventarier,expense,False,Reparation och underhåll av förbrukningsinventarier
+a5580,5580,Underhåll och tvätt av arbetskläder,expense,False,Underhåll och tvätt av arbetskläder
+a5590,5590,Övriga kostnader för reparation och underhåll,expense,False,Övriga kostnader för reparation och underhåll
+a5600,5600,Kostnader för transportmedel (gruppkonto),expense,False,Kostnader för transportmedel (gruppkonto)
+a5610,5610,Personbilskostnader,expense,False,Personbilskostnader
+a5611,5611,Drivmedel för personbilar,expense,False,Drivmedel för personbilar
+a5612,5612,Försäkring och skatt för personbilar,expense,False,Försäkring och skatt för personbilar
+a5613,5613,Reparation och underhåll av personbilar,expense,False,Reparation och underhåll av personbilar
+a5615,5615,Leasing av personbilar,expense,False,Leasing av personbilar
+a5616,5616,"Trängselskatt, avdragsgill",expense,False,"Trängselskatt, avdragsgill"
+a5619,5619,Övriga personbilskostnader,expense,False,Övriga personbilskostnader
+a5620,5620,Lastbilskostnader,expense,False,Lastbilskostnader
+a5630,5630,Truckkostnader,expense,False,Truckkostnader
+a5640,5640,Kostnader för arbetsmaskiner,expense,False,Kostnader för arbetsmaskiner
+a5650,5650,Traktorkostnader,expense,False,Traktorkostnader
+a5660,5660,"Motorcykel-, moped- och skoterkostnader",expense,False,"Motorcykel-, moped- och skoterkostnader"
+a5670,5670,"Båt-, flygplans- och helikopterkostnader",expense,False,"Båt-, flygplans- och helikopterkostnader"
+a5690,5690,Övriga kostnader för transportmedel,expense,False,Övriga kostnader för transportmedel
+a5700,5700,Frakter och transporter (gruppkonto),expense,False,Frakter och transporter (gruppkonto)
+a5710,5710,"Frakter, transporter och försäkringar vid varudistribution",expense,False,"Frakter, transporter och försäkringar vid varudistribution"
+a5720,5720,Tull- och speditionskostnader m.m.,expense,False,Tull- och speditionskostnader m.m.
+a5730,5730,Arbetstransporter,expense,False,Arbetstransporter
+a5790,5790,Övriga kostnader för frakter och transporter,expense,False,Övriga kostnader för frakter och transporter
+a5800,5800,Resekostnader (gruppkonto),expense,False,Resekostnader (gruppkonto)
+a5810,5810,Biljetter,expense,False,Biljetter
+a5820,5820,Hyrbilskostnader,expense,False,Hyrbilskostnader
+a5830,5830,Kost och logi,expense,False,Kost och logi
+a5831,5831,Kost och logi i Sverige,expense,False,Kost och logi i Sverige
+a5832,5832,Kost och logi i utlandet,expense,False,Kost och logi i utlandet
+a5890,5890,Övriga resekostnader,expense,False,Övriga resekostnader
+a5900,5900,Reklam och PR (gruppkonto),expense,False,Reklam och PR (gruppkonto)
+a5910,5910,Annonsering,expense,False,Annonsering
+a5920,5920,Utomhus- och trafikreklam,expense,False,Utomhus- och trafikreklam
+a5930,5930,Reklamtrycksaker och direktreklam,expense,False,Reklamtrycksaker och direktreklam
+a5940,5940,Utställningar och mässor,expense,False,Utställningar och mässor
+a5950,5950,Butiksreklam och återförsäljarreklam,expense,False,Butiksreklam och återförsäljarreklam
+a5960,5960,"Varuprover, reklamgåvor, presentreklam och tävlingar",expense,False,"Varuprover, reklamgåvor, presentreklam och tävlingar"
+a5970,5970,"Film-, radio-, TV- och Internetreklam",expense,False,"Film-, radio-, TV- och Internetreklam"
+a5980,5980,"PR, institutionell reklam och sponsring",expense,False,"PR, institutionell reklam och sponsring"
+a5990,5990,Övriga kostnader för reklam och PR,expense,False,Övriga kostnader för reklam och PR
+a6000,6000,Övriga försäljningskostnader (gruppkonto),expense,False,Övriga försäljningskostnader (gruppkonto)
+a6010,6010,"Kataloger, prislistor m.m.",expense,False,"Kataloger, prislistor m.m."
+a6020,6020,Egna facktidskrifter,expense,False,Egna facktidskrifter
+a6030,6030,Speciella orderkostnader,expense,False,Speciella orderkostnader
+a6040,6040,Kontokortsavgifter,expense,False,Kontokortsavgifter
+a6050,6050,Försäljningsprovisioner,expense,False,Försäljningsprovisioner
+a6055,6055,Franchisekostnader o.dyl.,expense,False,Franchisekostnader o.dyl.
+a6060,6060,Kreditförsäljningskostnader,expense,False,Kreditförsäljningskostnader
+a6061,6061,Kreditupplysning,expense,False,Kreditupplysning
+a6062,6062,Inkasso och KFM-avgifter,expense,False,Inkasso och KFM-avgifter
+a6063,6063,Kreditförsäkringspremier,expense,False,Kreditförsäkringspremier
+a6064,6064,Factoringavgifter,expense,False,Factoringavgifter
+a6069,6069,Övriga kreditförsäljningskostnader,expense,False,Övriga kreditförsäljningskostnader
+a6070,6070,Representation,expense,False,Representation
+a6071,6071,"Representation, avdragsgill",expense,False,"Representation, avdragsgill"
+a6072,6072,"Representation, ej avdragsgill",expense,False,"Representation, ej avdragsgill"
+a6080,6080,Bankgarantier,expense,False,Bankgarantier
+a6090,6090,Övriga försäljningskostnader,expense,False,Övriga försäljningskostnader
+a6100,6100,Kontorsmateriel och trycksaker (gruppkonto),expense,False,Kontorsmateriel och trycksaker (gruppkonto)
+a6110,6110,Kontorsmateriel,expense,False,Kontorsmateriel
+a6150,6150,Trycksaker,expense,False,Trycksaker
+a6200,6200,Tele och post (gruppkonto),expense,False,Tele och post (gruppkonto)
+a6210,6210,Telekommunikation,expense,False,Telekommunikation
+a6211,6211,Fast telefoni,expense,False,Fast telefoni
+a6212,6212,Mobiltelefon,expense,False,Mobiltelefon
+a6213,6213,Mobilsökning,expense,False,Mobilsökning
+a6214,6214,Fax,expense,False,Fax
+a6215,6215,Telex,expense,False,Telex
+a6230,6230,Datakommunikation,expense,False,Datakommunikation
+a6250,6250,Postbefordran,expense,False,Postbefordran
+a6300,6300,Företagsförsäkringar och övriga riskkostnader (gruppkonto),expense,False,Företagsförsäkringar och övriga riskkostnader (gruppkonto)
+a6310,6310,Företagsförsäkringar,expense,False,Företagsförsäkringar
+a6320,6320,Självrisker vid skada,expense,False,Självrisker vid skada
+a6330,6330,Förluster i pågående arbeten,expense,False,Förluster i pågående arbeten
+a6340,6340,Lämnade skadestånd,expense,False,Lämnade skadestånd
+a6341,6341,"Lämnade skadestånd, avdragsgilla",expense,False,"Lämnade skadestånd, avdragsgilla"
+a6342,6342,"Lämnade skadestånd, ej avdragsgilla",expense,False,"Lämnade skadestånd, ej avdragsgilla"
+a6350,6350,Förluster på kundfordringar,expense,False,Förluster på kundfordringar
+a6351,6351,Konstaterade förluster på kundfordringar,expense,False,Konstaterade förluster på kundfordringar
+a6352,6352,Befarade förluster på kundfordringar,expense,False,Befarade förluster på kundfordringar
+a6360,6360,Garantikostnader,expense,False,Garantikostnader
+a6361,6361,Förändring av garantiavsättning,expense,False,Förändring av garantiavsättning
+a6362,6362,Faktiska garantikostnader,expense,False,Faktiska garantikostnader
+a6370,6370,Kostnader för bevakning och larm,expense,False,Kostnader för bevakning och larm
+a6380,6380,Förluster på övriga kortfristiga fordringar,expense,False,Förluster på övriga kortfristiga fordringar
+a6390,6390,Övriga riskkostnader,expense,False,Övriga riskkostnader
+a6400,6400,Förvaltningskostnader (gruppkonto),expense,False,Förvaltningskostnader (gruppkonto)
+a6410,6410,Styrelsearvoden som inte är lön,expense,False,Styrelsearvoden som inte är lön
+a6420,6420,Ersättningar till revisor,expense,False,Ersättningar till revisor
+a6421,6421,Revision,expense,False,Revision
+a6422,6422,Revisonsverksamhet utöver revision,expense,False,Revisonsverksamhet utöver revision
+a6423,6423,Skatterådgivning – revisor,expense,False,Skatterådgivning – revisor
+a6424,6424,Övriga tjänster – revisor,expense,False,Övriga tjänster – revisor
+a6430,6430,Management fees,expense,False,Management fees
+a6440,6440,Årsredovisning och delårsrapporter,expense,False,Årsredovisning och delårsrapporter
+a6450,6450,Bolagsstämma/års- eller föreningsstämma,expense,False,Bolagsstämma/års- eller föreningsstämma
+a6490,6490,Övriga förvaltningskostnader,expense,False,Övriga förvaltningskostnader
+a6500,6500,Övriga externa tjänster (gruppkonto),expense,False,Övriga externa tjänster (gruppkonto)
+a6510,6510,Mätningskostnader,expense,False,Mätningskostnader
+a6520,6520,Ritnings- och kopieringskostnader,expense,False,Ritnings- och kopieringskostnader
+a6530,6530,Redovisningstjänster,expense,False,Redovisningstjänster
+a6540,6540,IT-tjänster,expense,False,IT-tjänster
+a6550,6550,Konsultarvoden,expense,False,Konsultarvoden
+a6560,6560,Serviceavgifter till branschorganisationer,expense,False,Serviceavgifter till branschorganisationer
+a6570,6570,Bankkostnader,expense,False,Bankkostnader
+a6580,6580,Advokat- och rättegångskostnader,expense,False,Advokat- och rättegångskostnader
+a6590,6590,Övriga externa tjänster,expense,False,Övriga externa tjänster
+a6800,6800,Inhyrd personal (gruppkonto),expense,False,Inhyrd personal (gruppkonto)
+a6810,6810,Inhyrd produktionspersonal,expense,False,Inhyrd produktionspersonal
+a6820,6820,Inhyrd lagerpersonal,expense,False,Inhyrd lagerpersonal
+a6830,6830,Inhyrd transportpersonal,expense,False,Inhyrd transportpersonal
+a6840,6840,Inhyrd kontors- och ekonomipersonal,expense,False,Inhyrd kontors- och ekonomipersonal
+a6850,6850,Inhyrd IT-personal,expense,False,Inhyrd IT-personal
+a6860,6860,Inhyrd marknads- och försäljningspersonal,expense,False,Inhyrd marknads- och försäljningspersonal
+a6870,6870,Inhyrd restaurang- och butikspersonal,expense,False,Inhyrd restaurang- och butikspersonal
+a6880,6880,Inhyrda företagsledare,expense,False,Inhyrda företagsledare
+a6890,6890,Övrig inhyrd personal,expense,False,Övrig inhyrd personal
+a6900,6900,Övriga externa kostnader (gruppkonto),expense,False,Övriga externa kostnader (gruppkonto)
+a6910,6910,Licensavgifter och royalties,expense,False,Licensavgifter och royalties
+a6920,6920,Kostnader för egna patent,expense,False,Kostnader för egna patent
+a6930,6930,Kostnader för varumärken m.m.,expense,False,Kostnader för varumärken m.m.
+a6940,6940,"Kontroll-, provnings- och stämpelavgifter",expense,False,"Kontroll-, provnings- och stämpelavgifter"
+a6950,6950,Tillsynsavgifter myndigheter,expense,False,Tillsynsavgifter myndigheter
+a6970,6970,"Tidningar, tidskrifter och facklitteratur",expense,False,"Tidningar, tidskrifter och facklitteratur"
+a6980,6980,Föreningsavgifter,expense,False,Föreningsavgifter
+a6981,6981,"Föreningsavgifter, avdragsgilla",expense,False,"Föreningsavgifter, avdragsgilla"
+a6982,6982,"Föreningsavgifter, ej avdragsgilla",expense,False,"Föreningsavgifter, ej avdragsgilla"
+a6990,6990,Övriga externa kostnader,expense,False,Övriga externa kostnader
+a6991,6991,"Övriga externa kostnader, avdragsgilla",expense,False,"Övriga externa kostnader, avdragsgilla"
+a6992,6992,"Övriga externa kostnader, ej avdragsgilla",expense,False,"Övriga externa kostnader, ej avdragsgilla"
+a6993,6993,Lämnade bidrag och gåvor,expense,False,Lämnade bidrag och gåvor
+a6996,6996,Betald utländsk inkomstskatt,expense,False,Betald utländsk inkomstskatt
+a6997,6997,Obetald utländsk inkomstskatt,expense,False,Obetald utländsk inkomstskatt
+a6998,6998,Utländsk moms,expense,False,Utländsk moms
+a6999,6999,"Ingående moms, blandad verksamhet",expense,False,"Ingående moms, blandad verksamhet"
+a7010,7010,Löner till kollektivanställda,expense,False,Löner till kollektivanställda
+a7011,7011,Löner till kollektivanställda,expense,False,Löner till kollektivanställda
+a7012,7012,Vinstandelar till kollektivanställda,expense,False,Vinstandelar till kollektivanställda
+a7013,7013,"Lön växa-stöd kollektivanställda 10,21 %",expense,False,"Lön växa-stöd kollektivanställda 10,21 %"
+a7017,7017,Avgångsvederlag till kollektivanställda,expense,False,Avgångsvederlag till kollektivanställda
+a7018,7018,"Bruttolöneavdrag, kollektivanställda",expense,False,"Bruttolöneavdrag, kollektivanställda"
+a7019,7019,Upplupna löner och vinstandelar till kollektivanställda,expense,False,Upplupna löner och vinstandelar till kollektivanställda
+a7030,7030,Löner till kollektivanställda (utlandsanställda),expense,False,Löner till kollektivanställda (utlandsanställda)
+a7031,7031,Löner till kollektivanställda (utlandsanställda),expense,False,Löner till kollektivanställda (utlandsanställda)
+a7032,7032,Vinstandelar till kollektivanställda (utlandsanställda),expense,False,Vinstandelar till kollektivanställda (utlandsanställda)
+a7037,7037,Avgångsvederlag till kollektivanställda (utlandsanställda),expense,False,Avgångsvederlag till kollektivanställda (utlandsanställda)
+a7038,7038,"Bruttolöneavdrag, kollektivanställda (utlandsanställda)",expense,False,"Bruttolöneavdrag, kollektivanställda (utlandsanställda)"
+a7039,7039,Upplupna löner och vinstandelar till kollektivanställda (utlandsanställda),expense,False,Upplupna löner och vinstandelar till kollektivanställda (utlandsanställda)
+a7080,7080,Löner till kollektivanställda för ej arbetad tid,expense,False,Löner till kollektivanställda för ej arbetad tid
+a7081,7081,Sjuklöner till kollektivanställda,expense,False,Sjuklöner till kollektivanställda
+a7082,7082,Semesterlöner till kollektivanställda,expense,False,Semesterlöner till kollektivanställda
+a7083,7083,Föräldraersättning till kollektivanställda,expense,False,Föräldraersättning till kollektivanställda
+a7089,7089,Övriga löner till kollektivanställda för ej arbetad tid,expense,False,Övriga löner till kollektivanställda för ej arbetad tid
+a7090,7090,Förändring av semesterlöneskuld,expense,False,Förändring av semesterlöneskuld
+a7200,7200,Löner till tjänstemän och företagsledare (gruppkonto),expense,False,Löner till tjänstemän och företagsledare (gruppkonto)
+a7210,7210,Löner till tjänstemän,expense,False,Löner till tjänstemän
+a7211,7211,Löner till tjänstemän,expense,False,Löner till tjänstemän
+a7212,7212,Vinstandelar till tjänstemän,expense,False,Vinstandelar till tjänstemän
+a7213,7213,"Lön växa-stöd tjänstemän 10,21 %",expense,False,"Lön växa-stöd tjänstemän 10,21 %"
+a7217,7217,Avgångsvederlag till tjänstemän,expense,False,Avgångsvederlag till tjänstemän
+a7218,7218,"Bruttolöneavdrag, tjänstemän",expense,False,"Bruttolöneavdrag, tjänstemän"
+a7219,7219,Upplupna löner och vinstandelar till tjänstemän,expense,False,Upplupna löner och vinstandelar till tjänstemän
+a7220,7220,Löner till företagsledare,expense,False,Löner till företagsledare
+a7221,7221,Löner till företagsledare,expense,False,Löner till företagsledare
+a7222,7222,Tantiem till företagsledare,expense,False,Tantiem till företagsledare
+a7227,7227,Avgångsvederlag till företagsledare,expense,False,Avgångsvederlag till företagsledare
+a7228,7228,"Bruttolöneavdrag, företagsledare",expense,False,"Bruttolöneavdrag, företagsledare"
+a7229,7229,Upplupna löner och tantiem till företagsledare,expense,False,Upplupna löner och tantiem till företagsledare
+a7230,7230,Löner till tjänstemän och ftgsledare (utlandsanställda),expense,False,Löner till tjänstemän och ftgsledare (utlandsanställda)
+a7231,7231,Löner till tjänstemän och ftgsledare (utlandsanställda),expense,False,Löner till tjänstemän och ftgsledare (utlandsanställda)
+a7232,7232,Vinstandelar till tjänstemän och ftgsledare (utlandsanställda),expense,False,Vinstandelar till tjänstemän och ftgsledare (utlandsanställda)
+a7237,7237,Avgångsvederlag till tjänstemän och ftgsledare (utlandsanställda),expense,False,Avgångsvederlag till tjänstemän och ftgsledare (utlandsanställda)
+a7238,7238,"Bruttolöneavdrag, tjänstemän och ftgsledare (utlandsanställda)",expense,False,"Bruttolöneavdrag, tjänstemän och ftgsledare (utlandsanställda)"
+a7239,7239,Upplupna löner och vinstandelar till tjänstemän och ftgsledare (utlandsanställda),expense,False,Upplupna löner och vinstandelar till tjänstemän och ftgsledare (utlandsanställda)
+a7240,7240,Styrelsearvoden,expense,False,Styrelsearvoden
+a7280,7280,Löner till tjänstemän och företagsledare för ej arbetad tid,expense,False,Löner till tjänstemän och företagsledare för ej arbetad tid
+a7281,7281,Sjuklöner till tjänstemän,expense,False,Sjuklöner till tjänstemän
+a7282,7282,Sjuklöner till företagsledare,expense,False,Sjuklöner till företagsledare
+a7283,7283,Föräldraersättning till tjänstemän,expense,False,Föräldraersättning till tjänstemän
+a7284,7284,Föräldraersättning till företagsledare,expense,False,Föräldraersättning till företagsledare
+a7285,7285,Semesterlöner till tjänstemän,expense,False,Semesterlöner till tjänstemän
+a7286,7286,Semesterlöner till företagsledare,expense,False,Semesterlöner till företagsledare
+a7288,7288,Övriga löner till tjänstemän för ej arbetad tid,expense,False,Övriga löner till tjänstemän för ej arbetad tid
+a7289,7289,Övriga löner till företagsledare för ej arbetad tid,expense,False,Övriga löner till företagsledare för ej arbetad tid
+a7290,7290,Förändring av semesterlöneskuld,expense,False,Förändring av semesterlöneskuld
+a7291,7291,Förändring av semesterlöneskuld till tjänstemän,expense,False,Förändring av semesterlöneskuld till tjänstemän
+a7292,7292,Förändring av semesterlöneskuld till företagsledare,expense,False,Förändring av semesterlöneskuld till företagsledare
+a7300,7300,Kostnadsersättningar och förmåner (gruppkonto),expense,False,Kostnadsersättningar och förmåner (gruppkonto)
+a7310,7310,Kontanta extraersättningar,expense,False,Kontanta extraersättningar
+a7311,7311,Ersättningar för sammanträden m.m.,expense,False,Ersättningar för sammanträden m.m.
+a7312,7312,Ersättningar för förslagsverksamhet och uppfinningar,expense,False,Ersättningar för förslagsverksamhet och uppfinningar
+a7313,7313,Ersättningar för/bidrag till bostadskostnader,expense,False,Ersättningar för/bidrag till bostadskostnader
+a7314,7314,Ersättningar för/bidrag till måltidskostnader,expense,False,Ersättningar för/bidrag till måltidskostnader
+a7315,7315,Ersättningar för/bidrag till resor till och från arbetsplatsen,expense,False,Ersättningar för/bidrag till resor till och från arbetsplatsen
+a7316,7316,Ersättningar för/bidrag till arbetskläder,expense,False,Ersättningar för/bidrag till arbetskläder
+a7317,7317,Ersättningar för/bidrag till arbetsmaterial och arbetsverktyg,expense,False,Ersättningar för/bidrag till arbetsmaterial och arbetsverktyg
+a7318,7318,Felräkningspengar,expense,False,Felräkningspengar
+a7319,7319,Övriga kontanta extraersättningar,expense,False,Övriga kontanta extraersättningar
+a7320,7320,Traktamenten vid tjänsteresa,expense,False,Traktamenten vid tjänsteresa
+a7321,7321,"Skattefria traktamenten, Sverige",expense,False,"Skattefria traktamenten, Sverige"
+a7322,7322,"Skattepliktiga traktamenten, Sverige",expense,False,"Skattepliktiga traktamenten, Sverige"
+a7323,7323,"Skattefria traktamenten, utlandet",expense,False,"Skattefria traktamenten, utlandet"
+a7324,7324,"Skattepliktiga traktamenten, utlandet",expense,False,"Skattepliktiga traktamenten, utlandet"
+a7330,7330,Bilersättningar,expense,False,Bilersättningar
+a7331,7331,Skattefria bilersättningar,expense,False,Skattefria bilersättningar
+a7332,7332,Skattepliktiga bilersättningar,expense,False,Skattepliktiga bilersättningar
+a7333,7333,"Ersättning för trängselskatt, skattefri",expense,False,"Ersättning för trängselskatt, skattefri"
+a7350,7350,Ersättningar för föreskrivna arbetskläder,expense,False,Ersättningar för föreskrivna arbetskläder
+a7370,7370,Representationsersättningar,expense,False,Representationsersättningar
+a7380,7380,Kostnader för förmåner till anställda,expense,False,Kostnader för förmåner till anställda
+a7381,7381,Kostnader för fri bostad,expense,False,Kostnader för fri bostad
+a7382,7382,Kostnader för fria eller subventionerade måltider,expense,False,Kostnader för fria eller subventionerade måltider
+a7383,7383,Kostnader för fria resor till och från arbetsplatsen,expense,False,Kostnader för fria resor till och från arbetsplatsen
+a7384,7384,Kostnader för fria eller subventionerade arbetskläder,expense,False,Kostnader för fria eller subventionerade arbetskläder
+a7385,7385,Kostnader för fri bil,expense,False,Kostnader för fri bil
+a7386,7386,Subventionerad ränta,expense,False,Subventionerad ränta
+a7387,7387,Kostnader för lånedatorer,expense,False,Kostnader för lånedatorer
+a7388,7388,Anställdas ersättning för erhållna förmåner,expense,False,Anställdas ersättning för erhållna förmåner
+a7389,7389,Övriga kostnader för förmåner,expense,False,Övriga kostnader för förmåner
+a7390,7390,Övriga kostnadsersättningar och förmåner,expense,False,Övriga kostnadsersättningar och förmåner
+a7391,7391,Kostnad för trängselskatteförmån,expense,False,Kostnad för trängselskatteförmån
+a7392,7392,Kostnad för förmån av hushållsnära tjänster,expense,False,Kostnad för förmån av hushållsnära tjänster
+a7400,7400,Pensionskostnader (gruppkonto),expense,False,Pensionskostnader (gruppkonto)
+a7410,7410,Pensionsförsäkringspremier,expense,False,Pensionsförsäkringspremier
+a7411,7411,Premier för kollektiva pensionsförsäkringar,expense,False,Premier för kollektiva pensionsförsäkringar
+a7412,7412,Premier för individuella pensionsförsäkringar,expense,False,Premier för individuella pensionsförsäkringar
+a7418,7418,Återbäring från försäkringsföretag,expense,False,Återbäring från försäkringsföretag
+a7420,7420,Förändring av pensionsskuld,expense,False,Förändring av pensionsskuld
+a7430,7430,Avdrag för räntedel i pensionskostnad,expense,False,Avdrag för räntedel i pensionskostnad
+a7440,7440,Förändring av pensionsstiftelsekapital,expense,False,Förändring av pensionsstiftelsekapital
+a7441,7441,Avsättning till pensionsstiftelse,expense,False,Avsättning till pensionsstiftelse
+a7448,7448,Gottgörelse från pensionsstiftelse,expense,False,Gottgörelse från pensionsstiftelse
+a7460,7460,Pensionsutbetalningar,expense,False,Pensionsutbetalningar
+a7461,7461,Pensionsutbetalningar till f.d. kollektivanställda,expense,False,Pensionsutbetalningar till f.d. kollektivanställda
+a7462,7462,Pensionsutbetalningar till f.d. tjänstemän,expense,False,Pensionsutbetalningar till f.d. tjänstemän
+a7463,7463,Pensionsutbetalningar till f.d. företagsledare,expense,False,Pensionsutbetalningar till f.d. företagsledare
+a7470,7470,Förvaltnings- och kreditförsäkringsavgifter,expense,False,Förvaltnings- och kreditförsäkringsavgifter
+a7490,7490,Övriga pensionskostnader,expense,False,Övriga pensionskostnader
+a7510,7510,"Arbetsgivaravgifter 31,42 %",expense,False,"Arbetsgivaravgifter 31,42 %"
+a7511,7511,Arbetsgivaravgifter för löner och ersättningar,expense,False,Arbetsgivaravgifter för löner och ersättningar
+a7512,7512,Arbetsgivaravgifter för förmånsvärden,expense,False,Arbetsgivaravgifter för förmånsvärden
+a7515,7515,Arbetsgivaravgifter på skattepliktiga kostnadsersättningar,expense,False,Arbetsgivaravgifter på skattepliktiga kostnadsersättningar
+a7516,7516,Arbetsgivaravgifter på arvoden,expense,False,Arbetsgivaravgifter på arvoden
+a7518,7518,Arbetsgivaravgifter på bruttolöneavdrag m.m.,expense,False,Arbetsgivaravgifter på bruttolöneavdrag m.m.
+a7519,7519,Arbetsgivaravgifter för semester- och löneskulder,expense,False,Arbetsgivaravgifter för semester- och löneskulder
+a7530,7530,Särskild löneskatt,expense,False,Särskild löneskatt
+a7531,7531,Särskild löneskatt för vissa försäkringsersättningar m.m.,expense,False,Särskild löneskatt för vissa försäkringsersättningar m.m.
+a7532,7532,"Särskild löneskatt pensionskostnader, deklarationspost",expense,False,"Särskild löneskatt pensionskostnader, deklarationspost"
+a7533,7533,Särskild löneskatt för pensionskostnader,expense,False,Särskild löneskatt för pensionskostnader
+a7550,7550,Avkastningsskatt på pensionsmedel,expense,False,Avkastningsskatt på pensionsmedel
+a7551,7551,Avkastningsskatt 15 % försäkringsföretag m.fl. samt avsatt till pensioner,expense,False,Avkastningsskatt 15 % försäkringsföretag m.fl. samt avsatt till pensioner
+a7552,7552,Avkastningsskatt 15 % utländska pensionsförsäkringar,expense,False,Avkastningsskatt 15 % utländska pensionsförsäkringar
+a7553,7553,Avkastningsskatt 30 % utländska försäkringsföretag m.fl.,expense,False,Avkastningsskatt 30 % utländska försäkringsföretag m.fl.
+a7554,7554,Avkastningsskatt 30 % utländska kapitalförsäkringar,expense,False,Avkastningsskatt 30 % utländska kapitalförsäkringar
+a7570,7570,Premier för arbetsmarknadsförsäkringar,expense,False,Premier för arbetsmarknadsförsäkringar
+a7571,7571,Arbetsmarknadsförsäkringar,expense,False,Arbetsmarknadsförsäkringar
+a7572,7572,"Arbetsmarknadsförsäkringar pensionsförsäkringspremier, deklarationspost",expense,False,"Arbetsmarknadsförsäkringar pensionsförsäkringspremier, deklarationspost"
+a7580,7580,Gruppförsäkringspremier,expense,False,Gruppförsäkringspremier
+a7581,7581,Grupplivförsäkringspremier,expense,False,Grupplivförsäkringspremier
+a7582,7582,Gruppsjukförsäkringspremier,expense,False,Gruppsjukförsäkringspremier
+a7583,7583,Gruppolycksfallsförsäkringspremier,expense,False,Gruppolycksfallsförsäkringspremier
+a7589,7589,Övriga gruppförsäkringspremier,expense,False,Övriga gruppförsäkringspremier
+a7590,7590,Övriga sociala och andra avgifter enligt lag och avtal,expense,False,Övriga sociala och andra avgifter enligt lag och avtal
+a7600,7600,Övriga personalkostnader (gruppkonto),expense,False,Övriga personalkostnader (gruppkonto)
+a7610,7610,Utbildning,expense,False,Utbildning
+a7620,7620,Sjuk- och hälsovård,expense,False,Sjuk- och hälsovård
+a7621,7621,"Sjuk- och hälsovård, avdragsgill",expense,False,"Sjuk- och hälsovård, avdragsgill"
+a7622,7622,"Sjuk- och hälsovård, ej avdragsgill",expense,False,"Sjuk- och hälsovård, ej avdragsgill"
+a7623,7623,"Sjukvårdsförsäkring, ej avdragsgill",expense,False,"Sjukvårdsförsäkring, ej avdragsgill"
+a7630,7630,Personalrepresentation,expense,False,Personalrepresentation
+a7631,7631,"Personalrepresentation, avdragsgill",expense,False,"Personalrepresentation, avdragsgill"
+a7632,7632,"Personalrepresentation, ej avdragsgill",expense,False,"Personalrepresentation, ej avdragsgill"
+a7650,7650,Sjuklöneförsäkring,expense,False,Sjuklöneförsäkring
+a7670,7670,Förändring av personalstiftelsekapital,expense,False,Förändring av personalstiftelsekapital
+a7671,7671,Avsättning till personalstiftelse,expense,False,Avsättning till personalstiftelse
+a7678,7678,Gottgörelse från personalstiftelse,expense,False,Gottgörelse från personalstiftelse
+a7690,7690,Övriga personalkostnader,expense,False,Övriga personalkostnader
+a7691,7691,Personalrekrytering,expense,False,Personalrekrytering
+a7692,7692,Begravningshjälp,expense,False,Begravningshjälp
+a7693,7693,Fritidsverksamhet,expense,False,Fritidsverksamhet
+a7699,7699,Övriga personalkostnader,expense,False,Övriga personalkostnader
+a7710,7710,Nedskrivningar av immateriella anläggningstillgångar,expense_direct_cost,False,Nedskrivningar av immateriella anläggningstillgångar
+a7720,7720,Nedskrivningar av byggnader och mark,expense_direct_cost,False,Nedskrivningar av byggnader och mark
+a7730,7730,Nedskrivningar av maskiner och inventarier,expense_direct_cost,False,Nedskrivningar av maskiner och inventarier
+a7740,7740,Nedskrivningar av vissa omsättningstillgångar,expense_direct_cost,False,Nedskrivningar av vissa omsättningstillgångar
+a7760,7760,Återföring av nedskrivningar av immateriella anläggningstillgångar,expense_direct_cost,False,Återföring av nedskrivningar av immateriella anläggningstillgångar
+a7770,7770,Återföring av nedskrivningar av byggnader och mark,expense_direct_cost,False,Återföring av nedskrivningar av byggnader och mark
+a7780,7780,Återföring av nedskrivningar av maskiner och inventarier,expense_direct_cost,False,Återföring av nedskrivningar av maskiner och inventarier
+a7790,7790,Återföring av nedskrivningar av vissa omsättningstillgångar,expense_direct_cost,False,Återföring av nedskrivningar av vissa omsättningstillgångar
+a7810,7810,Avskrivningar på immateriella anläggningstillgångar,expense_direct_cost,False,Avskrivningar på immateriella anläggningstillgångar
+a7811,7811,Avskrivningar på balanserade utgifter,expense_direct_cost,False,Avskrivningar på balanserade utgifter
+a7812,7812,Avskrivningar på koncessioner m.m.,expense_direct_cost,False,Avskrivningar på koncessioner m.m.
+a7813,7813,Avskrivningar på patent,expense_direct_cost,False,Avskrivningar på patent
+a7814,7814,Avskrivningar på licenser,expense_direct_cost,False,Avskrivningar på licenser
+a7815,7815,Avskrivningar på varumärken,expense_direct_cost,False,Avskrivningar på varumärken
+a7816,7816,Avskrivningar på hyresrätter,expense_direct_cost,False,Avskrivningar på hyresrätter
+a7817,7817,Avskrivningar på goodwill,expense_direct_cost,False,Avskrivningar på goodwill
+a7819,7819,Avskrivningar på övriga immateriella anläggningstillgångar,expense_direct_cost,False,Avskrivningar på övriga immateriella anläggningstillgångar
+a7820,7820,Avskrivningar på byggnader och markanläggningar,expense_direct_cost,False,Avskrivningar på byggnader och markanläggningar
+a7821,7821,Avskrivningar på byggnader,expense_direct_cost,False,Avskrivningar på byggnader
+a7824,7824,Avskrivningar på markanläggningar,expense_direct_cost,False,Avskrivningar på markanläggningar
+a7829,7829,Avskrivningar på övriga byggnader,expense_direct_cost,False,Avskrivningar på övriga byggnader
+a7830,7830,Avskrivningar på maskiner och inventarier,expense_direct_cost,False,Avskrivningar på maskiner och inventarier
+a7831,7831,Avskrivningar på maskiner och andra tekniska anläggningar,expense_direct_cost,False,Avskrivningar på maskiner och andra tekniska anläggningar
+a7832,7832,Avskrivningar på inventarier och verktyg,expense_direct_cost,False,Avskrivningar på inventarier och verktyg
+a7833,7833,Avskrivningar på installationer,expense_direct_cost,False,Avskrivningar på installationer
+a7834,7834,Avskrivningar på bilar och andra transportmedel,expense_direct_cost,False,Avskrivningar på bilar och andra transportmedel
+a7835,7835,Avskrivningar på datorer,expense_direct_cost,False,Avskrivningar på datorer
+a7836,7836,Avskrivningar på leasade tillgångar,expense_direct_cost,False,Avskrivningar på leasade tillgångar
+a7839,7839,Avskrivningar på övriga maskiner och inventarier,expense_direct_cost,False,Avskrivningar på övriga maskiner och inventarier
+a7840,7840,Avskrivningar på förbättringsutgifter på annans fastighet,expense_direct_cost,False,Avskrivningar på förbättringsutgifter på annans fastighet
+a7960,7960,Valutakursförluster på fordringar och skulder av rörelsekaraktär,expense_direct_cost,False,Valutakursförluster på fordringar och skulder av rörelsekaraktär
+a7970,7970,Förlust vid avyttring av immateriella och materiella anläggningstillgångar,expense_direct_cost,False,Förlust vid avyttring av immateriella och materiella anläggningstillgångar
+a7971,7971,Förlust vid avyttring av immateriella anläggningstillgångar,expense_direct_cost,False,Förlust vid avyttring av immateriella anläggningstillgångar
+a7972,7972,Förlust vid avyttring av byggnader och mark,expense_direct_cost,False,Förlust vid avyttring av byggnader och mark
+a7973,7973,Förlust vid avyttring av maskiner och inventarier,expense_direct_cost,False,Förlust vid avyttring av maskiner och inventarier
+a7990,7990,Övriga rörelsekostnader,expense_direct_cost,False,Övriga rörelsekostnader
+a8010,8010,Utdelning på andelar i koncernföretag,income_other,False,Utdelning på andelar i koncernföretag
+a8012,8012,Utdelning på andelar i dotterföretag,income_other,False,Utdelning på andelar i dotterföretag
+a8016,8016,"Emissionsinsats, koncernföretag",income_other,False,"Emissionsinsats, koncernföretag"
+a8020,8020,Resultat vid försäljning av andelar i koncernföretag,income_other,False,Resultat vid försäljning av andelar i koncernföretag
+a8022,8022,Resultat vid försäljning av andelar i dotterföretag,income_other,False,Resultat vid försäljning av andelar i dotterföretag
+a8030,8030,Resultatandelar från handelsbolag (dotterföretag),income_other,False,Resultatandelar från handelsbolag (dotterföretag)
+a8070,8070,Nedskrivningar av andelar i och långfristiga fordringar hos koncernföretag,expense_direct_cost,False,Nedskrivningar av andelar i och långfristiga fordringar hos koncernföretag
+a8072,8072,Nedskrivningar av andelar i dotterföretag,expense_direct_cost,False,Nedskrivningar av andelar i dotterföretag
+a8076,8076,Nedskrivningar av långfristiga fordringar hos moderföretag,expense_direct_cost,False,Nedskrivningar av långfristiga fordringar hos moderföretag
+a8077,8077,Nedskrivningar av långfristiga fordringar hos dotterföretag,expense_direct_cost,False,Nedskrivningar av långfristiga fordringar hos dotterföretag
+a8080,8080,Återföringar av nedskrivningar av andelar i och långfristiga fordringar hos koncernföretag,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i och långfristiga fordringar hos koncernföretag
+a8082,8082,Återföringar av nedskrivningar av andelar i dotterföretag,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i dotterföretag
+a8086,8086,Återföringar av nedskrivningar av långfristiga fordringar hos moderföretag,expense_direct_cost,False,Återföringar av nedskrivningar av långfristiga fordringar hos moderföretag
+a8087,8087,Återföringar av nedskrivningar av långfristiga fordringar hos dotterföretag,expense_direct_cost,False,Återföringar av nedskrivningar av långfristiga fordringar hos dotterföretag
+a8110,8110,"Utdelningar på andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",income_other,False,"Utdelningar på andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a8111,8111,Utdelningar på andelar i intresseföretag,income_other,False,Utdelningar på andelar i intresseföretag
+a8112,8112,Utdelningar på andelar i gemensamt styrda företag,income_other,False,Utdelningar på andelar i gemensamt styrda företag
+a8113,8113,Utdelningar på andelar i övriga företag som det finns ett ägarintresse i,income_other,False,Utdelningar på andelar i övriga företag som det finns ett ägarintresse i
+a8116,8116,"Emissionsinsats, intresseföretag",income_other,False,"Emissionsinsats, intresseföretag"
+a8117,8117,"Emissionsinsats, gemensamt styrda företag",income_other,False,"Emissionsinsats, gemensamt styrda företag"
+a8118,8118,"Emissionsinsats, övriga företag som det finns ett ägarintresse i",income_other,False,"Emissionsinsats, övriga företag som det finns ett ägarintresse i"
+a8120,8120,"Resultat vid försäljning av andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",income_other,False,"Resultat vid försäljning av andelar i intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a8121,8121,Resultat vid försäljning av andelar i intresseföretag,income_other,False,Resultat vid försäljning av andelar i intresseföretag
+a8122,8122,Resultat vid försäljning av andelar i gemensamt styrda företag,income_other,False,Resultat vid försäljning av andelar i gemensamt styrda företag
+a8123,8123,Resultat vid försäljning av andelar i övriga företag som det finns ett ägarintresse i,income_other,False,Resultat vid försäljning av andelar i övriga företag som det finns ett ägarintresse i
+a8130,8130,"Resultatandelar från handelsbolag (intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i)",income_other,False,"Resultatandelar från handelsbolag (intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i)"
+a8131,8131,Resultatandelar från handelsbolag (intresseföretag),income_other,False,Resultatandelar från handelsbolag (intresseföretag)
+a8132,8132,Resultatandelar från handelsbolag (gemensamt styrda företag),income_other,False,Resultatandelar från handelsbolag (gemensamt styrda företag)
+a8133,8133,Resultatandelar från handelsbolag (övriga företag som det finns ett ägarintresse i),income_other,False,Resultatandelar från handelsbolag (övriga företag som det finns ett ägarintresse i)
+a8170,8170,"Nedskrivningar av andelar i och långfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i",expense_direct_cost,False,"Nedskrivningar av andelar i och långfristiga fordringar hos intresseföretag, gemensamt styrda företag och övriga företag som det finns ett ägarintresse i"
+a8171,8171,Nedskrivningar av andelar i intresseföretag,expense_direct_cost,False,Nedskrivningar av andelar i intresseföretag
+a8172,8172,Nedskrivningar av långfristiga fordringar hos intresseföretag,expense_direct_cost,False,Nedskrivningar av långfristiga fordringar hos intresseföretag
+a8173,8173,Nedskrivningar av andelar i gemensamt styrda företag,expense_direct_cost,False,Nedskrivningar av andelar i gemensamt styrda företag
+a8174,8174,Nedskrivningar av långfristiga fordringar hos gemensamt styrda företag,expense_direct_cost,False,Nedskrivningar av långfristiga fordringar hos gemensamt styrda företag
+a8176,8176,Nedskrivningar av andelar i övriga företag som det finns ett ägarintresse i,expense_direct_cost,False,Nedskrivningar av andelar i övriga företag som det finns ett ägarintresse i
+a8177,8177,Nedskrivningar av långfristiga fordringar hos övriga företag som det finns ett ägarintresse i,expense_direct_cost,False,Nedskrivningar av långfristiga fordringar hos övriga företag som det finns ett ägarintresse i
+a8180,8180,Återföringar av nedskrivningar av andelar i och långfristiga fordringar hos intresseföretag,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i och långfristiga fordringar hos intresseföretag
+a8181,8181,Återföringar av nedskrivningar av andelar i intresseföretag,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i intresseföretag
+a8182,8182,Återföringar av nedskrivningar av långfristiga fordringar hos intresseföretag,expense_direct_cost,False,Återföringar av nedskrivningar av långfristiga fordringar hos intresseföretag
+a8183,8183,Återföringar av nedskrivningar av andelar i gemensamt styrda företag,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i gemensamt styrda företag
+a8184,8184,Återföringar av nedskrivningar av långfristiga fordringar hos gemensamt styrda företag,expense_direct_cost,False,Återföringar av nedskrivningar av långfristiga fordringar hos gemensamt styrda företag
+a8186,8186,Återföringar av nedskrivningar av andelar i övriga företag som det finns ett ägarintresse i,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i övriga företag som det finns ett ägarintresse i
+a8187,8187,Återföringar av nedskrivningar av långfristiga fordringar hos övriga företag som det finns ett ägarintresse i,expense_direct_cost,False,Återföringar av nedskrivningar av långfristiga fordringar hos övriga företag som det finns ett ägarintresse i
+a8210,8210,Utdelningar på andelar i andra företag,income_other,False,Utdelningar på andelar i andra företag
+a8212,8212,"Utdelningar, övriga företag",income_other,False,"Utdelningar, övriga företag"
+a8216,8216,"Insatsemissioner, övriga företag",income_other,False,"Insatsemissioner, övriga företag"
+a8220,8220,Resultat vid försäljning av värdepapper i och långfristiga fordringar hos andra företag,income_other,False,Resultat vid försäljning av värdepapper i och långfristiga fordringar hos andra företag
+a8221,8221,Resultat vid försäljning av andelar i andra företag,income_other,False,Resultat vid försäljning av andelar i andra företag
+a8222,8222,Resultat vid försäljning av långfristiga fordringar hos andra företag,income_other,False,Resultat vid försäljning av långfristiga fordringar hos andra företag
+a8223,8223,Resultat vid försäljning av derivat (långfristiga värdepappersinnehav),income_other,False,Resultat vid försäljning av derivat (långfristiga värdepappersinnehav)
+a8230,8230,Valutakursdifferenser på långfristiga fordringar,income_other,False,Valutakursdifferenser på långfristiga fordringar
+a8231,8231,Valutakursvinster på långfristiga fordringar,income_other,False,Valutakursvinster på långfristiga fordringar
+a8236,8236,Valutakursförluster på långfristiga fordringar,income_other,False,Valutakursförluster på långfristiga fordringar
+a8240,8240,Resultatandelar från handelsbolag (andra företag),income_other,False,Resultatandelar från handelsbolag (andra företag)
+a8250,8250,Ränteintäkter från långfristiga fordringar hos och värdepapper i andra företag,income_other,False,Ränteintäkter från långfristiga fordringar hos och värdepapper i andra företag
+a8251,8251,Ränteintäkter från långfristiga fordringar,income_other,False,Ränteintäkter från långfristiga fordringar
+a8252,8252,Ränteintäkter från övriga värdepapper,income_other,False,Ränteintäkter från övriga värdepapper
+a8254,8254,"Skattefria ränteintäkter, långfristiga tillgångar",income_other,False,"Skattefria ränteintäkter, långfristiga tillgångar"
+a8255,8255,Avkastningsskatt kapitalplacering,income_other,False,Avkastningsskatt kapitalplacering
+a8260,8260,Ränteintäkter från långfristiga fordringar hos koncernföretag,income_other,False,Ränteintäkter från långfristiga fordringar hos koncernföretag
+a8261,8261,Ränteintäkter från långfristiga fordringar hos moderföretag,income_other,False,Ränteintäkter från långfristiga fordringar hos moderföretag
+a8262,8262,Ränteintäkter från långfristiga fordringar hos dotterföretag,income_other,False,Ränteintäkter från långfristiga fordringar hos dotterföretag
+a8263,8263,Ränteintäkter från långfristiga fordringar hos andra koncernföretag,income_other,False,Ränteintäkter från långfristiga fordringar hos andra koncernföretag
+a8270,8270,Nedskrivningar av innehav av andelar i och långfristiga fordringar hos andra företag,expense_direct_cost,False,Nedskrivningar av innehav av andelar i och långfristiga fordringar hos andra företag
+a8271,8271,Nedskrivningar av andelar i andra företag,expense_direct_cost,False,Nedskrivningar av andelar i andra företag
+a8272,8272,Nedskrivningar av långfristiga fordringar hos andra företag,expense_direct_cost,False,Nedskrivningar av långfristiga fordringar hos andra företag
+a8273,8273,Nedskrivningar av övriga värdepapper hos andra företag,expense_direct_cost,False,Nedskrivningar av övriga värdepapper hos andra företag
+a8280,8280,Återföringar av nedskrivningar av andelar i och långfristiga fordringar hos andra företag,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i och långfristiga fordringar hos andra företag
+a8281,8281,Återföringar av nedskrivningar av andelar i andra företag,expense_direct_cost,False,Återföringar av nedskrivningar av andelar i andra företag
+a8282,8282,Återföringar av nedskrivningar av långfristiga fordringar hos andra företag,expense_direct_cost,False,Återföringar av nedskrivningar av långfristiga fordringar hos andra företag
+a8283,8283,Återföringar av nedskrivningar av övriga värdepapper i andra företag,expense_direct_cost,False,Återföringar av nedskrivningar av övriga värdepapper i andra företag
+a8310,8310,Ränteintäkter från omsättningstillgångar,income_other,False,Ränteintäkter från omsättningstillgångar
+a8311,8311,Ränteintäkter från bank,income_other,False,Ränteintäkter från bank
+a8312,8312,Ränteintäkter från kortfristiga placeringar,income_other,False,Ränteintäkter från kortfristiga placeringar
+a8313,8313,Ränteintäkter från kortfristiga fordringar,income_other,False,Ränteintäkter från kortfristiga fordringar
+a8314,8314,Skattefria ränteintäkter,income_other,False,Skattefria ränteintäkter
+a8317,8317,Ränteintäkter för dold räntekompensation,income_other,False,Ränteintäkter för dold räntekompensation
+a8319,8319,Övriga ränteintäkter från omsättningstillgångar,income_other,False,Övriga ränteintäkter från omsättningstillgångar
+a8330,8330,Valutakursdifferenser på kortfristiga fordringar och placeringar,income_other,False,Valutakursdifferenser på kortfristiga fordringar och placeringar
+a8331,8331,Valutakursvinster på kortfristiga fordringar och placeringar,income_other,False,Valutakursvinster på kortfristiga fordringar och placeringar
+a8336,8336,Valutakursförluster på kortfristiga fordringar och placeringar,income_other,False,Valutakursförluster på kortfristiga fordringar och placeringar
+a8340,8340,Utdelningar på kortfristiga placeringar,income_other,False,Utdelningar på kortfristiga placeringar
+a8350,8350,Resultat vid försäljning av kortfristiga placeringar,income_other,False,Resultat vid försäljning av kortfristiga placeringar
+a8360,8360,Övriga ränteintäkter från koncernföretag,income_other,False,Övriga ränteintäkter från koncernföretag
+a8361,8361,Övriga ränteintäkter från moderföretag,income_other,False,Övriga ränteintäkter från moderföretag
+a8362,8362,Övriga ränteintäkter från dotterföretag,income_other,False,Övriga ränteintäkter från dotterföretag
+a8363,8363,Övriga ränteintäkter från andra koncernföretag,income_other,False,Övriga ränteintäkter från andra koncernföretag
+a8370,8370,Nedskrivningar av kortfristiga placeringar,expense_direct_cost,False,Nedskrivningar av kortfristiga placeringar
+a8380,8380,Återföringar av nedskrivningar av kortfristiga placeringar,expense_direct_cost,False,Återföringar av nedskrivningar av kortfristiga placeringar
+a8390,8390,Övriga finansiella intäkter,income_other,False,Övriga finansiella intäkter
+a8400,8400,Räntekostnader (gruppkonto),expense,False,Räntekostnader (gruppkonto)
+a8410,8410,Räntekostnader för långfristiga skulder,expense,False,Räntekostnader för långfristiga skulder
+a8411,8411,"Räntekostnader för obligations-, förlags- och konvertibla lån",expense,False,"Räntekostnader för obligations-, förlags- och konvertibla lån"
+a8412,8412,Räntedel i årets pensionskostnad,expense,False,Räntedel i årets pensionskostnad
+a8413,8413,Räntekostnader för checkräkningskredit,expense,False,Räntekostnader för checkräkningskredit
+a8415,8415,Räntekostnader för andra skulder till kreditinstitut,expense,False,Räntekostnader för andra skulder till kreditinstitut
+a8417,8417,Räntekostnader för dold räntekompensation m.m.,expense,False,Räntekostnader för dold räntekompensation m.m.
+a8418,8418,Avdragspost för räntesubventioner,expense,False,Avdragspost för räntesubventioner
+a8419,8419,Övriga räntekostnader för långfristiga skulder,expense,False,Övriga räntekostnader för långfristiga skulder
+a8420,8420,Räntekostnader för kortfristiga skulder,expense,False,Räntekostnader för kortfristiga skulder
+a8421,8421,Räntekostnader till kreditinstitut,expense,False,Räntekostnader till kreditinstitut
+a8422,8422,Dröjsmålsräntor för leverantörsskulder,expense,False,Dröjsmålsräntor för leverantörsskulder
+a8423,8423,Räntekostnader för skatter och avgifter,expense,False,Räntekostnader för skatter och avgifter
+a8424,8424,Räntekostnader byggnadskreditiv,expense,False,Räntekostnader byggnadskreditiv
+a8429,8429,Övriga räntekostnader för kortfristiga skulder,expense,False,Övriga räntekostnader för kortfristiga skulder
+a8430,8430,Valutakursdifferenser på skulder,expense,False,Valutakursdifferenser på skulder
+a8431,8431,Valutakursvinster på skulder,expense,False,Valutakursvinster på skulder
+a8436,8436,Valutakursförluster på skulder,expense,False,Valutakursförluster på skulder
+a8440,8440,Erhållna räntebidrag,expense,False,Erhållna räntebidrag
+a8460,8460,Räntekostnader till koncernföretag,expense,False,Räntekostnader till koncernföretag
+a8461,8461,Räntekostnader till moderföretag,expense,False,Räntekostnader till moderföretag
+a8462,8462,Räntekostnader till dotterföretag,expense,False,Räntekostnader till dotterföretag
+a8463,8463,Räntekostnader till andra koncernföretag,expense,False,Räntekostnader till andra koncernföretag
+a8490,8490,Övriga skuldrelaterade poster,expense,False,Övriga skuldrelaterade poster
+a8491,8491,Erhållet ackord på skulder till kreditinstitut m.m.,expense,False,Erhållet ackord på skulder till kreditinstitut m.m.
+a8810,8810,Förändring av periodiseringsfond,equity,False,Förändring av periodiseringsfond
+a8811,8811,Avsättning till periodiseringsfond,equity,False,Avsättning till periodiseringsfond
+a8819,8819,Återföring från periodiseringsfond,equity,False,Återföring från periodiseringsfond
+a8820,8820,Mottagna koncernbidrag,income_other,False,Mottagna koncernbidrag
+a8830,8830,Lämnade koncernbidrag,expense,False,Lämnade koncernbidrag
+a8840,8840,Lämnade gottgörelser,equity,False,Lämnade gottgörelser
+a8850,8850,Förändring av överavskrivningar,expense,False,Förändring av överavskrivningar
+a8851,8851,"Förändring av överavskrivningar, immateriella anläggningstillgångar",expense,False,"Förändring av överavskrivningar, immateriella anläggningstillgångar"
+a8852,8852,"Förändring av överavskrivningar, byggnader och markanläggningar",expense,False,"Förändring av överavskrivningar, byggnader och markanläggningar"
+a8853,8853,"Förändring av överavskrivningar, maskiner och inventarier",expense,False,"Förändring av överavskrivningar, maskiner och inventarier"
+a8860,8860,Förändring av ersättningsfond,equity,False,Förändring av ersättningsfond
+a8861,8861,Avsättning till ersättningsfond för inventarier,equity,False,Avsättning till ersättningsfond för inventarier
+a8862,8862,Avsättning till ersättningsfond för byggnader och markanläggningar,equity,False,Avsättning till ersättningsfond för byggnader och markanläggningar
+a8864,8864,Avsättning till ersättningsfond för djurlager i jordbruk och renskötsel,equity,False,Avsättning till ersättningsfond för djurlager i jordbruk och renskötsel
+a8865,8865,Ianspråktagande av ersättningsfond för avskrivningar,equity,False,Ianspråktagande av ersättningsfond för avskrivningar
+a8866,8866,Ianspråktagande av ersättningsfond för annat än avskrivningar,equity,False,Ianspråktagande av ersättningsfond för annat än avskrivningar
+a8869,8869,Återföring från ersättningsfond,equity,False,Återföring från ersättningsfond
+a8890,8890,Övriga bokslutsdispositioner,equity,False,Övriga bokslutsdispositioner
+a8892,8892,Nedskrivningar av konsolideringskaraktär av anläggningstillgångar,equity,False,Nedskrivningar av konsolideringskaraktär av anläggningstillgångar
+a8896,8896,Förändring av lagerreserv,equity,False,Förändring av lagerreserv
+a8899,8899,Övriga bokslutsdispositioner,equity,False,Övriga bokslutsdispositioner
+a8910,8910,Skatt som belastar årets resultat,expense,False,Skatt som belastar årets resultat
+a8920,8920,Skatt på grund av ändrad beskattning,expense,False,Skatt på grund av ändrad beskattning
+a8930,8930,Restituerad skatt,expense,False,Restituerad skatt
+a8980,8980,Övriga skatter,expense,False,Övriga skatter

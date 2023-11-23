@@ -1,0 +1,55 @@
+id,code,name,account_type,reconcile,name@sv_SE
+a1955,1955,Bank transfer,asset_current,True,Bank transfer
+a2610,2610,"Utgående moms, 25 %",liability_non_current,True,"Utgående moms, 25 %"
+a2611,2611,"Utgående moms på försäljning inom Sverige, 25 %",liability_non_current,True,"Utgående moms på försäljning inom Sverige, 25 %"
+a2612,2612,"Utgående moms på egna uttag, 25 %",liability_non_current,True,"Utgående moms på egna uttag, 25 %"
+a2613,2613,"Utgående moms för uthyrning, 25 %",liability_non_current,True,"Utgående moms för uthyrning, 25 %"
+a2614,2614,"Utgående moms omvänd skattskyldighet, 25 %",liability_non_current,True,"Utgående moms omvänd skattskyldighet, 25 %"
+a2615,2615,"Utgående moms import av varor, 25 %",liability_non_current,True,"Utgående moms import av varor, 25 %"
+a2616,2616,Utgående moms VMB 25 %,liability_non_current,True,Utgående moms VMB 25 %
+a2618,2618,"Vilande utgående moms, 25 %",liability_non_current,True,"Vilande utgående moms, 25 %"
+a2620,2620,"Utgående moms, 12 %",liability_non_current,True,"Utgående moms, 12 %"
+a2621,2621,"Utgående moms på försäljning inom Sverige, 12 %",liability_non_current,True,"Utgående moms på försäljning inom Sverige, 12 %"
+a2622,2622,"Utgående moms på egna uttag, 12 %",liability_non_current,True,"Utgående moms på egna uttag, 12 %"
+a2623,2623,"Utgående moms för uthyrning, 12 %",liability_non_current,True,"Utgående moms för uthyrning, 12 %"
+a2624,2624,"Utgående moms omvänd skattskyldighet, 12 %",liability_non_current,True,"Utgående moms omvänd skattskyldighet, 12 %"
+a2625,2625,"Utgående moms import av varor, 12 %",liability_non_current,True,"Utgående moms import av varor, 12 %"
+a2626,2626,Utgående moms VMB 12 %,liability_non_current,True,Utgående moms VMB 12 %
+a2628,2628,"Vilande utgående moms, 12 %",liability_non_current,True,"Vilande utgående moms, 12 %"
+a2630,2630,"Utgående moms, 6 %",liability_non_current,True,"Utgående moms, 6 %"
+a2631,2631,"Utgående moms på försäljning inom Sverige, 6 %",liability_non_current,True,"Utgående moms på försäljning inom Sverige, 6 %"
+a2632,2632,"Utgående moms på egna uttag, 6 %",liability_non_current,True,"Utgående moms på egna uttag, 6 %"
+a2633,2633,"Utgående moms för uthyrning, 6 %",liability_non_current,True,"Utgående moms för uthyrning, 6 %"
+a2634,2634,"Utgående moms omvänd skattskyldighet, 6 %",liability_non_current,True,"Utgående moms omvänd skattskyldighet, 6 %"
+a2635,2635,"Utgående moms import av varor, 6 %",liability_non_current,True,"Utgående moms import av varor, 6 %"
+a2636,2636,Utgående moms VMB 6 %,liability_non_current,True,Utgående moms VMB 6 %
+a2638,2638,"Vilande utgående moms, 6 %",liability_non_current,True,"Vilande utgående moms, 6 %"
+a2640,2640,Ingående moms,liability_non_current,True,Ingående moms
+a2641,2641,Debiterad ingående moms,liability_non_current,True,Debiterad ingående moms
+a2642,2642,Debiterad ingående moms i anslutning till frivillig skattskyldighet,liability_non_current,True,Debiterad ingående moms i anslutning till frivillig skattskyldighet
+a2645,2645,Beräknad ingående moms på förvärv från utlandet,liability_non_current,True,Beräknad ingående moms på förvärv från utlandet
+a2646,2646,Ingående moms på uthyrning,liability_non_current,True,Ingående moms på uthyrning
+a2647,2647,Ingående moms omvänd skattskyldighet varor och tjänster i Sverige,liability_non_current,True,Ingående moms omvänd skattskyldighet varor och tjänster i Sverige
+a2648,2648,Vilande ingående moms,liability_non_current,True,Vilande ingående moms
+a2649,2649,"Ingående moms, blandad verksamhet",liability_non_current,True,"Ingående moms, blandad verksamhet"
+a2650,2650,Redovisningskonto för moms,liability_non_current,True,Redovisningskonto för moms
+a2660,2660,Särskilda punktskatter,expense,True,Särskilda punktskatter
+a2710,2710,Personalskatt,expense,True,Personalskatt
+a2730,2730,Lagstadgade sociala avgifter och särskild löneskatt,expense,True,Lagstadgade sociala avgifter och särskild löneskatt
+a2760,2760,Semestermedel,liability_non_current,True,Semestermedel
+a2850,2850,Avräkning för skatter och avgifter (skattekonto),liability_non_current,True,Avräkning för skatter och avgifter (skattekonto)
+a1410,1410,Lager av råvaror,expense_direct_cost,False,Lager av råvaror
+a1510,1510,Kundfordringar,asset_receivable,True,Kundfordringar
+a1630,1630,Avräkning för skatter och avgifter (skattekonto),liability_current,True,Avräkning för skatter och avgifter (skattekonto)
+a1650,1650,Momsfordran,liability_current,False,Momsfordran
+a1910,1910,Kassa,asset_cash,False,Kassa
+a1920,1920,PlusGiro,asset_cash,False,PlusGiro
+a1930,1930,Företagskonto/checkkonto/affärskonto,asset_cash,False,Företagskonto/checkkonto/affärskonto
+a2440,2440,Leverantörsskulder,liability_payable,True,Leverantörsskulder
+a3000,3000,Försäljning inom Sverige,income,True,Försäljning inom Sverige
+a3004,3004,"Försäljning inom Sverige, momsfri",income,False,"Försäljning inom Sverige, momsfri"
+a3740,3740,Öres- och kronutjämning,income,False,Öres- och kronutjämning
+a7000,7000,Löner till kollektivanställda (gruppkonto),expense,False,Löner till kollektivanställda (gruppkonto)
+a7500,7500,Sociala och andra avgifter enligt lag och avtal (gruppkonto),expense,False,Sociala och andra avgifter enligt lag och avtal (gruppkonto)
+a8990,8990,Resultat,equity,False,Resultat
+a8999,8999,Årets resultat,equity,False,Årets resultat
