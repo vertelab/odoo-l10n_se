@@ -36,6 +36,8 @@ class account_sie_account(models.TransientModel):
     reconcile = fields.Boolean(string='')
     name = fields.Char(string='Name', required=True, select=True)
     code = fields.Char(string='Code', size=64, required=True)
+    
+    
     type = fields.Selection(selection=[
         ('view', 'View'),
         ('other', 'Regular'),
@@ -58,17 +60,30 @@ class account_sie_account(models.TransientModel):
 class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'SIE Import Wizard'
+    
+    ####
+    include_transactions = fields.Boolean('Include Transactions')
+    include_ib = fields.Boolean("Include Incoming Balans")
+
+    def _get_default_current_fiscalyear(self):
+        return self.env['account.fiscalyear'].search([('date_start','<=',fields.Date.today()),('date_stop','>=',fields.Date.today()),('company_id','=',self.env.company.id)],limit=1)
+    def _set_period_fiscal_domain(self):
+        return [('company_id', '=', self.env.company.id)]
+    current_transaction_year = fields.Many2one(comodel_name="account.fiscalyear", string="Current Fiscal Year", help="Balanse posts are relativ to this fiscal year", domain=_set_period_fiscal_domain, default=_get_default_current_fiscalyear)
+    ib_fiscalyear_ids = fields.Many2one(comodel_name="account.fiscalyear", string="Incoming balans for these fiscal years", help="IB For Following fiscal years", domain=_set_period_fiscal_domain)
+    #### 
+
     serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal')
     date_start = fields.Date(string="Date interval")
     date_stop = fields.Date(string="Stop Date")
     period_ids = fields.Many2many(comodel_name="account.period",
-                                  string="Periods", )  # domain="[('company_id','=',self.env.ref('base.main_company').id)]"
-    fiscalyear_ids = fields.Many2one(comodel_name="account.fiscalyear", string="Fiscal Year",
-                                     help="Moves in this fiscal years", )
+                                  string="Periods", domain=_set_period_fiscal_domain)
+              
+    fiscalyear_ids = fields.Many2one(comodel_name="account.fiscalyear", string="Fiscal Year", help="Moves in this fiscal years", domain=_set_period_fiscal_domain)
     journal_ids = fields.Many2many(comodel_name="account.journal", string="Journal",
-                                   help="Moves with this type of journals", )
-    partner_ids = fields.Many2many(comodel_name="res.partner", string="Partner", help="Moves tied to these partners", )
-    account_ids = fields.Many2many(comodel_name="account.account", string="Account", )
+                                   help="Moves with this type of journals")
+    partner_ids = fields.Many2many(comodel_name="res.partner", string="Partner", help="Moves tied to these partners",  domain=_set_period_fiscal_domain)
+    account_ids = fields.Many2many(comodel_name="account.account", string="Account", domain=_set_period_fiscal_domain)
     account_line_ids = fields.One2many(comodel_name='account.sie.account', inverse_name='wizard_id',
                                        string='New Accounts')
     state = fields.Selection([('choose', 'choose'), ('get', 'get'), ], default="choose")
@@ -76,7 +91,7 @@ class account_sie(models.TransientModel):
     filename = fields.Char(string='Filename')
     show_account_lines = fields.Boolean(string='Show Account Lines')
     move_journal_id = fields.Many2one(comodel_name="account.journal", string="Journal",
-                                      help="All imported account.moves will get this journal", )
+                                      help="All imported account.moves will get this journal", domain=_set_period_fiscal_domain)
     company_id = fields.Many2one(related='move_journal_id.company_id')
 
     accounts_type = fields.Selection(selection=[
@@ -335,23 +350,28 @@ class account_sie(models.TransientModel):
             # ~ 'views': [(False, 'tree')],
             # ~ }
         else:
-            search = []
-            if self.date_start:
-                search.append(('date', '>=', self.date_start))
-                search.append(('date', '<=', self.date_stop))
-            if self.fiscalyear_ids:
-                search.append(('period_id', 'in', [p.id for p in self.fiscalyear_ids.period_ids]))
-            if self.period_ids:
-                search.append(('period_id', 'in', [p.id for p in self.period_ids]))
-            if self.journal_ids:
-                search.append(('journal_id', 'in', [j.id for j in self.journal_ids]))
-            if self.partner_ids:
-                search.append(('partner_id', 'in', [p.id for p in self.partner_ids]))
-            move_ids = self.env['account.move'].search(search)
-            if self.account_ids:
-                accounts = [l.move_id.id for l in self.env['account.move.line'].search(
-                    [('account_id', 'in', [a.id for a in self.account_ids])])]
-                move_ids = move_ids.filtered(lambda r: r.id in accounts)
+            if self.include_transactions:
+                search = []
+                search.append(('move_id.state','=','posted'))
+                search.append(('move_id.company_id','=',self.env.company.id))
+                if self.date_start:
+                    search.append(('date', '>=', self.date_start))
+                    search.append(('date', '<=', self.date_stop))
+                if self.fiscalyear_ids:
+                    search.append(('period_id', 'in', [p.id for p in self.fiscalyear_ids.period_ids]))
+                if self.period_ids:
+                    search.append(('period_id', 'in', [p.id for p in self.period_ids]))
+                if self.journal_ids:
+                    search.append(('journal_id', 'in', [j.id for j in self.journal_ids]))
+                if self.partner_ids:
+                    search.append(('partner_id', 'in', [p.id for p in self.partner_ids]))
+                move_ids = self.env['account.move'].search(search)
+                if self.account_ids:
+                    accounts = [l.move_id.id for l in self.env['account.move.line'].search(
+                        [('account_id', 'in', [a.id for a in self.account_ids])])]
+                    move_ids = move_ids.filtered(lambda r: r.id in accounts)
+            if self.include_ib:
+                ib_dict = self.get_ib_value_dict()
 
             self.write(
                 {'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids)), 'filename': 'filename.se'})
@@ -365,6 +385,34 @@ class account_sie(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
         }
+
+    def ib_fiscalyear_ids(self):
+        self.ensure_one()
+        #IB årsnr konto saldo kvantitet
+        
+        all_fiscal_years = self.env['account.fiscalyear'].search([('move_id.company_id','=',self.env.company.id)], order='date_start ASC')
+        current_fiscalyear_index = next((index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
+    
+    
+        for fiscalyear in self.ib_fiscalyear_ids:
+            fiscalyear_index = next((index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)
+
+            year_nr = current_fiscalyear_index - fiscalyear_index
+            
+            ib_search = []
+            ib_search.append(('move_id.state','=','posted'))
+            ib_search.append(('move_id.company_id','=',self.env.company.id))
+            ib_search.append(('period_id', 'in', [p.id for p in self.fiscalyear.period_ids]))
+            ib_search.append(('account_id.user_type.report_type','in',['assets', 'liability']))
+            
+            result = self.env['account.move.line'].read_group(
+            ib_search,
+            ['account_id', 'debit', 'credit'],
+            ['account_id']
+            )
+            print(result)
+        raise UserError("Testing")
+            
 
     def make_sie(self, ver_ids):
         def get_fiscalyears(ver_ids):
