@@ -89,7 +89,7 @@ class MisReportKpiStyle(models.Model):
                 sign=sign,
             )
         elif type == TYPE_PCT:
-            return self.render_pct(lang, value, currency_id, style_props.dp, sign=sign)
+            return self.render_pct(lang, value, style_props.dp, sign=sign)
         else:
             return self.render_str(lang, value)
 

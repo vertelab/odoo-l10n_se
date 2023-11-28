@@ -403,11 +403,14 @@ class account_sie(models.TransientModel):
             fiscalyear_index = next((index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)
 
             year_nr = fiscalyear_index - current_fiscalyear_index
-            
+            previous_years = all_fiscal_years[0:fiscalyear_index+1]
+            #_logger.warning(f"{fiscalyear_index=}")
+            #_logger.warning(f"{all_fiscal_years=}")
+            #_logger.warning(f"{previous_years=}")
             ib_search = []
             ib_search.append(('move_id.state','=','posted'))
             ib_search.append(('move_id.company_id','=',self.env.company.id))
-            ib_search.append(('move_id.period_id', 'in', [p.id for p in fiscalyear.period_ids]))
+            ib_search.append(('move_id.period_id', 'in', [p.id for p in previous_years.period_ids]))
             ib_search.append(('account_id.user_type_id.report_type','=',"b"))
             
             result = self.env['account.move.line'].read_group(
