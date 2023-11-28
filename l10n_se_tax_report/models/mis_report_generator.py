@@ -19,9 +19,17 @@ class account_vat_declaration(models.Model):
     def _change_mis_report_name(self):
         for dec in self:
             dec.generated_mis_report_id.name = dec.name
-    
+
+    @api.depends('state')
+    def _sync_state_to_mis_report(self):
+        _logger.warning("_sync_state_to_mis_report")
+        for record in self:
+            if record.generated_mis_report_id:
+               record.generated_mis_report_id.state = record.state
+
     @api.depends('period_start', 'period_stop', 'target_move','name','find_moves_by_period','accounting_method','accounting_yearend','company_id')
     def _vat(self):
+         _logger.warning("vat"*100)
          for decl in self:
              decl.vat_momsutg = 0
              decl.vat_momsingavdr = 0
@@ -33,21 +41,23 @@ class account_vat_declaration(models.Model):
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
                 if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
-                        decl.generated_mis_report_id.write({'accounting_method':'invoice'})
+                        decl.generated_mis_report_id.write({'company_id':decl.company_id})
                 else:
                         decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
-                
-                matrix = decl.generated_mis_report_id._compute_matrix()
-                vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
-                for row in matrix.iter_rows():
-                    vals = [c.val for c in row.iter_cells()]
-                    # ~ _logger.debug("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
-                    # ~ _logger.info('jakmar name: {} value: {}'.format(row.kpi.name,vals[0]))
-                    if row.kpi.name == 'MomsIngAvdr':
-                        decl.vat_momsingavdr = vals[0]
-                    if row.kpi.name in vat_momsutg_list_names:
-                        decl.vat_momsutg  += vals[0]
+                       
+                momsUtgMovesRecordSet = decl.get_move_line_recordset(['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag'])
+                for line in momsUtgMovesRecordSet:
+                    decl.vat_momsutg+=line.credit
+                    decl.vat_momsutg-=line.debit
+                    
+                momsIngMovesRecordSet = decl.get_move_line_recordset(['MomsIngAvdr'])
+                for line in momsIngMovesRecordSet:
+                    decl.vat_momsingavdr-=line.credit
+                    decl.vat_momsingavdr+=line.debit
+                    
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
+                
+                
 
             
     def calculate(self):
@@ -55,6 +65,7 @@ class account_vat_declaration(models.Model):
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
         if self.state in ['draft']:
             self.state = 'confirmed'
+            self.generated_mis_report_id.state = self.state
 
         # ~ mark moves used to build the mis report, i should probebly save the moves on the report somewhere at some. Not a problem atm.
         move_line_recordset= self.get_move_line_recordset([])
@@ -215,15 +226,22 @@ class account_vat_declaration(models.Model):
             create_eskd_xml_file = None
             super(account_vat_declaration, rec).do_draft()
             for move in rec.move_ids:
-                move.vat_declaration_id = None 
+                move.vat_declaration_id = None
+            rec.generated_mis_report_id.state = rec.state
 
 
     def do_cancel(self):
         for rec in self:
-            super(account_vat_declaration, rec).do_draft()
+            super(account_vat_declaration, rec).do_cancel()
             create_eskd_xml_file = None
             for move in rec.move_ids:
                 move.vat_declaration_id = None
+            rec.generated_mis_report_id.state = rec.state
+   
+    def do_done(self):
+        for rec in self:
+            super(account_vat_declaration, rec).do_done()
+            rec.generated_mis_report_id.state = rec.state
         
         
     @api.model
