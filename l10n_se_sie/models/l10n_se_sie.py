@@ -89,7 +89,7 @@ class account_sie(models.TransientModel):
     account_line_ids = fields.One2many(comodel_name='account.sie.account', inverse_name='wizard_id',
                                        string='New Accounts')
     state = fields.Selection([('choose', 'choose'), ('get', 'get'), ], default="choose")
-    date_field_to_use = fields.Selection([('Go by Period', 'go_by_period'), ('Go by Date', 'go_by_date'), ], string="Filter On Period or Date")
+    date_field_to_use = fields.Selection(selection=[('go_by_period','Go by Period'), ('go_by_date','Go by Date'), ], string="Filter On Period or Date", default="go_by_period")
     data = fields.Binary('File')
     filename = fields.Char(string='Filename')
     show_account_lines = fields.Boolean(string='Show Account Lines')
@@ -433,7 +433,7 @@ class account_sie(models.TransientModel):
                 better_dict['account_code'] = self.env['account.account'].browse(res['account_id'][0]).code
                 better_dict['balance'] = res['debit'] - res['credit']
                 formated_result.append(better_dict)
-            _logger.warning(f"{better_dict=}")
+            #_logger.warning(f"{better_dict=}")
         return formated_result
 
     def make_sie(self, ver_ids, ib_dict):

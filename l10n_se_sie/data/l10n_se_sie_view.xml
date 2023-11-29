@@ -118,7 +118,7 @@
 		      </group>	
 		      <group attrs="{'invisible' : [('include_ib','!=',True)]}">
 				  <separator string="Incoming Balans"/>
-                  <field name="date_field_to_use"/>
+                  <field name="date_field_to_use" widget="selection"/>
 				  <field name="current_transaction_year"/>
 				  <field name="ib_fiscalyear_ids" widget="many2many_tags"/>
 			  </group> 
