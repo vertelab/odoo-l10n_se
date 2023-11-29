@@ -89,6 +89,7 @@ class account_sie(models.TransientModel):
     account_line_ids = fields.One2many(comodel_name='account.sie.account', inverse_name='wizard_id',
                                        string='New Accounts')
     state = fields.Selection([('choose', 'choose'), ('get', 'get'), ], default="choose")
+    date_field_to_use = fields.Selection([('Go by Period', 'go_by_period'), ('Go by Date', 'go_by_date'), ], string="Filter On Period or Date")
     data = fields.Binary('File')
     filename = fields.Char(string='Filename')
     show_account_lines = fields.Boolean(string='Show Account Lines')
@@ -403,27 +404,36 @@ class account_sie(models.TransientModel):
             fiscalyear_index = next((index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)
 
             year_nr = fiscalyear_index - current_fiscalyear_index
-            previous_years = all_fiscal_years[0:fiscalyear_index+1]
-            #_logger.warning(f"{fiscalyear_index=}")
-            #_logger.warning(f"{all_fiscal_years=}")
-            #_logger.warning(f"{previous_years=}")
+            previous_years = all_fiscal_years[0:fiscalyear_index]
+            _logger.warning(f"{fiscalyear_index=}")
+            _logger.warning(f"{all_fiscal_years=}")
+            _logger.warning(f"{previous_years=}")
             ib_search = []
             ib_search.append(('move_id.state','=','posted'))
             ib_search.append(('move_id.company_id','=',self.env.company.id))
-            ib_search.append(('move_id.period_id', 'in', [p.id for p in previous_years.period_ids]))
+            if self.date_field_to_use == "go_by_period":
+                ib_search.append(('move_id.period_id', 'in', [p.id for p in previous_years.period_ids]))
+            else:
+                ib_search.append(('move_id.date', '>=', previous_years[0].date_start))
+                ib_search.append(('move_id.date', '<=', previous_years[-1].date_stop))
             ib_search.append(('account_id.user_type_id.report_type','=',"b"))
+            
+            
+            result = self.env['account.move.line'].search(ib_search)
             
             result = self.env['account.move.line'].read_group(
             ib_search,
             ['account_id', 'debit', 'credit'],
             ['account_id']
             )
+            _logger.warning(f"{result=}")
             for res in result:
                 better_dict = {}
                 better_dict['yearnr'] = year_nr
                 better_dict['account_code'] = self.env['account.account'].browse(res['account_id'][0]).code
-                better_dict['balance'] = res['credit'] - res['debit']
+                better_dict['balance'] = res['debit'] - res['credit']
                 formated_result.append(better_dict)
+            _logger.warning(f"{better_dict=}")
         return formated_result
 
     def make_sie(self, ver_ids, ib_dict):
