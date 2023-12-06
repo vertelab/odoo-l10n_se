@@ -87,24 +87,27 @@
     'depends': ['account', 'l10n_se'],
     'init_xml': [],
     'data': [
+        # 'data/template/account.tax.group-se.csv',
+        # 'data/template/account.tax-se.csv',
         # 'data/l10n_se_account_chart_template.xml',
         # 'data/account_chart_template_k23.xml',
-        'data/account_tax_data.xml',
+        # 'data/account_tax_data.xml',
         # 'data/account_account_template_wt_tax_data.xml',
         # 'data/fiscal_position_data.xml',
         # 'data/l10n_se_account_chart_post_data.xml',
-        'data/account_tax_template_hr_data.xml',
+        # 'data/account_tax_template_hr_data.xml',
         'data/custom_address_formats.xml',
-        'data/tax_partner.xml',
-        'wizard/merge_chart_wizard.xml',
+        # 'data/tax_partner.xml',
+        # 'wizard/merge_chart_wizard.xml',
         'security/ir.model.access.csv',
 
     ],
-    'demo': [
+    #'demo': [
         #'demo/load_account_chart_template_data.xml',
         #'demo/l10n_se_demo.xml',
-    ],
+    #],
     'installable': 'True',
     'application': 'False',
+    'auto_install': True
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
