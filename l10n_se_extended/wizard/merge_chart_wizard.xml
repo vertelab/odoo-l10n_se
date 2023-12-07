@@ -62,7 +62,7 @@
 			<field name="res_model">merge.chart.wizard</field>
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="view_merge_chart_wizard_form"/>
-			<field name="target">new</field>
+			<field name="target">inline</field>
 		</record>
 
 

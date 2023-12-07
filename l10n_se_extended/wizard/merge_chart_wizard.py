@@ -163,7 +163,7 @@ class MissingAccountLines(models.Model):
             ("account_name_diff", "Account Different Name"),
             ("account_type_diff", "Account Different Types"),
         ],
-        defualt="new_account",
+        default="new_account",
         string="Sort Type",
         required=True
     )

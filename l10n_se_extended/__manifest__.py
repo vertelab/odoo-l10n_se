@@ -96,6 +96,7 @@
         'data/account_tax_template_hr_data.xml',
         'data/custom_address_formats.xml',
         'wizard/merge_chart_wizard.xml',
+        'wizard/merge_taxes.xml',
         'security/ir.model.access.csv',
 
     ],

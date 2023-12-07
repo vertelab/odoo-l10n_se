@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_merge_taxes_wizard_form" model="ir.ui.view">
+			<field name="name">merge.taxes.wizard.form</field>
+			<field name="model">merge.taxes.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Merge Taxes">
+					<sheet>
+						<group>
+							<field name="company_id"/>
+							<field name="current_chart"/>
+							<field name="supplement_chart"/>
+						</group>
+						<button string="Get Missing Accounts" name="compare_and_list_missing_accounts" type="object" class="oe_highlight" style="margin-left:10px;"/>
+						<notebook>
+							<page string="Missing Taxes">
+								<field name="missing_tax_line_ids">
+									<tree editable="bottom">
+										<field name="name"/>
+										<field name="tax_template_id"/>
+										<field name="wizard_id" invisible="1"/>
+									</tree>
+								</field>
+								<button string="Create Missing Accounts" name="create_missing_taxes" type="object" class="oe_highlight" style="margin-left:10px;"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_merge_taxes_wizard" model="ir.actions.act_window">
+			<field name="name">Merge Taxes</field>
+			<field name="res_model">merge.taxes.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_merge_taxes_wizard_form"/>
+			<field name="target">inline</field>
+		</record>
+
+		<menuitem action="action_merge_taxes_wizard" id="menu_merge_taxes_wizard" parent="account.account_account_menu" />
+	</data>
+</odoo>
