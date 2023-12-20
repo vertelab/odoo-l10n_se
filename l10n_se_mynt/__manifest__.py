@@ -40,7 +40,8 @@
         'account_period_vrtl',
         'mail',
         # 'l10n_se_account_bank_statement_import',
-        'account_journal_card_type'
+        'account_journal_card_type',
+        'account_statement_import_file'
     ],
     'init_xml': [],
     'data': [
