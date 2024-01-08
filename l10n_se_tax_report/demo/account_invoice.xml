@@ -62,11 +62,11 @@
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-03-14'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
-
+            <field name="fiscal_position_id">1</field>
 <!--
             <field name="date" eval="time.strftime('%Y')+'-11-14'" />
 -->
-            <field name="period_id" search="[('name', '=', '03/2022')]"/>
+            <field name="period_id" search="[('name', '=', '03/2024')]"/>
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
@@ -105,6 +105,7 @@
         -->
         <record id="new_demo_invoice_2" model="account.move">
             <field name="name">VAT 02</field>
+            <field name="fiscal_position_id">1</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-03-23'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
@@ -113,7 +114,7 @@
 invoice_date
             <field name="date_due" eval="time.strftime('%Y')+'-03-23'" />
 -->
-            <field name="period_id" search="[('name', '=', '03/2022')]"/>
+            <field name="period_id" search="[('name', '=', '03/2024')]"/>
             
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
@@ -206,6 +207,7 @@ invoice_date
         -->
         <record id="new_demo_invoice_3" model="account.move">
             <field name="name">VAT 03</field>
+            <field name="fiscal_position_id">1</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-05-01'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
@@ -213,7 +215,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-05-01'" />
 -->
-            <field name="period_id" search="[('name', '=', '05/2022')]"/>
+            <field name="period_id" search="[('name', '=', '05/2024')]"/>
             <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
@@ -310,6 +312,7 @@ invoice_date
         <record id="new_demo_invoice_4" model="account.move">
             <field name="name">VAT 04</field>
             <field name = "reference_type">none</field>
+            <field name="fiscal_position_id">1</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-10'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
 <!--
@@ -318,7 +321,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-10'" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2024')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -413,6 +416,7 @@ invoice_date
         -->
         <record id="new_demo_invoice_5" model="account.move">
             <field name="name">VAT 05</field>
+            <field name="fiscal_position_id">3</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-02'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
@@ -422,7 +426,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2024')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -523,6 +527,7 @@ invoice_date
         -->
         <record id="new_demo_invoice_6" model="account.move">
             <field name="name">VAT 06</field>
+            <field name="fiscal_position_id">3</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
@@ -530,7 +535,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2024')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -636,6 +641,7 @@ invoice_date
         -->
         <record id="new_demo_invoice_7" model="account.move">
             <field name="name">VAT 07</field>
+            <field name="fiscal_position_id">2</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-01'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
@@ -643,7 +649,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2024')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -746,6 +752,7 @@ invoice_date
            The Jackson Group: Out invoice
         -->
         <record id="new_demo_invoice_8" model="account.move">
+            <field name="fiscal_position_id">2</field>
             <field name="name">VAT 08</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-05'" />
@@ -756,7 +763,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-06-05" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2024')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'sale')]" />
@@ -853,6 +860,7 @@ invoice_date
         -->
         <record id="new_demo_invoice_9" model="account.move">
             <field name="name">VAT 09</field>
+            <field name="fiscal_position_id">2</field>
             <field name = "reference_type">none</field>
             <field name="invoice_date" eval="time.strftime('%Y')+'-06-15'" />
             <field name="invoice_user_id" ref="base.user_demo"/>
@@ -860,7 +868,7 @@ invoice_date
 <!--
             <field name="date_due" eval="time.strftime('%Y')+'-07-31" />
 -->
-            <field name="period_id" search="[('name', '=', '06/2022')]"/>
+            <field name="period_id" search="[('name', '=', '06/2024')]"/>
             <field name="currency_id" ref="base.SEK" />
             <field name="company_id" ref="base.main_company" />
             <field name="journal_id" search="[('type', '=', u'purchase')]" />
@@ -967,7 +975,7 @@ invoice_date
         
         <!-- ==== Post invoices ==== -->
         <!-- Ensure every detail related to the partner is set (fiscal position, payment terms, bank,...)-->
-        <function model="account.move" name="_onchange_partner_id">
+        <!--<function model="account.move" name="_onchange_partner_id">
             <value eval="[ref('new_demo_invoice_1')]"/>
         </function>
         
@@ -1001,7 +1009,7 @@ invoice_date
 
         <function model="account.move" name="_onchange_partner_id">
             <value eval="[ref('new_demo_invoice_9')]"/>
-        </function>
+        </function>-->
         
         <!--
         function that runs the _onchange_invoice_line_ids so that the correct taxes gets calculated
