@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 
 from .accounting_none import AccountingNone
 from .data_error import DataError
-
+from .mis_safe_eval import NameDataError, mis_safe_eval
 if sys.version_info.major >= 3:
     unicode = str
 
@@ -105,6 +105,9 @@ class MisReportKpiStyle(models.Model):
         # format number following user language
         if value is None or value is AccountingNone:
             return ""
+        if isinstance(value, NameDataError):
+           #_logger.warning(f"namedataerror{value=}")
+           return ""
         value = round(value / float(divider or 1), dp or 0) or 0
         r = lang.format("%%%s.%df" % (sign, dp or 0), value, grouping=True)
         r = r.replace("-", "\N{NON-BREAKING HYPHEN}")
