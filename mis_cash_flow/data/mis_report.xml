@@ -39,7 +39,7 @@
     <record id="mis_kpi_in_forecast" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
         <field name="name">in_forecast</field>
-        <field name="description">Progosticerade intäkter</field>
+        <field name="description">Prognosticerade intäkter</field>
         <field name="style_id" ref="mis_builder_cash_flow.mis_style_account_sub_total" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
@@ -59,7 +59,7 @@
     <record id="mis_kpi_out_forecast" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
         <field name="name">out_forecast</field>
-        <field name="description">Progosticerade kostnader</field>
+        <field name="description">Prognosticerade kostnader</field>
         <field name="style_id" ref="mis_builder_cash_flow.mis_style_account_sub_total" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
@@ -69,7 +69,7 @@
     <record id="mis_kpi_ovriga_kostnader" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
         <field name="name">ovriga_kostnader</field>
-        <field name="description">Övriga Kostnader</field>
+        <field name="description">ÖVRIGA KOSTNADER</field>
         <field name="style_id" ref="mis_builder_cash_flow.mis_style_account_sub_total" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
@@ -106,10 +106,10 @@
         <field name="sequence">110</field>
         <field name="expression">bal[5%,6%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 51)] *1.06</field>
     </record>
-    <record id="mis_kpi_out_payable_12_ok" model="mis.report.kpi">
+    <record id="mis_kpi_out_payable_0_ok" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
-        <field name="name">out_payable_12_ok</field>
-        <field name="description">Faktiska kostnader 12% Övriga Kostnader</field>
+        <field name="name">out_payable_0_ok</field>
+        <field name="description">Faktiska kostnader 0% Övriga Kostnader</field>
         <field name="style_id" ref="mis_builder_cash_flow.mis_style_account_sub_total" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
@@ -129,7 +129,7 @@
     <record id="mis_kpi_out_payable_25" model="mis.report.kpi">
         <field name="report_id" ref="mis_builder_cash_flow.mis_report_cash_flow" />
         <field name="name">out_payable_25</field>
-        <field name="description">Faktiska kostnader 25% Övriga</field>
+        <field name="description">Faktiska kostnader 25% Personal</field>
         <field name="style_id" ref="mis_builder_cash_flow.mis_style_account_sub_total" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
@@ -159,12 +159,12 @@
     <record id="mis_kpi_out_payable_0" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
         <field name="name">out_payable_0</field>
-        <field name="description">Faktiska kostnader no tax Personal</field>
+        <field name="description">Faktiska kostnader 0% Personal</field>
         <field name="style_id" ref="mis_builder_cash_flow.mis_style_account_sub_total" />
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">150</field>
-        <field name="expression">bal[7%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids', '=', False)] *1.25</field>
+        <field name="expression">bal[7%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids', '=', False)]</field>
     </record>
     <record id="mis_kpi_ranta_och_amortering" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -175,16 +175,6 @@
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">160</field>
         <field name="expression">bal[23%,84%]</field>
-    </record>
-    <record id="mis_kpi_period_balance" model="mis.report.kpi">
-        <field name="report_id" ref="mis_report_cash_flow" />
-        <field name="name">period_balance</field>
-        <field name="description">PERIODBALANS</field>
-        <field name="style_id" ref="mis_builder_cash_flow.mis_style_account_sub_total" />
-        <field name="auto_expand_accounts" eval="True" />
-        <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
-        <field name="sequence">170</field>
-        <field name="expression">in_total + out_total</field>
     </record>
     <record id="mis_kpi_period_balance" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
