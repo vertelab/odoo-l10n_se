@@ -63,4 +63,110 @@
         <field name="sequence">80</field>
         <field name="expression">out_payable_25_ok+out_payable_12_ok+out_payable_6_ok+out_payable_0_ok</field>
     </record>
+    <record id="mis_kpi_out_payable_25_ok" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_25_ok</field>
+        <field name="description">Faktiska kostnader 25% Övriga Kostnader</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">90</field>
+        <field name="expression">bal[5%,6%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 45)] *1.25</field>
+    </record>
+    <record id="mis_kpi_out_payable_12_ok" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_12_ok</field>
+        <field name="description">Faktiska kostnader 12% Övriga Kostnader</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">100</field>
+        <field name="expression">bal[5%,6%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 48)] *1.12</field>
+    </record>
+    <record id="mis_kpi_out_payable_6_ok" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_6_ok</field>
+        <field name="description">Faktiska kostnader 6% Övriga Kostnader</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">110</field>
+        <field name="expression">bal[5%,6%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 51)] *1.06</field>
+    </record>
+    <record id="mis_kpi_out_payable_12_ok" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_12_ok</field>
+        <field name="description">Faktiska kostnader 12% Övriga Kostnader</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">120</field>
+        <field name="expression">bal[5%,6%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids', '=', False)]</field>
+    </record>
+    <record id="mis_kpi_out_personalkostnader" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">PERSONAL</field>
+        <field name="description">Personalkonstnade</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">130</field>
+        <field name="expression">out_payable_25+out_payable_12+out_payable_6+out_payable_0</field>
+    </record>
+    <record id="mis_kpi_out_payable_25" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_25</field>
+        <field name="description">Faktiska kostnader 25% Övriga</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">140</field>
+        <field name="expression">bal[7%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 45)] *1.25</field>
+    </record>
+    <record id="mis_kpi_out_payable_12" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_12</field>
+        <field name="description">Faktiska kostnader 12% Personal</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">150</field>
+        <field name="expression">bal[7%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 48)] *1.12</field>
+    </record>
+    <record id="mis_kpi_out_payable_6" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_6</field>
+        <field name="description">Faktiska kostnader 6% Personal</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">140</field>
+        <field name="expression">bal[7%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 51)] *1.06</field>
+    </record>
+    <record id="mis_kpi_out_payable_0" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_payable_0</field>
+        <field name="description">Faktiska kostnader no tax Personal</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">150</field>
+        <field name="expression">bal[7%][('account_internal_type', '=', 'other'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids', '=', False)] *1.25</field>
+    </record>
+    <record id="mis_kpi_ranta_och_amortering" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">ranta_och_amortering</field>
+        <field name="description">Ränta och amortering</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">160</field>
+        <field name="expression">bal[23%,84%]</field>
+    </record>
+    <record id="mis_kpi_period_balance" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">period_balance</field>
+        <field name="description">PERIODBALANS</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">170</field>
+        <field name="expression">in_total + out_total</field>
+    </record>
+    <record id="mis_kpi_period_balance" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">period_balance</field>
+        <field name="description">PERIODBALANS</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">170</field>
+        <field name="expression">in_total + out_total</field>
+    </record>
+    <record id="mis_kpi_balance" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">balance</field>
+        <field name="description">BALANS</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">180</field>
+        <field name="expression">bale[][('account_id.hide_in_cash_flow', '=', False), '|', ('line_type', '=', 'forecast_line'), ('line_type', '=', 'move_line'), '|', ('account_internal_type', '=', 'liquidity'), ('account_internal_type', 'in', ('receivable', 'payable')), ('full_reconcile_id', '=', False)]</field>
+    </record>
+
+    
 </odoo>
