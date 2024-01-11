@@ -1,1 +1,19 @@
-<!--  -->
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo noupdate="True">
+    <record id="mis_report_cash_flow" model="mis.report">
+        <field name="name">Cash Flow</field>
+        <field name="style_id" ref="mis_style_cash_flow" />
+    </record>
+    <record id="mis_kpi_aliquidity" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">liquidity</field>
+        <field name="description">Bank</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="auto_expand_accounts_style_id" ref="mis_style_account_detail" />
+        <field name="sequence">20</field>
+        <field name="expression">bal[][('account_type', '=', 'asset_cash'), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False)]</field>
+    </record>
+ 
+</odoo>
