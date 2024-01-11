@@ -31,7 +31,7 @@
         <field name="sequence">40</field>
         <field name="expression">deb[15%]</field>
     </record>
-    <record id="mis_kpi_in_receivable" model="mis.report.kpi">
+    <record id="mis_kpi_in_forecast" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
         <field name="name">in_forecast</field>
         <field name="description">Progosticerade intäkter</field>
@@ -39,5 +39,28 @@
         <field name="sequence">50</field>
         <field name="expression">bal[][('line_type', '=', 'forecast_line'), ('debit', '!=', 0.0), ('account_id.hide_in_cash_flow', '=', False)]</field>
     </record>
-    
+    <record id="mis_kpi_out_total" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_total</field>
+        <field name="description">KOSTNADER</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">60</field>
+        <field name="expression">personalkostnader + ovriga_kostnader + out_forecast</field>
+    </record>
+    <record id="mis_kpi_out_forecast" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">out_forecast</field>
+        <field name="description">Progosticerade kostnader</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">70</field>
+        <field name="expression">bal[][('line_type', '=', 'forecast_line'), ('credit', '!=', 0.0), ('account_id.hide_in_cash_flow', '=', False)]</field>
+    </record>
+    <record id="mis_kpi_ovriga_kostnader" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_cash_flow" />
+        <field name="name">ovriga_kostnader</field>
+        <field name="description">Övriga Kostnader</field>
+        <field name="style_id" ref="mis_style_account_sub_total" />
+        <field name="sequence">80</field>
+        <field name="expression">out_payable_25_ok+out_payable_12_ok+out_payable_6_ok+out_payable_0_ok</field>
+    </record>
 </odoo>
