@@ -35,7 +35,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['base'],
+    'depends': ['mis_builder','mis_builder_cash_flow'],
     'data': [
         # 'views/res_bank_view.xml',
        'data/mis_report.xml',
