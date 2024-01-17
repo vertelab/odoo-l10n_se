@@ -38,6 +38,7 @@
     'depends': ['base'],
     'data': [
         #'views/res_bank_view.xml',
+        'data/fiscal_position_data.xml',
     ],
     'installable': 'True',
     'application': 'False',
