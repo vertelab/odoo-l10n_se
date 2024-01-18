@@ -35,7 +35,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['base'],
+    'depends': ['base','account', 'l10n_se'],
     'data': [
         #'views/res_bank_view.xml',
         'data/fiscal_position_data.xml',
