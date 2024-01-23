@@ -247,6 +247,65 @@ class SEBTransaktionsrapportType3(object):
         return self
 
 
+
+class SEBTransaktionsrapportType4(object):
+    """Parser for SEB Kontohändelser import files."""
+
+    def __init__(self, data_file):
+        try:
+            #~ self.data_file = open_workbook(file_contents=data_file)
+            self.data = open_workbook(file_contents=data_file).sheet_by_index(0)
+        except XLRDError as e:
+            _logger.error(u'Could not read file (SEB Kontohändelser.xlsx)')
+            raise ValueError(e)
+        self.nrows = self.data.nrows - 1
+        self.header = []
+        self.statements = []
+        if not (self.data.cell(1,1).value[:13] == u'Transaktioner' and self.data.cell(4,1).value[:13] == u'Företagskonto' and self.data.cell(2,1).value[:14] == u'Business Arena'):
+            _logger.error(u'Row 0 %s (was looking for Transaktioner / Business Arena) %s %s' % (self.data.cell(1,1).value[:13],self.data.cell(2,1).value[:14],self.data.row(0)))
+            raise ValueError(u'This is not a SEB Kontohändelser Typ4')
+
+
+    def parse(self):
+        """Parse SEB transaktionsrapport bank statement file contents type 4."""
+
+        _logger.info("Parsing SEB Kontohändlser from SEBTRansaktionRaportType4")
+
+        self.account_currency = 'SEK'
+        self.header = []
+        self.account_number = self.data.cell(4,1).value[14:14].strip()
+        self.name = self.data.cell(5,1).value[13:30].strip()
+
+        self.current_statement = BankStatement()
+        self.current_statement.date = fields.Date.today() # t[u'bokföringsdatum'] # bokföringsdatum,valutadatum
+        self.current_statement.local_currency = self.account_currency or 'SEK'
+        self.current_statement.local_account =  self.account_number
+        self.current_statement.statement_id = '%s %s' % (self.data.cell(5,1).value[13:],self.data.cell(6,1).value[8:])
+        #self.current_statement.start_balance = float(self.data.cell(self.nrows,5).value - self.data.cell(self.nrows,4).value)
+        self.current_statement.end_balance = float(self.data.cell(9,7).value)
+        for t in SEBIterator(self.data,header_row=8):
+            transaction = self.current_statement.create_transaction()
+            if isinstance(t['insättningar'], str):
+                transaction.transferred_amount = float(t['uttag'])
+            else:
+                transaction.transferred_amount = float(t['insättningar'])
+            transaction.eref = t['text'].strip() + t['typ'].strip() 
+            transaction.pref = t['typ'].strip()
+            transaction.partner_name = t['text'].strip()
+            transaction.narration = t['text'].strip()
+            transaction.value_date = t[u'bokförd'] 
+            #transaction.unique_import_id = t['verifikationsnummer'].strip()
+            transaction.remote_owner = t['text'].strip()
+
+            transaction.message = t['text'].strip()
+            #self.current_statement.end_balance =
+
+        self.statements.append(self.current_statement)
+#        _logger.error('Statement %s Transaktioner %s' % (self.statements,''))
+        return self
+
+
+
 class SEBIterator(object):
     def __init__(self, data,header_row=8):
         self.row = header_row + 1 # First data-row

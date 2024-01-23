@@ -23,6 +23,7 @@ from .seb import SEBKontohandelserrapport as Parser
 from .seb import SEBFakturadetaljerDocumentParser as Parser1
 from .seb import SEBTransaktionsrapportType2 as Parser2
 from .seb import SEBTransaktionsrapportType3 as Parser3
+from .seb import SEBTransaktionsrapportType4 as Parser4
 import base64
 import re
 
@@ -79,9 +80,15 @@ class AccountBankStatementImport(models.TransientModel):
                         _logger.info(u"Try parsing with SEB Typ 3 Kontohändelser.")
                         parser = Parser3(base64.b64decode(self.statement_file))
                     except ValueError:
-                        # Not a SEB Type 3 file, returning super will call next candidate:
+                        # Not a SEB Type 4 file, returning super will call next candidate:
                         _logger.info(u"Statement file was not a SEB Type 3 Kontohändelse file.")
-                        return super(AccountBankStatementImport, self)._parse_file(statement_file)
+                        try:
+                            _logger.info(u"Try parsing with SEB Typ 4 Kontohändelser.")
+                            parser = Parser4(base64.b64decode(self.statement_file))
+                        except ValueError:
+                            # Not a SEB Type 3 file, returning super will call next candidate:
+                            _logger.info(u"Statement file was not a SEB Type 4 Kontohändelse file.")
+                            return super(AccountBankStatementImport, self)._parse_file(statement_file)
 
         seb = parser.parse()
         for s in seb.statements:
