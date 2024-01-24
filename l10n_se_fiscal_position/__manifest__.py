@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Fisical Position',
+    'name': 'l10n_se: Fiscal Position',
     'version': '14.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds support for Big Business around the globe!',
@@ -35,10 +35,11 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['base','account', 'l10n_se'],
+    'depends': ['account'],
     'data': [
         #'views/res_bank_view.xml',
-        'data/fiscal_position_data.xml',
+        #'data/fiscal_position_data.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': 'True',
     'application': 'False',

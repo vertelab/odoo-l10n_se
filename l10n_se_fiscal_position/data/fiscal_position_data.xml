@@ -4,14 +4,14 @@
         <!-- K1 Trade with Sweden -->
         <record id="K1_fpos_trade_swe" model="account.fiscal.position.template">
             <field name="name">Handel inom Sverige</field>
-            <field name="chart_template_id" ref="l10n_se.chart_template_K1_2017" />
+            <field name="chart_template_id" ref="l10n_se.l10nse_chart_template" />
             <field name="auto_apply" eval="True" />
             <field name="country_id" ref="base.se" />
         </record>
         <!-- K1 Trade with EU -->
         <record id="K1_fpos_trade_eu" model="account.fiscal.position.template">
             <field name="name">Handel med EU</field>
-            <field name="chart_template_id" ref="l10n_se.chart_template_K1_2017" />
+            <field name="chart_template_id" ref="l10n_se.l10nse_chart_template" />
             <field name="note">Reverse charge, intracommunity supply of goods</field>
             <field name="auto_apply" eval="True" />
             <field name="vat_required" eval="False" />
