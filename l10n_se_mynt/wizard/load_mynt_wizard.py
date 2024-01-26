@@ -30,6 +30,7 @@ import tempfile
 from io import BytesIO
 import csv
 from zipfile import BadZipfile
+from odoo.http import request
 
 import logging
 
@@ -43,6 +44,7 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def _parse_file(self, statement_file):
+        _logger.warning(f"{request.httprequest.environ['REMOTE_ADDR']=}")
         """Parse a Mynt zip file."""
         try:
             _logger.warning(u"Try parsing with Mynt.")
@@ -357,7 +359,7 @@ class AccountBankStatementImport(models.TransientModel):
                  'account_id': account_id.id,
                  'credit': abs(amount) if amount > 0 else 0,
                  'debit': abs(amount) if amount < 0 else 0,
-                 'exclude_from_invoice_tab': False,
+                 #'exclude_from_invoice_tab': False,
                  'name': row.get("Category", "") + " " + row.get("Comment", ""),
                  'tax_ids': tax_account,
          })]})
