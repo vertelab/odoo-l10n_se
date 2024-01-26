@@ -362,7 +362,7 @@ class AccountBankStatementImport(models.TransientModel):
                  'tax_ids': tax_account,
          })]})
         account_move.partner_id = partner_id
-        account_move._recompute_dynamic_lines()
+        # account_move._recompute_dynamic_lines()
         return account_move
 
     def _tax_rate(self, row):
