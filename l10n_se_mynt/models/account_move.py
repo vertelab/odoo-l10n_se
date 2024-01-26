@@ -24,8 +24,11 @@ class AccountMove(models.Model):
                     or not move.is_invoice(include_receipts=True):
                 continue
 
-            pay_term_lines = move.line_ids\
-                .filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+            # TODO: check for alternative to user_type_id
+            # pay_term_lines = move.line_ids\
+            #     .filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+
+            pay_term_lines = move.line_ids
 
             domain = [
                 ('journal_id.name', '=', 'Mynt'),
@@ -102,7 +105,7 @@ class AccountMove(models.Model):
             tax_ids = self.fiscal_position_id.map_tax(taxes=fiscal_position_tax_id[0])
 
             self.invoice_line_ids.write({'account_id': account_id.id, 'tax_ids': [(6, 0, tax_ids.ids)]})
-            self._recompute_dynamic_lines()
+            # self._recompute_dynamic_lines()
 
 
 class AccountMoveMyntWizard(models.TransientModel):
