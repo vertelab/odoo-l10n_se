@@ -83,9 +83,9 @@ class AccountBankStatementImport(models.TransientModel):
                     'Date', 'Amount', 'Currency', 'Original amount', 'Original currency', 'VAT amount', 'VAT rate',
                     'Reverse VAT', 'Description', 'Account', 'Category', 'Comment', 'Filename', 'Settlement status',
                     'Person', 'Team', 'Card number', 'Card name', 'Accounting status')
-                    
+
                 expected_mynt_keys_v2 = (
-                    'Transaction date','Settlement date','Amount', 'Currency', 'Original amount', 'Original currency',
+                    'Transaction date', 'Settlement date', 'Amount', 'Currency', 'Original amount', 'Original currency',
                     'VAT amount', 'VAT rate', 'Reverse VAT', 'Description', 'Account', 'Category', 'Comment',
                     'Filename', 'Settlement status', 'Person', 'Team', 'Card number', 'Card name', 'Accounting status')
                 _logger.warning(f"{first_row.keys()}")
@@ -103,11 +103,12 @@ class AccountBankStatementImport(models.TransientModel):
                 journal_id = self.env['account.journal'].browse(self.env.context.get('journal_id', False))
                 _logger.warning(f"{journal_id=}")
                 if not journal_id.type == "card":
-                    raise Warning(_("For Mynt Zip File, please select a Card journal"))
+                    raise UserError(_("For Mynt Zip File, please select a Card journal"))
                 if not journal_id.card_debit_account:
-                    raise Warning(_("For Mynt Zip Files, please select a card debit account on the selected Journal"))
+                    raise UserError(_("For Mynt Zip Files, please select a card debit account on the selected Journal"))
                 if not journal_id.card_credit_account:
-                    raise Warning(_("For Mynt Zip Files, please select a card credit account on the selected Journal"))
+                    raise UserError(
+                        _("For Mynt Zip Files, please select a card credit account on the selected Journal"))
 
                 total_amount = 0
                 reverse_move_date = ""
@@ -130,7 +131,7 @@ class AccountBankStatementImport(models.TransientModel):
                         row['VAT amount'] = '0'
 
                     if float(row["Amount"]) <= 0:  # Is a debit transaction
-                        reverse_move_date = datetime.strptime(row.get("Date",row.get("Transaction date")), '%Y-%m-%d')
+                        reverse_move_date = datetime.strptime(row.get("Date", row.get("Transaction date")), '%Y-%m-%d')
                         account_move = self.create_account_move(row, "debit", journal_id)
                         self.create_account_card_statement_line(row, account_move, account_card_statement_id)
                         total_amount += account_move.amount_total
@@ -140,7 +141,7 @@ class AccountBankStatementImport(models.TransientModel):
                         # ~ total_amount += account_move.amount_total
                     # ~ #Add Attachment
                     _logger.warning(f'{row["Filename"]=} {row["Filename"] in data.namelist()=}')
-                    _logger.warning(f'{data.namelist()[0]+row["Filename"]}')
+                    _logger.warning(f'{data.namelist()[0] + row["Filename"]}')
                     if row["Filename"] and row["Filename"] in data.namelist():
                         self.env['ir.attachment'].create({
                             'name': row["Filename"],
@@ -149,13 +150,13 @@ class AccountBankStatementImport(models.TransientModel):
                             'res_id': account_move.id,
                             'datas': base64.b64encode(data.read(row["Filename"])),
                         })
-                    elif row["Filename"] and data.namelist()[0]+row["Filename"] in data.namelist():
+                    elif row["Filename"] and data.namelist()[0] + row["Filename"] in data.namelist():
                         self.env['ir.attachment'].create({
                             'name': row["Filename"],
                             'type': 'binary',
                             'res_model': "account.move",
                             'res_id': account_move.id,
-                            'datas': base64.b64encode(data.read(data.namelist()[0]+row["Filename"])),
+                            'datas': base64.b64encode(data.read(data.namelist()[0] + row["Filename"])),
                         })
                     else:
                         account_move.to_check = True  # Missing an attachment, set
@@ -183,7 +184,7 @@ class AccountBankStatementImport(models.TransientModel):
             result["notifications"] = "Mynt"
             return
         return super(AccountBankStatementImport, self).import_single_statement(single_statement_data, result)
-        
+
     def _import_file(self):
         self.ensure_one()
         result = {
@@ -197,7 +198,7 @@ class AccountBankStatementImport(models.TransientModel):
             return result
         else:
             return super(AccountBankStatementImport, self)._import_file()
-            
+
     def import_file_and_reconcile_button(self):
         """Process the file chosen in the wizard, create bank statement(s)
         and jump directly to the reconcilition widget"""
@@ -206,7 +207,7 @@ class AccountBankStatementImport(models.TransientModel):
             return
         else:
             return super(AccountBankStatementImport, self).import_file_and_reconcile_button()
-            
+
     def import_file_button(self):
         """Process the file chosen in the wizard, create bank statement(s)
         and return an action."""
@@ -335,7 +336,7 @@ class AccountBankStatementImport(models.TransientModel):
             account_id = journal_id.card_credit_account
 
         period_id = self.env['account.period'].date2period(datetime.strptime(
-            row.get("Date",row.get("Transaction date")), '%Y-%m-%d'))
+            row.get("Date", row.get("Transaction date")), '%Y-%m-%d'))
 
         partner_id = False
         if row.get('Description'):
@@ -351,18 +352,18 @@ class AccountBankStatementImport(models.TransientModel):
             'ref': current_ref,
             'invoice_origin': row.get("Person", "") + " " + row.get("Card name", "") + " " + row.get("Card number", ""),
             'period_id': period_id.id,
-            'date': row.get("Date",row.get("Transaction date")),
-            'invoice_date': row.get("Date",row.get("Transaction date")),
+            'date': row.get("Date", row.get("Transaction date")),
+            'invoice_date': row.get("Date", row.get("Transaction date")),
             'to_check': True,
         })
-        account_move.with_context(check_move_validity=False).write({"line_ids":[(0, 0, {
-                 'account_id': account_id.id,
-                 'credit': abs(amount) if amount > 0 else 0,
-                 'debit': abs(amount) if amount < 0 else 0,
-                 #'exclude_from_invoice_tab': False,
-                 'name': row.get("Category", "") + " " + row.get("Comment", ""),
-                 'tax_ids': tax_account,
-         })]})
+        account_move.with_context(check_move_validity=False).write({"line_ids": [(0, 0, {
+            'account_id': account_id.id,
+            'credit': abs(amount) if amount > 0 else 0,
+            'debit': abs(amount) if amount < 0 else 0,
+            # 'exclude_from_invoice_tab': False,
+            'name': row.get("Category", "") + " " + row.get("Comment", ""),
+            'tax_ids': tax_account,
+        })]})
         account_move.partner_id = partner_id
         # account_move._recompute_dynamic_lines()
         return account_move
