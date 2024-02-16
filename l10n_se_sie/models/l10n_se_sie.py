@@ -335,25 +335,13 @@ class account_sie(models.TransientModel):
                         'sticky': False,
                     }
                 }
-                # raise Warning(f"Import file did not pass checks! Accounts may be missing. \n{formatstring}")
-
-                # ~ return {
-                # ~ 'warning': {'title': _('Error'), 'message': _('Import file did not pass checks! Accounts may be missing.'),},
-                # ~ }
             ver_ids = self._import_ver(data)
             action = self.env['ir.actions.act_window']._for_xml_id('accFiscalount.action_move_journal_line')
             action['res_ids'] = ver_ids
             return action
-            # ~ {
-            # ~ 'type': 'ir.actions.act_window',
-            # ~ 'res_model': 'account.move',
-            # ~ 'view_mode': 'tree',
-            # ~ 'view_type': 'tree',
-            # ~ 'res_ids': ver_ids,
-            # ~ 'views': [(False, 'tree')],
-            # ~ }
         else:
             move_ids = []
+            ib_dict = {}
             if self.include_transactions:
                 search = []
                 search.append(('state','=','posted'))
@@ -376,11 +364,6 @@ class account_sie(models.TransientModel):
                     move_ids = move_ids.filtered(lambda r: r.id in accounts)
             if self.include_ib:
                 ib_dict = self.get_ib_value_dict()
-            # ~ if self.include_ub:
-                # ~ ub_dict = self.get_ub_value_dict()
-            # ~ if self.include_res:
-                # ~ res_dict = self.get_res_value_dict()
-
             self.write(
                 {'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids,ib_dict)), 'filename': 'filename.se'})
 
