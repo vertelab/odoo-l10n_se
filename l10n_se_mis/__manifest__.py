@@ -45,6 +45,7 @@
         'data/mis_arbetsgivardeklaration_report.xml',
         'views/mis_report_instance_view.xml',
         'views/mis_template.xml',
+        'views/mis_report_template.xml',
         'security/security.xml',
     ],
     'installable': 'True',
