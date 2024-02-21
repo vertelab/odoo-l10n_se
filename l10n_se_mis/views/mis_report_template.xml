@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="internal_layout" inherit_id="web.internal_layout">
+        <xpath expr="//div[hasclass('header')]/div[hasclass('row')]" position="after">
+            <div class="row">
+                <div class="col-6">
+                    <strong>User:</strong> <span t-esc="request.env.user.name"/>
+                </div>
+
+                <div class="col-6 text-end">
+                    <strong>Target Move:</strong> <span t-field="o.target_move"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
