@@ -29,7 +29,7 @@ class account_sie_account(models.TransientModel):
         # ~ return self.env.ref('account.data_account_type_asset')
         # data_account_type_current_assets
         # data_account_type_fixed_assets
-        return self.env.ref('account.data_account_type_fixed_assets')
+        return "asset_fixed"
         
     wizard_id = fields.Many2one(comodel_name='account.sie', string='Wizard')
     checked = fields.Boolean(string='')
@@ -38,22 +38,32 @@ class account_sie_account(models.TransientModel):
     code = fields.Char(string='Code', size=64, required=True)
     
     
-    type = fields.Selection(selection=[
-        ('view', 'View'),
-        ('other', 'Regular'),
-        ('receivable', 'Receivable'),
-        ('payable', 'Payable'),
-        ('liquidity', 'Liquidity'),
-        ('consolidation', 'Consolidation'),
-        ('closed', 'Closed'),
-    ], string='Internal Type', default='other', required=True,
-        help="The 'Internal Type' is used for features available on " \
-             "different types of accounts: view can not have journal items, consolidation are accounts that " \
-             "can have children accounts for multi-company consolidations, payable/receivable are for " \
-             "partners accounts (for debit/credit computations), closed for depreciated accounts.")
-    user_type = fields.Many2one('account.account.type', 'Account Type', required=True, default=default_user_type,
-                                help="Account Type is used for information purpose, to generate "
-                                     "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
+    account_type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type", tracking=True,
+        required=True,
+        default = "asset_fixed",
+    )
+    
     parent_id = fields.Many2one(comodel_name='account.account', string='Parent', domain=[('type', '=', 'view')])
 
 
@@ -97,23 +107,23 @@ class account_sie(models.TransientModel):
                                       help="All imported account.moves will get this journal", domain=_set_period_fiscal_domain)
     company_id = fields.Many2one(related='move_journal_id.company_id')
 
-    accounts_type = fields.Selection(selection=[
-        ('view', 'View'),
-        ('other', 'Regular'),
-        ('receivable', 'Receivable'),
-        ('payable', 'Payable'),
-        ('liquidity', 'Liquidity'),
-        ('consolidation', 'Consolidation'),
-        ('closed', 'Closed'),
-    ], string='Internal Type', help="The 'Internal Type' is used for features available on " \
-                                    "different types of accounts: view can not have journal items, consolidation are accounts that " \
-                                    "can have children accounts for multi-company consolidations, payable/receivable are for " \
-                                    "partners accounts (for debit/credit computations), closed for depreciated accounts.")
-    accounts_user_type = fields.Many2one('account.account.type', 'Account Type',
-                                         help="Account Type is used for information purpose, to generate "
-                                              "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
-    accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent',
-                                         domain=[('type', '=', 'view')])
+    # ~ accounts_type = fields.Selection(selection=[
+        # ~ ('view', 'View'),
+        # ~ ('other', 'Regular'),
+        # ~ ('receivable', 'Receivable'),
+        # ~ ('payable', 'Payable'),
+        # ~ ('liquidity', 'Liquidity'),
+        # ~ ('consolidation', 'Consolidation'),
+        # ~ ('closed', 'Closed'),
+    # ~ ], string='Internal Type', help="The 'Internal Type' is used for features available on " \
+                                    # ~ "different types of accounts: view can not have journal items, consolidation are accounts that " \
+                                    # ~ "can have children accounts for multi-company consolidations, payable/receivable are for " \
+                                    # ~ "partners accounts (for debit/credit computations), closed for depreciated accounts.")
+    # ~ accounts_user_type = fields.Many2one('account.account.type', 'Account Type',
+                                         # ~ help="Account Type is used for information purpose, to generate "
+                                              # ~ "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
+    # ~ accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent',
+                                         # ~ domain=[('type', '=', 'view')])
 
     def _get_rar_code(self, fy):
         self.ensure_one()
@@ -129,33 +139,6 @@ class account_sie(models.TransientModel):
         self.sie_file = self.data
 
     sie_file = fields.Binary(compute='_data')
-
-    # ~ @api.one
-    # ~ @api.onchange('accounts_type')
-    # ~ def onchange_accounts_type(self):
-    # ~ for line in self.account_line_ids:
-    # ~ if line.checked:
-    # ~ line.type = self.accounts_type
-
-    # ~ @api.one
-    # ~ @api.onchange('accounts_user_type')
-    # ~ def onchange_accounts_user_type(self):
-    # ~ for line in self.account_line_ids:
-    # ~ if line.checked:
-    # ~ line.user_type = self.accounts_user_type
-
-    # ~ @api.one
-    # ~ @api.onchange('accounts_parent_id')
-    # ~ def onchange_accounts_parent_id(self):
-    # ~ for line in self.account_line_ids:
-    # ~ if line.checked:
-    # ~ line.parent_id = self.accounts_parent_id
-
-    # ~ @api.one
-    # ~ @api.onchange('data')
-    # ~ def onchange_data(self):
-    # ~ if self.data:
-    # ~ self.check_import_file(check_periods=False)
 
     @api.model
     def cleanse_with_fire(self, data):
