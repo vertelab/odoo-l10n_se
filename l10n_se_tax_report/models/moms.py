@@ -123,6 +123,7 @@ class account_declaration(models.Model):
         return self.get_next_periods()[0]
 
     def _accounting_method(self):
+        self = self.sudo()
         return self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
         
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company.id, required=True)
