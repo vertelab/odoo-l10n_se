@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="ver_01" model="account.move">
+      <field name="journal_id" ref="l10n_ar.sale_expo_journal_ri" />
+<!--      <field name="period_id" eval="ref('account.period_' + str(int(time.strftime('%m'))))" />-->
+<!--      <field name="ref">SO009</field>-->
+<!--      <field name="date" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')" />-->
+    </record>
+    <record id="ver_01_01" model="account.move.line">
+      <field name="move_id" ref="ver_01" />
+      <field name="name">/</field>
+      <field name="account_id" search="[('code', 'in', ('1500','1510','1102'))]"/>
+      <field name="debit" eval="2248.75" />
+    </record>
+    <record id="ver_01_02" model="account.move.line">
+      <field name="move_id" ref="ver_01" />
+      <field name="name">Försäljning 25%</field>
+      <field name="account_id" search="[('code', '=', '2610')]" />
+      <field name="credit" eval="449.75" />
+    </record>
+    <record id="ver_01_03" model="account.move.line">
+      <field name="move_id" ref="ver_01" />
+      <field name="name">[A1090] iMac</field>
+      <field name="account_id" search="[('code', '=', '3000')]" />
+      <field name="credit" eval="1799.00" />
+    </record>
+    <record id="ver_02" model="account.move">
+      <field name="journal_id" ref="account.bank_journal" />
+      <field name="period_id" eval="ref('account.period_' + str(int(time.strftime('%m'))))" />
+      <field name="ref">BNK220160005</field>
+      <field name="date" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')" />
+    </record>
+    <record id="ver_02_01" model="account.move.line">
+      <field name="move_id" ref="ver_02" />
+      <field name="name">/</field>
+      <field name="account_id" search="[('code', 'in', ('1500','1510','1102'))]" />
+      <field name="debit" eval="0.00" />
+    </record>
+    <record id="ver_02_02" model="account.move.line">
+      <field name="move_id" ref="ver_02" />
+      <field name="name">/</field>
+      <field name="account_id" search="[('code', '=', '1932')]" />
+      <field name="debit" eval="2248.75" />
+    </record>
+    <!--
+         <record id="ver_02_03" model="account.move.line">
+         <field name="move_id" ref="ver_02" />
+         <field name="name">[A1090] iMac</field>
+         <field name="account_id" search="[('code', '=', '3000')]" />
+         <field name="credit" eval="1799.00" />
+         </record>
+    -->
+    <record id="ver_03" model="account.move">
+      <field name="journal_id" ref="account.bank_journal" />
+      <field name="period_id" eval="ref('account.period_' + str(int(time.strftime('%m'))))" />
+      <field name="ref">EXJ/2016/0001</field>
+      <field name="date" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')" />
+    </record>
+    <record id="ver_03_01" model="account.move.line">
+      <field name="move_id" ref="ver_03" />
+      <field name="name">/</field>
+      <field name="account_id" search="[('code', '=', '2440')]" />
+      <field name="credit" eval="125000.00" />
+    </record>
+    <record id="ver_03_02" model="account.move.line">
+      <field name="move_id" ref="ver_03" />
+      <field name="name">Inköp 25%</field>
+      <field name="account_id" search="[('code', '=', '2640')]" />
+      <field name="debit" eval="25000.00" />
+    </record>
+    <record id="ver_03_03" model="account.move.line">
+      <field name="move_id" ref="ver_03" />
+      <field name="name">[A2323] iPad Retina Display</field>
+      <field name="account_id" search="[('code', '=', '4000')]" />
+      <field name="debit" eval="100000.00" />
+    </record>
+    <record id="ver_04" model="account.move">
+      <field name="journal_id" ref="account.miscellaneous_journal" />
+      <field name="period_id" eval="ref('account.period_' + str(int(time.strftime('%m'))))" />
+      <field name="ref">BNK220160006</field>
+      <field name="date" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')" />
+    </record>
+    <record id="ver_04_01" model="account.move.line">
+      <field name="move_id" ref="ver_04" />
+      <field name="name">/</field>
+      <field name="account_id" search="[('code', '=', '2440')]" />
+      <field name="debit" eval="125000.00" />
+    </record>
+    <record id="ver_04_02" model="account.move.line">
+      <field name="move_id" ref="ver_04" />
+      <field name="name">/</field>
+      <field name="account_id" search="[('code', '=', '1932')]" />
+      <field name="credit" eval="125000.00" />
+    </record>
+    <!--
+         <record id="ver_04_03" model="account.move.line">
+         <field name="move_id" ref="ver_04" />
+         <field name="name">[A1090] iMac</field>
+         <field name="account_id" search="[('code', '=', '3000')]" />
+         <field name="credit" eval="1799.00" />
+         </record>
+    -->
+  </data>
+</odoo>
