@@ -190,8 +190,8 @@ class account_sie(models.TransientModel):
                 'company_id': self.company_id.id,
                 'name': line.name,
                 'code': line.code,
-                'internal_type': line.type,
-                'user_type_id': line.user_type.id,
+                'account_type': line.account_type,
+                # 'user_type_id': line.user_type.id,
                 'root_id': line.parent_id and line.parent_id.id or None,
                 'reconcile': line.reconcile,
             })
@@ -674,7 +674,7 @@ class account_sie(models.TransientModel):
                     # 'journal_id': self.env['account.journal'].search([('type','=','general'),('company_id','=',self.env.ref('base.main_company').id)])[0].id,
                 })
 
-                ver_ids.append(ver_id.id)
+                ver_ids += ver_id
                 for l in line.get('lines', []):
 
                     if l['label'] == '#TRANS':
@@ -693,16 +693,7 @@ class account_sie(models.TransientModel):
                         code = self.env['account.account'].search(
                             [('code', '=', trans_code), ("company_id", '=', self.company_id.id)],
                             limit=1)
-                        if code.user_type_id.report_type == 'income':
-                            journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
-                        elif code.user_type_id.id == self.env.ref(
-                                'account.data_account_type_liquidity').id:  # changed from data_account_type_bank to data_account_type_liquidity
-                            journal_types.append('bank')
-                        elif code.user_type_id.id == self.env.ref(
-                                'account.data_account_type_liquidity').id:  # changed from data_account_type_bank to data_account_type_liquidity
-                            journal_types.append('cash')
-                        elif code.user_type_id.report_type in ['asset', 'expense']:
-                            journal_types.append('purchase' and float(trans_balance) > 0.0 or 'purchase_refund')
+
 
                         # ~ raise Warning(self.env['account.move.line'].search([])[0].date)
                         period_id = self.env['account.period'].search([], limit=1).find(dt=list_date,
@@ -717,27 +708,10 @@ class account_sie(models.TransientModel):
                         if trans_name and trans_name == "Empty Citation":
                             trans_name = ""
 
-                        tags = []
-                        tag_model = self.env['account.analytic.tag']
-                        for tag_type, tag_val in trans_object:
-                            tag_name_prefix = f"{tag_val} %"  # Equivalent to 'regex': "^{tag_val} .*$"
-                            if tag_name_prefix not in tag_table:
-                                matching_tag = tag_model.search([('name', '=like', tag_name_prefix)])
-                                if len(matching_tag) == 0:
-                                    raise Warning(
-                                        f"Missing tag for {'project' if tag_type == '6' else 'cost center'} {tag_val}")
-                                if len(matching_tag) > 1:
-                                    raise Warning(
-                                        f"Too many tags matching {'project' if tag_type == '6' else 'cost center'} {tag_val}")
-                                tag_table[tag_name_prefix] = matching_tag.id
-
-                            tags.append((4, tag_table[tag_name_prefix], 0))
-
                         line_vals = {
                             'account_id': code.id,
                             'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
                             'debit': float(trans_balance) > 0 and float(trans_balance) or 0.0,
-                            'analytic_tag_ids': tags,
                             # 'period_id': period_id,
                             'date': formated_date,
                             # 'quantity': trans_quantity,
@@ -749,8 +723,8 @@ class account_sie(models.TransientModel):
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity': False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
-                        self.with_context(context_copy).env['account.move.line'].browse(
-                            trans_id.id)._compute_analytic_account_id()
+                        # self.with_context(context_copy).env['account.move.line'].browse(
+                        #     trans_id.id)._compute_analytic_account_id()
                         tax_line_id = self.env['account.tax'].search([('name', '=ilike', trans_name)]).id
                         if tax_line_id:
                             trans_id.tax_line_id = tax_line_id
