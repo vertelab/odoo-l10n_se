@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+
+        <record id="action_account_moves_ledger_general" model="ir.actions.act_window">
+            <field name="context">{'journal_type':'general', 'search_default_group_by_account': 1, 'search_default_posted':1}</field>
+            <field name="name">General Ledger</field>
+            <field name="res_model">account.move.line</field>
+            <field name="domain">[('display_type', 'not in', ('line_section', 'line_note'))]</field>
+            <field name="view_id" ref="account.view_move_line_tree_grouped_general"/>
+            <field name="search_view_id" ref="account.view_account_move_line_filter"/>
+            <field name="view_mode">tree,pivot,graph</field>
+        </record>
+
+    </data>
+</odoo>

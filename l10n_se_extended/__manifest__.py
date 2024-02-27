@@ -98,6 +98,8 @@
         'wizard/merge_chart_wizard.xml',
         'wizard/merge_taxes.xml',
         'security/ir.model.access.csv',
+        'views/account_move_views.xml',
+        'views/menu.xml',
 
     ],
     'demo': [
