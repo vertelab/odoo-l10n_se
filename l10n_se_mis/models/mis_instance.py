@@ -49,6 +49,8 @@ class MisReportInstancePeriod(models.Model):
             domain.extend([("move_id.period_id.special", "=", False)])
         elif (self.source_aml_model_name == "account.move.line") and self.hide_opening_closing_period:
             domain.extend([("move_id.period_id.special", "=", False)])
+        elif self.analytic_plan_id:
+            domain.extend([("analytic_account_id.plan_id", "=", self.analytic_plan_id.id)])
         return domain
 
     analytic_account_id = fields.Many2one(
@@ -474,10 +476,10 @@ class MisReportInstanceFixAnalyticTag(models.Model):  ### Should Be Called MisRe
             filter_descriptions.append(
                 _("Analytic Account: %s") % analytic_account.display_name
             )
-        analytic_group_id = filters.get("analytic_account_id.group_id", {}).get("value")
-        if analytic_group_id:
-            analytic_group = self.env["account.analytic.group"].browse(
-                analytic_group_id
+        analytic_plan_id = filters.get("analytic_account_id.plan_id", {}).get("value")
+        if analytic_plan_id:
+            analytic_group = self.env["account.analytic.plan"].browse(
+                analytic_plan_id
             )
             filter_descriptions.append(
                 _("Analytic Account Group: %s") % analytic_group.display_name
@@ -500,3 +502,21 @@ class MisReportInstanceFixAnalyticTag(models.Model):  ### Should Be Called MisRe
                 % ", ".join([rec for rec in analytic_tag_names])
             )
         return filter_descriptions
+
+    def _add_analytic_filters_to_context(self, context):
+        self.ensure_one()
+        if self.analytic_account_id:
+            context["mis_report_filters"]["analytic_account_id"] = {
+                "value": self.analytic_account_id.id,
+                "operator": "=",
+            }
+        if self.analytic_plan_id:
+            context["mis_report_filters"]["analytic_account_id.plan_id"] = {
+                "value": self.analytic_plan_id.id,
+                "operator": "=",
+            }
+        if self.analytic_tag_ids:
+            context["mis_report_filters"]["analytic_tag_ids"] = {
+                "value": self.analytic_tag_ids.ids,
+                "operator": "all",
+            }
