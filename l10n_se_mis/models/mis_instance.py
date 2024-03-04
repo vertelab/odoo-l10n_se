@@ -51,6 +51,14 @@ class MisReportInstancePeriod(models.Model):
             domain.extend([("move_id.period_id.special", "=", False)])
         return domain
 
+    analytic_account_id = fields.Many2one(
+        comodel_name="account.analytic.account", string="Analytic Account"
+    )
+    analytic_plan_id = fields.Many2one(
+        comodel_name="account.analytic.plan",
+        string="Analytic Account Plan",
+    )
+
 
 class MisReportInstance(models.Model):
     _inherit = 'mis.report.instance'
@@ -69,6 +77,13 @@ class MisReportInstance(models.Model):
                                               "skall välja fakturametoden i sista perioden/bokslutsperioden")
     target_move = fields.Selection(selection_add=[('draft', 'All Unposted Entries')], ondelete={"draft": "set default"})
     hide_opening_closing_period = fields.Boolean(string="Hide Opening/Closing Period")
+    analytic_account_id = fields.Many2one(
+        comodel_name="account.analytic.account", string="Analytic Account"
+    )
+    analytic_plan_id = fields.Many2one(
+        comodel_name="account.analytic.plan",
+        string="Analytic Account Plan",
+    )
 
     # ~ def _compute_matrix(self):
     # ~ """Compute a report and return a KpiMatrix.

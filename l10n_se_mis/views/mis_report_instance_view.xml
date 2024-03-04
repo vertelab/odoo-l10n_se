@@ -11,6 +11,10 @@
                     <field name="hide_lines_that_are_empty"/>
                     <field name="hide_opening_closing_period"/>
                 </xpath>
+                <field name="analytic_domain" position="after">
+                    <field name="analytic_account_id"/>
+                    <field name="analytic_plan_id"/>
+                </field>
               </field>
         </record>
 
@@ -21,6 +25,10 @@
             <field name="arch" type="xml">
                 <field name="source" position="after">
                     <field name="hide_opening_closing_period"/>
+                </field>
+                <field name="analytic_domain" position="after">
+                    <field name="analytic_account_id"/>
+                    <field name="analytic_plan_id"/>
                 </field>
               </field>
         </record>
