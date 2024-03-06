@@ -257,6 +257,47 @@ class AccountingExpressionProcessorExtended(object):
         #      AND(OR(aml_domains[mode]), date_domain[mode]) for each mode
         return expression.OR(aml_domains) + expression.OR(date_domain_by_mode.values())
 
+    def get_generic_aml_domain_for_expr(
+        self, expr, date_from, date_to, target_move, account_id=None, find_moves_by_period=False,
+            accounting_method='invoice', report_id=None
+    ):
+        """Get a domain on account.move.line for an expression.
+
+        Prerequisite: done_parsing() must have been invoked.
+
+        Returns a domain that can be used to search on account.move.line.
+        """
+        aml_domains = []
+        date_domain_by_mode = {}
+        for mo in self._ACC_RE.finditer(expr):
+            field, mode, acc_domain, ml_domain = self._parse_match_object(mo)
+            aml_domain = list(ml_domain)
+            account_ids = set()
+            account_ids.update(self._account_ids_by_acc_domain[acc_domain])
+            if not account_id:
+                aml_domain.append((report_id.mis_field, "in", tuple(account_ids)))
+            else:
+                # filter on account_id
+                if account_id in account_ids:
+                    aml_domain.append((report_id.mis_field, "=", account_id))
+                else:
+                    continue
+            if field == "crd":
+                aml_domain.append(("credit", "<>", 0.0))
+            elif field == "deb":
+                aml_domain.append(("debit", "<>", 0.0))
+            aml_domains.append(expression.normalize_domain(aml_domain))
+            if mode not in date_domain_by_mode:
+                # ~ _logger.warning(f"find_moves_by_period: {find_moves_by_period} {target_move}")
+                date_domain_by_mode[mode] = self.get_aml_domain_for_dates(
+                    date_from, date_to, mode, target_move, find_moves_by_period=find_moves_by_period, accounting_method=accounting_method
+                )
+        assert aml_domains
+        # TODO we could do this for more precision:
+        #      AND(OR(aml_domains[mode]), date_domain[mode]) for each mode
+        return expression.OR(aml_domains) + expression.OR(date_domain_by_mode.values())
+
+
     def get_aml_domain_for_dates(self, date_from, date_to, mode, target_move, find_moves_by_period = False, accounting_method='invoice'):
         # ~ _logger.warning(f"mode1: {mode}")
 
@@ -395,6 +436,7 @@ class AccountingExpressionProcessorExtended(object):
 
         This method must be executed after done_parsing().
         """
+        aml_res_model = aml_model
         if not aml_model:
             aml_model = self.env["account.move.line"]
         else:
@@ -416,16 +458,30 @@ class AccountingExpressionProcessorExtended(object):
                     date_from, date_to, mode, target_move, find_moves_by_period=find_moves_by_period, accounting_method=accounting_method
                 )
             domain = list(domain) + domain_by_mode[mode]
-            domain.append(("account_id", "in", self._map_account_ids[key]))
+
+            if aml_res_model == 'mis.budget.by.analytic.account.item':
+                domain.append(("analytic_account_id", "in", self._map_account_ids[key]))
+            else:
+                domain.append(("account_id", "in", self._map_account_ids[key]))
+            # domain.append(("account_id", "in", self._map_account_ids[key]))
+
             if additional_move_line_filter:
                 domain.extend(additional_move_line_filter)
             # fetch sum of debit/credit, grouped by account_id
-            accs = aml_model.read_group(
-                domain,
-                ["debit", "credit", "account_id", "company_id"],
-                ["account_id", "company_id"],
-                lazy=False,
-            )
+            if aml_res_model == 'mis.budget.by.analytic.account.item':
+                accs = aml_model.read_group(
+                    domain,
+                    ["debit", "credit", "analytic_account_id", "company_id"],
+                    ["analytic_account_id", "company_id"],
+                    lazy=False,
+                )
+            else:
+                accs = aml_model.read_group(
+                    domain,
+                    ["debit", "credit", "account_id", "company_id"],
+                    ["account_id", "company_id"],
+                    lazy=False,
+                )
             for acc in accs:
                 rate, dp = company_rates[acc["company_id"][0]]
                 debit = acc["debit"] or 0.0
@@ -435,7 +491,10 @@ class AccountingExpressionProcessorExtended(object):
                 ):
                     # in initial mode, ignore accounts with 0 balance
                     continue
-                self._data[key][acc["account_id"][0]] = (debit * rate, credit * rate)
+                if aml_res_model == 'mis.budget.by.analytic.account.item':
+                    self._data[key][acc["analytic_account_id"][0]] = (debit * rate, credit * rate)
+                else:
+                    self._data[key][acc["account_id"][0]] = (debit * rate, credit * rate)
         # compute ending balances by summing initial and variation
         for key in ends:
             domain, mode = key

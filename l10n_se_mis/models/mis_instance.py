@@ -1,6 +1,6 @@
 from odoo import models, fields, api, _
 import logging
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from collections import defaultdict
 
 import base64
@@ -87,32 +87,6 @@ class MisReportInstance(models.Model):
         string="Analytic Account Plan",
     )
 
-    # ~ def _compute_matrix(self):
-    # ~ """Compute a report and return a KpiMatrix.
-
-    # ~ The key attribute of the matrix columns (KpiMatrixCol)
-    # ~ is guaranteed to be the id of the mis.report.instance.period.
-    # ~ """
-    # ~ self.ensure_one()
-    # ~ aep = self.report_id._prepare_aep(self.query_company_ids, self.currency_id)
-    # ~ kpi_matrix = self.report_id.prepare_kpi_matrix(self.multi_company)
-    # ~ for period in self.period_ids:
-    # ~ description = None
-    # ~ if period.mode == MODE_NONE:
-    # ~ pass
-    # ~ elif not self.display_columns_description:
-    # ~ pass
-    # ~ elif period.date_from == period.date_to and period.date_from:
-    # ~ description = self._format_date(period.date_from)
-    # ~ elif period.date_from and period.date_to:
-    # ~ date_from = self._format_date(period.date_from)
-    # ~ date_to = self._format_date(period.date_to)
-    # ~ description = _("from %s to %s") % (date_from, date_to)
-    # ~ self._add_column(aep, kpi_matrix, period, period.name, description)
-    # ~ kpi_matrix.compute_comparisons()
-    # ~ kpi_matrix.compute_sums(self.currency_id)
-    # ~ return kpi_matrix
-
     def compute(self):
         self.ensure_one()
         kpi_matrix = self._compute_matrix()
@@ -159,15 +133,28 @@ class MisReportInstance(models.Model):
             )
             aep.parse_expr(expr)
             aep.done_parsing()
-            domain = aep.get_aml_domain_for_expr(
-                expr,
-                period.date_from,
-                period.date_to,
-                None,  # target_move now part of additional_move_line_filter
-                account_id,
-                find_moves_by_period=self.find_moves_by_period,  # ADDED
-                accounting_method=self.accounting_method,  # ADDED
-            )
+
+            if self.report_id.account_model == 'account.account':
+                domain = aep.get_aml_domain_for_expr(
+                    expr,
+                    period.date_from,
+                    period.date_to,
+                    None,  # target_move now part of additional_move_line_filter
+                    account_id,
+                    find_moves_by_period=self.find_moves_by_period,  # ADDED
+                    accounting_method=self.accounting_method,  # ADDED
+                )
+            else:
+                domain = aep.get_generic_aml_domain_for_expr(
+                    expr,
+                    period.date_from,
+                    period.date_to,
+                    None,  # target_move now part of additional_move_line_filter
+                    account_id,
+                    find_moves_by_period=self.find_moves_by_period,  # ADDED
+                    accounting_method=self.accounting_method,  # ADDED
+                    report_id=self.report_id
+                )
             domain.extend(period._get_additional_move_line_filter())
             return {
                 "name": self._get_drilldown_action_name(arg),
@@ -188,6 +175,8 @@ class MisReport(models.Model):  ### Should Be Called MisReport
 
     use_currency_suffix = fields.Boolean("Currency Suffix",
                                          help="Use currency set on mis report or the company currency as a suffix.")
+
+    mis_field = fields.Char(string='Target Field')
 
     @api.model
     def _get_target_move_domain(self, target_move, aml_model_name):
@@ -390,7 +379,7 @@ class MisReport(models.Model):  ### Should Be Called MisReport
 
                 ####
                 kpi_matrix.set_values_currency(kpi, col_key, vals, drilldown_args, currency_id=currency_id,
-                                      use_currency_suffix=use_currency_suffix)
+                                               use_currency_suffix=use_currency_suffix)
 
                 if (
                         name_error
@@ -460,8 +449,24 @@ class MisReport(models.Model):  ### Should Be Called MisReport
                     res[account_id].add(kpi)
         return res
 
+    @api.depends('move_lines_source')
+    def _compute_account_model(self):
+        for record in self:
+            if record.move_lines_source.model == 'mis.budget.by.analytic.account.item':
+                record.account_model = (
+                    record.move_lines_source.sudo()
+                    .field_id.filtered(lambda r: r.name == "analytic_account_id")
+                    .relation
+                )
+            else:
+                record.account_model = (
+                    record.move_lines_source.sudo()
+                    .field_id.filtered(lambda r: r.name == "account_id")
+                    .relation
+                )
 
-class MisReportInstanceFixAnalyticTag(models.Model):  ### Should Be Called MisReportInstance
+
+class MisReportInstanceFixAnalyticTag(models.Model):  # Should Be Called MisReportInstance
     _inherit = "mis.report.instance"
 
     @api.model
@@ -486,7 +491,7 @@ class MisReportInstanceFixAnalyticTag(models.Model):  ### Should Be Called MisRe
             )
         analytic_tag_value = filters.get("analytic_tag_ids", {}).get("value")
         if analytic_tag_value:
-            # TODO 14 
+            # TODO 14
             analytic_tag_names = []
             for tag in analytic_tag_value:
                 tag_record = self.env['account.analytic.tag'].browse(tag)
@@ -494,9 +499,6 @@ class MisReportInstanceFixAnalyticTag(models.Model):  ### Should Be Called MisRe
                     for account_analytic_distribution in tag_record.analytic_distribution_ids:
                         account_analytic_distribution.account_id.name
                         analytic_tag_names.append(account_analytic_distribution.account_id.name)
-            # ~ analytic_tag_names = self.resolve_2many_commands(
-            # ~ "analytic_tag_ids", analytic_tag_value, ["name"]
-            # ~ )
             filter_descriptions.append(
                 _("Analytic Tags: %s")
                 % ", ".join([rec for rec in analytic_tag_names])

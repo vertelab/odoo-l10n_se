@@ -9,6 +9,10 @@
                 <field name="style_id" position="after">
                     <field name="use_currency_suffix"/>
                 </field>
+                <field name="move_lines_source" position="after">
+                    <field name="account_model"/>
+                    <field name="mis_field"/>
+                </field>
             </field>
         </record>
     </data>
