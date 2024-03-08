@@ -10,7 +10,8 @@ import io
 import logging
 import pathlib
 import re
-
+from pdf2image import convert_from_path, convert_from_bytes
+import pytesseract
 import pdfplumber
 from base64 import b64decode
 import tempfile
@@ -43,7 +44,7 @@ class AccountEdiFormat(models.Model):
             # pdf_processing = self._decode_pdf(attachment.name, content)
             # print('pdf_processing', pdf_processing)
             # if not pdf_processing:
-            pdf_processing = self._process_pdf_matter(attachment)
+            pdf_processing = self._process_pdf_matter(attachment.datas)
             to_process.extend(pdf_processing)
             # odoo_pdf_process = to_process.extend(self._decode_pdf(attachment.name, content))
         elif 'xml' in attachment.mimetype or is_text_plain_xml:
@@ -53,14 +54,26 @@ class AccountEdiFormat(models.Model):
         return to_process
 
     def _process_pdf_matter(self, attachment):
-        import fitz
-        # from ParseTab import ParseTab
-        doc = fitz.Document('/home/ayomir/Downloads/INV_2022_11_0001.pdf')
-        page_no = 1
-        page = doc.load_page(0)
-        print(page.search_for('Invoice'))
+        text = ""
+        images = convert_from_bytes(attachment)  # Convert PDF pages to images
 
-        tab = ParseTab(page, [0, ymin, 9999, ymax])
+        for image in images:
+            # Perform OCR on each image and add the extracted text to the result
+            image_text = pytesseract.image_to_string(image)
+            text += image_text
+
+        print("Extracted Text:\n", text)
+        return text
+
+    # def _process_pdf_matter(self, attachment):
+    #     import fitz
+    #     # from ParseTab import ParseTab
+    #     doc = fitz.Document('/home/ayomir/Downloads/INV_2022_11_0001.pdf')
+    #     page_no = 1
+    #     page = doc.load_page(0)
+    #     print(page.search_for('Invoice'))
+    #
+    #     tab = ParseTab(page, [0, ymin, 9999, ymax])
 
 
         # all_text = ''
@@ -76,4 +89,4 @@ class AccountEdiFormat(models.Model):
         # print(all_text)
         # if re.search('Azure', all_text):
         #     print()
-        return []
+        # return []
