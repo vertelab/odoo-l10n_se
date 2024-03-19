@@ -754,6 +754,7 @@ class account_sie(models.TransientModel):
                             'date': formated_date,
                             'name': trans_name,
                             'move_id': ver_id.id,
+                            'currency_id': code.currency_id.id if code.currency_id else self.company_id.currency_id.id
                         }
 
                         context_copy = self.env.context.copy()
@@ -795,6 +796,7 @@ class account_sie(models.TransientModel):
                     'date': first_date_of_year,
                     'name': "#IB",
                     'move_id': ib_move_id.id,
+                    'currency_id': ib_account.currency_id.id if ib_account.currency_id else self.company_id.currency_id.id
                 }
                 # ~ _logger.warning(f"{line_vals=}")
                 context_copy = self.env.context.copy()
