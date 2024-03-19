@@ -677,7 +677,7 @@ class account_sie(models.TransientModel):
                 elif len(serie_to_journal_lines) == 1:
                     move_journal_id = serie_to_journal_lines.journal_id.id
 
-                ver_id = self.env['account.move'].create({
+                ver_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
                     'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date,
                                                                                      company_id=self.company_id.id).id,
                     'journal_id': move_journal_id,
@@ -780,7 +780,7 @@ class account_sie(models.TransientModel):
 
                 ib_move_journal_id = self.move_journal_id.id
                 if not ib_move_id:
-                    ib_move_id = self.env['account.move'].create({
+                    ib_move_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
                         'period_id': period_id,
                         'journal_id': ib_move_journal_id,
                         'date': first_date_of_year,
