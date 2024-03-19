@@ -758,7 +758,7 @@ class account_sie(models.TransientModel):
                         }
 
                         context_copy = self.env.context.copy()
-                        context_copy.update({'check_move_validity': False})
+                        context_copy.update({'check_move_validity': False, 'check_move_period_validity': False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
                         self.with_context(context_copy).env['account.move.line'].browse(
                             trans_id.id)._compute_analytic_account_id()
@@ -800,7 +800,7 @@ class account_sie(models.TransientModel):
                 }
                 # ~ _logger.warning(f"{line_vals=}")
                 context_copy = self.env.context.copy()
-                context_copy.update({'check_move_validity': False})
+                context_copy.update({'check_move_validity': False, 'check_move_period_validity': False})
                 trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
 
         # Depending on the accounts used odoo will self balance the account moves by adding an opposite account,
