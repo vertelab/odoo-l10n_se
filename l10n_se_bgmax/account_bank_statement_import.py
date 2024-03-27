@@ -54,6 +54,8 @@ class account_bank_statement(models.Model):
 
     @api.model
     def get_bank_account_id(self):
+        _logger.warning("get_bank_account_id"*100)
+        _logger.warning(f"{self.account_no=}")
         bank_account_id = None
         if self.account_no and len(self.account_no) > 4:
             bank_account_ids = self.env['res.partner.bank'].search(
@@ -183,6 +185,8 @@ class AccountBankStatementImport(models.TransientModel):
                         raise UserError(_('A fisical year has not been configured. Please configure a fisical year.'))
         currency_code = statements[0].get('currency_code')
         account_number = statements[0].get('account_no')
+        _logger.warning("bg parse_file"*100)
+        _logger.warning(f"{account_number=}")
         return currency_code, account_number, statements
 
 
@@ -191,7 +195,7 @@ class account_payment_order(models.Model):
 
     @api.model
     def _set_bank_payment_line_seq(self):
-        self.env.ref('account_payment_order.bank_payment_line_seq').sudo().write({'prefix': ''})
+        self.env.ref('account_payment_order.account_payment_line_seq').sudo().write({'prefix': ''})
 
     def create_bgmax(self):
         bggen = BgMaxGen()

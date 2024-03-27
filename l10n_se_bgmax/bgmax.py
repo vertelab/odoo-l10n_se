@@ -393,6 +393,7 @@ class BgMaxParser(object):
         self.is_bgmax(data)
         iterator = BgMaxIterator(data)
         for avsnitt in iterator:
+            _logger.warning(f"{avsnitt=}")
             current_statement = BankStatement()
             current_statement.local_currency = avsnitt.footer.get('valuta')
             current_statement.start_balance = 0.0
@@ -403,9 +404,11 @@ class BgMaxParser(object):
             #~ _logger.warn("ins: %s" % avsnitt.ins)
             #~ _logger.warn("bet: %s" % avsnitt.bet)
             #~ _logger.warn("type: %s" % avsnitt.type)
-
+            _logger.warning(f"{avsnitt.header=}")
+            _logger.warning(f"{avsnitt.header.get('mottagarbankgiro', '')=}")
             if not current_statement.local_account:
-                current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+                #current_statement.local_account = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
+                current_statement.account_no = str(int(avsnitt.header.get('mottagarplusgiro', '').strip() or avsnitt.header.get('mottagarbankgiro', '').strip()))
                 if len(current_statement.local_account) == 8:
                     current_statement.local_account = current_statement.local_account[:4] + '-' + current_statement.local_account[4:]
             #if not self.current_statement.local_currency:
@@ -413,7 +416,9 @@ class BgMaxParser(object):
             if not current_statement.statement_id:
                 current_statement.statement_id = '%sBM%s%s' % (current_statement.local_account.replace('-', ''), str(datetime.today().year)[2:], avsnitt.footer.get('inslopnummer'))
                 current_statement.bg_serial_number = avsnitt.footer.get('inslopnummer')
-            current_statement.account_no = avsnitt.footer.get('mottagarbankkonto').lstrip('0')
+            #current_statement.account_no = avsnitt.footer.get('mottagarbankkonto').lstrip('0')
+            current_statement.local_account = avsnitt.footer.get('mottagarbankkonto').lstrip('0')
+            # ~ _logger.warning(f"{current_statement=}")
 
             for ins in avsnitt.ins:
                 transaction = current_statement.create_transaction()

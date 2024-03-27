@@ -301,6 +301,12 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def _parse_all_files(self, statement_file):
+        context = dict(self.env.context)
+        # Modifying the context (adding a new key-value pair)
+        context['check_move_period_validity'] = False
+        # Performing your operations using the updated context
+        # For example, you can use the context in a search or browse operation
+        self = self.with_context(context)
         """Parse one file or multiple files from zip-file.
 
         Return array of statements for further processing.
@@ -335,6 +341,13 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def _create_bank_statements(self, stmts_vals, result):
+        context = dict(self.env.context)
+        # Modifying the context (adding a new key-value pair)
+        context['check_move_period_validity'] = False
+        # Performing your operations using the updated context
+        # For example, you can use the context in a search or browse operation
+        self = self.with_context(context) 
+
         ''' Override create method, do auto reconcile after statement created. '''
 
         for st_vals in stmts_vals:
