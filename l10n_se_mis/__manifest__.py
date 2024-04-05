@@ -27,6 +27,16 @@
     'category': 'Accounting',
     'description': """
         The module works as a base for creating Swedish MIS-reports  
+        Balansrapportmallen:
+        Dessa rubriker innehåller överlappande konton, om dessa används justera enligt de redovisningsriktlinjer som gäller för er verksamhet
+        Bakgrunden är att Skatteverket/Bolagsverlet anpassar rubrikerna till olika redovisningsprinciper.
+        
+        - Koncessioner, patent, licenser, varumärken samt liknande rättigheter  och 	Immateriella anläggningstillgångar
+        - Andelar i koncernföretag  och Finansiella anläggningstillgångar
+        - Lager av råvaror och förnödenheter och Varulager m.m.
+        
+        Om någon av dessa rubriker används måste konto-listan knuten till rubriken justeras
+        
     """,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
