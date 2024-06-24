@@ -72,7 +72,7 @@ class HandelsbankenTransaktionsrapport(object):
     def parse(self):
         """Parse handelsbanken bank statement file contents."""
         if not (self.data[0].get('Valutadag') and self.data[0].get('Ins\xe4ttning/Uttag') and self.data[0].get('Kontor') and self.data[0].get('Datum intervall')):
-
+        #if not self.data[0].get('Insättning/Uttag'):
         # ~ if not self.data[0].keys() == ['Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta','Kontoförande kontor','Datum intervall','Kontor','Bokföringsdag','Reskontradag','Valutadag','Referens','Insättning/Uttag','Bokfört saldo','Aktuellt saldo','Valutadagssaldo','Referens Swish','Avsändar-id Swish']:
             _logger.error(u"Row 0 was looking for 'Kontohavare','Kontonr','IBAN','BIC','Kontoform','Valuta,Kontoförande kontor'")
             raise ValueError('This is not a Handelsbanken Transaktionsrapport')        

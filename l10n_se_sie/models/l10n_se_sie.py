@@ -37,6 +37,9 @@ class account_sie_account(models.TransientModel):
     name = fields.Char(string='Name', required=True, select=True)
     code = fields.Char(string='Code', size=64, required=True)
 
+    
+
+    
     type = fields.Selection(selection=[
         ('view', 'View'),
         ('other', 'Regular'),
@@ -63,6 +66,8 @@ class account_sie(models.TransientModel):
     ####
     include_transactions = fields.Boolean('Include Transactions')
     include_ib = fields.Boolean("Include Incoming Balans")
+    
+    sie_type = fields.Selection([('4i','Typ 4i Endast Verifikationsposter'),('4e','Typ 4 Transaktioner')],string='Sie Type', default='4i')
 
     # ~ include_ub = fields.Boolean("Include Outgoing Balans")
     # ~ include_res = fields.Boolean("Include Res Balans")
@@ -76,12 +81,13 @@ class account_sie(models.TransientModel):
         return [('company_id', '=', self.env.company.id)]
 
     current_transaction_year = fields.Many2one(comodel_name="account.fiscalyear", string="Current Fiscal Year",
-                                               help="Balanse posts are relativ to this fiscal year",
+                                               help="Posts are relative to this year",
                                                domain=_set_period_fiscal_domain,
                                                default=_get_default_current_fiscalyear)
-    ib_fiscalyear_ids = fields.Many2many(comodel_name="account.fiscalyear",
-                                         string="Incoming balans for these fiscal years",
-                                         help="IB For Following fiscal years", domain=_set_period_fiscal_domain)
+                                               
+    fiscalyear_4e_ids = fields.Many2many(comodel_name="account.fiscalyear",
+                                         string="Fiscal years for #IB/#UB/#RES",
+                                         domain=_set_period_fiscal_domain)
     #### 
 
     serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal')
@@ -128,47 +134,33 @@ class account_sie(models.TransientModel):
     accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent',
                                          domain=[('type', '=', 'view')])
 
-    def _get_rar_code(self, fy):
-        self.ensure_one()
-        i = 0
-        for year in self.fiscalyear_ids.sorted(lambda r: r.date_start, reverse=False):
-            if fy == year:
-                return i
-            i += 1
-        return i
-        # raise Warning("Couldn't get RAR code.")
-
+    def _get_rar_code(self, fiscalyear):
+    
+        # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscalyear to return.
+        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
+                                                                 order='date_start ASC')
+        current_fiscalyear_index = next(
+            (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
+            
+            
+        fy_index = next(
+            (index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)        
+        rar_code = fy_index - current_fiscalyear_index 
+        return rar_code
+        
+        
+        # ~ self.ensure_one()
+        # ~ i = 0
+        # ~ for year in self.fiscalyear_ids.sorted(lambda r: r.date_start, reverse=False):
+            # ~ if fy == year:
+                # ~ return i
+            # ~ i += 1
+        # ~ return i
+        
     def _data(self):
         self.sie_file = self.data
 
     sie_file = fields.Binary(compute='_data')
-
-    # ~ @api.one
-    # ~ @api.onchange('accounts_type')
-    # ~ def onchange_accounts_type(self):
-    # ~ for line in self.account_line_ids:
-    # ~ if line.checked:
-    # ~ line.type = self.accounts_type
-
-    # ~ @api.one
-    # ~ @api.onchange('accounts_user_type')
-    # ~ def onchange_accounts_user_type(self):
-    # ~ for line in self.account_line_ids:
-    # ~ if line.checked:
-    # ~ line.user_type = self.accounts_user_type
-
-    # ~ @api.one
-    # ~ @api.onchange('accounts_parent_id')
-    # ~ def onchange_accounts_parent_id(self):
-    # ~ for line in self.account_line_ids:
-    # ~ if line.checked:
-    # ~ line.parent_id = self.accounts_parent_id
-
-    # ~ @api.one
-    # ~ @api.onchange('data')
-    # ~ def onchange_data(self):
-    # ~ if self.data:
-    # ~ self.check_import_file(check_periods=False)
 
     @api.model
     def cleanse_with_fire(self, data):
@@ -358,7 +350,11 @@ class account_sie(models.TransientModel):
         else:
             move_ids = []
             ib_dict = {}
-            if self.include_transactions:
+            ub_dict = {}
+            res_dict = {}
+
+            
+            if self.sie_type == "4i" or self.sie_type == "4e":
                 search = []
                 search.append(('state', '=', 'posted'))
                 search.append(('company_id.id', '=', self.env.company.id))
@@ -378,10 +374,15 @@ class account_sie(models.TransientModel):
                     accounts = [l.move_id.id for l in self.env['account.move.line'].search(
                         [('account_id', 'in', [a.id for a in self.account_ids])])]
                     move_ids = move_ids.filtered(lambda r: r.id in accounts)
-            if self.include_ib:
-                ib_dict = self.get_ib_value_dict()
+                    
+            if self.sie_type == "4e":
+                balance_accounts =  self.env['account.account'].search([('company_id', '=', self.env.company.id),('user_type_id.report_type', '=', "b")])
+                result_accounts =  self.env['account.account'].search([('company_id', '=', self.env.company.id),('user_type_id.report_type', '=', "b")])
+                ib_dict = self.get_sie_value_dict(balance_accounts, include_current_year = False)
+                ub_dict = self.get_sie_value_dict(balance_accounts, include_current_year = True)
+                res_dict = self.get_sie_value_dict(result_accounts, just_current_year = True)
             self.write(
-                {'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids, ib_dict)),
+                {'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids, ib_dict, ub_dict, res_dict)),
                  'filename': 'filename.se'})
 
         return {
@@ -393,51 +394,52 @@ class account_sie(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
         }
+    
+    @api.model
+    def _get_fiscalyear_index(self, fiscalyear, all_fiscal_years):
+        fiscalyear_index = next(
+            (index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)
+        return fiscalyear_index
 
-    def get_ib_value_dict(self):
+
+    def get_sie_value_dict(self, accounts, include_current_year=False, just_current_year=False):#Not done yet
         self.ensure_one()
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
-                                                                 order='date_start ASC')
-        current_fiscalyear_index = next(
-            (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
+        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)], order='date_start ASC')
+        current_fiscalyear_index = self._get_fiscalyear_index(self.current_transaction_year, all_fiscal_years)
         formated_result = []
-
-        for fiscalyear in self.ib_fiscalyear_ids:
-            fiscalyear_index = next((index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)
-
+        for fiscalyear in self.fiscalyear_4e_ids:
+            fiscalyear_index = self._get_fiscalyear_index(fiscalyear, all_fiscal_years)
             year_nr = fiscalyear_index - current_fiscalyear_index
-            previous_years = all_fiscal_years[0:fiscalyear_index]
-            _logger.warning(f"{fiscalyear_index=}")
-            _logger.warning(f"{all_fiscal_years=}")
-            _logger.warning(f"{previous_years=}")
-            ib_search = []
-            ib_search.append(('move_id.state', '=', 'posted'))
-            ib_search.append(('move_id.company_id', '=', self.env.company.id))
-            if self.date_field_to_use == "go_by_period":
-                ib_search.append(('move_id.period_id', 'in', [p.id for p in previous_years.period_ids]))
+            if include_current_year:
+               years = all_fiscal_years[0:fiscalyear_index + 1]
             else:
-                ib_search.append(('move_id.date', '>=', previous_years[0].date_start))
-                ib_search.append(('move_id.date', '<=', previous_years[-1].date_stop))
-            ib_search.append(('account_id.user_type_id.report_type', '=', "b"))
-
-            result = self.env['account.move.line'].search(ib_search)
-
+                years = all_fiscal_years[0:fiscalyear_index]
+            if just_current_year:
+                years = fiscalyear
+            _logger.warning(f"{years=}")
+            search = []
+            search.append(('move_id.state', '=', 'posted'))
+            search.append(('move_id.company_id', '=', self.env.company.id))
+            if self.date_field_to_use == "go_by_period":
+                search.append(('move_id.period_id', 'in', [p.id for p in years.period_ids]))
+            else:
+                search.append(('move_id.date', '>=', years[0].date_start))
+                search.append(('move_id.date', '<=', years[-1].date_stop))
+            search.append(('account_id.id', 'in', accounts.ids))
             result = self.env['account.move.line'].read_group(
-                ib_search,
+                search,
                 ['account_id', 'debit', 'credit'],
                 ['account_id']
             )
-            _logger.warning(f"{result=}")
             for res in result:
                 better_dict = {}
                 better_dict['yearnr'] = year_nr
                 better_dict['account_code'] = self.env['account.account'].browse(res['account_id'][0]).code
                 better_dict['balance'] = res['debit'] - res['credit']
                 formated_result.append(better_dict)
-            # _logger.warning(f"{better_dict=}")
         return formated_result
-
-    def make_sie(self, ver_ids, ib_dict):
+        
+    def make_sie(self, ver_ids, ib_dict, ub_dict, res_dict):
         def get_fiscalyears(ver_ids):
             year_list = set()
             for ver in ver_ids:
@@ -447,25 +449,30 @@ class account_sie(models.TransientModel):
         def get_accounts_ver(ver_ids):
             return ver_ids.mapped('line_ids.account_id')
 
-        def get_accounts_ib(ib_dict):
-            ib_dict_accounts = []
-            if ib_dict:
-                for line in ib_dict:
-                    ib_dict_accounts.append(line['account_code'])
-                ib_dict_accounts = set(ib_dict_accounts)
-                ib_dict_accounts_records = self.env['account.account']
-                for line in ib_dict_accounts:
-                    ib_dict_accounts_records += self.env['account.account'].search([('code', '=', line)])
-                return ib_dict_accounts_records
+        def get_accounts_sie_dict(sie_dict):
+            dict_accounts = []
+            if sie_dict:
+                for line in sie_dict:
+                    dict_accounts.append(line['account_code'])
+                dict_accounts = set(dict_accounts)
+                dict_accounts_records = self.env['account.account']
+                for line in dict_accounts:
+                    dict_accounts_records += self.env['account.account'].search([('code', '=', line)])
+                return dict_accounts_records
 
-        def get_accounts(ver_ids, ib_dict):
-            if ver_ids and ib_dict:
-                return list(set(get_accounts_ver(ver_ids) | get_accounts_ib(ib_dict)))
+        def get_accounts(ver_ids, ib_dict, ub_dict, res_dict):
+            accounts = self.env['account.account']
             if ver_ids:
-                return list(set(get_accounts_ver(ver_ids)))
+                accounts = accounts | get_accounts_ver(ver_ids)
             if ib_dict:
-                return list(set(get_accounts_ib(ib_dict)))
-            return []
+                accounts = accounts | get_accounts_sie_dict(ib_dict)
+            if ub_dict:
+                accounts = accounts | get_accounts_sie_dict(ub_dict)
+            if res_dict:
+                accounts = accounts | get_accounts_sie_dict(res_dict)
+                
+            accounts = sorted(accounts, key=lambda r: r.code, reverse=True)
+            return accounts
 
         if len(self) > 0:
             sie_form = self[0]
@@ -482,16 +489,40 @@ class account_sie(models.TransientModel):
         str += '#FORMAT PC8\n'  # ,Anger vilken teckenuppsattning som anvants
         str += '#GEN %s\n' % fields.Date.today().strftime("%Y%m%d")
         str += '#SIETYP 4\n'
-        for fiscalyear in get_fiscalyears(ver_ids):
+        
+        #RAR can be come from #TRAN, #UB, #RES and #IB atm so need to go trough them
+        fiscalyears = get_fiscalyears(ver_ids)
+        if ib_dict:
+           for fiscalyear_ib in set([d['yearnr'] for d in ib_dict if 'yearnr' in d]):
+               fiscalyears = fiscalyears | self._get_accountfiscalyear_from_index(fiscalyear_ib)
+        if ub_dict:
+           for fiscalyear_ub in set([d['yearnr'] for d in ub_dict if 'yearnr' in d]):
+               fiscalyears = fiscalyears | self._get_accountfiscalyear_from_index(fiscalyear_ub)
+        if res_dict:
+           for fiscalyear_res in set([d['yearnr'] for d in res_dict if 'yearnr' in d]):
+               fiscalyears = fiscalyears | self._get_accountfiscalyear_from_index(fiscalyear_res)
+        fiscalyears = sorted(fiscalyears, key=lambda r: r.date_start, reverse=True)
+        for fiscalyear in fiscalyears:
             str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
                                         fiscalyear.date_stop.strftime("%Y%m%d"))
+            
+        #for fiscalyear in get_fiscalyears(ver_ids):
+        #   str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
+        #                                fiscalyear.date_stop.strftime("%Y%m%d"))
+        #if ib_dict:
+        #   for fiscalyear_ib in set([d['yearnr'] for d in ib_dict if 'yearnr' in d]):
+        #       fiscalyear = self._get_accountfiscalyear_from_index(fiscalyear_ib)
+        #       str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
+        #                                fiscalyear.date_stop.strftime("%Y%m%d"))
+               
+        
         str += '#FNAMN "%s"\n' % company.name
         str += '#ORGNR %s\n' % company.company_registry
         str += '#ADRESS "%s" "%s" "%s %s" "%s"\n' % (
             user.display_name, company.street, company.zip, company.city, company.phone)
         str += '#KPTYP %s\n' % (company.kptyp if company.kptyp else 'BAS2015')
 
-        for account in get_accounts(ver_ids, ib_dict):
+        for account in get_accounts(ver_ids, ib_dict, ub_dict, res_dict):
             str += '#KONTO %s "%s"\n' % (account.code, account.name)
         ub = {}
         ub_accounts = []
@@ -523,6 +554,23 @@ class account_sie(models.TransientModel):
             _logger.warning('#IB %s %s %s\n' % (
                 ib_val['yearnr'], ib_val['account_code'],
                 ib_val['balance']))
+                
+                
+        for ub_val in ub_dict:  # {'yearnr': -1, 'account_code': '1079', 'balance': 5000.0}, # IB
+            str += '#UB %s %s %s\n' % (
+                ub_val['yearnr'], ub_val['account_code'],
+                ub_val['balance'])
+            _logger.warning('#UB %s %s %s\n' % (
+                ub_val['yearnr'], ub_val['account_code'],
+                ub_val['balance']))
+                
+        for res_val in res_dict:  # {'yearnr': -1, 'account_code': '1079', 'balance': 5000.0}, # IB
+            str += '#RES %s %s %s\n' % (
+                res_val['yearnr'], res_val['account_code'],
+                res_val['balance'])
+            _logger.warning('#RES %s %s %s\n' % (
+                res_val['yearnr'], res_val['account_code'],
+                res_val['balance']))
         # TODO #RES OCH #UB Borde vara för nyvarande
 
         return str.encode('cp437', 'xmlcharrefreplace')  # ignore
@@ -530,6 +578,18 @@ class account_sie(models.TransientModel):
     @api.model
     def escape_sie_string(self, s):
         return s.replace('\n', ' ').replace('\\', '\\\\').replace('"', '\\"')
+        
+    def _get_accountfiscalyear_from_index(self, index):
+        # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscalyear to return.
+        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
+                                                                 order='date_start ASC')
+        current_fiscalyear_index = next(
+            (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
+        
+        fiscalyear = all_fiscal_years[current_fiscalyear_index + index]
+        return set(fiscalyear)
+        
+        
 
     @api.model
     def export_sie(self, ver_ids):

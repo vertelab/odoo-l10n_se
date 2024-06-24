@@ -97,30 +97,29 @@
           <notebook states="choose">
             <page string="Export" states="choose">
               <group>
-				  <field name="include_transactions"/>
+                  <field name="sie_type" required="1"/>
+                  <field name="current_transaction_year" required="1"/>
 		      </group>
-		      <group attrs="{'invisible' : [('include_transactions','!=',True)]}">
+		      <group>
 				  <separator string="Transaction"/>
 		      </group>
-              <group col="3" attrs="{'invisible' : [('include_transactions','!=',True)]}">
+              <group col="3">
                 <field name="date_start" />
                 <field name="date_stop" nolabel="1" />
               </group>
-              <group attrs="{'invisible' : [('include_transactions','!=',True)]}">
+              <group>
                 <field name="fiscalyear_ids" />
                 <field name="period_ids" widget="many2many_tags" />
                 <field name="journal_ids" widget="many2many_tags" />
                 <field name="partner_ids" widget="many2many_tags" />
                 <field name="account_ids" widget="many2many_tags" />
               </group>
-              <group>
-				  <field name="include_ib"/>
-		      </group>	
-		      <group attrs="{'invisible' : [('include_ib','!=',True)]}">
-				  <separator string="Incoming Balans"/>
+            <group attrs="{'invisible' : [('sie_type','!=','4e')]}">
+				  <separator string="Settings for IB/UB/RES posts"/>
+		      </group>
+		      <group attrs="{'invisible' : [('sie_type','!=','4e')]}">
                   <field name="date_field_to_use" widget="selection"/>
-				  <field name="current_transaction_year"/>
-				  <field name="ib_fiscalyear_ids" widget="many2many_tags"/>
+				  <field name="fiscalyear_4e_ids" widget="many2many_tags"/>
 			  </group> 
             </page>
             <page string="Import" states="choose">
