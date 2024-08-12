@@ -5,9 +5,6 @@ Be aware of these!
 [project]/[module]/static/description/banner.png
 [project]/[module]/static/description/icon.png
 
-Path:
-/static/description/icon.png
-
 Icon: Flag
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
