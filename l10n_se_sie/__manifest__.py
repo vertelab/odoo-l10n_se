@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: SIE-import',
-    'version': "0.1',
+    'version': '0.1',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
     'summary': 'Module for importing SIE-files',
