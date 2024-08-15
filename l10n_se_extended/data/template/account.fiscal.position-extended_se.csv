@@ -1,0 +1,45 @@
+id,name,auto_apply,country_id,vat_required,sequence,country_group_id,tax_ids/tax_src_id,tax_ids/tax_dest_id,account_ids/account_src_id,account_ids/account_dest_id
+fpos_trade_swe,Handel inom Sverige,1,base.se,0,0,,,,,
+fpos_trade_eu,Handel med EU,1,,0,0,base.europe,mp1,vteu,a3000,a3106
+,,,,,,,mp2,vteu,,
+,,,,,,,mp3,vteu,,
+,,,,,,,i,vfeu,,
+,,,,,,,i12,vfeu12,,
+,,,,,,,i6,vfeu6,,
+,,,,,,,it,tfeu,,
+,,,,,,,it12,tfeu12,,
+,,,,,,,it6,tfeu6,,
+,,,,,,,,,a3001,a3106
+,,,,,,,,,a3002,a3106
+,,,,,,,,,a3003,a3106
+,,,,,,,,,a4000,a4515
+,,,,,,,,,a4001,a4515
+,,,,,,,,,a4002,a4516
+,,,,,,,,,a4003,a4517
+,,,,,,,,,a6424,a4535
+,,,,,,,,,a6500,a4535
+,,,,,,,,,a6530,a4535
+,,,,,,,,,a6540,a4536
+,,,,,,,,,a6550,a4537
+,,,,,,,,,a6590,a4538
+fpos_trade_world,Handel utanför EU,1,,0,0,,mp1,e,a3000,a3105
+,,,,,,,mp2,e,,
+,,,,,,,mp3,e,,
+,,,,,,,i,mbbui1,,
+,,,,,,,i12,mbbui2,,
+,,,,,,,i6,mbbui3,,
+,,,,,,,it,tffu,,
+,,,,,,,,,a3001,a3105
+,,,,,,,,,a3002,a3105
+,,,,,,,,,a3003,a3105
+,,,,,,,,,a3004,a3105
+,,,,,,,,,a4000,a4545
+,,,,,,,,,a4001,a4546
+,,,,,,,,,a4002,a4546
+,,,,,,,,,a4003,a4547
+,,,,,,,,,a6424,a4531
+,,,,,,,,,a6500,a4531
+,,,,,,,,,a6530,a4531
+,,,,,,,,,a6540,a4531
+,,,,,,,,,a6550,a4531
+,,,,,,,,,a6590,a4531
