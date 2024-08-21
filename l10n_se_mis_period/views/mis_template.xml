@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mis_report_view_form_inherit" model="ir.ui.view">
+            <field name="name">mis.report.view.form.inherit</field>
+            <field name="model">mis.report</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_view_form"/>
+            <field name="arch" type="xml">
+                <field name="style_id" position="after">
+                    <field name="use_currency_suffix"/>
+                </field>
+                <field name="move_lines_source" position="after">
+                    <field name="account_model"/>
+                    <field name="mis_field"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

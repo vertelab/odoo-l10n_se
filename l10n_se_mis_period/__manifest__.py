@@ -20,30 +20,29 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Swedish MIS-reports',
-    'version': '1.0',
+    'name': 'l10n_se: Swedish Period',
+    'version': '0.1',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Create Swedish MIS-reports',
+    'summary': 'Create Swedish Period',
     'category': 'Accounting',
     'description': """
-        The module works as a base for creating Swedish MIS-reports  
+        The module adds period to mis report.  
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_period',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_Se',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder', 'mis_builder_budget','account_period_vrtl'],
+    'depends': ['l10n_se_mis', 'mis_builder', 'mis_builder_budget','account_period_vrtl'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
     'data': [
-        'data/mis_financial_report.xml',
-        'data/mis_momsdeklaration_report.xml',
-        'data/mis_arbetsgivardeklaration_report.xml',
-        'security/security.xml',
+        'views/mis_report_instance_view.xml',
+        'views/mis_template.xml',
+        'views/mis_report_template.xml',
     ],
     'installable': 'True',
     'application': 'False',

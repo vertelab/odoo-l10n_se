@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mis_report_instance_view_form_inherit" model="ir.ui.view">
+            <field name="name">l10n_mis_add_period_view</field>
+            <field name="model">mis.report.instance</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_instance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='comparison_mode']" position="after">
+                    <field name="find_moves_by_period"/>
+                    <field name="hide_lines_that_are_empty"/>
+                    <field name="hide_opening_closing_period"/>
+                </xpath>
+                <field name="analytic_domain" position="after">
+                    <field name="analytic_account_id"/>
+                    <field name="analytic_plan_id"/>
+                </field>
+              </field>
+        </record>
+
+        <record id="mis_report_instance_period_view_form_inherit" model="ir.ui.view">
+            <field name="name">l10n_mis_add_period_view</field>
+            <field name="model">mis.report.instance.period</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_instance_period_view_form"/>
+            <field name="arch" type="xml">
+                <field name="source" position="after">
+                    <field name="hide_opening_closing_period"/>
+                </field>
+                <field name="analytic_domain" position="after">
+                    <field name="analytic_account_id"/>
+                    <field name="analytic_plan_id"/>
+                </field>
+              </field>
+        </record>
+    </data>
+</odoo>
