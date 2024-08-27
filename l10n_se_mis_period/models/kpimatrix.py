@@ -3,6 +3,7 @@ from odoo.addons.mis_builder.models.mis_safe_eval import DataError, mis_safe_eva
 from odoo.addons.mis_builder.models.kpimatrix import KpiMatrix
 
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
@@ -63,15 +64,15 @@ class KpiMatrixRow(object):
 
 class KpiMatrixCell(object):  # noqa: B903 (immutable data class)
     def __init__(
-        self,
-        row,
-        subcol,
-        val,
-        val_rendered,
-        val_comment,
-        style_props,
-        drilldown_arg,
-        val_type,
+            self,
+            row,
+            subcol,
+            val,
+            val_rendered,
+            val_comment,
+            style_props,
+            drilldown_arg,
+            val_type,
     ):
         self.row = row
         self.subcol = subcol
@@ -81,6 +82,7 @@ class KpiMatrixCell(object):  # noqa: B903 (immutable data class)
         self.style_props = style_props
         self.drilldown_arg = drilldown_arg
         self.val_type = val_type
+
 
 class KpiMatrixExtended(KpiMatrix):
 
@@ -105,7 +107,8 @@ class KpiMatrixExtended(KpiMatrix):
 
         body = []
         for row in self.iter_rows():
-            if (row.style_props.hide_empty and row.is_empty()) or row.style_props.hide_always or (row.is_empty() and row.kpi.type != "str" and hide_lines_that_are_empty):
+            if (row.style_props.hide_empty and row.is_empty()) or row.style_props.hide_always or (
+                    row.is_empty() and row.kpi.type != "str" and hide_lines_that_are_empty):
                 continue
             row_data = {
                 "row_id": row.row_id,
@@ -138,7 +141,7 @@ class KpiMatrixExtended(KpiMatrix):
             body.append(row_data)
 
         return {"header": header, "body": body}
-        
+
     def set_values_currency(self, kpi, col_key, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True):
         """Set values for a kpi and a colum.
 
@@ -147,10 +150,10 @@ class KpiMatrixExtended(KpiMatrix):
         self.set_values_detail_account_currency(
             kpi, col_key, None, vals, drilldown_args, currency_id, use_currency_suffix, tooltips
         )
-        
+
     def set_values_detail_account_currency(
-        self, kpi, col_key, account_id, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True
-        ):
+            self, kpi, col_key, account_id, vals, drilldown_args, currency_id, use_currency_suffix, tooltips=True
+    ):
         """Set values for a kpi and a column and a detail account.
 
         Invoke this after declaring the kpi and the column.
@@ -173,7 +176,7 @@ class KpiMatrixExtended(KpiMatrix):
                 val_rendered = val.name
                 val_comment = val.msg
             else:
-                
+
                 val_rendered = self._style_model.render_currency(
                     self.lang, row.style_props, kpi.type, val, currency_id, use_currency_suffix
                 )
@@ -218,4 +221,4 @@ class KpiMatrixExtended(KpiMatrix):
             )
             cell_tuple.append(cell)
         assert len(cell_tuple) == col.colspan
-        col._set_cell_tuple(row, cell_tuple)        
+        col._set_cell_tuple(row, cell_tuple)
