@@ -24,7 +24,7 @@ from datetime import date
 
 import logging
 
-_logger = logging.getLogger("\33[1;37m\33[45m" + __name__ + "\33[1;37m\33[42m")
+_logger = logging.getLogger(__name__)
 
 
 class FinancialReportsInstance(models.Model):
@@ -43,20 +43,20 @@ class FinancialReportsInstance(models.Model):
     result_ids = fields.Many2many(comodel_name='financial.reports.line.results')
 
     def create_button(self):
-        # lines_unlink = self.env['financial.reports.line.results'].search([]).unlink()
+        lines_unlink = self.env['financial.reports.line.results'].search([]).unlink()
         for rec in self:
-            for lines in rec.result_ids.lines:
+            for lines in rec.report_id.lines:
 
                 # Domain Code
                 domain_code_debit = 0
                 domain_code_credit = 0
                 if lines.domain_code_move_line:
-                    domain_search = self.env['account.move.line'].search(eval(lines.domain_code_move_line))
-                    for domain in domain_search:
-                        domain_browse = self.env['account.move.line'].browse(domain)
-                        if self.start_date <= domain_browse.id.date <= self.end_date:
-                            domain_code_debit += domain_browse.id.debit
-                            domain_code_credit += domain_browse.id.credit
+                    _logger.warning(f"{lines.domain_code_move_line=}")
+                    domain = eval(lines.domain_code_move_line)
+                    domain += [("date",">=",self.start_date),("date","<=",self.end_date)]
+                    invoice_lines = self.env['account.move.line'].search(domain)
+                    domain_code_debit += sum(invoice_lines.mapped("debit"))
+                    domain_code_credit += sum(invoice_lines.mapped("credit"))
 
                 # Domain Account
                 domain_account_debit = 0
