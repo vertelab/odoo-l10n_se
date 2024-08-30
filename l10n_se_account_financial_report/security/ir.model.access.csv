@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+financial_report,financial_reports,model_financial_reports,account.group_account_manager,1,1,1,1
+financial_reports_line,financial_reports_line,model_financial_reports_line,account.group_account_manager,1,1,1,1
+financial_reports_instance,financial_reports_instance,model_financial_reports_instance,account.group_account_manager,1,1,1,1
+access_financial_reports_line_results,access_financial_reports_line_results,model_financial_reports_line_results,base.group_user,1,1,1,1
+
