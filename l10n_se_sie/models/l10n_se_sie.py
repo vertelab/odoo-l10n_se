@@ -688,24 +688,28 @@ class account_sie(models.TransientModel):
 
     def _check_periods(self, data):
         missing_period = []
+        _logger.warning(f"{data=}")
         for line in data:
             if line['label'] == '#VER':
+                dt = line.get(3, line.get(1, ""))
                 try:
-                    # ~ _logger.warning(f"WHAT: {self.env['account.period'].search([], limit=1)}")
-                    # self.env['account.period'].find(dt=line[3]) #Expected singleton
+                    _logger.warning(f"{line=}")
+                    _logger.warning(f"WHAT: {self.env['account.period'].search([], limit=1)}")
+                    #self.env['account.period'].find(dt=line[3]) #Expected singleton
                     self.env['account.period'].search([], limit=1).find(
-                        dt=line[3],
+                        dt=dt,
                         company_id=self.company_id.id)  # The find method has self.ensure_one, which is why i find one record.
                 except RedirectWarning:
                     _logger.warning(f"{line[3]=}")
                     if not missing_period:
-                        missing_period = [line[3], line[3]]
+                        missing_period = [dt, dt]
                     elif line[3] < missing_period[0]:
-                        missing_period[0] = line[3]
+                        missing_period[0] = dt
                     elif line[3] > missing_period[1]:
-                        missing_period[1] = line[3]
+                        missing_period[1] = dt
         _logger.warning(f"{missing_period=}")
         return missing_period
+
 
     def _import_ver(self, data):
         self.ensure_one()
