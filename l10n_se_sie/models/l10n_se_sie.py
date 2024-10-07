@@ -232,6 +232,9 @@ class account_sie(models.TransientModel):
                         if field == '' and "#TRANS" in line:
                             # just an empty "", we still need that in order to deterimine which value was in which index.
                             field = "Empty Citation"
+                        if field == '' and "#VER" in line:
+                            # just an empty "", we still need that in order to deterimine which value was in which index.
+                            field = " "
                     else:
                         field += line[i]
                 elif line[i] == '{':
@@ -261,26 +264,26 @@ class account_sie(models.TransientModel):
         last_line = None
         while i < len(text_list):
             _logger.debug(i)
-            # ~ _logger.warning(f"before {i=} {text_list[i]=}")
+            _logger.warning(f"before {i=} {text_list[i]=}")
             if text_list[i] == '{':
-                # ~ _logger.debug('down')
+                _logger.debug('down')
                 l, i = self.read_file(text_list, i + 1)
                 last_line['lines'] = l
             elif text_list[i] == '}':
-                # ~ _logger.debug('up')
+                _logger.debug('up')
                 return res, i
             else:
-                # ~ _logger.warning(f"after {i=} {text_list[i]=}")
+                _logger.warning(f"after {i=} {text_list[i]=}")
 
                 l = self.read_line(text_list[i])
-                # ~ _logger.warning(f"{l=}")
+                _logger.warning(f"{l=}")
                 last_line = {}
                 for x in range(len(l)):
                     if x == 0:
                         last_line['label'] = l[x]
                     else:
                         last_line[x] = l[x]
-                # ~ _logger.warning(f"{last_line=}")
+                _logger.warning(f"{last_line=}")
                 res.append(last_line)
             i += 1
         return res
@@ -691,7 +694,7 @@ class account_sie(models.TransientModel):
         _logger.warning(f"{data=}")
         for line in data:
             if line['label'] == '#VER':
-                dt = line.get(3, line.get(1, ""))
+                dt = line.get(3)
                 try:
                     _logger.warning(f"{line=}")
                     _logger.warning(f"WHAT: {self.env['account.period'].search([], limit=1)}")
