@@ -827,7 +827,7 @@ class account_sie(models.TransientModel):
                                 'currency_id': code.currency_id.id if code.currency_id else self.company_id.currency_id.id
                         }
 
-                        line_vals = self.postfix_line_val(line_vals)
+                        line_vals = self.postfix_line_vals(line_vals)
                         
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity': False, 'check_move_period_validity': False})
