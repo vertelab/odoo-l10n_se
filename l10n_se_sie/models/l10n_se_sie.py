@@ -712,7 +712,10 @@ class account_sie(models.TransientModel):
                         missing_period[1] = dt
         _logger.warning(f"{missing_period=}")
         return missing_period
-
+        
+    def postfix_line_vals(self, line_vals):
+        #Purpose is to inherit and if changes are need they can be made here.
+        return line_vals
 
     def _import_ver(self, data):
         self.ensure_one()
@@ -814,16 +817,18 @@ class account_sie(models.TransientModel):
                             tags.append((4, tag_table[tag_name_prefix], 0))
 
                         line_vals = {
-                            'account_id': code.id,
-                            'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
-                            'debit': float(trans_balance) > 0 and float(trans_balance) or 0.0,
-                            'analytic_tag_ids': tags,
-                            'date': formated_date,
-                            'name': trans_name,
-                            'move_id': ver_id.id,
-                            'currency_id': code.currency_id.id if code.currency_id else self.company_id.currency_id.id
+                                'account_id': code.id,
+                                'credit': float(trans_balance) < 0 and float(trans_balance) * -1 or 0.0,
+                                'debit': float(trans_balance) > 0 and float(trans_balance) or 0.0,
+                                'analytic_tag_ids': tags,
+                                'date': formated_date,
+                                'name': trans_name,
+                                'move_id': ver_id.id,
+                                'currency_id': code.currency_id.id if code.currency_id else self.company_id.currency_id.id
                         }
 
+                        line_vals = self.postfix_line_val(line_vals)
+                        
                         context_copy = self.env.context.copy()
                         context_copy.update({'check_move_validity': False, 'check_move_period_validity': False})
                         trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
