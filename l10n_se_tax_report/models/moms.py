@@ -23,7 +23,7 @@ from odoo import models, fields, api, _
 from lxml import etree
 import base64
 from collections import OrderedDict
-from odoo.exceptions import Warning, UserError
+from odoo.exceptions import UserError
 import time
 from datetime import datetime, timedelta
 

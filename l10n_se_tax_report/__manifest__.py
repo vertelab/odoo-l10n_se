@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Account Tax Report',
-    'version': '1.0',
+    'version': '17.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Account Tax Report',
     'category': 'Accounting',
@@ -40,7 +40,7 @@ Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklarat
      """,
     'author': 'Vertel AB',
 
-    'depends': ['l10n_se', 'account_payment_order', 'calendar', 'mis_builder','l10n_se_mis'],
+    'depends': ['l10n_se', 'account_payment_order', 'calendar', 'mis_builder','l10n_se_mis','l10n_se_mis_period'],
 
     'data': [
         'data/account_data.xml',

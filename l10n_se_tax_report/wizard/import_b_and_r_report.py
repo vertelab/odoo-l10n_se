@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import  RedirectWarning
 from tempfile import TemporaryFile
 import base64
 import sys
