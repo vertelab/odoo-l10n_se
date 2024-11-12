@@ -155,7 +155,7 @@ class account_vat_declaration(models.Model):
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
+                            'partner_id': self.env.ref('l10n_se_extended.res_partner-SKV').id,
                             'debit': abs(self.vat_momsbetala),
                             'credit': 0.0,
                             'move_id': entry.id,
@@ -180,7 +180,7 @@ class account_vat_declaration(models.Model):
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
+                            'partner_id': self.env.ref('l10n_se_extended.res_partner-SKV').id,
                             'debit': 0.0,
                             'credit': self.vat_momsbetala,
                             'move_id': entry.id,
