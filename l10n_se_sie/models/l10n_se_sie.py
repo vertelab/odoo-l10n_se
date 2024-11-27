@@ -380,7 +380,7 @@ class account_sie(models.TransientModel):
                     
             if self.sie_type == "4e":
                 balance_accounts =  self.env['account.account'].search([('company_id', '=', self.env.company.id),('user_type_id.report_type', '=', "b")])
-                result_accounts =  self.env['account.account'].search([('company_id', '=', self.env.company.id),('user_type_id.report_type', '=', "b")])
+                result_accounts =  self.env['account.account'].search([('company_id', '=', self.env.company.id),('user_type_id.report_type', '=', "r")])
                 ib_dict = self.get_sie_value_dict(balance_accounts, include_current_year = False)
                 ub_dict = self.get_sie_value_dict(balance_accounts, include_current_year = True)
                 res_dict = self.get_sie_value_dict(result_accounts, just_current_year = True)
