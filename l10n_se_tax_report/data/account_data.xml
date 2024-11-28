@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
   <!--id,name,code,parent_id:id,notprintable,sign
        tag G,G. Moms att betala eller få tillbaka.,G,0,false,1
        tag 49,49. Moms att betala ut eller få tillbaka,R1,G,false,1
@@ -447,6 +448,14 @@
   </data>
 -->
   <data>
+          
+    <record id="res_partner-SKV" model="res.partner">
+      <field name="company_id" ref="base.main_company" />
+      <field name="name">Skatteverket</field>
+      <field name="tz">Europe/Stockholm</field>
+      <field name="is_company">False</field>
+    </record>
+
 	      <record id="moms_journal" model="account.journal">
       <field name="name">Momsjournal</field>
       <field name="type">general</field>

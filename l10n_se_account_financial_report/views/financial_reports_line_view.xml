@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="financial_reports_tree_view" model="ir.ui.view">
+            <field name="name">financial.reports.tree.view</field>
+            <field name="model">financial.reports</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Name" />
+                    <field name="lines" string="Lines" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="financial_reports_form_view" model="ir.ui.view">
+            <field name="name">financial.reports.form.view</field>
+            <field name="model">financial.reports</field>
+            <field name="arch" type="xml">
+                <form string="Financial Reports Lines">
+                    <sheet>
+                        <field name="name" string="Name" />
+                        <field name="lines" string="Lines" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="financial_reports_line_form_view" model="ir.ui.view">
+            <field name="name">financial.reports.line.form.view</field>
+            <field name="model">financial.reports.line</field>
+            <field name="arch" type="xml">
+                <form string="Financial Reports Lines">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name" />
+                            <field name="domain_code_move_line" stirng="Domain Code" />
+                            <field name="domain_account_move_line" />
+                            <field name="domain_expressions_line" />
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="financial_reports_tree_action" model="ir.actions.act_window">
+            <field name="res_model">financial.reports</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Financial Reports Action</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="financial_reports_tree_view" />
+        </record>
+
+        <menuitem id="financial_reports_menu" parent="account.menu_finance_configuration" name="Report Generator" sequence="201" />
+        <menuitem id="financial_reports_view_menu" parent="financial_reports_menu" name="Financial Reports" action="financial_reports_tree_action" sequence="202" />
+
+    </data>
+</odoo>

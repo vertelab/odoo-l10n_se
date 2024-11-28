@@ -155,7 +155,7 @@ class account_vat_declaration(models.Model):
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
+                            'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
                             'debit': abs(self.vat_momsbetala),
                             'credit': 0.0,
                             'move_id': entry.id,
@@ -180,7 +180,7 @@ class account_vat_declaration(models.Model):
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
+                            'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
                             'debit': 0.0,
                             'credit': self.vat_momsbetala,
                             'move_id': entry.id,
@@ -306,7 +306,43 @@ class account_vat_declaration(models.Model):
     # ~ @api.multi
     def  show_mis_report(self):
         self.ensure_one()
-        return self.generated_mis_report_id.preview()
+        #view_id = self.env.ref("mis_builder." "mis_report_instance_result_view_form")
+        #return {
+        #    "type": "ir.actions.act_window",
+        #    "res_model": "mis.report.instance",
+        #    "res_id": self.generated_mis_report_id.id,
+        #    "view_mode": "form",
+            #"view_id": view_id.id,
+            #"target": "current",
+            #"context": self.env.context,
+        #}
+        form_view_action = {
+            'type': 'ir.actions.act_window',
+            'name': 'MIS Report Instance',
+            'res_model': 'mis.report.instance',
+            'view_mode': 'form',
+            'target': 'current',
+            #"res_id": self.generated_mis_report_id.id,
+            'nodestroy' : True,
+            'res_id': self.generated_mis_report_id.id if self.generated_mis_report_id else False,
+            'context': {'form_view_initial_mode': 'edit'},
+            'flags': {'action_buttons': True},
+        }
+        
+        #reload_action = {
+        #    'type': 'ir.actions.client',
+        #    'tag': 'reload',
+        #}
+        
+        # Return both actions
+        #return {
+        #    'type': 'ir.actions.act_multi',
+        #    'actions': [form_view_action, reload_action],
+        #}
+        return form_view_action
+
+
+
     
     # ~ @api.multi
     def get_move_line_recordset(self, row_kpi_names):

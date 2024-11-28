@@ -6,22 +6,12 @@
             <field name="model">res.config.settings</field>
             <field name="inherit_id" ref="account.res_config_settings_view_form" />
             <field name="arch" type="xml">
-                <xpath expr="//div[@id='invoicing_settings']" position="after">
-                <h2>Vat Declaration Frequency</h2>
-                <div class="row mt16 o_settings_container" id="invoicing_settings">
-                    <div class="col-12 col-lg-8 o_setting_box" id="e-invoices">
-                        <div class="o_setting_left_pane" />
-                        <div class="o_setting_right_pane">
-                        <div class="text-muted">
-                            Select the vat declaration frequency
-                        </div>
-                            <div class="text-muted" name="vat_declaration_frequency">
-                                <field name="vat_declaration_frequency" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </xpath>
+                  <setting id="tax_exigibility" position="after">
+	              <setting id="tax_frequency" company_dependent="1" help="" title="Select the vat declaration frequency" groups="account.group_account_user">
+		             <field name="vat_declaration_frequency"/>
+	              </setting>
+                  </setting>
+
             </field>
         </record>
         

@@ -1,135 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data>
-
-<!--
+ <data>
+  <!--
 
              <menuitem id="next_id_23" name="Periods" parent="account.menu_finance_configuration" sequence="5" />
         <menuitem id="menu_action_account_fiscalyear" action="action_account_fiscalyear" parent="next_id_23"/>
 
     <menuitem id="menu_action_account_period_form" action="action_account_period_form" parent="account.menu_finance_entries" sequence="50"/>
 -->
-    <menuitem name="Myndighetsrapportering" id="menu_report_authorities" parent="account.menu_finance_entries" />
-
-    <record id="view_account_moms_declaration" model="ir.ui.view">
-      <field name="name">momsdeklaration.form</field>
-      <field name="model">account.vat.declaration</field>
-      <field name="arch" type="xml">
-        <form string="Momsdeklaration">
-          <header>
-            <button name="calculate" string="Beräkna" type="object" class="oe_highlight" states="draft" />y
-            <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
-            <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
-            <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
-            <field name="state" widget="statusbar" />
-          </header>
-          <sheet>
-            <div class="oe_button_box" name="button_box">
-<!--
+  <menuitem id="menu_report_authorities" name="Myndighetsrapportering" parent="account.menu_finance_entries"/>
+  <record id="view_account_moms_declaration" model="ir.ui.view">
+   <field name="name">momsdeklaration.form</field>
+   <field name="model">account.vat.declaration</field>
+   <field name="arch" type="xml">
+    <form string="Momsdeklaration">
+     <header>
+      <button class="oe_highlight" invisible="state not in ['draft']" name="calculate" string="Beräkna" type="object"/>
+      y
+      <button class="oe_highlight" invisible="state not in ['done','confirmed','canceled']" name="do_draft" string="Draft" type="object"/>
+      <button class="oe_highlight" invisible="state not in ['confirmed']" name="do_done" string="Done" type="object"/>
+      <button class="oe_highlight" invisible="state not in ['confirmed','done']" name="do_cancel" string="Cancel" type="object"/>
+      <field name="state" widget="statusbar"/>
+     </header>
+     <sheet>
+      <div class="oe_button_box" name="button_box">
+       <!--
               <button type="object" class="oe_stat_button" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
 -->
-                <button type="object" class="btn btn-secondary" icon="fa-level-up" name="show_momsutg_mis" context="{'default_partner_id': active_id}">
-                <div class="o_form_field o_stat_info">
-                  <span class="o_stat_value">
-                    <field name="vat_momsutg" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                  </span>
-                  <span class="o_stat_text">Utgående</span>
-                </div>
-              </button>
-              <button type="object" class="oe_stat_button" icon="fa-level-down" name="show_momsingavdr_mis" context="{'default_partner_id': active_id}">
-                <div class="o_form_field o_stat_info">
-                  <span class="o_stat_value">
-                    <field name="vat_momsingavdr" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                  </span>
-                  <span class="o_stat_text">Ingående</span>
-                </div>
-              </button>
-              <button type="object" class="oe_stat_button" icon="fa-file" name="show_journal_entries_mis" context="{'default_partner_id': active_id}">
-                <div class="o_form_field o_stat_info">
-                  <span class="o_stat_value">
-                    <field name="move_ids_count" />
-                  </span>
-                  <span class="o_stat_text">Verifikat</span>
-                </div>
-              </button>
-              <button type="object" class="oe_stat_button" icon="fa-dollar" name="show_payment_orders" context="{'default_partner_id': active_id}">
-                <div class="o_form_field o_stat_info">
-                  <span class="o_stat_value">
-                    <field name="payment_ids_count" />
-                  </span>
-                  <span class="o_stat_text">Betalning</span>
-                </div>
-              </button>
-            </div>
-            <div class="oe_title">
-              <label for="name" class="oe_edit_only" />
-              <h1>
-                <field name="name" />
-              </h1>
-            </div>
-            <group>
-                <group>
-                    <field name="company_id"/>
-                </group>
-                <group>
-                    <field name="date" />
-                </group>
-                <newline/>
-                <group col="4">
-                    <field name="period_start" string="Period" domain="[('fiscalyear_id', '=', fiscalyear_id),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" /> <span> - </span>
-                    <field name="period_stop" domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '>=', period_start),('state','=','draft')]" attrs="{'readonly': [('state', '!=','draft')]}" nolabel="1" />
-                </group><newline/>
-                
-                <group col="4">
-                    <field name="vat_momsbetala" />
-                    <field name="move_id" />
-                    <span/><span/>
-<!--
+       <button class="btn btn-secondary" context="{'default_partner_id': active_id}" icon="fa-level-up" name="show_momsutg_mis" type="object">
+        <div class="o_form_field o_stat_info">
+         <span class="o_stat_value">
+          <field name="vat_momsutg" options="{'currency_field': 'currency_id'}" widget="monetary"/>
+         </span>
+         <span class="o_stat_text">
+          Utgående
+         </span>
+        </div>
+       </button>
+       <button class="oe_stat_button" context="{'default_partner_id': active_id}" icon="fa-level-down" name="show_momsingavdr_mis" type="object">
+        <div class="o_form_field o_stat_info">
+         <span class="o_stat_value">
+          <field name="vat_momsingavdr" options="{'currency_field': 'currency_id'}" widget="monetary"/>
+         </span>
+         <span class="o_stat_text">
+          Ingående
+         </span>
+        </div>
+       </button>
+       <button class="oe_stat_button" context="{'default_partner_id': active_id}" icon="fa-file" name="show_journal_entries_mis" type="object">
+        <div class="o_form_field o_stat_info">
+         <span class="o_stat_value">
+          <field name="move_ids_count"/>
+         </span>
+         <span class="o_stat_text">
+          Verifikat
+         </span>
+        </div>
+       </button>
+       <button class="oe_stat_button" context="{'default_partner_id': active_id}" icon="fa-dollar" name="show_payment_orders" type="object">
+        <div class="o_form_field o_stat_info">
+         <span class="o_stat_value">
+          <field name="payment_ids_count"/>
+         </span>
+         <span class="o_stat_text">
+          Betalning
+         </span>
+        </div>
+       </button>
+      </div>
+      <div class="oe_title">
+       <label class="oe_edit_only" for="name"/>
+       <h1>
+        <field name="name"/>
+       </h1>
+      </div>
+      <group>
+       <group>
+        <field name="company_id"/>
+       </group>
+       <group>
+        <field name="date"/>
+       </group>
+       <newline/>
+       <group col="4">
+        <field domain="[('fiscalyear_id', '=', fiscalyear_id),('state','=','draft')]" name="period_start" readonly="not state" string="Period"/>
+        <span>
+         -
+        </span>
+        <field domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '>=', period_start),('state','=','draft')]" name="period_stop" nolabel="1" readonly="not state"/>
+       </group>
+       <newline/>
+       <group col="4">
+        <field name="vat_momsbetala"/>
+        <field name="move_id"/>
+        <span/>
+        <span/>
+        <!--
                     <field name="eskd_file" />
 -->
-                </group>
-            </group>
-            <notebook>
-              <page string="Inställningar">
-                <group>
-                    <field name="fiscalyear_id" attrs="{'readonly': [('state', '!=','draft')]}" />
-              <newline />
-
-                  <field name="target_move" attrs="{'readonly': [('state', '!=','draft')]}" />
-                  <newline />
-                  <field name="accounting_method" attrs="{'readonly': [('state', '!=','draft')]}" />
-                  <field name="accounting_yearend" attrs="{'invisible': [('accounting_method', '!=', 'cash')],'readonly': [('state', '!=','draft')]} " />
-                </group>
-              </page>
-              <page string="Upplysningstext">
-                <field name="free_text" nolabel="1" attrs="{'readonly': [('state', '!=','draft')]}" />
-              </page>
-<!--
+       </group>
+      </group>
+      <notebook>
+       <page string="Inställningar">
+        <group>
+         <field name="fiscalyear_id" readonly="not state"/>
+         <newline/>
+         <field name="target_move" readonly="not state"/>
+         <newline/>
+         <field name="accounting_method" readonly="not state"/>
+         <field invisible="not accounting_method" name="accounting_yearend" readonly="not state"/>
+        </group>
+       </page>
+       <page string="Upplysningstext">
+        <field name="free_text" nolabel="1" readonly="not state"/>
+       </page>
+       <!--
               <page string="Rader">
                 <field name="line_ids" nolabel="1">
                   <tree create='0' delete='0' edit='0' editable='top'>
                     <field name="name" />
                     <field name="balance" />
                     <button name="show_move_lines" type="object" icon="fa-level-up" class="oe_highlight" help="Show Move Lines" />
-                  </tree>
-                </field>
+                  </tree></field>
               </page>
 -->
-            </notebook>
-          </sheet>
-          <div class="oe_chatter">
-            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
-            <field name="message_ids" widget="mail_thread" />
-          </div>
-        </form>
-      </field>
-    </record>
-    <record id="view_moms_filter" model="ir.ui.view">
-      <field name="name">account.vat.declaration.filter</field>
-      <field name="model">account.vat.declaration</field>
-      <field name="arch" type="xml">
-        <search string="Search VAT Declaration">
-<!--   Something here breaks in odoo 12
+      </notebook>
+     </sheet>
+     <div class="oe_chatter">
+      <field groups="base.group_user" name="message_follower_ids" widget="mail_followers"/>
+      <field name="message_ids" widget="mail_thread"/>
+     </div>
+    </form></field>
+  </record>
+  <record id="view_moms_filter" model="ir.ui.view">
+   <field name="name">account.vat.declaration.filter</field>
+   <field name="model">account.vat.declaration</field>
+   <field name="arch" type="xml">
+    <search string="Search VAT Declaration">
+     <!--   Something here breaks in odoo 12
           <field name="name" />
           <field name="fiscalyear_id" />
           <field name="period_start" />
@@ -143,90 +151,84 @@
             <filter string="Period" domain="[]" context="{'group_by': 'period_start'}" />
           </group>
 -->
-        </search>
-      </field>
-    </record>
-    <record id="view_moms_tree" model="ir.ui.view">
-      <field name="name">account.vat.declaration.tree</field>
-      <field name="model">account.vat.declaration</field>
-      <field name="arch" type="xml">
-        <tree string="Momsdeklaration">
-          <field name="name" />
-          <field name="date" />
-          <field name="company_id" />
-          <field name="fiscalyear_id" />
-          <field name="period_start" />
-          <field name="state" />
-        </tree>
-      </field>
-    </record>
-    <record id="view_moms_calendar" model="ir.ui.view">
-      <field name="name">account.vat.declaration.cal</field>
-      <field name="model">account.vat.declaration</field>
-      <field name="arch" type="xml">
-        <calendar date_start="date" string="Momsdeklaration">
-          <field name="name" />
-          <field name="fiscalyear_id" />
-          <field name="period_start" />
-          <field name="state" />
-        </calendar>
-      </field>
-    </record>
-    <record id="action_account_moms_declaration" model="ir.actions.act_window">
-      <field name="name">Momsdeklaration</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">account.vat.declaration</field>
-      <field name="view_mode">form</field>
-      <field name="view_mode">tree,form,calendar</field>
-      <field name="search_view_id" ref="view_moms_filter" />
-    </record>
-<!--
+    </search></field>
+  </record>
+  <record id="view_moms_tree" model="ir.ui.view">
+   <field name="name">account.vat.declaration.tree</field>
+   <field name="model">account.vat.declaration</field>
+   <field name="arch" type="xml">
+    <tree string="Momsdeklaration">
+     <field name="name"/>
+     <field name="date"/>
+     <field name="company_id"/>
+     <field name="fiscalyear_id"/>
+     <field name="period_start"/>
+     <field name="state"/>
+    </tree></field>
+  </record>
+  <record id="view_moms_calendar" model="ir.ui.view">
+   <field name="name">account.vat.declaration.cal</field>
+   <field name="model">account.vat.declaration</field>
+   <field name="arch" type="xml">
+    <calendar date_start="date" string="Momsdeklaration">
+     <field name="name"/>
+     <field name="fiscalyear_id"/>
+     <field name="period_start"/>
+     <field name="state"/>
+    </calendar></field>
+  </record>
+  <record id="action_account_moms_declaration" model="ir.actions.act_window">
+   <field name="name">Momsdeklaration</field>
+   <field name="type">ir.actions.act_window</field>
+   <field name="res_model">account.vat.declaration</field>
+   <field name="view_mode">form</field>
+   <field name="view_mode">tree,form,calendar</field>
+   <field name="search_view_id" ref="view_moms_filter"/>
+  </record>
+  <!--
     <menuitem name="Momsdeklaration" parent="menu_report_authorities" action="action_account_moms_declaration" id="menu_account_moms_declaration" groups="account.group_account_user,account.group_account_manager" />
 -->
-    <menuitem name="Momsdeklaration" parent="menu_report_authorities" action="action_account_moms_declaration" id="menu_account_moms_declaration" />
-    <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
-      <field name="name">account.declaration.line.form</field>
-      <field name="model">account.declaration.line</field>
-      <field name="type">form</field>
-      <field name="arch" type="xml">
-        <form string="Declaration Lines">
-          <sheet string="Declaration Lines">
-            <group>
-              <group>
-                <field name="name" />
-                <field name="declaration_id" />
-                <field name="account_type" />
-                <field name="type" />
-                <field name="balance" />
-                <field name="level" />
-<!--
+  <menuitem action="action_account_moms_declaration" id="menu_account_moms_declaration" name="Momsdeklaration" parent="menu_report_authorities"/>
+  <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
+   <field name="name">account.declaration.line.form</field>
+   <field name="model">account.declaration.line</field>
+   <field name="type">form</field>
+   <field name="arch" type="xml">
+    <form string="Declaration Lines">
+     <sheet string="Declaration Lines">
+      <group>
+       <group>
+        <field name="name"/>
+        <field name="declaration_id"/>
+        <field name="account_type"/>
+        <field name="type"/>
+        <field name="balance"/>
+        <field name="level"/>
+        <!--
                 <field name="afr_id" />
 -->
-<!--
+        <!--
                 <field name="sign" />
 -->
-              </group>
-            </group>
-            <notebook>
-              <page string="Move Lines">
-                <tree>
-                  <field name="move_line_ids" />
-                </tree>
-              </page>
-            </notebook>
-          </sheet>
-        </form>
-      </field>
-    </record>
-    <record id="view_move_tree" model="ir.ui.view">
-        <field name="name">account.move.tree.inherited.l10n_se_tax_report</field>
-        <field name="model">account.move</field>
-        <field name="inherit_id" ref="account.view_move_tree"/>
-        <field name="arch" type="xml">
-            <field name="currency_id" position="after">
-                <field name="full_reconcile_id"/>
-            </field>
-        </field>
-    </record>
-  </data>
+       </group>
+      </group>
+      <notebook>
+       <page string="Move Lines">
+        <tree>
+         <field name="move_line_ids"/>
+        </tree>
+       </page>
+      </notebook>
+     </sheet>
+    </form></field>
+  </record>
+  <record id="view_move_tree" model="ir.ui.view">
+   <field name="name">account.move.tree.inherited.l10n_se_tax_report</field>
+   <field name="model">account.move</field>
+   <field name="inherit_id" ref="account.view_move_tree"/>
+   <field name="arch" type="xml">
+    <field name="currency_id" position="after">
+     <field name="full_reconcile_id"/></field></field>
+  </record>
+ </data>
 </odoo>

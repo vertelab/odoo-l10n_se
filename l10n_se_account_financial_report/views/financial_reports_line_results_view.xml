@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="financial_reports_line_results_tree_view" model="ir.ui.view">
+        <field name="name">financial.reports.line.results.tree.view</field>
+        <field name="model">financial.reports.line.results</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Name" />
+                <field name="credit" string="Credit" />
+                <field name="debit" string="Debit" />
+                <button name="show_accounts" string="?" type="object"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="financial_reports_line_results_tree_action" model="ir.actions.act_window">
+        <field name="res_model">financial.reports.line.results</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Financial Reports Line Results</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="financial_reports_line_results_tree_view" />
+    </record>
+
+</odoo>
