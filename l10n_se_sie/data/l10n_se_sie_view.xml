@@ -161,7 +161,7 @@
               </div>
             </page>
           </notebook>
-          <div invisible="state != 'get'">>
+          <div invisible="state != 'get'">
             <h2>Export Complete</h2>
             <p>
               Here is the exported sie-file:
@@ -174,13 +174,13 @@
                       <br/>
 <!--                    <footer states="choose">-->
                         <button string="Send" name="send_form" type="object" class="oe_highlight" invisible="state != 'choose'"/>
-                         or
-                        <button string="Cancel" special="cancel" class="oe_link" invisible="state != 'choose'"/>
+                        <!--or
+                        <button string="Cancel" special="cancel" class="oe_link" invisible="state != 'choose'"/>-->
 <!--                    </footer>-->
 <!--                    <footer states="get">-->
-                        <button special="cancel" string="Close" type="object" invisible="state != 'get'"/>
+                        <!--<button special="cancel" string="Close" type="object" invisible="state != 'get'"/>-->
 <!--                    </footer>-->
-                    </div>
+         </div>
 
          <!-- <footer invisible="state != 'choose'">>
             <button string="Send" name="send_form" type="object" class="oe_highlight" />
