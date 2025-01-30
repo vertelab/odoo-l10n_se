@@ -68,10 +68,7 @@ class account_sie(models.TransientModel):
     include_ib = fields.Boolean("Include Incoming Balans")
     
     sie_type = fields.Selection([('4i','Typ 4i Endast Verifikationsposter'),('4e','Typ 4 Transaktioner')],string='Sie Type', default='4i')
-
-    # ~ include_ub = fields.Boolean("Include Outgoing Balans")
-    # ~ include_res = fields.Boolean("Include Res Balans")
-
+        
     def _get_default_current_fiscalyear(self):
         return self.env['account.fiscalyear'].search(
             [('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today()),
@@ -81,6 +78,11 @@ class account_sie(models.TransientModel):
         return [('company_id', '=', self.env.company.id)]
 
     current_transaction_year = fields.Many2one(comodel_name="account.fiscalyear", string="Current Fiscal Year",
+                                               help="Posts are relative to this year",
+                                               domain=_set_period_fiscal_domain,
+                                               default=_get_default_current_fiscalyear)
+                                               
+    first_transaction_year_in_file = fields.Many2one(comodel_name="account.fiscalyear", string="First Fiscal Year in file",
                                                help="Posts are relative to this year",
                                                domain=_set_period_fiscal_domain,
                                                default=_get_default_current_fiscalyear)
@@ -161,10 +163,11 @@ class account_sie(models.TransientModel):
         self.sie_file = self.data
 
     sie_file = fields.Binary(compute='_data')
-
+    
     @api.model
     def cleanse_with_fire(self, data):
-        data = base64.decodestring(data or '').decode('cp437')
+        #data = base64.decodestring(data or '').decode('cp437')
+        data = base64.decodebytes(data or '').decode('cp437')
         text_list = []
         # Clean away empty lines and carriage return. Ceterum censeo Bill Gates esse delendam.
         for line in data.split('\n'):
@@ -508,17 +511,6 @@ class account_sie(models.TransientModel):
         for fiscalyear in fiscalyears:
             str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
                                         fiscalyear.date_stop.strftime("%Y%m%d"))
-            
-        #for fiscalyear in get_fiscalyears(ver_ids):
-        #   str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
-        #                                fiscalyear.date_stop.strftime("%Y%m%d"))
-        #if ib_dict:
-        #   for fiscalyear_ib in set([d['yearnr'] for d in ib_dict if 'yearnr' in d]):
-        #       fiscalyear = self._get_accountfiscalyear_from_index(fiscalyear_ib)
-        #       str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
-        #                                fiscalyear.date_stop.strftime("%Y%m%d"))
-               
-        
         str += '#FNAMN "%s"\n' % company.name
         str += '#ORGNR %s\n' % company.company_registry
         str += '#ADRESS "%s" "%s" "%s %s" "%s"\n' % (
@@ -675,7 +667,68 @@ class account_sie(models.TransientModel):
             else:
                 tempString += string[s]
         return splitList
+        
+    def create_ib_moves(self, ib_line_vals):
+        rar_zero = self.first_transaction_year_in_file
+        fiscalyears = self.env['account.fiscalyear'].search([], order='date_start desc')
+        rar_zero_index = fiscalyears.ids.index(self.first_transaction_year_in_file.id)
+        _logger.warning(f"{rar_zero_index=}")
+        
+        move_year = {}
+        for year_num, line_vals in ib_line_vals.items():
+            # Convert year_num to integer offset
+            year_offset = int(year_num)
+            current_index = rar_zero_index - year_offset
+            current_fiscalyear = fiscalyears[current_index]
+            
+            if year_num not in move_year:
+                period_id = self.env['account.period'].search([
+                    ('fiscalyear_id', '=', current_fiscalyear.id),
+                    ("company_id", '=', self.company_id.id),
+                    ('special', '=', True)
+                ])
+                ib_move_journal_id = self.move_journal_id.id
+                
+                ib_move_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
+                    'period_id': period_id.id,
+                    'journal_id': ib_move_journal_id,
+                    'date': period_id.date_start,
+                    'ref': f"IB #RAR {year_num}",
+                    'is_incoming_balance_move': True,
+                })
+                move_year[year_num] = ib_move_id
+            
+            for line in line_vals:
+                line['move_id'] = move_year[year_num][0].id
+                context_copy = self.env.context.copy()
+                context_copy.update({'check_move_validity': False, 'check_move_period_validity': False})
+                self.with_context(context_copy).env['account.move.line'].create(line)
+                # ~ self.env['account.move.line'].create(line)
+        
+        
+        # Depending on the accounts used odoo will self balance the account moves by adding an opposite account,
+        # problem is that we don't know if that has happened or not.
+        # Checking if account move is balanced.
+        # ~ opposite_account = self.env['account.account'].search(
+            # ~ [("company_id", '=', self.company_id.id), ('code', '=', '1930')])
+        # ~ move_balance = 0
+        # ~ if ib_move_id:
+            # ~ for line in ib_move_id.line_ids:
+                # ~ move_balance += line.balance
+            # ~ if move_balance != 0:
+                # ~ line_vals = {
+                    # ~ 'account_id': opposite_account.id,
+                    # ~ 'credit': float(move_balance) > 0 and float(move_balance) or 0.0,
+                    # ~ # If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
+                    # ~ 'debit': float(move_balance) < 0 and float(move_balance) * -1 or 0.0 or 0.0,
+                    # ~ 'date': first_date_of_year,
+                    # ~ 'name': "#IB",
+                    # ~ 'move_id': ib_move_id.id,
+                # ~ }
+                # ~ self.with_context(context_copy).env['account.move.line'].create(line_vals)
 
+
+        
     def _import_accounts(self, data):
         list_of_accounts = []
         accounts = []
@@ -687,6 +740,27 @@ class account_sie(models.TransientModel):
                     accounts.append((line[1], ""))
                 else:
                     accounts.append((line[1], line[2]))
+            if line['label'] == "#RAR":
+               _logger.warning(f"RAR {line}")
+               #RAR 0 20240101 20241231
+               #RAR -1 20230101 20231231
+               #raise Exception(f"Saknar böföringsår för {line[2]} - {line[3]} {self.first_transaction_year_in_file}")
+               if line[1] == '0':
+                  date_start_string = line[2]
+                  date_start_object = fields.Date.to_date(datetime.strptime(date_start_string, "%Y%m%d").date())
+                  
+                  date_end_string = line[3]
+                  date_end_object = fields.Date.to_date(datetime.strptime(date_end_string, "%Y%m%d").date())
+
+                  # Use the converted date in your search query
+                  self.first_transaction_year_in_file = fiscal_year = self.env['account.fiscalyear'].search([
+                    ('date_start', '=', date_start_object),
+                    ('date_stop', '=', date_end_object),
+                    ('company_id', '=', self.env.company.id)
+                    ], limit=1)
+                  if not self.first_transaction_year_in_file:
+                     raise UserError(f"Saknar böföringsår för #RAR {line[1]} {line[2]}- {line[3]}")
+                              
         return accounts
 
     def _check_periods(self, data):
@@ -723,7 +797,7 @@ class account_sie(models.TransientModel):
         ver_ids = self.env['account.move']
 
         tag_table = {}
-        ib_line_vals = []
+        ib_line_vals = {}
         ib_move_id = False
         for line in data:
             if line['label'] == '#VER':
@@ -840,6 +914,8 @@ class account_sie(models.TransientModel):
 
             elif line['label'] == '#IB':
                 year_num = int(line.get(1))  # Opening period for current fiscal year
+                if not ib_line_vals.get(year_num):
+                   ib_line_vals[year_num] = []
                 first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
                 period_id = self.env['account.period'].search(
                     [('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year),
@@ -849,51 +925,20 @@ class account_sie(models.TransientModel):
                     [('code', '=', line.get(2)), ("company_id", '=', self.company_id.id)])
                 ib_amount = line.get(3)
                 ib_qnt = line.get(4)  # We already have a amount, what is the purpose of having a quantity as well
-
-                ib_move_journal_id = self.move_journal_id.id
-                if not ib_move_id:
-                    ib_move_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
-                        'period_id': period_id,
-                        'journal_id': ib_move_journal_id,
-                        'date': first_date_of_year,
-                        'ref': "IB",
-                        'is_incoming_balance_move': True,
-                    })
-
                 line_vals = {
                     'account_id': ib_account.id,
                     'credit': float(ib_amount) < 0 and float(ib_amount) * -1 or 0.0,
                     # If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
                     'debit': float(ib_amount) > 0 and float(ib_amount) or 0.0,
-                    'date': first_date_of_year,
                     'name': "#IB",
-                    'move_id': ib_move_id.id,
                     'currency_id': ib_account.currency_id.id if ib_account.currency_id else self.company_id.currency_id.id
                 }
-                # ~ _logger.warning(f"{line_vals=}")
-                context_copy = self.env.context.copy()
-                context_copy.update({'check_move_validity': False, 'check_move_period_validity': False})
-                trans_id = self.with_context(context_copy).env['account.move.line'].create(line_vals)
-
-        # Depending on the accounts used odoo will self balance the account moves by adding an opposite account,
-        # problem is that we don't know if that has happened or not.
-        # Checking if account move is balanced.
-        opposite_account = self.env['account.account'].search(
-            [("company_id", '=', self.company_id.id), ('code', '=', '1930')])
-        move_balance = 0
-        if ib_move_id:
-            for line in ib_move_id.line_ids:
-                move_balance += line.balance
-            if move_balance != 0:
-                line_vals = {
-                    'account_id': opposite_account.id,
-                    'credit': float(move_balance) > 0 and float(move_balance) or 0.0,
-                    # If ib_amount is negativ then we create a credit line in the account move otherwise a debit line
-                    'debit': float(move_balance) < 0 and float(move_balance) * -1 or 0.0 or 0.0,
-                    'date': first_date_of_year,
-                    'name': "#IB",
-                    'move_id': ib_move_id.id,
-                }
-                self.with_context(context_copy).env['account.move.line'].create(line_vals)
+                
+                ib_line_vals.get(year_num).append(line_vals)
+        if ib_line_vals:
+           self.create_ib_moves(ib_line_vals)
 
         return ver_ids
+        
+        
+        
