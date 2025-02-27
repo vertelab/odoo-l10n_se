@@ -388,7 +388,7 @@ class account_sie(models.TransientModel):
                 ub_dict = self.get_sie_value_dict(balance_accounts, include_current_year = True)
                 res_dict = self.get_sie_value_dict(result_accounts, just_current_year = True)
             self.write(
-                {'state': 'get', 'data': base64.encodestring(self.make_sie(move_ids, ib_dict, ub_dict, res_dict)),
+                {'state': 'get', 'data': base64.encodebytes(self.make_sie(move_ids, ib_dict, ub_dict, res_dict)),
                  'filename': 'filename.se'})
 
         return {
