@@ -1,67 +1,67 @@
 id,name,description,invoice_label,amount,type_tax_use,tax_group_id,repartition_line_ids/repartition_type,repartition_line_ids/document_type,repartition_line_ids/tag_ids,repartition_line_ids/account_id,repartition_line_ids/factor_percent
-mp1,MP1,Försäljning 25%,,25,sale,atax_group_25,base,invoice,,,100
+mp1,MP1,Försäljning 25%,,25,sale,atax_group_25,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2610,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2610,100
-i,I,Inköp 25%,,25,purchase,atax_group_25,base,invoice,,,100
+i,I,Inköp 25%,,25,purchase,atax_group_25,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2640,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2640,100
-mp1i,MP1i,Försäljning 25% (ink),,25,sale,atax_group_25,base,invoice,,,100
+mp1i,MP1i,Försäljning 25% (ink),,25,sale,atax_group_25,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2610,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2610,100
-mp2,MP2,Försäljning 12%,,12,sale,atax_group_12,base,invoice,,,100
+mp2,MP2,Försäljning 12%,,12,sale,atax_group_12,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2620,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2620,100
-mp2i,MP2i,Försäljning 12% (ink),,12,sale,atax_group_12,base,invoice,,,100
+mp2i,MP2i,Försäljning 12% (ink),,12,sale,atax_group_12,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2620,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2620,100
-mp3,MP3,Försäljning 6%,,6,sale,atax_group_6,base,invoice,,,100
+mp3,MP3,Försäljning 6%,,6,sale,atax_group_6,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2630,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2630,100
-mp3i,MP3i,Försäljning 6% (ink),,6,sale,atax_group_6,base,invoice,,,100
+mp3i,MP3i,Försäljning 6% (ink),,6,sale,atax_group_6,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2630,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2630,100
-mu1,MU1,Momspliktiga uttag 25%,,25,sale,atax_group_25,base,invoice,,,100
+mu1,MU1,Momspliktiga uttag 25%,,25,sale,atax_group_25,base,invoice,,,0
 ,,,,,,,tax,invoice,,,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
-mu2,MU2,Momspliktiga uttag 12%,,12,sale,atax_group_12,base,invoice,,,100
-,,,,,,,base,refund,,,100
+mu2,MU2,Momspliktiga uttag 12%,,12,sale,atax_group_12,base,invoice,,,0
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
 ,,,,,,,tax,invoice,,,100
-mu3,MU3,Momspliktiga uttag 6%,,6,sale,atax_group_6,base,invoice,,,100
+mu3,MU3,Momspliktiga uttag 6%,,6,sale,atax_group_6,base,invoice,,,0
 ,,,,,,,tax,invoice,,,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
-mbbu,MBBU,Beskattningsunderlag vid vinstmarginalbeskattning,,0,sale,atax_group_0,base,invoice,,,100
+mbbu,MBBU,Beskattningsunderlag vid vinstmarginalbeskattning,,0,sale,atax_group_0,base,invoice,,,0
 ,,,,,,,tax,invoice,,,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
-mpff,MPFF,Hyresinkomster vid frivillig skattskyldighet,,0,sale,atax_group_0,base,invoice,,,100
+mpff,MPFF,Hyresinkomster vid frivillig skattskyldighet,,0,sale,atax_group_0,base,invoice,,,0
 ,,,,,,,tax,invoice,,,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
-u1,U1,Utgående moms 25%,,25,sale,atax_group_25,base,invoice,,,100
+u1,U1,Utgående moms 25%,,25,sale,atax_group_25,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2610,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2610,100
-u2,U2,Utgående moms 12%,,12,sale,atax_group_12,base,invoice,,,100
+u2,U2,Utgående moms 12%,,12,sale,atax_group_12,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2620,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2620,100
-u3,U3,Utgående moms 6%,,6,sale,atax_group_6,base,invoice,,,100
+u3,U3,Utgående moms 6%,,6,sale,atax_group_6,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2630,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2630,100
-vfeu,VFEU,"Inköp av varor från annat EU-land, 25%",,25,purchase,atax_group_25,base,invoice,,,100
+vfeu,VFEU,"Inköp av varor från annat EU-land, 25%",,25,purchase,atax_group_25,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2645,100
-,,,,,,,base,refund,,,100
+,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2645,100
 ,,,,,,,tax,invoice,,a2614,100
 ,,,,,,,tax,refund,,a2614,100

@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Sweden - Accounting',
-    'version': '17.0.0.1.0',
+    'version': '1.0',
     # Version ledger: 16.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Chart of accounts',
     'category': 'Accounting/Localizations/Account Charts',
