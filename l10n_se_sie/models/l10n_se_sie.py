@@ -19,16 +19,12 @@ class account_sie_serie_to_journal(models.TransientModel):
                                  help="Used to set journal based on Serie of #VER", )
     sie_export = fields.Many2one(comodel_name="account.sie")
 
-
 class account_sie_account(models.TransientModel):
     _name = 'account.sie.account'
     _description = 'SIE Import New Account Line'
 
     @api.model
     def default_user_type(self):
-        # ~ return self.env.ref('account.data_account_type_asset')
-        # data_account_type_current_assets
-        # data_account_type_fixed_assets
         return "asset_fixed"
 
     wizard_id = fields.Many2one(comodel_name='account.sie', string='Wizard')
@@ -68,47 +64,13 @@ class account_sie_account(models.TransientModel):
 class account_sie(models.TransientModel):
     _name = 'account.sie'
     _description = 'SIE Import Wizard'
+    sie_type = fields.Selection(selection_add[('4i','Typ 4i Endast Verifikationsposter')],string='Sie Type', default='4i')
 
-    ####
-    include_transactions = fields.Boolean('Include Transactions')
-    include_ib = fields.Boolean("Include Incoming Balans")
-    
-    sie_type = fields.Selection([('4i','Typ 4i Endast Verifikationsposter'),('4e','Typ 4 Transaktioner')],string='Sie Type', default='4i')
-
-    # ~ include_ub = fields.Boolean("Include Outgoing Balans")
-    # ~ include_res = fields.Boolean("Include Res Balans")
-
-    def _get_default_current_fiscalyear(self):
-        return self.env['account.fiscalyear'].search(
-            [('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today()),
-             ('company_id', '=', self.env.company.id)], limit=1)
-
-    def _set_period_fiscal_domain(self):
-        return [('company_id', '=', self.env.company.id)]
-
-    current_transaction_year = fields.Many2one(comodel_name="account.fiscalyear", string="Current Fiscal Year",
-                                               help="Posts are relative to this year",
-                                               domain=_set_period_fiscal_domain,
-                                               default=_get_default_current_fiscalyear)
-                                               
-    first_transaction_year_in_file = fields.Many2one(comodel_name="account.fiscalyear", string="First Fiscal Year in file",
-                                               help="Posts are relative to this year",
-                                               domain=_set_period_fiscal_domain,
-                                               default=_get_default_current_fiscalyear)
-                                               
-    fiscalyear_4e_ids = fields.Many2many(comodel_name="account.fiscalyear",
-                                         string="Fiscal years for #IB/#UB/#RES",
-                                         domain=_set_period_fiscal_domain)
-    #### 
 
     serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal')
     date_start = fields.Date(string="Date interval")
     date_stop = fields.Date(string="Stop Date")
-    period_ids = fields.Many2many(comodel_name="account.period",
-                                  string="Periods", domain=_set_period_fiscal_domain)
-
-    fiscalyear_ids = fields.Many2one(comodel_name="account.fiscalyear", string="Fiscal Year",
-                                     help="Moves in this fiscal years", domain=_set_period_fiscal_domain)
+                                  
     journal_ids = fields.Many2many(comodel_name="account.journal", string="Journal",
                                    help="Moves with this type of journals")
     partner_ids = fields.Many2many(comodel_name="res.partner", string="Partner", help="Moves tied to these partners",
@@ -117,8 +79,8 @@ class account_sie(models.TransientModel):
     account_line_ids = fields.One2many(comodel_name='account.sie.account', inverse_name='wizard_id',
                                        string='New Accounts')
     state = fields.Selection([('choose', 'choose'), ('get', 'get'), ], default="choose")
-    date_field_to_use = fields.Selection(selection=[('go_by_period', 'Go by Period'), ('go_by_date', 'Go by Date'), ],
-                                         string="Filter On Period or Date", default="go_by_period")
+    date_field_to_use = fields.Selection([('go_by_date', 'Go by Date'), ],
+                                         string="Filter On Date", default="go_by_date")
     data = fields.Binary('File')
     filename = fields.Char(string='Filename')
     show_account_lines = fields.Boolean(string='Show Account Lines')
@@ -152,47 +114,10 @@ class account_sie(models.TransientModel):
         required=True,
         default="asset_fixed",
     )
-    #accounts_type = fields.Selection(selection=[
-    #    ('view', 'View'),
-    #    ('other', 'Regular'),
-    #    ('receivable', 'Receivable'),
-    #    ('payable', 'Payable'),
-    #    ('liquidity', 'Liquidity'),
-    #    ('consolidation', 'Consolidation'),
-    #    ('closed', 'Closed'),
-    #], string='Internal Type', help="The 'Internal Type' is used for features available on " \
-    #                                "different types of accounts: view can not have journal items, consolidation are accounts that " \
-    #                                "can have children accounts for multi-company consolidations, payable/receivable are for " \
-    #                                "partners accounts (for debit/credit computations), closed for depreciated accounts.")
-    #accounts_user_type = fields.Many2one('account.account.type', 'Account Type',
-    #                                     help="Account Type is used for information purpose, to generate "
-    #                                          "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
+
     accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent',
                                          domain=[('type', '=', 'view')])
-
-    def _get_rar_code(self, fiscalyear):
-    
-        # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscalyear to return.
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
-                                                                 order='date_start ASC')
-        current_fiscalyear_index = next(
-            (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
-            
-            
-        fy_index = next(
-            (index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)        
-        rar_code = fy_index - current_fiscalyear_index 
-        return rar_code
-        
-        
-        # ~ self.ensure_one()
-        # ~ i = 0
-        # ~ for year in self.fiscalyear_ids.sorted(lambda r: r.date_start, reverse=False):
-            # ~ if fy == year:
-                # ~ return i
-            # ~ i += 1
-        # ~ return i
-        
+  
     def _data(self):
         self.sie_file = self.data
 
@@ -201,38 +126,24 @@ class account_sie(models.TransientModel):
     @api.model
     def cleanse_with_fire(self, data):
         data = base64.decodebytes(data or '').decode('cp437')
-        #data = base64.decodestring(data or '').decode('cp437')
         text_list = []
-        # Clean away empty lines and carriage return. Ceterum censeo Bill Gates esse delendam.
         for line in data.split('\n'):
-            # ~ _logger.warning(f"before {line=}")
             line = line.strip()
-            # ~ _logger.warning(f"after {line=}")
             if line:
                 text_list.append(line)
-        # ~ _logger.warning(f"{text_list=}")
         data = self.read_file(text_list)
-        # ~ _logger.warning(data)
         return data
 
     def check_import_file(self, data=None, check_periods=True):
         self.ensure_one()
         if data or self.data:  # IMPORT TRIGGERED
-            checked = True
             data = data or self.cleanse_with_fire(self.data)
             missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
             if len(missing_accounts) > 0:
-                # ~ for account in missing_accounts:
-                # ~ self.account_line_ids |= self.env['account.sie.account'].create({
-                # ~ 'name': account[1],
-                # ~ 'code': account[0],
-                # ~ })
-                checked = False
-            if check_periods:
-                missing_period = self._check_periods(data)
-                if missing_period:
-                    raise UserError("Missing period/fiscal year for %s - %s." % (missing_period[0], missing_period[1]))
-            return checked
+                return False
+            return True
+        else:
+			return False
 
     def create_accounts(self):
         self.ensure_one()
@@ -332,18 +243,6 @@ class account_sie(models.TransientModel):
             if not self.check_import_file(data):
                 missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
                 for account in missing_accounts:
-                    # print(account)
-                    # account type lookup
-                    # account_type = self.env['account.account.type']._account_type_lookup(code=account[0])
-                    # if not account_type:
-                    #     account_type = self.env.ref('account.data_account_type_fixed_assets')
-                    # print(account.account_type)
-
-                    # be_reconcilable = False
-                    # if account_type.type == "receivable" or account_type.type == "payable":
-                    #     be_reconcilable = True
-
-                    # check if account line exist
                     sie_account_id = self.env['account.sie.account'].search([
                         ('code', '=', account[0]), ('wizard_id', '=', self.id)
                     ], limit=1)
@@ -366,41 +265,18 @@ class account_sie(models.TransientModel):
                                 })
                             ]
                         })
-
-    def get_missing_accounts_depricated(self):
-        if self.data:
-            data = self.cleanse_with_fire(self.data)
-
-            if not self.check_import_file(data):
-                missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
-                for account in missing_accounts:
-                    # account type lookup
-                    account_type = self.env['account.account.type']._account_type_lookup(code=account[0])
-                    if not account_type:
-                        account_type = self.env.ref('account.data_account_type_fixed_assets')
-
-                    be_reconcilable = False
-                    if account_type.type == "receivable" or account_type.type == "payable":
-                        be_reconcilable = True
-
-                    # check if account line exist
-                    sie_account_id = self.env['account.sie.account'].search(
-                        [('code', '=', account[0]), ('wizard_id', '=', self.id)
-                         ], limit=1)
-                    if not sie_account_id:
-                        self.write({
-                            'account_line_ids': [
-                                (0, 0, {'code': account[0], 'name': account[1], 'user_type': account_type[0].id,
-                                        "reconcile": be_reconcilable})
-                            ]
-                        })
-                    else:
-                        self.write({
-                            'account_line_ids': [
-                                (1, sie_account_id.id,
-                                 {'code': account[0], 'name': account[1], "reconcile": be_reconcilable})
-                            ]
-                        })
+    def move_search_domain(self)
+		search []
+		search.append(('state', '=', 'posted'))
+		search.append(('company_id.id', '=', self.env.company.id))
+		if self.date_start:
+			search.append(('date', '>=', self.date_start))
+			search.append(('date', '<=', self.date_stop))
+		if self.journal_ids:
+			search.append(('journal_id', 'in', [j.id for j in self.journal_ids]))
+		if self.partner_ids:
+			search.append(('partner_id', 'in', [p.id for p in self.partner_ids]))
+		return search
 
     def send_form(self):
         self.ensure_one()
@@ -414,8 +290,6 @@ class account_sie(models.TransientModel):
                 formatstring = ""
                 for account in missing_accounts:
                     formatstring += account[0] + ": " + account[1] + "\n"
-                    # self._create_missing_accounts(account[0], account[1])
-
                 return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
@@ -430,65 +304,16 @@ class account_sie(models.TransientModel):
             action['res_ids'] = ver_ids
             return action
         else:
-            move_ids = []
-            ib_dict = {}
-            ub_dict = {}
-            res_dict = {}
-
-            
             if self.sie_type == "4i" or self.sie_type == "4e":
-                search = []
-                search.append(('state', '=', 'posted'))
-                search.append(('company_id.id', '=', self.env.company.id))
-                if self.date_start:
-                    search.append(('date', '>=', self.date_start))
-                    search.append(('date', '<=', self.date_stop))
-                if self.fiscalyear_ids:
-                    search.append(('period_id', 'in', [p.id for p in self.fiscalyear_ids.period_ids]))
-                if self.period_ids:
-                    search.append(('period_id', 'in', [p.id for p in self.period_ids]))
-                if self.journal_ids:
-                    search.append(('journal_id', 'in', [j.id for j in self.journal_ids]))
-                if self.partner_ids:
-                    search.append(('partner_id', 'in', [p.id for p in self.partner_ids]))
+                search = self.move_search_domain()
                 move_ids = self.env['account.move'].search(search)
                 if self.account_ids:
                     accounts = [l.move_id.id for l in self.env['account.move.line'].search(
                         [('account_id', 'in', [a.id for a in self.account_ids])])]
                     move_ids = move_ids.filtered(lambda r: r.id in accounts)
                     
-            if self.sie_type == "4e":
-                balance_account_types = [
-                      'asset_receivable',
-                      'asset_cash',
-                      'asset_current',
-                      'asset_non_current',
-                      'asset_prepayments',
-                      'asset_fixed',
-                      'liability_payable',
-                      'liability_credit_card',
-                      'liability_current',
-                      'liability_non_current',
-                      'equity',
-                      'equity_unaffected'
-                ]
-
-                profit_loss_account_types = [
-                      'income',
-                      'income_other',
-                      'expense',
-                      'expense_depreciation',
-                      'expense_direct_cost'
-                ]
-                balance_domain = [('company_id', '=', self.env.company.id),('account_type', 'in', balance_account_types)]
-                result_domain = [('company_id', '=', self.env.company.id),('account_type', 'in', profit_loss_account_types )]
-                balance_accounts =  self.env['account.account'].search(balance_domain)
-                result_accounts =  self.env['account.account'].search(result_domain)
-                ib_dict = self.get_sie_value_dict(balance_accounts, include_current_year = False)
-                ub_dict = self.get_sie_value_dict(balance_accounts, include_current_year = True)
-                res_dict = self.get_sie_value_dict(result_accounts, just_current_year = True)
             self.write(
-                {'state': 'get', 'data': base64.encodebytes(self.make_sie(move_ids, ib_dict, ub_dict, res_dict)),
+                {'state': 'get', 'data': base64.encodebytes(self.make_sie(move_ids)),
                  'filename': 'filename.se'})
 
         return {
@@ -501,57 +326,7 @@ class account_sie(models.TransientModel):
             'target': 'new',
         }
     
-    @api.model
-    def _get_fiscalyear_index(self, fiscalyear, all_fiscal_years):
-        fiscalyear_index = next(
-            (index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)
-        return fiscalyear_index
-
-
-    def get_sie_value_dict(self, accounts, include_current_year=False, just_current_year=False):#Not done yet
-        self.ensure_one()
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)], order='date_start ASC')
-        current_fiscalyear_index = self._get_fiscalyear_index(self.current_transaction_year, all_fiscal_years)
-        formated_result = []
-        for fiscalyear in self.fiscalyear_4e_ids:
-            fiscalyear_index = self._get_fiscalyear_index(fiscalyear, all_fiscal_years)
-            year_nr = fiscalyear_index - current_fiscalyear_index
-            if include_current_year:
-               years = all_fiscal_years[0:fiscalyear_index + 1]
-            else:
-                years = all_fiscal_years[0:fiscalyear_index]
-            if just_current_year:
-                years = fiscalyear
-            _logger.warning(f"{years=}")
-            search = []
-            search.append(('move_id.state', '=', 'posted'))
-            search.append(('move_id.company_id', '=', self.env.company.id))
-            if self.date_field_to_use == "go_by_period":
-                search.append(('move_id.period_id', 'in', [p.id for p in years.period_ids]))
-            else:
-                search.append(('move_id.date', '>=', years[0].date_start))
-                search.append(('move_id.date', '<=', years[-1].date_stop))
-            search.append(('account_id.id', 'in', accounts.ids))
-            result = self.env['account.move.line'].read_group(
-                search,
-                ['account_id', 'debit', 'credit'],
-                ['account_id']
-            )
-            for res in result:
-                better_dict = {}
-                better_dict['yearnr'] = year_nr
-                better_dict['account_code'] = self.env['account.account'].browse(res['account_id'][0]).code
-                better_dict['balance'] = res['debit'] - res['credit']
-                formated_result.append(better_dict)
-        return formated_result
-        
-    def make_sie(self, ver_ids, ib_dict, ub_dict, res_dict):
-        def get_fiscalyears(ver_ids):
-            year_list = set()
-            for ver in ver_ids:
-                year_list.add(ver.period_id.fiscalyear_id)
-            return year_list
-
+    def make_sie(self, ver_ids):
         def get_accounts_ver(ver_ids):
             return ver_ids.mapped('line_ids.account_id')
 
@@ -583,10 +358,6 @@ class account_sie(models.TransientModel):
         if len(self) > 0:
             sie_form = self[0]
         company = self.env.company
-        if ver_ids:
-            fiscalyear = ver_ids[0].period_id.fiscalyear_id
-        else:
-            self.current_transaction_year
         user = self.env['res.users'].browse(self._context['uid'])
 
         str = ''
@@ -596,32 +367,7 @@ class account_sie(models.TransientModel):
         str += '#GEN %s\n' % fields.Date.today().strftime("%Y%m%d")
         str += '#SIETYP 4\n'
         
-        #RAR can be come from #TRAN, #UB, #RES and #IB atm so need to go trough them
-        fiscalyears = get_fiscalyears(ver_ids)
-        if ib_dict:
-           for fiscalyear_ib in set([d['yearnr'] for d in ib_dict if 'yearnr' in d]):
-               fiscalyears = fiscalyears | self._get_accountfiscalyear_from_index(fiscalyear_ib)
-        if ub_dict:
-           for fiscalyear_ub in set([d['yearnr'] for d in ub_dict if 'yearnr' in d]):
-               fiscalyears = fiscalyears | self._get_accountfiscalyear_from_index(fiscalyear_ub)
-        if res_dict:
-           for fiscalyear_res in set([d['yearnr'] for d in res_dict if 'yearnr' in d]):
-               fiscalyears = fiscalyears | self._get_accountfiscalyear_from_index(fiscalyear_res)
-        fiscalyears = sorted(fiscalyears, key=lambda r: r.date_start, reverse=True)
-        for fiscalyear in fiscalyears:
-            str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
-                                        fiscalyear.date_stop.strftime("%Y%m%d"))
-            
-        #for fiscalyear in get_fiscalyears(ver_ids):
-        #   str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
-        #                                fiscalyear.date_stop.strftime("%Y%m%d"))
-        #if ib_dict:
-        #   for fiscalyear_ib in set([d['yearnr'] for d in ib_dict if 'yearnr' in d]):
-        #       fiscalyear = self._get_accountfiscalyear_from_index(fiscalyear_ib)
-        #       str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
-        #                                fiscalyear.date_stop.strftime("%Y%m%d"))
-               
-        
+              
         str += '#FNAMN "%s"\n' % company.name
         str += '#ORGNR %s\n' % company.company_registry
         str += '#ADRESS "%s" "%s" "%s %s" "%s"\n' % (
@@ -633,51 +379,23 @@ class account_sie(models.TransientModel):
         ub = {}
         ub_accounts = []
         for ver in ver_ids:
-            # ~ _logger.warning(f"{ver=}")
-            if ver.period_id.special == False:
-                str += '#VER %s "%s" %s "%s" %s %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id,
-                                                            self.escape_sie_string(ver.date.strftime("%Y%m%d")),
-                                                            self.escape_sie_string(self.fix_empty(ver.narration))[:20],
-                                                            self.escape_sie_string(ver.create_date.strftime("%Y%m%d")),
-                                                            self.escape_sie_string(ver.create_uid.login))
-                for trans in ver.line_ids:
-                    if trans.display_type == "line_note" or trans.display_type == 'line_section':
-                        continue
-                    str += '#TRANS %s {} %s %s "%s" %s %s\n' % (
-                        self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit,
-                        self.escape_sie_string(trans.date.strftime("%Y%m%d")),
-                        self.escape_sie_string(self.fix_empty(trans.name)), trans.quantity,
-                        self.escape_sie_string(trans.create_uid.login))
-                    if trans.account_id.code not in ub:
-                        ub[trans.account_id.code] = 0.0
-                    ub[trans.account_id.code] += trans.debit - trans.credit
-                str += '}\n'
-
-        for ib_val in ib_dict:  # {'yearnr': -1, 'account_code': '1079', 'balance': 5000.0}, # IB
-            str += '#IB %s %s %s\n' % (
-                ib_val['yearnr'], ib_val['account_code'],
-                ib_val['balance'])
-            _logger.warning('#IB %s %s %s\n' % (
-                ib_val['yearnr'], ib_val['account_code'],
-                ib_val['balance']))
-                
-                
-        for ub_val in ub_dict:  # {'yearnr': -1, 'account_code': '1079', 'balance': 5000.0}, # IB
-            str += '#UB %s %s %s\n' % (
-                ub_val['yearnr'], ub_val['account_code'],
-                ub_val['balance'])
-            _logger.warning('#UB %s %s %s\n' % (
-                ub_val['yearnr'], ub_val['account_code'],
-                ub_val['balance']))
-                
-        for res_val in res_dict:  # {'yearnr': -1, 'account_code': '1079', 'balance': 5000.0}, # IB
-            str += '#RES %s %s %s\n' % (
-                res_val['yearnr'], res_val['account_code'],
-                res_val['balance'])
-            _logger.warning('#RES %s %s %s\n' % (
-                res_val['yearnr'], res_val['account_code'],
-                res_val['balance']))
-        # TODO #RES OCH #UB Borde vara för nyvarande
+			str += '#VER %s "%s" %s "%s" %s %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id,
+														self.escape_sie_string(ver.date.strftime("%Y%m%d")),
+														self.escape_sie_string(self.fix_empty(ver.narration))[:20],
+														self.escape_sie_string(ver.create_date.strftime("%Y%m%d")),
+														self.escape_sie_string(ver.create_uid.login))
+			for trans in ver.line_ids:
+				if trans.display_type == "line_note" or trans.display_type == 'line_section':
+					continue
+				str += '#TRANS %s {} %s %s "%s" %s %s\n' % (
+					self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit,
+					self.escape_sie_string(trans.date.strftime("%Y%m%d")),
+					self.escape_sie_string(self.fix_empty(trans.name)), trans.quantity,
+					self.escape_sie_string(trans.create_uid.login))
+				if trans.account_id.code not in ub:
+					ub[trans.account_id.code] = 0.0
+				ub[trans.account_id.code] += trans.debit - trans.credit
+			str += '}\n'
 
         return str.encode('cp437', 'xmlcharrefreplace')  # ignore
 
@@ -685,18 +403,6 @@ class account_sie(models.TransientModel):
     def escape_sie_string(self, s):
         return s.replace('\n', ' ').replace('\\', '\\\\').replace('"', '\\"')
         
-    def _get_accountfiscalyear_from_index(self, index):
-        # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscalyear to return.
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
-                                                                 order='date_start ASC')
-        current_fiscalyear_index = next(
-            (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
-        
-        fiscalyear = all_fiscal_years[current_fiscalyear_index + index]
-        return set(fiscalyear)
-        
-        
-
     @api.model
     def export_sie(self, ver_ids):
         if len(self) < 1:
@@ -744,13 +450,7 @@ class account_sie(models.TransientModel):
     def import_sie(self):
         sie_form = self[0]
         raise UserError(sie_form.data)
-        # ~ result = {}
-        # ~ for product_data in self.browse(cr, uid, ids, context=context):
-        # ~ result[product_data.id] = product_data['file_path']
-        # ~ return result
-        # ~ return result
 
-        # _logger.warning('\n%s' % base64.encodestring(args.get('data').read()))
 
     def _stringSplit(self, string):
         tempString = ""
@@ -779,43 +479,6 @@ class account_sie(models.TransientModel):
                 tempString += string[s]
         return splitList
         
-    def create_ib_moves(self, ib_line_vals):
-        rar_zero = self.first_transaction_year_in_file
-        fiscalyears = self.env['account.fiscalyear'].search([], order='date_start desc')
-        rar_zero_index = fiscalyears.ids.index(self.first_transaction_year_in_file.id)
-        _logger.warning(f"{rar_zero_index=}")
-        
-        move_year = {}
-        for year_num, line_vals in ib_line_vals.items():
-            # Convert year_num to integer offset
-            year_offset = int(year_num)
-            current_index = rar_zero_index - year_offset
-            current_fiscalyear = fiscalyears[current_index]
-            
-            if year_num not in move_year:
-                period_id = self.env['account.period'].search([
-                    ('fiscalyear_id', '=', current_fiscalyear.id),
-                    ("company_id", '=', self.company_id.id),
-                    ('special', '=', True)
-                ])
-                ib_move_journal_id = self.move_journal_id.id
-                
-                ib_move_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
-                    'period_id': period_id.id,
-                    'journal_id': ib_move_journal_id,
-                    'date': period_id.date_start,
-                    'ref': f"IB #RAR {year_num}",
-                    'is_incoming_balance_move': True,
-                })
-                move_year[year_num] = ib_move_id
-            
-            for line in line_vals:
-                line['move_id'] = move_year[year_num][0].id
-                context_copy = self.env.context.copy()
-                context_copy.update({'check_move_validity': False, 'check_move_period_validity': False})
-                self.with_context(context_copy).env['account.move.line'].create(line)
-
-
     def _import_accounts(self, data):
         list_of_accounts = []
         accounts = []
@@ -829,9 +492,6 @@ class account_sie(models.TransientModel):
                     accounts.append((line[1], line[2]))
             if line['label'] == "#RAR":
                _logger.warning(f"RAR {line}")
-               #RAR 0 20240101 20241231
-               #RAR -1 20230101 20231231
-               #raise Exception(f"Saknar böföringsår för {line[2]} - {line[3]} {self.first_transaction_year_in_file}")
                if line[1] == '0':
                   date_start_string = line[2]
                   date_start_object = fields.Date.to_date(datetime.strptime(date_start_string, "%Y%m%d").date())
@@ -850,29 +510,6 @@ class account_sie(models.TransientModel):
                               
         return accounts
 
-    def _check_periods(self, data):
-        missing_period = []
-        _logger.warning(f"{data=}")
-        for line in data:
-            if line['label'] == '#VER':
-                dt = line.get(3)
-                try:
-                    _logger.warning(f"{line=}")
-                    _logger.warning(f"WHAT: {self.env['account.period'].search([], limit=1)}")
-                    #self.env['account.period'].find(dt=line[3]) #Expected singleton
-                    self.env['account.period'].search([], limit=1).find(
-                        dt=dt,
-                        company_id=self.company_id.id)  # The find method has self.ensure_one, which is why i find one record.
-                except RedirectWarning:
-                    _logger.warning(f"{line[3]=}")
-                    if not missing_period:
-                        missing_period = [dt, dt]
-                    elif line[3] < missing_period[0]:
-                        missing_period[0] = dt
-                    elif line[3] > missing_period[1]:
-                        missing_period[1] = dt
-        _logger.warning(f"{missing_period=}")
-        return missing_period
         
     def postfix_line_vals(self, line_vals):
         #Purpose is to inherit and if changes are need they can be made here.
@@ -884,8 +521,6 @@ class account_sie(models.TransientModel):
         ver_ids = self.env['account.move']
 
         tag_table = {}
-        ib_line_vals = []
-        ib_move_id = False
         for line in data:
             if line['label'] == '#VER':
 
