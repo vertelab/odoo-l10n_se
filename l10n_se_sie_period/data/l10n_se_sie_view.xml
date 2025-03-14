@@ -2,35 +2,24 @@
 <odoo>
   <data>
       
-    <menuitem id="menu_sie" name="SIE" parent="account.menu_finance_configuration" sequence="50" />
-      
-    <!--account move-->
-    <record model="ir.actions.server" id="dropdown_export_move">
+    <!--account_period-->
+    <record model="ir.actions.server" id="dropdown_export_period">
       <field name="name">Export SIE</field>
-      <field name="model_id" ref="account.model_account_move" />
+      <field name="model_id" ref="account_period_vrtl.model_account_period" />
       <field name="state">code</field>
       <field name="code">action = records.export_sie()</field>
     </record>
 
-    <!--account_journal-->
-    <record model="ir.actions.server" id="dropdown_export_journal">
+    <!--account_fiscal_year-->
+    <record model="ir.actions.server" id="dropdown_export_fiscalyear">
       <field name="name">Export SIE</field>
-      <field name="model_id" ref="account.model_account_journal" />
-      <field name="state">code</field>
-          <field name="code">action = records.export_sie()</field>
-    </record>
-
-
-    <!--account_account-->
-    <record model="ir.actions.server" id="dropdown_export_account">
-      <field name="name">Export SIE</field>
-      <field name="model_id" ref="account.model_account_account" />
+      <field name="model_id" ref="account_period_vrtl.model_account_fiscalyear" />
       <field name="state">code</field>
       <field name="code">action = records.export_sie()</field>
     </record>
 
-   <!-- export sie form-->
-            <record id="wizard_account_sie" model="ir.ui.view">
+  <!-- export sie form-->
+    <record id="l10n_se_sie.wizard_account_sie" model="ir.ui.view">
       <field name="name">Export SIE-files</field>
       <field name="model">account.sie</field>
       <field name="arch" type="xml">

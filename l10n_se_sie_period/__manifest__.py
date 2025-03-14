@@ -37,7 +37,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'depends': ['l10n_se'],
+    'depends': ['account_period_vrtl', 'l10n_se_sie'],
     'data': [
 		'data/l10n_se_sie_view.xml',
                 'views/account_view.xml',
