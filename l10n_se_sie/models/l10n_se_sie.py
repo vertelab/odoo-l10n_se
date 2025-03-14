@@ -544,8 +544,6 @@ class account_sie(models.TransientModel):
                     move_journal_id = serie_to_journal_lines.journal_id.id
 
                 ver_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
-                    'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date,
-                                                                                     company_id=self.company_id.id).id,
                     'journal_id': move_journal_id,
                     'date': list_date[0:4] + '-' + list_date[4:6] + '-' + list_date[6:],
                     'ref': list_ref,
@@ -604,30 +602,5 @@ class account_sie(models.TransientModel):
                         tax_line_id = self.env['account.tax'].search([('name', '=ilike', trans_name)]).id
                         if tax_line_id:
                             trans_id.tax_line_id = tax_line_id
-
-            elif line['label'] == '#IB':
-                year_num = int(line.get(1))  # Opening period for current fiscal year
-                if not ib_line_vals.get(year_num):
-                   ib_line_vals[year_num] = []
-                first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
-                period_id = self.env['account.period'].search(
-                    [('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year),
-                     ("company_id", '=', self.company_id.id),
-                     ('special', '=', True)]).id
-                ib_account = self.env['account.account'].search(
-                    [('code', '=', line.get(2)), ("company_id", '=', self.company_id.id)])
-                ib_amount = line.get(3)
-                ib_qnt = line.get(4)
-                line_vals = {
-                    'account_id': ib_account.id,
-                    'credit': float(ib_amount) < 0 and float(ib_amount) * -1 or 0.0,
-                    'debit': float(ib_amount) > 0 and float(ib_amount) or 0.0,
-                    'name': "#IB",
-                    'currency_id': ib_account.currency_id.id if ib_account.currency_id else self.company_id.currency_id.id
-                }
-                
-                ib_line_vals.get(year_num).append(line_vals)
-        if ib_line_vals:
-           self.create_ib_moves(ib_line_vals)
 
         return ver_ids
