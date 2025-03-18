@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+      
+    <menuitem id="menu_sie" name="SIE" parent="account.menu_finance_configuration" sequence="50" />
+      
+    <!--account move-->
+    <record model="ir.actions.server" id="dropdown_export_move">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account.model_account_move" />
+      <field name="state">code</field>
+      <field name="code">action = records.export_sie()</field>
+    </record>
+
+    <!--account_journal-->
+    <record model="ir.actions.server" id="dropdown_export_journal">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account.model_account_journal" />
+      <field name="state">code</field>
+          <field name="code">action = records.export_sie()</field>
+    </record>
+
+
+    <!--account_account-->
+    <record model="ir.actions.server" id="dropdown_export_account">
+      <field name="name">Export SIE</field>
+      <field name="model_id" ref="account.model_account_account" />
+      <field name="state">code</field>
+      <field name="code">action = records.export_sie()</field>
+    </record>
+
+   <!-- export sie form-->
+            <record id="wizard_account_sie" model="ir.ui.view">
+      <field name="name">Export SIE-files</field>
+      <field name="model">account.sie</field>
+      <field name="arch" type="xml">
+        <form string="Export SIE-files">
+          <field name="state" invisible="1" />
+          <notebook invisible="state != 'choose'">>
+            <page string="Export" invisible="state != 'choose'">>
+              <group>
+                  <field name="sie_type" required="1"/>
+		      </group>
+		      <group>
+				  <separator string="Transaction"/>
+		      </group>
+              <group col="3">
+                <field name="date_start" />
+                <field name="date_stop" nolabel="1" />
+              </group>
+              <group>
+                <field name="journal_ids" widget="many2many_tags" />
+                <field name="partner_ids" widget="many2many_tags" />
+                <field name="account_ids" widget="many2many_tags" />
+              </group>
+            <group groups="base.group_user" invisible="sie_type != '4e'">
+				  <separator string="Settings for IB/UB/RES posts"/>
+		      </group>
+		      <group invisible="sie_type != '4e'">
+                  <field name="date_field_to_use" widget="selection"/>
+			  </group> 
+            </page>
+            <page string="Import" invisible="state != 'choose'">>
+              <group rowspan="4" string="File to upload">
+                <field name="data" />
+              </group>
+              <group string="Choose a journal">
+                    <field name="move_journal_id"/>
+                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                </group>
+                <group string="Configure Serie To Journal">
+                    <field name="serie_to_journal_ids">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="journal_id"/>
+                        </tree>
+                    </field>
+                </group>
+              <field name="show_account_lines" invisible="1"/>
+              <div>
+                <field name="account_line_ids">
+
+                        <tree editable="bottom">
+                                        <field name="checked"/>
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="account_type"/>
+                                        <field name="reconcile"/>
+                                        <field name="parent_id"/>
+                                    </tree>
+                </field>
+                <button string="Create Accounts" name="create_accounts" type="object" class="oe_highlight"/>
+                <button string="Get Missing Accounts" name="get_missing_accounts" type="object" class="oe_highlight" style="margin-left:10px;"/>
+              </div>
+            </page>
+          </notebook>
+          <div invisible="state != 'get'">
+            <h2>Export Complete</h2>
+            <p>
+              Here is the exported sie-file:
+              <field name="sie_file" readonly="1" filename="filename" />
+               <field name="filename" readonly="1" invisible="1"/>
+            </p>
+          </div>
+                         
+         <div>
+				<br/>
+				<button string="Send" name="send_form" type="object" class="oe_highlight" invisible="state != 'choose'"/>
+         </div>
+
+        </form>
+      </field>
+    </record>
+
+    <record id="action_wizard_account_sie" model="ir.actions.act_window">
+      <field name="name">Export/import SIE-files</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.sie</field>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+    </record>
+    <menuitem action="action_wizard_account_sie" id="menu_wizard_account_sie" parent="l10n_se_sie_minimal.menu_sie" />
+  </data>
+</odoo>
