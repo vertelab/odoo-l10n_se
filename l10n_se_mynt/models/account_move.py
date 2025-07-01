@@ -25,11 +25,6 @@ class AccountMove(models.Model):
                     or not move.is_invoice(include_receipts=True):
                 continue
 
-            # TODO: check for alternative to user_type_id
-            # pay_term_lines = move.line_ids\
-            #     .filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
-
-            #pay_term_lines = move.line_ids
             pay_term_lines = move.line_ids.filtered(lambda line: line.account_id.account_type in ('asset_receivable', 'liability_payable'))
 
             domain = [
