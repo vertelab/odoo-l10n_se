@@ -16,39 +16,39 @@
 						<notebook>
 							<page string="Missing Accounts">
 								<field name="missing_account_line_ids">
-									<tree editable="bottom">
+									<list editable="bottom">
 										<field name="created"/>
 										<field name="code"/>
 										<field name="name"/>
 										<field name="account_type"/>
 										<field name="reconcile"/>
 										<field name="sort_type"/>
-									</tree>
+									</list>
 								</field>
 								<button string="Create Missing Accounts" name="create_missing_accounts" type="object" class="oe_highlight" style="margin-left:10px;"/>
 							</page>
 
 							<page string="Accounts With Different Names" invisible="1">
 								<field string="Accounts With Different Names" name="diff_account_line_ids_name" >
-									<tree editable="bottom">
+									<list editable="bottom">
 										<field name="code"/>
 										<field name="name"/>
 										<field name="current_name"/>
 										<field name="sort_type"/>
-									</tree>
+									</list>
 								</field>
 							</page>
 
 							<page string="Accounts With Different Account Types" invisible="1">
 								<field string="Accounts With Different Account Types" name="diff_account_line_ids_account_types" >
-									<tree editable="bottom">
+									<list editable="bottom">
 										<field name="code"/>
 										<field name="account_type"/>
 										<field name="current_account_type"/>
 										<field name="reconcile"/>
 										<field name="current_reconcile"/>
 										<field name="sort_type"/>
-									</tree>
+									</list>
 								</field>
 							</page>
 						</notebook>
