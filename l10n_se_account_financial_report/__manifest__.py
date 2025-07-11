@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,32 +20,29 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Swedish MIS-reports',
-    'version': '1.0',
-    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Create Swedish MIS-reports',
+    'name': 'l10n_se: Account Financial Report',
+    'version': '18.0.0.0.0',
+    'summary': 'Sweden - Account Financial Report',
     'category': 'Accounting',
-    'description': """
-        The module works as a base for creating Swedish MIS-reports  
-    """,
+    #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
+    'website': '',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-l10n_Se',
-    'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder', 'mis_builder_budget'],
-    'external_dependencies': {
-        'python': ['xlrd'],
-    },
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'description': """
+Swedish Account Financial Report
+     """,
+    'author': 'Vertel AB',
+    'depends': ['l10n_se_extended'],
     'data': [
-        'data/mis_financial_report.xml',
-        'data/mis_momsdeklaration_report.xml',
-        'data/mis_arbetsgivardeklaration_report.xml',
-        'security/security.xml',
+        'security/ir.model.access.csv',
+        'views/financial_reports_line_view.xml',
+        'views/financial_reports_line_results_view.xml',
+        'views/financial_reports_instance_view.xml',
     ],
     'installable': 'True',
-    'application': 'False',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

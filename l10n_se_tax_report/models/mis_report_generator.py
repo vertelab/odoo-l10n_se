@@ -300,32 +300,7 @@ class account_vat_declaration(models.Model):
     def  show_mis_report(self):
         action_context = dict(self.env.context)
         allowed_keys = {'lang', 'tz', 'uid', 'allowed_company_ids'}
-        # Create a new context with only the allowed keys
         action_context = {k: v for k, v in self.env.context.items() if k in allowed_keys}
-        # ~ _logger.warning(f"{action_context=}")
-        # ~ self.ensure_one()
-        # ~ form_view_action = {
-            # ~ 'type': 'ir.actions.act_window',
-            # ~ 'name': 'MIS Report Instance',
-            # ~ 'res_model': 'mis.report.instance',
-            # ~ 'view_mode': 'form',
-            # ~ 'target': 'current',
-            # ~ 'res_id': self.generated_mis_report_id.id if self.generated_mis_report_id else False,
-            # ~ 'context': action_context,
-        # ~ }
-        # ~ return form_view_action
-        #self.ensure_one()
-        #view_id = self.env.ref("mis_builder." "mis_report_instance_result_view_form")
-        #_logger.warning(f"{action_context=}")
-        #return {
-        #    "type": "ir.actions.act_window",
-        #    "res_model": "mis.report.instance",
-        #    "res_id": self.generated_mis_report_id.id,
-        #    "view_mode": "form",
-        #    "view_id": view_id.id,
-        #    "target": "current",
-        #    "context": {},
-        #}
         return self.generated_mis_report_id.with_context({}).preview()
 
 
@@ -393,8 +368,6 @@ class mis_report_instance(models.Model):
     # ~ Should be one2one. account.vat.declaration should have one unique mis.report.instance. This is to insure that the instance created also gets deleted when the account.vat.declaration does.
     account_vat_declaration_id = fields.One2many(comodel_name='account.vat.declaration', inverse_name ='generated_mis_report_id', string="account vat decaration id")
 
-{'lang': 'en_GB', 'tz': 'Europe/Stockholm', 'uid': 2, 'allowed_company_ids': [1]} 
-{'lang': 'en_GB', 'tz': 'Europe/Stockholm', 'uid': 2, 'allowed_company_ids': [1]} 
 
 
 
