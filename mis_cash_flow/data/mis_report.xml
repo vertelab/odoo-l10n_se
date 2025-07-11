@@ -84,7 +84,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">90</field>
-        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.name', '=', 'I')] *1.25</field>
+        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id.name', '=', 'I')] *1.25</field>
     </record>
     <record id="mis_kpi_out_payable_12_ok" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -94,7 +94,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">100</field>
-        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.name', '=', 'I12')] *1.12</field>
+        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id.name', '=', 'I12')] *1.12</field>
     </record>
     <record id="mis_kpi_out_payable_6_ok" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -104,7 +104,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">110</field>
-        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.name', '=', 'I6')] *1.06</field>
+        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id.name', '=', 'I6')] *1.06</field>
     </record>
     <record id="mis_kpi_out_payable_0_ok" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -114,7 +114,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">120</field>
-        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids', '=', False)]</field>
+        <field name="expression">bal[5%,6%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id', '=', False)]</field>
     </record>
     <record id="mis_kpi_out_personalkostnader" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -134,7 +134,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">140</field>
-        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.name', '=', 'I')] *1.25</field>
+        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id.name', '=', 'I')] *1.25</field>
     </record>
     <record id="mis_kpi_out_payable_12" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -144,7 +144,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">150</field>
-        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.name', '=', 'I12')] *1.12</field>
+        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id.name', '=', 'I12')] *1.12</field>
     </record>
     <record id="mis_kpi_out_payable_6" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -154,7 +154,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">140</field>
-        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids.id', '=', 'I6')] *1.06</field>
+        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id.name', '=', 'I6')] *1.06</field>
     </record>
     <record id="mis_kpi_out_payable_0" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -164,7 +164,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">150</field>
-        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_ids', '=', False)]</field>
+        <field name="expression">bal[7%][('account_type', '=', 'off_balance'), ('full_reconcile_id', '=', False), ('line_type', '=', 'move_line'), ('account_id.hide_in_cash_flow', '=', False), ('move_line_id.tax_line_id', '=', False)]</field>
     </record>
     <record id="mis_kpi_ranta_och_amortering" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_cash_flow" />
@@ -194,7 +194,7 @@
         <field name="auto_expand_accounts" eval="True" />
         <field name="auto_expand_accounts_style_id" ref="mis_builder_cash_flow.mis_style_account_detail" />
         <field name="sequence">180</field>
-        <field name="expression">bale[][('account_id.hide_in_cash_flow', '=', False), '|', ('line_type', '=', 'forecast_line'), ('line_type', '=', 'move_line'), ('account_type', '!=', 'off_balance'), ('full_reconcile_id', '=', False)]</field>
+        <field name="expression">bale[][('account_id.hide_in_cash_flow', '=', False), '|', ('line_type', '=', 'forecast_line'), ('line_type', '=', 'move_line'), '|', ('account_type', '=', 'asset_cash'), ('account_type', 'in', ('asset_receivable', 'liability_payable')), ('full_reconcile_id', '=', False)]</field>
     </record>
 
     
