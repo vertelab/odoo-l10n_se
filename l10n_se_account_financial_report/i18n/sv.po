@@ -1,0 +1,307 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_se_account_financial_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-26 09:49+0000\n"
+"PO-Revision-Date: 2025-09-26 14:33+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__account_char_list
+msgid "Accounts"
+msgstr "Konton"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__amount_type
+msgid "Amount Type"
+msgstr "Belopp Typ"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields.selection,name:l10n_se_account_financial_report.selection__financial_reports_line__amount_type__balance
+msgid "Balance"
+msgstr "Balans"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields.selection,name:l10n_se_account_financial_report.selection__financial_reports_instance__state__cancel
+msgid "Cancelled"
+msgstr "Avbruten"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__create_uid
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__create_uid
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__create_uid
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__create_date
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__create_date
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__create_date
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__create_date
+msgid "Created on"
+msgstr "Skapad på"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields.selection,name:l10n_se_account_financial_report.selection__financial_reports_line__amount_type__credit
+msgid "Credit"
+msgstr "Kredit"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields.selection,name:l10n_se_account_financial_report.selection__financial_reports_line__amount_type__debit
+msgid "Debit"
+msgstr "Debet"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__display_name
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__display_name
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__display_name
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__domain_expression
+msgid "Domain"
+msgstr "Domän"
+
+#. module: l10n_se_account_financial_report
+#. odoo-python
+#: code:addons/l10n_se_account_financial_report/models/financial_reports_line.py:0
+msgid "Domain expression must be a list."
+msgstr "Domänuttrycket måste vara en lista."
+
+#. module: l10n_se_account_financial_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_line_form_view
+msgid "Domains"
+msgstr "Domäner"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields.selection,name:l10n_se_account_financial_report.selection__financial_reports_instance__state__draft
+msgid "Draft"
+msgstr "Utkast"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__end_date
+msgid "End Date"
+msgstr "Slutdatum"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.ui.menu,name:l10n_se_account_financial_report.financial_reports_view_menu
+msgid "Financial Reports"
+msgstr "Finansiella rapporter"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.actions.act_window,name:l10n_se_account_financial_report.financial_reports_list_action
+msgid "Financial Reports Action"
+msgstr "Finansiella rapporter Åtgärder"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.ui.menu,name:l10n_se_account_financial_report.financial_reports__instance_view_menu
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_instance_view_form
+msgid "Financial Reports Instance"
+msgstr "Instans för finansiella rapporter"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.actions.act_window,name:l10n_se_account_financial_report.financial_reports_instance_list_action
+msgid "Financial Reports Instance Action"
+msgstr "Finansiella rapporter Instans Åtgärd"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.actions.act_window,name:l10n_se_account_financial_report.financial_reports_line_results_list_action
+#: model:ir.model,name:l10n_se_account_financial_report.model_financial_reports_line_results
+msgid "Financial Reports Line Results"
+msgstr "Finansiella rapporter Linjeresultat"
+
+#. module: l10n_se_account_financial_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_line_form_view
+msgid "Financial Reports Lines"
+msgstr "Rader för finansiella rapporter"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__id
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__id
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__id
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_se_account_financial_report
+#. odoo-python
+#: code:addons/l10n_se_account_financial_report/models/financial_reports_line.py:0
+msgid "Invalid domain expression: %s"
+msgstr "Ogiltigt domänuttryck: %s"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__invert_value
+msgid "Invert Value"
+msgstr "Invertera värde"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__write_uid
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__write_uid
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__write_uid
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__write_date
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__write_date
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__write_date
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__lines
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_list_view
+msgid "Lines"
+msgstr "Linjer"
+
+#. module: l10n_se_account_financial_report
+#. odoo-python
+#: code:addons/l10n_se_account_financial_report/models/financial_reports_line_results.py:0
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__move_line_ids
+msgid "Move Lines"
+msgstr "Flytta linjer"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__name
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_instance_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_line_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_line_results_list_view
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_list_view
+msgid "Name"
+msgstr "Namn"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__originator_tax_char_list
+msgid "Originator Taxes"
+msgstr "Upphovsman Skatter"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__parent_id
+msgid "Parent"
+msgstr "Förälder"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields.selection,name:l10n_se_account_financial_report.selection__financial_reports_instance__state__posted
+msgid "Posted"
+msgstr "Postat"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__report_id
+msgid "Report"
+msgstr "Rapport"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.ui.menu,name:l10n_se_account_financial_report.financial_reports_instance_menu
+#: model:ir.ui.menu,name:l10n_se_account_financial_report.financial_reports_menu
+msgid "Report Generator"
+msgstr "Rapportgenerator"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__report_instance_id
+msgid "Report Instance"
+msgstr "Rapportinstans"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__report_line_id
+msgid "Report Line"
+msgstr "Rapportlinje"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__result_ids
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__result
+msgid "Result"
+msgstr "Resultat"
+
+#. module: l10n_se_account_financial_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_line_results_list_view
+msgid "Show Lines"
+msgstr "Visa linjer"
+
+#. module: l10n_se_account_financial_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_instance_view_form
+msgid "Show Report"
+msgstr "Visa rapport"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__start_date
+msgid "Start Date"
+msgstr "Startdatum"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__state
+msgid "Status"
+msgstr "Status"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__taxes_char_list
+msgid "Taxes"
+msgstr "Skatter"
+
+#. module: l10n_se_account_financial_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_instance_view_form
+msgid "View Financial Result"
+msgstr "Visa finansiellt resultat"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,help:l10n_se_account_financial_report.field_financial_reports_line__account_char_list
+msgid "a comma seperated list of accounts to find invoice lines for"
+msgstr "en kommaseparerad lista med konton som du vill hitta fakturarader för"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,help:l10n_se_account_financial_report.field_financial_reports_line__originator_tax_char_list
+msgid "a comma seperated list of originator taxes to find invoice lines for"
+msgstr ""
+"en kommaseparerad lista över upphovsmannens skatter för att hitta "
+"fakturarader för"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,help:l10n_se_account_financial_report.field_financial_reports_line__taxes_char_list
+msgid "a comma seperated list of taxes to find invoice lines for"
+msgstr ""
+"en kommaseparerad lista över skatter som du vill hitta fakturarader för"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model,name:l10n_se_account_financial_report.model_financial_reports
+msgid "financial reports"
+msgstr "finansiella rapporter"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model,name:l10n_se_account_financial_report.model_financial_reports_instance
+msgid "financial reports instance"
+msgstr "instans för finansiella rapporter"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model,name:l10n_se_account_financial_report.model_financial_reports_line
+msgid "financial reports line"
+msgstr "raden för finansiella rapporter"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports__name
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__name
+#: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__name
+msgid "name"
+msgstr "namn"
+
+#. module: l10n_se_account_financial_report
+#: model:ir.model.fields,help:l10n_se_account_financial_report.field_financial_reports_line__domain_expression
+msgid "set a regular odoo domain if you can't use the other lines"
+msgstr "ange en vanlig odoo-domän om du inte kan använda de andra linjerna"
