@@ -1,0 +1,68 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_se_account_bank_statement_import
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-26 09:47+0000\n"
+"PO-Revision-Date: 2025-09-26 14:35+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: l10n_se_account_bank_statement_import
+#: model_terms:ir.ui.view,arch_db:l10n_se_account_bank_statement_import.view_bank_statement_form
+msgid "<span> </span>("
+msgstr ""
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model.fields,field_description:l10n_se_account_bank_statement_import.field_account_bank_statement__account_number
+msgid "Account Number"
+msgstr "Kontonummer"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model.fields,field_description:l10n_se_account_bank_statement_import.field_account_bank_statement_line__bg_account
+msgid "BG Account"
+msgstr "BG konto"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model.fields,field_description:l10n_se_account_bank_statement_import.field_account_bank_statement_line__bg_serial_number
+msgid "BG Serial Number"
+msgstr "BG serienummer"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model.fields,field_description:l10n_se_account_bank_statement_import.field_account_bank_statement__bg_serial_number
+msgid "BG serial number"
+msgstr "BG serienummer"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model,name:l10n_se_account_bank_statement_import.model_account_bank_statement
+msgid "Bank Statement"
+msgstr "Kontoutdrag"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model,name:l10n_se_account_bank_statement_import.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Kontoutdragsrad"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model.fields,field_description:l10n_se_account_bank_statement_import.field_account_bank_statement__end_balance_calc
+msgid "End Balance Calc"
+msgstr "Slutsaldoberäkning"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model,name:l10n_se_account_bank_statement_import.model_account_statement_import
+msgid "Import Bank Statement Files"
+msgstr "Importera bankkontoutdragsfiler"
+
+#. module: l10n_se_account_bank_statement_import
+#: model:ir.model.fields,field_description:l10n_se_account_bank_statement_import.field_account_bank_statement__start_balance_calc
+msgid "Start Balance Calc"
+msgstr "Starta saldoberäkning"
