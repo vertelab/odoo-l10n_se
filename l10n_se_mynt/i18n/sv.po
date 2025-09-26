@@ -1,0 +1,229 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_se_mynt
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-26 09:54+0000\n"
+"PO-Revision-Date: 2025-09-26 14:31+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.account_journal_dashboard_kanban_view
+msgid ""
+"<span name=\"button_import_placeholder\"/>\n"
+"                                        Statements"
+msgstr ""
+"<span name=\"button_import_placeholder\"/>\n"
+"                                        Uttalanden"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.account_journal_dashboard_kanban_view
+msgid "<span title=\"Balance in General Ledger\">Balance in GL</span>"
+msgstr "<span title=\"Saldo i huvudboken\">Saldo i huvudboken</span>"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.account_journal_dashboard_kanban_view
+msgid "<span title=\"Latest Statement\">Latest Statement</span>"
+msgstr "<span title=\"Senaste uttalandet\">Senaste uttalandet</span>"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.account_journal_dashboard_kanban_view
+msgid ""
+"<span title=\"Outstanding Payments/Receipts\">Outstanding Payments/"
+"Receipts</span>"
+msgstr ""
+"<span title=\"Utestående betalningar/kvitton\">Utestående betalningar/"
+"kvitton</span>"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__account_card_transaction_id
+msgid "Account Card Transactions"
+msgstr "Kontokortstransaktioner"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__move_id
+msgid "Account Move"
+msgstr "Flytta konto"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.mynt_reconcile_wizard
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/wizard/load_mynt_wizard.py:0
+msgid "Card Transaction"
+msgstr "Korttransaktion"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.account_journal_dashboard_kanban_view
+msgid "Connect"
+msgstr "Anslut"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.account_journal_dashboard_kanban_view
+msgid "Create"
+msgstr "Skapa"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__create_date
+msgid "Created on"
+msgstr "Skapad den"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/wizard/load_mynt_wizard.py:0
+msgid "For Mynt Zip File, please select a Card journal"
+msgstr "För Mynt Zip File, vänligen välj en korttidning"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/wizard/load_mynt_wizard.py:0
+msgid ""
+"For Mynt Zip Files, please select a card credit account on the selected "
+"Journal"
+msgstr ""
+"För Mynt Zip Files, vänligen välj ett kortkreditkonto på den valda tidningen"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/wizard/load_mynt_wizard.py:0
+msgid ""
+"For Mynt Zip Files, please select a card debit account on the selected "
+"Journal"
+msgstr ""
+"För Mynt Zip Files, vänligen välj ett kortdebiteringskonto på den valda "
+"tidningen"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_se_mynt
+#: model:ir.model,name:l10n_se_mynt.model_account_statement_import
+msgid "Import Bank Statement Files"
+msgstr "Importera bankkontoutdragsfiler"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_account_bank_statement_line__invoice_outstanding_mynt_credits_debits_widget
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_account_move__invoice_outstanding_mynt_credits_debits_widget
+msgid "Invoice Outstanding Mynt Credits Debits Widget"
+msgstr "Utestående faktura Mynt Credits Debits Widget"
+
+#. module: l10n_se_mynt
+#: model:ir.model,name:l10n_se_mynt.model_account_move
+msgid "Journal Entry"
+msgstr "Verifikat"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_mynt_account_move_reconcile_wizard__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: l10n_se_mynt
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_account_bank_statement_line__line_is_updated
+#: model:ir.model.fields,field_description:l10n_se_mynt.field_account_move__line_is_updated
+msgid "Line is Updated"
+msgstr "Linjen är uppdaterad"
+
+#. module: l10n_se_mynt
+#: model:ir.model,name:l10n_se_mynt.model_mynt_account_move_reconcile_wizard
+msgid "Mynt Reconcile Wizard"
+msgstr "Mynt Avstämningsguide"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.account_journal_dashboard_kanban_view
+msgid "New Transaction"
+msgstr "Ny transaktion"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/models/account_move.py:0
+msgid "No items to reconcile"
+msgstr "Inga poster att stämma av"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/models/account_move.py:0
+msgid "Outstanding credits"
+msgstr "Utestående krediter"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/models/account_move.py:0
+msgid "Outstanding debits"
+msgstr "Utestående debiteringar"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.mynt_reconcile_wizard
+msgid "Reconcile"
+msgstr "Avstämning"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.view_move_form_extended
+msgid "Reconcile Bills"
+msgstr "Stämma av räkningar"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/models/account_move.py:0
+msgid "Reconcile your bills"
+msgstr "Stäm av dina räkningar"
+
+#. module: l10n_se_mynt
+#: model_terms:ir.ui.view,arch_db:l10n_se_mynt.view_move_form_extended
+msgid "Update Fiscal Position"
+msgstr "Uppdatering av finanspolitisk ställning"
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/wizard/load_mynt_wizard.py:0
+msgid ""
+"You have already imported this file, or this file only contains already "
+"imported transactions."
+msgstr ""
+"Du har redan importerat den här filen, eller så innehåller den här filen "
+"bara redan importerade transaktioner."
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/wizard/load_mynt_wizard.py:0
+msgid ""
+"given all keys are not present in the dictionary. This is not a mynt csv "
+"file."
+msgstr ""
+"med tanke på att alla nycklar inte finns i ordlistan. Detta är inte en mynt "
+"csv-fil."
+
+#. module: l10n_se_mynt
+#. odoo-python
+#: code:addons/l10n_se_mynt/wizard/load_mynt_wizard.py:0
+msgid "mynt card transaction: %s"
+msgstr "transaktion med myntkort: %s"
