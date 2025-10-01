@@ -146,7 +146,7 @@ class account_sie(models.TransientModel):
 
     @api.model
     def cleanse_with_fire(self, data):
-        data = base64.decodebytes(data or '').decode('utf-8')
+        data = base64.decodebytes(data or '').decode('cp437')
         text_list = []
         for line in data.split('\n'):
             line = line.strip()
@@ -412,7 +412,7 @@ class account_sie(models.TransientModel):
                 ub[trans.account_id.code] += trans.debit - trans.credit
             str += '}\n'
 
-        return str.encode('utf-8', 'xmlcharrefreplace')  # ignore
+        return str.encode('cp437', 'xmlcharrefreplace')  # ignore
 
     @api.model
     def escape_sie_string(self, s):
