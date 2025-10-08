@@ -10,9 +10,9 @@
                     <button name="update_move_line" string="Update Fiscal Position" type="object" class="btn btn-primary" groups="account.group_account_invoice"/>
                 </button>
 
-                <field name="invoice_outstanding_credits_debits_widget" position="after">
+                <!--<field name="invoice_outstanding_credits_debits_widget" position="after">
                     <field name="invoice_outstanding_mynt_credits_debits_widget" class="oe_invoice_outstanding_credits_debits" colspan="2" nolabel="1" widget="payment" invisible="state != 'posted' or move_type in ('out_receipt', 'in_receipt')"/>
-                </field>
+                </field>-->
                 <field name="ref" position="after">
                     <field name="line_is_updated"/>
                 </field>
