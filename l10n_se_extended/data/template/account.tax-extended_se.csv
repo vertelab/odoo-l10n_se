@@ -7,7 +7,7 @@ i,I,Inköp 25%,,,25,purchase,atax_group_25,base,invoice,,,0
 ,,,,,,,,tax,invoice,,a2640,100
 ,,,,,,,,base,refund,,,0
 ,,,,,,,,tax,refund,,a2640,100
-mp1i,MP1i,Försäljning 25% (ink),tax_include,,25,sale,atax_group_25,base,invoice,,,0
+mp1i,MP1i,Försäljning 25% (ink),tax_included,,25,sale,atax_group_25,base,invoice,,,0
 ,,,,,,,,tax,invoice,,a2610,100
 ,,,,,,,,base,refund,,,0
 ,,,,,,,,tax,refund,,a2610,100
