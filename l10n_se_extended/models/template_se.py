@@ -12,8 +12,8 @@ class AccountChartTemplate(models.AbstractModel):
         return {
             'property_account_receivable_id': 'a1510',
             'property_account_payable_id': 'a2440',
-            'property_account_expense_categ_id': 'a8990',
-            'property_account_income_categ_id': 'a3004',
+            'property_account_expense_categ_id': 'a4001',
+            'property_account_income_categ_id': 'a3001',
             'property_stock_account_input_categ_id': 'a4960',
             'property_stock_account_output_categ_id': 'a4960',
             'property_stock_valuation_account_id': 'a1410',

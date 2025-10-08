@@ -32,9 +32,9 @@ mu1,MU1,Momspliktiga uttag 25%,,25,sale,atax_group_25,base,invoice,,,0
 ,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
 mu2,MU2,Momspliktiga uttag 12%,,12,sale,atax_group_12,base,invoice,,,0
+,,,,,,,tax,invoice,,,100
 ,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
-,,,,,,,tax,invoice,,,100
 mu3,MU3,Momspliktiga uttag 6%,,6,sale,atax_group_6,base,invoice,,,0
 ,,,,,,,tax,invoice,,,100
 ,,,,,,,base,refund,,,0
