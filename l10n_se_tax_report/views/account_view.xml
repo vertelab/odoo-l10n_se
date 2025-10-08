@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <data>
+  <record id="view_account_journal_form_inheriet" model="ir.ui.view">
+   <field name="name">account.journal.form.inherit</field>
+   <field name="model">account.journal</field>
+   <field name="priority">20</field>
+   <field name="inherit_id" ref="account.view_account_journal_form"/>
+   <field name="arch" type="xml">
+    <xpath expr="//field[@name='default_account_id']" position="after">
+     <field invisible="not type" name="default_credit_account_id"/>
+     <field invisible="not type" name="default_debit_account_id"/>
+    </xpath></field>
+  </record>
+ </data>
+</odoo>

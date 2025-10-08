@@ -1,0 +1,322 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_se_extended
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-26 09:53+0000\n"
+"PO-Revision-Date: 2025-09-26 14:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: l10n_se_extended
+#: model:ir.model,name:l10n_se_extended.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Kontoplan"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__sort_type__account_name_diff
+msgid "Account Different Name"
+msgstr "Konto Annat namn"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__sort_type__account_type_diff
+msgid "Account Different Types"
+msgstr "Konto Olika typer"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,help:l10n_se_extended.field_merge_account_account__account_type
+#: model:ir.model.fields,help:l10n_se_extended.field_merge_account_account__current_account_type
+msgid ""
+"Account Type is used for information purpose, to generate country-specific "
+"legal reports, and set the rules to close a fiscal year and generate "
+"opening entries."
+msgstr ""
+"Kontotyp används för informationsändamål, för att generera landsspecifika "
+"juridiska rapporter och för att fastställa regler för att avsluta ett "
+"räkenskapsår och generera ingående poster."
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__diff_account_line_ids_account_types
+msgid "Accounts with different accounts"
+msgstr "Konton med olika konton"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__diff_account_line_ids_name
+msgid "Accounts with different names"
+msgstr "Konton med olika namn"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__asset_cash
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__asset_cash
+msgid "Bank and Cash"
+msgstr "Bank och kassa"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__code
+msgid "Code"
+msgstr "Kod"
+
+#. module: l10n_se_extended
+#: model:ir.model,name:l10n_se_extended.model_res_config_settings
+msgid "Config Settings"
+msgstr "Inställningar"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__expense_direct_cost
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__expense_direct_cost
+msgid "Cost of Revenue"
+msgstr "Kostnad för intäkter"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__created
+msgid "Created"
+msgstr "Skapad"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__create_uid
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__create_date
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__create_date
+msgid "Created on"
+msgstr "Skapad den"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__liability_credit_card
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__liability_credit_card
+msgid "Credit Card"
+msgstr "Kreditkort"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__asset_current
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__asset_current
+msgid "Current Assets"
+msgstr "Omsättningstillgångar"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__current_chart
+msgid "Current Chart of Account"
+msgstr "Aktuell kontoplan"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__company_id
+msgid "Current Company"
+msgstr "Nuvarande bolag"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__liability_current
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__liability_current
+msgid "Current Liabilities"
+msgstr "Kortfristiga skulder"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__current_name
+msgid "Current Name"
+msgstr "Nuvarande namn"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__current_reconcile
+msgid "Current Reconcile"
+msgstr "Aktuell avstämning"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__current_account_type
+msgid "Current Type"
+msgstr "Nuvarande typ"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__equity_unaffected
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__equity_unaffected
+msgid "Current Year Earnings"
+msgstr "Intäkter för innevarande år"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__expense_depreciation
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__expense_depreciation
+msgid "Depreciation"
+msgstr "Avskrivningar"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__display_name
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__equity
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__equity
+msgid "Equity"
+msgstr "Eget kapital"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__expense
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__expense
+msgid "Expenses"
+msgstr "Kostnader"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__asset_fixed
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__asset_fixed
+msgid "Fixed Assets"
+msgstr "Anläggningstillgångar"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__id
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__income
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__income
+msgid "Income"
+msgstr "Inkomster"
+
+#. module: l10n_se_extended
+#. odoo-python
+#: code:addons/l10n_se_extended/models/account_tax.py:0
+msgid ""
+"Invoice and credit note distribution should have the same number of lines."
+msgstr "Faktura- och kreditfakturadistributionen ska ha samma antal rader."
+
+#. module: l10n_se_extended
+#. odoo-python
+#: code:addons/l10n_se_extended/models/account_tax.py:0
+msgid ""
+"Invoice and credit note distribution should match (same percentages, in the "
+"same order)."
+msgstr ""
+"Fakturans och kreditfakturans fördelning ska stämma överens (samma "
+"procentsatser, i samma ordning)."
+
+#. module: l10n_se_extended
+#. odoo-python
+#: code:addons/l10n_se_extended/models/account_tax.py:0
+msgid ""
+"Invoice and credit note repartition should have at least one tax "
+"repartition line."
+msgstr ""
+"Fördelning av fakturor och kreditnotor bör ha minst en rad för fördelning "
+"av skatt."
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__write_uid
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__write_date
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: l10n_se_extended
+#: model:ir.model,name:l10n_se_extended.model_merge_account_account
+msgid "Merge Account Line"
+msgstr "Sammanfoga kontorad"
+
+#. module: l10n_se_extended
+#: model:ir.model,name:l10n_se_extended.model_merge_chart_wizard
+msgid "Merge Chart Wizard"
+msgstr "Guiden Sammanfoga diagram"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__name
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__name
+msgid "Name"
+msgstr "Namn"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__sort_type__new_account
+msgid "New Account"
+msgstr "Nytt konto"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__missing_account_line_ids
+msgid "New Accounts"
+msgstr "Nya konton"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__asset_non_current
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__asset_non_current
+msgid "Non-current Assets"
+msgstr "Anläggningstillgångar"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__liability_non_current
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__liability_non_current
+msgid "Non-current Liabilities"
+msgstr "Långfristiga skulder"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__off_balance
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__off_balance
+msgid "Off-Balance Sheet"
+msgstr "Utanför balansräkningen"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__income_other
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__income_other
+msgid "Other Income"
+msgstr "Övriga intäkter"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__liability_payable
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__liability_payable
+msgid "Payable"
+msgstr "Betalbara"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__asset_prepayments
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__asset_prepayments
+msgid "Prepayments"
+msgstr "Förskottsbetalningar"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__account_type__asset_receivable
+#: model:ir.model.fields.selection,name:l10n_se_extended.selection__merge_account_account__current_account_type__asset_receivable
+msgid "Receivable"
+msgstr "Fordringar"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__reconcile
+msgid "Reconcile"
+msgstr "Avstämning"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__sort_type
+msgid "Sort Type"
+msgstr "Sortera typ"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_chart_wizard__supplement_chart
+msgid "Supplement Chart of Account"
+msgstr "Tilläggskontoplan"
+
+#. module: l10n_se_extended
+#: model:ir.model,name:l10n_se_extended.model_account_tax
+msgid "Tax"
+msgstr "Skatt"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__account_type
+msgid "Type"
+msgstr "Typ"
+
+#. module: l10n_se_extended
+#: model:ir.model.fields,field_description:l10n_se_extended.field_merge_account_account__wizard_id
+msgid "Wizard"
+msgstr "Guide"
