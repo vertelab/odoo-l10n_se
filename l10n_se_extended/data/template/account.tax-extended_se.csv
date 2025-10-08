@@ -32,9 +32,9 @@ mu1,MU1,Momspliktiga uttag 25%,,25,sale,atax_group_25,base,invoice,,,0
 ,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
 mu2,MU2,Momspliktiga uttag 12%,,12,sale,atax_group_12,base,invoice,,,0
-,,,,,,,tax,invoice,,,100
 ,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,,100
+,,,,,,,tax,invoice,,,100
 mu3,MU3,Momspliktiga uttag 6%,,6,sale,atax_group_6,base,invoice,,,0
 ,,,,,,,tax,invoice,,,100
 ,,,,,,,base,refund,,,0
@@ -61,22 +61,22 @@ u3,U3,Utgående moms 6%,,6,sale,atax_group_6,base,invoice,,,0
 ,,,,,,,tax,refund,,a2630,100
 vfeu,VFEU,"Inköp av varor från annat EU-land, 25%",,25,purchase,atax_group_25,base,invoice,,,0
 ,,,,,,,tax,invoice,,a2645,100
+,,,,,,,tax,invoice,,a2614,-100
 ,,,,,,,base,refund,,,0
 ,,,,,,,tax,refund,,a2645,100
-,,,,,,,tax,invoice,,a2614,100
-,,,,,,,tax,refund,,a2614,100
+,,,,,,,tax,refund,,a2614,-100
 vfeu12,VFEU12,"Inköp av varor från annat EU-land, 12%",,12,purchase,atax_group_12,base,invoice,,,100
 ,,,,,,,tax,invoice,,a2645,100
-,,,,,,,tax,invoice,,a2624,100
+,,,,,,,tax,invoice,,a2624,-100
 ,,,,,,,base,refund,,,100
 ,,,,,,,tax,refund,,a2645,100
-,,,,,,,tax,refund,,a2624,100
+,,,,,,,tax,refund,,a2624,-100
 vfeu6,VFEU6,"Inköp av varor från annat EU-land, 6%",,6,purchase,atax_group_6,base,invoice,,,100
 ,,,,,,,tax,invoice,,a2645,100
-,,,,,,,tax,invoice,,a2634,100
+,,,,,,,tax,invoice,,a2634,-100
 ,,,,,,,base,refund,,,100
 ,,,,,,,tax,refund,,a2645,100
-,,,,,,,tax,refund,,a2634,100
+,,,,,,,tax,refund,,a2634,-100
 tfeu,TFEU,"Inköp av tjänster från annat EU-land enligt huvudregeln, 25%",,25,purchase,atax_group_25,base,invoice,,,100
 ,,,,,,,tax,invoice,,a2645,100
 ,,,,,,,tax,invoice,,a2614,100
