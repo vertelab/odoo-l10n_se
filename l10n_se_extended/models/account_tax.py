@@ -1,6 +1,8 @@
 from odoo import api, fields, models,_
 from odoo.exceptions import ValidationError
 import logging
+_logger = logging.getLogger(__name__)
+
 class AccountTax(models.Model):
     _inherit = 'account.tax'
 
@@ -27,6 +29,12 @@ class AccountTax(models.Model):
 
             index = 0
             while index < len(invoice_repartition_line_ids):
+                _logger.warning(f"{record=}")
+                _logger.warning(f"{invoice_repartition_line_ids[index]=}")
+                _logger.warning(f"{refund_repartition_line_ids[index]=}")
+                _logger.warning(f"{invoice_repartition_line_ids[index].factor_percent=}")
+                _logger.warning(f"{refund_repartition_line_ids[index].factor_percent=}")
+
                 inv_rep_ln = invoice_repartition_line_ids[index]
                 ref_rep_ln = refund_repartition_line_ids[index]
                 if inv_rep_ln.repartition_type != ref_rep_ln.repartition_type or inv_rep_ln.factor_percent != ref_rep_ln.factor_percent:
