@@ -122,7 +122,7 @@ msgstr "Finansiella rapporter Instans Åtgärd"
 #: model:ir.actions.act_window,name:l10n_se_account_financial_report.financial_reports_line_results_list_action
 #: model:ir.model,name:l10n_se_account_financial_report.model_financial_reports_line_results
 msgid "Financial Reports Line Results"
-msgstr "Finansiella rapporter Linjeresultat"
+msgstr "Finansiella rapporter resultatrader"
 
 #. module: l10n_se_account_financial_report
 #: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_form_view
@@ -170,14 +170,14 @@ msgstr "Senast uppdaterad den"
 #: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_list_view
 msgid "Lines"
-msgstr "Linjer"
+msgstr "Rader"
 
 #. module: l10n_se_account_financial_report
 #. odoo-python
 #: code:addons/l10n_se_account_financial_report/models/financial_reports_line_results.py:0
 #: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__move_line_ids
 msgid "Move Lines"
-msgstr "Flytta linjer"
+msgstr "Flytta rader"
 
 #. module: l10n_se_account_financial_report
 #: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__name
@@ -197,7 +197,7 @@ msgstr "Upphovsman Skatter"
 #. module: l10n_se_account_financial_report
 #: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line__parent_id
 msgid "Parent"
-msgstr "Förälder"
+msgstr "Överordnad"
 
 #. module: l10n_se_account_financial_report
 #: model:ir.model.fields.selection,name:l10n_se_account_financial_report.selection__financial_reports_instance__state__posted
@@ -223,7 +223,7 @@ msgstr "Rapportinstans"
 #. module: l10n_se_account_financial_report
 #: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_line_results__report_line_id
 msgid "Report Line"
-msgstr "Rapportlinje"
+msgstr "Rapportrad"
 
 #. module: l10n_se_account_financial_report
 #: model:ir.model.fields,field_description:l10n_se_account_financial_report.field_financial_reports_instance__result_ids
@@ -234,7 +234,7 @@ msgstr "Resultat"
 #. module: l10n_se_account_financial_report
 #: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_line_results_list_view
 msgid "Show Lines"
-msgstr "Visa linjer"
+msgstr "Visa rader"
 
 #. module: l10n_se_account_financial_report
 #: model_terms:ir.ui.view,arch_db:l10n_se_account_financial_report.financial_reports_instance_view_form
@@ -304,4 +304,4 @@ msgstr "namn"
 #. module: l10n_se_account_financial_report
 #: model:ir.model.fields,help:l10n_se_account_financial_report.field_financial_reports_line__domain_expression
 msgid "set a regular odoo domain if you can't use the other lines"
-msgstr "ange en vanlig odoo-domän om du inte kan använda de andra linjerna"
+msgstr "ange en vanlig odoo-domän om du inte kan använda de andra raderna"
