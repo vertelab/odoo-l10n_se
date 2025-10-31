@@ -116,7 +116,7 @@ msgstr "Alla Fakturor I Utkast"
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_periodic_compilation__accounting_method
 #: model:ir.model.fields,help:l10n_se_tax_report.field_account_vat_declaration__accounting_method
 msgid ""
-"Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall "
+"Ange redovisningsmetod, OBS även bolag som tillämpar kontantmetoden skall "
 "välja fakturametoden i sista perioden/bokslutsperioden"
 msgstr ""
 
@@ -196,7 +196,7 @@ msgstr "Bolag"
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__company_id
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__company_id
 msgid "Company"
-msgstr "Företag"
+msgstr "Bolag"
 
 #. module: l10n_se_tax_report
 #: model:ir.model.fields.selection,name:l10n_se_tax_report.selection__account_financial_report_bolagsverket_import__xml_sheet__complete
