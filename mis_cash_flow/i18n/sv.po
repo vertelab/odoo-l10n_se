@@ -1,0 +1,116 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mis_cash_flow
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251110\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-13 12:43+0000\n"
+"PO-Revision-Date: 2025-11-13 12:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_balance
+msgid "BALANS"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_aliquidity
+msgid "Bank"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report,name:mis_cash_flow.mis_report_cash_flow
+msgid "Cash Flow SE"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_in_receivable
+msgid "Faktiska intäkter"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_12
+msgid "Faktiska kostnader 12% Personal"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_12_ok
+msgid "Faktiska kostnader 12% Övriga Kostnader"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_25
+msgid "Faktiska kostnader 25% Personal"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_25_ok
+msgid "Faktiska kostnader 25% Övriga Kostnader"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_6
+msgid "Faktiska kostnader 6% Personal"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_6_ok
+msgid "Faktiska kostnader 6% Övriga Kostnader"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_0
+msgid "Faktiska kostnader no tax Personal"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_payable_0_ok
+msgid "Faktiska kostnader no tax Övriga Kostnader"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_in_total
+msgid "INTÄKTER"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_total
+msgid "KOSTNADER"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_period_balance
+msgid "PERIODBALANS"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_personalkostnader
+msgid "Personalkonstnade"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_in_forecast
+msgid "Prognosticerade intäkter"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_out_forecast
+msgid "Prognosticerade kostnader"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_ranta_och_amortering
+msgid "Ränta och amortering"
+msgstr ""
+
+#. module: mis_cash_flow
+#: model:mis.report.kpi,description:mis_cash_flow.mis_kpi_ovriga_kostnader
+msgid "ÖVRIGA KOSTNADER"
+msgstr ""
