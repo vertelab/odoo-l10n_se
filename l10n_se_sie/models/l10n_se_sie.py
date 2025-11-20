@@ -86,6 +86,9 @@ class account_sie(models.TransientModel):
     def _set_period_fiscal_domain(self):
         return [('company_id', '=', self.env.company.id)]
 
+    def _set_account_domain(self):
+        return [('company_ids', 'in', [self.env.company.id])]
+
     current_transaction_year = fields.Many2one(comodel_name="account.fiscalyear", string="Current Fiscal Year",
                                                help="Posts are relative to this year",
                                                domain=_set_period_fiscal_domain,
@@ -108,7 +111,10 @@ class account_sie(models.TransientModel):
                                    help="Moves with this type of journals")
     partner_ids = fields.Many2many(comodel_name="res.partner", string="Partner", help="Moves tied to these partners",
                                    domain=_set_period_fiscal_domain)
-    account_ids = fields.Many2many(comodel_name="account.account", string="Account", domain=_set_period_fiscal_domain)
+    account_ids = fields.Many2many(comodel_name="account.account", string="Account", domain=_set_account_domain)
+
+
+
     account_line_ids = fields.One2many(comodel_name='account.sie.account', inverse_name='wizard_id',
                                        string='New Accounts')
     state = fields.Selection([('choose', 'choose'), ('get', 'get'), ], default="choose")
@@ -215,6 +221,7 @@ class account_sie(models.TransientModel):
         if data or self.data:  # IMPORT TRIGGERED
             checked = True
             data = data or self.cleanse_with_fire(self.data)
+            _logger.warning("check missing account")
             missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
             if len(missing_accounts) > 0:
                 # ~ for account in missing_accounts:
@@ -232,8 +239,9 @@ class account_sie(models.TransientModel):
     def create_accounts(self):
         self.ensure_one()
         for line in self.account_line_ids:
+            _logger.warning(f"create accounts {line=}")
             self.env['account.account'].create({
-                'company_id': self.env.company.id,
+                #'company_ids': (4, self.env.company.id, 0),
                 'name': line.name,
                 'code': line.code,
                 'account_type': line.account_type,
@@ -325,7 +333,9 @@ class account_sie(models.TransientModel):
             data = self.cleanse_with_fire(self.data)
 
             if not self.check_import_file(data):
+                _logger.warning("missing accounts")
                 missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
+                _logger.warning(f"{missing_accounts=}")
                 for account in missing_accounts:
                     # print(account)
                     # account type lookup
@@ -475,8 +485,8 @@ class account_sie(models.TransientModel):
                       'expense_depreciation',
                       'expense_direct_cost'
                 ]
-                balance_domain = [('company_id', '=', self.env.company.id),('account_type', 'in', balance_account_types)]
-                result_domain = [('company_id', '=', self.env.company.id),('account_type', 'in', profit_loss_account_types )]
+                balance_domain = [('company_ids', 'in', [self.env.company.id]),('account_type', 'in', balance_account_types)]
+                result_domain = [('company_ids', 'in', [self.env.company.id]),('account_type', 'in', profit_loss_account_types )]
                 balance_accounts =  self.env['account.account'].search(balance_domain)
                 result_accounts =  self.env['account.account'].search(result_domain)
                 ib_dict = self.get_sie_value_dict(balance_accounts, include_current_year = False)
@@ -870,7 +880,7 @@ class account_sie(models.TransientModel):
                         trans_quantity = l.get(6)
                         trans_sign = l.get(7)
                         code = self.env['account.account'].search(
-                            [('code', '=', trans_code), ("company_id", '=', self.company_id.id)],
+                            [('code', '=', trans_code), ("company_ids", 'in', [self.company_id.id])],
                             limit=1)
                         #if code.user_type_id.report_type == 'income':
                         #    journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
@@ -944,7 +954,7 @@ class account_sie(models.TransientModel):
                      ("company_id", '=', self.company_id.id),
                      ('special', '=', True)]).id
                 ib_account = self.env['account.account'].search(
-                    [('code', '=', line.get(2)), ("company_id", '=', self.company_id.id)])
+                    [('code', '=', line.get(2)), ("company_ids", 'in', [self.company_ids])])
                 ib_amount = line.get(3)
                 ib_qnt = line.get(4)  # We already have a amount, what is the purpose of having a quantity as well
 
@@ -977,7 +987,7 @@ class account_sie(models.TransientModel):
         # problem is that we don't know if that has happened or not.
         # Checking if account move is balanced.
         opposite_account = self.env['account.account'].search(
-            [("company_id", '=', self.company_id.id), ('code', '=', '1930')])
+            [("company_ids", 'in', [self.company_id.id]), ('code', '=', '1930')])
         move_balance = 0
         if ib_move_id:
             for line in ib_move_id.line_ids:

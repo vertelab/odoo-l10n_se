@@ -82,7 +82,7 @@
        </page>
        <page string="Rader">
         <field name="line_ids" nolabel="1">
-         <tree create="0" delete="0" edit="0" editable="top">
+         <list create="0" delete="0" edit="0" editable="top">
           <!-- RIGHT ALIGN
                                              https://www.odoo.com/es_ES/forum/ayuda-1/question/right-align-labels-in-tree-view-v7-for-some-fields-numeric-fields-18989 -->
           <field name="pc_name"/>
@@ -91,7 +91,7 @@
           <field name="pc_triangulation"/>
           <field name="pc_services_supplied"/>
           <button class="oe_highlight" help="Show Invoice Lines" icon="fa-level-up" name="show_invoice_lines" type="object"/>
-         </tree></field>
+         </list></field>
        </page>
       </notebook>
      </sheet>
@@ -143,13 +143,13 @@
    <field name="name">account.vat.declaration.tree</field>
    <field name="model">account.vat.declaration</field>
    <field name="arch" type="xml">
-    <tree string="Periodisk sammanställning">
+    <list string="Periodisk sammanställning">
      <field name="name"/>
      <field name="date"/>
      <field name="fiscalyear_id"/>
      <field name="period_start"/>
      <field name="state"/>
-    </tree></field>
+    </list></field>
   </record>
   <record id="view_moms_calendar" model="ir.ui.view">
    <field name="name">account.vat.declaration.cal</field>
@@ -169,7 +169,7 @@
    <!--
             <field name="view_type">form</field>
 -->
-   <field name="view_mode">tree,form,calendar</field>
+   <field name="view_mode">list,form,calendar</field>
    <field name="search_view_id" ref="view_moms_filter"/>
   </record>
   <menuitem action="action_account_periodic_compilation" id="menu_report_periodic_compilation" name="Periodic Compilation" parent="menu_report_authorities"/>
@@ -198,9 +198,9 @@
       </group>
       <notebook>
        <page string="Move Lines">
-        <tree>
+        <list>
          <field name="move_line_ids"/>
-        </tree>
+        </list>
        </page>
       </notebook>
      </sheet>
@@ -218,7 +218,7 @@
    <field name="name">account.move.line.tree</field>
    <field name="model">account.move.line</field>
    <field name="arch" type="xml">
-    <tree string="Invoice Line">
+    <list string="Invoice Line">
      <field name="name"/>
      <field name="pc_vat"/>
      <!--
@@ -234,7 +234,7 @@
                     -->
      <field name="price_subtotal"/>
      <field invisible="1" name="currency_id"/>
-    </tree></field>
+    </list></field>
   </record>
   <record id="action_invoice_line" model="ir.actions.act_window">
    <field name="name">Invoice Lines</field>
@@ -242,7 +242,7 @@
    <!--
             <field name="view_type">form</field>
 -->
-   <field name="view_mode">tree,form</field>
+   <field name="view_mode">list,form</field>
    <field name="view_id" ref="view_move_line_tree"/>
   </record>
  </data>

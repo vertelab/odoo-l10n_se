@@ -300,7 +300,7 @@ class ImportBolagsverketReports(models.TransientModel):
             'name': _('Financial Report Lines'),
             'type': 'ir.actions.act_window',
             'res_model': 'account.financial.report',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'view_type': 'form',
             'res_id': self.env.ref('account.action_account_financial_report_tree').id,
             'limit': 2000,

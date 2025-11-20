@@ -132,10 +132,10 @@
                 </group>
                 <group string="Configure Serie To Journal">
                     <field name="serie_to_journal_ids">
-                        <tree editable="bottom">
+                        <list editable="bottom">
                             <field name="name"/>
                             <field name="journal_id"/>
-                        </tree>
+                        </list>
                     </field>
                 </group>
               <field name="show_account_lines" invisible="1"/>
@@ -147,14 +147,14 @@
                 </group>-->
                 <field name="account_line_ids">
 
-                        <tree editable="bottom">
+                        <list editable="bottom">
                                         <field name="checked"/>
                                         <field name="code"/>
                                         <field name="name"/>
                                         <field name="account_type"/>
                                         <field name="reconcile"/>
                                         <field name="parent_id"/>
-                                    </tree>
+                                    </list>
                 </field>
                 <button string="Create Accounts" name="create_accounts" type="object" class="oe_highlight"/>
                 <button string="Get Missing Accounts" name="get_missing_accounts" type="object" class="oe_highlight" style="margin-left:10px;"/>

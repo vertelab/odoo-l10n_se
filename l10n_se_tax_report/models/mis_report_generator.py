@@ -297,12 +297,9 @@ class account_vat_declaration(models.Model):
         xml_byte_string = xml.encode('ISO-8859-1')
         self.eskd_file_mis = base64.b64encode(xml_byte_string)
         
-    def  show_mis_report(self):
-        action_context = dict(self.env.context)
-        allowed_keys = {'lang', 'tz', 'uid', 'allowed_company_ids'}
-        action_context = {k: v for k, v in self.env.context.items() if k in allowed_keys}
-        return self.generated_mis_report_id.with_context({}).preview()
-
+    def show_mis_report(self):
+        action_context = {'active_id': self.generated_mis_report_id.id, 'active_model': self.generated_mis_report_id._name}
+        return self.generated_mis_report_id.with_context(action_context).preview()
 
     # ~ @api.multi
     def get_move_line_recordset(self, row_kpi_names):
