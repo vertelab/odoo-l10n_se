@@ -26,18 +26,19 @@ class account_vat_declaration(models.Model):
                 decl.generated_mis_report_id.period_ids.write({'manual_date_from':decl.date_start})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_to':decl.date_stop})
                 decl.generated_mis_report_id.write({'target_move':decl.target_move})
-                if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
-                        decl.generated_mis_report_id.write({'company_id':decl.company_id})
-                else:
-                        pass
+                ##Faktura vs kontant method betyder ifall man tar fakturor som är betalda eller inte.
+                ##Det är betalningens datums som ska användas istället.
+                ##Behöver återimplementeras på något sätt.
+                #if decl.accounting_yearend:#Om det är bokslutsperiod så är det vara faktura metoden som används.
+                #        decl.generated_mis_report_id.write({'company_id':decl.company_id})
+                #else:
+                #        pass
                         #decl.generated_mis_report_id.write({'accounting_method':decl.accounting_method})
                 
                 matrix = decl.generated_mis_report_id._compute_matrix()
                 vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
-                    # ~ _logger.debug("jakmar name: {} val: {}".format(row.kpi.name,vals[0]))
-                    # ~ _logger.info('jakmar name: {} value: {}'.format(row.kpi.name,vals[0]))
                     if row.kpi.name == 'MomsIngAvdr':
                         decl.vat_momsingavdr = vals[0]
                     if row.kpi.name in vat_momsutg_list_names:
@@ -68,13 +69,9 @@ class account_vat_declaration(models.Model):
         if not moms_journal:
             raise Warning('Konfigurera din momsdeklaration journal!, den behöver heta Momsjournal, vara av typen general/diverse, ha MOMS som code')
         else:
-            # ~ moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
             momsskuld = moms_journal.default_credit_account_id
             momsfordran = moms_journal.default_debit_account_id
             skattekonto = self.env['account.account'].search([('company_ids','in',[self.company_id.id]),('code', '=', '1630')])
-            _logger.warning(f"{momsskuld=}")
-            _logger.warning(f"{momsfordran=}")
-            _logger.warning(f"{skattekonto=}")
             if momsskuld and momsfordran and skattekonto:
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
@@ -181,14 +178,9 @@ class account_vat_declaration(models.Model):
                             'credit': self.vat_momsbetala,
                             'move_id': entry.id,
                         }))
-                    # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                    # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
-                        # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
                         oresavrundning = self.env['account.account'].search([('company_id','=',self.company_id.id),('code', '=', '3740')])
                         oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
-                        # ~ test of öresavrundning.
-                        # ~ _logger.warning('<<<<< VALUES: oresavrundning = %s oresavrundning_amount = %s' % (oresavrundning, oresavrundning_amount))
                         move_line_list.append((0, 0, {
                             'name': oresavrundning.name,
                             'account_id': oresavrundning.id,
@@ -229,7 +221,6 @@ class account_vat_declaration(models.Model):
                 report_id = self.env.ref('l10n_se_mis.report_md').id,
                 target_move = target_move_param,
                 name = "MIS Report:" + name_param,
-                #accounting_method = accounting_method_param,
                 company_id = company_id.id,
                 period_ids=[
                     (
