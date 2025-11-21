@@ -41,6 +41,8 @@
     },
     'data': [
         'data/mis_financial_report.xml',
+        'data/rr_financial_report.xml',
+        'data/br_financial_report.xml',
     ],
     'installable': 'True',
     'application': 'False',
