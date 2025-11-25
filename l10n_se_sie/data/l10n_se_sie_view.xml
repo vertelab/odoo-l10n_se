@@ -126,25 +126,26 @@
               <group rowspan="4" string="File to upload">
                 <field name="data" />
               </group>
+              
+              <group string="Balance Posts">
+                    <field name="create_balance_posts"/>
+                    <field name="balance_journal_id" required="1" invisible="create_balance_posts == False"/>
+              </group>
+              
               <group string="Choose a journal">
                     <field name="move_journal_id"/>
                     <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                 </group>
-                <group string="Configure Serie To Journal">
+                <group string="Configure Serie To Journal" invisible="move_journal_id != False">
                     <field name="serie_to_journal_ids">
                         <list editable="bottom">
                             <field name="name"/>
-                            <field name="journal_id"/>
+                            <field name="journal_id" required="1" />
                         </list>
                     </field>
                 </group>
               <field name="show_account_lines" invisible="1"/>
               <div>
-                <!--<group string="Import Accounts">
-                  <field name="accounts_type"/>
-                  <field name="accounts_user_type"/>
-                  <field name="accounts_parent_id"/>
-                </group>-->
                 <field name="account_line_ids">
 
                         <list editable="bottom">
@@ -157,7 +158,7 @@
                                     </list>
                 </field>
                 <button string="Create Accounts" name="create_accounts" type="object" class="oe_highlight"/>
-                <button string="Get Missing Accounts" name="get_missing_accounts" type="object" class="oe_highlight" style="margin-left:10px;"/>
+                <button string="Get Missing Accounts" name="get_missing_accounts_series" type="object" class="oe_highlight" style="margin-left:10px;"/>
               </div>
             </page>
           </notebook>

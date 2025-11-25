@@ -41,7 +41,7 @@ class account_account(models.Model):
         _logger.warning(f"export_sie {ver_ids}")
         return self.env['account.sie'].export_sie(ver_ids)
         
-    def check__missing_accounts(self,accounts):
+    def check_missing_accounts(self,accounts):
         missing = []
         for account in accounts:
             if len(self.env['account.account'].search([('code', '=', account[0])])) == 0:
@@ -86,8 +86,8 @@ class account_journal(models.Model):
         ver_ids = self.env['account.move'].search([('journal_id', 'in', self.ids)])
         _logger.warning("account journal export sie")
         return self.env['account.sie'].export_sie(ver_ids)
+    
         
-
 
 class serie_to_journal(models.Model):
     _name = 'serie.to.journal'
