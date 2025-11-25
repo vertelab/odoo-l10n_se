@@ -75,6 +75,7 @@ class account_fiscalyear(models.Model):
 
 class account_journal(models.Model):
     _inherit = 'account.journal'
+    serie_to_journal_ids = fields.One2many('serie.to.journal', 'journal_id', string='Series to Journal')
 
     # FIX FORM ON CLICK
     def send_form(self):
@@ -85,6 +86,16 @@ class account_journal(models.Model):
         ver_ids = self.env['account.move'].search([('journal_id', 'in', self.ids)])
         _logger.warning("account journal export sie")
         return self.env['account.sie'].export_sie(ver_ids)
+        
+
+
+class serie_to_journal(models.Model):
+    _name = 'serie.to.journal'
+
+    name = fields.Char(string="Serie")
+    journal_id = fields.Many2one(comodel_name="account.journal", string="Journal",
+                                 help="Used to set journal based on Serie of #VER", )
+
 
 
 class account_move(models.Model):

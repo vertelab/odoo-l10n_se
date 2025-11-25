@@ -99,7 +99,6 @@ class account_sie(models.TransientModel):
                                          domain=_set_period_fiscal_domain)
     #### 
 
-    serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal')
     date_start = fields.Date(string="Date interval")
     date_stop = fields.Date(string="Stop Date")
     period_ids = fields.Many2many(comodel_name="account.period",
@@ -126,7 +125,23 @@ class account_sie(models.TransientModel):
     move_journal_id = fields.Many2one(comodel_name="account.journal", string="Journal",
                                       help="All imported account.moves will get this journal",
                                       domain=_set_period_fiscal_domain)
-    company_id = fields.Many2one('res.company', related='move_journal_id.company_id')
+                                      
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
+    serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal',compute='_compute_serie_to_journal_ids', store=True)
+    
+    @api.depends('company_id')
+    def _compute_serie_to_journal_ids(self):
+        for record in self:
+            related_series = self.env['serie.to.journal'].search([
+                ('company_id', '=', record.company_id.id)
+            ])
+            for series in related_series:
+                self.env['account.sie.serie.to.journal'].create({
+                "name":series.name,
+                "journal_id":series.journal_id,
+                "sie_export":record.id,
+                })
+    
     #company_id = fields.Many2one('res.company')
     accounts_type = fields.Selection(
         selection=[
@@ -844,7 +859,8 @@ class account_sie(models.TransientModel):
                 move_journal_id = self.move_journal_id.id
 
                 serie_to_journal_lines = self.serie_to_journal_ids.filtered(lambda x: x.name == line.get(1))
-
+                _logger.warning(f"series to journal {line.get(1)=}")
+                raise UserError("Test")
                 if len(serie_to_journal_lines) > 1:
                     serie_to_journal_lines_warning = "There are two lines the same series.\n"
                     for serie_to_journal_line in serie_to_journal_lines:
@@ -854,10 +870,10 @@ class account_sie(models.TransientModel):
 
                 elif len(serie_to_journal_lines) == 1:
                     move_journal_id = serie_to_journal_lines.journal_id.id
-
+                
                 ver_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
-                    'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date,
-                                                                                     company_id=self.company_id.id).id,
+                    # ~ 'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date,
+                                                                                     # ~ company_id=self.company_id.id).id,
                     'journal_id': move_journal_id,
                     'date': list_date[0:4] + '-' + list_date[4:6] + '-' + list_date[6:],
                     'ref': list_ref,
@@ -954,7 +970,7 @@ class account_sie(models.TransientModel):
                      ("company_id", '=', self.company_id.id),
                      ('special', '=', True)]).id
                 ib_account = self.env['account.account'].search(
-                    [('code', '=', line.get(2)), ("company_ids", 'in', [self.company_ids])])
+                    [('code', '=', line.get(2)), ("company_ids", 'in', [self.company_id.id])])
                 ib_amount = line.get(3)
                 ib_qnt = line.get(4)  # We already have a amount, what is the purpose of having a quantity as well
 

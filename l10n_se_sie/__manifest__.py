@@ -41,6 +41,7 @@
     'data': [
 		'data/l10n_se_sie_view.xml',
                 'views/account_view.xml',
+                'views/account_journal_view.xml',
                 'data/l10n_se_sie_data.xml',
                 'security/ir.model.access.csv',
     ],
