@@ -67,6 +67,9 @@ class account_sie_account(models.TransientModel):
 
 class account_sie(models.TransientModel):
     _name = 'account.sie'
+
+class account_sie(models.TransientModel):
+    _name = 'account.sie'
     _description = 'SIE Import Wizard'
 
     ####
@@ -142,19 +145,20 @@ class account_sie(models.TransientModel):
         
     @api.depends('company_id')
     def _compute_serie_to_journal_ids(self):
-        for record in self:
             related_series = self.env['serie.to.journal'].search([
-                ('journal_id.company_id', '=', record.company_id.id)
+                ('journal_id.company_id', '=', self.company_id.id)
             ])
-            _logger.warning(f"{record.company_id.id=}")
+            _logger.warning(f"{self.company_id.id=}")
             _logger.warning(f"{related_series=}")
+            vals = []
             for series in related_series:
-                res = self.env['account.sie.serie.to.journal'].create({
+                val = (0,0,{
                 "name":series.name,
                 "journal_id":series.journal_id.id,
-                "sie_export":record.id,
+                "sie_export":self.id,
                 })
-                _logger.warning(f"{res=}")
+                vals.append(val)
+            self.serie_to_journal_ids = vals
     
     #company_id = fields.Many2one('res.company')
     accounts_type = fields.Selection(
@@ -776,7 +780,7 @@ class account_sie(models.TransientModel):
                     self.env['account.period'].search([], limit=1).find(
                         dt=dt,
                         company_id=self.company_id.id)  # The find method has self.ensure_one, which is why i find one record.
-                except RedirectWarning:
+                except UserError:
                     _logger.warning(f"{line[3]=}")
                     if not missing_period:
                         missing_period = [dt, dt]
@@ -823,8 +827,6 @@ class account_sie(models.TransientModel):
                         move_journal_id = serie_to_journal_lines.journal_id.id
                     
                 ver_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
-                    # ~ 'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date,
-                                                                                     # ~ company_id=self.company_id.id).id,
                     'journal_id': move_journal_id,
                     'date': list_date[0:4] + '-' + list_date[4:6] + '-' + list_date[6:],
                     'ref': list_ref,
@@ -849,23 +851,13 @@ class account_sie(models.TransientModel):
                         code = self.env['account.account'].search(
                             [('code', '=', trans_code), ("company_ids", 'in', [self.company_id.id])],
                             limit=1)
-                        #if code.user_type_id.report_type == 'income':
-                        #    journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
-                        #elif code.user_type_id.id == self.env.ref(
-                        #        'account.data_account_type_liquidity').id:  # changed from data_account_type_bank to data_account_type_liquidity
-                        #    journal_types.append('bank')
-                        #elif code.user_type_id.id == self.env.ref(
-                        #        'account.data_account_type_liquidity').id:  # changed from data_account_type_bank to data_account_type_liquidity
-                        #    journal_types.append('cash')
-                        #elif code.user_type_id.report_type in ['asset', 'expense']:
-                        #    journal_types.append('purchase' and float(trans_balance) > 0.0 or 'purchase_refund')
 
-                        period_id = self.env['account.period'].search(
-                            [], limit=1
-                        ).find(dt=list_date, company_id=self.company_id.id).id
-                        _logger.debug(
-                            '\n account_id :%s\n balance: %s\n period_id: %s' % (code, trans_balance, period_id)
-                        )
+                        # period_id = self.env['account.period'].search(
+                        #     [], limit=1
+                        # ).find(dt=list_date, company_id=self.company_id.id).id
+                        # _logger.debug(
+                        #     '\n account_id :%s\n balance: %s\n period_id: %s' % (code, trans_balance, period_id)
+                        # )
 
                         if trans_date and trans_date != "Empty Citation":
                             formated_date = trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:]

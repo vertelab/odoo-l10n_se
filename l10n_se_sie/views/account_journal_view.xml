@@ -12,7 +12,7 @@
                         <field name="serie_to_journal_ids">
                             <list editable="bottom">
                                 <field name="name"/>
-                                <field name="journal_id"/>
+<!--                                <field name="journal_id"/>-->
                             </list>
                         </field>
                     </group>
