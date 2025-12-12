@@ -20,35 +20,32 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: SIE-import',
+    'name': 'l10n_se: Sweden Kommun - Accounting',
     'version': '1.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
-    'summary': 'Module for importing SIE-files',
-    'category': 'Accounting',
-    'description': """
-        The module adds support for importing and reading SIE-files (.se-files)
-    """,
-	 #'sequence': '1',
-	'author': 'Vertel AB',
-	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_sie',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'summary': 'Sweden Kommun - Chart of accounts',
+    'category': 'Accounting/Localizations/Account Charts',
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_kommun',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'depends': ['account_period_vrtl', 'l10n_se'],
-    'data': [
-		'data/l10n_se_sie_view.xml',
-                'views/account_view.xml',
-                'views/account_journal_view.xml',
-                'data/l10n_se_sie_data.xml',
-                'security/ir.model.access.csv',
-    ],
-  
-    # 'demo': ['l10n_se_sie_demo.xml'],
+    'images': ['static/description/banner.png'],  # 560x280 px.
+    'description': """
+        Sweden Kommun- Chart of accounts
 
+        * Kommun BAS 2025 (Chart of account, rules from SKV-283 v16)
+        * Tax-codes from SKV-4700 r1-49  SKV-409
+
+        Next step is to choose a chart_of_accounts and that can be done in the settings meny but you need to check "Show Full Accounting Features" on you current user.
+     """,
+    'depends': ['account', 'l10n_se'],
+    'init_xml': [],
+    'data': [
+        'data/custom_address_formats.xml',
+    ],
     'installable': 'True',
     'application': 'False',
+    'auto_install': True
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,34 +20,30 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: SIE-import',
+    'name': 'l10n_se: Svenska Kommun MIS-reports',
     'version': '1.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
-    'summary': 'Module for importing SIE-files',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'Svenska Kommun MIS-reports',
     'category': 'Accounting',
     'description': """
-        The module adds support for importing and reading SIE-files (.se-files)
+        Innehåller rapportsmallar för balance och resultat.  
     """,
-	 #'sequence': '1',
-	'author': 'Vertel AB',
-	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_sie',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'depends': ['account_period_vrtl', 'l10n_se'],
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'depends': ['mis_builder', 'mis_builder_budget'],
+    'external_dependencies': {
+        'python': ['xlrd'],
+    },
     'data': [
-		'data/l10n_se_sie_view.xml',
-                'views/account_view.xml',
-                'views/account_journal_view.xml',
-                'data/l10n_se_sie_data.xml',
-                'security/ir.model.access.csv',
+        'data/mis_financial_report.xml',
+        'data/rr_financial_report.xml',
+        'data/br_financial_report.xml',
     ],
-  
-    # 'demo': ['l10n_se_sie_demo.xml'],
-
     'installable': 'True',
     'application': 'False',
 }

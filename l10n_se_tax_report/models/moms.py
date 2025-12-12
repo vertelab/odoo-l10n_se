@@ -280,12 +280,6 @@ class account_declaration(models.Model):
 
     @api.model
     def create(self, vals):
-        # ~ if vals.get('period_stop'):
-        # ~ if vals.get('period_start') != vals.get('period_stop'):
-        # ~ vals['name'] = '%s %s - %s' % (self._report_name,self.env['account.period'].period2month(vals.get('period_start')),self.env['account.period'].period2month(vals.get('period_stop')))
-        # ~ else:
-        # ~ vals['name'] = '%s %s' % (self._report_name,self.env['account.period'].period2month(vals.get('period_start')))
-        # ~ vals['accounting_yearend'] = (self.env['account.period'].browse(vals['period_stop']) == self.env['account.fiscalyear'].browse(vals.get('fiscalyear_id')).period_ids[-1] if vals.get('fiscalyear_id') else None)
         res = super(account_declaration, self).create(vals)
         if vals.get('date'):
             res.create_event()
@@ -370,42 +364,3 @@ class account_move(models.Model):
     full_reconcile_id = fields.Many2one(comodel_name='account.full.reconcile')
     year_end_move = fields.Boolean(string='Year End Move', default=False)
 
-    @api.model
-    def get_movelines_depricated(self):
-        period_start = self._context.get('period_start', self._context.get('period_id'))
-        period_stop = self._context.get('period_stop', period_start)
-        # date_start / date_stop
-        domain = [('period_id', 'in', self.env['account.period'].get_period_ids(period_start, period_stop))]
-        if self._context.get('target_move') and self._context.get('target_move') in ['draft', 'posted']:
-            domain.append(tuple(('state', '=', self._context.get('target_move'))))
-        if self._context.get('accounting_method', 'invoice') == 'invoice':
-            # fakturametoden
-            lines = self.env['account.move'].search(domain).mapped('line_ids')
-        else:
-            # bokslutsmetoden / kontantmetoden
-            # TODO:första perioden, betalningar som gäller fodringar som gäller föregående år skall inte ingå.
-            moves = self.env['account.move'].search(domain)
-            if self._context.get('accounting_yearend'):
-                lines = moves.filtered(lambda m: any([l.full_reconcile_id for l in m.line_ids])).mapped(
-                    'line_ids').mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id').mapped(
-                    'line_ids') | moves.filtered(lambda m: all([not l.full_reconcile_id for l in m.line_ids])).mapped(
-                    'line_ids')
-                for move in moves:
-                    move.year_end_move = True
-            else:
-                moves_19 = self.env['account.move'].search(domain).mapped('line_ids').filtered(
-                    lambda l: l.account_id.code[:2] in ['19', '28']).mapped('move_id')
-                # ~ raise Warning(moves_19.mapped('name'))
-                reconciled_lines = moves_19.mapped('line_ids').mapped('full_reconcile_id').mapped(
-                    'reconciled_line_ids').mapped('move_id').filtered(
-                    lambda m: m.year_end_move == False and m.period_id.date_start <= self.env['account.period'].browse(
-                        period_stop).date_start).mapped(
-                    'line_ids')  # Alla 19x account.line 1804/06 -> account.move -> A-id -> account.line -> account.tax utom betalningar i framtiden
-                lines = reconciled_lines | moves_19.mapped('line_ids').filtered(
-                    lambda l: l.tax_ids != False)  # Alla 19x account.move.line med tax_line_id
-
-        return lines
-
-    @api.model
-    def get_move_depricated(self):
-        return self.get_movelines().mapped('move_id')

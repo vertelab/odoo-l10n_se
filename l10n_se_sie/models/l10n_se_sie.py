@@ -67,6 +67,9 @@ class account_sie_account(models.TransientModel):
 
 class account_sie(models.TransientModel):
     _name = 'account.sie'
+
+class account_sie(models.TransientModel):
+    _name = 'account.sie'
     _description = 'SIE Import Wizard'
 
     ####
@@ -99,7 +102,6 @@ class account_sie(models.TransientModel):
                                          domain=_set_period_fiscal_domain)
     #### 
 
-    serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal')
     date_start = fields.Date(string="Date interval")
     date_stop = fields.Date(string="Stop Date")
     period_ids = fields.Many2many(comodel_name="account.period",
@@ -126,7 +128,38 @@ class account_sie(models.TransientModel):
     move_journal_id = fields.Many2one(comodel_name="account.journal", string="Journal",
                                       help="All imported account.moves will get this journal",
                                       domain=_set_period_fiscal_domain)
-    company_id = fields.Many2one('res.company', related='move_journal_id.company_id')
+                                      
+    create_balance_posts = fields.Boolean()
+    balance_journal_id = fields.Many2one(comodel_name="account.journal", string="Balance Post Journal",
+                                      help="All imported account.moves will get this journal",
+                                      domain=_set_period_fiscal_domain)
+                                      
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
+    serie_to_journal_ids = fields.One2many('account.sie.serie.to.journal', 'sie_export', string='Series to Journal',compute='_compute_serie_to_journal_ids', store=True, readonly=False)
+    
+    @api.model_create_multi
+    def create(self, vals_list):
+        wizard = super().create(vals_list)
+        wizard._compute_serie_to_journal_ids()
+        return wizard
+        
+    @api.depends('company_id')
+    def _compute_serie_to_journal_ids(self):
+            related_series = self.env['serie.to.journal'].search([
+                ('journal_id.company_id', '=', self.company_id.id)
+            ])
+            _logger.warning(f"{self.company_id.id=}")
+            _logger.warning(f"{related_series=}")
+            vals = []
+            for series in related_series:
+                val = (0,0,{
+                "name":series.name,
+                "journal_id":series.journal_id.id,
+                "sie_export":self.id,
+                })
+                vals.append(val)
+            self.serie_to_journal_ids = vals
+    
     #company_id = fields.Many2one('res.company')
     accounts_type = fields.Selection(
         selection=[
@@ -153,27 +186,12 @@ class account_sie(models.TransientModel):
         required=True,
         default="asset_fixed",
     )
-    #accounts_type = fields.Selection(selection=[
-    #    ('view', 'View'),
-    #    ('other', 'Regular'),
-    #    ('receivable', 'Receivable'),
-    #    ('payable', 'Payable'),
-    #    ('liquidity', 'Liquidity'),
-    #    ('consolidation', 'Consolidation'),
-    #    ('closed', 'Closed'),
-    #], string='Internal Type', help="The 'Internal Type' is used for features available on " \
-    #                                "different types of accounts: view can not have journal items, consolidation are accounts that " \
-    #                                "can have children accounts for multi-company consolidations, payable/receivable are for " \
-    #                                "partners accounts (for debit/credit computations), closed for depreciated accounts.")
-    #accounts_user_type = fields.Many2one('account.account.type', 'Account Type',
-    #                                     help="Account Type is used for information purpose, to generate "
-    #                                          "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
+
     accounts_parent_id = fields.Many2one(comodel_name='account.account', string='Parent',
                                          domain=[('type', '=', 'view')])
 
     def _get_rar_code(self, fiscalyear):
     
-        # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscalyear to return.
         all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
                                                                  order='date_start ASC')
         current_fiscalyear_index = next(
@@ -184,15 +202,6 @@ class account_sie(models.TransientModel):
             (index for index, fy in enumerate(all_fiscal_years) if fy.id == fiscalyear.id), 0)        
         rar_code = fy_index - current_fiscalyear_index 
         return rar_code
-        
-        
-        # ~ self.ensure_one()
-        # ~ i = 0
-        # ~ for year in self.fiscalyear_ids.sorted(lambda r: r.date_start, reverse=False):
-            # ~ if fy == year:
-                # ~ return i
-            # ~ i += 1
-        # ~ return i
         
     def _data(self):
         self.sie_file = self.data
@@ -215,26 +224,38 @@ class account_sie(models.TransientModel):
         data = self.read_file(text_list)
         # ~ _logger.warning(data)
         return data
+        
+    def check_missing_series(self,series):
+        missing = []
+        for serie in series:
+            if len(self.env['account.sie.serie.to.journal'].search([('name', '=', serie),('sie_export','=',self.id)])) == 0:
+                missing.append(serie)
+        return list(set(missing))
 
-    def check_import_file(self, data=None, check_periods=True):
+    def check_import_file(self, data=None):
         self.ensure_one()
         if data or self.data:  # IMPORT TRIGGERED
             checked = True
             data = data or self.cleanse_with_fire(self.data)
             _logger.warning("check missing account")
-            missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
+            used_accounts, used_series = self._import_accounts_series(data)
+            missing_accounts = self.env['account.account'].check_missing_accounts(used_accounts)
+            
+            #If journal is set then we dont care about the series
+            missing_series = []
+            if not self.move_journal_id:
+               missing_series = self.check_missing_series(used_series)
+            if missing_series:
+               checked = False
+               
+            
             if len(missing_accounts) > 0:
-                # ~ for account in missing_accounts:
-                # ~ self.account_line_ids |= self.env['account.sie.account'].create({
-                # ~ 'name': account[1],
-                # ~ 'code': account[0],
-                # ~ })
                 checked = False
-            if check_periods:
-                missing_period = self._check_periods(data)
-                if missing_period:
-                    raise UserError("Missing period/fiscal year for %s - %s." % (missing_period[0], missing_period[1]))
-            return checked
+            if len(missing_series) > 0:
+                checked = False
+            missing_periods = self._check_periods(data)
+           
+            return checked, missing_accounts, missing_series, missing_periods
 
     def create_accounts(self):
         self.ensure_one()
@@ -304,7 +325,6 @@ class account_sie(models.TransientModel):
         last_line = None
         while i < len(text_list):
             _logger.debug(i)
-            _logger.warning(f"before {i=} {text_list[i]=}")
             if text_list[i] == '{':
                 _logger.debug('down')
                 l, i = self.read_file(text_list, i + 1)
@@ -313,123 +333,71 @@ class account_sie(models.TransientModel):
                 _logger.debug('up')
                 return res, i
             else:
-                _logger.warning(f"after {i=} {text_list[i]=}")
-
                 l = self.read_line(text_list[i])
-                _logger.warning(f"{l=}")
                 last_line = {}
                 for x in range(len(l)):
                     if x == 0:
                         last_line['label'] = l[x]
                     else:
                         last_line[x] = l[x]
-                _logger.warning(f"{last_line=}")
                 res.append(last_line)
             i += 1
         return res
 
-    def get_missing_accounts(self):
+    def get_missing_accounts_series(self):
         if self.data:
             data = self.cleanse_with_fire(self.data)
-
-            if not self.check_import_file(data):
-                _logger.warning("missing accounts")
-                missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
-                _logger.warning(f"{missing_accounts=}")
-                for account in missing_accounts:
-                    # print(account)
-                    # account type lookup
-                    # account_type = self.env['account.account.type']._account_type_lookup(code=account[0])
-                    # if not account_type:
-                    #     account_type = self.env.ref('account.data_account_type_fixed_assets')
-                    # print(account.account_type)
-
-                    # be_reconcilable = False
-                    # if account_type.type == "receivable" or account_type.type == "payable":
-                    #     be_reconcilable = True
-
-                    # check if account line exist
-                    sie_account_id = self.env['account.sie.account'].search([
-                        ('code', '=', account[0]), ('wizard_id', '=', self.id)
-                    ], limit=1)
-                    if not sie_account_id:
-                        self.write({
-                            'account_line_ids': [
-                                (0, 0, {
-                                    'code': account[0], 'name': account[1],
-                                    # 'user_type': account_type[0].id,
-                                    # "reconcile": be_reconcilable
-                                })
-                            ]
-                        })
-                    else:
-                        self.write({
-                            'account_line_ids': [
-                                (1, sie_account_id.id, {
-                                    'code': account[0], 'name': account[1],
-                                    # "reconcile": be_reconcilable
-                                })
-                            ]
+            _logger.warning("missing accounts")
+            missing_accounts = self.env['account.account'].check_missing_accounts(self._import_accounts_series(data)[0])
+            for account in missing_accounts:
+                sie_account_id = self.env['account.sie.account'].search([
+                    ('code', '=', account[0]), ('wizard_id', '=', self.id)
+                ], limit=1)
+                if not sie_account_id:
+                    self.write({
+                        'account_line_ids': [
+                            (0, 0, {
+                                'code': account[0], 'name': account[1],
+                                # 'user_type': account_type[0].id,
+                                # "reconcile": be_reconcilable
+                            })
+                        ]
+                    })
+                else:
+                    self.write({
+                        'account_line_ids': [
+                            (1, sie_account_id.id, {
+                                'code': account[0], 'name': account[1],
+                                # "reconcile": be_reconcilable
+                            })
+                        ]
                         })
 
-    def get_missing_accounts_depricated(self):
-        if self.data:
-            data = self.cleanse_with_fire(self.data)
-
-            if not self.check_import_file(data):
-                missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
-                for account in missing_accounts:
-                    # account type lookup
-                    account_type = self.env['account.account.type']._account_type_lookup(code=account[0])
-                    if not account_type:
-                        account_type = self.env.ref('account.data_account_type_fixed_assets')
-
-                    be_reconcilable = False
-                    if account_type.type == "receivable" or account_type.type == "payable":
-                        be_reconcilable = True
-
-                    # check if account line exist
-                    sie_account_id = self.env['account.sie.account'].search(
-                        [('code', '=', account[0]), ('wizard_id', '=', self.id)
-                         ], limit=1)
-                    if not sie_account_id:
-                        self.write({
-                            'account_line_ids': [
-                                (0, 0, {'code': account[0], 'name': account[1], 'user_type': account_type[0].id,
-                                        "reconcile": be_reconcilable})
-                            ]
-                        })
-                    else:
-                        self.write({
-                            'account_line_ids': [
-                                (1, sie_account_id.id,
-                                 {'code': account[0], 'name': account[1], "reconcile": be_reconcilable})
-                            ]
-                        })
 
     def send_form(self):
         self.ensure_one()
 
         if self.data:  # IMPORT TRIGGERED
-            if not self.move_journal_id:
-                raise UserError(f"Please select a journal")
             data = self.cleanse_with_fire(self.data)
-            if not self.check_import_file(data):
-                missing_accounts = self.env['account.account'].check__missing_accounts(self._import_accounts(data))
+            if self.create_balance_posts and not self.balance_journal_id:
+                raise UserError("Please Select a journal for balance posts")
+                
+            for serie_line in self.serie_to_journal_ids:
+                if serie_line.name == False or serie_line.journal_id == False:
+                    raise UserError("Please set Serie and Journal on the Serie To Journal table")
+            checked, missing_accounts, missing_series, missing_periods = self.check_import_file(data)
+            _logger.warning(f"{checked=}, {missing_accounts=}, {missing_series=}")
+            if not checked:
                 formatstring = ""
-                for account in missing_accounts:
-                    formatstring += account[0] + ": " + account[1] + "\n"
-                    # self._create_missing_accounts(account[0], account[1])
-
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'title': "Missing Accounts",
-                        'message': "Some accounts are missing",
-                        'sticky': False,
-                    }
-                }
+                if missing_accounts:
+                    formatstring += "Missing Accounts \n"
+                    for account in missing_accounts:
+                        formatstring += account[0] + ": " + account[1] + "\n"
+                if missing_series:
+                    formatstring += "Missing Series \n"
+                    for missing_serie in missing_series:
+                        formatstring += missing_serie + "\n"
+                raise UserError(formatstring)
             ver_ids = self._import_ver(data)
             action = self.env['ir.actions.act_window']._for_xml_id('account.action_move_journal_line')
             action['res_ids'] = ver_ids
@@ -783,10 +751,13 @@ class account_sie(models.TransientModel):
             else:
                 tempString += string[s]
         return splitList
+        
 
-    def _import_accounts(self, data):
-        list_of_accounts = []
+    def _import_accounts_series(self, data):
+        #Just returns accounts used in file
+        #Just returns series in file
         accounts = []
+        series = []
         for line in data:
             if line['label'] == '#KONTO':
                 _logger.debug(line)
@@ -795,22 +766,21 @@ class account_sie(models.TransientModel):
                     accounts.append((line[1], ""))
                 else:
                     accounts.append((line[1], line[2]))
-        return accounts
+            if line['label'] == '#VER':
+                series.append(line[1])
+        return accounts,series
 
     def _check_periods(self, data):
         missing_period = []
-        _logger.warning(f"{data=}")
         for line in data:
             if line['label'] == '#VER':
                 dt = line.get(3)
                 try:
-                    _logger.warning(f"{line=}")
-                    _logger.warning(f"WHAT: {self.env['account.period'].search([], limit=1)}")
                     #self.env['account.period'].find(dt=line[3]) #Expected singleton
                     self.env['account.period'].search([], limit=1).find(
                         dt=dt,
                         company_id=self.company_id.id)  # The find method has self.ensure_one, which is why i find one record.
-                except RedirectWarning:
+                except UserError:
                     _logger.warning(f"{line[3]=}")
                     if not missing_period:
                         missing_period = [dt, dt]
@@ -841,23 +811,22 @@ class account_sie(models.TransientModel):
                 list_sign = line.get(5)  # sign
                 list_regdatum = line.get(5)  # created_date
 
-                move_journal_id = self.move_journal_id.id
+                move_journal_id = False
+                if self.move_journal_id:
+                   move_journal_id = self.move_journal_id.id
+                else:
+                    serie_to_journal_lines = self.serie_to_journal_ids.filtered(lambda x: x.name == line.get(1))
+                    if len(serie_to_journal_lines) > 1:
+                        serie_to_journal_lines_warning = "There are two lines the same series.\n"
+                        for serie_to_journal_line in serie_to_journal_lines:
+                            serie_to_journal_lines_warning += f"{serie_to_journal_line.name} = {serie_to_journal_line.journal_id.name} \n"
+                        serie_to_journal_lines_warning += "Please remove one of the lines."
+                        raise UserError(serie_to_journal_lines_warning)
 
-                serie_to_journal_lines = self.serie_to_journal_ids.filtered(lambda x: x.name == line.get(1))
-
-                if len(serie_to_journal_lines) > 1:
-                    serie_to_journal_lines_warning = "There are two lines the same series.\n"
-                    for serie_to_journal_line in serie_to_journal_lines:
-                        serie_to_journal_lines_warning += f"{serie_to_journal_line.name} = {serie_to_journal_line.journal_id.name} \n"
-                    serie_to_journal_lines_warning += "Please remove one of the lines."
-                    raise UserError(serie_to_journal_lines_warning)
-
-                elif len(serie_to_journal_lines) == 1:
-                    move_journal_id = serie_to_journal_lines.journal_id.id
-
+                    elif len(serie_to_journal_lines) == 1:
+                        move_journal_id = serie_to_journal_lines.journal_id.id
+                    
                 ver_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
-                    'period_id': self.env['account.period'].search([], limit=1).find(dt=list_date,
-                                                                                     company_id=self.company_id.id).id,
                     'journal_id': move_journal_id,
                     'date': list_date[0:4] + '-' + list_date[4:6] + '-' + list_date[6:],
                     'ref': list_ref,
@@ -882,23 +851,13 @@ class account_sie(models.TransientModel):
                         code = self.env['account.account'].search(
                             [('code', '=', trans_code), ("company_ids", 'in', [self.company_id.id])],
                             limit=1)
-                        #if code.user_type_id.report_type == 'income':
-                        #    journal_types.append('sale' and float(trans_balance) > 0.0 or 'sale_refund')
-                        #elif code.user_type_id.id == self.env.ref(
-                        #        'account.data_account_type_liquidity').id:  # changed from data_account_type_bank to data_account_type_liquidity
-                        #    journal_types.append('bank')
-                        #elif code.user_type_id.id == self.env.ref(
-                        #        'account.data_account_type_liquidity').id:  # changed from data_account_type_bank to data_account_type_liquidity
-                        #    journal_types.append('cash')
-                        #elif code.user_type_id.report_type in ['asset', 'expense']:
-                        #    journal_types.append('purchase' and float(trans_balance) > 0.0 or 'purchase_refund')
 
-                        period_id = self.env['account.period'].search(
-                            [], limit=1
-                        ).find(dt=list_date, company_id=self.company_id.id).id
-                        _logger.debug(
-                            '\n account_id :%s\n balance: %s\n period_id: %s' % (code, trans_balance, period_id)
-                        )
+                        # period_id = self.env['account.period'].search(
+                        #     [], limit=1
+                        # ).find(dt=list_date, company_id=self.company_id.id).id
+                        # _logger.debug(
+                        #     '\n account_id :%s\n balance: %s\n period_id: %s' % (code, trans_balance, period_id)
+                        # )
 
                         if trans_date and trans_date != "Empty Citation":
                             formated_date = trans_date[0:4] + '-' + trans_date[4:6] + '-' + trans_date[6:]
@@ -946,7 +905,7 @@ class account_sie(models.TransientModel):
                         if tax_line_id:
                             trans_id.tax_line_id = tax_line_id
 
-            elif line['label'] == '#IB':
+            elif line['label'] == '#IB' and self.create_balance_posts and self.balance_journal_id:#TODO
                 year_num = int(line.get(1))  # Opening period for current fiscal year
                 first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
                 period_id = self.env['account.period'].search(
@@ -954,11 +913,11 @@ class account_sie(models.TransientModel):
                      ("company_id", '=', self.company_id.id),
                      ('special', '=', True)]).id
                 ib_account = self.env['account.account'].search(
-                    [('code', '=', line.get(2)), ("company_ids", 'in', [self.company_ids])])
+                    [('code', '=', line.get(2)), ("company_ids", 'in', [self.company_id.id])])
                 ib_amount = line.get(3)
                 ib_qnt = line.get(4)  # We already have a amount, what is the purpose of having a quantity as well
 
-                ib_move_journal_id = self.move_journal_id.id
+                ib_move_journal_id = self.balance_journal_id.id
                 if not ib_move_id:
                     ib_move_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
                         'period_id': period_id,

@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Report Definition -->
+        <record id="report_br" model="mis.report">
+            <field name="name">Balansräkning</field>
+        </record>
+
+        <!-- ========== TILLGÅNGAR (ASSETS) ========== -->
+
+        <!-- A. Anläggningstillgångar -->
+        <record id="report_br_Anlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Anlaggningstillgangar</field>
+            <field name="description">A. Anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <!-- I. Immateriella anläggningstillgångar (10) -->
+        <record id="report_br_ImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">ImmateriellaAnlaggningstillgangar</field>
+            <field name="description">I. Immateriella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">2</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_ImmateriellaAnlaggningstillgangar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_ImmateriellaAnlaggningstillgangar"/>
+            <field name="name">bal[10%]</field>
+        </record>
+
+        <!-- II. Materiella anläggningstillgångar -->
+        <record id="report_br_MateriellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">MateriellaAnlaggningstillgangar</field>
+            <field name="description">II. Materiella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <!-- 1. Mark, byggnader och tekniska anläggningar (11) -->
+        <record id="report_br_MarkByggnader" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">MarkByggnader</field>
+            <field name="description">1. Mark, byggnader och tekniska anläggningar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">4</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_MarkByggnader" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_MarkByggnader"/>
+            <field name="name">bal[11%]</field>
+        </record>
+
+        <!-- 2. Maskiner och inventarier (12) -->
+        <record id="report_br_MaskinerInventarier" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">MaskinerInventarier</field>
+            <field name="description">2. Maskiner och inventarier</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">5</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_MaskinerInventarier" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_MaskinerInventarier"/>
+            <field name="name">bal[12%]</field>
+        </record>
+
+        <!-- 3. Övriga materiella anläggningstillgångar (-) -->
+        <record id="report_br_OvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">OvrigaMateriellaAnlaggningstillgangar</field>
+            <field name="description">3. Övriga materiella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">6</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_OvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_OvrigaMateriellaAnlaggningstillgangar"/>
+            <field name="name">bal[]</field>
+        </record>
+
+        <!-- III. Finansiella anläggningstillgångar (13 exl 139) -->
+        <record id="report_br_FinansiellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">FinansiellaAnlaggningstillgangar</field>
+            <field name="description">III. Finansiella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">7</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_FinansiellaAnlaggningstillgangar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_FinansiellaAnlaggningstillgangar"/>
+            <field name="name">bal[130%,131%,132%,133%,134%,135%,136%,137%,138%]</field>
+        </record>
+
+        <!-- Summa anläggningstillgångar -->
+        <record id="report_br_SummaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">SummaAnlaggningstillgangar</field>
+            <field name="description">Summa anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_5"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">8</field>
+        </record>
+
+        <record id="kpi_expr_report_br_SummaAnlaggningstillgangar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_SummaAnlaggningstillgangar"/>
+            <field name="name">ImmateriellaAnlaggningstillgangar + MarkByggnader + MaskinerInventarier + OvrigaMateriellaAnlaggningstillgangar + FinansiellaAnlaggningstillgangar</field>
+        </record>
+
+        <!-- B. Bidrag till infrastruktur (139) -->
+        <record id="report_br_BidragInfrastruktur" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">BidragInfrastruktur</field>
+            <field name="description">B. Bidrag till infrastruktur</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">9</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_BidragInfrastruktur" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_BidragInfrastruktur"/>
+            <field name="name">bal[139%]</field>
+        </record>
+
+        <!-- C. Omsättningstillgångar -->
+        <record id="report_br_Omsattningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Omsattningstillgangar</field>
+            <field name="description">C. Omsättningstillgångar</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- I. Förråd m.m. (14) -->
+        <record id="report_br_Forrad" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Forrad</field>
+            <field name="description">I. Förråd m.m.</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">11</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_Forrad" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_Forrad"/>
+            <field name="name">bal[14%]</field>
+        </record>
+
+        <!-- II. Fordringar (15-17) -->
+        <record id="report_br_Fordringar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Fordringar</field>
+            <field name="description">II. Fordringar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">12</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_Fordringar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_Fordringar"/>
+            <field name="name">bal[15%,16%,17%]</field>
+        </record>
+
+        <!-- III. Kortfristiga placeringar (18) -->
+        <record id="report_br_KortfristigaPlaceringar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">KortfristigaPlaceringar</field>
+            <field name="description">III. Kortfristiga placeringar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">13</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_KortfristigaPlaceringar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_KortfristigaPlaceringar"/>
+            <field name="name">bal[18%]</field>
+        </record>
+
+        <!-- IV. Kassa och bank (19) -->
+        <record id="report_br_KassaBank" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">KassaBank</field>
+            <field name="description">IV. Kassa och bank</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">14</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_KassaBank" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_KassaBank"/>
+            <field name="name">bal[19%]</field>
+        </record>
+
+        <!-- Summa omsättningstillgångar -->
+        <record id="report_br_SummaOmsattningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">SummaOmsattningstillgangar</field>
+            <field name="description">Summa omsättningstillgångar</field>
+            <field name="style_id" ref="report_style_5"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">15</field>
+        </record>
+
+        <record id="kpi_expr_report_br_SummaOmsattningstillgangar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_SummaOmsattningstillgangar"/>
+            <field name="name">Forrad + Fordringar + KortfristigaPlaceringar + KassaBank</field>
+        </record>
+
+        <!-- Summa tillgångar -->
+        <record id="report_br_SummaTillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">SummaTillgangar</field>
+            <field name="description">Summa tillgångar</field>
+            <field name="style_id" ref="report_style_3"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">16</field>
+        </record>
+
+        <record id="kpi_expr_report_br_SummaTillgangar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_SummaTillgangar"/>
+            <field name="name">SummaAnlaggningstillgangar + BidragInfrastruktur + SummaOmsattningstillgangar</field>
+        </record>
+
+        <!-- EGET KAPITAL, AVSÄTTNINGAR OCH SKULDER -->
+        <record id="report_br_EgetKapitalSkulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">EgetKapitalSkulder</field>
+            <field name="description">EGET KAPITAL, AVSÄTTNINGAR OCH SKULDER</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">17</field>
+        </record>
+
+        <!-- A. Eget kapital -->
+        <record id="report_br_EgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">EgetKapital</field>
+            <field name="description">A. Eget kapital</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">18</field>
+        </record>
+
+        <!-- I. Årets resultat (202) -->
+        <record id="report_br_AretsResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">AretsResultat</field>
+            <field name="description">I. Årets resultat</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">19</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_AretsResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_AretsResultat"/>
+            <field name="name">bal[202%]</field>
+        </record>
+
+        <!-- II. Resultatutjämningsreserv -->
+        <record id="report_br_Resultatutjamningsreserv" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Resultatutjamningsreserv</field>
+            <field name="description">II. Resultatutjämningsreserv</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">20</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_Resultatutjamningsreserv" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_Resultatutjamningsreserv"/>
+            <field name="name">bal[]</field>
+        </record>
+
+        <!-- III. Övrigt eget kapital -->
+        <record id="report_br_OvrigtEgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">OvrigtEgetKapital</field>
+            <field name="description">III. Övrigt eget kapital</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">21</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_OvrigtEgetKapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_OvrigtEgetKapital"/>
+            <field name="name">bal[20%] - bal[202%]</field>
+        </record>
+
+        <!-- Summa eget kapital -->
+        <record id="report_br_SummaEgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">SummaEgetKapital</field>
+            <field name="description">Summa eget kapital</field>
+            <field name="style_id" ref="report_style_5"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">22</field>
+        </record>
+
+        <record id="kpi_expr_report_br_SummaEgetKapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_SummaEgetKapital"/>
+            <field name="name">AretsResultat + Resultatutjamningsreserv + OvrigtEgetKapital</field>
+        </record>
+
+        <!-- B. Avsättningar -->
+        <record id="report_br_Avsattningar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Avsattningar</field>
+            <field name="description">B. Avsättningar</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">23</field>
+        </record>
+
+        <!-- I. Avsättningar för pensioner och liknande förplikt (221-222/225) -->
+        <record id="report_br_AvsattningarPensioner" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">AvsattningarPensioner</field>
+            <field name="description">I. Avsättningar för pensioner och liknande förplikt</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">24</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_AvsattningarPensioner" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_AvsattningarPensioner"/>
+            <field name="name">bal[221%,222%,225%]</field>
+        </record>
+
+        <!-- II. Andra avsättningar (228) -->
+        <record id="report_br_AndraAvsattningar" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">AndraAvsattningar</field>
+            <field name="description">II. Andra avsättningar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">25</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_AndraAvsattningar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_AndraAvsattningar"/>
+            <field name="name">bal[228%]</field>
+        </record>
+
+        <!-- C. Skulder -->
+        <record id="report_br_Skulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Skulder</field>
+            <field name="description">C. Skulder</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">26</field>
+        </record>
+
+        <!-- I. Långfristiga skulder (23) -->
+        <record id="report_br_LangfristigaSkulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">LangfristigaSkulder</field>
+            <field name="description">I. Långfristiga skulder</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">27</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_LangfristigaSkulder" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_LangfristigaSkulder"/>
+            <field name="name">bal[23%]</field>
+        </record>
+
+        <!-- II. Kortfristiga skulder (24-29) -->
+        <record id="report_br_KortfristigaSkulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">KortfristigaSkulder</field>
+            <field name="description">II. Kortfristiga skulder</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">28</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_br_KortfristigaSkulder" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_KortfristigaSkulder"/>
+            <field name="name">bal[24%,25%,26%,27%,28%,29%]</field>
+        </record>
+
+        <!-- Summa eget kapital, avsättningar och skulder -->
+        <record id="report_br_SummaEgetKapitalAvsattningarSkulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">SummaEgetKapitalAvsattningarSkulder</field>
+            <field name="description">Summa eget kapital, avsättningar och skulder</field>
+            <field name="style_id" ref="report_style_3"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">29</field>
+        </record>
+
+        <record id="kpi_expr_report_br_SummaEgetKapitalAvsattningarSkulder" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_SummaEgetKapitalAvsattningarSkulder"/>
+            <field name="name">SummaEgetKapital + AvsattningarPensioner + AndraAvsattningar + LangfristigaSkulder + KortfristigaSkulder</field>
+        </record>
+
+        <!-- PANTER OCH ANSVARSFÖRBINDELSER -->
+        <record id="report_br_Panter" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Panter</field>
+            <field name="description">PANTER OCH ANSVARSFÖRBINDELSER</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Leasing -->
+        <record id="report_br_Leasing" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">Leasing</field>
+            <field name="description">Leasing</field>
+            <field name="style_id" ref="report_style_4"/>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+            <field name="sequence">31</field>
+        </record>
+
+    </data>
+</odoo>
