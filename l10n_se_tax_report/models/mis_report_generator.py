@@ -8,8 +8,10 @@ _logger = logging.getLogger(__name__)
 
 class account_vat_declaration(models.Model):
     _inherit = 'account.vat.declaration'
+
     eskd_file_mis = fields.Binary(string="eSKD-file",readonly=True)
-    generated_mis_report_id = fields.Many2one(comodel_name='mis.report.instance', string='mis_report_instance', ondelete='cascade', readonly = 'true')
+    generated_mis_report_id = fields.Many2one(
+        comodel_name='mis.report.instance', string='mis_report_instance', ondelete='cascade', readonly=True)
     
     @api.depends('name')
     def _change_mis_report_name(self):

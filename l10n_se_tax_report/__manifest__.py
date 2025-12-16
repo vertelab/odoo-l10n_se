@@ -40,7 +40,7 @@ Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklarat
      """,
     'author': 'Vertel AB',
 
-    'depends': ['account_payment_order', 'calendar', 'mis_builder','l10n_se_mis',],
+    'depends': ['account_payment_order', 'calendar', 'mis_builder','l10n_se_mis', 'account_period_vrtl'],
 
     'data': [
         'data/account_data.xml',
@@ -52,6 +52,7 @@ Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklarat
         'security/ir.model.access.csv',
         'security/security.xml',
         'views/mis_report_view.xml',
+        'views/account_fiscalyear_views.xml',
      ],
     'demo_xml': [
         'demo/account_invoice.xml',
