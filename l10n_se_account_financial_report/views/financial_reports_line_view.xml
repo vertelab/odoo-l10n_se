@@ -7,7 +7,18 @@
             <field name="arch" type="xml">
                 <list>
                     <field name="name" string="Name" />
-                    <field name="lines" string="Lines" />
+                    <field name="lines" string="Lines">
+                        <list>
+                          <field name="sequence" widget="handle" />
+                          <field name="description" />
+                          <field name="name"/>
+                          <field name="amount_type"/>
+                          <field name="account_char_list"/>
+                          <field name="taxes_char_list"/>
+                          <field name="originator_tax_char_list"/>
+                          <field name="domain_expression"/>
+                        </list>
+                    </field>
                 </list>
             </field>
         </record>
@@ -24,22 +35,24 @@
                         <group>
                             <group>
                                 <field name="name" string="Name" />
+                                <field name="date_picker"/>
+                                <field name="parent_state"/>
                             </group>
                         </group>
                         <notebook>
-                            <page string="Filter">
-                                <group>
-                                    <group>
-                                        <field name="date_picker"/>
-                                        <field name="date"/>
-                                    </group>
-                                    <group>
-                                        <field name="parent_state"/>
-                                    </group>
-                                </group>
-                            </page>
                             <page string="Lines">
-                                 <field name="lines" string="Lines" />
+                                <field name="lines" string="Lines">
+                                    <list>
+                                      <field name="sequence" widget="handle" />
+                                      <field name="description" />
+                                      <field name="name"/>
+                                      <field name="amount_type"/>
+                                      <field name="account_char_list"/>
+                                      <field name="taxes_char_list"/>
+                                      <field name="originator_tax_char_list"/>
+                                      <field name="domain_expression"/>
+                                    </list>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>

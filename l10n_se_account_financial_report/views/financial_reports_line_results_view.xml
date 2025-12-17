@@ -9,6 +9,7 @@
                 <field name="name" string="Name" />
                 <field name="report_line_id"/>
                 <field name="result" />
+                <field name="domain" optional="hide"/>
                 <button name="get_line_action" string="Show Lines" type="object"/>
             </list>
         </field>

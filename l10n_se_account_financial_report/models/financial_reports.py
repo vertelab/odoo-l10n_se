@@ -43,33 +43,38 @@ class FinancialReports(models.Model):
         'ir.model.fields', string="Date Picker",
         domain=[('ttype', '=', 'date'), ('model_id', '=', 'account.move.line')]
     )
-    date = fields.Date(string="Date", required=True)
 
     def action_view_report(self):
         total, move_lines = self._return_move_lines()
         lines = []
         _logger.info(lines)
 
-    def _return_move_lines(self, start_date, end_date, state = False, date_field = False):
-        domain = []
+    def _return_move_lines(self, start_date, end_date, state = False, date_field = False, company_id = False):
+        report_domain = []
+        if not company_id:
+           company_id = self.env.company 
         vals = []
         if not state:
             state = self.parent_state
 
         if state and state != 'all':
-            domain.append(('parent_state', '=', state))
+            report_domain.append(('parent_state', '=', state))
 
         if not date_field:
             date_field = self.date_picker
 
         if date_field:
-            domain.append((date_field['name'], '>=', start_date))
-            domain.append((date_field['name'], '<=', end_date))
+            report_domain.append((date_field['name'], '>=', start_date))
+            report_domain.append((date_field['name'], '<=', end_date))
         else:
-            domain.append(('date', '>=', start_date))
-            domain.append(('date', '<=', end_date))
-        _logger.warning(f"{domain=}")
+            report_domain.append(('date', '>=', start_date))
+            report_domain.append(('date', '<=', end_date))
+        _logger.warning(f"{report_domain=}")
+        
+    
         for line in self.lines:
+            domain = []
+            domain += report_domain
             if line.account_char_list:
                 accounts = line.account_char_list.split(',')
                 domain.append(('account_id.code', 'in', accounts))
@@ -93,14 +98,13 @@ class FinancialReports(models.Model):
                     raise UserError(_("Invalid domain expression: %s") % e)
             _logger.warning(f"{domain=}")
             move_lines = self.env['account.move.line'].search(domain)
+            _logger.warning(f"{move_lines=}")
             line_total = sum(move_lines.mapped(line.amount_type))
             if line.invert_value:
                 line_total = -line_total
-            vals.append({"name":line.name,"total":line_total,"move_lines":move_lines})
+            vals.append({"name":line.name,"total":line_total,"move_lines":move_lines,"domain":domain,"report_line_id":line})
         return vals
 
-        print("domain", domain)
-        return domain
 
         # return _return_move_lines for each line in template.
     
