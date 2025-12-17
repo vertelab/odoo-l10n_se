@@ -47,12 +47,29 @@ class account_vat_declaration(models.Model):
                         decl.vat_momsutg  += vals[0]
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
 
-            
+
     def calculate(self):
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
         if self.state in ['draft']:
             self.state = 'confirmed'
+        tax_report_template = self.env['financial.reports'].browse(1)
+        _logger.warning(f"{self.accounting_method=}")
+        if self.accounting_method == "invoice":#it is the lates period of the year "or self.accounting_yearend" todo
+            date_field = self.env.ref("account.field_account_move_line__date")
+        else:
+            date_field = self.env.ref("account_period_vrtl.field_account_move_line__latest_payment_date")
+
+        #account.field_account_move_line__payment_date
+        vals = tax_report_template._return_move_lines(self.date_start,self.date_stop,self.target_move,date_field)
+        _logger.warning(f"{vals}")
+
+
+
+    def do_done(self):
+        if self.state not in ['confirmed']:
+            raise Warning("Du kan inte klargöra i denna status, ändra till bekräftad.")
+        self.state = 'done'
 
         move_line_recordset= self.get_move_line_recordset([])
         move_recordset = self.get_move_recordset_from_line_recordset(move_line_recordset)
@@ -181,7 +198,7 @@ class account_vat_declaration(models.Model):
                             'move_id': entry.id,
                         }))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
-                        oresavrundning = self.env['account.account'].search([('company_id','=',self.company_id.id),('code', '=', '3740')])
+                        oresavrundning = self.env['account.account'].search([('company_ids','in',self.company_id.id),('code', '=', '3740')])
                         oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
                         move_line_list.append((0, 0, {
                             'name': oresavrundning.name,
@@ -240,8 +257,8 @@ class account_vat_declaration(models.Model):
         )
         return report_instance
             
-    @api.model
-    def create(self,values):
+    @api.model_create_multi
+    def create(self, values):
         record = super(account_vat_declaration, self).create(values)
         
         if record.accounting_yearend:

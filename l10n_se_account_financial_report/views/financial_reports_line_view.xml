@@ -17,9 +17,31 @@
             <field name="model">financial.reports</field>
             <field name="arch" type="xml">
                 <form string="Financial Reports Lines">
+                    <header>
+                        <button name="action_view_report" type="object" string="View Report" class="btn btn-primary"/>
+                    </header>
                     <sheet>
-                        <field name="name" string="Name" />
-                        <field name="lines" string="Lines" />
+                        <group>
+                            <group>
+                                <field name="name" string="Name" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Filter">
+                                <group>
+                                    <group>
+                                        <field name="date_picker"/>
+                                        <field name="date"/>
+                                    </group>
+                                    <group>
+                                        <field name="parent_state"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Lines">
+                                 <field name="lines" string="Lines" />
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>

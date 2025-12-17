@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+import re
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-import re
+from odoo.tools.safe_eval import safe_eval
 
 import logging
 
@@ -46,9 +46,11 @@ class FinancialReportsLine(models.Model):
         default='balance', 
         required=True  
     )
-    account_char_list = fields.Char(string="Accounts", help="a comma seperated list of accounts to find invoice lines for")
-    taxes_char_list = fields.Char(string='Taxes',help="a comma seperated list of taxes to find invoice lines for")
-    originator_tax_char_list = fields.Char(string="Originator Taxes", help="a comma seperated list of originator taxes to find invoice lines for")
+    account_char_list = fields.Char(
+        string="Accounts", help="a comma separated list of accounts to find invoice lines for")
+    taxes_char_list = fields.Char(string='Taxes',help="a comma separated list of taxes to find invoice lines for")
+    originator_tax_char_list = fields.Char(
+        string="Originator Taxes", help="a comma separated list of originator taxes to find invoice lines for")
     domain_expression = fields.Char(string="Domain", help="set a regular odoo domain if you can't use the other lines")
     
     def _return_move_lines(self, date_from, date_stop, state):
@@ -56,6 +58,10 @@ class FinancialReportsLine(models.Model):
         accounts = []
         taxes = []
         domain = []
+
+        if self.parent_id.parent_state and self.parent_id.parent_state != 'all':
+            domain.append(('parent_state', '=', self.parent_state))
+
         originator_taxes = []
         if self.domain_expression:
             try:
@@ -73,14 +79,18 @@ class FinancialReportsLine(models.Model):
            
         if self.taxes_char_list:
            taxes = self.taxes_char_list.split(',')
-           domain.append(('tax_ids.name','in',originator_taxes))
+           domain.append(('tax_ids.name','in', taxes))
            
         if self.originator_tax_char_list:
            originator_taxes = self.originator_tax_char_list.split(',')
-           domain.append(('tax_line_id.name','in',originator_taxes))
-           
-        domain.append(('date','>=',date_from))
-        domain.append(('date','<=',date_stop))
+           domain.append(('tax_line_id.name','in', originator_taxes))
+
+        if self.parent_id.date_picker:
+            domain.append((self.parent_id.date_picker['name'], '>=', date_from))
+            domain.append((self.parent_id.date_picker['name'], '<=', date_stop))
+        else:
+            domain.append(('date', '>=', date_from))
+            domain.append(('date', '<=', date_stop))
         
         move_lines = self.env['account.move.line'].search(domain)
            

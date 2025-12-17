@@ -20,7 +20,8 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
-from datetime import date
+from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 import logging
 
@@ -34,5 +35,73 @@ class FinancialReports(models.Model):
     name = fields.Char(string="name")
 
     lines = fields.One2many("financial.reports.line", "parent_id")
+
+    parent_state = fields.Selection([
+        ('all', 'All'), ('draft', 'Draft'), ('posted', 'Posted'), ('cancelled', 'Cancelled')
+    ])
+    date_picker = fields.Many2one(
+        'ir.model.fields', string="Date Picker",
+        domain=[('ttype', '=', 'date'), ('model_id', '=', 'account.move.line')]
+    )
+    date = fields.Date(string="Date", required=True)
+
+    def action_view_report(self):
+        total, move_lines = self._return_move_lines()
+        lines = []
+        _logger.info(lines)
+
+    def _return_move_lines(self, start_date, end_date, state = False, date_field = False):
+        domain = []
+        vals = []
+        if not state:
+            state = self.parent_state
+
+        if state and state != 'all':
+            domain.append(('parent_state', '=', state))
+
+        if not date_field:
+            date_field = self.date_picker
+
+        if date_field:
+            domain.append((date_field['name'], '>=', start_date))
+            domain.append((date_field['name'], '<=', end_date))
+        else:
+            domain.append(('date', '>=', start_date))
+            domain.append(('date', '<=', end_date))
+        _logger.warning(f"{domain=}")
+        for line in self.lines:
+            if line.account_char_list:
+                accounts = line.account_char_list.split(',')
+                domain.append(('account_id.code', 'in', accounts))
+
+            if line.taxes_char_list:
+                taxes = line.taxes_char_list.split(',')
+                domain.append(('tax_ids.name', 'in', taxes))
+
+            if line.originator_tax_char_list:
+                originator_taxes = line.originator_tax_char_list.split(',')
+                domain.append(('tax_line_id.name', 'in', originator_taxes))
+
+            if line.domain_expression:
+                try:
+                    extra_domain = safe_eval(self.domain_expression)
+                    if isinstance(extra_domain, list):
+                        domain += extra_domain
+                    else:
+                        raise UserError(_("Domain expression must be a list."))
+                except Exception as e:
+                    raise UserError(_("Invalid domain expression: %s") % e)
+            _logger.warning(f"{domain=}")
+            move_lines = self.env['account.move.line'].search(domain)
+            line_total = sum(move_lines.mapped(line.amount_type))
+            if line.invert_value:
+                line_total = -line_total
+            vals.append({"name":line.name,"total":line_total,"move_lines":move_lines})
+        return vals
+
+        print("domain", domain)
+        return domain
+
+        # return _return_move_lines for each line in template.
     
     
