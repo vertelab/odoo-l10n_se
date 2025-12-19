@@ -238,7 +238,7 @@ class account_vat_declaration(models.Model):
         )
         return report_instance
             
-    @api.model
+    @api.model_create_multi
     def create(self,values):
         record = super(account_vat_declaration, self).create(values)
         

@@ -278,7 +278,7 @@ class account_declaration(models.Model):
                     'privacy': 'confidential',
                 })
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         res = super(account_declaration, self).create(vals)
         if vals.get('date'):
