@@ -9,3 +9,4 @@ from . import journal
 #from . import demo_invoice
 #from . import periodic_compilation
 
+from . import account_fiscalyear

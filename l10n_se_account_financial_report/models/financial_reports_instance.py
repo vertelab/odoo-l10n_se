@@ -33,11 +33,12 @@ class FinancialReportsInstance(models.Model):
 
     name = fields.Char(string="name")
     
+    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id.id)
+    
     state = fields.Selection(
         selection=[
             ('draft', 'Draft'),
-            ('posted', 'Posted'),
-            ('cancel', 'Cancelled'),
+            ('done', 'Done'),
         ],
         string='Status',
         required=True,
@@ -49,16 +50,51 @@ class FinancialReportsInstance(models.Model):
 
     start_date = fields.Date(string="Start Date", required=True)
     end_date = fields.Date(string="End Date", required=True)
+    target_moves = fields.Selection(
+        selection=[
+            ('draft', 'Draft'),
+            ('posted', 'Posted'),
+            ('cancel', 'Cancelled'),
+            ('all', 'All'),
+        ],
+        string='Target Moves',
+        required=True,
+        readonly=True,
+        copy=False,
+        tracking=True,
+        default='posted',
+    )
     
     report_id = fields.Many2one("financial.reports", string="Report")
     result_ids = fields.One2many('financial.reports.line.results', 'report_instance_id')
+    
+    def button_draft(self):
+        self.state = "draft"
+        self.result_ids.unlink()
+    
+    def view_report(self):
+        """Open list view of result_ids"""
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Report Results',
+            'res_model': 'financial.reports.line.results',
+            'view_mode': 'list,form',
+            'domain': [('report_instance_id', '=', self.id)],
+            'context': {'default_report_instance_id': self.id},
+            'target': 'current',
+        }
 
-    def create_button(self):
-        for line in self.report_id.lines:
-            result, move_lines = line._return_move_lines(self.start_date, self.end_date, self.state)
+    def create_report(self):
+        self.state = "done"
+        
+        result = self.report_id._return_move_lines(self.start_date, self.end_date, self.target_moves, self.report_id.date_picker, self.company_id)
+        for line in result:
+                        # ~ vals.append({"name":line.name,"total":line_total,"move_lines":move_lines,"domain":domain,"report_line_id":line})
             self.env['financial.reports.line.results'].create([{
-            'result':result,
-            'report_line_id':line.id,
-            'report_instance_id':self.id,
-            'move_line_ids':move_lines.ids,
+                'result':line['total'],
+                'report_line_id':line['report_line_id'].id,
+                'report_instance_id':self.id,
+                'move_line_ids':line['move_lines'],
+                'domain':line['domain'],
             }])
+

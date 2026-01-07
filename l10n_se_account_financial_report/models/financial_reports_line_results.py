@@ -30,13 +30,15 @@ _logger = logging.getLogger(__name__)
 class FinancialReportsLineResults(models.Model):
     _name = "financial.reports.line.results"
     _description = "Financial Reports Line Results"
-
-    name = fields.Char()
+    _order = "sequence, id"
+    
+    name = fields.Char(related="report_line_id.description")
     result = fields.Char()
     report_line_id = fields.Many2one('financial.reports.line', string='Report Line')
     report_instance_id = fields.Many2one('financial.reports.instance', string='Report Instance')
     move_line_ids = fields.Many2many('account.move.line', string='Move Lines')
-
+    sequence = fields.Integer(related="report_line_id.sequence")
+    domain = fields.Char()
     def get_line_action(self):
         # Example: open related account.move.line records in a tree view
         self.ensure_one()

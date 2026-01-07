@@ -323,6 +323,13 @@ class account_vat_declaration(models.Model):
     def _date_stop(self):
         return self.get_next_dates()[1]
 
+    fiscalyear_id = fields.Many2one(
+        comodel_name='account.fiscalyear',
+        string='Fiscal Year',
+        required=True,
+        ondelete='cascade'
+    )
+
     
     vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat",
                                    help='Avläsning av transationer från baskontoplanen.')
