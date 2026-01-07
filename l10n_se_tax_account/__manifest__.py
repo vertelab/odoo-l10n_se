@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': '',
+    'name': 'l10n_se: Tax Account',
     'version': '1.0',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -31,20 +31,14 @@
     'description': """
         Long description of module's purpose
     """,
-    #'sequence': 1,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-',
-    'images': ['static/description/banner.png'], # 560x280
+    'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
-    'depends': [],
-     #"external_dependencies": {
-     #   "bin": ["openssl",], 
-     #   "python": ["acme_tiny", "IPy",],
-     #},
-    'data': [],
+    'depends': ["account","contacts"],
+    'data': ["views/partner_views.xml","views/journal_views.xml"],
     'demo': [],
     'application': False,
     'installable': True,    
     'auto_install': False,
-    #"post_init_hook": "post_init_hook",
 }

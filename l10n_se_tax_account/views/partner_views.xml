@@ -1,0 +1,43 @@
+<odoo>
+  <data>
+
+    <record id="view_partner_form" model="ir.ui.view">
+      <field name="name">res.partner.form.add.skatteverket.api</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+
+        <field name="category_id" position="after">
+          <field name="enable_skatteverket_api"/>
+        </field>
+
+        <page name="internal_notes" position="after">
+          <page name="skatteverket_api" string="Skatteverket API" invisible="not enable_skatteverket_api">
+            <group>
+              <group>
+                <field name="auth_method"/>
+                <field name="certificate" invisible="auth_method != 'cert'"/>
+                <field name="certificate_pin" invisible="auth_method != 'cert'"/>
+                <field name="test_mode"/>
+                <field name="base_url"/>
+                <field name="redirect_url"/>
+                <field name="oauth_client_id"/>
+                <field name="oauth_secret"/>
+                <field name="api_client_id"/>
+                <field name="api_secret"/>
+              </group>
+              <group>
+                <field name="api_state" readonly="1"/>
+                <field name="authorization_code" readonly="1"/>
+                <field name="recived_token_on" readonly="1"/>
+                <field name="access_token" readonly="1"/>
+              </group>
+            </group>
+          </page>
+        </page>
+
+      </field>
+    </record>
+
+  </data>
+</odoo>

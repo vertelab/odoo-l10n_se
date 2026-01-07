@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">account.journal.form.skatteverket.api</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+                    <header >
+                        <button name="get_authorization" string="Authorize Tax Account" type="object" invisible="not skatteverket_partner_id" />
+                        <button name="get_transactions" string="Get Tax Account" type="object" invisible="not skatteverket_partner_id" />
+                    </header>
+                </sheet>
+
+
+                <field name="autocheck_on_post" position="after">
+                    <field name="skatteverket_partner_id" invisible="type != 'bank'"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

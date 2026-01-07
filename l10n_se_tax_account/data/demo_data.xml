@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Your data here!-->
+    <data noupdate="1">
+
+        <record id="partner_skatteverket" model="res.partner">
+            <field name="name">Skatteverket</field>
+            <field name="street">Solna strandväg 22</field>
+            <field name="zip">171 94</field>
+            <field name="city">Solna</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="email">kundtjanst@skatteverket.se</field>
+            <field name="phone">0771-567 567</field>
+            <field name="website">https://www.skatteverket.se</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+        </record>
+
     </data>
 </odoo>
