@@ -1,0 +1,23 @@
+<odoo>
+  <data>
+
+   <record id="tax_account_transaction_wizard_view" model="ir.ui.view">
+        <field name="name">tax.account.transaction.wizard.form</field>
+        <field name="model">tax_account.transaction.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Warning">
+                <group>
+                  <field name="journal_id" invisible="1"/>
+                  <field name="date_from"/>
+                </group>
+
+                <footer>
+                    <button name="get_transactions" string="Get" type="object" class="oe_highlight"/>
+                    <button name="cancel" string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+  </data>
+</odoo>

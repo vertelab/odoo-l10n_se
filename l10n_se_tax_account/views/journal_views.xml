@@ -9,7 +9,7 @@
                 <sheet position="before">
                     <header >
                         <button name="get_authorization" string="Authorize Tax Account" type="object" invisible="not skatteverket_partner_id" />
-                        <button name="get_transactions" string="Get Tax Account" type="object" invisible="not skatteverket_partner_id" />
+                        <button name="action_tax_account_transaction_wizard" string="Get Tax Account" type="object" invisible="not skatteverket_partner_id" />
                     </header>
                 </sheet>
 

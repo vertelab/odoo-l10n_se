@@ -36,7 +36,12 @@
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'depends': ["account","contacts"],
-    'data': ["views/partner_views.xml","views/journal_views.xml"],
+    'data': [
+        "security/ir.model.access.csv",
+        "views/partner_views.xml",
+        "views/journal_views.xml",
+        "wizard/tax_account_transaction_wizard_views.xml",
+        ],
     'demo': [],
     'application': False,
     'installable': True,    

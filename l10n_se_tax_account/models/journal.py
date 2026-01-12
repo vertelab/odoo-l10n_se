@@ -18,7 +18,7 @@ class AccountJournal(models.Model):
 
     skatteverket_partner_id = fields.Many2one(comodel_name="res.partner")
     api_state = fields.Char()
-    is_valid_token = fields.Boolean(computed="")
+    is_valid_token = fields.Boolean(computed="compute_is_valid_token")
 
     @api.depends("is_valid_token","skatteverket_partner_id","api_state")
     def compute_is_valid_token(self):
@@ -27,6 +27,16 @@ class AccountJournal(models.Model):
                 rec.is_valid_token = True
             else:
                 rec.is_valid_token = False
+
+    def action_tax_account_transaction_wizard(self):
+        return {
+        "type": "ir.actions.act_window",
+        "name": "Get Tax Account Transactions",
+        "res_model": "tax_account.transaction.wizard",
+        "view_mode": "form",
+        "context": {"default_journal_id": self.id},
+        "target": "new",
+    }
 
     def get_authorization(self):
         partner_id = self.skatteverket_partner_id
@@ -44,35 +54,6 @@ class AccountJournal(models.Model):
                 'target': 'self',
             }
 
-    def get_transactions(self):
-        partner_id = self.skatteverket_partner_id
-
-        if not partner_id:
-            raise UserError("You need to connect this journal to a contact")
-        
-
-        if not partner_id.check_valid_access_token():
-            raise UserError("You must have a valid access token to get transactions")
-
-        headers = {
-            'SKV-client_correlationid': self.create_state(),
-            'Authorization': f'Bearer {partner_id.access_token}',
-            'client_id': partner_id.api_client_id,
-            'client_secret': partner_id.api_secret,
-            'Accept': 'application/json'
-            }
-
-        url = self.build_url("beskattning")
-
-        try:
-            response = requests.get(url,headers=headers)
-            if response.status_code == 200:
-                res_dict = response.json()
-                _logger.error(f"{res_dict=}")
-            else:
-                _logger.error(f"Request failed with status code: {response.status_code}")
-        except Exception as e:
-            _logger.error(f"Failed request with error: {e}")
 
     def create_state(self):
         state = str(uuid4())

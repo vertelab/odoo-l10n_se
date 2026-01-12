@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_scaffold_test_scaffold_test,scaffold_test.scaffold_test,model_scaffold_test_scaffold_test,base.group_user,1,1,1,1
+l10n_se_tax_account.access_tax_account_transaction_wizard,access_tax_account_transaction_wizard,l10n_se_tax_account.model_tax_account_transaction_wizard,base.group_user,1,1,1,1
