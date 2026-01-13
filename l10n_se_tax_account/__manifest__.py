@@ -41,6 +41,7 @@
         "views/partner_views.xml",
         "views/journal_views.xml",
         "wizard/tax_account_transaction_wizard_views.xml",
+        "data/cron_data.xml",
         ],
     'demo': [],
     'application': False,

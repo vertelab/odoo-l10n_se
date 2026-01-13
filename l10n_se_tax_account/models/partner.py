@@ -20,7 +20,6 @@ class ResPartner(models.Model):
     oauth_secret = fields.Char()    
     api_client_id = fields.Char()
     api_secret = fields.Char()
-    api_state = fields.Char()
     authorization_code = fields.Char()
     recived_token_on = fields.Datetime()
     expires_in = fields.Integer()
