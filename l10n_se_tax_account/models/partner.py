@@ -12,7 +12,7 @@ class ResPartner(models.Model):
     enable_skatteverket_api = fields.Boolean()
     auth_method = fields.Selection(selection=[("e_id","E-ID"),("cert","Certificate")], default="e_id")
     test_mode = fields.Boolean(default=True)
-    certificate = fields.Binary()
+    certificate = fields.Binary(attachment=False)
     certificate_pin = fields.Char()
     base_url = fields.Char(help="Base URL Exsample: https://skatteverket.se/, skatteverket.se")
     redirect_url = fields.Char()
