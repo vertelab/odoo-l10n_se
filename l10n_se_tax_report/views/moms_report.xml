@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="Momsdeklaration">
                     <header>
-                        <button class="oe_highlight" invisible="state not in ['draft']" name="calculate" string="Beräkna" type="object"/>
+                        <!--<button class="oe_highlight" invisible="state not in ['draft']" name="calculate" string="Beräkna" type="object"/> If you comment this button be aware that the account move that gets created is wrong.-->
                         <button class="oe_highlight" invisible="state not in ['done','confirmed','canceled']" name="do_draft" string="Draft" type="object"/>
                         <button class="oe_highlight" invisible="state not in ['confirmed']" name="do_done" string="Done" type="object"/>
                         <button class="oe_highlight" invisible="state not in ['confirmed','done']" name="do_cancel" string="Cancel" type="object"/>

@@ -47,13 +47,14 @@ class account_vat_declaration(models.Model):
                         decl.vat_momsutg  += vals[0]
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
 
-            
     def calculate(self):
         if self.state not in ['draft']:
             raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
         if self.state in ['draft']:
             self.state = 'confirmed'
+#            self.generated_mis_report_id.active = True
 
+        # ~ mark moves used to build the mis report, i should probebly save the moves on the report somewhere at some. Not a problem atm.
         move_line_recordset= self.get_move_line_recordset([])
         move_recordset = self.get_move_recordset_from_line_recordset(move_line_recordset)
         for move in move_recordset:
@@ -71,12 +72,14 @@ class account_vat_declaration(models.Model):
         if not moms_journal:
             raise Warning('Konfigurera din momsdeklaration journal!, den behöver heta Momsjournal, vara av typen general/diverse, ha MOMS som code')
         else:
+            # ~ moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
             momsskuld = moms_journal.default_credit_account_id
             momsfordran = moms_journal.default_debit_account_id
             skattekonto = self.env['account.account'].search([('company_ids','in',[self.company_id.id]),('code', '=', '1630')])
             if momsskuld and momsfordran and skattekonto:
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
+                    #'period_id': self.period_start.id,
                     'date': fields.Date.today(),
                     'ref': u'Momsdeklaration',
                 })
@@ -175,14 +178,19 @@ class account_vat_declaration(models.Model):
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
+                            'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
                             'debit': 0.0,
                             'credit': self.vat_momsbetala,
                             'move_id': entry.id,
                         }))
+                    # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
+                    # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
-                        oresavrundning = self.env['account.account'].search([('company_id','=',self.company_id.id),('code', '=', '3740')])
+                        # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
+                        oresavrundning = self.env['account.account'].search([('company_ids','in',[self.company_id.id]),('code', '=', '3740')])
                         oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
+                        # ~ test of öresavrundning.
+                        # ~ _logger.warning('<<<<< VALUES: oresavrundning = %s oresavrundning_amount = %s' % (oresavrundning, oresavrundning_amount))
                         move_line_list.append((0, 0, {
                             'name': oresavrundning.name,
                             'account_id': oresavrundning.id,
@@ -196,9 +204,8 @@ class account_vat_declaration(models.Model):
                     })
                     self.write({'move_id': entry.id})
             else:
-                raise UserError(_(f'You are missing either a credit account, debit account or a tax account on the journal {moms_journal.name} please add these'))   
-                        
-                    
+                raise UserWarning(_('You are missing either a credit account, debit account or a tax account, please add these'))   
+
                     
     def do_draft(self):
         for rec in self:
