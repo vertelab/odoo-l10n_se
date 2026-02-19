@@ -19,17 +19,6 @@
                             <group>
                                 <field name="moms_journal"/>
                             </group>
-                            <field name="tax_declaration_ids" nolabel="1" invisible="not tax_declaration_ids">
-                                <list>
-                                    <field name="name"/>
-                                    <field name="date_start"/>
-                                    <field name="date_stop"/>
-                                    <field name="date" string="Declaration Date"/>
-                                    <field name="state"/>
-                                    <button name="show_mis_report" type="object" string="Show Report" class="btn btn-primary" />
-                                    <button name="calculate" type="object" string="Beräkna" class="btn btn-primary" />
-                                </list>
-                            </field>
                         </group>
                     </page>
                 </xpath>

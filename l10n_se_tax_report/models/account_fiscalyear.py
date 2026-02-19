@@ -19,41 +19,6 @@ class AccountFiscalYear(models.Model):
              "i sista perioden/bokslutsperioden"
     )
 
-    tax_declaration_ids = fields.One2many('account.vat.declaration', 'fiscalyear_id', string='Tax declarations')
-
-    def _get_public_holidays(self, date):
-        domain = [
-            ('resource_id', '=', False),
-            ('company_id', '=', self.company_id.id),
-            ('date_from', '<=', date),
-            ('date_to', '>=', date),
-            ('calendar_id', '=', False),
-        ]
-
-        return self.env['resource.calendar.leaves'].search(domain, limit=1)
-
-    def _get_next_business_day(self, date):
-        current_date = date
-        max_iterations = 10  # Prevent infinite loops
-        iterations = 0
-
-        while iterations < max_iterations:
-            # Check if it's a weekend (Saturday=5, Sunday=6)
-            if current_date.weekday() >= 5:
-                current_date += relativedelta(days=1)
-                iterations += 1
-                continue
-
-            # Check if it's a public holiday
-            if self._get_public_holidays(current_date):
-                current_date += relativedelta(days=1)
-                iterations += 1
-                continue
-
-            # It's a business day
-            return current_date
-        return date
-
     def action_generate_tax_declaration(self):
         self.ensure_one()
 
@@ -82,14 +47,11 @@ class AccountFiscalYear(models.Model):
 
             declaration_date = period_end + relativedelta(months=1, day=declaration_date_day)
 
-            declaration_date = self._get_next_business_day(declaration_date)
-
             declaration_data = {
-                'name': f'Tax Declaration - {declaration_date.strftime('%B, %Y')}',
+                'name': f'{current_start}-{period_end}',
                 'date_start': current_start,
                 'date_stop': period_end,
                 'date': declaration_date,
-                'fiscalyear_id': self.id,
                 'accounting_method': self.accounting_method,
             }
 
