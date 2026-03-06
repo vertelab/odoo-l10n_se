@@ -493,6 +493,8 @@ class account_sie(models.TransientModel):
                years = all_fiscal_years[0:fiscalyear_index + 1]
             else:
                 years = all_fiscal_years[0:fiscalyear_index]
+                if not years: #We're at the first fiscalyear configured so there is no fiscalyear set up to get IB from. We skip.
+                    continue
             if just_current_year:
                 years = fiscalyear
             _logger.warning(f"{years=}")
