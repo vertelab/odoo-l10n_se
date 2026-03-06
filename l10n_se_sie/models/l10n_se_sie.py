@@ -431,32 +431,19 @@ class account_sie(models.TransientModel):
                     move_ids = move_ids.filtered(lambda r: r.id in accounts)
                     
             if self.sie_type == "4e":
-                balance_account_types = [
-                      'asset_receivable',
-                      'asset_cash',
-                      'asset_current',
-                      'asset_non_current',
-                      'asset_prepayments',
-                      'asset_fixed',
-                      'liability_payable',
-                      'liability_credit_card',
-                      'liability_current',
-                      'liability_non_current',
-                      'equity',
-                      'equity_unaffected'
-                ]
+                balance_accounts = self.env['account.account'].search([
+                  ('company_id', '=', self.env.company.id),
+                  ('code', '!=', False),
+                  ('code', '>=', '1000'),
+                  ('code', '<=', '2999')
+                ])
 
-                profit_loss_account_types = [
-                      'income',
-                      'income_other',
-                      'expense',
-                      'expense_depreciation',
-                      'expense_direct_cost'
-                ]
-                balance_domain = [('company_ids', 'in', [self.env.company.id]),('account_type', 'in', balance_account_types)]
-                result_domain = [('company_ids', 'in', [self.env.company.id]),('account_type', 'in', profit_loss_account_types )]
-                balance_accounts =  self.env['account.account'].search(balance_domain)
-                result_accounts =  self.env['account.account'].search(result_domain)
+                result_accounts = self.env['account.account'].search([
+                 ('company_id', '=', self.env.company.id),
+                 ('code', '!=', False),
+                 ('code', '>=', '3000'),
+                 ('code', '<=', '8999')
+                ])
                 ib_dict = self.get_sie_value_dict(balance_accounts, include_current_year = False)
                 ub_dict = self.get_sie_value_dict(balance_accounts, include_current_year = True)
                 res_dict = self.get_sie_value_dict(result_accounts, just_current_year = True)
