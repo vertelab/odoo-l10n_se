@@ -7,160 +7,160 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20231023\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-25 12:59+0000\n"
-"PO-Revision-Date: 2023-10-25 15:07+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-02-24 11:37+0100\n"
+"Last-Translator: Jakob Krabbe <jakob.krabbe@vertel.se>\n"
 "Language-Team: \n"
-"Language: sv\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsMomsEjAnnan
 msgid "#05: Momspliktig försäljning som inte ingår i annan ruta nedan"
-msgstr ""
+msgstr "#05: Momspliktig försäljning som inte ingår i annan ruta nedan"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_Momspliktiga
 msgid "#06: Momspliktiga uttag"
-msgstr ""
+msgstr "#06: Momspliktiga uttag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_UlagMargbesk
 msgid "#07: Beskattningsunderlag vid vinstmarginalbeskattning"
-msgstr ""
+msgstr "#07: Beskattningsunderlag vid vinstmarginalbeskattning"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_HyrinkomstFriv
 msgid "#08: Hyresinkomster vid frivillig skattskyldighet"
-msgstr ""
+msgstr "#08: Hyresinkomster vid frivillig skattskyldighet"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsUtgHog
 msgid "#10: Utgående moms 25 %"
-msgstr ""
+msgstr "#10: Utgående moms 25 %"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsUtgMedel
 msgid "#11: Utgående moms 12 %"
-msgstr ""
+msgstr "#11: Utgående moms 12 %"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsUtgLag
 msgid "#12: Utgående moms 6 %"
-msgstr ""
+msgstr "#12: Utgående moms 6 %"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_InkopVaruAnnatEg
 msgid "#20: Inköp av varor från annat EU-land"
-msgstr ""
+msgstr "#20: Inköp av varor från annat EU-land"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_InkopTjanstAnnatEg
 msgid "#21: Inköp av tjänster från annat EU-land"
-msgstr ""
+msgstr "#21: Inköp av tjänster från annat EU-land"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_InkopTjanstUtomEg
 msgid "#22: Inköp av tjänster från land utanför EU"
-msgstr ""
+msgstr "#22: Inköp av tjänster från land utanför EU"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_InkopVaruSverige
 msgid "#23: Inköp av varor i Sverige"
-msgstr ""
+msgstr "#23: Inköp av varor i Sverige"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_InkopTjanstSverige
 msgid "#24: Inköp av tjänster i Sverige"
-msgstr ""
+msgstr "#24: Inköp av tjänster i Sverige"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsInkopUtgHog
 msgid "#30: Utgående moms 25%"
-msgstr ""
+msgstr "#30: Utgående moms 25%"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsInkopUtgMedel
 msgid "#31: Utgående moms 12%"
-msgstr ""
+msgstr "#31: Utgående moms 12%"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsInkopUtgLag
 msgid "#32: Utgående moms 6%"
-msgstr ""
+msgstr "#32: Utgående moms 6%"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsVaruAnnatEg
 msgid "#35: Försäljning av varor till annat EU-land"
-msgstr ""
+msgstr "#35: Försäljning av varor till annat EU-land"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsVaruUtomEg
 msgid "#36: Försäljning av varor utanför EU"
-msgstr ""
+msgstr "#36: Försäljning av varor utanför EU"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_InkopVaruMellan3p
 msgid "#37: Mellanmans inköp av varor vid trepartshandel"
-msgstr ""
+msgstr "#37: Mellanmans inköp av varor vid trepartshandel"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsVaruMellan3p
 msgid "#38: Mellanmans försäljning av varor vid trepartshandel"
-msgstr ""
+msgstr "#38: Mellanmans försäljning av varor vid trepartshandel"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsTjSkskAnnatEg
 msgid "#39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land"
-msgstr ""
+msgstr "#39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsTjOvrUtomEg
 msgid "#40: Övrig försäljning av tjänster omsatta utom landet"
-msgstr ""
+msgstr "#40: Övrig försäljning av tjänster omsatta utom landet"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsKopareSkskSverige
 msgid "#41: Försäljning när köparen är skattskyldig i Sverige"
-msgstr ""
+msgstr "#41: Försäljning när köparen är skattskyldig i Sverige"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_ForsOvrigt
 msgid "#42: Övrig försäljning m.m. ???"
-msgstr ""
+msgstr "#42: Övrig försäljning m.m. ???"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsIngAvdr
 msgid "#48: Ingående moms att dra av"
-msgstr ""
+msgstr "#48: Ingående moms att dra av"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_LonBrutto
 msgid "#50. Avgiftspliktig bruttolön utom förmåner"
-msgstr ""
+msgstr "#50. Avgiftspliktig bruttolön utom förmåner"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsUlagImport
 msgid "#50: Beskattningsunderlag vid import"
-msgstr ""
+msgstr "#50: Beskattningsunderlag vid import"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_Forman
 msgid "#51: Avgiftspliktiga förmåner"
-msgstr ""
+msgstr "#51: Avgiftspliktiga förmåner"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_AvdrKostn
 msgid "#52: Avdrag för utgifter"
-msgstr ""
+msgstr "#52: Avdrag för utgifter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_SumUlagAvg
 msgid "#53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt"
-msgstr ""
+msgstr "#53: Sammanlagt underlag för arbetsgivaravgifter och särskild löneskatt"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagAvgHel
@@ -168,91 +168,93 @@ msgid ""
 "#55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - "
 "61 - 65 - 69)"
 msgstr ""
+"#55:  san  Full arbetsgivaravgift för födda 1953 eller senare (55 = 53 - 57 - 59 - "
+"61 - 65 - 69)"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_AvgHel
 msgid "#56: (san) 31,42% av #55"
-msgstr ""
+msgstr "#56: (san) 31,42% av #55"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagAvgAldersp
 msgid "#59:  sap  Arbetsgivaravgift för 66-80 år"
-msgstr ""
+msgstr "#59:  sap  Arbetsgivaravgift för 66-80 år"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsImportUtgHog
 msgid "#60: Utgående moms 25%"
-msgstr ""
+msgstr "#60: Utgående moms 25%"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsImportUtgMedel
 msgid "#61: Utgående moms 12%"
-msgstr ""
+msgstr "#61: Utgående moms 12%"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_md_MomsImportUtgLag
 msgid "#62: Utgående moms 6%"
-msgstr ""
+msgstr "#62: Utgående moms 6%"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_AvgAldersp
 msgid "60. 16.36% av rad 59"
-msgstr ""
+msgstr "60. 16.36% av rad 59"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagAlderspSkLon
 msgid "61. Särskild löneskatt för 80 år eller äldre"
-msgstr ""
+msgstr "61. Särskild löneskatt för 80 år eller äldre"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_AvgAlderspSkLon
 msgid "62. 6,15% av rad 61"
-msgstr ""
+msgstr "62. 6,15% av rad 61"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagStodForetag
 msgid "73. Forskning och utveckling"
-msgstr ""
+msgstr "73. Forskning och utveckling"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_AvdrStodForetag
 msgid "74. Avdrag forskning och utveckling"
-msgstr ""
+msgstr "74. Avdrag forskning och utveckling"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagStodUtvidgat
 msgid "75. Regionalt stöd, underlag"
-msgstr ""
+msgstr "75. Regionalt stöd, underlag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_AvdrStodUtvidgat
 msgid "76. Avdrag regionalt stöd"
-msgstr ""
+msgstr "76. Avdrag regionalt stöd"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_SumAvgBetala
 msgid "78. Summa arbetsgivaravgift"
-msgstr ""
+msgstr "78. Summa arbetsgivaravgift"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagSkAvdrLon
 msgid "81. Lön och förmåner"
-msgstr ""
+msgstr "81. Lön och förmåner"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_SkAvdrLon
 msgid "82. Från lön och förmåner"
-msgstr ""
+msgstr "82. Från lön och förmåner"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_UlagSumSkAvdr
 msgid "87. Summa underlag för skatteavdrag"
-msgstr ""
+msgstr "87. Summa underlag för skatteavdrag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.kpi_report_ad_SumSkAvdr
 msgid "88. Summa avdragen skatt"
-msgstr ""
+msgstr "88. Summa avdragen skatt"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,help:l10n_se_mis.field_mis_report_instance__find_moves_by_period
@@ -261,69 +263,70 @@ msgid ""
 "to. By default the mis report finds moves based on date. If this is checked then "
 "we find them based on period"
 msgstr ""
-"Fakturor har datum och vilken period de tillhör. Som standard hittar rapporten "
-"Fatkuror baserat på datum. Om detta är markerat hittar vi dem baserat på period"
+"A little confusing but vouchers/invoices has dates and which period they belong "
+"to. By default the mis report finds moves based on date. If this is checked then "
+"we find them based on period"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AckumuleradeOveravskrivningar
 msgid "Ackumulerade överavskrivningar"
-msgstr ""
+msgstr "Ackumulerade överavskrivningar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Aktiekapital
 msgid "Aktiekapital"
-msgstr ""
+msgstr "Aktiekapital"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_AktiveratArbeteEgenRakning
 msgid "Aktiverat arbete för egen räkning"
-msgstr ""
+msgstr "Aktiverat arbete för egen räkning"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields.selection,name:l10n_se_mis.selection__mis_report_instance__target_move__draft
 msgid "All Unposted Entries"
-msgstr ""
+msgstr "All Unposted Entries"
 
 #. module: l10n_se_mis
 #. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Analytic Account Group: %s"
-msgstr "Objekt Konto Grupp: %s"
+msgstr "Analytic Account Group: %s"
 
 #. module: l10n_se_mis
 #. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Analytic Account: %s"
-msgstr "Objekt Konto: %s"
+msgstr "Analytic Account: %s"
 
 #. module: l10n_se_mis
 #. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Analytic Tags: %s"
-msgstr "Objekt Etiketter: %s"
+msgstr "Analytic Tags: %s"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AndelarIntresseforetagGemensamtS
 msgid "Andelar i intresseföretag och gemensamt styrda företag"
-msgstr ""
+msgstr "Andelar i intresseföretag och gemensamt styrda företag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AndelarKoncernforetag
 msgid "Andelar i koncernföretag"
-msgstr ""
+msgstr "Andelar i koncernföretag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AndraLangfristigaFordringar
 msgid "Andra långfristiga fordringar"
-msgstr ""
+msgstr "Andra långfristiga fordringar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AndraLangfristigaVardepappersinn
 msgid "Andra långfristiga värdepappersinnehav"
-msgstr ""
+msgstr "Andra långfristiga värdepappersinnehav"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,help:l10n_se_mis.field_mis_report_instance__accounting_method
@@ -331,36 +334,38 @@ msgid ""
 "Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja "
 "fakturametoden i sista perioden/bokslutsperioden"
 msgstr ""
+"Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja "
+"fakturametoden i sista perioden/bokslutsperioden"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Anlaggningstillgangar_title
 msgid "Anläggningstillgångar"
-msgstr ""
+msgstr "Anläggningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AnlaggningstillgangarAbstract_title
 msgid "Anläggningstillgångar "
-msgstr ""
+msgstr "Anläggningstillgångar "
 
 #. module: l10n_se_mis
 #: model:mis.report,name:l10n_se_mis.report_ad
 msgid "Arbetsgivardeklarationen"
-msgstr ""
+msgstr "Arbetsgivardeklarationen"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_AvskrivningarNedskrivningarMater
 msgid "Av- och nedskrivningar av materiella och immateriella anläggningstillgångar"
-msgstr ""
+msgstr "Av- och nedskrivningar av materiella och immateriella anläggningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Avsattningar_title
 msgid "Avsättningar"
-msgstr ""
+msgstr "Avsättningar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AvsattningarAbstract_title
 msgid "Avsättningar "
-msgstr ""
+msgstr "Avsättningar "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AvsattningarPensionerLiknandeFor
@@ -368,148 +373,150 @@ msgid ""
 "Avsättningar för pensioner och liknande förpliktelser enligt lagen (1967:531) om "
 "tryggande av pensionsutfästelse m.m."
 msgstr ""
+"Avsättningar för pensioner och liknande förpliktelser enligt lagen (1967:531) om "
+"tryggande av pensionsutfästelse m.m."
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_BalanseratResultat
 msgid "Balanserat resultat"
-msgstr ""
+msgstr "Balanserat resultat"
 
 #. module: l10n_se_mis
 #: model:mis.report,name:l10n_se_mis.report_br
 msgid "Balansräkning"
-msgstr ""
+msgstr "Balansräkning"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_BokslutsdispositionerAbstract_title
 msgid "Bokslutsdispositioner "
-msgstr ""
+msgstr "Bokslutsdispositioner "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_BundetEgetKapital_title
 msgid "Bundet eget kapital"
-msgstr ""
+msgstr "Bundet eget kapital"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_BundetEgetKapitalAbstract_title
 msgid "Bundet eget kapital "
-msgstr ""
+msgstr "Bundet eget kapital "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ByggnaderMark
 msgid "Byggnader och mark"
-msgstr ""
+msgstr "Byggnader och mark"
 
 #. module: l10n_se_mis
 #. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Column %s with move lines source must have from/to dates."
-msgstr ""
+msgstr "Column %s with move lines source must have from/to dates."
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report__use_currency_suffix
 msgid "Currency Suffix"
-msgstr "Valuta Suffix"
+msgstr "Currency Suffix"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_EgetKapital_title
 msgid "Eget kapital"
-msgstr ""
+msgstr "Eget kapital"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_EgetKapitalAbstract_title
 msgid "Eget kapital "
-msgstr ""
+msgstr "Eget kapital "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_EgetKapitalSkulder_title
 msgid "Eget kapital och skulder"
-msgstr ""
+msgstr "Eget kapital och skulder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_EgetKapitalSkulderAbstract_title
 msgid "Eget kapital och skulder "
-msgstr ""
+msgstr "Eget kapital och skulder "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_EjRegistreratAktiekapital
 msgid "Ej registrerat aktiekapital"
-msgstr ""
+msgstr "Ej registrerat aktiekapital"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ErhallnaKoncernbidrag
 msgid "Erhållna koncernbidrag"
-msgstr ""
+msgstr "Erhållna koncernbidrag"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields.selection,name:l10n_se_mis.selection__mis_report_instance__accounting_method__invoice
 msgid "Fakturametoden"
-msgstr ""
+msgstr "Fakturametoden"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FaktureradEjUpparbetadIntakt
 msgid "Fakturerad men ej upparbetad intäkt"
-msgstr ""
+msgstr "Fakturerad men ej upparbetad intäkt"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FinansiellaAnlaggningstillgangar_title
 msgid "Finansiella anläggningstillgångar "
-msgstr ""
+msgstr "Finansiella anläggningstillgångar "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_FinansiellaPosterAbstract_title
 msgid "Finansiella poster "
-msgstr ""
+msgstr "Finansiella poster "
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__find_moves_by_period
 msgid "Find Move Based On Period"
-msgstr "Hitta Faktura Baserat På Period"
+msgstr "Hitta Move Based på perioden"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FrittEgetKapital_title
 msgid "Fritt eget kapital"
-msgstr ""
+msgstr "Fritt eget kapital"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FrittEgetKapitalAbstract_title
 msgid "Fritt eget kapital "
-msgstr ""
+msgstr "Fritt eget kapital "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ForbattringsutgifterAnnansFastig
 msgid "Förbättringsutgifter på annans fastighet"
-msgstr ""
+msgstr "Förbättringsutgifter på annans fastighet"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ForskottImmateriellaAnlaggningst
 msgid "Förskott avseende immateriella anläggningstillgångar"
-msgstr ""
+msgstr "Förskott avseende immateriella anläggningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ForskottFranKunder
 msgid "Förskott från kunder"
-msgstr ""
+msgstr "Förskott från kunder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ForskottTillLeverantorer
 msgid "Förskott till leverantörer"
-msgstr ""
+msgstr "Förskott till leverantörer"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ForutbetaldaKostnaderUpplupnaInt
 msgid "Förutbetalda kostnader och upplupna intäkter"
-msgstr ""
+msgstr "Förutbetalda kostnader och upplupna intäkter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ForandringPeriodiseringsfond
 msgid "Förändring av periodiseringsfonder"
-msgstr ""
+msgstr "Förändring av periodiseringsfonder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ForandringOveravskrivningar
 msgid "Förändring av överavskrivningar"
-msgstr ""
+msgstr "Förändring av överavskrivningar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ForandringLagerProdukterIArbeteF
@@ -517,18 +524,20 @@ msgid ""
 "Förändringar av lager av produkter i arbete, färdiga varor och pågående arbeten "
 "för annans räkning"
 msgstr ""
+"Förändringar av lager av produkter i arbete, färdiga varor och pågående arbeten "
+"för annans räkning"
 
 #. module: l10n_se_mis
 #. odoo-python
 #: code:addons/l10n_se_mis/models/mis_report_instance_xlsx.py:0
 #, python-format
 msgid "Generated on {} at {}"
-msgstr ""
+msgstr "Skapat den {} vid {}"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Goodwill
 msgid "Goodwill"
-msgstr ""
+msgstr "Goodwill"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__hide_opening_closing_period
@@ -544,7 +553,7 @@ msgstr "Dölj tomma rader"
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_HyresratterLiknandeRattigheter
 msgid "Hyresrätter och liknande rättigheter"
-msgstr ""
+msgstr "Hyresrätter och liknande rättigheter"
 
 #. module: l10n_se_mis
 #. odoo-python
@@ -556,23 +565,24 @@ msgstr "Om valuta_id inte anges måste alla företag ha samma valuta."
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ImmateriellaAnlaggningstillganga
 msgid "Immateriella anläggningstillgångar"
-msgstr ""
+msgstr "Immateriella anläggningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ImmateriellaAnlaggningstillganga_title
 msgid "Immateriella anläggningstillgångar "
-msgstr ""
+msgstr "Immateriella anläggningstillgångar "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_InventarierVerktygInstallationer
 msgid "Inventarier, verktyg och installationer"
-msgstr ""
+msgstr "Inventarier, verktyg och installationer"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarIntresseforetagGemensaInvis
 msgid ""
 "Invis Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag"
 msgstr ""
+"Invis Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag"
 
 #. module: l10n_se_mis
 #. odoo-python
@@ -586,6 +596,12 @@ msgid ""
 "or\n"
 "\t- Changing the KPI to `multi` mode and giving an explicit value for each sub-KPI."
 msgstr ""
+"KPI \"{}\" har typen {} medan en tupel förväntades.\n"
+"\n"
+"Detta kan åtgärdas genom att antingen:\n"
+"- Ändra KPI-värdet till en tupel med längden {}\n"
+"eller\n"
+"- Ändra KPI till `multi`-läge och ange ett explicit värde för varje del-KPI."
 
 #. module: l10n_se_mis
 #. odoo-python
@@ -595,373 +611,377 @@ msgid ""
 "KPI \"{}\" is valued as a tuple of length {} while a tuple of length {} is "
 "expected."
 msgstr ""
+"KPI \"{}\" värderas som en tupel av längden {} medan en tupel av längden {} "
+"förväntas."
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KassaBank_title
 msgid "Kassa och bank"
-msgstr ""
+msgstr "Kassa och bank"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KassaBankAbstract_title
 msgid "Kassa och bank "
-msgstr ""
+msgstr "Kassa och bank "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KassaBankExklRedovisningsmedel
 msgid "Kassa och bank exklusive redovisningsmedel"
-msgstr ""
+msgstr "Kassa och bank exklusive redovisningsmedel"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KoncessionerPatentLicenserVaruma
 msgid "Koncessioner, patent, licenser, varumärken samt liknande rättigheter"
-msgstr ""
+msgstr "Koncessioner, patent, licenser, varumärken samt liknande rättigheter"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields.selection,name:l10n_se_mis.selection__mis_report_instance__accounting_method__cash
 msgid "Kontantmetoden"
-msgstr ""
+msgstr "Kontantmetoden"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_CheckrakningskreditKortfristig
 msgid "Kortfristig checkräkningskredit "
-msgstr ""
+msgstr "Kortfristig checkräkningskredit "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AndelarKoncernforetagKortfristig
 msgid "Kortfristiga andelar i koncernföretag"
-msgstr ""
+msgstr "Kortfristiga andelar i koncernföretag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KortfristigaFordringarAbstract_title
 msgid "Kortfristiga fordringar "
-msgstr ""
+msgstr "Kortfristiga fordringar "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarIntresseforetagGemensa
 msgid "Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag"
-msgstr ""
+msgstr "Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarKoncernforetagKortfris
 msgid "Kortfristiga fordringar hos koncernföretag"
-msgstr ""
+msgstr "Kortfristiga fordringar hos koncernföretag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarOvrigaforetagAgarintre
 msgid "Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
-msgstr ""
+msgstr "Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KortfristigaPlaceringar
 msgid "Kortfristiga placeringar"
-msgstr ""
+msgstr "Kortfristiga placeringar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KortfristigaPlaceringarAbstract_title
 msgid "Kortfristiga placeringar "
-msgstr ""
+msgstr "Kortfristiga placeringar "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_KortfristigaSkulderAbstract_title
 msgid "Kortfristiga skulder "
-msgstr ""
+msgstr "Kortfristiga skulder "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_SkulderIntresseforetagGemensamtS
 msgid "Kortfristiga skulder till intresseföretag och gemensamt styrda företag"
-msgstr ""
+msgstr "Kortfristiga skulder till intresseföretag och gemensamt styrda företag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_SkulderKoncernforetagKortfristig
 msgid "Kortfristiga skulder till koncernföretag"
-msgstr ""
+msgstr "Kortfristiga skulder till koncernföretag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_SkulderOvrigaForetagAgarintresse
 msgid "Kortfristiga skulder till övriga företag som det finns ett ägarintresse i"
-msgstr ""
+msgstr "Kortfristiga skulder till övriga företag som det finns ett ägarintresse i"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_HandelsvarorKostnader
 msgid "Kostnad för sålda handelsvaror"
-msgstr ""
+msgstr "Kostnad för sålda handelsvaror"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Kundfordringar
 msgid "Kundfordringar"
-msgstr ""
+msgstr "Kundfordringar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_LagerFardigaVarorHandelsvaror
 msgid "Lager av färdiga varor och handelsvaror"
-msgstr ""
+msgstr "Lager av färdiga varor och handelsvaror"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_LagerRavarorFornodenheter
 msgid "Lager av råvaror och förnödenheter"
-msgstr ""
+msgstr "Lager av råvaror och förnödenheter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_LagerVarorUnderTillverkning
 msgid "Lager av varor under tillverkning"
-msgstr ""
+msgstr "Lager av varor under tillverkning"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Leverantorsskulder
 msgid "Leverantörsskulder"
-msgstr ""
+msgstr "Leverantörsskulder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_LamnadeKoncernbidrag
 msgid "Lämnade koncernbidrag"
-msgstr ""
+msgstr "Lämnade koncernbidrag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_LanDelagareNarstaende
 msgid "Lån till delägare eller närstående"
-msgstr ""
+msgstr "Lån till delägare eller närstående"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_CheckrakningskreditLangfristig
 msgid "Långfristig checkräkningskredit"
-msgstr ""
+msgstr "Långfristig checkräkningskredit"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarKoncernforetagLangfris
 msgid "Långfristiga fordringar hos koncernföretag"
-msgstr ""
+msgstr "Långfristiga fordringar hos koncernföretag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_FordringarOvrigaForetagAgarintre
 msgid "Långfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
-msgstr ""
+msgstr "Långfristiga fordringar hos övriga företag som det finns ett ägarintresse i"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_LangfristigaSkulder
 msgid "Långfristiga skulder"
-msgstr ""
+msgstr "Långfristiga skulder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_LangfristigaSkulderAbstract_title
 msgid "Långfristiga skulder "
-msgstr ""
+msgstr "Långfristiga skulder "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_SkulderKoncernforetagLangfristig
 msgid "Långfristiga skulder till koncernföretag"
-msgstr ""
+msgstr "Långfristiga skulder till koncernföretag"
 
 #. module: l10n_se_mis
 #: model:ir.model,name:l10n_se_mis.model_report_mis_builder_mis_report_instance_xlsx
 msgid "MIS Builder XLSX report"
-msgstr ""
+msgstr "MIS Builder XLSX report"
 
 #. module: l10n_se_mis
 #: model:ir.model,name:l10n_se_mis.model_mis_report_instance
 msgid "MIS Report Instance"
-msgstr ""
+msgstr "MIS Report Instance"
 
 #. module: l10n_se_mis
 #: model:ir.model,name:l10n_se_mis.model_mis_report_instance_period
 msgid "MIS Report Instance Period"
-msgstr ""
+msgstr "MIS Report Instance Period"
 
 #. module: l10n_se_mis
 #: model:ir.model,name:l10n_se_mis.model_mis_report_style
 msgid "MIS Report Style"
-msgstr ""
+msgstr "MIS Report Style"
 
 #. module: l10n_se_mis
 #: model:ir.model,name:l10n_se_mis.model_mis_report
 msgid "MIS Report Template"
-msgstr "Mall för MIS-rapport"
+msgstr "MIS Report Mall"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_MaskinerAndraTekniskaAnlaggninga
 msgid "Maskiner och andra tekniska anläggningar"
-msgstr ""
+msgstr "Maskiner och andra tekniska anläggningar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_MateriellaAnlaggningstillgangarA_title
 msgid "Materiella anläggningstillgångar "
-msgstr ""
+msgstr "Materiella anläggningstillgångar "
 
 #. module: l10n_se_mis
 #: model:mis.report,name:l10n_se_mis.report_md
 msgid "Momsdeklaration"
-msgstr ""
+msgstr "Momsdeklaration"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_NedskrivningarFinansiellaAnlaggn
 msgid ""
 "Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar"
 msgstr ""
+"Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_NedskrivningarOmsattningstillgan
 msgid "Nedskrivningar av omsättningstillgångar utöver normala nedskrivningar"
-msgstr ""
+msgstr "Nedskrivningar av omsättningstillgångar utöver normala nedskrivningar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_Nettoomsattning
 msgid "Nettoomsättning"
-msgstr ""
+msgstr "Nettoomsättning"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_ObeskattadeReserverAbstract_title
 msgid "Obeskattade reserver "
-msgstr ""
+msgstr "Obeskattade reserver "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Obligationslan
 msgid "Obligationslån"
-msgstr ""
+msgstr "Obligationslån"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Omsattningstillgangar_title
 msgid "Omsättningstillgångar"
-msgstr ""
+msgstr "Omsättningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OmsattningstillgangarAbstract_title
 msgid "Omsättningstillgångar "
-msgstr ""
+msgstr "Omsättningstillgångar "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Periodiseringsfonder
 msgid "Periodiseringsfonder"
-msgstr ""
+msgstr "Periodiseringsfonder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_Personalkostnader
 msgid "Personalkostnader"
-msgstr ""
+msgstr "Personalkostnader"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_PagaendeArbetenAnnansRakningKort
 msgid "Pågående arbeten för annans räkning (Skuld)"
-msgstr ""
+msgstr "Pågående arbeten för annans räkning (Skuld)"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_PagaendeArbetenAnnansRakningOmsa
 msgid "Pågående arbeten för annans räkning (Tillgång)"
-msgstr ""
+msgstr "Pågående arbeten för annans räkning (Tillgång)"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_PagaendeNyanlaggningarForskottMa
 msgid ""
 "Pågående nyanläggningar och förskott avseende materiella anläggningstillgångar"
 msgstr ""
+"Pågående nyanläggningar och förskott avseende materiella anläggningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Redovisningsmedel
 msgid "Redovisningsmedel"
-msgstr ""
+msgstr "Redovisningsmedel"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__accounting_method
 msgid "Redovisningsmetod"
-msgstr ""
+msgstr "Redovisningsmetod"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Reservfond
 msgid "Reservfond"
-msgstr ""
+msgstr "Reservfond"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ResultatEfterFinansiellaPoster_title
 msgid "Resultat efter finansiella poster"
-msgstr ""
+msgstr "Resultat efter finansiella poster"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ResultatAndelarIntresseforetagGe
 msgid "Resultat från andelar i intresseföretag och gemensamt styrda företag"
-msgstr ""
+msgstr "Resultat från andelar i intresseföretag och gemensamt styrda företag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ResultatAndelarKoncernforetag
 msgid "Resultat från andelar i koncernföretag"
-msgstr ""
+msgstr "Resultat från andelar i koncernföretag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ResultatOvrigaFinansiellaAnlaggn
 msgid "Resultat från övriga finansiella anläggningstillgångar"
-msgstr ""
+msgstr "Resultat från övriga finansiella anläggningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ResultatOvrigaforetagAgarintress
 msgid "Resultat från övriga företag som det finns ett ägarintresse i"
-msgstr ""
+msgstr "Resultat från övriga företag som det finns ett ägarintresse i"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_ResultatForeSkatt_title
 msgid "Resultat före skatt"
-msgstr ""
+msgstr "Resultat före skatt"
 
 #. module: l10n_se_mis
 #: model:mis.report,name:l10n_se_mis.report_rr
 msgid "Resultaträkning"
-msgstr ""
+msgstr "Resultaträkning"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_RantekostnaderLiknandeResultatpo
 msgid "Räntekostnader och liknande resultatposter"
-msgstr ""
+msgstr "Räntekostnader och liknande resultatposter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_RorelseintakterLagerforandringar_title
 msgid "Rörelseintäkter, lagerförändringar m.m."
-msgstr ""
+msgstr "Rörelseintäkter, lagerförändringar m.m."
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_RorelsensIntakterLagerforandring_title
 msgid "Rörelseintäkter, lagerförändringar m.m. "
-msgstr ""
+msgstr "Rörelseintäkter, lagerförändringar m.m. "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_Rorelsekostnader_title
 msgid "Rörelsekostnader"
-msgstr ""
+msgstr "Rörelsekostnader"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_RorelsekostnaderAbstract_title
 msgid "Rörelsekostnader "
-msgstr ""
+msgstr "Rörelsekostnader "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_Rorelseresultat_title
 msgid "Rörelseresultat"
-msgstr ""
+msgstr "Rörelseresultat"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_RorelseresultatAbstract_title
 msgid "Rörelseresultat "
-msgstr ""
+msgstr "Rörelseresultat "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_SkattAretsResultat
 msgid "Skatt på årets resultat"
-msgstr ""
+msgstr "Skatt på årets resultat"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_SkatterAbstract_title
 msgid "Skatter "
-msgstr ""
+msgstr "Skatter "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Skatteskulder
 msgid "Skatteskulder"
-msgstr ""
+msgstr "Skatteskulder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_Bokslutsdispositioner_title
 msgid "Summa bokslutsdispositioner"
-msgstr ""
+msgstr "Summa bokslutsdispositioner"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_FinansiellaPoster_title
 msgid "Summa finansiella poster"
-msgstr ""
+msgstr "Summa finansiella poster"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,field_description:l10n_se_mis.field_mis_report_instance__target_move
@@ -971,39 +991,39 @@ msgstr "Faktura Filter"
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_TecknatEjInbetaltKapital
 msgid "Tecknat men ej inbetalt kapital"
-msgstr ""
+msgstr "Tecknat men ej inbetalt kapital"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Tillgangar_title
 msgid "Tillgångar"
-msgstr ""
+msgstr "Tillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_TillgangarAbstract_title
 msgid "Tillgångar "
-msgstr ""
+msgstr "Tillgångar "
 
 #. module: l10n_se_mis
 #. odoo-python
 #: code:addons/l10n_se_mis/models/mis_instance.py:0
 #, python-format
 msgid "Unexpected value %s for target_move."
-msgstr ""
+msgstr "Unexpected value %s for target_move."
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_UpparbetadEjFaktureradIntakt
 msgid "Upparbetad men ej fakturerad intäkt"
-msgstr ""
+msgstr "Upparbetad men ej fakturerad intäkt"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_UpplupnaKostnaderForutbetaldaInt
 msgid "Upplupna kostnader och förutbetalda intäkter"
-msgstr ""
+msgstr "Upplupna kostnader och förutbetalda intäkter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Uppskrivningsfond
 msgid "Uppskrivningsfond"
-msgstr ""
+msgstr "Uppskrivningsfond"
 
 #. module: l10n_se_mis
 #: model:ir.model.fields,help:l10n_se_mis.field_mis_report__use_currency_suffix
@@ -1013,119 +1033,119 @@ msgstr "Använd valuta inställd på mis rapport eller företagets valuta som su
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_VarulagerMm
 msgid "Varulager m.m."
-msgstr ""
+msgstr "Varulager m.m."
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_VarulagerMmAbstract_title
 msgid "Varulager m.m. "
-msgstr ""
+msgstr "Varulager m.m. "
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Vaxelskulder
 msgid "Växelskulder"
-msgstr ""
+msgstr "Växelskulder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AgarintressenOvrigaForetag
 msgid "Ägarintressen i övriga företag"
-msgstr ""
+msgstr "Ägarintressen i övriga företag"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_AretsResultat
 msgid "Årets resultat"
-msgstr ""
+msgstr "Årets resultat"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_AretsResultatEgetKapital
 msgid "Årets resultat i balansräkningen"
-msgstr ""
+msgstr "Årets resultat i balansräkningen"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_Overkursfond
 msgid "Överkursfond"
-msgstr ""
+msgstr "Överkursfond"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaAvsattningar
 msgid "Övriga avsättningar"
-msgstr ""
+msgstr "Övriga avsättningar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaAvsattningarPensionerLikna
 msgid "Övriga avsättningar för pensioner och liknande förpliktelser"
-msgstr ""
+msgstr "Övriga avsättningar för pensioner och liknande förpliktelser"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_OvrigaBokslutsdispositioner
 msgid "Övriga bokslutsdispositioner"
-msgstr ""
+msgstr "Övriga bokslutsdispositioner"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_OvrigaExternaKostnader
 msgid "Övriga externa kostnader"
-msgstr ""
+msgstr "Övriga externa kostnader"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaFordringarKortfristiga
 msgid "Övriga kortfristga fordringar"
-msgstr ""
+msgstr "Övriga kortfristga fordringar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaKortfristigaPlaceringar
 msgid "Övriga kortfristiga placeringar"
-msgstr ""
+msgstr "Övriga kortfristiga placeringar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaKortfristigaSkulder
 msgid "Övriga kortfristiga skulder"
-msgstr ""
+msgstr "Övriga kortfristiga skulder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaKortfristigaSkulderKrediti
 msgid "Övriga kortfristiga skulder till kreditinstitut"
-msgstr ""
+msgstr "Övriga kortfristiga skulder till kreditinstitut"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaLagertillgangar
 msgid "Övriga lagertillgångar"
-msgstr ""
+msgstr "Övriga lagertillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaLangfristigaSkulder
 msgid "Övriga långfristiga skulder"
-msgstr ""
+msgstr "Övriga långfristiga skulder"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaLangfristigaSkulderKrediti
 msgid "Övriga långfristiga skulder till kreditinstitut"
-msgstr ""
+msgstr "Övriga långfristiga skulder till kreditinstitut"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaMateriellaAnlaggningstillg
 msgid "Övriga materiella anläggningstillgångar"
-msgstr ""
+msgstr "Övriga materiella anläggningstillgångar"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_br_OvrigaObeskattadeReserver
 msgid "Övriga obeskattade reserver"
-msgstr ""
+msgstr "Övriga obeskattade reserver"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_OvrigaRanteintakterLiknandeResul
 msgid "Övriga ränteintäkter och liknande resultatposter"
-msgstr ""
+msgstr "Övriga ränteintäkter och liknande resultatposter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_OvrigaRorelseintakter
 msgid "Övriga rörelseintäkter"
-msgstr ""
+msgstr "Övriga rörelseintäkter"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_OvrigaRorelsekostnader
 msgid "Övriga rörelsekostnader"
-msgstr ""
+msgstr "Övriga rörelsekostnader"
 
 #. module: l10n_se_mis
 #: model:mis.report.kpi,description:l10n_se_mis.report_rr_OvrigaSkatter
 msgid "Övriga skatter"
-msgstr ""
+msgstr "Övriga skatter"

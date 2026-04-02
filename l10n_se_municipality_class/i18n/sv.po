@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20211208\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-21 15:35+0000\n"
-"PO-Revision-Date: 2021-12-21 16:45+0100\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-02-24 11:23+0100\n"
+"Last-Translator: Jakob Krabbe <jakob.krabbe@vertel.se>\n"
 "Language-Team: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: sv_SE\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. module: l10n_se_municipality_class
 #: model:ir.model.fields,field_description:l10n_se_municipality_class.field_res_country_municipality__code
@@ -35,7 +35,7 @@ msgstr "Skapad av"
 #. module: l10n_se_municipality_class
 #: model:ir.model.fields,field_description:l10n_se_municipality_class.field_res_country_municipality__create_date
 msgid "Created on"
-msgstr "Skapades"
+msgstr "Skapad den"
 
 #. module: l10n_se_municipality_class
 #: model:ir.model.fields,field_description:l10n_se_municipality_class.field_res_country_municipality__display_name
@@ -50,17 +50,17 @@ msgstr "ID"
 #. module: l10n_se_municipality_class
 #: model:ir.model.fields,field_description:l10n_se_municipality_class.field_res_country_municipality____last_update
 msgid "Last Modified on"
-msgstr "Senast ändrad"
+msgstr "Senast redigerad den"
 
 #. module: l10n_se_municipality_class
 #: model:ir.model.fields,field_description:l10n_se_municipality_class.field_res_country_municipality__write_uid
 msgid "Last Updated by"
-msgstr "Uppdaterad av"
+msgstr "Senast uppdaterad av"
 
 #. module: l10n_se_municipality_class
 #: model:ir.model.fields,field_description:l10n_se_municipality_class.field_res_country_municipality__write_date
 msgid "Last Updated on"
-msgstr "Uppdaterades"
+msgstr "Senast Uppdaterad den"
 
 #. module: l10n_se_municipality_class
 #: model:ir.actions.act_window,name:l10n_se_municipality_class.action_municipality_view
@@ -76,9 +76,9 @@ msgstr "Namn"
 #. module: l10n_se_municipality_class
 #: model:ir.ui.menu,name:l10n_se_municipality_class.menu_municipality
 msgid "menu_municipality"
-msgstr "kommuner"
+msgstr "menu_municipality"
 
 #. module: l10n_se_municipality_class
 #: model:ir.model,name:l10n_se_municipality_class.model_res_country_municipality
 msgid "res.country.municipality"
-msgstr ""
+msgstr "res.country.municipality"

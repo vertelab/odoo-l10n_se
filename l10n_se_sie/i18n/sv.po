@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 17.0-20241127\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-28 09:20+0000\n"
-"PO-Revision-Date: 2024-11-28 11:13+0100\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-02-25 09:58+0100\n"
+"Last-Translator: Jakob Krabbe <jakob.krabbe@vertel.se>\n"
 "Language-Team: \n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. module: l10n_se_sie
 #: model_terms:ir.ui.view,arch_db:l10n_se_sie.wizard_account_sie
 msgid "&gt;"
-msgstr ""
+msgstr "&gt;"
 
 #. module: l10n_se_sie
 #: model:ir.model,name:l10n_se_sie.model_account_account
@@ -88,50 +88,50 @@ msgstr "Skapa Konton"
 #. module: l10n_se_sie
 #: model:ir.actions.server,name:l10n_se_sie.set_account_type
 msgid "Create SKF specific accounts"
-msgstr ""
+msgstr "Skapa SKF-specifika konton"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__create_uid
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__create_uid
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Skapad av"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__create_date
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__create_date
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Skapad den"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__liability_credit_card
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__liability_credit_card
 msgid "Credit Card"
-msgstr ""
+msgstr "Kreditkort"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__asset_current
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__asset_current
 msgid "Current Assets"
-msgstr ""
+msgstr "Omsättningstillgångar"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__current_transaction_year
 msgid "Current Fiscal Year"
-msgstr "Aktuellt räkenskapsår"
+msgstr "Innevarande räkenskapsår"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__liability_current
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__liability_current
 msgid "Current Liabilities"
-msgstr ""
+msgstr "Kortfristiga skulder"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__equity_unaffected
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__equity_unaffected
 msgid "Current Year Earnings"
-msgstr ""
+msgstr "Resultat innevarande år"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__date_start
@@ -142,36 +142,36 @@ msgstr "Datumintervall"
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__expense_depreciation
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__expense_depreciation
 msgid "Depreciation"
-msgstr ""
+msgstr "Avskrivning"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__display_name
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__display_name
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Visningsnamn"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__equity
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__equity
 msgid "Equity"
-msgstr ""
+msgstr "Eget kapital"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__expense
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__expense
 msgid "Expenses"
-msgstr ""
+msgstr "Kostnader"
 
 #. module: l10n_se_sie
 #: model_terms:ir.ui.view,arch_db:l10n_se_sie.wizard_account_sie
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 #. module: l10n_se_sie
 #: model_terms:ir.ui.view,arch_db:l10n_se_sie.wizard_account_sie
 msgid "Export Complete"
-msgstr ""
+msgstr "Export Complete"
 
 #. module: l10n_se_sie
 #: model:ir.actions.server,name:l10n_se_sie.dropdown_export_account
@@ -206,7 +206,7 @@ msgstr "Fil att ladda upp"
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__filename
 msgid "Filename"
-msgstr ""
+msgstr "Filnamn"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__date_field_to_use
@@ -228,7 +228,7 @@ msgstr "Räkenskapsår för #IB/#UB/#RES"
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__asset_fixed
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__asset_fixed
 msgid "Fixed Assets"
-msgstr ""
+msgstr "Anläggningstillgångar"
 
 #. module: l10n_se_sie
 #: model_terms:ir.ui.view,arch_db:l10n_se_sie.wizard_account_sie
@@ -255,35 +255,35 @@ msgstr "Här är den exporterade sie-filen:"
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__id
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_se_sie
 #: model_terms:ir.ui.view,arch_db:l10n_se_sie.wizard_account_sie
 msgid "Import"
-msgstr ""
+msgstr "Importera"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__include_ib
 msgid "Include Incoming Balans"
-msgstr ""
+msgstr "Inkludera inkommande saldon"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__include_transactions
 msgid "Include Transactions"
-msgstr ""
+msgstr "Inkludera transaktioner"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__income
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__income
 msgid "Income"
-msgstr ""
+msgstr "Inkomst"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_bank_statement_line__is_incoming_balance_move
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_move__is_incoming_balance_move
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_payment__is_incoming_balance_move
 msgid "Is Incoming Balance Move"
-msgstr ""
+msgstr "Flyttar inkommande saldo"
 
 #. module: l10n_se_sie
 #: model:ir.model,name:l10n_se_sie.model_account_journal
@@ -291,7 +291,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__move_journal_id
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__journal_id
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: l10n_se_sie
 #: model:ir.model,name:l10n_se_sie.model_account_move
@@ -301,92 +301,92 @@ msgstr "Verifikat"
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_res_company__kptyp
 msgid "Kptyp"
-msgstr ""
+msgstr "Kptyp"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__write_uid
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__write_uid
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Senast uppdaterad av"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__write_date
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__write_date
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Senast Uppdaterad den"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,help:l10n_se_sie.field_account_sie__fiscalyear_ids
 msgid "Moves in this fiscal years"
-msgstr ""
+msgstr "Förflyttningar under detta räkenskapsår"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,help:l10n_se_sie.field_account_sie__partner_ids
 msgid "Moves tied to these partners"
-msgstr ""
+msgstr "Flytt kopplade till dessa partners"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,help:l10n_se_sie.field_account_sie__journal_ids
 msgid "Moves with this type of journals"
-msgstr ""
+msgstr "Flyttar med den här typen av journaler"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__name
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__account_line_ids
 msgid "New Accounts"
-msgstr ""
+msgstr "Nya konton"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__asset_non_current
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__asset_non_current
 msgid "Non-current Assets"
-msgstr ""
+msgstr "Anläggningstillgångar"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__liability_non_current
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__liability_non_current
 msgid "Non-current Liabilities"
-msgstr ""
+msgstr "Långfristiga skulder"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__off_balance
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__off_balance
 msgid "Off-Balance Sheet"
-msgstr ""
+msgstr "Utanför balansräkningen"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__income_other
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__income_other
 msgid "Other Income"
-msgstr ""
+msgstr "Övrig inkomst"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__accounts_parent_id
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__parent_id
 msgid "Parent"
-msgstr ""
+msgstr "Överordnad"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__partner_ids
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__liability_payable
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__liability_payable
 msgid "Payable"
-msgstr ""
+msgstr "Betalningsbar"
 
 #. module: l10n_se_sie
 #: model:ir.model,name:l10n_se_sie.model_account_period
 msgid "Period"
-msgstr ""
+msgstr "Period"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__period_ids
@@ -396,46 +396,46 @@ msgstr "Perioder"
 #. module: l10n_se_sie
 #: model:ir.model.fields,help:l10n_se_sie.field_account_sie__current_transaction_year
 msgid "Posts are relative to this year"
-msgstr ""
+msgstr "Inläggen är relativa till i år"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__asset_prepayments
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__asset_prepayments
 msgid "Prepayments"
-msgstr ""
+msgstr "Förskottsbetalningar"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__accounts_type__asset_receivable
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie_account__account_type__asset_receivable
 msgid "Receivable"
-msgstr ""
+msgstr "Fordran"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__reconcile
 msgid "Reconcile"
-msgstr ""
+msgstr "Avstämma"
 
 #. module: l10n_se_sie
 #: model:ir.ui.menu,name:l10n_se_sie.menu_sie
 msgid "SIE"
-msgstr ""
+msgstr "SIE"
 
 #. module: l10n_se_sie
 #: model:ir.model,name:l10n_se_sie.model_account_sie_account
 msgid "SIE Import New Account Line"
-msgstr ""
+msgstr "SIE Importera ny kontorad"
 
 #. module: l10n_se_sie
 #: model:ir.model,name:l10n_se_sie.model_account_sie
 msgid "SIE Import Wizard"
-msgstr ""
+msgstr "SIE Importguide"
 
 #. module: l10n_se_sie
 #. odoo-python
 #: code:addons/l10n_se_sie/models/l10n_se_sie.py:0
 #, python-format
 msgid "SIE-export"
-msgstr ""
+msgstr "SIE-export"
 
 #. module: l10n_se_sie
 #: model_terms:ir.ui.view,arch_db:l10n_se_sie.wizard_account_sie
@@ -445,7 +445,7 @@ msgstr "Skicka"
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_serie_to_journal__name
 msgid "Serie"
-msgstr ""
+msgstr "Serie"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__serie_to_journal_ids
@@ -480,7 +480,7 @@ msgstr "Sie Typ"
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__state
 msgid "State"
-msgstr ""
+msgstr "Läge"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__date_stop
@@ -506,29 +506,29 @@ msgstr "Typ 4i Endast Verifikationsposter"
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie__accounts_type
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__account_type
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,help:l10n_se_sie.field_account_sie_serie_to_journal__journal_id
 msgid "Used to set journal based on Serie of #VER"
-msgstr ""
+msgstr "Används för att ställa in journal baserat på serie #VER"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields,field_description:l10n_se_sie.field_account_sie_account__wizard_id
 msgid "Wizard"
-msgstr ""
+msgstr "Guide"
 
 #. module: l10n_se_sie
 #: model:ir.model,name:l10n_se_sie.model_account_sie_serie_to_journal
 msgid "account.sie.serie.to.journal"
-msgstr ""
+msgstr "account.sie.serie.to.journal"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__state__choose
 msgid "choose"
-msgstr ""
+msgstr "välj"
 
 #. module: l10n_se_sie
 #: model:ir.model.fields.selection,name:l10n_se_sie.selection__account_sie__state__get
 msgid "get"
-msgstr ""
+msgstr "få"
