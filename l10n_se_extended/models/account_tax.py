@@ -29,19 +29,11 @@ class AccountTax(models.Model):
 
             index = 0
             while index < len(invoice_repartition_line_ids):
-                _logger.warning(f"{record=}")
-                _logger.warning(f"{invoice_repartition_line_ids[index]=}")
-                _logger.warning(f"{refund_repartition_line_ids[index]=}")
-                _logger.warning(f"{invoice_repartition_line_ids[index].factor_percent=}")
-                _logger.warning(f"{refund_repartition_line_ids[index].factor_percent=}")
-
                 inv_rep_ln = invoice_repartition_line_ids[index]
                 ref_rep_ln = refund_repartition_line_ids[index]
                 if inv_rep_ln.repartition_type != ref_rep_ln.repartition_type or inv_rep_ln.factor_percent != ref_rep_ln.factor_percent:
                     raise ValidationError(_("Invoice and credit note distribution should match (same percentages, in the same order)."))
                 index += 1
-            logging.warning(f"{record=}")
-            logging.warning(f"{record.name}")
             tax_reps = invoice_repartition_line_ids.filtered(lambda tax_rep: tax_rep.repartition_type == 'tax')
             total_pos_factor = sum(tax_reps.filtered(lambda tax_rep: tax_rep.factor > 0.0).mapped('factor'))
             #if float_compare(total_pos_factor, 1.0, precision_digits=2):
