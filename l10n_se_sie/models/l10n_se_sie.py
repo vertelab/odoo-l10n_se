@@ -64,6 +64,11 @@ class account_sie(models.TransientModel):
     _description = 'SIE Import Wizard'
 
     ####
+    period_mode = fields.Selection([
+	 ('exclude_opening_period', 'Exclude Opening Period'),
+	 ('use_opening_period', 'Use Opening Period'),
+	 ('include_all_period', 'Include All Period'),
+	 ], string='Period Mode', default='exclude_opening_period')
     include_transactions = fields.Boolean('Include Transactions')
     include_ib = fields.Boolean("Include Incoming Balans")
     
@@ -384,8 +389,8 @@ class account_sie(models.TransientModel):
             if self.sie_type == "4e":
                 balance_accounts =  self.env['account.account'].search([('company_id', '=', self.env.company.id),('user_type_id.report_type', '=', "b")])
                 result_accounts =  self.env['account.account'].search([('company_id', '=', self.env.company.id),('user_type_id.report_type', '=', "r")])
-                ib_dict = self.get_sie_value_dict(balance_accounts, include_current_year = False)
-                ub_dict = self.get_sie_value_dict(balance_accounts, include_current_year = True)
+                ib_dict = self.get_sie_value_dict(balance_accounts, include_current_year = False, period_type = self.period_mode)
+                ub_dict = self.get_sie_value_dict(balance_accounts, include_current_year = True, period_type = self.period_mode)
                 res_dict = self.get_sie_value_dict(result_accounts, just_current_year = True)
             self.write(
                 {'state': 'get', 'data': base64.encodebytes(self.make_sie(move_ids, ib_dict, ub_dict, res_dict)),
@@ -408,7 +413,7 @@ class account_sie(models.TransientModel):
         return fiscalyear_index
 
 
-    def get_sie_value_dict(self, accounts, include_current_year=False, just_current_year=False):#Not done yet
+    def get_sie_value_dict(self, accounts, include_current_year=False, just_current_year=False, period_type=False):
         self.ensure_one()
         all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)], order='date_start ASC')
         current_fiscalyear_index = self._get_fiscalyear_index(self.current_transaction_year, all_fiscal_years)
@@ -426,6 +431,10 @@ class account_sie(models.TransientModel):
                 years = fiscalyear
             _logger.warning(f"{years=}")
             search = []
+            if period_type == "exclude_opening_period":
+               search = [('period_id.special','=',False)]
+            if period_type == "use_opening_period":
+               search = [('period_id.special','=',True)]
             search.append(('move_id.state', '=', 'posted'))
             search.append(('move_id.company_id', '=', self.env.company.id))
             if self.date_field_to_use == "go_by_period":
