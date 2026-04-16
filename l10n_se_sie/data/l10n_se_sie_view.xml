@@ -119,6 +119,7 @@
 		      </group>
 		      <group attrs="{'invisible' : [('sie_type','!=','4e')]}">
                   <field name="date_field_to_use" widget="selection"/>
+				  <field name="period_mode"/>
 				  <field name="fiscalyear_4e_ids" widget="many2many_tags"/>
 			  </group> 
             </page>
