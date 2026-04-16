@@ -539,7 +539,7 @@ class account_sie(models.TransientModel):
                                                             self.escape_sie_string(ver.date.strftime("%Y%m%d")),
                                                             self.escape_sie_string(self.fix_empty(ver.narration))[:20],
                                                             self.escape_sie_string(ver.create_date.strftime("%Y%m%d")),
-                                                            self.escape_sie_string(ver.create_uid.login))
+                                                            self.escape_sie_string(ver.create_uid.login if ver.create_uid.login else ver.write_uid.login))
                 for trans in ver.line_ids:
                     if trans.display_type == "line_note" or trans.display_type == 'line_section':
                         continue
@@ -547,7 +547,7 @@ class account_sie(models.TransientModel):
                         self.escape_sie_string(trans.account_id.code), trans.debit - trans.credit,
                         self.escape_sie_string(trans.date.strftime("%Y%m%d")),
                         self.escape_sie_string(self.fix_empty(trans.name)), trans.quantity,
-                        self.escape_sie_string(trans.create_uid.login))
+                        self.escape_sie_string(trans.create_uid.login if trans.create_uid.login else trans.write_uid.login))
                     if trans.account_id.code not in ub:
                         ub[trans.account_id.code] = 0.0
                     ub[trans.account_id.code] += trans.debit - trans.credit
