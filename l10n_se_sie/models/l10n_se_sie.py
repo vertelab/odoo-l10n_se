@@ -432,14 +432,14 @@ class account_sie(models.TransientModel):
                     
             if self.sie_type == "4e":
                 balance_accounts = self.env['account.account'].search([
-                  ('company_id', '=', self.env.company.id),
+                  ('company_ids', 'in', self.env.company.id),
                   ('code', '!=', False),
                   ('code', '>=', '1000'),
                   ('code', '<=', '2999')
                 ])
 
                 result_accounts = self.env['account.account'].search([
-                 ('company_id', '=', self.env.company.id),
+                 ('company_ids', 'in', self.env.company.id),
                  ('code', '!=', False),
                  ('code', '>=', '3000'),
                  ('code', '<=', '8999')
