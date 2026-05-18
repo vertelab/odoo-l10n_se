@@ -9,8 +9,7 @@
                     <page string="Export MIS Reports">
                         <group>
                             <group>
-                                <field name="export_format" 
-                                       options="{'no_create': True}"/>
+                                <field name="export_mode" widget="radio"/>
                                 <field name="instance_ids"
                                        widget="many2many_tags"
                                        placeholder="Select MIS Report Instances to export"/>
