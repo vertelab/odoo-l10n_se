@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mis_report_export_import_form" model="ir.ui.view">
+        <field name="name">mis.report.export.import.form</field>
+        <field name="model">mis.report.export.import</field>
+        <field name="arch" type="xml">
+            <form string="Export/Import MIS Reports">
+                <notebook>
+                    <page string="Export MIS Reports">
+                        <group>
+                            <group>
+                                <field name="export_format" 
+                                       options="{'no_create': True}"/>
+                                <field name="report_ids"
+                                       widget="many2many_tags"
+                                       placeholder="Select MIS Reports to export"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_export" 
+                                    string="Export Selected Reports"
+                                    type="object" 
+                                    class="btn-primary me-2"/>
+                            <button string="Cancel" 
+                                    class="btn-secondary" 
+                                    special="cancel"/>
+                        </footer>
+                    </page>
+                    <page string="Import MIS Reports">
+                        <group>
+                            <group>
+                                <field name="data_file" 
+                                       filename="filename"
+                                       placeholder="Upload XML file"/>
+                                <field name="filename" invisible="1"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_import" 
+                                    string="Import Reports"
+                                    type="object" 
+                                    class="btn-primary me-2"
+                                    invisible="not data_file"/>
+                            <button string="Cancel" 
+                                    class="btn-secondary" 
+                                    special="cancel"/>
+                        </footer>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mis_report_export_import" model="ir.actions.act_window">
+        <field name="name">Export/Import MIS Reports</field>
+        <field name="res_model">mis.report.export.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_mis_report_export_import"
+              name="Export/Import MIS Reports"
+              parent="mis_builder.mis_report_conf_menu"
+              action="action_mis_report_export_import"
+              sequence="200"/>
+</odoo>
