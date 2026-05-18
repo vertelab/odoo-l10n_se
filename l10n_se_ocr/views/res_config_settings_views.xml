@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_swedish_ocr" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.swedish.ocr</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='invoicing_settings']" position="after">
+                <block title="Swedish OCR Settings" id="swedish_ocr_settings" string="Swedish OCR Settings">
+                    <setting id="ocr_control_level_setting" string="OCR Control Level" help="Choose how OCR numbers are validated and generated.">
+                        <field name="ocr_control_level"/>
+                    </setting>
+                    <setting id="ocr_fixed_length_setting" string="OCR Fixed Length" help="Total length of the OCR string (including length digit and check digit).">
+                        <field name="ocr_fixed_length" invisible="ocr_control_level != 'hard_fixed'" required="ocr_control_level == 'hard_fixed'"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

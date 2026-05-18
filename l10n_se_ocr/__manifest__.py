@@ -1,0 +1,22 @@
+{
+    'name': 'l10n_se: OCR Documents for Invoices',
+    'version': '18.0.1.0.0',
+    'category': 'Accounting',
+    'summary': 'Adds Swedish OCR number support with configurable control levels',
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_ocr',
+    'images': ['static/description/banner.png'],
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'depends': ['account'],
+    'data': [
+        'views/res_config_settings_views.xml',
+        'views/account_move_views.xml',
+        'views/report_invoice.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}

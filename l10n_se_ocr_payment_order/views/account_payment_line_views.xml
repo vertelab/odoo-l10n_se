@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_payment_line_form_inherit_ocr" model="ir.ui.view">
+        <field name="name">account.payment.line.form.inherit.ocr</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='communication']" position="after">
+                <field name="ocr_number" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_payment_line_tree_inherit_ocr" model="ir.ui.view">
+        <field name="name">account.payment.line.tree.inherit.ocr</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='communication']" position="after">
+                <field name="ocr_number" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

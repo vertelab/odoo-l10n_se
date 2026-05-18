@@ -1,0 +1,21 @@
+{
+    'name': 'l10n_se: OCR Payment Order Integration',
+    'version': '18.0.1.0.0',
+    'category': 'Accounting',
+    'summary': 'Integrates Swedish OCR numbers with payment orders, reports, and SEPA exports',
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_ocr_payment_order',
+    'images': ['static/description/banner.png'],
+    'license': 'AGPL-3',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'depends': ['l10n_se_ocr', 'account_payment_order'],
+    'data': [
+        'views/account_payment_order_views.xml',
+        'views/account_payment_line_views.xml',
+        'report/payment_order_report.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}
