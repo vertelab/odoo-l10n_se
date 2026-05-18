@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="report_invoice_document_inherit_swedish_ocr" inherit_id="account.report_invoice_document">
-        <xpath expr="//div[@id='payment_communication']" position="inside">
+        <xpath expr="//div[@id='payment_term']" position="after">
             <div t-if="o.ocr_number" class="row mt-2">
                 <div class="col-auto">
                     <strong>OCR Number:</strong>

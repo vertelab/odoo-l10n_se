@@ -21,4 +21,20 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_account_invoice_filter_inherit_swedish_ocr" model="ir.ui.view">
+        <field name="name">account.invoice.filter.inherit.swedish.ocr</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">[
+                    '|', '|', '|', '|', '|',
+                    ('name', 'ilike', self), ('invoice_origin', 'ilike', self),
+                    ('ref', 'ilike', self), ('payment_reference', 'ilike', self),
+                    ('partner_id', 'child_of', self), ('ocr_number', 'ilike', self)]
+                </attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>

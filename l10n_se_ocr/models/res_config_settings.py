@@ -6,9 +6,10 @@ class ResConfigSettings(models.TransientModel):
 
     ocr_control_level = fields.Selection(
         [
-            ('soft', 'Beteckningskontroll (Soft) - Only validate Luhn check digit'),
-            ('hard_fixed', 'Längd- & beteckningskontroll (Hard Fixed) - Fixed length, length digit included'),
+            ('soft', 'Soft'),
+            ('hard_fixed', 'Hard Fixed'),
         ],
+        help="Soft - Only validate Luhn check digit, Hard Fixed - Fixed length, length digit included",
         string='OCR Control Level',
         default='soft',
         config_parameter='l10n_se_ocr.ocr_control_level',

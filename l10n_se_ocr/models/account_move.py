@@ -77,7 +77,8 @@ class AccountMove(models.Model):
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100, order=None):
-        """Extends search to match OCR numbers in Kanban, List, and Reconciliation views."""
+        """Extends search to match OCR numbers alongside standard fields
+        in Kanban, List, Many2one, and Reconciliation views."""
         args = list(args or [])
         if name:
             ocr_domain = [('ocr_number', operator, name)]
