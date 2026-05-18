@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_bank_statement_line_form_inherit_ocr" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.form.inherit.ocr</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="account.view_bank_statement_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="extracted_ocr"
+                       readonly="1"
+                       class="oe_inline"
+                       attrs="{'invisible': [('extracted_ocr', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_bank_statement_line_tree_inherit_ocr" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.tree.inherit.ocr</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="account.view_bank_statement_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="extracted_ocr" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_bank_statement_line_search_inherit_ocr" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.search.inherit.ocr</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="account.view_bank_statement_line_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="has_ocr"
+                        string="Has Extracted OCR"
+                        domain="[('extracted_ocr', '!=', False)]"/>
+                <filter name="no_ocr"
+                        string="No Extracted OCR"
+                        domain="[('extracted_ocr', '=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
