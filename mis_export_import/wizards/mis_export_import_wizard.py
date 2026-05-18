@@ -13,23 +13,30 @@ class MISReportExportImport(models.TransientModel):
     _name = 'mis.report.export.import'
     _description = 'MIS Report Export/Import Wizard'
 
-    report_ids = fields.Many2many('mis.report', string='MIS Reports')
+    instance_ids = fields.Many2many('mis.report.instance', string='MIS Report Instances')
     data_file = fields.Binary(string='Import File')
     filename = fields.Char(string='Filename')
     export_format = fields.Selection([
         ('xml', 'XML')
     ], string='Export Format', default='xml')
 
+    @api.model
+    def default_get(self, fields_list):
+        res = super(MISReportExportImport, self).default_get(fields_list)
+        if self._context.get('active_model') == 'mis.report.instance' and self._context.get('active_ids'):
+            res['instance_ids'] = [(6, 0, self._context.get('active_ids'))]
+        return res
+
     def action_export(self):
-        _logger.info("Starting MIS Report export for %s reports", len(self.report_ids))
-        if not self.report_ids:
-            raise UserError(_("Please select at least one MIS Report to export."))
+        _logger.info("Starting MIS Report Instance export for %s instances", len(self.instance_ids))
+        if not self.instance_ids:
+            raise UserError(_("Please select at least one MIS Report Instance to export."))
 
         xml_content = self._generate_xml()
 
         # Create attachment and return download action
         attachment = self.env['ir.attachment'].create({
-            'name': f'mis_reports_{fields.Date.today()}.xml',
+            'name': f'mis_report_instances_{fields.Date.today()}.xml',
             'type': 'binary',
             'datas': base64.b64encode(xml_content.encode('utf-8')),
             'mimetype': 'application/xml',
@@ -46,6 +53,22 @@ class MISReportExportImport(models.TransientModel):
     def _get_export_config(self):
         """Returns a configuration of fields to export for each model."""
         return {
+            'mis.report.instance': [
+                'name', 'description', 'report_id', 'target_move',
+                'multi_company', 'landscape_pdf', 'no_auto_expand_accounts',
+                'display_columns_description', 'date_from', 'date_to',
+                'analytic_domain', 'widget_show_filters', 'widget_show_settings_button',
+                'widget_show_pivot_date', 'period_ids'
+            ],
+            'mis.report.instance.period': [
+                'name', 'sequence', 'mode', 'type', 'is_ytd', 'offset', 'duration',
+                'manual_date_from', 'manual_date_to', 'normalize_factor', 'subkpi_ids',
+                'source', 'source_aml_model_id', 'source_sumcol_ids', 'source_sumcol_accdet',
+                'source_cmpcol_from_id', 'source_cmpcol_to_id', 'analytic_domain'
+            ],
+            'mis.report.instance.period.sum': [
+                'period_to_sum_id', 'sign'
+            ],
             'mis.report': [
                 'name', 'description', 'style_id', 'move_lines_source',
                 'query_ids', 'kpi_ids', 'subkpi_ids', 'subreport_ids'
@@ -85,22 +108,18 @@ class MISReportExportImport(models.TransientModel):
         # Add metadata
         ET.SubElement(root, 'export_date').text = fields.Datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
-        # Track exported records to avoid duplicates and handle circular refs
+        # Track exported records
         exported_records = {} # (model, id): xml_id
-        data_exported = set() # (model, id) - records whose DATA has been written to XML
+        data_exported = set() # (model, id)
         
         styles_root = ET.SubElement(root, 'styles')
-        reports_root = ET.SubElement(root, 'reports')
+        templates_root = ET.SubElement(root, 'templates')
+        instances_root = ET.SubElement(root, 'instances')
 
         export_config = self._get_export_config()
 
-        # Pre-populate exported_records with External IDs for top-level reports
-        for report in self.report_ids:
-            ext_id = report.get_external_id().get(report.id)
-            exported_records[('mis.report', report.id)] = ext_id or f"mis_report_{report.id}"
-
-        for report in self.report_ids:
-            self._export_record(reports_root, report, export_config, exported_records, styles_root, data_exported)
+        for instance in self.instance_ids:
+            self._export_record(instances_root, instance, export_config, exported_records, styles_root, templates_root, data_exported)
 
         # Format with proper indentation
         rough_string = ET.tostring(root, encoding='utf-8')
@@ -109,18 +128,16 @@ class MISReportExportImport(models.TransientModel):
 
         return pretty_xml
 
-    def _export_record(self, parent_elem, record, config, exported_records, styles_root, data_exported):
+    def _export_record(self, parent_elem, record, config, exported_records, styles_root, templates_root, data_exported):
         model_name = record._name
         rec_key = (model_name, record.id)
         
-        # If we already exported the DATA for this record, don't create another <record> tag
         if rec_key in data_exported:
             return
 
         record_elem = ET.SubElement(parent_elem, 'record', model=model_name)
         data_exported.add(rec_key)
         
-        # Add external ID or internal XML ID
         ext_id = record.get_external_id().get(record.id)
         if ext_id:
             record_elem.set('id', ext_id)
@@ -150,22 +167,17 @@ class MISReportExportImport(models.TransientModel):
                 field_elem.text = str(val)
             elif field.type == 'many2one':
                 if field.comodel_name in config:
-                    # It's one of our MIS models
                     target_key = (field.comodel_name, val.id)
                     
-                    # If target data not yet exported, export it to the appropriate section
                     if target_key not in data_exported:
                         if field.comodel_name == 'mis.report.style':
-                            self._export_record(styles_root, val, config, exported_records, styles_root, data_exported)
-                        elif field.comodel_name == 'mis.report' and target_key not in exported_records:
-                            # Reference to another report not selected for export
-                             ext_id = val.get_external_id().get(val.id)
-                             if ext_id:
-                                 exported_records[target_key] = ext_id
-
+                            self._export_record(styles_root, val, config, exported_records, styles_root, templates_root, data_exported)
+                        elif field.comodel_name == 'mis.report':
+                            self._export_record(templates_root, val, config, exported_records, styles_root, templates_root, data_exported)
+                    
                     target_id = exported_records.get(target_key)
                     if target_id:
-                        if '.' in target_id: # likely a real external ID
+                        if '.' in target_id:
                             field_elem.set('ref', target_id)
                         else:
                             field_elem.set('xml_ref', target_id)
@@ -178,19 +190,31 @@ class MISReportExportImport(models.TransientModel):
                     if ext_id:
                         field_elem.set('ref', ext_id)
                     else:
-                        if 'name' in val._fields:
+                        if field.comodel_name == 'res.currency':
+                             field_elem.set('search', f"[('name', '=', '{val.name}')]")
+                        elif field.comodel_name == 'res.company':
+                             field_elem.set('search', f"[('name', '=', '{val.name}')]")
+                        elif 'name' in val._fields:
                             field_elem.set('search', f"[('name', '=', '{val.name}')]")
-                        else:
-                            _logger.warning("Many2one field %s in %s has no external ID and no name field", field_name, model_name)
 
             elif field.type in ('one2many', 'many2many'):
                 if field.type == 'many2many' and field.comodel_name == 'ir.model.fields':
                     for child_record in val:
                         child_elem = ET.SubElement(field_elem, 'value')
                         child_elem.text = f"{child_record.model_id.model}.{child_record.name}"
+                elif field.type == 'many2many' and field.comodel_name in config:
+                    for child_record in val:
+                        target_key = (field.comodel_name, child_record.id)
+                        target_id = exported_records.get(target_key)
+                        if target_id:
+                            child_node = ET.SubElement(field_elem, 'record_ref')
+                            if '.' in target_id:
+                                child_node.set('ref', target_id)
+                            else:
+                                child_node.set('xml_ref', target_id)
                 else:
                     for child_record in val:
-                        self._export_record(field_elem, child_record, config, exported_records, styles_root, data_exported)
+                        self._export_record(field_elem, child_record, config, exported_records, styles_root, templates_root, data_exported)
 
     def action_import(self):
         if not self.data_file:
@@ -202,25 +226,40 @@ class MISReportExportImport(models.TransientModel):
             
             # Map of XML IDs to Odoo records
             id_map = {}
+            # List of (record, field_name, xml_ref) to resolve after all records are created
+            postponed_refs = []
 
             # First pass: Styles
             styles_node = root.find('styles')
             if styles_node is not None:
-                for style_node in styles_node.findall('record'):
-                    self._import_record(style_node, id_map)
+                for node in styles_node.findall('record'):
+                    self._import_record(node, id_map, postponed_refs=postponed_refs)
 
-            # Second pass: Reports
-            reports_node = root.find('reports')
-            if reports_node is not None:
-                for report_node in reports_node.findall('record'):
-                    self._import_record(report_node, id_map)
+            # Second pass: Templates
+            templates_node = root.find('templates')
+            if templates_node is not None:
+                for node in templates_node.findall('record'):
+                    self._import_record(node, id_map, postponed_refs=postponed_refs)
+
+            # Third pass: Instances
+            instances_node = root.find('instances')
+            if instances_node is not None:
+                for node in instances_node.findall('record'):
+                    self._import_record(node, id_map, postponed_refs=postponed_refs)
+
+            # Final pass: Resolve postponed references
+            for record, field_name, xml_ref in postponed_refs:
+                if xml_ref in id_map:
+                    record.write({field_name: id_map[xml_ref].id})
+                else:
+                    _logger.warning("Could not resolve postponed reference %s for field %s in %s", xml_ref, field_name, record._name)
 
             return {
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',
                 'params': {
                     'title': _('Import Successful'),
-                    'message': _('MIS Reports imported successfully!'),
+                    'message': _('MIS Report Instances imported successfully!'),
                     'type': 'success',
                     'sticky': False,
                 }
@@ -229,7 +268,7 @@ class MISReportExportImport(models.TransientModel):
             _logger.error("Import failed: %s", str(e), exc_info=True)
             raise UserError(_("Import failed: %s") % str(e))
 
-    def _import_record(self, record_node, id_map, parent_info=None):
+    def _import_record(self, record_node, id_map, parent_info=None, postponed_refs=None):
         model_name = record_node.get('model')
         xml_id = record_node.get('id') or record_node.get('xml_id')
         
@@ -260,6 +299,9 @@ class MISReportExportImport(models.TransientModel):
             elif xml_ref:
                 if xml_ref in id_map:
                     data[field_name] = id_map[xml_ref].id
+                elif postponed_refs is not None:
+                    # Resolution will be postponed
+                    pass
             elif search_domain:
                 try:
                     import ast
@@ -292,16 +334,14 @@ class MISReportExportImport(models.TransientModel):
 
         # Create or update record
         record = None
-        # Match by External ID
         if xml_id and not record_node.get('xml_id'):
             record = self.env.ref(xml_id, raise_if_not_found=False)
         
-        # Match by Name + Parent if not found by ID (Prevents duplicates for KPIs, Queries, etc.)
         if not record:
             name = data.get('name')
             if name:
                 domain = [('name', '=', name)]
-                if parent_info and model_name != 'mis.report':
+                if parent_info and model_name not in ('mis.report', 'mis.report.instance', 'mis.report.style'):
                     domain.append((parent_info[0], '=', parent_info[1]))
                 record = self.env[model_name].search(domain, limit=1)
             
@@ -312,6 +352,13 @@ class MISReportExportImport(models.TransientModel):
 
         if xml_id:
             id_map[xml_id] = record
+
+        # Register postponed references for this record
+        if postponed_refs is not None:
+            for field_node in record_node.findall('field'):
+                xml_ref = field_node.get('xml_ref')
+                if xml_ref and xml_ref not in id_map:
+                    postponed_refs.append((record, field_node.get('name'), xml_ref))
 
         # Process relational data
         for field_name, field_node in relational_data:
@@ -327,16 +374,23 @@ class MISReportExportImport(models.TransientModel):
                             commands.append((4, f_record.id))
                 if commands:
                     record.write({field_name: commands})
+            elif field.type == 'many2many' and field.comodel_name in self._get_export_config():
+                commands = []
+                for ref_node in field_node.findall('record_ref'):
+                    target_id = None
+                    if ref_node.get('ref'):
+                        target = self.env.ref(ref_node.get('ref'), raise_if_not_found=False)
+                        if target:
+                            target_id = target.id
+                    elif ref_node.get('xml_ref'):
+                        if ref_node.get('xml_ref') in id_map:
+                            target_id = id_map[ref_node.get('xml_ref')].id
+                    if target_id:
+                        commands.append((4, target_id))
+                if commands:
+                    record.write({field_name: commands})
             elif field.type == 'one2many':
                 for child_node in field_node.findall('record'):
-                    # Pass parent ID to satisfy 'required' parent relations
-                    self._import_record(child_node, id_map, parent_info=(field.inverse_name, record.id))
-            elif field.type == 'many2many':
-                 commands = []
-                 for child_node in field_node.findall('record'):
-                     child_record = self._import_record(child_node, id_map)
-                     commands.append((4, child_record.id))
-                 if commands:
-                     record.write({field_name: commands})
+                    self._import_record(child_node, id_map, parent_info=(field.inverse_name, record.id), postponed_refs=postponed_refs)
 
         return record

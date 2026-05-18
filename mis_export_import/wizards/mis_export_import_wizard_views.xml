@@ -11,14 +11,14 @@
                             <group>
                                 <field name="export_format" 
                                        options="{'no_create': True}"/>
-                                <field name="report_ids"
+                                <field name="instance_ids"
                                        widget="many2many_tags"
-                                       placeholder="Select MIS Reports to export"/>
+                                       placeholder="Select MIS Report Instances to export"/>
                             </group>
                         </group>
                         <footer>
                             <button name="action_export" 
-                                    string="Export Selected Reports"
+                                    string="Export Selected Instances"
                                     type="object" 
                                     class="btn-primary me-2"/>
                             <button string="Cancel" 
@@ -37,7 +37,7 @@
                         </group>
                         <footer>
                             <button name="action_import" 
-                                    string="Import Reports"
+                                    string="Import Instances"
                                     type="object" 
                                     class="btn-primary me-2"
                                     invisible="not data_file"/>
@@ -56,6 +56,8 @@
         <field name="res_model">mis.report.export.import</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+        <field name="binding_model_id" ref="mis_builder.model_mis_report_instance"/>
+        <field name="binding_view_types">list,form</field>
     </record>
 
     <menuitem id="menu_mis_report_export_import"
