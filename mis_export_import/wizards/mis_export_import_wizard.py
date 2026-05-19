@@ -142,7 +142,7 @@ class MISReportExportImport(models.TransientModel):
             record_elem.set('id', ext_id)
             exported_records[rec_key] = ext_id
         else:
-            xml_id = exported_records.get(rec_key) or f"{model_name.replace('.', '_')}_{record.id}"
+            xml_id = exported_records.get(rec_key) or self._make_export_xml_id(record, prefix="")
             record_elem.set('xml_id', xml_id)
             exported_records[rec_key] = xml_id
 
@@ -195,34 +195,44 @@ class MISReportExportImport(models.TransientModel):
         config = self._get_export_config()
         all_records = [] # List of (record, parent_record, parent_field)
         exported_ids = {} # (model, id) -> xml_id
+        collected_keys = set()
         
         # 1. Collect all records recursively
         for instance in self.instance_ids:
-            self._collect_records_data(instance, config, all_records, exported_ids)
+            self._collect_records_data(
+                instance, config, all_records, exported_ids, collected_keys,
+                force_export=True,
+            )
             
-        # 2. Export each record that needs definition
-        for record, parent, p_field in all_records:
+        # 2. Export each record that needs definition, after its dependencies
+        for record, parent, p_field in self._sort_records_for_data_export(
+            all_records, config, exported_ids,
+        ):
             self._export_record_data(data_node, record, config, exported_ids, parent, p_field)
 
         return self._format_xml(root)
 
-    def _collect_records_data(self, record, config, all_records, exported_ids):
+    def _collect_records_data(
+        self, record, config, all_records, exported_ids, collected_keys,
+        parent=None, parent_field=None, force_export=False,
+    ):
         model_name = record._name
         rec_key = (model_name, record.id)
-        if rec_key in exported_ids:
+        if rec_key in collected_keys:
             return
 
         # Check for real External ID
         ext_id = record.get_external_id().get(record.id)
-        if ext_id:
+        if ext_id and not force_export:
             exported_ids[rec_key] = ext_id
             # Do NOT collect body of records that are already in a module
             return
 
         # Generate unique ID for new record
-        xml_id = f"export_{model_name.replace('.', '_')}_{record.id}"
+        xml_id = self._make_export_xml_id(record)
         exported_ids[rec_key] = xml_id
-        all_records.append((record, None, None))
+        collected_keys.add(rec_key)
+        all_records.append((record, parent, parent_field))
 
         # Explore relations
         fields_to_export = config.get(model_name, [])
@@ -233,11 +243,84 @@ class MISReportExportImport(models.TransientModel):
             if not val: continue
 
             if field.type == 'many2one' and field.comodel_name in config:
-                self._collect_records_data(val, config, all_records, exported_ids)
-            elif field.type in ('one2many', 'many2many') and field.comodel_name in config:
+                self._collect_records_data(
+                    val, config, all_records, exported_ids, collected_keys,
+                )
+            elif field.type == 'one2many' and field.comodel_name in config:
+                for c in val:
+                    self._collect_records_data(
+                        c, config, all_records, exported_ids, collected_keys,
+                        parent=record, parent_field=field.inverse_name,
+                        force_export=True,
+                    )
+            elif field.type == 'many2many' and field.comodel_name in config:
                 if field.comodel_name != 'ir.model.fields':
                     for c in val:
-                        self._collect_records_data(c, config, all_records, exported_ids)
+                        self._collect_records_data(
+                            c, config, all_records, exported_ids, collected_keys,
+                        )
+
+    def _sort_records_for_data_export(self, all_records, config, exported_ids):
+        """Sort records so standard XML refs point to already-created records."""
+        record_map = {}
+        for item in all_records:
+            record = item[0]
+            record_map[(record._name, record.id)] = item
+        remaining = list(all_records)
+        emitted = set()
+        ordered = []
+
+        def is_local_record(key):
+            xml_id = exported_ids.get(key)
+            return xml_id and '.' not in xml_id and key in record_map
+
+        def dependencies(item):
+            record, parent, parent_field = item
+            deps = set()
+            if parent:
+                parent_key = (parent._name, parent.id)
+                if is_local_record(parent_key):
+                    deps.add(parent_key)
+
+            for f_name in config.get(record._name, []):
+                if f_name == parent_field:
+                    continue
+                field = record._fields.get(f_name)
+                if not field:
+                    continue
+                val = record[f_name]
+                if not val:
+                    continue
+
+                if field.type == 'many2one' and field.comodel_name in config:
+                    dep_key = (field.comodel_name, val.id)
+                    if dep_key != (record._name, record.id) and is_local_record(dep_key):
+                        deps.add(dep_key)
+                elif field.type == 'many2many' and field.comodel_name in config:
+                    for target in val:
+                        dep_key = (field.comodel_name, target.id)
+                        if dep_key != (record._name, record.id) and is_local_record(dep_key):
+                            deps.add(dep_key)
+            return deps
+
+        while remaining:
+            progressed = False
+            for item in list(remaining):
+                record = item[0]
+                rec_key = (record._name, record.id)
+                if dependencies(item).issubset(emitted):
+                    ordered.append(item)
+                    emitted.add(rec_key)
+                    remaining.remove(item)
+                    progressed = True
+            if not progressed:
+                _logger.warning(
+                    "Could not fully order MIS export records due to cyclic references: %s",
+                    [(item[0]._name, item[0].id) for item in remaining],
+                )
+                ordered.extend(remaining)
+                break
+        return ordered
 
     def _export_record_data(self, data_node, record, config, exported_ids, parent=None, p_field=None):
         model_name = record._name
@@ -248,58 +331,114 @@ class MISReportExportImport(models.TransientModel):
             return
 
         record_elem = ET.SubElement(data_node, 'record', model=model_name, id=xml_id)
+        written_fields = set()
+
+        if parent and p_field:
+            parent_xml_id = exported_ids.get((parent._name, parent.id))
+            if parent_xml_id:
+                field_elem = ET.SubElement(record_elem, 'field', name=p_field)
+                field_elem.set('ref', parent_xml_id)
+                written_fields.add(p_field)
         
         fields_to_export = config.get(model_name, [])
         for f_name in fields_to_export:
+            if f_name in written_fields:
+                continue
             field = record._fields.get(f_name)
             if not field: continue
             val = record[f_name]
             if not val and field.type != 'boolean': continue
 
-            field_elem = ET.SubElement(record_elem, 'field', name=f_name)
-            
-            if field.type in ('char', 'text', 'html', 'selection', 'integer', 'float'):
+            if field.type in ('char', 'text', 'html', 'selection', 'integer', 'float', 'monetary', 'date', 'datetime'):
+                field_elem = ET.SubElement(record_elem, 'field', name=f_name)
                 field_elem.text = str(val)
             elif field.type == 'boolean':
+                field_elem = ET.SubElement(record_elem, 'field', name=f_name)
                 field_elem.text = 'True' if val else 'False'
             elif field.type == 'many2one':
                 if field.comodel_name in config:
                     target_id = exported_ids.get((field.comodel_name, val.id))
-                    if target_id: field_elem.set('ref', target_id)
-                elif field.comodel_name in ('ir.model', 'ir.model.fields'):
-                    field_elem.text = val.model if field.comodel_name == 'ir.model' else f"{val.model_id.model}.{val.name}"
+                    if target_id:
+                        field_elem = ET.SubElement(record_elem, 'field', name=f_name)
+                        field_elem.set('ref', target_id)
+                elif field.comodel_name == 'ir.model':
+                    field_elem = ET.SubElement(record_elem, 'field', name=f_name)
+                    ext_id = val.get_external_id().get(val.id)
+                    if ext_id:
+                        field_elem.set('ref', ext_id)
+                    else:
+                        field_elem.set('search', repr([('model', '=', val.model)]))
+                elif field.comodel_name == 'ir.model.fields':
+                    field_elem = ET.SubElement(record_elem, 'field', name=f_name)
+                    ext_id = val.get_external_id().get(val.id)
+                    if ext_id:
+                        field_elem.set('ref', ext_id)
+                    else:
+                        field_elem.set('search', repr([
+                            ('model', '=', val.model_id.model),
+                            ('name', '=', val.name),
+                        ]))
                 else:
                     ext_id = val.get_external_id().get(val.id)
-                    if ext_id: field_elem.set('ref', ext_id)
-                    elif 'name' in val._fields: field_elem.set('search', f"[('name', '=', '{val.name}')]")
+                    if ext_id:
+                        field_elem = ET.SubElement(record_elem, 'field', name=f_name)
+                        field_elem.set('ref', ext_id)
+                    elif 'name' in val._fields:
+                        field_elem = ET.SubElement(record_elem, 'field', name=f_name)
+                        field_elem.set('search', repr([('name', '=', val.name)]))
             elif field.type == 'one2many':
-                # One2many in Data Files is best handled as [(6, 0, [refs...])] 
-                # but for MIS components, Odoo allows them to be created separately.
-                # However, many2many is easier to define here.
-                ref_ids = []
-                for c in val:
-                    t_id = exported_ids.get((field.comodel_name, c.id))
-                    if t_id: ref_ids.append(t_id)
-                if ref_ids:
-                    eval_str = "[(6, 0, [%s])]" % ", ".join([f"ref('{rid}')" for rid in ref_ids])
-                    field_elem.set('eval', eval_str)
+                # Standard module data is more robust when One2many children are
+                # exported as their own records with the inverse Many2one set.
+                continue
             elif field.type == 'many2many':
                 if field.comodel_name == 'ir.model.fields':
-                    eval_str = "[(6, 0, [%s])]" % ", ".join([f"ref('{c.model_id.model}.{c.name}')" for c in val])
-                    field_elem.set('eval', eval_str)
+                    field_elem = ET.SubElement(record_elem, 'field', name=f_name)
+                    field_elem.set('search', repr(self._model_fields_domain(val)))
                 elif field.comodel_name in config:
                     ref_ids = []
                     for c in val:
                         t_id = exported_ids.get((field.comodel_name, c.id))
                         if t_id: ref_ids.append(t_id)
                     if ref_ids:
+                        field_elem = ET.SubElement(record_elem, 'field', name=f_name)
                         eval_str = "[(6, 0, [%s])]" % ", ".join([f"ref('{rid}')" for rid in ref_ids])
                         field_elem.set('eval', eval_str)
+
+    def _model_fields_domain(self, fields_records):
+        """Return a portable domain for an ir.model.fields recordset."""
+        terms = []
+        for field in fields_records:
+            terms.extend([
+                '&',
+                ('model', '=', field.model_id.model),
+                ('name', '=', field.name),
+            ])
+        if len(fields_records) <= 1:
+            return terms[1:] if terms else []
+        return ['|'] * (len(fields_records) - 1) + terms
+
+    def _make_export_xml_id(self, record, prefix="export_"):
+        name = record.display_name if 'display_name' in record._fields else False
+        if not name and 'name' in record._fields:
+            name = record.name
+        name_slug = self._slugify_xml_id_part(name or "")
+        model_slug = record._name.replace('.', '_')
+        if name_slug:
+            return f"{prefix}{model_slug}_{name_slug}_{record.id}"
+        return f"{prefix}{model_slug}_{record.id}"
+
+    def _slugify_xml_id_part(self, value):
+        value = re.sub(r'[^0-9A-Za-z_]+', '_', str(value).lower()).strip('_')
+        value = re.sub(r'_+', '_', value)
+        if value and value[0].isdigit():
+            value = f"x_{value}"
+        return value[:60].rstrip('_')
 
     def _format_xml(self, root):
         rough_string = ET.tostring(root, encoding='utf-8')
         reparsed = minidom.parseString(rough_string)
-        return reparsed.toprettyxml(indent="    ", encoding='utf-8').decode('utf-8')
+        xml_content = reparsed.toprettyxml(indent="    ", encoding='utf-8').decode('utf-8')
+        return re.sub(r'(\n[ \t]*</record>)(\n[ \t]*<record\b)', r'\1\n\2', xml_content)
 
     def action_import(self):
         if not self.data_file:
