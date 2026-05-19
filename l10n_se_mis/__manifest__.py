@@ -42,6 +42,7 @@
     'data': [
         'data/mis_financial_report.xml',
         'data/mis_financial_report_compact.xml',
+        'data/mis_report_instances.xml',
         'data/mis_momsdeklaration_report.xml',
         'data/mis_arbetsgivardeklaration_report.xml',
         'security/security.xml',
