@@ -1,6 +1,7 @@
 import base64
 import logging
 import re
+import unicodedata
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from odoo import models, fields, api, _
@@ -22,6 +23,13 @@ class MISReportExportImport(models.TransientModel):
     ], string='Export Mode', default='wizard', required=True,
        help="Wizard Import: For use with this module's import feature.\n"
             "Module Data File: Standard Odoo XML to include in a module's data folder.")
+    module_prefix = fields.Char(
+        string='Module Prefix',
+        default='l10n_se_mis',
+        help="XML ID prefix for exported records without external IDs. "
+             "E.g., 'my_module' generates IDs like 'my_module.mis_report_resultatrakning'. "
+             "Leave empty for IDs without module prefix."
+    )
 
     @api.model
     def default_get(self, fields_list):
@@ -29,6 +37,40 @@ class MISReportExportImport(models.TransientModel):
         if self._context.get('active_model') == 'mis.report.instance' and self._context.get('active_ids'):
             res['instance_ids'] = [(6, 0, self._context.get('active_ids'))]
         return res
+
+    def _make_xml_id(self, model_name, record, used_ids):
+        """Generate a meaningful XML ID from the record's name.
+
+        Returns a string like 'mis_report_resultatrakning' or
+        'my_module.mis_report_resultatrakning' if module_prefix is set.
+        Handles collisions by appending _1, _2, etc.
+        """
+        name = record.name or ''
+        # Normalize: remove accents, lowercase
+        normalized = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
+        # Replace non-alphanumeric chars with underscore
+        sanitized = re.sub(r'[^a-zA-Z0-9]+', '_', normalized).strip('_').lower()
+        # Truncate to reasonable length
+        sanitized = sanitized[:50] if sanitized else 'unnamed'
+
+        base_id = f"{model_name.replace('.', '_')}_{sanitized}"
+        if self.module_prefix:
+            full_id = f"{self.module_prefix}.{base_id}"
+        else:
+            full_id = base_id
+
+        # Handle collisions
+        candidate = full_id
+        counter = 1
+        while candidate in used_ids:
+            if self.module_prefix:
+                candidate = f"{self.module_prefix}.{base_id}_{counter}"
+            else:
+                candidate = f"{base_id}_{counter}"
+            counter += 1
+
+        used_ids.add(candidate)
+        return candidate
 
     def action_export(self):
         _logger.info("Starting MIS Report Instance export for %s instances", len(self.instance_ids))
@@ -41,6 +83,13 @@ class MISReportExportImport(models.TransientModel):
         else:
             xml_content = self._generate_data_file_xml()
             filename = f'mis_data_file_{fields.Date.today()}.xml'
+
+        # Validate XML before creating attachment
+        try:
+            ET.fromstring(xml_content.encode('utf-8'))
+        except ET.ParseError as e:
+            _logger.error("Generated XML is invalid: %s", str(e))
+            raise UserError(_("Generated XML is invalid: %s") % str(e))
 
         # Create attachment and return download action
         attachment = self.env['ir.attachment'].create({
@@ -114,21 +163,22 @@ class MISReportExportImport(models.TransientModel):
         """Generates XML for the wizard-based import (nested records)."""
         root = ET.Element('mis_report_export', version="1.0")
         ET.SubElement(root, 'export_date').text = fields.Datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        
+
         exported_records = {}
         data_exported = set()
-        
+        used_ids = set()
+
         styles_root = ET.SubElement(root, 'styles')
         templates_root = ET.SubElement(root, 'templates')
         instances_root = ET.SubElement(root, 'instances')
 
         config = self._get_export_config()
         for instance in self.instance_ids:
-            self._export_record_wizard(instances_root, instance, config, exported_records, styles_root, templates_root, data_exported)
+            self._export_record_wizard(instances_root, instance, config, exported_records, styles_root, templates_root, data_exported, used_ids)
 
         return self._format_xml(root)
 
-    def _export_record_wizard(self, parent_elem, record, config, exported_records, styles_root, templates_root, data_exported):
+    def _export_record_wizard(self, parent_elem, record, config, exported_records, styles_root, templates_root, data_exported, used_ids):
         model_name = record._name
         rec_key = (model_name, record.id)
         if rec_key in data_exported:
@@ -136,13 +186,13 @@ class MISReportExportImport(models.TransientModel):
 
         record_elem = ET.SubElement(parent_elem, 'record', model=model_name)
         data_exported.add(rec_key)
-        
+
         ext_id = record.get_external_id().get(record.id)
         if ext_id:
             record_elem.set('id', ext_id)
             exported_records[rec_key] = ext_id
         else:
-            xml_id = exported_records.get(rec_key) or f"{model_name.replace('.', '_')}_{record.id}"
+            xml_id = exported_records.get(rec_key) or self._make_xml_id(model_name, record, used_ids)
             record_elem.set('xml_id', xml_id)
             exported_records[rec_key] = xml_id
 
@@ -163,9 +213,9 @@ class MISReportExportImport(models.TransientModel):
                     target_key = (field.comodel_name, val.id)
                     if target_key not in data_exported:
                         if field.comodel_name == 'mis.report.style':
-                            self._export_record_wizard(styles_root, val, config, exported_records, styles_root, templates_root, data_exported)
+                            self._export_record_wizard(styles_root, val, config, exported_records, styles_root, templates_root, data_exported, used_ids)
                         elif field.comodel_name == 'mis.report':
-                            self._export_record_wizard(templates_root, val, config, exported_records, styles_root, templates_root, data_exported)
+                            self._export_record_wizard(templates_root, val, config, exported_records, styles_root, templates_root, data_exported, used_ids)
                     target_id = exported_records.get(target_key)
                     if target_id:
                         field_elem.set('ref' if '.' in target_id else 'xml_ref', target_id)
@@ -185,28 +235,29 @@ class MISReportExportImport(models.TransientModel):
                             node = ET.SubElement(field_elem, 'record_ref')
                             node.set('ref' if '.' in t_id else 'xml_ref', t_id)
                 else:
-                    for c in val: self._export_record_wizard(field_elem, c, config, exported_records, styles_root, templates_root, data_exported)
+                    for c in val: self._export_record_wizard(field_elem, c, config, exported_records, styles_root, templates_root, data_exported, used_ids)
 
     def _generate_data_file_xml(self):
         """Generates a standard Odoo Data XML file (flat records)."""
         root = ET.Element('odoo')
         data_node = ET.SubElement(root, 'data', noupdate="1")
-        
+
         config = self._get_export_config()
-        all_records = [] # List of (record, parent_record, parent_field)
-        exported_ids = {} # (model, id) -> xml_id
-        
+        all_records = []
+        exported_ids = {}
+        used_ids = set()
+
         # 1. Collect all records recursively
         for instance in self.instance_ids:
-            self._collect_records_data(instance, config, all_records, exported_ids)
-            
+            self._collect_records_data(instance, config, all_records, exported_ids, used_ids)
+
         # 2. Export each record that needs definition
         for record, parent, p_field in all_records:
             self._export_record_data(data_node, record, config, exported_ids, parent, p_field)
 
         return self._format_xml(root)
 
-    def _collect_records_data(self, record, config, all_records, exported_ids):
+    def _collect_records_data(self, record, config, all_records, exported_ids, used_ids):
         model_name = record._name
         rec_key = (model_name, record.id)
         if rec_key in exported_ids:
@@ -219,8 +270,8 @@ class MISReportExportImport(models.TransientModel):
             # Do NOT collect body of records that are already in a module
             return
 
-        # Generate unique ID for new record
-        xml_id = f"export_{model_name.replace('.', '_')}_{record.id}"
+        # Generate meaningful unique ID for new record
+        xml_id = self._make_xml_id(model_name, record, used_ids)
         exported_ids[rec_key] = xml_id
         all_records.append((record, None, None))
 
@@ -233,22 +284,22 @@ class MISReportExportImport(models.TransientModel):
             if not val: continue
 
             if field.type == 'many2one' and field.comodel_name in config:
-                self._collect_records_data(val, config, all_records, exported_ids)
+                self._collect_records_data(val, config, all_records, exported_ids, used_ids)
             elif field.type in ('one2many', 'many2many') and field.comodel_name in config:
                 if field.comodel_name != 'ir.model.fields':
                     for c in val:
-                        self._collect_records_data(c, config, all_records, exported_ids)
+                        self._collect_records_data(c, config, all_records, exported_ids, used_ids)
 
     def _export_record_data(self, data_node, record, config, exported_ids, parent=None, p_field=None):
         model_name = record._name
         xml_id = exported_ids.get((model_name, record.id))
-        
+
         # If it contains a dot, it's a reference to an existing module record
         if '.' in xml_id:
             return
 
         record_elem = ET.SubElement(data_node, 'record', model=model_name, id=xml_id)
-        
+
         fields_to_export = config.get(model_name, [])
         for f_name in fields_to_export:
             field = record._fields.get(f_name)
@@ -257,7 +308,7 @@ class MISReportExportImport(models.TransientModel):
             if not val and field.type != 'boolean': continue
 
             field_elem = ET.SubElement(record_elem, 'field', name=f_name)
-            
+
             if field.type in ('char', 'text', 'html', 'selection', 'integer', 'float'):
                 field_elem.text = str(val)
             elif field.type == 'boolean':
@@ -273,9 +324,6 @@ class MISReportExportImport(models.TransientModel):
                     if ext_id: field_elem.set('ref', ext_id)
                     elif 'name' in val._fields: field_elem.set('search', f"[('name', '=', '{val.name}')]")
             elif field.type == 'one2many':
-                # One2many in Data Files is best handled as [(6, 0, [refs...])] 
-                # but for MIS components, Odoo allows them to be created separately.
-                # However, many2many is easier to define here.
                 ref_ids = []
                 for c in val:
                     t_id = exported_ids.get((field.comodel_name, c.id))
@@ -309,7 +357,7 @@ class MISReportExportImport(models.TransientModel):
             root = ET.fromstring(xml_content)
             id_map = {}
             postponed_refs = []
-            
+
             # This import logic only works for 'wizard' format (nested)
             # but we can try to make it work for flat 'data' format too if needed.
             # For now, we follow the tiered pass structure.
@@ -318,7 +366,7 @@ class MISReportExportImport(models.TransientModel):
                 if node is not None:
                     for r_node in node.findall('record'):
                         self._import_record(r_node, id_map, postponed_refs=postponed_refs)
-            
+
             # Final pass
             for record, field_name, xml_ref in postponed_refs:
                 if xml_ref in id_map: record.write({field_name: id_map[xml_ref].id})
@@ -342,7 +390,7 @@ class MISReportExportImport(models.TransientModel):
             if field.type in ('one2many', 'many2many'):
                 relational_data.append((f_name, f_node))
                 continue
-            
+
             ref, xml_ref, search = f_node.get('ref'), f_node.get('xml_ref'), f_node.get('search')
             if ref:
                 r = self.env.ref(ref, raise_if_not_found=False)
