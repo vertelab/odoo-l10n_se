@@ -9,7 +9,7 @@
             <field name="period_ids" eval="[
                 (0, 0, {
                     'name': 'Current year',
-                    'mode': 'rel',
+                    'mode': 'relative',
                     'type': 'y',
                     'offset': 0,
                     'duration': 1,
@@ -17,7 +17,7 @@
                 }),
                 (0, 0, {
                     'name': 'Previous year',
-                    'mode': 'rel',
+                    'mode': 'relative',
                     'type': 'y',
                     'offset': -1,
                     'duration': 1,
@@ -35,7 +35,7 @@
             <field name="period_ids" eval="[
                 (0, 0, {
                     'name': 'Current year',
-                    'mode': 'rel',
+                    'mode': 'relative',
                     'type': 'y',
                     'offset': 0,
                     'duration': 1,
@@ -43,7 +43,7 @@
                 }),
                 (0, 0, {
                     'name': 'Previous year',
-                    'mode': 'rel',
+                    'mode': 'relative',
                     'type': 'y',
                     'offset': -1,
                     'duration': 1,
