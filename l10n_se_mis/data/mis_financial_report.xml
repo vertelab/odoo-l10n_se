@@ -260,7 +260,7 @@
         </record>
         <record id="kpi_title_report_rr_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_Rorelseresultat_title"/>
-            <field name="name">RorelseintakterLagerforandringar-Rorelsekostnader</field>
+            <field name="name">RorelseintakterLagerforandringar+Rorelsekostnader</field>
         </record>
         <record id="report_rr_FinansiellaPosterAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_rr"/>
@@ -380,7 +380,7 @@
         </record>
         <record id="kpi_title_report_rr_FinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_FinansiellaPoster_title"/>
-            <field name="name">ResultatAndelarKoncernforetag+ResultatAndelarIntresseforetagGe+ResultatOvrigaforetagAgarintress+ResultatOvrigaFinansiellaAnlaggn+OvrigaRanteintakterLiknandeResul+NedskrivningarFinansiellaAnlaggn+RantekostnaderLiknandeResultatpo</field>
+            <field name="name">ResultatAndelarKoncernforetag+ResultatAndelarIntresseforetagGe+ResultatOvrigaforetagAgarintress+ResultatOvrigaFinansiellaAnlaggn+OvrigaRanteintakterLiknandeResul-NedskrivningarFinansiellaAnlaggn-RantekostnaderLiknandeResultatpo</field>
         </record>
         <record id="report_rr_ResultatEfterFinansiellaPoster_title" model="mis.report.kpi">
             <field name="report_id" ref="report_rr"/>
@@ -498,7 +498,7 @@
         </record>
         <record id="kpi_title_report_rr_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_ResultatForeSkatt_title"/>
-            <field name="name">ResultatEfterFinansiellaPoster-Bokslutsdispositioner</field>
+            <field name="name">ResultatEfterFinansiellaPoster+Bokslutsdispositioner</field>
         </record>
         <record id="report_rr_SkatterAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_rr"/>
@@ -549,7 +549,7 @@
         </record>
         <record id="kpi_title_report_rr_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_AretsResultat"/>
-            <field name="name">bal[8990, 8991, 8992, 8993, 8994, 8995, 8996, 8997, 8998, 8999]* -1</field>
+            <field name="name">bal[8990, 8991, 8992, 8993, 8994, 8995, 8996, 8997, 8998, 8999]</field>
         </record>
         <record id="report_br" model="mis.report">
             <field name="name">Balansräkning</field>
