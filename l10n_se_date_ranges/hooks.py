@@ -1,8 +1,6 @@
 import logging
 from datetime import date, timedelta
 
-from odoo import api
-
 _logger = logging.getLogger(__name__)
 
 SWEDISH_TYPE_EXTERNAL_IDS = [
@@ -16,11 +14,11 @@ SWEDISH_TYPE_EXTERNAL_IDS = [
 def _first_monday_of_year(year):
     """Return the Monday of the ISO week that contains January 1st of *year*."""
     jan1 = date(year, 1, 1)
-    monday_offset = (jan1.weekday() - 0) % 7
+    monday_offset = jan1.weekday()
     return jan1 - timedelta(days=monday_offset)
 
 
-def _generate_swedish_date_ranges(cr, registry):
+def _generate_swedish_date_ranges(env):
     """Post-init hook: generate date ranges for all Swedish types.
 
     - Fiscal year, quarter, month: previous, current, and next year.
@@ -28,7 +26,6 @@ def _generate_swedish_date_ranges(cr, registry):
 
     Called automatically by Odoo after this module's data has been loaded.
     """
-    env = api.Environment(cr, api.SUPERUSER_ID, {})
     current_year = date.today().year
 
     type_years = {

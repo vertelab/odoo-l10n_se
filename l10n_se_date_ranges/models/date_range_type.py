@@ -11,9 +11,8 @@ class DateRangeType(models.Model):
 
         Args:
             year: Calendar year to generate ranges for.
-            date_start: Optional override for the generator start date
-                        (e.g. first Monday for week types).
-            company_id: Target company; defaults to current company.
+            date_start: Optional override for the generator start date.
+            company_id: Target company; defaults to the type's company.
         Returns the created ``date.range`` records.
         """
         self.ensure_one()
@@ -21,15 +20,16 @@ class DateRangeType(models.Model):
             date_start = date(year, 1, 1)
 
         generator = self.env['date.range.generator'].create({
-            'date_range_type_id': self.id,
+            'type_id': self.id,
             'date_start': date_start,
-            'company_id': company_id or self.env.company.id,
-            'name_prefix': self.name + ' ',
-            'unit_of_time': self.unit_of_time,
-            'duration_count': self.duration_count,
+            'company_id': company_id or self.company_id.id,
             'name_expr': self.name_expr,
+            'count': 0,
+            'date_end': date(year, 12, 31),
+            'duration_count': self.duration_count,
+            'unit_of_time': self.unit_of_time,
         })
-        generator.apply()
+        generator.action_apply()
         return self.env['date.range'].search([
             ('type_id', '=', self.id),
             ('date_start', '>=', f'{year}-01-01'),
