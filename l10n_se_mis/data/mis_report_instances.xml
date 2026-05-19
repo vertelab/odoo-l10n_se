@@ -9,7 +9,7 @@
             <field name="period_ids" eval="[
                 (0, 0, {
                     'name': 'Current year',
-                    'mode': 'relative',
+                    'mode': 'rel',
                     'type': 'y',
                     'offset': 0,
                     'duration': 1,
@@ -17,7 +17,7 @@
                 }),
                 (0, 0, {
                     'name': 'Previous year',
-                    'mode': 'relative',
+                    'mode': 'rel',
                     'type': 'y',
                     'offset': -1,
                     'duration': 1,
@@ -35,7 +35,7 @@
             <field name="period_ids" eval="[
                 (0, 0, {
                     'name': 'Current year',
-                    'mode': 'relative',
+                    'mode': 'rel',
                     'type': 'y',
                     'offset': 0,
                     'duration': 1,
@@ -43,7 +43,7 @@
                 }),
                 (0, 0, {
                     'name': 'Previous year',
-                    'mode': 'relative',
+                    'mode': 'rel',
                     'type': 'y',
                     'offset': -1,
                     'duration': 1,
@@ -62,7 +62,7 @@
         <record id="mis_report_instance_balansrakning_period_ib" model="mis.report.instance.period">
             <field name="name">IB</field>
             <field name="report_instance_id" ref="mis_report_instance_balansrakning"/>
-            <field name="mode">relative</field>
+            <field name="mode">rel</field>
             <field name="type">y</field>
             <field name="offset">-1</field>
             <field name="duration">1</field>
@@ -73,7 +73,7 @@
         <record id="mis_report_instance_balansrakning_period_ub" model="mis.report.instance.period">
             <field name="name">UB</field>
             <field name="report_instance_id" ref="mis_report_instance_balansrakning"/>
-            <field name="mode">relative</field>
+            <field name="mode">rel</field>
             <field name="type">y</field>
             <field name="offset">0</field>
             <field name="duration">1</field>
@@ -84,7 +84,11 @@
         <record id="mis_report_instance_balansrakning_period_forandringar" model="mis.report.instance.period">
             <field name="name">Förändringar</field>
             <field name="report_instance_id" ref="mis_report_instance_balansrakning"/>
-            <field name="mode">custom</field>
+            <field name="mode">rel</field>
+            <field name="type">y</field>
+            <field name="offset">0</field>
+            <field name="duration">1</field>
+            <field name="source">cmpcol</field>
             <field name="source_cmpcol_from_id" ref="mis_report_instance_balansrakning_period_ib"/>
             <field name="source_cmpcol_to_id" ref="mis_report_instance_balansrakning_period_ub"/>
             <field name="sequence">2</field>
@@ -101,7 +105,7 @@
         <record id="mis_report_instance_balansrakning_kompakt_period_ib" model="mis.report.instance.period">
             <field name="name">IB</field>
             <field name="report_instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
-            <field name="mode">relative</field>
+            <field name="mode">rel</field>
             <field name="type">y</field>
             <field name="offset">-1</field>
             <field name="duration">1</field>
@@ -111,7 +115,7 @@
         <record id="mis_report_instance_balansrakning_kompakt_period_ub" model="mis.report.instance.period">
             <field name="name">UB</field>
             <field name="report_instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
-            <field name="mode">relative</field>
+            <field name="mode">rel</field>
             <field name="type">y</field>
             <field name="offset">0</field>
             <field name="duration">1</field>
@@ -121,7 +125,11 @@
         <record id="mis_report_instance_balansrakning_kompakt_period_forandringar" model="mis.report.instance.period">
             <field name="name">Förändringar</field>
             <field name="report_instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
-            <field name="mode">custom</field>
+            <field name="mode">rel</field>
+            <field name="type">y</field>
+            <field name="offset">0</field>
+            <field name="duration">1</field>
+            <field name="source">cmpcol</field>
             <field name="source_cmpcol_from_id" ref="mis_report_instance_balansrakning_kompakt_period_ib"/>
             <field name="source_cmpcol_to_id" ref="mis_report_instance_balansrakning_kompakt_period_ub"/>
             <field name="sequence">2</field>
