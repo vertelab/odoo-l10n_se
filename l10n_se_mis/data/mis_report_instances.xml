@@ -59,9 +59,9 @@
         </record>
 
         <!-- IB: Ingående balans (föregående årsskifte) -->
-        <record id="mis_report_instance_balansrakning_ib" model="mis.report.instance.period">
+        <record id="mis_report_instance_balansrakning_period_ib" model="mis.report.instance.period">
             <field name="name">IB</field>
-            <field name="instance_id" ref="mis_report_instance_balansrakning"/>
+            <field name="report_instance_id" ref="mis_report_instance_balansrakning"/>
             <field name="mode">relative</field>
             <field name="type">y</field>
             <field name="offset">-1</field>
@@ -70,9 +70,9 @@
         </record>
 
         <!-- UB: Utgående balans (innevarande årsskifte) -->
-        <record id="mis_report_instance_balansrakning_ub" model="mis.report.instance.period">
+        <record id="mis_report_instance_balansrakning_period_ub" model="mis.report.instance.period">
             <field name="name">UB</field>
-            <field name="instance_id" ref="mis_report_instance_balansrakning"/>
+            <field name="report_instance_id" ref="mis_report_instance_balansrakning"/>
             <field name="mode">relative</field>
             <field name="type">y</field>
             <field name="offset">0</field>
@@ -81,12 +81,12 @@
         </record>
 
         <!-- Förändringar: UB - IB -->
-        <record id="mis_report_instance_balansrakning_forandringar" model="mis.report.instance.period">
+        <record id="mis_report_instance_balansrakning_period_forandringar" model="mis.report.instance.period">
             <field name="name">Förändringar</field>
-            <field name="instance_id" ref="mis_report_instance_balansrakning"/>
+            <field name="report_instance_id" ref="mis_report_instance_balansrakning"/>
             <field name="mode">custom</field>
-            <field name="source_cmpcol_from_id" ref="mis_report_instance_balansrakning_ib"/>
-            <field name="source_cmpcol_to_id" ref="mis_report_instance_balansrakning_ub"/>
+            <field name="source_cmpcol_from_id" ref="mis_report_instance_balansrakning_period_ib"/>
+            <field name="source_cmpcol_to_id" ref="mis_report_instance_balansrakning_period_ub"/>
             <field name="sequence">2</field>
         </record>
 
@@ -98,9 +98,9 @@
             <field name="no_auto_expand_accounts">True</field>
         </record>
 
-        <record id="mis_report_instance_balansrakning_kompakt_ib" model="mis.report.instance.period">
+        <record id="mis_report_instance_balansrakning_kompakt_period_ib" model="mis.report.instance.period">
             <field name="name">IB</field>
-            <field name="instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
+            <field name="report_instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
             <field name="mode">relative</field>
             <field name="type">y</field>
             <field name="offset">-1</field>
@@ -108,9 +108,9 @@
             <field name="sequence">1</field>
         </record>
 
-        <record id="mis_report_instance_balansrakning_kompakt_ub" model="mis.report.instance.period">
+        <record id="mis_report_instance_balansrakning_kompakt_period_ub" model="mis.report.instance.period">
             <field name="name">UB</field>
-            <field name="instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
+            <field name="report_instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
             <field name="mode">relative</field>
             <field name="type">y</field>
             <field name="offset">0</field>
@@ -118,12 +118,12 @@
             <field name="sequence">3</field>
         </record>
 
-        <record id="mis_report_instance_balansrakning_kompakt_forandringar" model="mis.report.instance.period">
+        <record id="mis_report_instance_balansrakning_kompakt_period_forandringar" model="mis.report.instance.period">
             <field name="name">Förändringar</field>
-            <field name="instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
+            <field name="report_instance_id" ref="mis_report_instance_balansrakning_kompakt"/>
             <field name="mode">custom</field>
-            <field name="source_cmpcol_from_id" ref="mis_report_instance_balansrakning_kompakt_ib"/>
-            <field name="source_cmpcol_to_id" ref="mis_report_instance_balansrakning_kompakt_ub"/>
+            <field name="source_cmpcol_from_id" ref="mis_report_instance_balansrakning_kompakt_period_ib"/>
+            <field name="source_cmpcol_to_id" ref="mis_report_instance_balansrakning_kompakt_period_ub"/>
             <field name="sequence">2</field>
         </record>
     </data>
