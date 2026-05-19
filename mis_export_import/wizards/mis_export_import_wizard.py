@@ -77,12 +77,17 @@ class MISReportExportImport(models.TransientModel):
         if not self.instance_ids:
             raise UserError(_("Please select at least one MIS Report Instance to export."))
 
+        # Generate filename from first selected instance name
+        first_instance = self.instance_ids[0]
+        normalized = unicodedata.normalize('NFKD', first_instance.name).encode('ascii', 'ignore').decode('ascii')
+        sanitized = re.sub(r'[^a-zA-Z0-9]+', '_', normalized).strip('_').lower()
+        sanitized = sanitized[:50] if sanitized else 'mis_report'
+        filename = f'{sanitized}.xml'
+
         if self.export_mode == 'wizard':
             xml_content = self._generate_wizard_xml()
-            filename = f'mis_wizard_import_{fields.Date.today()}.xml'
         else:
             xml_content = self._generate_data_file_xml()
-            filename = f'mis_data_file_{fields.Date.today()}.xml'
 
         # Validate XML before creating attachment
         try:
