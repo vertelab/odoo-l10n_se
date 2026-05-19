@@ -248,25 +248,26 @@ class MISReportExportImport(models.TransientModel):
         exported_ids = {}
         collected_keys = set()
         used_ids = set()
+        generated_ids = set()
 
         # 1. Collect all records recursively
         for instance in self.instance_ids:
             self._collect_records_data(
                 instance, config, all_records, exported_ids, collected_keys, used_ids,
-                force_export=True,
+                generated_ids, force_export=True,
             )
 
         # 2. Export each record that needs definition, after its dependencies
         for record, parent, p_field in self._sort_records_for_data_export(
-            all_records, config, exported_ids,
+            all_records, config, exported_ids, generated_ids,
         ):
-            self._export_record_data(data_node, record, config, exported_ids, parent, p_field)
+            self._export_record_data(data_node, record, config, exported_ids, generated_ids, parent, p_field)
 
         return self._format_xml(root)
 
     def _collect_records_data(
         self, record, config, all_records, exported_ids, collected_keys, used_ids,
-        parent=None, parent_field=None, force_export=False,
+        generated_ids, parent=None, parent_field=None, force_export=False,
     ):
         model_name = record._name
         rec_key = (model_name, record.id)
@@ -283,6 +284,7 @@ class MISReportExportImport(models.TransientModel):
         # Generate meaningful unique ID for new record
         xml_id = self._make_xml_id(model_name, record, used_ids)
         exported_ids[rec_key] = xml_id
+        generated_ids.add(xml_id)
         collected_keys.add(rec_key)
         all_records.append((record, parent, parent_field))
 
@@ -297,12 +299,13 @@ class MISReportExportImport(models.TransientModel):
             if field.type == 'many2one' and field.comodel_name in config:
                 self._collect_records_data(
                     val, config, all_records, exported_ids, collected_keys, used_ids,
+                    generated_ids,
                 )
             elif field.type == 'one2many' and field.comodel_name in config:
                 for c in val:
                     self._collect_records_data(
                         c, config, all_records, exported_ids, collected_keys, used_ids,
-                        parent=record, parent_field=field.inverse_name,
+                        generated_ids, parent=record, parent_field=field.inverse_name,
                         force_export=True,
                     )
             elif field.type == 'many2many' and field.comodel_name in config:
@@ -310,9 +313,10 @@ class MISReportExportImport(models.TransientModel):
                     for c in val:
                         self._collect_records_data(
                             c, config, all_records, exported_ids, collected_keys, used_ids,
+                            generated_ids,
                         )
 
-    def _sort_records_for_data_export(self, all_records, config, exported_ids):
+    def _sort_records_for_data_export(self, all_records, config, exported_ids, generated_ids):
         """Sort records so standard XML refs point to already-created records."""
         record_map = {}
         for item in all_records:
@@ -324,7 +328,7 @@ class MISReportExportImport(models.TransientModel):
 
         def is_local_record(key):
             xml_id = exported_ids.get(key)
-            return xml_id and '.' not in xml_id and key in record_map
+            return xml_id and xml_id in generated_ids and key in record_map
 
         def dependencies(item):
             record, parent, parent_field = item
@@ -374,12 +378,12 @@ class MISReportExportImport(models.TransientModel):
                 break
         return ordered
 
-    def _export_record_data(self, data_node, record, config, exported_ids, parent=None, p_field=None):
+    def _export_record_data(self, data_node, record, config, exported_ids, generated_ids, parent=None, p_field=None):
         model_name = record._name
         xml_id = exported_ids.get((model_name, record.id))
 
-        # If it contains a dot, it's a reference to an existing module record
-        if '.' in xml_id:
+        # Only export records we generated (not pre-existing module records)
+        if xml_id not in generated_ids:
             return
 
         record_elem = ET.SubElement(data_node, 'record', model=model_name, id=xml_id)
