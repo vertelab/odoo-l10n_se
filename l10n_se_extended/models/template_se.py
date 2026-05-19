@@ -63,7 +63,12 @@ class AccountChartTemplate(models.AbstractModel):
             fiscal_year_name = f"{fiscal_year_start.year}-{fiscal_year_end.year}"
         if self.env["account.fiscalyear"].search([("name", "=", fiscal_year_name)]):
             return
-        fiscal_year_id = self.env["account.fiscalyear"].create({"name": f"{fiscal_year_name}", "code": f"{fiscal_year_end.strftime("%G%m")}",  "date_start": fiscal_year_start, "date_stop": fiscal_year_end})
+        fiscal_year_id = self.env["account.fiscalyear"].create({
+            "name": f"{fiscal_year_name}",
+            "code": f"{fiscal_year_end.strftime('%G%m')}",
+            "date_start": fiscal_year_start,
+            "date_stop": fiscal_year_end
+        })
         fiscal_year_id.create_period1()
 
     api.model
