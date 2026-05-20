@@ -1,3 +1,4 @@
-git@github.com:ForgeFlow/bank-payment.git /usr/share/odooext-ForgeFlow-bank-payment
-git@github.com:geraldo29/account-financial-reporting.git /usr/share/odooext-geraldo29-account-financial-reporting
+git@github.com:OCA/bank-statement-import.git /usr/share/odooext-OCA-bank-statement-import
+git@github.com:OCA/bank-payment.git /usr/share/odooext-OCA-bank-payment
+git@github.com:OCA/account-financial-reporting.git /usr/share/odooext-OCA-account-financial-reporting
 git@github.com:OCA/server-ux.git /usr/share/odooext-OCA-server-ux
