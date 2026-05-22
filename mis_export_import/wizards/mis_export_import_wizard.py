@@ -112,7 +112,7 @@ class MISReportExportImport(models.TransientModel):
         """Returns a configuration of fields to export for each model."""
         return {
             'mis.report.instance': [
-                'name', 'description', 'report_id', 'target_move',
+                'name', 'description', 'report_id', 'target_move', 'date',
                 'multi_company', 'landscape_pdf', 'no_auto_expand_accounts',
                 'display_columns_description', 'date_from', 'date_to',
                 'analytic_domain', 'widget_show_filters', 'widget_show_settings_button',
