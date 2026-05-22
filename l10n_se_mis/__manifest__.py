@@ -45,6 +45,7 @@
         'data/mis_report_instances.xml',
         'data/mis_momsdeklaration_report.xml',
         'data/mis_data_file_2026-05-22.xml',
+        'data/mis_data_file_2026-05-22-2024_per_month.xml',
         'data/mis_arbetsgivardeklaration_report.xml',
         'security/security.xml',
     ],
