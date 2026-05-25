@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_report_authorities" name="Myndighetsrapportering" parent="account.menu_finance_entries"/>
+
         <record id="view_account_moms_declaration" model="ir.ui.view">
             <field name="name">momsdeklaration.form</field>
             <field name="model">account.vat.declaration</field>
             <field name="arch" type="xml">
                 <form string="Momsdeklaration">
                     <header>
-                        <!--<button class="oe_highlight" invisible="state not in ['draft']" name="calculate" string="Beräkna" type="object"/> If you comment this button be aware that the account move that gets created is wrong.-->
+                        <button class="oe_highlight" invisible="state not in ['draft']" name="calculate" string="Beräkna" type="object"/> <!-- If you comment this button be aware that the account move that gets created is wrong.-->
                         <button class="oe_highlight" invisible="state not in ['done','confirmed','canceled']" name="do_draft" string="Draft" type="object"/>
                         <button class="oe_highlight" invisible="state not in ['confirmed']" name="do_done" string="Done" type="object"/>
                         <button class="oe_highlight" invisible="state not in ['confirmed','done']" name="do_cancel" string="Cancel" type="object"/>
@@ -94,6 +94,7 @@
                     <chatter/>
                 </form></field>
         </record>
+
         <record id="view_moms_list" model="ir.ui.view">
             <field name="name">account.vat.declaration.list</field>
             <field name="model">account.vat.declaration</field>
@@ -106,6 +107,7 @@
                     <field name="state"/>
                 </list></field>
         </record>
+
         <record id="view_moms_calendar" model="ir.ui.view">
             <field name="name">account.vat.declaration.cal</field>
             <field name="model">account.vat.declaration</field>
@@ -116,6 +118,7 @@
                     <field name="state"/>
                 </calendar></field>
         </record>
+
         <record id="action_account_moms_declaration" model="ir.actions.act_window">
             <field name="name">Momsdeklaration</field>
             <field name="type">ir.actions.act_window</field>
@@ -123,10 +126,11 @@
             <field name="view_mode">form</field>
             <field name="view_mode">list,form,calendar</field>
         </record>
+
         <!--
           <menuitem name="Momsdeklaration" parent="menu_report_authorities" action="action_account_moms_declaration" id="menu_account_moms_declaration" groups="account.group_account_user,account.group_account_manager" />
       -->
-        <menuitem action="action_account_moms_declaration" id="menu_account_moms_declaration" name="Momsdeklaration" parent="menu_report_authorities"/>
+
         <record id="view_account_vat_declaration_line_form" model="ir.ui.view">
             <field name="name">account.declaration.line.form</field>
             <field name="model">account.declaration.line</field>
@@ -160,5 +164,10 @@
                     </sheet>
                 </form></field>
         </record>
+
+        <menuitem id="menu_report_authorities" name="Myndighetsrapportering" parent="account.menu_finance_entries"/>
+        <menuitem action="action_account_moms_declaration" id="menu_account_moms_declaration" name="Momsdeklaration" parent="menu_report_authorities"/>
+
+
     </data>
 </odoo>

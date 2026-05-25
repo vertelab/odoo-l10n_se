@@ -178,7 +178,7 @@ class account_vat_declaration(models.Model):
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se.res_partner-SKV').id,
+                            'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
                             'debit': 0.0,
                             'credit': self.vat_momsbetala,
                             'move_id': entry.id,
@@ -258,7 +258,8 @@ class account_vat_declaration(models.Model):
         record.generated_mis_report_id = self._generate_mis_report(
             record.date_start, 
             record.date_stop, 
-            record.target_move, record.name, 
+            record.target_move, 
+            record.name, 
             accounting_method, 
             record.company_id,
         )
@@ -346,7 +347,6 @@ class account_vat_declaration(models.Model):
         return action
         
         
-    # ~ @api.multi
     def show_momsutg_mis(self):
         vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
         move_line_recordset= self.get_move_line_recordset(vat_momsutg_list_names)

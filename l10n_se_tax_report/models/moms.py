@@ -155,21 +155,18 @@ class account_declaration(models.Model):
     def onchange_date(self):
         self.name = '%s %s - %s' % (self._report_name, self.date_start, self.date_stop)
 
-    # ~ @api.one
     def _move_ids_count(self):
         for rec in self:
             self.move_ids_count = len(self.move_ids)
 
     move_ids_count = fields.Integer(compute='_move_ids_count')
 
-    # ~ @api.one
     def _payment_ids_count(self):
         for rec in self:
             self.payment_ids_count = len(self.get_payment_orders())
 
     payment_ids_count = fields.Integer(compute='_payment_ids_count')
 
-    # ~ @api.multi
     def get_payment_orders(self):
         payment_order = []
         if self.move_id:
@@ -179,7 +176,6 @@ class account_declaration(models.Model):
                     payment_order.append(line.order_id.id)
         return payment_order
 
-    # ~ @api.multi
     def show_payment_orders(self):
         action = self.env['ir.actions.act_window']._for_xml_id(
             'account_payment_order.account_payment_order_outbound_action')
@@ -221,7 +217,6 @@ class account_declaration(models.Model):
                 freq_no = 12
             return [last_declaration.start_date.replace(day=1) + relativedelta(months=freq_no), last_declaration.start_date.replace(day=1) + relativedelta(months=freq_no+1)]
 
-    # ~ @api.one
     def do_draft(self):
         for rec in self:
             if self.move_id and self.move_id.state != 'draft':
@@ -235,7 +230,6 @@ class account_declaration(models.Model):
             self.eskd_file = None
             self.state = 'draft'
 
-    # ~ @api.one
     def do_cancel(self):
         for rec in self:
             if self.move_id and self.move_id.state != 'draft':
@@ -246,17 +240,14 @@ class account_declaration(models.Model):
             self.eskd_file = None
             self.state = 'canceled'
 
-    # ~ @api.one
     def do_done(self):
         for rec in self:
             self.state = 'done'
 
-    # ~ @api.one
     def calculate(self):  # make a short cut to print financial report
         for rec in self:
             pass
 
-    # ~ @api.one
     def create_event(self):
         for rec in self:
             # TODO create bokförings categ_ids
@@ -335,8 +326,9 @@ class account_vat_declaration(models.Model):
     line_ids = fields.One2many(comodel_name='account.declaration.line', inverse_name="vat_declaration_id")
 
     def comfirm_declaration(self):  # Atm just moves the report from draf to Confirmend
-        for rec in self:
-            self.state = 'confirmed'
+        self.write({"state": "confirmed"})
+        # for rec in self:
+        #     self.state = 'confirmed'
 
 
 class account_declaration_line(models.Model):
