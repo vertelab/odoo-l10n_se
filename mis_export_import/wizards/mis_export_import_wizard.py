@@ -112,7 +112,7 @@ class MISReportExportImport(models.TransientModel):
         """Returns a configuration of fields to export for each model."""
         return {
             'mis.report.instance': [
-                'name', 'description', 'report_id', 'target_move',
+                'name', 'description', 'report_id', 'target_move', 'date',
                 'multi_company', 'landscape_pdf', 'no_auto_expand_accounts',
                 'display_columns_description', 'date_from', 'date_to',
                 'analytic_domain', 'widget_show_filters', 'widget_show_settings_button',
@@ -524,6 +524,8 @@ class MISReportExportImport(models.TransientModel):
             ref, xml_ref, search = f_node.get('ref'), f_node.get('xml_ref'), f_node.get('search')
             if ref:
                 r = self.env.ref(ref, raise_if_not_found=False)
+                if not r:
+                    r = id_map.get(ref)
                 if r: data[f_name] = r.id
             elif xml_ref:
                 if xml_ref in id_map: data[f_name] = id_map[xml_ref].id
