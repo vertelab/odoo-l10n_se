@@ -220,20 +220,20 @@ class account_declaration(models.Model):
     def do_draft(self):
         for rec in self:
             if self.move_id and self.move_id.state != 'draft':
-                raise Warning('Deklarationen är bokförd, kan inte dras tillbaka i detta läge')
+                raise UserError('The declaration has been posted and cannot be withdrawn at this stage.')
             self.line_ids.unlink()
             if self.move_id:
                 if self.move_id.state == 'draft':
                     self.move_id.unlink()
                 else:
-                    raise Warning(_('Cannot recalculate.'))
+                    raise UserError(_('Cannot recalculate.'))
             self.eskd_file = None
             self.state = 'draft'
 
     def do_cancel(self):
         for rec in self:
             if self.move_id and self.move_id.state != 'draft':
-                raise Warning('Deklarationen är bokförd, kan inte avbryta i detta läge')
+                raise Warning('The declaration has been posted and cannot be canceled at this stage.')
             # ~ self.line_ids.unlink()
             if self.move_id:
                 self.move_id.unlink()
