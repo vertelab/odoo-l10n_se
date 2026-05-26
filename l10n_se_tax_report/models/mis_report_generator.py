@@ -23,7 +23,7 @@ class account_vat_declaration(models.Model):
         for dec in self:
             dec.generated_mis_report_id.name = dec.name
     
-    @api.depends('target_move','name','accounting_method','accounting_yearend','company_id')
+    @api.depends('target_move','name','accounting_method','accounting_yearend','company_id', 'report_id', 'date_start', 'date_stop')
     def _vat(self):
          for decl in self:
              decl.vat_momsutg = 0
@@ -32,7 +32,10 @@ class account_vat_declaration(models.Model):
              if decl.date_start and decl.date_stop and decl.generated_mis_report_id:
                 decl.generated_mis_report_id.period_ids.write({'manual_date_from':decl.date_start})
                 decl.generated_mis_report_id.period_ids.write({'manual_date_to':decl.date_stop})
-                decl.generated_mis_report_id.write({'target_move':decl.target_move})
+                decl.generated_mis_report_id.write({
+                    'target_move': decl.target_move,
+                    'report_id': decl.report_id.id,
+                })
                 ##Faktura vs kontant method betyder ifall man tar fakturor som är betalda eller inte.
                 ##Det är betalningens datums som ska användas istället.
                 ##Behöver återimplementeras på något sätt.
@@ -176,10 +179,10 @@ class account_vat_declaration(models.Model):
         
         
     @api.model
-    def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param, accounting_method_param, company_id):
+    def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param, accounting_method_param, company_id, report_id=None):
         report_instance = self.env["mis.report.instance"].create(
             dict(
-                report_id = self.report_id.id or self.env.ref('l10n_se_mis.report_md').id,
+                report_id = report_id or self.env.ref('l10n_se_mis.report_md').id,
                 target_move = target_move_param,
                 name = "MIS Report:" + name_param,
                 company_id = company_id.id,
@@ -214,6 +217,7 @@ class account_vat_declaration(models.Model):
             record.name, 
             accounting_method, 
             record.company_id,
+            report_id=record.report_id.id,
         )
         
         return record
