@@ -14,7 +14,7 @@ class account_vat_declaration(models.Model):
         comodel_name='mis.report.instance', string='mis_report_instance', ondelete='cascade', readonly=True)
     report_id = fields.Many2one(
         'mis.report', 
-        string="Report", required=True, 
+        string="Report",
         default=lambda self: self.env.ref('l10n_se_mis.report_md').id
     )
     
@@ -232,7 +232,7 @@ class account_vat_declaration(models.Model):
     def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param, accounting_method_param, company_id):
         report_instance = self.env["mis.report.instance"].create(
             dict(
-                report_id = self.report_id.id,
+                report_id = self.report_id.id or self.env.ref('l10n_se_mis.report_md').id,
                 target_move = target_move_param,
                 name = "MIS Report:" + name_param,
                 company_id = company_id.id,
