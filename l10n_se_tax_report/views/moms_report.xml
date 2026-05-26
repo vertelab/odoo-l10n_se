@@ -84,6 +84,7 @@
                                     <newline/>
                                     <field name="accounting_method" readonly="not state"/>
                                     <field invisible="not accounting_method" name="accounting_yearend" readonly="not state"/>
+                                    <field name="report_id"/>
                                 </group>
                             </page>
                             <page string="Upplysningstext">
