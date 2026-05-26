@@ -103,9 +103,11 @@
 		      <group>
 				  <separator string="Transaction"/>
 		      </group>
-              <group col="3">
-                <field name="date_start" />
-                <field name="date_stop" nolabel="1" />
+              <group>
+			      <group>
+                      <field name="date_start" widget="daterange" options="{'end_date_field': 'date_stop'}"/>
+                      <field name="date_stop" invisible="1"/>
+                  </group>
               </group>
               <group>
                 <field name="fiscalyear_ids" />
