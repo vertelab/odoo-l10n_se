@@ -75,7 +75,7 @@ class account_vat_declaration(models.Model):
 
         moms_journal = self.env['account.journal'].search([('company_id','=',self.company_id.id),('name','=','Momsjournal'),('type','=','general'),('code','=','MOMS')])
         if not moms_journal:
-            raise Warning('Konfigurera din momsdeklaration journal!, den behöver heta Momsjournal, vara av typen general/diverse, ha MOMS som code')
+            raise UserError('Configure your tax declaration journal! It needs to be named Tax Journal, be of the general/miscellaneous type, and have TAX as the code.')
         else:
             # ~ moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
             momsskuld = moms_journal.default_credit_account_id
@@ -89,105 +89,54 @@ class account_vat_declaration(models.Model):
                     'ref': u'Momsdeklaration',
                 })
                 if entry:
+                    ##################### FIXED AREA - BEGIN ######################
                     move_line_list = []
                     moms_diff = 0.0
-                    
-                    move_line_dict = {}
-                    
-                    
-                    # ~ Use mis builder to get lines
-                    
-                    momsIngMovesRecordSet = self.get_move_line_recordset(['MomsIngAvdr']) #~ Get the account.moves.lines,kollar på 2640 konton, ingående moms go though all account.tax
+                    all_lines_dict = {}
+
+                    # Process Input VAT (MomsIngAvdr) - Reversal as Credits
+                    momsIngMovesRecordSet = self.get_move_line_recordset(['MomsIngAvdr'])
                     for line in momsIngMovesRecordSet:
-                        # ~ gather the amount for lines that has the same account
-                        if line.account_id.name in move_line_dict: #~ Check if we already added to the dict
-                            move_line_dict[line.account_id.name]['credit']+=line.debit
-                            move_line_dict[line.account_id.name]['credit']-=line.credit
-                        else:
-                            move_line_dict[line.account_id.name] = {'account_id':line.account_id.id,'credit':line.debit}
+                        acc_id = line.account_id.id
+                        if acc_id not in all_lines_dict:
+                            all_lines_dict[acc_id] = {'name': line.account_id.name, 'balance': 0.0}
+                        # Input VAT is usually Debit, so balance (credit - debit) will be negative
+                        all_lines_dict[acc_id]['balance'] += (line.credit - line.debit)
                     
-                    for account_name in move_line_dict.keys():
+                    # Process Output VAT - Reversal as Debits
+                    vat_momsutg_list = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog','MomsImportUtgMedel','MomsImportUtgLag']
+                    momsUtgMovesRecordSet = self.get_move_line_recordset(vat_momsutg_list)
+                    for line in momsUtgMovesRecordSet:
+                        acc_id = line.account_id.id
+                        if acc_id not in all_lines_dict:
+                            all_lines_dict[acc_id] = {'name': line.account_id.name, 'balance': 0.0}
+                        # Output VAT is usually Credit, so balance (credit - debit) will be positive
+                        all_lines_dict[acc_id]['balance'] += (line.credit - line.debit)
+
+                    # Convert aggregated dictionary to move lines
+                    for acc_id, vals in all_lines_dict.items():
+                        balance = vals['balance']
+                        if round(balance, 2) == 0: continue
                         move_line_list.append((0, 0, {
-                            'name': account_name,
-                            'account_id': move_line_dict[account_name]['account_id'],
-                            'credit': move_line_dict[account_name]['credit'],
-                            'debit': 0.0,
+                            'name': vals['name'],
+                            'account_id': acc_id,
+                            'debit': balance if balance > 0 else 0.0,
+                            'credit': -balance if balance < 0 else 0.0,
                             'move_id': entry.id,
                         }))
-                        moms_diff -= move_line_dict[account_name]['credit']
-                        
-                    move_line_dict = {}
-                    
-                    momsUtgMovesRecordSet = self.get_move_line_recordset( ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog','MomsImportUtgMedel','MomsImportUtgLag'])
-                    for line in momsUtgMovesRecordSet: # kollar på 26xx konton, utgående moms
-                        # ~ gather the amount for lines that has the same account
-                        if line.account_id.name in move_line_dict: #~ Check if we already added to the dict
-                            move_line_dict[line.account_id.name]['debit']+=line.credit
-                            move_line_dict[line.account_id.name]['debit']-=line.debit
-                        else:
-                            move_line_dict[line.account_id.name] = {'account_id':line.account_id.id,'debit':line.credit}
-                    # ~ _logger.warning(f"jakmar {move_line_dict}")
-                    
-                    for account_name in move_line_dict.keys():
-                        move_line_list.append((0, 0, {
-                            'name': account_name,
-                            'account_id': move_line_dict[account_name]['account_id'],
-                            'debit': move_line_dict[account_name]['debit'],
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        moms_diff += move_line_dict[account_name]['debit']
-                        
-                    if self.vat_momsbetala < 0.0: # momsfordran, moms ska få tillbaka
-                        move_line_list.append((0, 0, {
-                            'name': momsfordran.name,
-                            'account_id': momsfordran.id, # moms_journal.default_debit_account_id
-                            'partner_id': '',
-                            'debit': abs(self.vat_momsbetala),
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': momsfordran.name,
-                            'account_id': momsfordran.id,
-                            'partner_id': '',
-                            'debit': 0.0,
-                            'credit': abs(self.vat_momsbetala),
-                            'move_id': entry.id,
-                        }))
+                        moms_diff += balance
+
+                    # Settlement logic: Only add the net balance to the tax account (1630)
+                    if self.vat_momsbetala != 0.0:
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
-                            'debit': abs(self.vat_momsbetala),
-                            'credit': 0.0,
+                            'debit': abs(self.vat_momsbetala) if self.vat_momsbetala < 0.0 else 0.0,
+                            'credit': self.vat_momsbetala if self.vat_momsbetala > 0.0 else 0.0,
                             'move_id': entry.id,
                         }))
-                    if self.vat_momsbetala > 0.0: # moms redovisning, moms ska betalas in
-                        move_line_list.append((0, 0, {
-                            'name': momsskuld.name,
-                            'account_id': momsskuld.id, # moms_journal.default_credit_account_id
-                            'partner_id': '',
-                            'debit': 0.0,
-                            'credit': self.vat_momsbetala,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': momsskuld.name,
-                            'account_id': momsskuld.id,
-                            'partner_id': '',
-                            'debit': self.vat_momsbetala,
-                            'credit': 0.0,
-                            'move_id': entry.id,
-                        }))
-                        move_line_list.append((0, 0, {
-                            'name': skattekonto.name,
-                            'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
-                            'debit': 0.0,
-                            'credit': self.vat_momsbetala,
-                            'move_id': entry.id,
-                        }))
+                    ##################### FIXED AREA - END   ####################
                     # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
                     # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
@@ -209,7 +158,7 @@ class account_vat_declaration(models.Model):
                     })
                     self.write({'move_id': entry.id})
             else:
-                raise UserWarning(_('You are missing either a credit account, debit account or a tax account, please add these'))   
+                raise UserError(_('You are missing either a credit account, debit account or a tax account, please add these'))   
 
                     
     def do_draft(self):
