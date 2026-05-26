@@ -50,9 +50,12 @@ class account_vat_declaration(models.Model):
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
                     if row.kpi.name == 'MomsIngAvdr':
-                        decl.vat_momsingavdr = vals[0]
+                        # Input VAT should be a positive amount (debit)
+                        decl.vat_momsingavdr = abs(vals[0])
                     if row.kpi.name in vat_momsutg_list_names:
-                        decl.vat_momsutg  += vals[0]
+                        # Output VAT should be a positive amount (credit)
+                        decl.vat_momsutg += abs(vals[0])
+                # Net VAT to pay = Output VAT collected - Input VAT paid
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
 
     def calculate(self):
