@@ -89,7 +89,6 @@ class account_vat_declaration(models.Model):
                     'ref': u'Momsdeklaration',
                 })
                 if entry:
-                    ##################### FIXED AREA - BEGIN ######################
                     move_line_list = []
                     moms_diff = 0.0
                     all_lines_dict = {}
@@ -136,7 +135,6 @@ class account_vat_declaration(models.Model):
                             'credit': self.vat_momsbetala if self.vat_momsbetala > 0.0 else 0.0,
                             'move_id': entry.id,
                         }))
-                    ##################### FIXED AREA - END   ####################
                     # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
                     # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
                     if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
