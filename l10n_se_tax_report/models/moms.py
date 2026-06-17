@@ -393,7 +393,9 @@ class account_vat_declaration(models.Model):
             default='l10n_se_mis.report_md')
         report = self.env.ref(report_xml_id)
 
+        name = '%s %s - %s' % (self._report_name, date_start, date_stop)
         declaration = self.create({
+            'name': name,
             'date_start': fields.Date.to_string(date_start),
             'date_stop': fields.Date.to_string(date_stop),
             'date': fields.Date.to_string(date_deadline),
