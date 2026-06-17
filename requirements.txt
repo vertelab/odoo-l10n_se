@@ -3,3 +3,4 @@ py3o.template
 requests_pkcs12
 openupgradelib
 pandas
+workalendar

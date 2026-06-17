@@ -25,8 +25,9 @@ import base64
 from collections import OrderedDict
 from odoo.exceptions import UserError
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
+from workalendar.europe import Sweden
 
 import logging
 
@@ -144,7 +145,6 @@ class account_declaration(models.Model):
                                              
     free_text = fields.Text(string='Upplysningstext')
     report_file = fields.Binary(string="Report-file", readonly=True)
-    eskd_file = fields.Binary(string="eSKD-file", readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
     event_id = fields.Many2one(comodel_name='calendar.event', readonly=True)
     
@@ -227,7 +227,6 @@ class account_declaration(models.Model):
                     self.move_id.unlink()
                 else:
                     raise UserError(_('Cannot recalculate.'))
-            self.eskd_file = None
             self.state = 'draft'
 
     def do_cancel(self):
@@ -237,7 +236,6 @@ class account_declaration(models.Model):
             # ~ self.line_ids.unlink()
             if self.move_id:
                 self.move_id.unlink()
-            self.eskd_file = None
             self.state = 'canceled'
 
     def do_done(self):
@@ -296,6 +294,24 @@ class account_declaration(models.Model):
         return date + timedelta(days=(day - date.weekday() + 7) % 7)
     # ~ onDay = lambda date, day: date + datetime.timedelta(days=(day-date.weekday()+7)%7)
 
+    @api.model
+    def _calculate_vat_deadline(self, date_stop, freq_months):
+        cal = Sweden()
+        if freq_months == 1:  # Monthly
+            if date_stop.month == 1:
+                deadline = date(date_stop.year, 3, 12)
+            elif date_stop.month == 8:
+                deadline = date(date_stop.year, 10, 12)
+            else:
+                deadline = date_stop + relativedelta(months=1, day=12)
+        elif freq_months == 3:  # Quarterly
+            deadline = date_stop + relativedelta(months=2, day=12)
+        else:  # Annual
+            deadline = date_stop + relativedelta(months=1, day=12)
+        while not cal.is_working_day(deadline):
+            deadline += timedelta(days=1)
+        return deadline
+
 
 class account_declaration_line_id(models.Model):
     _name = 'account.declaration.line.id'
@@ -322,13 +338,71 @@ class account_vat_declaration(models.Model):
     vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat",
                                   help='Avläsning av skattekonto.')
 
+    date = fields.Date(compute='_compute_date', inverse='_inverse_date', store=True)
+
     move_ids = fields.One2many(comodel_name='account.move', inverse_name="vat_declaration_id")
     line_ids = fields.One2many(comodel_name='account.declaration.line', inverse_name="vat_declaration_id")
+
+    @api.depends('date_stop')
+    def _compute_date(self):
+        for record in self:
+            if record.date_stop:
+                icp = self.env['ir.config_parameter'].sudo()
+                freq_str = icp.get_param('l10n_se_tax_report.vat_declaration_frequency', default='quarter')
+                freq_map = {'month': 1, 'quarter': 3, 'year': 12}
+                freq_months = freq_map.get(freq_str, 3)
+                record.date = self._calculate_vat_deadline(
+                    fields.Date.from_string(record.date_stop), freq_months)
+            else:
+                record.date = False
+
+    def _inverse_date(self):
+        pass
 
     def comfirm_declaration(self):  # Atm just moves the report from draf to Confirmend
         self.write({"state": "confirmed"})
         # for rec in self:
         #     self.state = 'confirmed'
+
+    @api.model
+    def _cron_create_vat_declaration(self):
+        icp = self.env['ir.config_parameter'].sudo()
+        freq_str = icp.get_param('l10n_se_tax_report.vat_declaration_frequency', default='quarter')
+        freq_map = {'month': 1, 'quarter': 3, 'year': 12}
+        freq_months = freq_map.get(freq_str, 3)
+
+        last = self.search([], order='date_stop desc', limit=1)
+        if last:
+            date_start = fields.Date.from_string(last.date_stop) + timedelta(days=1)
+        else:
+            today = fields.Date.today()
+            date_start = today.replace(month=1, day=1)
+
+        date_stop = date_start + relativedelta(months=freq_months, days=-1)
+        date_deadline = self._calculate_vat_deadline(date_stop, freq_months)
+
+        existing = self.search([
+            ('date_start', '=', fields.Date.to_string(date_start)),
+            ('date_stop', '=', fields.Date.to_string(date_stop)),
+        ], limit=1)
+        if existing:
+            return False
+
+        report_xml_id = icp.get_param(
+            'l10n_se_tax_report.cron_report_template',
+            default='l10n_se_mis.report_md')
+        report = self.env.ref(report_xml_id)
+
+        declaration = self.create({
+            'date_start': fields.Date.to_string(date_start),
+            'date_stop': fields.Date.to_string(date_stop),
+            'date': fields.Date.to_string(date_deadline),
+            'report_id': report.id,
+        })
+
+        if declaration:
+            declaration.calculate()
+        return True
 
 
 class account_declaration_line(models.Model):

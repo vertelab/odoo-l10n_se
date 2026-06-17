@@ -73,7 +73,6 @@
                             <group>
                                 <field name="date"/>
                                 <field name="vat_momsbetala"/>
-                                <field name="eskd_file" />
                             </group>
                         </group>
                         <notebook>

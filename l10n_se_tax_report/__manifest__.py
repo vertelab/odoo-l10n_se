@@ -37,13 +37,38 @@
 Swedish accounting Tax Report
 =============================
 Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
+
+System Parameters
+-----------------
+
+l10n_se_tax_report.vat_declaration_frequency
+    Frequency of VAT declarations. Options: month, quarter (default), year.
+
+l10n_se_tax_report.accounting_method
+    Accounting method for VAT. Options: invoice (default, fakturametoden),
+    cash (kontantmetoden).
+
+l10n_se_tax_report.cron_report_template
+    XML ID of the MIS report template used by the cron job when
+    automatically creating VAT declarations.
+    Default: l10n_se_mis.report_md
+
+External Dependencies
+---------------------
+- workalendar: Used for Swedish public holiday calculation to correctly
+  determine VAT declaration deadlines. Install: pip3 install workalendar
      """,
     'author': 'Vertel AB',
 
     'depends': ['account_payment_order', 'calendar', 'mis_builder','l10n_se_mis', 'account_period_vrtl'],
 
+    'external_dependencies': {
+        'python': ['workalendar'],
+    },
+
     'data': [
         'data/account_data.xml',
+        'data/cron_data.xml',
         'views/account_view.xml',
         'views/res_config_view.xml',
         'views/moms_report.xml',

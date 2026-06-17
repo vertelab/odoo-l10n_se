@@ -101,16 +101,27 @@ class account_vat_declaration(models.Model):
 
                     # Process Input VAT (MomsIngAvdr) - Reversal as Credits
                     momsIngMovesRecordSet = self.get_move_line_recordset(['MomsIngAvdr'])
+                    
+                    # Process Output VAT - Reversal as Debits
+                    vat_momsutg_list = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog','MomsImportUtgMedel','MomsImportUtgLag']
+                    momsUtgMovesRecordSet = self.get_move_line_recordset(vat_momsutg_list)
+                    
+                    # Deduplicate: tax lines (e.g. TFEU/VFEU/TFFU on 2614/2624/2634)
+                    # appear in both MomsIngAvdr and MomsInkopUtg* KPI groups.
+                    # Only process them once to avoid double-counting in the journal entry.
+                    moms_ing_line_ids = set(momsIngMovesRecordSet.ids)
+                    moms_utg_line_ids = set(momsUtgMovesRecordSet.ids)
+                    overlap_ids = moms_ing_line_ids & moms_utg_line_ids
+                    
                     for line in momsIngMovesRecordSet:
+                        if line.id in overlap_ids:
+                            continue  # Skip: will be processed in output VAT loop
                         acc_id = line.account_id.id
                         if acc_id not in all_lines_dict:
                             all_lines_dict[acc_id] = {'name': line.account_id.name, 'balance': 0.0}
                         # Input VAT is usually Debit, so balance (credit - debit) will be negative
                         all_lines_dict[acc_id]['balance'] += (line.credit - line.debit)
                     
-                    # Process Output VAT - Reversal as Debits
-                    vat_momsutg_list = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog','MomsImportUtgMedel','MomsImportUtgLag']
-                    momsUtgMovesRecordSet = self.get_move_line_recordset(vat_momsutg_list)
                     for line in momsUtgMovesRecordSet:
                         acc_id = line.account_id.id
                         if acc_id not in all_lines_dict:
@@ -131,30 +142,19 @@ class account_vat_declaration(models.Model):
                         }))
                         moms_diff += balance
 
-                    # Settlement logic: Only add the net balance to the tax account (1630)
-                    if self.vat_momsbetala != 0.0:
+                    # Settlement logic: use moms_diff (net of all reversed tax lines)
+                    # as the balancing line against the tax account (1630).
+                    # Note: vat_momsbetala (from MIS report) differs from moms_diff
+                    # because MIS KPIs intentionally double-count reverse charge taxes
+                    # (TFEU/VFEU/TFFU) in both output (ruta 30-32) and input (ruta 48).
+                    # The journal entry must reflect the actual account reversal totals.
+                    if moms_diff != 0.0:
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
                             'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
-                            'debit': abs(self.vat_momsbetala) if self.vat_momsbetala < 0.0 else 0.0,
-                            'credit': self.vat_momsbetala if self.vat_momsbetala > 0.0 else 0.0,
-                            'move_id': entry.id,
-                        }))
-                    # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                    # ~ _logger.warning('<<<<< VALUES: moms_diff = %s vat_momsbetala = %s' % (moms_diff, self.vat_momsbetala))
-                    if abs(moms_diff) - abs(self.vat_momsbetala) != 0.0:
-                        # ~ raise Warning('momsdiff %s momsbetala %s' % ( moms_diff, self.vat_momsbetala))
-                        oresavrundning = self.env['account.account'].search([('company_ids','in',[self.company_id.id]),('code', '=', '3740')])
-                        oresavrundning_amount = abs(abs(moms_diff) - abs(self.vat_momsbetala))
-                        # ~ test of öresavrundning.
-                        # ~ _logger.warning('<<<<< VALUES: oresavrundning = %s oresavrundning_amount = %s' % (oresavrundning, oresavrundning_amount))
-                        move_line_list.append((0, 0, {
-                            'name': oresavrundning.name,
-                            'account_id': oresavrundning.id,
-                            'partner_id': '',
-                            'debit': oresavrundning_amount if moms_diff < self.vat_momsbetala else 0.0,
-                            'credit': oresavrundning_amount if moms_diff > self.vat_momsbetala else 0.0,
+                            'debit': abs(moms_diff) if moms_diff < 0.0 else 0.0,
+                            'credit': moms_diff if moms_diff > 0.0 else 0.0,
                             'move_id': entry.id,
                         }))
                     entry.write({

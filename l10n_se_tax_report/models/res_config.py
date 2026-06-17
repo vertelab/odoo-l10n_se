@@ -31,4 +31,5 @@ class Company(models.Model):
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
-    vat_declaration_frequency = fields.Selection(selection=[('month', 'Month'), ('quarter', 'Quarter'),('year', 'Year')], default='quarter',string='Skattedeklarationsfrekvens',help="Hur stor är momsdeklarationsperioden?",config_parameter='l10n_se_tax_report.vat_declaration_frequency')
+    vat_declaration_frequency = fields.Selection(selection=[('month', 'Month'), ('quarter', 'Quarter'),('year', 'Year')], default='quarter',string='Tax Declaration Frequency',help="Length of the tax declaration period.",config_parameter='l10n_se_tax_report.vat_declaration_frequency')
+    cron_report_template = fields.Char(string='Report Template (XML ID)', default='l10n_se_mis.report_md', help="XML ID of the MIS report used by the cron job when automatically creating VAT declarations.", config_parameter='l10n_se_tax_report.cron_report_template')
