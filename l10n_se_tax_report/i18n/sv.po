@@ -251,6 +251,18 @@ msgid "Date"
 msgstr "Datum"
 
 #. module: l10n_se_tax_report
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration__date
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_periodic_compilation__date
+#: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_vat_declaration__date
+msgid "Declaration Date"
+msgstr "Deklarationsdatum"
+
+#. module: l10n_se_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_se_tax_report.view_account_moms_declaration
+msgid "Reporting Period"
+msgstr "Redovisningsperiod"
+
+#. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__declaration_id
 msgid "Declaration"
 msgstr "Deklaration"
@@ -887,7 +899,7 @@ msgstr ""
 #. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__pc_triangulation
 msgid "Triangulering"
-msgstr ""
+msgstr "Tredjepartförsäljning"
 
 #. module: l10n_se_tax_report
 #: model:ir.model.fields,field_description:l10n_se_tax_report.field_account_declaration_line__type

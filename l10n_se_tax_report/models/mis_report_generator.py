@@ -15,7 +15,8 @@ class account_vat_declaration(models.Model):
     report_id = fields.Many2one(
         'mis.report', 
         string="Report",
-        default=lambda self: self.env.ref('l10n_se_mis.report_md').id
+        default=lambda self: self.env.company.vat_report_template_id.id
+            or self.env.ref('l10n_se_mis.report_md').id
     )
     
     @api.depends('name')
@@ -23,7 +24,7 @@ class account_vat_declaration(models.Model):
         for dec in self:
             dec.generated_mis_report_id.name = dec.name
     
-    @api.depends('target_move','name','accounting_method','accounting_yearend','company_id', 'report_id', 'date_start', 'date_stop')
+    @api.depends('target_move','name','accounting_yearend','company_id', 'report_id', 'date_start', 'date_stop')
     def _vat(self):
          for decl in self:
              decl.vat_momsutg = 0
@@ -49,20 +50,24 @@ class account_vat_declaration(models.Model):
                 vat_momsutg_list_names = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog', 'MomsImportUtgMedel', 'MomsImportUtgLag']
                 for row in matrix.iter_rows():
                     vals = [c.val for c in row.iter_cells()]
+                    if not isinstance(vals[0], (float, int)):
+                        continue
                     if row.kpi.name == 'MomsIngAvdr':
-                        # Input VAT should be a positive amount (debit)
-                        decl.vat_momsingavdr = abs(vals[0])
+                        decl.vat_momsingavdr = abs(int(round(vals[0])))
                     if row.kpi.name in vat_momsutg_list_names:
-                        # Output VAT should be a positive amount (credit)
-                        decl.vat_momsutg += abs(vals[0])
-                # Net VAT to pay = Output VAT collected - Input VAT paid
+                        decl.vat_momsutg += abs(int(round(vals[0])))
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
 
     def calculate(self):
         if self.state not in ['draft']:
-            raise Warning("Du kan inte beräkna i denna status, ändra till utkast.")
+            raise UserError(_("Du kan inte beräkna i denna status, ändra till utkast."))
         if self.state in ['draft']:
             self.state = 'confirmed'
+
+        if not self.env.company.vat_declaration_frequency:
+            raise UserError(_(
+                "VAT declaration frequency is not configured. "
+                "Set it in Accounting → Configuration → Settings."))
 #            self.generated_mis_report_id.active = True
 
         # ~ mark moves used to build the mis report, i should probebly save the moves on the report somewhere at some. Not a problem atm.
@@ -97,6 +102,7 @@ class account_vat_declaration(models.Model):
                 if entry:
                     move_line_list = []
                     moms_diff = 0.0
+                    rounding_diff = 0.0
                     all_lines_dict = {}
 
                     # Process Input VAT (MomsIngAvdr) - Reversal as Credits
@@ -129,25 +135,37 @@ class account_vat_declaration(models.Model):
                         # Output VAT is usually Credit, so balance (credit - debit) will be positive
                         all_lines_dict[acc_id]['balance'] += (line.credit - line.debit)
 
-                    # Convert aggregated dictionary to move lines
+                    # Convert aggregated dictionary to move lines, rounded to integers
                     for acc_id, vals in all_lines_dict.items():
                         balance = vals['balance']
                         if round(balance, 2) == 0: continue
+                        rounded = int(round(balance))
+                        if rounded == 0: continue
                         move_line_list.append((0, 0, {
                             'name': vals['name'],
                             'account_id': acc_id,
-                            'debit': balance if balance > 0 else 0.0,
-                            'credit': -balance if balance < 0 else 0.0,
+                            'debit': rounded if rounded > 0 else 0.0,
+                            'credit': -rounded if rounded < 0 else 0.0,
                             'move_id': entry.id,
                         }))
-                        moms_diff += balance
+                        moms_diff += rounded
+                        rounding_diff += balance - rounded
+
+                    # Add öresavrundning line if there is a rounding difference
+                    rounding_account = self.env['account.account'].search(
+                        [('code', '=', '3740')], limit=1)
+                    if rounding_account and round(rounding_diff, 2) != 0.0:
+                        move_line_list.append((0, 0, {
+                            'name': u'Öresavrundning',
+                            'account_id': rounding_account.id,
+                            'debit': abs(rounding_diff) if rounding_diff < 0.0 else 0.0,
+                            'credit': rounding_diff if rounding_diff > 0.0 else 0.0,
+                            'move_id': entry.id,
+                        }))
+                        moms_diff -= rounding_diff
 
                     # Settlement logic: use moms_diff (net of all reversed tax lines)
                     # as the balancing line against the tax account (1630).
-                    # Note: vat_momsbetala (from MIS report) differs from moms_diff
-                    # because MIS KPIs intentionally double-count reverse charge taxes
-                    # (TFEU/VFEU/TFFU) in both output (ruta 30-32) and input (ruta 48).
-                    # The journal entry must reflect the actual account reversal totals.
                     if moms_diff != 0.0:
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
@@ -212,7 +230,12 @@ class account_vat_declaration(models.Model):
         if record.accounting_yearend:
             accounting_method = 'invoice'
         else:
-            accounting_method = record.accounting_method
+            if not record.company_id.accounting_method:
+                raise UserError(_(
+                    "Accounting method is not configured for company %s. "
+                    "Set it in Accounting → Configuration → Settings.")
+                    % record.company_id.name)
+            accounting_method = record.company_id.accounting_method
         record.generated_mis_report_id = self._generate_mis_report(
             record.date_start, 
             record.date_stop, 
@@ -237,14 +260,11 @@ class account_vat_declaration(models.Model):
         period.text = str(self.date_start)[:4] + str(self.date_start)[5:7]
         matrix = self.generated_mis_report_id._compute_matrix()
         
-        # ~ Lambda is used to fix trailing zeros
-        formatNumber = lambda n: n if n%1 else int(n)
         for row in matrix.iter_rows():
             vals = [c.val for c in row.iter_cells()]
-            # If the vals[0] is zero it becomes a class 'odoo.addons.mis_builder.models.accounting_none.AccountingNoneType. Otherwise it's a float and should be added to the file
-            if  type(vals[0]) == float and vals[0] > 0.0:
+            if isinstance(vals[0], (float, int)) and vals[0] > 0:
                 tax = etree.SubElement(moms, row.kpi.name)
-                tax.text = str(formatNumber(vals[0]))
+                tax.text = str(int(round(vals[0])))
         
         momsbetala = etree.SubElement(moms, 'MomsBetala')
         momsbetala.text = str(int(round(self.vat_momsbetala)))

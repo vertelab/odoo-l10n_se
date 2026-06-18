@@ -38,20 +38,11 @@ Swedish accounting Tax Report
 =============================
 Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
 
-System Parameters
------------------
-
-l10n_se_tax_report.vat_declaration_frequency
-    Frequency of VAT declarations. Options: month, quarter (default), year.
-
-l10n_se_tax_report.accounting_method
-    Accounting method for VAT. Options: invoice (default, fakturametoden),
-    cash (kontantmetoden).
-
-l10n_se_tax_report.cron_report_template
-    XML ID of the MIS report template used by the cron job when
-    automatically creating VAT declarations.
-    Default: l10n_se_mis.report_md
+Company Settings (res.company)
+-------------------------------
+- vat_declaration_frequency: Declaration period (month/quarter/year)
+- accounting_method: Kontantmetoden or Fakturametoden
+- vat_report_template_id: MIS report template for VAT declarations (default: Momsdeklaration)
 
 External Dependencies
 ---------------------
@@ -72,15 +63,16 @@ External Dependencies
         'views/account_view.xml',
         'views/res_config_view.xml',
         'views/moms_report.xml',
-        #'views/periodic_compilation.xml',
+        'views/periodic_compilation.xml',
         'report/report.xml',
         'security/ir.model.access.csv',
         'security/security.xml',
         'views/mis_report_view.xml',
         'views/account_fiscalyear_views.xml',
      ],
-    'demo_xml': [
+    'demo': [
         'demo/account_invoice.xml',
+        'demo/periodic_compilation_demo.xml',
     ],
     'installable': 'True',
 }

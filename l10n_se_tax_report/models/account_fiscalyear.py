@@ -7,30 +7,24 @@ from dateutil.relativedelta import relativedelta
 class AccountFiscalYear(models.Model):
     _inherit = "account.fiscalyear"
 
-    vat_declaration_frequency = fields.Selection(
-        selection=[('1', 'Month'), ('3', 'Quarter'), ('12', 'Year')],
-        default='3', string='Skattedeklarationsfrekvens', help="Hur stor är momsdeklarationsperioden?"
-    )
-    moms_journal = fields.Many2one(comodel_name='account.journal', string='Momsdeklaration Journal')
-    accounting_method = fields.Selection(
-        selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'), ],
-        default='invoice', string='Redovisningsmetod',
-        help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden skall välja fakturametoden "
-             "i sista perioden/bokslutsperioden"
-    )
-
     def action_generate_tax_declaration(self):
         self.ensure_one()
 
         if not self.date_start or not self.date_stop:
             raise UserError(_("Fiscal year must have start and end dates."))
 
-        frequency = int(self.vat_declaration_frequency)
+        freq_str = self.company_id.vat_declaration_frequency
+        if not freq_str:
+            raise UserError(_(
+                "VAT declaration frequency is not configured. "
+                "Set it in Accounting → Configuration → Settings."))
+        freq_map = {'month': 1, 'quarter': 3, 'year': 12}
+        frequency = freq_map.get(freq_str, 3)
 
-        if frequency == 12:
-            raise UserError(_("Yearly declarations must be created manually."))
-
-        declaration_date_day = 26 if frequency == 1 else 12
+        if frequency == 1:
+            declaration_date_day = 26
+        else:
+            declaration_date_day = 12
 
         total_months = (self.date_stop.year - self.date_start.year) * 12 + \
                        (self.date_stop.month - self.date_start.month) + 1
@@ -47,12 +41,21 @@ class AccountFiscalYear(models.Model):
 
             declaration_date = period_end + relativedelta(months=1, day=declaration_date_day)
 
+            is_yearend = period_end >= self.date_stop
+
+            if not self.company_id.accounting_method:
+                raise UserError(_(
+                    "Accounting method is not configured for company %s. "
+                    "Set it in Accounting → Configuration → Settings.")
+                    % self.company_id.name)
+            accounting_method = self.company_id.accounting_method
             declaration_data = {
                 'name': f'{current_start}-{period_end}',
                 'date_start': current_start,
                 'date_stop': period_end,
                 'date': declaration_date,
-                'accounting_method': self.accounting_method,
+                'accounting_method': accounting_method,
+                'accounting_yearend': is_yearend,
             }
 
             declarations.append(declaration_data)

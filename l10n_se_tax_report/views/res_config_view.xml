@@ -7,13 +7,16 @@
             <field name="inherit_id" ref="account.res_config_settings_view_form" />
             <field name="arch" type="xml">
                   <setting id="tax_exigibility" position="after">
-	              <setting id="tax_frequency" company_dependent="1" help="" title="Select the VAT declaration frequency" groups="account.group_account_user">
-		             <field name="vat_declaration_frequency"/>
-	              </setting>
-	              <setting id="cron_report_template" help="XML ID of the MIS report used by the cron job to create VAT declarations" title="Report Template (cron)" groups="account.group_account_user">
-		             <field name="cron_report_template"/>
-	              </setting>
-                  </setting>
+ 	              <setting id="tax_frequency" help="Select the VAT declaration frequency" title="VAT Declaration Frequency" groups="account.group_account_user">
+ 		             <field name="vat_declaration_frequency"/>
+ 	              </setting>
+  	              <setting id="accounting_method" help="Select the accounting method for VAT" title="Redovisningsmetod" groups="account.group_account_user">
+ 		             <field name="accounting_method"/>
+ 	              </setting>
+  	              <setting id="vat_report_template_id" help="MIS report template used for VAT declarations" title="VAT Report Template" groups="account.group_account_user">
+ 		             <field name="vat_report_template_id"/>
+ 	              </setting>
+                   </setting>
 
             </field>
         </record>

@@ -7,6 +7,6 @@ from . import moms
 from . import mis_report_generator
 from . import journal
 #from . import demo_invoice
-#from . import periodic_compilation
+from . import periodic_compilation
 
 from . import account_fiscalyear

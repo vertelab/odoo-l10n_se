@@ -22,7 +22,7 @@
 from odoo import models, fields, api, _
 from lxml import etree
 import base64
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning, UserError
 import time
 from datetime import datetime, timedelta
 import logging
@@ -144,11 +144,16 @@ class account_sru_declaration(models.Model):
     # ~ @api.one
     def calc_arets_resultat(self):
         for rec in self:
+            if not self.company_id.accounting_method:
+                raise UserError(_(
+                    "Accounting method is not configured for company %s. "
+                    "Set it in Accounting → Configuration → Settings.")
+                    % self.company_id.name)
             ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
                 'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
+                'accounting_method': self.company_id.accounting_method,
                 'target_move': self.target_move,
             }
             r_lines = self.line_ids.filtered(lambda l: l.is_r == True)
@@ -229,11 +234,16 @@ class account_sru_declaration(models.Model):
     # ~ @api.one
     def calc_fritt_eget_kapital(self):
         for rec in self:
+            if not self.company_id.accounting_method:
+                raise UserError(_(
+                    "Accounting method is not configured for company %s. "
+                    "Set it in Accounting → Configuration → Settings.")
+                    % self.company_id.name)
             ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
                 'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
+                'accounting_method': self.company_id.accounting_method,
                 'target_move': self.target_move,
             }
             b_lines = self.line_ids.filtered(lambda l: l.is_b == True)
@@ -338,11 +348,16 @@ class account_sru_declaration(models.Model):
         for rec in self:
             if self.state not in ['draft']:
                 raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+            if not self.company_id.accounting_method:
+                raise UserError(_(
+                    "Accounting method is not configured for company %s. "
+                    "Set it in Accounting → Configuration → Settings.")
+                    % self.company_id.name)
             ctx = {
                 'period_start': self.period_start.id,
                 'period_stop': self.period_stop.id,
                 'accounting_yearend': self.accounting_yearend,
-                'accounting_method': self.accounting_method,
+                'accounting_method': self.company_id.accounting_method,
                 'target_move': self.target_move,
             }
 

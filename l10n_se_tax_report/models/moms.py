@@ -118,27 +118,23 @@ class account_declaration(models.Model):
     _order = 'date asc'
 
 
-    def _accounting_method(self):
-        return self.env['ir.config_parameter'].get_param(key='l10n_se_tax_report.accounting_method', default='invoice')
-        
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company.id, required=True)
     name = fields.Char(required=True)
-    date = fields.Date(
+    date = fields.Date(string='Declaration Date',
         help="Planned date, date when to report to the Skatteverket or do the declaration. Usually Monday second week "
              "after period, but check calendar at Skatteverket. (January and August differ.)")
     state = fields.Selection(
         selection=[('draft', 'Draft'), ('confirmed', 'Confirmed'), ('done', 'Done'), ('canceled', 'Canceled')],
         default='draft')
-    
+
     target_move = fields.Selection(
         selection=[('posted', 'All Posted Entries'), ('draft', 'All Unposted Entries'), ('all', 'All Entries')],
         default='posted', string='Target Moves')
-        
-    accounting_method = fields.Selection(selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden'), ],
-                                         default=_accounting_method, string='Redovisningsmetod',
-                                         help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden "
-                                              "skall välja fakturametoden i sista perioden/bokslutsperioden")
-                                              
+
+    accounting_method = fields.Selection(
+        selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden')],
+        related='company_id.accounting_method')
+
     accounting_yearend = fields.Boolean(string="Bokslutsperiod",
                                         help="I bokslutsperioden skall även utestående fordringar ingå i "
                                              "momsredovisningen vid kontantmetoden")
@@ -205,17 +201,15 @@ class account_declaration(models.Model):
     @api.model
     def get_next_dates(self, length=3):
         last_declaration = self.search([], order='date_stop desc', limit=1)
-        icp = self.env['ir.config_parameter'].sudo()
-        freq_str = icp.get_param('l10n_se_tax_report.vat_declaration_frequency', default='quarter')
-        if freq_str:
-            _logger.warning(f"{freq_str=}")
-            if freq_str == "month":
-                freq_no = 1
-            if freq_str == "quarter":
-                freq_no = 3
-            if freq_str == "year":
-                freq_no = 12
-            return [last_declaration.start_date.replace(day=1) + relativedelta(months=freq_no), last_declaration.start_date.replace(day=1) + relativedelta(months=freq_no+1)]
+        freq_str = self.env.company.vat_declaration_frequency or 'quarter'
+        _logger.warning(f"{freq_str=}")
+        if freq_str == "month":
+            freq_no = 1
+        elif freq_str == "year":
+            freq_no = 12
+        else:
+            freq_no = 3
+        return [last_declaration.start_date.replace(day=1) + relativedelta(months=freq_no), last_declaration.start_date.replace(day=1) + relativedelta(months=freq_no+1)]
 
     def do_draft(self):
         for rec in self:
@@ -331,12 +325,12 @@ class account_vat_declaration(models.Model):
         return self.get_next_dates()[1]
 
     
-    vat_momsingavdr = fields.Float(string='Vat In', default=0.0, compute="_vat",
-                                   help='Avläsning av transationer från baskontoplanen.')
-    vat_momsutg = fields.Float(string='Vat Out', default=0.0, compute="_vat",
-                               help='Avläsning av transationer från baskontoplanen.')
-    vat_momsbetala = fields.Float(string='Moms att betala ut (+) eller få tillbaka (-)', default=0.0, compute="_vat",
-                                  help='Avläsning av skattekonto.')
+    vat_momsingavdr = fields.Integer(string='Vat In', default=0, compute="_vat",
+                                     help='Avläsning av transationer från baskontoplanen.')
+    vat_momsutg = fields.Integer(string='Vat Out', default=0, compute="_vat",
+                                 help='Avläsning av transationer från baskontoplanen.')
+    vat_momsbetala = fields.Integer(string='Moms att betala ut (+) eller få tillbaka (-)', default=0, compute="_vat",
+                                    help='Avläsning av skattekonto.')
 
     date = fields.Date(compute='_compute_date', inverse='_inverse_date', store=True)
 
@@ -347,8 +341,7 @@ class account_vat_declaration(models.Model):
     def _compute_date(self):
         for record in self:
             if record.date_stop:
-                icp = self.env['ir.config_parameter'].sudo()
-                freq_str = icp.get_param('l10n_se_tax_report.vat_declaration_frequency', default='quarter')
+                freq_str = record.company_id.vat_declaration_frequency or 'quarter'
                 freq_map = {'month': 1, 'quarter': 3, 'year': 12}
                 freq_months = freq_map.get(freq_str, 3)
                 record.date = self._calculate_vat_deadline(
@@ -366,8 +359,9 @@ class account_vat_declaration(models.Model):
 
     @api.model
     def _cron_create_vat_declaration(self):
-        icp = self.env['ir.config_parameter'].sudo()
-        freq_str = icp.get_param('l10n_se_tax_report.vat_declaration_frequency', default='quarter')
+        freq_str = self.env.company.vat_declaration_frequency
+        if not freq_str:
+            return False
         freq_map = {'month': 1, 'quarter': 3, 'year': 12}
         freq_months = freq_map.get(freq_str, 3)
 
@@ -388,10 +382,12 @@ class account_vat_declaration(models.Model):
         if existing:
             return False
 
-        report_xml_id = icp.get_param(
-            'l10n_se_tax_report.cron_report_template',
-            default='l10n_se_mis.report_md')
-        report = self.env.ref(report_xml_id)
+        report = self.env.company.vat_report_template_id or self.env.ref('l10n_se_mis.report_md')
+
+        fiscalyear = self.env['account.fiscalyear'].search([
+            ('date_start', '<=', date_start),
+            ('date_stop', '>=', date_stop),
+        ], limit=1)
 
         name = '%s %s - %s' % (self._report_name, date_start, date_stop)
         declaration = self.create({
@@ -400,6 +396,7 @@ class account_vat_declaration(models.Model):
             'date_stop': fields.Date.to_string(date_stop),
             'date': fields.Date.to_string(date_deadline),
             'report_id': report.id,
+            'accounting_yearend': fiscalyear and date_stop >= fiscalyear.date_stop,
         })
 
         if declaration:
