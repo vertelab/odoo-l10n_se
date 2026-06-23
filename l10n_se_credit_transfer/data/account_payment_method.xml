@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="se_credit_transfer" model="account.payment.method">
+        <field name="name">Swedish Credit Transfer (SEK)</field>
+        <field name="code">se_credit_transfer</field>
+        <field name="payment_type">outbound</field>
+        <field name="bank_account_required" eval="True" />
+        <field name="pain_version">pain.001.001.03</field>
+        <field name="se_org_id_required" eval="True" />
+    </record>
+</odoo>

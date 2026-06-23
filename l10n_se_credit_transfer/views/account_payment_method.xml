@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_method_form_se" model="ir.ui.view">
+        <field name="name">l10n_se.credit.transfer.payment.method.form</field>
+        <field name="model">account.payment.method</field>
+        <field
+            name="inherit_id"
+            ref="account_banking_pain_base.account_payment_method_form"
+        />
+        <field name="arch" type="xml">
+            <field name="pain_version" position="after">
+                <field
+                    name="se_org_id_required"
+                    invisible="code != 'se_credit_transfer'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

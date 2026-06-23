@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_order_form_se" model="ir.ui.view">
+        <field name="name">l10n_se.credit.transfer.payment.order.form</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_banking_pain_base.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <field name="charge_bearer" position="attributes">
+                <attribute name="invisible">sepa or payment_method_id.code == 'se_credit_transfer'</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

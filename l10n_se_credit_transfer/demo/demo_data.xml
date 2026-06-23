@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="se_ct_demo_company" model="res.company">
+        <field name="name">Swedish Demo Company AB</field>
+        <field name="country_id" ref="base.se" />
+        <field name="currency_id" ref="base.SEK" />
+        <field name="se_initiating_party_identifier">0123456789</field>
+        <field name="se_initiating_party_scheme">BANK</field>
+        <field name="vat">SE123456789701</field>
+    </record>
+
+    <record id="se_ct_demo_bank" model="res.bank">
+        <field name="name">SwedBank</field>
+        <field name="bic">SWEDSESSXXX</field>
+    </record>
+
+    <record id="se_ct_demo_partner" model="res.partner">
+        <field name="name">Swedish Supplier AB</field>
+        <field name="country_id" ref="base.se" />
+        <field name="city">Stockholm</field>
+        <field name="zip">111 22</field>
+        <field name="street">Kungsgatan 10</field>
+    </record>
+
+    <record id="se_ct_demo_partner_bank" model="res.partner.bank">
+        <field name="partner_id" ref="se_ct_demo_partner" />
+        <field name="acc_number">SE4550000000058398257466</field>
+        <field name="acc_type">iban</field>
+        <field name="bank_id" ref="se_ct_demo_bank" />
+    </record>
+</odoo>
