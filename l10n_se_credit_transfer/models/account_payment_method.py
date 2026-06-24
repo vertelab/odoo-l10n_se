@@ -21,8 +21,10 @@ class AccountPaymentMethod(models.Model):
     se_org_id_required = fields.Boolean(
         string="Org ID Required",
         default=True,
-        help="If checked, the Initiating Party Identifier is required "
-        "for this payment method.",
+        help="When enabled, the Initiating Party Identifier must be set "
+        "on the Payment Mode or Company before a payment file can be "
+        "generated. Disable only if your bank does not require an "
+        "organisation ID.",
     )
 
     def get_xsd_file_path(self):

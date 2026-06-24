@@ -10,6 +10,7 @@ class AccountPaymentLine(models.Model):
     se_end_to_end_id = fields.Char(
         string="End-to-End ID (SE)",
         size=35,
-        help="Unique end-to-end identifier for Swedish payments. "
-        "Leave empty to auto-generate.",
+        help="Unique identifier for this payment transaction. "
+        "Shown in bank statements and reconciliation.\n"
+        "Leave empty to auto-generate from the payment line ID.",
     )

@@ -101,9 +101,10 @@ class AccountPaymentOrder(models.Model):
 
         if not partner.city:
             raise UserError(_(
-                "City is required on the company's address (%s) "
-                "for generating the payment file. "
-                "Town/City (TwnNm) will be mandatory from November 2026."
+                "City is required on the company's address for generating "
+                "the payment file. The Town/City (TwnNm) field will be "
+                "mandatory from November 2026.\n"
+                "Please set a city on: %s"
             ) % partner.display_name)
 
         dbtr = self._x(parent, "Dbtr")
@@ -149,7 +150,8 @@ class AccountPaymentOrder(models.Model):
             raise UserError(_(
                 "City is required on the partner '%s' "
                 "for generating the payment file. "
-                "Town/City (TwnNm) will be mandatory from November 2026."
+                "Town/City (TwnNm) will be mandatory from November 2026.\n"
+                "Please open the partner form and set a city."
             ) % partner.display_name)
 
         cdtr = self._x(parent, "Cdtr")
@@ -163,9 +165,9 @@ class AccountPaymentOrder(models.Model):
     def _build_agent(self, parent, prefix, partner_bank, gen_args):
         if not partner_bank.bank_bic:
             raise UserError(_(
-                "BIC is missing on the bank account '%s'. "
-                "Please set the BIC on the bank linked to this account "
-                "before generating the payment file."
+                "BIC/Swift code is missing on the bank account '%s'. "
+                "Please open Accounting > Configuration > Banks, "
+                "select the bank linked to this account, and set its BIC."
             ) % partner_bank.display_name)
         ag = self._x(parent, "%sAgt" % prefix)
         fi = self._x(ag, "FinInstnId")
@@ -189,7 +191,13 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         pain = self.payment_method_id.pain_version or "pain.001.001.03"
         if not pain:
-            raise UserError(_("No PAIN version configured."))
+            raise UserError(
+                _("No PAIN version is configured on the payment method. "
+                  "Go to Invoicing > Configuration > Payment Methods, "
+                  "select '%s', and set the PAIN version ("
+                  "pain.001.001.03 or pain.001.001.09).")
+                % self.payment_method_id.name
+            )
         pa = self._se_pain_args()
 
         gen_args = {
@@ -259,7 +267,10 @@ class AccountPaymentOrder(models.Model):
 
                 if not line.partner_bank_id:
                     raise UserError(
-                        _("Bank account missing for partner '%s' (ref: %s).")
+                        _("No bank account set on the payment line for "
+                          "partner '%s' (ref: %s).\n"
+                          "Please open the partner form and add a bank "
+                          "account with IBAN, then recreate the payment line.")
                         % (line.partner_id.name, line.name)
                     )
 
@@ -303,19 +314,29 @@ class AccountPaymentOrder(models.Model):
             identifier = self._se_identifier()
             if not identifier:
                 raise UserError(
-                    _("Missing Initiating Party Identifier for Swedish CT. "
-                      "Configure it on the Payment Mode or Company settings.")
+                    _("Missing Initiating Party Signer ID for Swedish "
+                      "Credit Transfer.\n"
+                      "Go to Invoicing > Configuration > Payment Modes, "
+                      "select your SE payment mode, and fill in the "
+                      "'SE Initiating Party Identifier' field with the "
+                      "ID from your bank agreement.")
                 )
-            # Validate Swedbank MIG 2.0 format for pain.001.001.03
             pain = self.payment_method_id.pain_version or "pain.001.001.03"
-            if pain.startswith("pain.001.001.03") and not re.match(
-                r"^\d{9}ORI\d{4}$", identifier
-            ):
-                raise UserError(_(
-                    "Invalid Initiating Party Signer ID format. "
-                    "For Swedbank MIG 2.0, the format must be "
-                    "nnnnnnnnnORInnnn (e.g. 012345678ORI0001). "
-                    "Current value: %s"
-                ) % identifier)
+            if pain.startswith("pain.001.001.03"):
+                bic = self.company_partner_bank_id.bank_id.bic or ""
+                if "SWEDSESS" in bic:
+                    if not re.match(r"^\d{9}ORI\d{4}$", identifier):
+                        raise UserError(_(
+                            "Invalid Initiating Party Signer ID format. "
+                            "For Swedbank MIG 2.0, the format must be "
+                            "nnnnnnnnnORInnnn (e.g. 012345678ORI0001). "
+                            "Current value: %s"
+                        ) % identifier)
+                elif not re.match(r"^[A-Z0-9]{9,35}$", identifier):
+                    raise UserError(_(
+                        "Invalid Initiating Party Identifier format. "
+                        "Expected 9-35 alphanumeric characters (A-Z, 0-9). "
+                        "Current value: %s"
+                    ) % identifier)
             return self.generate_se_payment_file()
         return super().generate_payment_file()
