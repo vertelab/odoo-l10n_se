@@ -133,13 +133,6 @@ class TestSeCreditTransfer(TransactionCase):
         )
         self.assertEqual(schme[0].text, "BANK")
 
-        # Check Dbtr has SchmeNm (CUST as default for this BIC)
-        dbtr_schme = root.xpath(
-            "//p:PmtInf/p:Dbtr/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
-            namespaces=ns,
-        )
-        self.assertTrue(dbtr_schme)
-
         # Check BIC tag (pain.001.001.03 uses BIC, not BICFI)
         bic = root.xpath("//p:FinInstnId/p:BIC", namespaces=ns)
         self.assertTrue(bic)
@@ -153,6 +146,10 @@ class TestSeCreditTransfer(TransactionCase):
         ibans = root.xpath("//p:IBAN", namespaces=ns)
         for iban in ibans:
             self.assertTrue(iban.text.startswith("SE"))
+
+        # Check Ccy under DbtrAcct
+        dbtr_acct_ccy = root.xpath("//p:PmtInf/p:DbtrAcct/p:Ccy", namespaces=ns)
+        self.assertEqual(dbtr_acct_ccy[0].text, "SEK")
 
     def test_02_missing_identifier_raises(self):
         """Verify that missing initiating party ID raises UserError."""

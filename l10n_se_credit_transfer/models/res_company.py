@@ -20,3 +20,10 @@ class ResCompany(models.Model):
         help="Scheme name code for the initiating party identifier. "
         "BANK = Bank Party ID, CUST = Customer Number.",
     )
+    se_corporate_pay_agreement_id = fields.Char(
+        string="SE Corporate Pay Agreement ID",
+        size=35,
+        help="Swedbank Corporate Pay Agreement ID used in "
+        "Dbtr/Id/OrgId/Othr/Id. Format: nnnnnnnnnnAnnn (e.g. 123456789123B001). "
+        "Required by Swedbank MIG 2.0. Leave empty for ISO 1.0.",
+    )

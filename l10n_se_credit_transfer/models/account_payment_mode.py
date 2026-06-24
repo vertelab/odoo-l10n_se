@@ -22,3 +22,11 @@ class AccountPaymentMode(models.Model):
         "BANK = Bank Party ID, CUST = Customer Number. "
         "Check with your bank which one to use.",
     )
+    se_corporate_pay_agreement_id = fields.Char(
+        string="SE Corporate Pay Agreement ID",
+        size=35,
+        help="Swedbank Corporate Pay Agreement ID used in "
+        "Dbtr/Id/OrgId/Othr/Id. Format: nnnnnnnnnnAnnn (e.g. 123456789123B001). "
+        "If left empty, the company-level value is used. "
+        "Leave empty for ISO 1.0.",
+    )

@@ -62,6 +62,12 @@ class AccountPaymentOrder(models.Model):
     def _se_end_to_end(self, line):
         return line.se_end_to_end_id or str(line.id)
 
+    def _se_corporate_pay_agreement_id(self):
+        return (
+            self.payment_mode_id.se_corporate_pay_agreement_id
+            or self.company_id.se_corporate_pay_agreement_id
+        )
+
     # -----------------------------------------------------------------
     # XML builders
     # -----------------------------------------------------------------
@@ -89,8 +95,6 @@ class AccountPaymentOrder(models.Model):
             self._x(self._x(oth, "SchmeNm"), "Cd", scheme)
 
     def _build_debtor(self, parent, gen_args):
-        bic = self.company_partner_bank_id.bank_id.bic or ""
-        scheme = self._se_scheme("dbtr", bic)
         partner = self.company_partner_bank_id.partner_id
         name_max = gen_args.get("name_maxsize", 140)
 
@@ -115,13 +119,13 @@ class AccountPaymentOrder(models.Model):
                 self._x(pa, "TwnNm", partner.city)
             self._x(pa, "Ctry", partner.country_id.code)
 
-        identifier = self._se_identifier()
-        if identifier:
+        cpa_id = self._se_corporate_pay_agreement_id()
+        if cpa_id:
             did = self._x(dbtr, "Id")
             doid = self._x(did, "OrgId")
             doth = self._x(doid, "Othr")
-            self._xf(doth, "Id", '"%s"' % identifier, {}, 35, gen_args)
-            self._x(self._x(doth, "SchmeNm"), "Cd", scheme)
+            self._x(doth, "Id", cpa_id)
+            self._x(self._x(doth, "SchmeNm"), "Cd", "BANK")
 
     def _creditor_address(self, partner, gen_args):
         if not partner.country_id:
@@ -166,13 +170,15 @@ class AccountPaymentOrder(models.Model):
         fi = self._x(ag, "FinInstnId")
         self._x(fi, gen_args["bic_xml_tag"], partner_bank.bank_bic)
 
-    def _build_account(self, parent, prefix, partner_bank):
+    def _build_account(self, parent, prefix, partner_bank, currency=None):
         acct = self._x(parent, "%sAcct" % prefix)
         aid = self._x(acct, "Id")
         if partner_bank.acc_type == "iban":
             self._x(aid, "IBAN", partner_bank.sanitized_acc_number)
         else:
             self._x(aid, "Othr", partner_bank.sanitized_acc_number)
+        if currency:
+            self._x(acct, "Ccy", currency)
 
     # -----------------------------------------------------------------
     # Main generator
@@ -239,7 +245,8 @@ class AccountPaymentOrder(models.Model):
                 red.text = ds
 
             self._build_debtor(pi, gen_args)
-            self._build_account(pi, "Dbtr", self.company_partner_bank_id)
+            self._build_account(pi, "Dbtr", self.company_partner_bank_id,
+                                currency=lines[0].currency_id.name)
             self._build_agent(pi, "Dbtr", self.company_partner_bank_id, gen_args)
             self._x(pi, "ChrgBr", self.charge_bearer or "SHAR")
 
