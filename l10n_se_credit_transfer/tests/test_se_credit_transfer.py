@@ -8,6 +8,31 @@ from lxml import etree
 from odoo.tests import tagged, TransactionCase
 
 
+def _setup_payment(cls, payment_method_ref, identifier, cpa_id=None, scheme=None):
+    """Configure the payment method, mode, journal and partners for a test."""
+    cls.payment_method = cls.env.ref(payment_method_ref)
+
+    cls.env["account.payment.method.line"].create({
+        "name": cls.payment_method.name,
+        "payment_method_id": cls.payment_method.id,
+        "journal_id": cls.journal.id,
+    })
+
+    mode_vals = {
+        "name": "Swedish CT Mode",
+        "payment_method_id": cls.payment_method.id,
+        "company_id": cls.company.id,
+        "bank_account_link": "fixed",
+        "fixed_journal_id": cls.journal.id,
+        "se_initiating_party_identifier": identifier,
+    }
+    if scheme:
+        mode_vals["se_initiating_party_scheme"] = scheme
+    if cpa_id:
+        mode_vals["se_corporate_pay_agreement_id"] = cpa_id
+    cls.payment_mode = cls.env["account.payment.mode"].create(mode_vals)
+
+
 @tagged("post_install", "-at_install")
 class TestSeCreditTransfer(TransactionCase):
     @classmethod
@@ -21,15 +46,13 @@ class TestSeCreditTransfer(TransactionCase):
             "vat": "SE123456789701",
             "se_initiating_party_identifier": "012345678ORI0001",
             "se_initiating_party_scheme": "BANK",
-            "se_corporate_pay_agreement_id": "123456789CPO0001",
+            "se_corporate_pay_agreement_id": False,
         })
         cls.company.partner_id.write({
             "city": "Stockholm",
             "zip": "111 22",
             "street": "Kungsgatan 1",
         })
-        # The main company may use EUR; the tests use SEK for the payment
-        # journal and lines, so currency conversion is not exercised.
 
         cls.bank = cls.env["res.bank"].create({
             "name": "SwedBank",
@@ -49,25 +72,6 @@ class TestSeCreditTransfer(TransactionCase):
             "company_id": cls.company.id,
             "bank_account_id": cls.company_bank.id,
             "currency_id": cls.env.ref("base.SEK").id,
-        })
-
-        cls.payment_method = cls.env.ref("l10n_se_credit_transfer.se_credit_transfer")
-
-        # Link the payment method to the journal manually
-        cls.env["account.payment.method.line"].create({
-            "name": cls.payment_method.name,
-            "payment_method_id": cls.payment_method.id,
-            "journal_id": cls.journal.id,
-        })
-
-        cls.payment_mode = cls.env["account.payment.mode"].create({
-            "name": "Swedish CT Mode",
-            "payment_method_id": cls.payment_method.id,
-            "company_id": cls.company.id,
-            "bank_account_link": "fixed",
-            "fixed_journal_id": cls.journal.id,
-            "se_initiating_party_identifier": "012345678ORI0001",
-            "se_initiating_party_scheme": "BANK",
         })
 
         cls.partner = cls.env["res.partner"].create({
@@ -95,7 +99,7 @@ class TestSeCreditTransfer(TransactionCase):
             "charge_bearer": "SHAR",
         })
 
-        line = self.env["account.payment.line"].create({
+        self.env["account.payment.line"].create({
             "order_id": order.id,
             "partner_id": self.partner.id,
             "partner_bank_id": self.partner_bank.id,
@@ -108,8 +112,15 @@ class TestSeCreditTransfer(TransactionCase):
 
         return order
 
-    def test_01_generate_xml(self):
-        """Verify the XML structure matches Swedish conventions."""
+    # -----------------------------------------------------------------
+    # Generic (se_credit_transfer)
+    # -----------------------------------------------------------------
+
+    def test_01_generic_xml(self):
+        _setup_payment(
+            self, "l10n_se_credit_transfer.se_credit_transfer",
+            "SIGNER12345", "CPA00000001",
+        )
         order = self._create_payment_order()
         xml_bytes, filename = order.generate_se_payment_file()
 
@@ -119,43 +130,40 @@ class TestSeCreditTransfer(TransactionCase):
         root = etree.fromstring(xml_bytes)
         ns = {"p": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"}
 
-        # Check Service Level = NURG
         svc_lvl = root.xpath("//p:SvcLvl/p:Cd", namespaces=ns)
         self.assertEqual(svc_lvl[0].text, "NURG")
 
-        # Check Charge Bearer = SHAR
         chrg = root.xpath("//p:ChrgBr", namespaces=ns)
         self.assertEqual(chrg[0].text, "SHAR")
 
-        # Check InitgPty has SchmeNm/Cd = BANK
+        btch = root.xpath("//p:BtchBookg", namespaces=ns)
+        self.assertTrue(btch)
+
+        self.assertFalse(root.xpath("//p:InitgPty/p:Nm", namespaces=ns))
+
         schme = root.xpath(
             "//p:GrpHdr/p:InitgPty/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
             namespaces=ns,
         )
         self.assertEqual(schme[0].text, "BANK")
 
-        # Check BIC tag (pain.001.001.03 uses BIC, not BICFI)
         bic = root.xpath("//p:FinInstnId/p:BIC", namespaces=ns)
         self.assertTrue(bic)
         self.assertEqual(bic[0].text, "SWEDSESSXXX")
 
-        # Check Amount currency = SEK
         amt = root.xpath("//p:InstdAmt", namespaces=ns)
         self.assertEqual(amt[0].get("Ccy"), "SEK")
 
-        # Check SK (IBAN prefix = SE)
         ibans = root.xpath("//p:IBAN", namespaces=ns)
         for iban in ibans:
             self.assertTrue(iban.text.startswith("SE"))
 
-        # Check Ccy under DbtrAcct
         dbtr_acct_ccy = root.xpath("//p:PmtInf/p:DbtrAcct/p:Ccy", namespaces=ns)
         self.assertEqual(dbtr_acct_ccy[0].text, "SEK")
 
-        # Check Dbtr has Corporate Pay Agreement ID with SchmeNm/Cd = BANK
         dbtr_id = root.xpath(
             "//p:PmtInf/p:Dbtr/p:Id/p:OrgId/p:Othr/p:Id", namespaces=ns)
-        self.assertEqual(dbtr_id[0].text, "123456789CPO0001")
+        self.assertEqual(dbtr_id[0].text, "CPA00000001")
         dbtr_schme = root.xpath(
             "//p:PmtInf/p:Dbtr/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
             namespaces=ns,
@@ -163,7 +171,10 @@ class TestSeCreditTransfer(TransactionCase):
         self.assertEqual(dbtr_schme[0].text, "BANK")
 
     def test_02_missing_identifier_raises(self):
-        """Verify that missing initiating party ID raises UserError."""
+        _setup_payment(
+            self, "l10n_se_credit_transfer.se_credit_transfer",
+            "SIGNER12345", "CPA00000001",
+        )
         order = self._create_payment_order()
         order.company_id.se_initiating_party_identifier = False
         order.payment_mode_id.se_initiating_party_identifier = False
@@ -172,7 +183,104 @@ class TestSeCreditTransfer(TransactionCase):
             order.generate_payment_file()
 
     def test_03_filename_format(self):
-        """Verify filename format."""
+        _setup_payment(
+            self, "l10n_se_credit_transfer.se_credit_transfer",
+            "SIGNER12345", "CPA00000001",
+        )
         order = self._create_payment_order()
         xml_bytes, filename = order.generate_se_payment_file()
         self.assertIn(order.name, filename)
+
+    # -----------------------------------------------------------------
+    # Swedbank ISO 1.0 (se_credit_transfer_10)
+    # -----------------------------------------------------------------
+
+    def test_10_swedbank_01_xml(self):
+        _setup_payment(
+            self, "l10n_se_credit_transfer.se_credit_transfer_10",
+            "123456789123B001", None,
+        )
+        order = self._create_payment_order()
+        xml_bytes, filename = order.generate_se_payment_file()
+
+        self.assertTrue(filename.startswith("sct_se_"))
+
+        root = etree.fromstring(xml_bytes)
+        ns = {"p": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"}
+
+        svc_lvl = root.xpath("//p:SvcLvl/p:Cd", namespaces=ns)
+        self.assertEqual(svc_lvl[0].text, "NURG")
+
+        chrg = root.xpath("//p:ChrgBr", namespaces=ns)
+        self.assertEqual(chrg[0].text, "SHAR")
+
+        btch = root.xpath("//p:BtchBookg", namespaces=ns)
+        self.assertTrue(btch)
+
+        # 1.0 uses BGNR scheme
+        schme = root.xpath(
+            "//p:GrpHdr/p:InitgPty/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
+            namespaces=ns,
+        )
+        self.assertEqual(schme[0].text, "BGNR")
+
+        # 1.0 has no Dbtr/Id
+        self.assertFalse(root.xpath("//p:PmtInf/p:Dbtr/p:Id", namespaces=ns))
+
+        # 1.0 has no InitgPty/Nm
+        self.assertFalse(root.xpath("//p:InitgPty/p:Nm", namespaces=ns))
+
+    # -----------------------------------------------------------------
+    # Swedbank MIG 2.0 (se_credit_transfer_20)
+    # -----------------------------------------------------------------
+
+    def test_20_swedbank_02_xml(self):
+        _setup_payment(
+            self, "l10n_se_credit_transfer.se_credit_transfer_20",
+            "012345678ORI0001", "123456789CPO0001",
+        )
+        order = self._create_payment_order()
+        xml_bytes, filename = order.generate_se_payment_file()
+
+        self.assertTrue(filename.startswith("sct_se_"))
+
+        root = etree.fromstring(xml_bytes)
+        ns = {"p": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"}
+
+        svc_lvl = root.xpath("//p:SvcLvl/p:Cd", namespaces=ns)
+        self.assertEqual(svc_lvl[0].text, "NURG")
+
+        # 2.0 has no ChrgBr
+        self.assertFalse(root.xpath("//p:ChrgBr", namespaces=ns))
+
+        # 2.0 has no BtchBookg
+        self.assertFalse(root.xpath("//p:BtchBookg", namespaces=ns))
+
+        # 2.0 has InitgPty/Nm
+        nm = root.xpath("//p:InitgPty/p:Nm", namespaces=ns)
+        self.assertTrue(nm)
+
+        # 2.0 uses BANK scheme
+        schme = root.xpath(
+            "//p:GrpHdr/p:InitgPty/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
+            namespaces=ns,
+        )
+        self.assertEqual(schme[0].text, "BANK")
+
+        # 2.0 has DbtrAgt/FinInstnId/PstlAdr/Ctry
+        ctry = root.xpath(
+            "//p:PmtInf/p:DbtrAgt/p:FinInstnId/p:PstlAdr/p:Ctry",
+            namespaces=ns,
+        )
+        self.assertTrue(ctry)
+        self.assertEqual(ctry[0].text, "SE")
+
+        # 2.0 has Dbtr/Id with CPA ID
+        dbtr_id = root.xpath(
+            "//p:PmtInf/p:Dbtr/p:Id/p:OrgId/p:Othr/p:Id", namespaces=ns)
+        self.assertEqual(dbtr_id[0].text, "123456789CPO0001")
+        dbtr_schme = root.xpath(
+            "//p:PmtInf/p:Dbtr/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
+            namespaces=ns,
+        )
+        self.assertEqual(dbtr_schme[0].text, "BANK")

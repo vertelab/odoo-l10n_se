@@ -8,4 +8,22 @@
         <field name="pain_version">pain.001.001.03</field>
         <field name="se_org_id_required" eval="True" />
     </record>
+
+    <record id="se_credit_transfer_10" model="account.payment.method">
+        <field name="name">Swedbank ISO 1.0 (SEK)</field>
+        <field name="code">se_credit_transfer_10</field>
+        <field name="payment_type">outbound</field>
+        <field name="bank_account_required" eval="True" />
+        <field name="pain_version">pain.001.001.03</field>
+        <field name="se_org_id_required" eval="True" />
+    </record>
+
+    <record id="se_credit_transfer_20" model="account.payment.method">
+        <field name="name">Swedbank MIG 2.0 (SEK)</field>
+        <field name="code">se_credit_transfer_20</field>
+        <field name="payment_type">outbound</field>
+        <field name="bank_account_required" eval="True" />
+        <field name="pain_version">pain.001.001.03</field>
+        <field name="se_org_id_required" eval="True" />
+    </record>
 </odoo>

@@ -30,7 +30,19 @@ class AccountPaymentOrder(models.Model):
 
     def _is_se_payment(self):
         self.ensure_one()
-        return self.payment_method_id.code == "se_credit_transfer"
+        return self.payment_method_id.code in (
+            "se_credit_transfer",
+            "se_credit_transfer_10",
+            "se_credit_transfer_20",
+        )
+
+    def _mig_version(self):
+        code = self.payment_method_id.code
+        if code == "se_credit_transfer_10":
+            return "1.0"
+        if code == "se_credit_transfer_20":
+            return "2.0"
+        return ""
 
     def _se_scheme(self, party, bic):
         schemes = SCHEME_BY_BIC.get(party, {})
@@ -85,8 +97,16 @@ class AccountPaymentOrder(models.Model):
 
     def _build_initiating_party(self, parent, gen_args):
         bic = self.company_partner_bank_id.bank_id.bic or ""
-        scheme = self._se_scheme("init", bic)
+        version = self._mig_version()
+        if version == "1.0":
+            scheme = "BGNR"
+        else:
+            scheme = self._se_scheme("init", bic)
         party = self._x(parent, "InitgPty")
+        if version == "2.0":
+            name_max = gen_args.get("name_maxsize", 70)
+            self._xf(party, "Nm", "self.company_partner_bank_id.partner_id.name",
+                     {"self": self}, name_max, gen_args)
         identifier = self._se_identifier()
         if identifier:
             pid = self._x(party, "Id")
@@ -122,7 +142,7 @@ class AccountPaymentOrder(models.Model):
             self._x(pa, "Ctry", partner.country_id.code)
 
         cpa_id = self._se_corporate_pay_agreement_id()
-        if cpa_id:
+        if cpa_id and self._mig_version() != "1.0":
             did = self._x(dbtr, "Id")
             doid = self._x(did, "OrgId")
             doth = self._x(doid, "Othr")
@@ -172,6 +192,10 @@ class AccountPaymentOrder(models.Model):
         ag = self._x(parent, "%sAgt" % prefix)
         fi = self._x(ag, "FinInstnId")
         self._x(fi, gen_args["bic_xml_tag"], partner_bank.bank_bic)
+        if self._mig_version() == "2.0" and prefix == "Dbtr":
+            pa = self._x(fi, "PstlAdr")
+            self._x(pa, "Ctry",
+                    partner_bank.partner_id.country_id.code or "SE")
 
     def _build_account(self, parent, prefix, partner_bank, currency=None):
         acct = self._x(parent, "%sAcct" % prefix)
@@ -240,7 +264,8 @@ class AccountPaymentOrder(models.Model):
             self._xf(pi, "PmtInfId", '"%s-%s"' % (self.name, ds.replace("-", "")),
                      {}, 35, gen_args)
             self._x(pi, "PmtMtd", "TRF")
-            self._x(pi, "BtchBookg", str(self.batch_booking).lower())
+            if self._mig_version() != "2.0":
+                self._x(pi, "BtchBookg", str(self.batch_booking).lower())
             nb_grp = self._x(pi, "NbOfTxs")
             sum_grp = self._x(pi, "CtrlSum")
 
@@ -257,7 +282,8 @@ class AccountPaymentOrder(models.Model):
             self._build_account(pi, "Dbtr", self.company_partner_bank_id,
                                 currency=lines[0].currency_id.name)
             self._build_agent(pi, "Dbtr", self.company_partner_bank_id, gen_args)
-            self._x(pi, "ChrgBr", self.charge_bearer or "SHAR")
+            if self._mig_version() != "2.0":
+                self._x(pi, "ChrgBr", self.charge_bearer or "SHAR")
 
             gn = 0
             gs = 0.0
@@ -321,26 +347,25 @@ class AccountPaymentOrder(models.Model):
                       "'SE Initiating Party Identifier' field with the "
                       "ID from your bank agreement.")
                 )
-            pain = self.payment_method_id.pain_version or "pain.001.001.03"
-            if pain.startswith("pain.001.001.03"):
-                bic = self.company_partner_bank_id.bank_id.bic or ""
-                if "SWEDSESS" in bic:
-                    if not re.match(r"^\d{9}ORI\d{4}$", identifier):
-                        raise UserError(_(
-                            "Invalid Initiating Party Signer ID format. "
-                            "For Swedbank MIG 2.0, the format must be "
-                            "nnnnnnnnnORInnnn (e.g. 012345678ORI0001). "
-                            "Current value: %s"
-                        ) % identifier)
-                    cpa_id = self._se_corporate_pay_agreement_id()
-                    if cpa_id and not re.match(r"^\d{9}CPO\d{4}$", cpa_id):
-                        raise UserError(_(
-                            "Invalid Corporate Pay Agreement ID format. "
-                            "For Swedbank MIG 2.0, the format must be "
-                            "nnnnnnnnnCPOnnnn (e.g. 123456789CPO0001). "
-                            "Current value: %s"
-                        ) % cpa_id)
-                elif not re.match(r"^[A-Z0-9]{9,35}$", identifier):
+            version = self._mig_version()
+            if version == "2.0":
+                if not re.match(r"^\d{9}ORI\d{4}$", identifier):
+                    raise UserError(_(
+                        "Invalid Initiating Party Signer ID format for "
+                        "Swedbank MIG 2.0. The format must be "
+                        "nnnnnnnnnORInnnn (e.g. 012345678ORI0001). "
+                        "Current value: %s"
+                    ) % identifier)
+                cpa_id = self._se_corporate_pay_agreement_id()
+                if cpa_id and not re.match(r"^\d{9}CPO\d{4}$", cpa_id):
+                    raise UserError(_(
+                        "Invalid Corporate Pay Agreement ID format for "
+                        "Swedbank MIG 2.0. The format must be "
+                        "nnnnnnnnnCPOnnnn (e.g. 123456789CPO0001). "
+                        "Current value: %s"
+                    ) % cpa_id)
+            elif not version:
+                if not re.match(r"^[A-Z0-9]{9,35}$", identifier):
                     raise UserError(_(
                         "Invalid Initiating Party Identifier format. "
                         "Expected 9-35 alphanumeric characters (A-Z, 0-9). "

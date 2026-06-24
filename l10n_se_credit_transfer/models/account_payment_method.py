@@ -36,8 +36,10 @@ class AccountPaymentMethod(models.Model):
     @api.model
     def _get_payment_method_information(self):
         res = super()._get_payment_method_information()
-        res["se_credit_transfer"] = {
-            "mode": "multi",
-            "domain": [("type", "=", "bank")],
-        }
+        for code in ("se_credit_transfer", "se_credit_transfer_10",
+                     "se_credit_transfer_20"):
+            res[code] = {
+                "mode": "multi",
+                "domain": [("type", "=", "bank")],
+            }
         return res
