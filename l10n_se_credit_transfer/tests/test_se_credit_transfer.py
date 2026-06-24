@@ -187,6 +187,53 @@ class TestSeCreditTransfer(TransactionCase):
         xml_bytes, filename = order.generate_se_payment_file()
         self.assertIn(order.name, filename)
 
+    def test_04_non_swedbank_includes_btch_chrg(self):
+        """Verify BtchBookg and ChrgBr are included for non-Swedbank banks."""
+        nordea = self.env["res.bank"].create({
+            "name": "Nordea",
+            "bic": "NDEASESSXXX",
+        })
+        nordea_bank = self.env["res.partner.bank"].create({
+            "partner_id": self.company.partner_id.id,
+            "acc_number": "SE7335536296831513338982",
+            "acc_type": "iban",
+            "bank_id": nordea.id,
+        })
+        _setup_payment(
+            self, "l10n_se_credit_transfer.se_credit_transfer",
+            "SIGNER12345", "CPA00000001",
+        )
+        order = self.env["account.payment.order"].create({
+            "payment_type": "outbound",
+            "payment_mode_id": self.payment_mode.id,
+            "company_partner_bank_id": nordea_bank.id,
+            "company_id": self.company.id,
+            "batch_booking": True,
+            "charge_bearer": "SHAR",
+        })
+        self.env["account.payment.line"].create({
+            "order_id": order.id,
+            "partner_id": self.partner.id,
+            "partner_bank_id": self.partner_bank.id,
+            "currency_id": self.env.ref("base.SEK").id,
+            "amount_currency": 5000.00,
+            "date": date.today(),
+            "communication": "Invoice 12345",
+            "communication_type": "normal",
+        })
+
+        xml_bytes, filename = order.generate_se_payment_file()
+        root = etree.fromstring(xml_bytes)
+        ns = {"p": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"}
+
+        chrg = root.xpath("//p:ChrgBr", namespaces=ns)
+        self.assertTrue(chrg)
+        self.assertEqual(chrg[0].text, "SHAR")
+
+        btch = root.xpath("//p:BtchBookg", namespaces=ns)
+        self.assertTrue(btch)
+        self.assertEqual(btch[0].text, "true")
+
     # -----------------------------------------------------------------
     # Swedbank MIG 2.0 (se_credit_transfer_20)
     # -----------------------------------------------------------------
