@@ -19,8 +19,9 @@ class TestSeCreditTransfer(TransactionCase):
         cls.company.write({
             "country_id": cls.env.ref("base.se").id,
             "vat": "SE123456789701",
-            "se_initiating_party_identifier": "123456789123B001",
+            "se_initiating_party_identifier": "012345678ORI0001",
             "se_initiating_party_scheme": "BANK",
+            "se_corporate_pay_agreement_id": "123456789CPO0001",
         })
         cls.company.partner_id.write({
             "city": "Stockholm",
@@ -65,7 +66,7 @@ class TestSeCreditTransfer(TransactionCase):
             "company_id": cls.company.id,
             "bank_account_link": "fixed",
             "fixed_journal_id": cls.journal.id,
-            "se_initiating_party_identifier": "123456789123B001",
+            "se_initiating_party_identifier": "012345678ORI0001",
             "se_initiating_party_scheme": "BANK",
         })
 
@@ -150,6 +151,16 @@ class TestSeCreditTransfer(TransactionCase):
         # Check Ccy under DbtrAcct
         dbtr_acct_ccy = root.xpath("//p:PmtInf/p:DbtrAcct/p:Ccy", namespaces=ns)
         self.assertEqual(dbtr_acct_ccy[0].text, "SEK")
+
+        # Check Dbtr has Corporate Pay Agreement ID with SchmeNm/Cd = BANK
+        dbtr_id = root.xpath(
+            "//p:PmtInf/p:Dbtr/p:Id/p:OrgId/p:Othr/p:Id", namespaces=ns)
+        self.assertEqual(dbtr_id[0].text, "123456789CPO0001")
+        dbtr_schme = root.xpath(
+            "//p:PmtInf/p:Dbtr/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
+            namespaces=ns,
+        )
+        self.assertEqual(dbtr_schme[0].text, "BANK")
 
     def test_02_missing_identifier_raises(self):
         """Verify that missing initiating party ID raises UserError."""
