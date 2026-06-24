@@ -16,15 +16,6 @@ class ResCompany(models.Model):
         "For other banks: your Bankgironummer or customer number.\n"
         "Also configurable per Payment Mode (which takes priority).",
     )
-    se_initiating_party_scheme = fields.Selection(
-        [("BANK", "BANK"), ("CUST", "CUST")],
-        string="SE Initiating Party Scheme",
-        default="BANK",
-        help="Scheme code for the initiating party identifier.\n"
-        "BANK = Bank Party ID (use for Swedbank, Handelsbanken, SEB).\n"
-        "CUST = Customer Number (use for Nordea).\n"
-        "Check with your bank which one applies.",
-    )
     se_corporate_pay_agreement_id = fields.Char(
         string="SE Corporate Pay Agreement ID",
         size=35,

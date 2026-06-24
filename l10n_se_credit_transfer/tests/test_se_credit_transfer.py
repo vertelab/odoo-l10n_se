@@ -8,7 +8,7 @@ from lxml import etree
 from odoo.tests import tagged, TransactionCase
 
 
-def _setup_payment(cls, payment_method_ref, identifier, cpa_id=None, scheme=None):
+def _setup_payment(cls, payment_method_ref, identifier, cpa_id=None):
     """Configure the payment method, mode, journal and partners for a test."""
     cls.payment_method = cls.env.ref(payment_method_ref)
 
@@ -26,8 +26,6 @@ def _setup_payment(cls, payment_method_ref, identifier, cpa_id=None, scheme=None
         "fixed_journal_id": cls.journal.id,
         "se_initiating_party_identifier": identifier,
     }
-    if scheme:
-        mode_vals["se_initiating_party_scheme"] = scheme
     if cpa_id:
         mode_vals["se_corporate_pay_agreement_id"] = cpa_id
     cls.payment_mode = cls.env["account.payment.mode"].create(mode_vals)
@@ -45,7 +43,6 @@ class TestSeCreditTransfer(TransactionCase):
             "country_id": cls.env.ref("base.se").id,
             "vat": "SE123456789701",
             "se_initiating_party_identifier": "012345678ORI0001",
-            "se_initiating_party_scheme": "BANK",
             "se_corporate_pay_agreement_id": False,
         })
         cls.company.partner_id.write({

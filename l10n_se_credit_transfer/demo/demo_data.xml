@@ -5,7 +5,6 @@
         <field name="country_id" ref="base.se" />
         <field name="currency_id" ref="base.SEK" />
         <field name="se_initiating_party_identifier">012345678ORI0001</field>
-        <field name="se_initiating_party_scheme">BANK</field>
         <field name="se_corporate_pay_agreement_id">123456789CPO0001</field>
         <field name="vat">SE123456789701</field>
     </record>

@@ -20,7 +20,6 @@
         "views/account_payment_method.xml",
     ],
     "demo": ["demo/demo_data.xml"],
-    "post_init_hook": "set_default_se_initiating_party",
     "installable": True,
     "auto_install": False,
 }

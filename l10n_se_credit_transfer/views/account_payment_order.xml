@@ -25,7 +25,6 @@
             <field name="vat" position="after">
                 <separator string="Swedish Credit Transfer"/>
                 <field name="se_initiating_party_identifier"/>
-                <field name="se_initiating_party_scheme"/>
                 <field name="se_corporate_pay_agreement_id"/>
             </field>
         </field>
