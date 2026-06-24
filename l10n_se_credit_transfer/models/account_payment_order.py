@@ -247,8 +247,6 @@ class AccountPaymentOrder(models.Model):
             self._xf(pi, "PmtInfId", '"%s-%s"' % (self.name, ds.replace("-", "")),
                      {}, 35, gen_args)
             self._x(pi, "PmtMtd", "TRF")
-            if self._mig_version() != "2.0":
-                self._x(pi, "BtchBookg", str(self.batch_booking).lower())
             nb_grp = self._x(pi, "NbOfTxs")
             sum_grp = self._x(pi, "CtrlSum")
 
@@ -265,8 +263,6 @@ class AccountPaymentOrder(models.Model):
             self._build_account(pi, "Dbtr", self.company_partner_bank_id,
                                 currency=lines[0].currency_id.name)
             self._build_agent(pi, "Dbtr", self.company_partner_bank_id, gen_args)
-            if self._mig_version() != "2.0":
-                self._x(pi, "ChrgBr", self.charge_bearer or "SHAR")
 
             gn = 0
             gs = 0.0

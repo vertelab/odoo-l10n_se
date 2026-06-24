@@ -133,12 +133,8 @@ class TestSeCreditTransfer(TransactionCase):
         svc_lvl = root.xpath("//p:SvcLvl/p:Cd", namespaces=ns)
         self.assertEqual(svc_lvl[0].text, "NURG")
 
-        chrg = root.xpath("//p:ChrgBr", namespaces=ns)
-        self.assertEqual(chrg[0].text, "SHAR")
-
-        btch = root.xpath("//p:BtchBookg", namespaces=ns)
-        self.assertTrue(btch)
-
+        self.assertFalse(root.xpath("//p:ChrgBr", namespaces=ns))
+        self.assertFalse(root.xpath("//p:BtchBookg", namespaces=ns))
         self.assertFalse(root.xpath("//p:InitgPty/p:Nm", namespaces=ns))
 
         schme = root.xpath(
