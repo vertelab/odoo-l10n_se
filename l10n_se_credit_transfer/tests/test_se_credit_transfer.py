@@ -19,7 +19,7 @@ class TestSeCreditTransfer(TransactionCase):
         cls.company.write({
             "country_id": cls.env.ref("base.se").id,
             "vat": "SE123456789701",
-            "se_initiating_party_identifier": "012345678ORI0001",
+            "se_initiating_party_identifier": "123456789123B001",
             "se_initiating_party_scheme": "BANK",
         })
         cls.company.partner_id.write({
@@ -65,7 +65,7 @@ class TestSeCreditTransfer(TransactionCase):
             "company_id": cls.company.id,
             "bank_account_link": "fixed",
             "fixed_journal_id": cls.journal.id,
-            "se_initiating_party_identifier": "012345678ORI0001",
+            "se_initiating_party_identifier": "123456789123B001",
             "se_initiating_party_scheme": "BANK",
         })
 

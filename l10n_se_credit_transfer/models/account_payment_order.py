@@ -325,11 +325,11 @@ class AccountPaymentOrder(models.Model):
             if pain.startswith("pain.001.001.03"):
                 bic = self.company_partner_bank_id.bank_id.bic or ""
                 if "SWEDSESS" in bic:
-                    if not re.match(r"^\d{9}ORI\d{4}$", identifier):
+                    if not re.match(r"^\d{12}[A-Z]\d{3}$", identifier):
                         raise UserError(_(
                             "Invalid Initiating Party Signer ID format. "
-                            "For Swedbank MIG 2.0, the format must be "
-                            "nnnnnnnnnORInnnn (e.g. 012345678ORI0001). "
+                            "For Swedbank, the format must be "
+                            "nnnnnnnnnnnnAnnn (e.g. 123456789123B001). "
                             "Current value: %s"
                         ) % identifier)
                 elif not re.match(r"^[A-Z0-9]{9,35}$", identifier):
