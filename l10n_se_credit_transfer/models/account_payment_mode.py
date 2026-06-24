@@ -13,8 +13,7 @@ class AccountPaymentMode(models.Model):
         help="Identifier sent in the InitgPty/Id/OrgId/Othr/Id element.\n"
         "For Swedbank MIG 2.0: signer ID with format nnnnnnnnnORInnnn "
         "(e.g. 012345678ORI0001).\n"
-        "For Swedbank ISO 1.0 and other banks: your Bankgironummer or "
-        "customer number.\n"
+        "For other banks: your Bankgironummer or customer number.\n"
         "Leave empty to use the company-level value.",
     )
     se_initiating_party_scheme = fields.Selection(
@@ -32,6 +31,5 @@ class AccountPaymentMode(models.Model):
         help="Corporate Pay Agreement ID for Dbtr/Id/OrgId/Othr/Id.\n"
         "For Swedbank MIG 2.0: format nnnnnnnnnCPOnnnn "
         "(e.g. 123456789CPO0001) — get this from your Swedbank agreement.\n"
-        "Not used for Swedbank ISO 1.0. Leave empty to use the "
-        "company-level value.",
+        "Leave empty to use the company-level value.",
     )

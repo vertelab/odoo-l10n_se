@@ -12,12 +12,9 @@ from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 
-# Swedish bank BIC → party identification scheme.
-# Each bank defines whether the initiating party / debtor ID uses
-# "BANK" (bank agreement number) or "CUST" (customer number).
+# Swedish bank BIC → party identification scheme for the initiating party.
 SCHEME_BY_BIC = {
     "init": {"BANK": {"SWEDSESS"}, "CUST": {"NDEASESS"}},
-    "dbtr": {"BANK": {"NDEASESS"}, "CUST": set()},
 }
 
 
@@ -32,15 +29,11 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         return self.payment_method_id.code in (
             "se_credit_transfer",
-            "se_credit_transfer_10",
             "se_credit_transfer_20",
         )
 
     def _mig_version(self):
-        code = self.payment_method_id.code
-        if code == "se_credit_transfer_10":
-            return "1.0"
-        if code == "se_credit_transfer_20":
+        if self.payment_method_id.code == "se_credit_transfer_20":
             return "2.0"
         return ""
 
@@ -64,12 +57,6 @@ class AccountPaymentOrder(models.Model):
         return (
             self.payment_mode_id.se_initiating_party_identifier
             or self.company_id.se_initiating_party_identifier
-        )
-
-    def _se_scheme_name(self):
-        return (
-            self.payment_mode_id.se_initiating_party_scheme
-            or self.company_id.se_initiating_party_scheme
         )
 
     def _se_end_to_end(self, line):
@@ -97,13 +84,9 @@ class AccountPaymentOrder(models.Model):
 
     def _build_initiating_party(self, parent, gen_args):
         bic = self.company_partner_bank_id.bank_id.bic or ""
-        version = self._mig_version()
-        if version == "1.0":
-            scheme = "BGNR"
-        else:
-            scheme = self._se_scheme("init", bic)
+        scheme = self._se_scheme("init", bic)
         party = self._x(parent, "InitgPty")
-        if version == "2.0":
+        if self._mig_version() == "2.0":
             name_max = gen_args.get("name_maxsize", 70)
             self._xf(party, "Nm", "self.company_partner_bank_id.partner_id.name",
                      {"self": self}, name_max, gen_args)
@@ -142,7 +125,7 @@ class AccountPaymentOrder(models.Model):
             self._x(pa, "Ctry", partner.country_id.code)
 
         cpa_id = self._se_corporate_pay_agreement_id()
-        if cpa_id and self._mig_version() != "1.0":
+        if cpa_id:
             did = self._x(dbtr, "Id")
             doid = self._x(did, "OrgId")
             doth = self._x(doid, "Othr")

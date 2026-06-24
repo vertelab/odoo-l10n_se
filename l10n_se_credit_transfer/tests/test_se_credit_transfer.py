@@ -192,45 +192,6 @@ class TestSeCreditTransfer(TransactionCase):
         self.assertIn(order.name, filename)
 
     # -----------------------------------------------------------------
-    # Swedbank ISO 1.0 (se_credit_transfer_10)
-    # -----------------------------------------------------------------
-
-    def test_10_swedbank_01_xml(self):
-        _setup_payment(
-            self, "l10n_se_credit_transfer.se_credit_transfer_10",
-            "123456789123B001", None,
-        )
-        order = self._create_payment_order()
-        xml_bytes, filename = order.generate_se_payment_file()
-
-        self.assertTrue(filename.startswith("sct_se_"))
-
-        root = etree.fromstring(xml_bytes)
-        ns = {"p": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"}
-
-        svc_lvl = root.xpath("//p:SvcLvl/p:Cd", namespaces=ns)
-        self.assertEqual(svc_lvl[0].text, "NURG")
-
-        chrg = root.xpath("//p:ChrgBr", namespaces=ns)
-        self.assertEqual(chrg[0].text, "SHAR")
-
-        btch = root.xpath("//p:BtchBookg", namespaces=ns)
-        self.assertTrue(btch)
-
-        # 1.0 uses BGNR scheme
-        schme = root.xpath(
-            "//p:GrpHdr/p:InitgPty/p:Id/p:OrgId/p:Othr/p:SchmeNm/p:Cd",
-            namespaces=ns,
-        )
-        self.assertEqual(schme[0].text, "BGNR")
-
-        # 1.0 has no Dbtr/Id
-        self.assertFalse(root.xpath("//p:PmtInf/p:Dbtr/p:Id", namespaces=ns))
-
-        # 1.0 has no InitgPty/Nm
-        self.assertFalse(root.xpath("//p:InitgPty/p:Nm", namespaces=ns))
-
-    # -----------------------------------------------------------------
     # Swedbank MIG 2.0 (se_credit_transfer_20)
     # -----------------------------------------------------------------
 
