@@ -11,9 +11,10 @@ class ResCompany(models.Model):
         string="SE Initiating Party Identifier",
         size=35,
         help="Identifier sent in the InitgPty/Id/OrgId/Othr/Id element.\n"
-        "For Swedbank: signer ID with format nnnnnnnnnORInnnn "
+        "For Swedbank MIG 2.0: signer ID with format nnnnnnnnnORInnnn "
         "(e.g. 012345678ORI0001) — get this from your Swedbank agreement.\n"
-        "For other banks: your Bankgironummer or customer number.\n"
+        "For Swedbank ISO 1.0 and other banks: your Bankgironummer or "
+        "customer number.\n"
         "Also configurable per Payment Mode (which takes priority).",
     )
     se_initiating_party_scheme = fields.Selection(
@@ -28,8 +29,9 @@ class ResCompany(models.Model):
     se_corporate_pay_agreement_id = fields.Char(
         string="SE Corporate Pay Agreement ID",
         size=35,
-        help="Swedbank Corporate Pay Agreement ID for Dbtr/Id/OrgId/Othr/Id.\n"
-        "Format: nnnnnnnnnnnnAnnn (e.g. 123456789123B001).\n"
-        "Required by Swedbank MIG 2.0 only — leave empty for ISO 1.0 "
-        "or non-Swedbank banks.",
+        help="Corporate Pay Agreement ID for Dbtr/Id/OrgId/Othr/Id.\n"
+        "For Swedbank MIG 2.0: format nnnnnnnnnCPOnnnn "
+        "(e.g. 123456789CPO0001) — get this from your Swedbank agreement.\n"
+        "Not used for Swedbank ISO 1.0. Leave empty to use the "
+        "company-level value.",
     )
