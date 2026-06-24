@@ -5,11 +5,28 @@
         <field name="model">account.payment.order</field>
         <field
             name="inherit_id"
-            ref="account_banking_pain_base.account_payment_order_form"
+            ref="account_payment_order.account_payment_order_form"
         />
         <field name="arch" type="xml">
-            <field name="charge_bearer" position="attributes">
-                <attribute name="invisible">sepa or payment_method_id.code == 'se_credit_transfer'</attribute>
+            <field name="batch_booking" position="after">
+                <field
+                    name="charge_bearer"
+                    invisible="payment_method_id.code != 'se_credit_transfer'"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="res_company_se_form_se" model="ir.ui.view">
+        <field name="name">l10n_se.credit.transfer.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="account.view_company_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <separator string="Swedish Credit Transfer"/>
+                <field name="se_initiating_party_identifier"/>
+                <field name="se_initiating_party_scheme"/>
+                <field name="se_corporate_pay_agreement_id"/>
             </field>
         </field>
     </record>
