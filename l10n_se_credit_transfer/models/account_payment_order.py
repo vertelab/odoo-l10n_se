@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
+import re
 from datetime import datetime
 
 from lxml import etree
@@ -299,10 +300,22 @@ class AccountPaymentOrder(models.Model):
     def generate_payment_file(self):
         self.ensure_one()
         if self._is_se_payment():
-            if not self._se_identifier():
+            identifier = self._se_identifier()
+            if not identifier:
                 raise UserError(
                     _("Missing Initiating Party Identifier for Swedish CT. "
                       "Configure it on the Payment Mode or Company settings.")
                 )
+            # Validate Swedbank MIG 2.0 format for pain.001.001.03
+            pain = self.payment_method_id.pain_version or "pain.001.001.03"
+            if pain.startswith("pain.001.001.03") and not re.match(
+                r"^\d{9}ORI\d{4}$", identifier
+            ):
+                raise UserError(_(
+                    "Invalid Initiating Party Signer ID format. "
+                    "For Swedbank MIG 2.0, the format must be "
+                    "nnnnnnnnnORInnnn (e.g. 012345678ORI0001). "
+                    "Current value: %s"
+                ) % identifier)
             return self.generate_se_payment_file()
         return super().generate_payment_file()
