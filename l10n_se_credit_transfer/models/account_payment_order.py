@@ -29,6 +29,7 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         return self.payment_method_id.code in (
             "se_credit_transfer",
+            "se_credit_transfer_bankgiro",
             "se_credit_transfer_20",
         )
 
@@ -67,6 +68,12 @@ class AccountPaymentOrder(models.Model):
             self.payment_mode_id.se_corporate_pay_agreement_id
             or self.company_id.se_corporate_pay_agreement_id
         )
+
+    def _is_bankgiro_account(self, partner_bank):
+        if not partner_bank:
+            return False
+        acc_num = partner_bank.sanitized_acc_number or ""
+        return acc_num.isdigit() and len(acc_num) in (7, 8)
 
     # -----------------------------------------------------------------
     # XML builders
@@ -186,7 +193,14 @@ class AccountPaymentOrder(models.Model):
         if partner_bank.acc_type == "iban":
             self._x(aid, "IBAN", partner_bank.sanitized_acc_number)
         else:
-            self._x(aid, "Othr", partner_bank.sanitized_acc_number)
+            oth = self._x(aid, "Othr")
+            self._x(oth, "Id", partner_bank.sanitized_acc_number)
+            acc_num = partner_bank.sanitized_acc_number or ""
+            schme_nm = self._x(oth, "SchmeNm")
+            if self._is_bankgiro_account(partner_bank):
+                self._x(schme_nm, "Prtry", "BGNR")
+            else:
+                self._x(schme_nm, "Cd", "BBAN")
         if currency:
             self._x(acct, "Ccy", currency)
 
@@ -261,6 +275,21 @@ class AccountPaymentOrder(models.Model):
                 self._x(red, "Dt", ds)
             else:
                 red.text = ds
+
+            debtor = self.company_partner_bank_id
+            debtor_is_bgnr = self._is_bankgiro_account(debtor)
+            if not debtor_is_bgnr:
+                has_bgnr_creditor = any(
+                    self._is_bankgiro_account(line.partner_bank_id) for line in lines
+                )
+                if has_bgnr_creditor:
+                    raise UserError(_(
+                        "The debtor account '%s' uses IBAN/BBAN format, "
+                        "but some creditors use Bankgiro numbers.\n"
+                        "Bankgiro creditors require a Bankgiro debtor account.\n"
+                        "Create a separate Bankgiro payment mode with a "
+                        "Bankgiro bank account (7-8 digits)."
+                    ) % debtor.sanitized_acc_number)
 
             self._build_debtor(pi, gen_args)
             self._build_account(pi, "Dbtr", self.company_partner_bank_id,

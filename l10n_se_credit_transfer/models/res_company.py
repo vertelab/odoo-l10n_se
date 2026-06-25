@@ -24,3 +24,4 @@ class ResCompany(models.Model):
         "(e.g. 123456789CPO0001) — get this from your Swedbank agreement.\n"
         "Leave empty to use the company-level value.",
     )
+

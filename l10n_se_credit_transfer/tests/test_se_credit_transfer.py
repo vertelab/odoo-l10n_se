@@ -209,6 +209,89 @@ class TestSeCreditTransfer(TransactionCase):
         self.assertTrue(btch)
         self.assertEqual(btch[0].text, "true")
 
+    def test_05_non_iban_bankgiro_account(self):
+        """Verify non-IBAN (Bankgiro) accounts generate Othr/Id with SchmeNm/Prtry = BGNR,
+        and that the debtor account also uses BGNR scheme when company bank is a Bankgiro number."""
+        _setup_payment(
+            self, "l10n_se_credit_transfer.se_credit_transfer",
+            "SIGNER12345", "CPA00000001",
+        )
+        bg_bank_account = self.env["res.partner.bank"].create({
+            "partner_id": self.company.partner_id.id,
+            "acc_number": "12345678",
+            "acc_type": "bank",
+            "bank_id": self.bank.id,
+        })
+        order = self.env["account.payment.order"].create({
+            "payment_type": "outbound",
+            "payment_mode_id": self.payment_mode.id,
+            "company_partner_bank_id": bg_bank_account.id,
+            "company_id": self.company.id,
+            "batch_booking": True,
+            "charge_bearer": "SHAR",
+        })
+
+        bg_partner = self.env["res.partner"].create({
+            "name": "Bankgiro Supplier",
+            "country_id": self.env.ref("base.se").id,
+            "city": "Stockholm",
+            "zip": "111 22",
+        })
+        bg_bank = self.env["res.partner.bank"].create({
+            "partner_id": bg_partner.id,
+            "acc_number": "55183727",
+            "acc_type": "bank",
+            "bank_id": self.bank.id,
+        })
+        self.env["account.payment.line"].create({
+            "order_id": order.id,
+            "partner_id": bg_partner.id,
+            "partner_bank_id": bg_bank.id,
+            "currency_id": self.env.ref("base.SEK").id,
+            "amount_currency": 3875.00,
+            "date": date.today(),
+            "communication": "005041",
+            "communication_type": "normal",
+        })
+
+        xml_bytes, filename = order.generate_se_payment_file()
+        root = etree.fromstring(xml_bytes)
+        ns = {"p": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"}
+
+        # -- Creditor account (Bankgiro) --
+        cdtr_othr_ids = root.xpath(
+            "//p:CdtTrfTxInf/p:CdtrAcct/p:Id/p:Othr/p:Id", namespaces=ns)
+        self.assertTrue(cdtr_othr_ids)
+        self.assertEqual(cdtr_othr_ids[0].text, "55183727")
+
+        cdtr_prtry = root.xpath(
+            "//p:CdtTrfTxInf/p:CdtrAcct/p:Id/p:Othr/p:SchmeNm/p:Prtry",
+            namespaces=ns,
+        )
+        self.assertTrue(cdtr_prtry)
+        self.assertEqual(cdtr_prtry[0].text, "BGNR")
+
+        cdtr_iban = root.xpath(
+            "//p:CdtTrfTxInf/p:CdtrAcct/p:Id/p:IBAN", namespaces=ns)
+        self.assertFalse(cdtr_iban)
+
+        # -- Debtor account (must also use BGNR) --
+        dbtr_othr_ids = root.xpath(
+            "//p:PmtInf/p:DbtrAcct/p:Id/p:Othr/p:Id", namespaces=ns)
+        self.assertTrue(dbtr_othr_ids)
+        self.assertEqual(dbtr_othr_ids[0].text, "12345678")
+
+        dbtr_prtry = root.xpath(
+            "//p:PmtInf/p:DbtrAcct/p:Id/p:Othr/p:SchmeNm/p:Prtry",
+            namespaces=ns,
+        )
+        self.assertTrue(dbtr_prtry)
+        self.assertEqual(dbtr_prtry[0].text, "BGNR")
+
+        dbtr_iban = root.xpath(
+            "//p:PmtInf/p:DbtrAcct/p:Id/p:IBAN", namespaces=ns)
+        self.assertFalse(dbtr_iban)
+
     # -----------------------------------------------------------------
     # Swedbank MIG 2.0 (se_credit_transfer_20)
     # -----------------------------------------------------------------
