@@ -455,13 +455,19 @@ class AccountBankStatement(models.Model):
     end_balance_calc = fields.Float(compute='_start_end_balance')
 
     def _start_end_balance(self):
-        if self.period_id and len(self.line_ids.sorted(key=lambda l: l.date)) > 0:
-            start_date = self.period_id.fiscalyear_id.date_start
-            statement_start_date = self.line_ids.sorted(key=lambda l: l.date)[0].date
-            statement_end_date = self.line_ids.sorted(key=lambda l: l.date)[-1].date
-            _logger.warn('statement_start_date %s statement_end_date %s' % (statement_start_date,statement_end_date))
-            self.start_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', start_date), ('date', '<', statement_start_date), ('account_id', '=', self.journal_id.payment_debit_account_id.id)]).mapped('balance'))
-            self.end_balance_calc = sum(self.env['account.move.line'].search([('date', '>=', statement_start_date), ('date', '<=', statement_end_date), ('account_id', '=', self.journal_id.payment_debit_account_id.id)]).mapped('balance')) + self.start_balance_calc
+        # period_id removed in Odoo 18 — use simple date-based calc
+        if self.line_ids and len(self.line_ids) > 0:
+            lines_sorted = self.line_ids.sorted(key=lambda l: l.date)
+            statement_start_date = lines_sorted[0].date
+            statement_end_date = lines_sorted[-1].date
+            self.start_balance_calc = 0
+            self.end_balance_calc = sum(
+                self.env['account.move.line'].search([
+                    ('date', '>=', statement_start_date),
+                    ('date', '<=', statement_end_date),
+                    ('account_id', '=', self.journal_id.payment_debit_account_id.id),
+                ]).mapped('balance')
+            )
         else:
             self.start_balance_calc = 0
             self.end_balance_calc = 0
