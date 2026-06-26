@@ -1,32 +1,50 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2024 Vertel AB
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 import logging
-from requests.sessions import session
 from dateutil.relativedelta import relativedelta
+
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError, AccessError, ValidationError
 
 _logger = logging.getLogger(__name__)
+
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    enable_skatteverket_api = fields.Boolean()
-    auth_method = fields.Selection(selection=[("e_id","E-ID"),("cert","Certificate")], default="e_id")
-    test_mode = fields.Boolean(default=True)
-    certificate = fields.Binary(attachment=False)
-    certificate_pin = fields.Char()
-    base_url = fields.Char(help="Base URL Exsample: https://skatteverket.se/, skatteverket.se")
-    redirect_url = fields.Char()
-    oauth_client_id = fields.Char()
-    oauth_secret = fields.Char()    
-    api_client_id = fields.Char()
-    api_secret = fields.Char()
-    authorization_code = fields.Char()
-    recived_token_on = fields.Datetime()
-    expires_in = fields.Integer()
-    access_token = fields.Char()
+    enable_skatteverket_api = fields.Boolean(
+        string='Enable Skatteverket API')
+    certificate = fields.Binary(
+        string='Certificate (PEM)',
+        attachment=False,
+        help="Upload the certificate file (.pem) for Skatteverket API "
+             "authentication.")
+    certificate_pin = fields.Char(
+        string='Certificate PIN',
+        help="PIN code for the certificate, if required.")
+
+    # OAuth2 token storage (managed by API flow)
+    authorization_code = fields.Char(
+        string='Authorization Code', readonly=True)
+    access_token = fields.Char(
+        string='Access Token', readonly=True)
+    recived_token_on = fields.Datetime(
+        string='Token Received On', readonly=True)
+    expires_in = fields.Integer(
+        string='Token Expires In (seconds)', readonly=True)
+    oauth_client_id = fields.Char(
+        string='OAuth Client ID')
+    oauth_secret = fields.Char(
+        string='OAuth Client Secret')
 
     def check_valid_access_token(self):
-        if self.access_token and self.recived_token_on and self.recived_token_on + relativedelta(seconds=self.expires_in) > fields.datetime.now():
+        """Check if the stored access token is still valid."""
+        self.ensure_one()
+        if (self.access_token
+                and self.recived_token_on
+                and self.recived_token_on
+                + relativedelta(seconds=self.expires_in)
+                > fields.Datetime.now()):
             return True
-        else:
-            return False
+        return False

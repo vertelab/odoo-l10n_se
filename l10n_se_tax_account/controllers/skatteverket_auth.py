@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2024 Vertel AB
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 import logging
 from datetime import datetime
 
@@ -6,60 +10,56 @@ from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
+
 class SkatteverketAuth(http.Controller):
 
-    @http.route('/skattekonto',type='http', auth='public', website=True) 
+    @http.route('/skattekonto', type='http', auth='public', website=True)
     def authenticate_tax_account(self, **kw):
-        state = kw.get("state")
-        auth_code = kw.get("code")
-        token_response = {}
+        """OAuth2 callback for Skatteverket e-ID authentication."""
+        state = kw.get('state')
+        auth_code = kw.get('code')
 
-        journal_env = request.env["account.journal"].sudo()
-        partner_id = request.env["res.partner"].sudo()
+        partner_env = request.env['res.partner'].sudo()
 
-        if state:
-            journal_id = journal_env.search([("api_state", "=", state)],limit=1)
+        if not state or not auth_code:
+            _logger.warning(
+                "SKV auth callback missing state or code: %s", kw)
+            return request.redirect('/web')
 
-        if journal_id and auth_code:
-            partner_id = journal_id.skatteverket_partner_id
-            partner_id.authorization_code = auth_code
-            token_response = self.get_access_token(journal_id,partner_id)
-        
-        if token_response and token_response.get("status_code") == 200:
-            json_data = token_response.get("json",{})
-            partner_id.access_token = json_data.get("access_token",False)
-            partner_id.recived_token_on = datetime.now()
-            partner_id.expires_in = json_data.get("expires_in",False)
-        else:
-            _logger.error(f"Failed to get access token with status code: {token_response.get("status_code","No status code provided")}")        
+        # Find the reconciliation session by API state
+        reconciliation = request.env[
+            'tax.account.reconciliation'].sudo().search(
+                [('api_state', '=', state)], limit=1)
 
-        redirect_url = f'/web#id={journal_id.id}&model=account.journal&view_type=form' 
-        return request.redirect(redirect_url)
-        
-    def get_access_token(self, journal_id,partner_id):
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-        }
+        if reconciliation:
+            partner = reconciliation._get_skv_partner()
+            if partner:
+                partner.authorization_code = auth_code
+                # Exchange code for token
+                token = reconciliation._get_skv_access_token(partner)
+                if token:
+                    return request.redirect(
+                        '/web#id=%s&model=tax.account.reconciliation'
+                        '&view_type=form' % reconciliation.id)
 
-        access_token_url = journal_id.build_url("token")
-       
-        payload = {
-            'grant_type': 'authorization_code',
-            'scope': 'ska',
-            'client_id': partner_id.oauth_client_id,
-            'client_secret': partner_id.oauth_secret,
-            'code': partner_id.authorization_code,
-            'redirect_uri': partner_id.redirect_url,
-        }
+        # Fallback: legacy journal-based flow
+        journal_env = request.env['account.journal'].sudo()
+        journal = journal_env.search(
+            [('api_state', '=', state)], limit=1)
+        if journal:
+            partner = journal._get_skv_partner()
+            if partner:
+                partner.authorization_code = auth_code
+                reconciliation = request.env[
+                    'tax.account.reconciliation'].sudo().search(
+                        [('journal_id', '=', journal.id),
+                         ('state', '=', 'draft')],
+                        limit=1)
+                if reconciliation:
+                    token = reconciliation._get_skv_access_token(partner)
+                    if token:
+                        return request.redirect(
+                            '/web#id=%s&model=tax.account.reconciliation'
+                            '&view_type=form' % reconciliation.id)
 
-        session = journal_id.create_request_session(partner_id)
-        response = session.post(url=access_token_url,headers=headers,data=payload)
-
-        _logger.error(f"{response=}")
-        _logger.error(f"{response.status_code=}")
-        _logger.error(f"{response.json()=}")
-
-        return {
-            "status_code": response.status_code,
-            "json": response.json()
-        }
+        return request.redirect('/web')

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Reconciliation form view: two-column layout -->
+    <record id="tax_account_reconciliation_view_form"
+            model="ir.ui.view">
+      <field name="name">tax.account.reconciliation.form</field>
+      <field name="model">tax.account.reconciliation</field>
+      <field name="arch" type="xml">
+        <form string="Tax Account Reconciliation">
+          <header>
+            <button name="action_fetch_transactions"
+                    string="Fetch from SKV"
+                    type="object"
+                    class="btn btn-primary"
+                    invisible="state not in ('draft','open')"/>
+            <button name="action_auto_match"
+                    string="Auto-Match"
+                    type="object"
+                    class="btn btn-secondary"
+                    invisible="state != 'open'"/>
+            <button name="action_create_settlement"
+                    string="Create Settlement"
+                    type="object"
+                    class="btn btn-success"
+                    invisible="state != 'open' or balance_difference == 0"/>
+            <button name="action_mass_reconcile"
+                    string="Mass Reconcile"
+                    type="object"
+                    class="btn btn-warning"
+                    invisible="state != 'open'"/>
+            <button name="action_verify_balance"
+                    string="Verify Balance"
+                    type="object"
+                    class="btn btn-info"
+                    invisible="state != 'done'"/>
+            <field name="state"
+                   widget="statusbar"
+                   statusbar_visible="draft,open,done"/>
+          </header>
+          <sheet>
+            <!-- Balance summary -->
+            <div class="row mb-3">
+              <div class="col-3">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Opening Balance</h5>
+                    <field name="opening_balance"
+                           widget="monetary"
+                           nolabel="1"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Closing Balance (1630)</h5>
+                    <field name="closing_balance"
+                           widget="monetary"
+                           nolabel="1"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">SKV Balance</h5>
+                    <field name="skv_balance"
+                           widget="monetary"
+                           nolabel="1"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="card"
+                     t-att-class="'card border-' + ('danger' if balance_difference != 0 else 'success')">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Difference</h5>
+                    <field name="balance_difference"
+                           widget="monetary"
+                           nolabel="1"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main info -->
+            <group>
+              <group>
+                <field name="journal_id"/>
+                <field name="company_id"
+                       groups="base.group_multi_company"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+              </group>
+              <group>
+                <field name="matched_count"/>
+                <field name="unmatched_booked_count"/>
+                <field name="unmatched_imported_count"/>
+                <field name="settlement_move_id"
+                       invisible="not settlement_move_id"/>
+              </group>
+            </group>
+
+            <notebook>
+              <!-- Two-column reconciliation -->
+              <page string="Booked Transactions"
+                    name="booked">
+                <field name="booked_line_ids"/>
+              </page>
+              <page string="Imported (SKV) Transactions"
+                    name="imported">
+                <field name="imported_line_ids"/>
+              </page>
+            </notebook>
+          </sheet>
+          <chatter/>
+        </form>
+      </field>
+    </record>
+
+    <!-- Reconciliation list view -->
+    <record id="tax_account_reconciliation_view_tree"
+            model="ir.ui.view">
+      <field name="name">tax.account.reconciliation.list</field>
+      <field name="model">tax.account.reconciliation</field>
+      <field name="arch" type="xml">
+        <list string="Tax Account Reconciliations"
+              decoration-success="state == 'done'"
+              decoration-muted="state == 'cancel'">
+          <field name="name"/>
+          <field name="journal_id"/>
+          <field name="date_from"/>
+          <field name="state"/>
+          <field name="matched_count"/>
+          <field name="unmatched_booked_count"/>
+          <field name="unmatched_imported_count"/>
+          <field name="balance_difference"
+                 widget="monetary"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_tax_account_reconciliation"
+            model="ir.actions.act_window">
+      <field name="name">Tax Account Reconciliations</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">tax.account.reconciliation</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_tax_account_reconciliation"
+        name="Tax Account Reconciliation"
+        parent="l10n_se_tax_report.menu_report_authorities"
+        action="action_tax_account_reconciliation"
+        groups="account.group_account_user,account.group_account_manager"
+        sequence="20"/>
+
+  </data>
+</odoo>

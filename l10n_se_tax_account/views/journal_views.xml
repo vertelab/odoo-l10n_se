@@ -1,25 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+  <data>
 
-        <record id="view_account_journal_form" model="ir.ui.view">
-            <field name="name">account.journal.form.skatteverket.api</field>
-            <field name="model">account.journal</field>
-            <field name="inherit_id" ref="account.view_account_journal_form"/>
-            <field name="arch" type="xml">
-                <sheet position="before">
-                    <header >
-                        <button name="get_authorization" string="Authorize Tax Account" type="object" invisible="not skatteverket_partner_id" />
-                        <button name="action_tax_account_transaction_wizard" string="Get Tax Account" type="object" invisible="not skatteverket_partner_id" />
-                    </header>
-                </sheet>
+    <!-- Enhanced journal form with tax account fields -->
+    <record id="view_account_journal_form" model="ir.ui.view">
+      <field name="name">account.journal.form.tax.account</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id"
+             ref="account.view_account_journal_form"/>
+      <field name="priority">30</field>
+      <field name="arch" type="xml">
 
+        <!-- Tax account fields after default account -->
+        <field name="default_account_id" position="after">
+          <field name="tax_account_balance"
+                 widget="monetary"
+                 invisible="type != 'general' or code != 'MOMS'"/>
+          <field name="tax_account_reconcile_state"
+                 invisible="type != 'general' or code != 'MOMS'"/>
+          <field name="tax_account_last_sync"
+                 invisible="type != 'general' or code != 'MOMS'"/>
+          <field name="tax_account_transaction_count"
+                 invisible="type != 'general' or code != 'MOMS'"/>
+        </field>
 
-                <field name="autocheck_on_post" position="after">
-                    <field name="skatteverket_partner_id" invisible="type != 'bank'"/>
-                </field>
+      </field>
+    </record>
 
-            </field>
-        </record>
+    <!-- Journal list: add reconciliation status column -->
+    <record id="view_account_journal_tree" model="ir.ui.view">
+      <field name="name">account.journal.tree.tax.account</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id"
+             ref="account.view_account_journal_tree"/>
+      <field name="arch" type="xml">
+        <field name="code" position="after">
+          <field name="tax_account_balance"
+                 optional="hide"
+                 invisible="type != 'general'"/>
+          <field name="tax_account_reconcile_state"
+                 optional="hide"
+                 invisible="type != 'general'"/>
+        </field>
+      </field>
+    </record>
 
-    </data>
+  </data>
 </odoo>

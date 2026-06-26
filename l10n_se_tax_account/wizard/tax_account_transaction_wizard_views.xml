@@ -1,22 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
 
-   <record id="tax_account_transaction_wizard_view" model="ir.ui.view">
-        <field name="name">tax.account.transaction.wizard.form</field>
-        <field name="model">tax_account.transaction.wizard</field>
-        <field name="arch" type="xml">
-            <form string="Warning">
-                <group>
-                  <field name="journal_id" invisible="1"/>
-                  <field name="date_from"/>
-                </group>
-
-                <footer>
-                    <button name="get_transactions" string="Get" type="object" class="oe_highlight"/>
-                    <button name="cancel" string="Cancel" special="cancel"/>
-                </footer>
-            </form>
-        </field>
+    <record id="tax_account_transaction_wizard_view" model="ir.ui.view">
+      <field name="name">tax.account.transaction.wizard.form</field>
+      <field name="model">tax_account.transaction.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Fetch Tax Account Transactions">
+          <group>
+            <field name="journal_id" invisible="1"/>
+            <field name="date_from"
+                   help="Transactions from this date will be fetched. Defaults to last sync or 555 days ago. Transactions older than 915 days cannot be fetched."/>
+          </group>
+          <footer>
+            <button name="get_transactions" string="Fetch and Reconcile" type="object" class="oe_highlight"/>
+            <button name="cancel" string="Cancel" special="cancel"/>
+          </footer>
+        </form>
+      </field>
     </record>
 
   </data>
