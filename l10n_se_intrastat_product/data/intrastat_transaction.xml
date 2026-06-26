@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2026 Vertel AB (https://vertel.se)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <!-- Swedish Intrastat Transaction Codes -->
+        <!-- Code 1: Outright purchase/sale -->
+        <record id="intrastat_transaction_11_se" model="intrastat.transaction">
+            <field name="code">11</field>
+            <field name="name">Köp/försäljning (direkthandel)</field>
+            <field name="description">Direkt köp eller försäljning av varor</field>
+        </record>
+
+        <!-- Code 2: Return of goods -->
+        <record id="intrastat_transaction_21_se" model="intrastat.transaction">
+            <field name="code">21</field>
+            <field name="name">Retur av varor</field>
+            <field name="description">Återsändning av varor som tidigare rapporterats</field>
+        </record>
+
+        <!-- Code 3: Free of charge -->
+        <record id="intrastat_transaction_31_se" model="intrastat.transaction">
+            <field name="code">31</field>
+            <field name="name">Kostnadsfri leverans</field>
+            <field name="description">Varor levererade utan kostnad (gåvor, prover, reklam)</field>
+        </record>
+
+        <!-- Code 4: Goods for processing/repair (sent) -->
+        <record id="intrastat_transaction_41_se" model="intrastat.transaction">
+            <field name="code">41</field>
+            <field name="name">Varor för bearbetning/reparation (utgående)</field>
+            <field name="description">Varor som skickas för bearbetning eller reparation</field>
+        </record>
+
+        <!-- Code 5: Goods after processing/repair (returned) -->
+        <record id="intrastat_transaction_51_se" model="intrastat.transaction">
+            <field name="code">51</field>
+            <field name="name">Varor efter bearbetning/reparation (inkommande)</field>
+            <field name="description">Varor som returneras efter bearbetning eller reparation</field>
+        </record>
+
+        <!-- Code 6: Joint projects -->
+        <record id="intrastat_transaction_61_se" model="intrastat.transaction">
+            <field name="code">61</field>
+            <field name="name">Gemensamma projekt</field>
+            <field name="description">Varor för gemensamma projekt (t.ex. försvarsprojekt)</field>
+        </record>
+
+        <!-- Code 7: Construction/engineering -->
+        <record id="intrastat_transaction_71_se" model="intrastat.transaction">
+            <field name="code">71</field>
+            <field name="name">Bygg- och anläggningsarbeten</field>
+            <field name="description">Varor för bygg- och anläggningsarbeten</field>
+        </record>
+
+        <!-- Code 8: Other -->
+        <record id="intrastat_transaction_81_se" model="intrastat.transaction">
+            <field name="code">82</field>
+            <field name="name">Övrigt</field>
+            <field name="description">Övriga transaktioner som inte täcks av kod 1-7</field>
+        </record>
+
+    </data>
+</odoo>
