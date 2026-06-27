@@ -1,55 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
-        <!-- Resultaträkning instance -->
-        <record id="mis_report_instance_resultatrakning" model="mis.report.instance">
-            <field name="name">Resultaträkning</field>
-            <field name="report_id" ref="l10n_se_mis.report_rr"/>
-            <field name="target_move">posted</field>
-            <field name="period_ids" eval="[
-                (0, 0, {
-                    'name': 'Current year',
-                    'mode': 'relative',
-                    'type': 'y',
-                    'offset': 0,
-                    'duration': 1,
-                    'sequence': 1,
-                }),
-                (0, 0, {
-                    'name': 'Previous year',
-                    'mode': 'relative',
-                    'type': 'y',
-                    'offset': -1,
-                    'duration': 1,
-                    'sequence': 2,
-                }),
-            ]"/>
-        </record>
-
-        <!-- Resultaträkning (kompakt) instance -->
-        <record id="mis_report_instance_resultatrakning_kompakt" model="mis.report.instance">
-            <field name="name">Resultaträkning (kompakt)</field>
-            <field name="report_id" ref="l10n_se_mis.report_rr_compact"/>
-            <field name="target_move">posted</field>
-            <field name="no_auto_expand_accounts">True</field>
-            <field name="period_ids" eval="[
-                (0, 0, {
-                    'name': 'Current year',
-                    'mode': 'relative',
-                    'type': 'y',
-                    'offset': 0,
-                    'duration': 1,
-                    'sequence': 1,
-                }),
-                (0, 0, {
-                    'name': 'Previous year',
-                    'mode': 'relative',
-                    'type': 'y',
-                    'offset': -1,
-                    'duration': 1,
-                    'sequence': 2,
-                }),
-            ]"/>
-        </record>
-    </data>
+    <!-- Moved to l10n_se_tax_report to fix UniqueViolation on module upgrade -->
+    <data noupdate="1"/>
 </odoo>

@@ -20,7 +20,6 @@
         "data/intrastat_transaction.xml",
         "data/intrastat_transport_mode.xml",
         "data/intrastat_region.xml",
-        "views/res_config_settings.xml",
         "views/intrastat_product_declaration.xml",
     ],
     "demo": [],

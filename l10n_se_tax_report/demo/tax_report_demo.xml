@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Set company to monthly VAT declaration frequency -->
+        <function model="res.company" name="write">
+            <value eval="[ref('base.main_company')]"/>
+            <value eval="{'vat_declaration_frequency': 'month'}"/>
+        </function>
+
+        <!-- ============================================================
+        Skatteverket API Partner (Test Environment)
+        ============================================================ -->
+        <record id="partner_skv_api" model="res.partner">
+            <field name="name">Skatteverket API (Test)</field>
+            <field name="is_company" eval="True"/>
+            <field name="country_id" ref="base.se"/>
+            <field name="enable_skatteverket_api" eval="True"/>
+            <field name="auth_method">cert</field>
+            <field name="test_mode" eval="True"/>
+            <field name="base_url">https://test.skatteverket.se</field>
+            <field name="oauth_client_id">demo-client-id</field>
+            <field name="oauth_secret">demo-secret</field>
+        </record>
+
+        <!-- ============================================================
+        Demo VAT Declaration 1: May 2026
+        Monthly declaration. Will be filled by _demo_fill_declarations().
+        ============================================================ -->
+        <record id="demo_vat_declaration_may" model="account.vat.declaration">
+            <field name="name">Moms Maj 2026-05-01 - 2026-05-31</field>
+            <field name="date_start">2026-05-01</field>
+            <field name="date_stop">2026-05-31</field>
+            <field name="target_move">posted</field>
+            <field name="date">2026-06-12</field>
+        </record>
+
+        <!-- ============================================================
+        Demo VAT Declaration 2: June 2026
+        Monthly declaration.
+        ============================================================ -->
+        <record id="demo_vat_declaration_jun" model="account.vat.declaration">
+            <field name="name">Moms Juni 2026-06-01 - 2026-06-30</field>
+            <field name="date_start">2026-06-01</field>
+            <field name="date_stop">2026-06-30</field>
+            <field name="target_move">posted</field>
+            <field name="date">2026-07-13</field>
+        </record>
+
+        <!--
+        ============================================================
+        Generate demo journal entries that fill ALL SKV form fields.
+        Creates invoices in May and June 2026 covering:
+          Ruta 05/10: Utgående moms 25% (MP1) — försäljning
+          Ruta 11:    Utgående moms 12% (MP2)
+          Ruta 12:    Utgående moms 6%  (MP3)
+          Ruta 20:    Inköp varor EU (VFEU via 4515)
+          Ruta 21:    Inköp tjänster EU (TFEU via 4535)
+          Ruta 22:    Inköp tjänster utanför EU (TFFU via 4535)
+          Ruta 30-32: Utgående moms på inköp (reverse charge)
+          Ruta 35:    Försäljning varor till EU (VTEU via 3106)
+          Ruta 36:    Försäljning varor utanför EU (export via 3105)
+          Ruta 48:    Ingående moms (I, I12 — avdragsgill)
+          Ruta 50:    Beskattningsunderlag import (4545)
+          Ruta 60:    Utgående moms import
+        ============================================================
+        -->
+        <function model="account.vat.declaration" name="_demo_fill_declarations"/>
+
+    </data>
+</odoo>

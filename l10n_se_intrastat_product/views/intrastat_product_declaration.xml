@@ -41,7 +41,7 @@
         id="menu_intrastat_config_transport_se"
         name="Transportsätt"
         parent="menu_intrastat_config_se"
-        action="intrastat_product.intrastat_transport_mode_action"
+        action="intrastat_product.intrastat_transport_action"
         sequence="30"
     />
 

@@ -2,5 +2,4 @@
 # Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from . import res_company
-from . import intrastat_product_declaration
+from . import models

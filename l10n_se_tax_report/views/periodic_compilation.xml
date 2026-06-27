@@ -8,10 +8,12 @@
                 <form string="Periodisk sammanställning">
                     <header>
                         <button class="oe_highlight" invisible="state not in ['draft']" name="calculate" string="Beräkna" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['confirmed','done'] or skv_api_status not in ['draft','error']" name="action_send_to_skv" string="Skicka till Skatteverket" type="object"/>
                         <button class="oe_highlight" invisible="state not in ['done','confirmed','canceled']" name="do_draft" string="Draft" type="object"/>
                         <button class="oe_highlight" invisible="state not in ['confirmed']" name="do_done" string="Done" type="object"/>
                         <button class="oe_highlight" invisible="state not in ['confirmed','done']" name="do_cancel" string="Cancel" type="object"/>
                         <field name="state" widget="statusbar"/>
+                        <field name="skv_api_status" invisible="skv_api_status == 'draft'" widget="badge" decoration-success="skv_api_status == 'accepted'" decoration-danger="skv_api_status == 'error'" decoration-warning="skv_api_status == 'submitted'"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -27,6 +29,8 @@
                                     <span class="o_stat_text">Fakturor</span>
                                 </div>
                             </button>
+                            <button class="oe_stat_button" icon="fa-download" name="action_download_pc_file" type="object" string="Ladda ner" invisible="state == 'draft' or not pc_file" help="Ladda ner periodisk sammanställning (eSKD XML)"/>
+                            <button class="oe_stat_button" icon="fa-calendar" name="action_open_calendar_event" type="object" string="Kalender" invisible="not event_id" help="Öppna kalenderhändelsen för deklarationsdatum"/>
                         </div>
                         <div class="oe_title">
                             <label class="oe_edit_only" for="name"/>
@@ -46,7 +50,7 @@
                                 <group>
                                     <field name="company_id" groups="base.group_multi_company"/>
                                     <field name="target_move" readonly="not state"/>
-                                    <field name="pc_file" filename="pc_file_name" invisible="state == 'draft'"/>
+                                    <field name="pc_file" filename="pc_file_name" invisible="1"/>
                                     <field name="pc_file_name" invisible="1"/>
                                 </group>
                             </page>
@@ -64,6 +68,13 @@
                             </page>
                             <page string="Upplysningstext">
                                 <field name="free_text" nolabel="1" readonly="not state"/>
+                            </page>
+                            <page string="Skatteverket API" invisible="skv_api_status == 'draft' and not skv_response">
+                                <group>
+                                    <field name="skv_api_status"/>
+                                    <field name="skv_submitted_date"/>
+                                    <field name="skv_response" nolabel="1" invisible="skv_api_status != 'error'"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
@@ -102,6 +113,7 @@
                     <field name="date_start"/>
                     <field name="date_stop"/>
                     <field name="state"/>
+                    <field name="skv_api_status" widget="badge" decoration-success="skv_api_status == 'accepted'" decoration-danger="skv_api_status == 'error'"/>
                 </list>
             </field>
         </record>

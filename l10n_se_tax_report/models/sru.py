@@ -22,7 +22,7 @@
 from odoo import models, fields, api, _
 from lxml import etree
 import base64
-from odoo.exceptions import Warning, UserError
+from odoo.exceptions import UserError
 import time
 from datetime import datetime, timedelta
 import logging
@@ -347,7 +347,7 @@ class account_sru_declaration(models.Model):
     def calculate(self):
         for rec in self:
             if self.state not in ['draft']:
-                raise Warning("Du kan inte beräkna i denna status, ändra till utkast")
+                raise UserError("Du kan inte beräkna i denna status, ändra till utkast")
             if not self.company_id.accounting_method:
                 raise UserError(_(
                     "Accounting method is not configured for company %s. "
@@ -549,7 +549,7 @@ class account_sru_declaration(models.Model):
             last_year = str(int(fields.Date.today()[:4]) - 1)
             fiscalyear = self.env['account.fiscalyear'].search([('code', '=', last_year)])
             if not fiscalyear:
-                raise Warning(_('Please add fiscal year for %s') %last_year)
+                raise UserError(_('Please add fiscal year for %s') %last_year)
             start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %last_year), ('date_stop', '=', '%s-01-31' %last_year), ('special', '=', False)])
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %last_year), ('date_stop', '=', '%s-12-31' %last_year)])
             return [start_period, stop_period]
@@ -557,7 +557,7 @@ class account_sru_declaration(models.Model):
             next_year = str(int(last_declaration.period_stop.date_start[:4]) + 1)
             fiscalyear = self.env['account.fiscalyear'].search([('code', '=', next_year)])
             if not fiscalyear:
-                raise Warning(_('Please add fiscal year for %s') %next_year)
+                raise UserError(_('Please add fiscal year for %s') %next_year)
             start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %next_year), ('date_stop', '=', '%s-01-31' %next_year), ('special', '=', False)])
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %next_year), ('date_stop', '=', '%s-12-31' %next_year)])
             return [start_period, stop_period]
