@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron: Reminder X days before fiscal year end -->
+    <record id="cron_bokslut_reminder" model="ir.cron">
+        <field name="name">Bokslut: Påminnelse om deadline</field>
+        <field name="model_id" ref="base.model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">
+model.search([]).filtered(lambda c: c.bokslut_auto_checklist).check_bokslut_deadline()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+</odoo>

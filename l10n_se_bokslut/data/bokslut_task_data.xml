@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ~50 template tasks for bokslut checklist, grouped by section -->
+    <!-- Templates are copied to new bokslut projects -->
+
+    <!-- ===== ASSETS ===== -->
+    <record id="task_tpl_assets_anlaggningar_check" model="project.task">
+        <field name="name">Anläggningstillgångar: kontrollera årets inköp/försäljningar/utrangeringar mot verifikationer</field>
+        <field name="description">Kontrollera att anläggningsregistret är uppdaterat och stämmer med bokföringen. Kopiera verifikationer och viktigare avtal.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="task_tpl_assets_anlaggningar_depr" model="project.task">
+        <field name="name">Anläggningstillgångar: dokumentera avskrivningsprinciper</field>
+        <field name="description">Dokumentera avskrivningsprinciper och kontrollera mot föregående år. Notera gjorda direktavskrivningar mot investeringsfonder och ev. bidrag.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">11</field>
+    </record>
+    <record id="task_tpl_assets_kassa" model="project.task">
+        <field name="name">Kassa: stäm av mot bokföring</field>
+        <field name="description">Stäm av kassan mot bokföringen. Upprätta kassaintyg och inventeringsprotokoll.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">20</field>
+    </record>
+    <record id="task_tpl_assets_bank" model="project.task">
+        <field name="name">Bank/Check/PlusGiro: stäm av mot kontoutdrag</field>
+        <field name="description">Stäm av saldon mot kontoutdrag. Upprätta förteckning över bankbehållningar med räntesatser. Periodisera räntor.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">21</field>
+    </record>
+    <record id="task_tpl_assets_kundfordringar_avstam" model="project.task">
+        <field name="name">Kundfordringar: stäm av huvudbok mot reskontra</field>
+        <field name="description">Stäm av huvudbokssaldo mot kundreskontra/försäljningsjournal. Kontrollera att skulder till kunder inte är avräknade mot fordringar på andra kunder.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">30</field>
+    </record>
+    <record id="task_tpl_assets_kundfordringar_nedskriv" model="project.task">
+        <field name="name">Kundfordringar: bedöm osäkra fordringar</field>
+        <field name="description">Bedöm osäkra fordringar och eventuella nedskrivningsbehov. Beräkna genomsnittlig kredittid och jämför med föregående år.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">31</field>
+    </record>
+    <record id="task_tpl_assets_varulager_inventera" model="project.task">
+        <field name="name">Varulager: inventera och upprätta intyg</field>
+        <field name="description">Inventera varulagret och upprätta intyg för inventering. Läs samtliga inventeringslistor. Kontrollera att varor i kommission inte tagits med.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">40</field>
+    </record>
+    <record id="task_tpl_assets_varulager_vardera" model="project.task">
+        <field name="name">Varulager: värdera (verkligt värde / 97%-regeln / anskaffningsvärde)</field>
+        <field name="description">Varulagret har värderats enligt gällande regler. Utför priskontroll med lämplig procent av lagervärdet.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">41</field>
+    </record>
+    <record id="task_tpl_assets_ovriga_fordringar" model="project.task">
+        <field name="name">Övriga fordringar: periodisera upplupna intäkter</field>
+        <field name="description">Kontrollera att fordringar enligt avtal och korrespondens beaktats. Notera lån till aktieägare/närstående.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- ===== LIABILITIES & EQUITY ===== -->
+    <record id="task_tpl_liab_leverantorsskulder_avstam" model="project.task">
+        <field name="name">Leverantörsskulder: stäm av huvudbok mot reskontra</field>
+        <field name="description">Stäm av huvudbokssaldo mot leverantörsreskontra/inköpsjournal. Specificera eventuella klumpsummor. Notera de största engagemangen och tvistiga skulder.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">60</field>
+    </record>
+    <record id="task_tpl_liab_leverantorsskulder_kredit" model="project.task">
+        <field name="name">Leverantörsskulder: beräkna genomsnittlig kredittid</field>
+        <field name="description">Beräkna genomsnittlig kredittid och jämför med föregående år. Jämför kostnader med budget och analysera större avvikelser.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">61</field>
+    </record>
+    <record id="task_tpl_liab_skatter_inkomst" model="project.task">
+        <field name="name">Skatteskulder: kontrollera beräkning av årets skattekostnad</field>
+        <field name="description">Kontrollera beräkningen av årets skattekostnad med avseende på inkomstskatt, fastighetsskatt, särskild löneskatt och avkastningsskatt. Kontrollera att rätt skattesats använts.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">70</field>
+    </record>
+    <record id="task_tpl_liab_skatter_avstam" model="project.task">
+        <field name="name">Skatteskulder: stäm av skattekontot mot kontobesked</field>
+        <field name="description">Stäm av skattekontot mot kontobesked. Beräkna eventuellt behov av fyllnadsinbetalning. Kontrollera slutskattsedel mot föregående års deklaration.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">71</field>
+    </record>
+    <record id="task_tpl_liab_moms" model="project.task">
+        <field name="name">Momsredovisning: stäm av årets moms</field>
+        <field name="description">Stäm av momsen för räkenskapsåret. Kontrollera att alla momsdeklarationer är inlämnade och att saldon stämmer.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">72</field>
+    </record>
+    <record id="task_tpl_liab_personalskatt" model="project.task">
+        <field name="name">Personalskatt: stäm av källskatter</field>
+        <field name="description">Stäm av personalens källskatter för räkenskapsåret.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">73</field>
+    </record>
+    <record id="task_tpl_liab_semester" model="project.task">
+        <field name="name">Semesterlöneskuld: kontrollera</field>
+        <field name="description">Kontrollera semesterlöneskulden. Individuell eller schablonberäkning.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">74</field>
+    </record>
+    <record id="task_tpl_liab_arbetsgivaravg" model="project.task">
+        <field name="name">Arbetsgivaravgifter: stäm av</field>
+        <field name="description">Stäm av kostnaden för arbetsgivaravgifter och AMF-avgifter.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">75</field>
+    </record>
+    <record id="task_tpl_liab_upplupna_kostnader" model="project.task">
+        <field name="name">Upplupna kostnader: beakta räntor, bonus, retroaktiva löner</field>
+        <field name="description">Läs verifikationer före/efter balansdagen för att kontrollera upplupna kostnader. Stäm av upplupna räntor mot engagemangsbesked. Kontrollera skuldreservering för upplupna/retroaktiva löner.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">80</field>
+    </record>
+    <record id="task_tpl_liab_forutbet_intakter" model="project.task">
+        <field name="name">Förutbetalda intäkter: kontrollera</field>
+        <field name="description">Kontrollera att hyresintäkter, ränteintäkter, bidrag och andra förutbetalda intäkter beaktats. Jämför med föregående år.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">81</field>
+    </record>
+    <record id="task_tpl_liab_eget_kapital" model="project.task">
+        <field name="name">Eget kapital: kontrollera bolagsstämmobeslut</field>
+        <field name="description">Kontrollera att beslut fattade av bolagsstämma (disposition av föregående års resultat, avsättning till reservfond) beaktats i redovisningen.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">85</field>
+    </record>
+
+    <!-- ===== RESULT ===== -->
+    <record id="task_tpl_result_check_rr" model="project.task">
+        <field name="name">Kontrollera resultaträkning: jämför med föregående år</field>
+        <field name="description">Jämför årets resultaträkning med föregående år. Analysera större avvikelser och dokumentera orsaker.</field>
+        <field name="bokslut_section">result</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">90</field>
+    </record>
+    <record id="task_tpl_result_avvikelser" model="project.task">
+        <field name="name">Analysera större avvikelser mot budget</field>
+        <field name="description">Jämför kostnader och intäkter med budget och/eller föregående år. Analysera och notera större avvikelser per verksamhetsgren.</field>
+        <field name="bokslut_section">result</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">91</field>
+    </record>
+    <record id="task_tpl_result_periodisera" model="project.task">
+        <field name="name">Periodisera väsentliga intäkter/kostnader</field>
+        <field name="description">Periodisera väsentliga intäkter och kostnader över räkenskapsårsgränsen. Beakta 5000 SEK-gränsen enligt K2.</field>
+        <field name="bokslut_section">result</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">92</field>
+    </record>
+
+    <!-- ===== DISPOSITIONS ===== -->
+    <record id="task_tpl_disp_periodiseringsfond" model="project.task">
+        <field name="name">Periodiseringsfonder: återföring/avsättning</field>
+        <field name="description">Granska periodiseringsfonder: tvingande återföringar, möjlighet till ny avsättning (25% av vinst), schablonintäkt. Kontrollera 6-årsregeln.</field>
+        <field name="bokslut_section">dispositions</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">100</field>
+    </record>
+    <record id="task_tpl_disp_overavskrivningar" model="project.task">
+        <field name="name">Överavskrivningar: beräkna enligt huvudregel/kompletteringsregel</field>
+        <field name="description">Beräkna överavskrivningar enligt huvudregeln (30%) eller kompletteringsregeln (20%). Jämför bokföringsmässigt och skattemässigt restvärde.</field>
+        <field name="bokslut_section">dispositions</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">101</field>
+    </record>
+    <record id="task_tpl_disp_verifikationer" model="project.task">
+        <field name="name">Bokslutsverifikationer: generera och granska</field>
+        <field name="description">Generera bokslutsverifikationer (8999/2099) och granska kontering. Kontrollera att resultatdispositionen är korrekt.</field>
+        <field name="bokslut_section">dispositions</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">102</field>
+    </record>
+
+    <!-- ===== ANNUAL REPORT ===== -->
+    <record id="task_tpl_ar_forvaltningsberattelse" model="project.task">
+        <field name="name">Förvaltningsberättelse: upprätta</field>
+        <field name="description">Upprätta förvaltningsberättelse med information om verksamheten, väsentliga händelser, förväntad framtida utveckling, och förslag till resultatdisposition.</field>
+        <field name="bokslut_section">annual_report</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">110</field>
+    </record>
+    <record id="task_tpl_ar_resultatrakning" model="project.task">
+        <field name="name">Resultaträkning: upprätta</field>
+        <field name="description">Upprätta resultaträkning enligt årsredovisningslagens uppställningsform. Inkludera jämförelsetal från föregående år.</field>
+        <field name="bokslut_section">annual_report</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">111</field>
+    </record>
+    <record id="task_tpl_ar_balansrakning" model="project.task">
+        <field name="name">Balansräkning: upprätta</field>
+        <field name="description">Upprätta balansräkning enligt årsredovisningslagens uppställningsform. Inkludera jämförelsetal från föregående år.</field>
+        <field name="bokslut_section">annual_report</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">112</field>
+    </record>
+    <record id="task_tpl_ar_noter" model="project.task">
+        <field name="name">Noter: upprätta</field>
+        <field name="description">Upprätta noter enligt gällande regelverk (K2/K3): redovisningsprinciper, anläggningstillgångar, eget kapital, ställda säkerheter, eventualförpliktelser, etc.</field>
+        <field name="bokslut_section">annual_report</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">113</field>
+    </record>
+    <record id="task_tpl_ar_kassaflode" model="project.task">
+        <field name="name">Kassaflödesanalys: upprätta</field>
+        <field name="description">Upprätta kassaflödesanalys enligt indirekt metod. (Endast för större företag enligt K3.)</field>
+        <field name="bokslut_section">annual_report</field>
+        <field name="is_template" eval="True"/>
+        <field name="sequence">114</field>
+    </record>
+    <record id="task_tpl_ar_underskrifter" model="project.task">
+        <field name="name">Underskrifter: inhämta styrelsens underskrifter</field>
+        <field name="description">Säkerställ att årsredovisningen är undertecknad av samtliga styrelseledamöter och att fastställelseintyg finns från revisorn.</field>
+        <field name="bokslut_section">annual_report</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">115</field>
+    </record>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo: create a bokslut with adjustments -->
+    <record id="demo_bokslut" model="account.bokslut">
+        <field name="name">Bokslut 2025</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="date">2026-07-01</field>
+        <field name="state">draft</field>
+        <field name="target_move">posted</field>
+    </record>
+
+    <record id="demo_adjustment_1" model="account.bokslut.adjustment">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="name">Ej avdragsgilla representationskostnader</field>
+        <field name="type">non_deductible</field>
+        <field name="amount">15000.00</field>
+        <field name="is_permanent" eval="True"/>
+    </record>
+
+    <record id="demo_adjustment_2" model="account.bokslut.adjustment">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="name">Ej skattepliktiga utdelningar</field>
+        <field name="type">non_taxable</field>
+        <field name="amount">5000.00</field>
+        <field name="is_permanent" eval="True"/>
+    </record>
+</odoo>

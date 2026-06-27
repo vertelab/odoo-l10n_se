@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adjustment tree view (used inline in bokslut form) -->
+    <record id="view_bokslut_adjustment_tree" model="ir.ui.view">
+        <field name="name">account.bokslut.adjustment.tree</field>
+        <field name="model">account.bokslut.adjustment</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="account_id"/>
+                <field name="amount" widget="monetary"/>
+                <field name="is_permanent"/>
+                <field name="bokslut_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Adjustment form view -->
+    <record id="view_bokslut_adjustment_form" model="ir.ui.view">
+        <field name="name">account.bokslut.adjustment.form</field>
+        <field name="model">account.bokslut.adjustment</field>
+        <field name="arch" type="xml">
+            <form string="Justering">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="account_id"/>
+                        <field name="amount" widget="monetary"/>
+                        <field name="is_permanent"/>
+                        <field name="bokslut_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_bokslut_dokumentation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h1>Bokslutsdokumentation</h1>
+                    <p>
+                        <t t-esc="doc.company_id.name"/><br/>
+                        Org.nr: <t t-esc="doc.company_id.company_registry"/><br/>
+                        Räkenskapsår: <t t-esc="doc.fiscalyear_id.name"/>
+                    </p>
+
+                    <h2>Checklista</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Sektion</th>
+                                <th>Kontrollpunkt</th>
+                                <th>Status</th>
+                                <th>Datum</th>
+                                <th>Användare</th>
+                                <th>Kommentar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.checklist_items" t-as="item">
+                                <tr>
+                                    <td><t t-esc="item.section"/></td>
+                                    <td><t t-esc="item.name"/></td>
+                                    <td><t t-esc="item.stage"/></td>
+                                    <td><t t-esc="item.done_date"/></td>
+                                    <td><t t-esc="item.done_user"/></td>
+                                    <td><t t-esc="item.comment"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <h2>Bilagor</h2>
+                    <t t-foreach="doc.attachments" t-as="att">
+                        <div class="attachment">
+                            <h3><t t-esc="att.name"/></h3>
+                            <p t-if="att.description"><t t-esc="att.description"/></p>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_bokslut_dokumentation_report" model="ir.actions.report">
+        <field name="name">Bokslutsdokumentation</field>
+        <field name="model">account.bokslut</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_se_bokslut.report_bokslut_dokumentation</field>
+        <field name="report_file">l10n_se_bokslut.report_bokslut_dokumentation</field>
+        <field name="print_report_name">'Bokslutsdokumentation - %s' % object.name</field>
+    </record>
+</odoo>

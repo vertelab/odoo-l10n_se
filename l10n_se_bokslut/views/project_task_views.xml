@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend project.task kanban: show bokslut section tag -->
+    <record id="view_task_kanban_bokslut" model="ir.ui.view">
+        <field name="name">project.task.kanban.bokslut</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <field name="priority" position="after">
+                <field name="bokslut_section"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Extend project.task form: add bokslut fields -->
+    <record id="view_task_form_bokslut" model="ir.ui.view">
+        <field name="name">project.task.form.bokslut</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="bokslut_section" invisible="not bokslut_id"/>
+                <field name="account_ids" widget="many2many_tags" invisible="not bokslut_id"/>
+                <field name="is_required" invisible="not bokslut_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>
