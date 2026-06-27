@@ -17,6 +17,11 @@ class AccountExcessDepreciation(models.Model):
     )
     sequence = fields.Integer(string='Order', default=10)
     name = fields.Char(string='Description', required=True)
+    asset_id = fields.Many2one(
+        comodel_name='account.asset',
+        string='Asset',
+        help='Link to the asset register for automatic value retrieval.',
+    )
     asset_category = fields.Selection(
         selection=[
             ('intangible', 'Intangible Assets'),
@@ -111,6 +116,13 @@ class AccountExcessDepreciation(models.Model):
         comodel_name='res.company',
         related='bokslut_id.company_id',
     )
+
+    @api.onchange('asset_id')
+    def _onchange_asset_id(self):
+        """Auto-fill values from the linked asset."""
+        if self.asset_id:
+            if not self.name:
+                self.name = self.asset_id.name
 
     @api.depends('book_value_ib', 'acquisitions', 'disposals', 'book_depreciation')
     def _compute_book_value(self):

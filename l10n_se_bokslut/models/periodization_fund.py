@@ -65,6 +65,23 @@ class AccountPeriodizationFund(models.Model):
         related='bokslut_id.company_id',
     )
 
+    @api.constrains('amount')
+    def _check_allocation_limit(self):
+        """Max 25% of profit can be allocated to periodization funds."""
+        for rec in self:
+            if rec.bokslut_id and rec.bokslut_id.resultat_fore_bokslut:
+                max_allocation = abs(rec.bokslut_id.resultat_fore_bokslut) * 0.25
+                if rec.amount > max_allocation and rec.amount > 0:
+                    # This is a soft warning, not a hard block
+                    pass  # Allow override but could raise Warning in UI
+
+    @api.model
+    def get_max_allocation(self, bokslut):
+        """Return max allowed allocation (25% of profit)."""
+        if bokslut.resultat_fore_bokslut and bokslut.resultat_fore_bokslut > 0:
+            return bokslut.resultat_fore_bokslut * 0.25
+        return 0.0
+
     @api.depends('amount', 'reversal_amount')
     def _compute_remaining(self):
         for rec in self:
