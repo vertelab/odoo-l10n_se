@@ -64,6 +64,23 @@ class AccountBokslut(models.Model):
         inverse_name='bokslut_id',
         string='Tax Calculation',
     )
+    periodization_fund_ids = fields.One2many(
+        comodel_name='account.periodization.fund',
+        inverse_name='bokslut_id',
+        string='Periodization Funds',
+    )
+    excess_depreciation_ids = fields.One2many(
+        comodel_name='account.excess.depreciation',
+        inverse_name='bokslut_id',
+        string='Excess Depreciation',
+    )
+    schablonintakt = fields.Monetary(
+        string='Schablonintäkt',
+        currency_field='company_currency_id',
+        compute='_compute_schablonintakt',
+        store=True,
+        help='Schablonintäkt på periodiseringsfonder (statslåneränta × summa fonder).',
+    )
     # Computed results
     resultat_fore_bokslut = fields.Monetary(
         string='Result Before Dispositions',
@@ -183,6 +200,11 @@ class AccountBokslut(models.Model):
             },
         }
 
+    @api.depends('periodization_fund_ids', 'periodization_fund_ids.remaining')
+    def _compute_schablonintakt(self):
+        for rec in self:
+            rec.schablonintakt = self.env['account.periodization.fund'].calculate_schablonintakt(rec)
+
     def calculate_resultat(self):
         """Calculate result before dispositions (accounts 3000-8999)."""
         self.ensure_one()
@@ -219,7 +241,7 @@ class AccountBokslut(models.Model):
         return total_balance
 
     def calculate_skatt(self):
-        """Full tax calculation chain."""
+        """Full tax calculation chain including periodization funds and excess depreciation."""
         self.ensure_one()
 
         # Ensure result is calculated
@@ -246,8 +268,36 @@ class AccountBokslut(models.Model):
             if adj.type == 'income' and adj.amount
         )
 
+        # Periodization funds
+        period_reversal = sum(
+            f.reversal_amount for f in self.periodization_fund_ids if f.reversal_amount
+        )
+        period_allocation = sum(
+            f.amount for f in self.periodization_fund_ids
+            if f.state == 'active' and f.reversal_amount == 0
+        )
+        # Schablonintäkt
+        self._compute_schablonintakt()
+        schablon = self.schablonintakt or 0.0
+
+        # Excess depreciation
+        total_excess = sum(
+            d.excess_depreciation for d in self.excess_depreciation_ids
+            if d.excess_depreciation
+        )
+
         # Taxable result
-        taxable_result = result + non_deductible - non_taxable + deductible - taxable_income
+        taxable_result = (
+            result
+            + non_deductible
+            - non_taxable
+            + deductible
+            - taxable_income
+            + schablon
+            + period_reversal
+            - period_allocation
+            - total_excess
+        )
 
         # Swedish corporate tax rate: 20.6%
         tax_rate = 0.206
@@ -264,9 +314,13 @@ class AccountBokslut(models.Model):
             (2, _('+ Non-Deductible Costs'), non_deductible),
             (3, _('- Non-Taxable Income'), -non_taxable),
             (4, _('+/- Other Adjustments'), deductible - taxable_income),
-            (5, _('= Taxable Result'), taxable_result),
-            (6, _('Tax (20.6%)'), skatt),
-            (7, _('= Net Result'), self.arets_resultat),
+            (5, _('+ Schablonintäkt (Periodization Funds)'), schablon),
+            (6, _('+ Periodization Fund Reversal'), period_reversal),
+            (7, _('- Periodization Fund Allocation'), -period_allocation),
+            (8, _('- Excess Depreciation'), -total_excess),
+            (9, _('= Taxable Result'), taxable_result),
+            (10, _('Tax (20.6%)'), skatt),
+            (11, _('= Net Result'), self.arets_resultat),
         ]
         for seq, name, amount in lines:
             self.env['account.bokslut.tax.calc'].create({

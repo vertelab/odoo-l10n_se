@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Periodization Fund: tree view (inline in bokslut form) -->
+    <record id="view_periodization_fund_tree" model="ir.ui.view">
+        <field name="name">account.periodization.fund.tree</field>
+        <field name="model">account.periodization.fund</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="year"/>
+                <field name="amount" widget="monetary"/>
+                <field name="remaining" widget="monetary"/>
+                <field name="reversal_amount" widget="monetary"/>
+                <field name="state" optional="show"/>
+                <field name="is_mandatory_reversal" widget="boolean_toggle"/>
+                <field name="bokslut_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Periodization Fund: form view -->
+    <record id="view_periodization_fund_form" model="ir.ui.view">
+        <field name="name">account.periodization.fund.form</field>
+        <field name="model">account.periodization.fund</field>
+        <field name="arch" type="xml">
+            <form string="Periodization Fund">
+                <sheet>
+                    <group>
+                        <field name="year"/>
+                        <field name="amount" widget="monetary"/>
+                        <field name="reversal_amount" widget="monetary"/>
+                        <field name="remaining" widget="monetary"/>
+                    </group>
+                    <group>
+                        <field name="reversal_year"/>
+                        <field name="state"/>
+                        <field name="is_mandatory_reversal"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Excess Depreciation: tree view -->
+    <record id="view_excess_depreciation_tree" model="ir.ui.view">
+        <field name="name">account.excess.depreciation.tree</field>
+        <field name="model">account.excess.depreciation</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="asset_category"/>
+                <field name="rule"/>
+                <field name="book_value_ib" widget="monetary"/>
+                <field name="book_depreciation" widget="monetary"/>
+                <field name="planned_depreciation" widget="monetary"/>
+                <field name="excess_depreciation" widget="monetary" sum="Total"/>
+                <field name="bokslut_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Excess Depreciation: form view -->
+    <record id="view_excess_depreciation_form" model="ir.ui.view">
+        <field name="name">account.excess.depreciation.form</field>
+        <field name="model">account.excess.depreciation</field>
+        <field name="arch" type="xml">
+            <form string="Excess Depreciation">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="asset_category"/>
+                        <field name="rule"/>
+                    </group>
+                    <group string="Book Values">
+                        <field name="book_value_ib" widget="monetary"/>
+                        <field name="acquisitions" widget="monetary"/>
+                        <field name="disposals" widget="monetary"/>
+                        <field name="book_depreciation" widget="monetary"/>
+                        <field name="book_value_ub" widget="monetary"/>
+                    </group>
+                    <group string="Tax Values">
+                        <field name="tax_rest_value_ib" widget="monetary"/>
+                        <field name="tax_rest_value_base" widget="monetary"/>
+                        <field name="tax_min_value" widget="monetary"/>
+                        <field name="tax_depreciation" widget="monetary"/>
+                    </group>
+                    <group string="Excess Depreciation">
+                        <field name="planned_depreciation" widget="monetary"/>
+                        <field name="excess_depreciation" widget="monetary"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

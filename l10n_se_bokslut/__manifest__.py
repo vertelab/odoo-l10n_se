@@ -76,6 +76,7 @@ K2 and K3 rule sets supported for annual reports.
         'views/bokslut_adjustment_views.xml',
         'views/project_task_views.xml',
         'views/project_project_views.xml',
+        'views/fas4_views.xml',
         'report/annual_report_pdf.xml',
         'report/bokslut_dokumentation_pdf.xml',
     ],

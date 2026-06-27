@@ -17,6 +17,11 @@ class ResCompany(models.Model):
         default=True,
         help='Automatically create the checklist project when a new closing is created.',
     )
+    bokslut_schablon_ranta = fields.Float(
+        string='Schablonränta (%)',
+        default=2.5,
+        help='Statslåneränta for periodization fund schablonintäkt calculation.',
+    )
 
 
 class ResConfigSettings(models.TransientModel):
@@ -28,5 +33,9 @@ class ResConfigSettings(models.TransientModel):
     )
     bokslut_auto_checklist = fields.Boolean(
         related='company_id.bokslut_auto_checklist',
+        readonly=False,
+    )
+    bokslut_schablon_ranta = fields.Float(
+        related='company_id.bokslut_schablon_ranta',
         readonly=False,
     )

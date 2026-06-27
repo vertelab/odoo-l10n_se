@@ -69,6 +69,34 @@
                                 <field name="move_id" readonly="1"/>
                             </group>
                         </page>
+                        <page string="Periodiseringsfonder">
+                            <group>
+                                <field name="schablonintakt" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                            </group>
+                            <field name="periodization_fund_ids">
+                                <tree editable="bottom">
+                                    <field name="year"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="reversal_amount" widget="monetary"/>
+                                    <field name="remaining" widget="monetary"/>
+                                    <field name="is_mandatory_reversal" widget="boolean_toggle"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Överavskrivningar">
+                            <field name="excess_depreciation_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="asset_category"/>
+                                    <field name="rule"/>
+                                    <field name="book_depreciation" widget="monetary"/>
+                                    <field name="planned_depreciation" widget="monetary"/>
+                                    <field name="excess_depreciation" widget="monetary" sum="Summa"/>
+                                </tree>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
