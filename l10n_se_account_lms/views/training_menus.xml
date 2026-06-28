@@ -19,4 +19,10 @@
               action="action_training_lesson"
               sequence="20"/>
 
+    <menuitem id="menu_quiz"
+              name="Diagnostic Quizzes"
+              parent="menu_training_root"
+              action="action_quiz_attempt"
+              sequence="30"/>
+
 </odoo>

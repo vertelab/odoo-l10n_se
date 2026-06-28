@@ -44,6 +44,7 @@ Sources: Skatteverket, Försäkringskassan, FORA, Arbetsgivarverket
         'data/payroll_lessons_salary.xml',
         'data/payroll_lessons_agi.xml',
         'data/payroll_lessons_benefits.xml',
+        'data/payroll_questions.xml',
     ],
     'installable': True,
     'application': False,

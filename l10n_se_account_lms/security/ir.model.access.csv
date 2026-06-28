@@ -7,3 +7,9 @@ access_training_progress_manager,l10n_se.training.progress,model_l10n_se_trainin
 access_training_progress_user,l10n_se.training.progress,model_l10n_se_training_progress,account.group_account_user,1,1,1,0
 access_training_tag_manager,l10n_se.training.tag,model_l10n_se_training_tag,account.group_account_manager,1,1,1,1
 access_training_tag_user,l10n_se.training.tag,model_l10n_se_training_tag,account.group_account_user,1,0,0,0
+access_training_question_manager,l10n_se.training.question,model_l10n_se_training_question,account.group_account_manager,1,1,1,1
+access_training_question_user,l10n_se.training.question,model_l10n_se_training_question,account.group_account_user,1,0,0,0
+access_quiz_attempt_manager,l10n_se.training.quiz_attempt,model_l10n_se_training_quiz_attempt,account.group_account_manager,1,1,1,1
+access_quiz_attempt_user,l10n_se.training.quiz_attempt,model_l10n_se_training_quiz_attempt,account.group_account_user,1,1,1,0
+access_quiz_attempt_line_manager,l10n_se.training.quiz.attempt.line,model_l10n_se_training_quiz_attempt_line,account.group_account_manager,1,1,1,1
+access_quiz_attempt_line_user,l10n_se.training.quiz.attempt.line,model_l10n_se_training_quiz_attempt_line,account.group_account_user,1,1,1,0
