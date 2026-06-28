@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Migration Wizard Form -->
+    <record id="view_migration_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_se.migration.wizard.form</field>
+        <field name="model">l10n_se.migration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Migrate from Competitor">
+                <field name="state" invisible="1"/>
+
+                <!-- Step 1: Select Source -->
+                <group string="Select Source System" attrs="{'invisible': [('state', '!=', 'select')]}">
+                    <field name="company_id" required="1"/>
+                    <field name="source_system" required="1" widget="radio"/>
+                    <footer>
+                        <button name="action_select_source" string="Next" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </group>
+
+                <!-- Step 2: Upload / Authenticate -->
+                <group string="Upload Data" attrs="{'invisible': [('state', '!=', 'upload')]}">
+                    <!-- SIE Upload (Visma, Bokio, generic) -->
+                    <group string="SIE File Upload"
+                           attrs="{'invisible': [('source_system', 'in', ['fortnox'])]}">
+                        <field name="sie_file" widget="binary" filename="sie_filename"/>
+                        <field name="sie_filename" invisible="1"/>
+                        <p class="oe_grey">
+                            Export your data from the source system as a SIE file.
+                            For Visma Spiris: File → Export → SIE4<br/>
+                            For Bokio: Settings → Data Export → SIE
+                        </p>
+                    </group>
+
+                    <!-- Fortnox authentication -->
+                    <group string="Fortnox API"
+                           attrs="{'invisible': [('source_system', '!=', 'fortnox')]}">
+                        <field name="fortnox_client_id"/>
+                        <field name="fortnox_client_secret" password="1"/>
+                        <field name="fortnox_access_token" password="1"
+                               help="Get this from Fortnox: Settings → Integrations → API Keys"/>
+                        <field name="fortnox_fiscal_year"
+                               help="Leave empty to import all years"/>
+                        <p class="oe_grey">
+                            Fortnox integration requires an API key from your Fortnox
+                            account. Go to Fortnox → Settings → Integrations to create one.
+                        </p>
+                    </group>
+
+                    <footer>
+                        <button name="action_upload_data" string="Validate &amp; Continue" type="object" class="btn-primary"/>
+                        <button name="action_back_to_select" string="Back" type="object"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </group>
+
+                <!-- Step 3: Map Accounts -->
+                <group string="Import Options" attrs="{'invisible': [('state', '!=', 'mapping')]}">
+                    <field name="import_chart_of_accounts"/>
+                    <field name="import_partners"/>
+                    <field name="import_invoices"/>
+                    <field name="import_journal_entries"/>
+                    <field name="import_opening_balance"/>
+                    <footer>
+                        <button name="action_import" string="Start Import" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </group>
+
+                <!-- Step 4: Import Progress -->
+                <group string="Import Progress" attrs="{'invisible': [('state', '!=', 'import')]}">
+                    <p>Importing... please wait.</p>
+                </group>
+
+                <!-- Step 5: Done -->
+                <group string="Import Complete" attrs="{'invisible': [('state', '!=', 'done')]}">
+                    <div class="oe_grey">
+                        <p>Migration completed successfully.</p>
+                        <field name="imported_accounts" string="Accounts"/>
+                        <field name="imported_partners" string="Partners"/>
+                        <field name="imported_invoices" string="Invoices"/>
+                        <field name="imported_entries" string="Journal Entries"/>
+                        <field name="result_log" nolabel="1" colspan="2"/>
+                    </div>
+                    <footer>
+                        <button special="cancel" string="Close" class="btn-primary"/>
+                    </footer>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Migration Wizard Action -->
+    <record id="action_migration_wizard" model="ir.actions.act_window">
+        <field name="name">Migrate from Competitor</field>
+        <field name="res_model">l10n_se.migration.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
