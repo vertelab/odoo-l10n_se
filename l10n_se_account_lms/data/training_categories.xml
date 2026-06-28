@@ -112,34 +112,12 @@
         </field>
     </record>
 
-    <!-- 6. Arbetsgivardeklaration -->
-    <record id="cat_employer" model="l10n_se.training.category">
-        <field name="name">Arbetsgivardeklaration (AGI)</field>
-        <field name="sequence">60</field>
-        <field name="icon">fa-landmark</field>
-        <field name="color">6</field>
-        <field name="description">
-            <![CDATA[
-            <p>Månatlig rapportering av anställdas löner och skatter till Skatteverket:</p>
-            <ul>
-                <li>AGI vs AGD — vad är skillnaden?</li>
-                <li>Individuppgifter — ruta för ruta (50-82)</li>
-                <li>Åldersbaserade arbetsgivaravgifter (31,42% / 16,36% / 6,15%)</li>
-                <li>Växa-stöd — lägre avgift för första anställd</li>
-                <li>KU10 — kontrolluppgifter</li>
-            </ul>
-            <p><strong>Källa:</strong> Skatteverket Rättslig vägledning Arbetsgivardeklaration</p>
-            ]]>
-        </field>
-        <field name="skv_url">https://www.skatteverket.se/foretag/arbetsgivare/arbetsgivardeklaration</field>
-    </record>
-
-    <!-- 7. Bokslut & Årsredovisning -->
+    <!-- 6. Bokslut & Årsredovisning -->
     <record id="cat_year_end" model="l10n_se.training.category">
         <field name="name">Bokslut &amp; Årsredovisning</field>
-        <field name="sequence">70</field>
+        <field name="sequence">60</field>
         <field name="icon">fa-balance-scale</field>
-        <field name="color">7</field>
+        <field name="color">6</field>
         <field name="description">
             <![CDATA[
             <p>Från löpande bokföring till färdig årsredovisning:</p>
@@ -157,12 +135,12 @@
         </field>
     </record>
 
-    <!-- 8. SIE -->
+    <!-- 7. SIE -->
     <record id="cat_sie" model="l10n_se.training.category">
         <field name="name">SIE import/export</field>
-        <field name="sequence">80</field>
+        <field name="sequence">70</field>
         <field name="icon">fa-file-import</field>
-        <field name="color">8</field>
+        <field name="color">7</field>
         <field name="description">
             <![CDATA[
             <p>Standardiserat svenskt format för utbyte av bokföringsdata:</p>
@@ -176,12 +154,12 @@
         </field>
     </record>
 
-    <!-- 9. Skattekonto -->
+    <!-- 8. Skattekonto -->
     <record id="cat_tax_account" model="l10n_se.training.category">
         <field name="name">Skattekontoavstämning</field>
-        <field name="sequence">90</field>
+        <field name="sequence">80</field>
         <field name="icon">fa-landmark</field>
-        <field name="color">9</field>
+        <field name="color">8</field>
         <field name="description">
             <![CDATA[
             <p>Stäm av företagets skattekonto mot bokföringen:</p>
