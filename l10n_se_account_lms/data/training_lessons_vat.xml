@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Momsredovisning — Lessons                                    -->
+    <!-- ============================================================ -->
+
+    <!-- Lesson: Momsens grunder -->
+    <record id="lesson_vat_basics" model="l10n_se.training.lesson">
+        <field name="name">Momsens grunder — utgående och ingående moms</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_vat"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">25</field>
+        <field name="bas_accounts">2610, 2640, 1510, 2440</field>
+        <field name="skv_boxes">10, 11, 12, 48, 49</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Moms (mervärdesskatt) är en konsumtionsskatt som företag redovisar till Skatteverket. Som företagare agerar du <strong>skatteindrivare åt staten</strong> — du lägger på moms vid försäljning (utgående moms) och drar av moms vid inköp (ingående moms).</p>
+            <p>Skillnaden mellan utgående och ingående moms betalas in till, eller erhålls från, Skatteverket.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Momssatser i Sverige</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Sats</th><th>%</th><th>Exempel</th><th>SKV Ruta</th></tr>
+            <tr><td>Hög</td><td>25%</td><td>De flesta varor och tjänster</td><td>10</td></tr>
+            <tr><td>Medel</td><td>12%</td><td>Livsmedel, restaurang, hotell</td><td>11</td></tr>
+            <tr><td>Låg</td><td>6%</td><td>Böcker, tidningar, persontransport</td><td>12</td></tr>
+            </table>
+
+            <h3>Exempel: Försäljning 10 000 kr + 25% moms</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+            <tr><td>1510 Kundfordringar</td><td>12 500</td><td></td></tr>
+            <tr><td>3001 Försäljning</td><td></td><td>10 000</td></tr>
+            <tr><td>2610 Utgående moms 25%</td><td></td><td>2 500</td></tr>
+            </table>
+
+            <h3>Exempel: Inköp 1 000 kr + 25% moms</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+            <tr><td>4010 Varuinköp</td><td>1 000</td><td></td></tr>
+            <tr><td>2640 Ingående moms</td><td>250</td><td></td></tr>
+            <tr><td>2440 Leverantörsskuld</td><td></td><td>1 250</td></tr>
+            </table>
+            ]]>
+        </field>
+        <field name="skv_reference">SKV 4700 — Momsdeklaration</field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/moms/deklarera</field>
+    </record>
+
+    <!-- Lesson: Momsdeklarationen ruta för ruta -->
+    <record id="lesson_vat_declaration" model="l10n_se.training.lesson">
+        <field name="name">Momsdeklarationen ruta för ruta (SKV 4700)</field>
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_vat"/>
+        <field name="difficulty">intermediate</field>
+        <field name="estimated_minutes">30</field>
+        <field name="skv_boxes">05,06,07,08,10,11,12,20,21,22,23,24,30,31,32,35,36,37,38,39,40,41,42,48,49,50,60,61,62</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Momsdeklarationen (SKV 4700) är den blankett som lämnas till Skatteverket varje månad, kvartal eller år beroende på företagets omsättning. Här går vi igenom <strong>samtliga rutor</strong> — vad de betyder och hur de fylls i.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Momsdeklarationens struktur</h3>
+            <p>Deklarationen är uppdelad i sektioner:</p>
+            <ol>
+              <li><strong>A. Momspliktig försäljning (ruta 05-08):</strong> Beskattningsunderlag</li>
+              <li><strong>B. Utgående moms (ruta 10-12):</strong> Moms på försäljning</li>
+              <li><strong>C. Inköp från utlandet (ruta 20-24):</strong> Underlag + moms</li>
+              <li><strong>D. Försäljning till utlandet (ruta 35-42):</strong> Underlag</li>
+              <li><strong>E. Ingående moms (ruta 48):</strong> Moms att dra av</li>
+              <li><strong>F. Moms att betala/få tillbaka (ruta 49):</strong> Beräknas automatiskt</li>
+            </ol>
+
+            <h3>Viktigaste sambanden</h3>
+            <ul>
+              <li>Ruta 49 = Ruta 10+11+12+30+31+32+60+61+62 − Ruta 48</li>
+              <li>Ruta 05 ska matcha periodisk sammanställning (EU-försäljning)</li>
+              <li>Ruta 48 får inte vara högre än summan av ingående moms på faktiska inköp</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="common_mistakes">
+            <![CDATA[
+            <p><strong>Vanliga fel:</strong></p>
+            <ul>
+              <li>Blanda ihop ruta 10 (25%) med ruta 11 (12%) och ruta 12 (6%)</li>
+              <li>Glömma att redovisa omvänd skattskyldighet i ruta 20-24</li>
+              <li>Dubbelredovisa EU-försäljning (ska bara vara i ruta 35, inte i 05)</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Lesson: Kontantmetoden vs fakturametoden -->
+    <record id="lesson_vat_method" model="l10n_se.training.lesson">
+        <field name="name">Kontantmetoden vs fakturametoden</field>
+        <field name="sequence">30</field>
+        <field name="category_id" ref="cat_vat"/>
+        <field name="difficulty">intermediate</field>
+        <field name="estimated_minutes">20</field>
+        <field name="bas_accounts">1510, 1930, 2610</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Sverige tillåter två metoder för momsredovisning: fakturametoden (huvudregel) och kontantmetoden (bokslutsmetoden). Valet påverkar <strong>när</strong> momsen ska redovisas.</p>
+            <ul>
+              <li><strong>Fakturametoden:</strong> Moms redovisas när fakturan skickas/tas emot — oavsett om betalning skett.</li>
+              <li><strong>Kontantmetoden:</strong> Moms redovisas först när betalning sker.</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Vilken metod ska du välja?</h3>
+            <p>Fakturametoden är huvudregel. Kontantmetoden är ett undantag som måste ansökas om hos Skatteverket. Den används främst av mindre företag med omsättning under 3 miljoner kr.</p>
+
+            <h3>Bokslutsperioden — viktig skillnad</h3>
+            <p>I <strong>bokslutsperioden</strong> (sista perioden på räkenskapsåret) ska även företag med kontantmetoden redovisa moms på obetalda fakturor — enligt fakturametoden. Detta innebär att:</p>
+            <ul>
+              <li>Obetalda kundfakturor → redovisa som utgående moms</li>
+              <li>Obetalda leverantörsfakturor → redovisa som ingående moms</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Main Training Menu -->
+    <menuitem id="menu_training_root"
+              name="Swedish Accounting Training"
+              parent="account.menu_finance"
+              sequence="95"/>
+
+    <menuitem id="menu_training_categories"
+              name="Training Categories"
+              parent="menu_training_root"
+              action="action_training_category"
+              sequence="10"/>
+
+    <menuitem id="menu_training_lessons"
+              name="All Lessons"
+              parent="menu_training_root"
+              action="action_training_lesson"
+              sequence="20"/>
+
+</odoo>

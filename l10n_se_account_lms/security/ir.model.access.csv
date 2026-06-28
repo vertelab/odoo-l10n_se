@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_training_category_manager,l10n_se.training.category,model_l10n_se_training_category,account.group_account_manager,1,1,1,1
+access_training_category_user,l10n_se.training.category,model_l10n_se_training_category,account.group_account_user,1,0,0,0
+access_training_lesson_manager,l10n_se.training.lesson,model_l10n_se_training_lesson,account.group_account_manager,1,1,1,1
+access_training_lesson_user,l10n_se.training.lesson,model_l10n_se_training_lesson,account.group_account_user,1,0,0,0
+access_training_progress_manager,l10n_se.training.progress,model_l10n_se_training_progress,account.group_account_manager,1,1,1,1
+access_training_progress_user,l10n_se.training.progress,model_l10n_se_training_progress,account.group_account_user,1,1,1,0
+access_training_tag_manager,l10n_se.training.tag,model_l10n_se_training_tag,account.group_account_manager,1,1,1,1
+access_training_tag_user,l10n_se.training.tag,model_l10n_se_training_tag,account.group_account_user,1,0,0,0

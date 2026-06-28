@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Lesson Tree -->
+    <record id="view_training_lesson_tree" model="ir.ui.view">
+        <field name="name">l10n_se.training.lesson.tree</field>
+        <field name="model">l10n_se.training.lesson</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="category_id"/>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="difficulty" widget="badge"
+                       decoration-success="difficulty == 'beginner'"
+                       decoration-warning="difficulty == 'intermediate'"
+                       decoration-danger="difficulty == 'advanced'"/>
+                <field name="estimated_minutes"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Lesson Form -->
+    <record id="view_training_lesson_form" model="ir.ui.view">
+        <field name="name">l10n_se.training.lesson.form</field>
+        <field name="model">l10n_se.training.lesson</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_mark_complete" string="Mark Complete"
+                            type="object" class="btn-success"
+                            attrs="{'invisible': [('user_progress_ids.completed', '=', True)]}"/>
+                    <button name="action_mark_incomplete" string="Mark Incomplete"
+                            type="object" class="btn-secondary"
+                            attrs="{'invisible': [('user_progress_ids.completed', '=', False)]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Lesson Title"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="difficulty"/>
+                            <field name="estimated_minutes"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="related_module"/>
+                            <field name="bas_accounts"/>
+                            <field name="skv_boxes"/>
+                            <field name="skv_reference"/>
+                            <field name="skv_url" widget="url"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Overview">
+                            <field name="overview" nolabel="1"/>
+                        </page>
+                        <page string="Theory">
+                            <field name="theory" nolabel="1"/>
+                        </page>
+                        <page string="Procedure">
+                            <field name="procedure" nolabel="1"/>
+                        </page>
+                        <page string="Odoo Guide">
+                            <field name="odoo_guide" nolabel="1"/>
+                        </page>
+                        <page string="Self-Check">
+                            <group string="Check Questions">
+                                <field name="check_questions" nolabel="1"/>
+                            </group>
+                            <group string="Common Mistakes">
+                                <field name="common_mistakes" nolabel="1"/>
+                            </group>
+                            <group string="Legal Basis">
+                                <field name="legal_basis" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Lesson Search -->
+    <record id="view_training_lesson_search" model="ir.ui.view">
+        <field name="name">l10n_se.training.lesson.search</field>
+        <field name="model">l10n_se.training.lesson</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="bas_accounts"/>
+                <filter name="beginner" string="Beginner"
+                        domain="[('difficulty', '=', 'beginner')]"/>
+                <filter name="intermediate" string="Intermediate"
+                        domain="[('difficulty', '=', 'intermediate')]"/>
+                <filter name="advanced" string="Advanced"
+                        domain="[('difficulty', '=', 'advanced')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Category"
+                            context="{'group_by': 'category_id'}"/>
+                    <filter name="group_difficulty" string="Difficulty"
+                            context="{'group_by': 'difficulty'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Lesson Action -->
+    <record id="action_training_lesson" model="ir.actions.act_window">
+        <field name="name">Training Lessons</field>
+        <field name="res_model">l10n_se.training.lesson</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
