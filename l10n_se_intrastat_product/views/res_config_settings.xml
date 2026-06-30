@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2026 Vertel AB (https://vertel.se)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <!-- Extend company settings with Swedish Intrastat fields -->
+    <record id="view_intrastat_res_config_settings_se" model="ir.ui.view">
+        <field name="name">intrastat.res.config.settings.form.se</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block id="storno" position="after">
+                <block id="intrastat_se" title="Intrastat (SCB)">
+                    <setting id="intrastat_arrivals">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="intrastat_arrivals" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_arrivals"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="intrastat_dispatches">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="intrastat_dispatches" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_dispatches"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="intrastat_region">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="intrastat_region_id" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_region_id"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="intrastat_transport">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="intrastat_transport_id" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_transport_id"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="intrastat_accessory_costs_se">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="intrastat_accessory_costs" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_accessory_costs"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="intrastat_contact_se">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <h3>Kontaktperson för Intrastat</h3>
+                            </div>
+                            <div class="row mt16">
+                                <label for="intrastat_contact_name" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_contact_name"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="intrastat_contact_phone" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_contact_phone"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="intrastat_contact_email" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_contact_email"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="intrastat_remind_users_se">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="intrastat_remind_user_ids" class="col-lg-5 o_light_label"/>
+                                <field name="intrastat_remind_user_ids" widget="many2many_tags"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+
+    <!-- Add threshold info to settings -->
+    <record id="view_intrastat_res_config_settings_info" model="ir.ui.view">
+        <field name="name">intrastat.res.config.settings.info.se</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block id="intrastat_se" position="inside">
+                <div class="alert alert-info" role="alert">
+                    <strong>Tröskelvärden för Intrastat 2024:</strong><br/>
+                    Införsel: Standard ≥ 12 MSEK, Utökad ≥ 550 MSEK<br/>
+                    Utförsel: Standard ≥ 5 MSEK, Utökad ≥ 275 MSEK<br/>
+                    Rapportering sker månadsvis till SCB via EDAS XML.
+                </div>
+            </block>
+        </field>
+    </record>
+
+</odoo>

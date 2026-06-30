@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Swedish Transport Modes for Intrastat -->
+        <record id="intrastat_transport_1_se" model="intrastat.transport_mode">
+            <field name="code">1</field>
+            <field name="name">Sjötransport</field>
+        </record>
+        <record id="intrastat_transport_2_se" model="intrastat.transport_mode">
+            <field name="code">2</field>
+            <field name="name">Järnvägstransport</field>
+        </record>
+        <record id="intrastat_transport_3_se" model="intrastat.transport_mode">
+            <field name="code">3</field>
+            <field name="name">Vägtransport</field>
+        </record>
+        <record id="intrastat_transport_4_se" model="intrastat.transport_mode">
+            <field name="code">4</field>
+            <field name="name">Lufttransport</field>
+        </record>
+        <record id="intrastat_transport_5_se" model="intrastat.transport_mode">
+            <field name="code">5</field>
+            <field name="name">Postförsändelse</field>
+        </record>
+        <record id="intrastat_transport_7_se" model="intrastat.transport_mode">
+            <field name="code">7</field>
+            <field name="name">Fast installation (rörledning/elkabel)</field>
+        </record>
+        <record id="intrastat_transport_8_se" model="intrastat.transport_mode">
+            <field name="code">8</field>
+            <field name="name">Transport på inre vattenvägar</field>
+        </record>
+        <record id="intrastat_transport_9_se" model="intrastat.transport_mode">
+            <field name="code">9</field>
+            <field name="name">Annat transportsätt / Egen framdrivning</field>
+        </record>
+
+    </data>
+</odoo>

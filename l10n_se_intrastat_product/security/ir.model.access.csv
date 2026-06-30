@@ -1,0 +1,2 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_intrastat_product_declaration_se","intrastat.product.declaration.se","intrastat_product.model_intrastat_product_declaration","account.group_account_user",1,1,1,1

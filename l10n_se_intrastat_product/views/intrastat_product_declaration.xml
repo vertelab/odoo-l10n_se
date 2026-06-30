@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2026 Vertel AB (https://vertel.se)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <!-- Add Swedish menu under Myndighetsrapportering -->
+    <menuitem
+        id="menu_intrastat_product_se"
+        name="Intrastat (SCB)"
+        parent="l10n_se_tax_report.menu_report_authorities"
+        action="intrastat_product.intrastat_product_intrastat_product_declaration_action"
+        sequence="20"
+    />
+
+    <!-- Swedish-specific Intrastat configuration menu -->
+    <menuitem
+        id="menu_intrastat_config_se"
+        name="Intrastat (SCB)"
+        parent="account.menu_finance_configuration"
+        sequence="51"
+    />
+
+    <!-- Configuration sub-menu items -->
+    <menuitem
+        id="menu_intrastat_config_transactions_se"
+        name="Transaktionstyper"
+        parent="menu_intrastat_config_se"
+        action="intrastat_product.intrastat_transaction_action"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_intrastat_config_regions_se"
+        name="Regioner (Län)"
+        parent="menu_intrastat_config_se"
+        action="intrastat_product.intrastat_region_action"
+        sequence="20"
+    />
+    <menuitem
+        id="menu_intrastat_config_transport_se"
+        name="Transportsätt"
+        parent="menu_intrastat_config_se"
+        action="intrastat_product.intrastat_transport_mode_action"
+        sequence="30"
+    />
+
+    <!-- Extend declaration form with Swedish info -->
+    <record id="intrastat_product_declaration_view_form_se" model="ir.ui.view">
+        <field name="name">intrastat.product.declaration.form.se</field>
+        <field name="model">intrastat.product.declaration</field>
+        <field name="inherit_id" ref="intrastat_product.intrastat_product_declaration_view_form"/>
+        <field name="arch" type="xml">
+            <group name="top-block" position="inside">
+                <group name="swedish-info" string="SCB Information">
+                    <field name="swedish_declaration_id" readonly="1"/>
+                </group>
+            </group>
+            <button name="confirmed2done" position="attributes">
+                <attribute name="string">Generera SCB XML-fil</attribute>
+                <attribute name="help">Generera EDAS XML-fil för SCB och sätt deklarationen till Klar</attribute>
+            </button>
+            <button name="action_gather" position="attributes">
+                <attribute name="string">Hämta rader från fakturor</attribute>
+            </button>
+        </field>
+    </record>
+
+</odoo>
