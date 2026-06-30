@@ -7,34 +7,69 @@
             <field name="inherit_id" ref="account.res_config_settings_view_form" />
             <field name="arch" type="xml">
                   <setting id="tax_exigibility" position="after">
- 	              <setting id="tax_frequency" help="Select the VAT declaration frequency" title="VAT Declaration Frequency" groups="account.group_account_user">
- 		             <field name="vat_declaration_frequency"/>
- 	              </setting>
-  	              <setting id="accounting_method" help="Select the accounting method for VAT" title="Redovisningsmetod" groups="account.group_account_user">
- 		             <field name="accounting_method"/>
- 	              </setting>
-  	              <setting id="vat_report_template_id" help="MIS report template used for VAT declarations" title="VAT Report Template" groups="account.group_account_user">
- 		             <field name="vat_report_template_id"/>
- 	              </setting>
-                   </setting>
-
+                     <setting id="tax_frequency" help="Select the VAT declaration frequency"
+                              title="VAT Declaration Frequency" groups="account.group_account_user">
+                         <field name="vat_declaration_frequency"/>
+                     </setting>
+                     <setting id="accounting_method" help="Select the accounting method for VAT"
+                              title="Redovisningsmetod" groups="account.group_account_user">
+                         <field name="accounting_method"/>
+                     </setting>
+                     <setting id="vat_report_template_id"
+                              help="MIS report template used for VAT declarations"
+                              title="VAT Report Template" groups="account.group_account_user">
+                         <field name="vat_report_template_id"/>
+                     </setting>
+                     <!-- Skatteverket API settings -->
+                     <setting id="skv_test_mode"
+                              help="Use the test environment for development and testing"
+                              title="SKV Test Mode" groups="account.group_account_user">
+                         <field name="skv_test_mode"/>
+                     </setting>
+                     <setting id="skv_auth_method"
+                              help="Certificate or E-identification authentication"
+                              title="SKV Auth Method" groups="account.group_account_user">
+                         <field name="skv_auth_method"/>
+                     </setting>
+                     <setting id="skv_api_url"
+                              help="Endpoint for submitting VAT declarations"
+                              title="SKV API URL" groups="account.group_account_user">
+                         <field name="skv_api_url"/>
+                     </setting>
+                     <setting id="skv_auth_url"
+                              help="OAuth2 authorization endpoint"
+                              title="SKV Auth URL" groups="account.group_account_user">
+                         <field name="skv_auth_url"/>
+                     </setting>
+                     <setting id="skv_token_url"
+                              help="OAuth2 token endpoint"
+                              title="SKV Token URL" groups="account.group_account_user">
+                         <field name="skv_token_url"/>
+                     </setting>
+                     <setting id="skv_pc_api_url"
+                              help="Endpoint for periodic compilation (EU sales list)"
+                              title="SKV PC API URL" groups="account.group_account_user">
+                         <field name="skv_pc_api_url"/>
+                     </setting>
+                     <setting id="skv_agd_api_url"
+                              help="Endpoint for employer declaration (AGD)"
+                              title="SKV AGD API URL" groups="account.group_account_user">
+                         <field name="skv_agd_api_url"/>
+                     </setting>
+                  </setting>
             </field>
         </record>
-        
-     
 
-
-
-    <record id="view_company_form_inherit" model="ir.ui.view">
-                  <field name="name">add_arbetsgivare</field>
-                  <field name="model">res.company</field>
-                  <field name="inherit_id" ref="base.view_company_form"></field>
-                    <field name="arch" type="xml">
-                    <xpath expr="//field[@name='currency_id']" position="after">
-                            <field name="ag_contact"/>
-                            <field name = "agd_journal"/>
-                    </xpath>
-                  </field>
-            </record>
+        <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">add_arbetsgivare</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="ag_contact"/>
+                    <field name="agd_journal"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

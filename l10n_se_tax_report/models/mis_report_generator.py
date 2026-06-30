@@ -2,7 +2,9 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import logging
 import base64
+import requests
 from lxml import etree
+from datetime import datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -337,12 +339,466 @@ class account_vat_declaration(models.Model):
         })
         return action
 
+    # --- Skatteverket API: submit VAT declaration ---
+
+    def action_send_to_skv(self):
+        """Submit the VAT declaration to Skatteverket via API."""
+        self.ensure_one()
+
+        # Ensure eSKD XML is generated
+        if not self.eskd_file_mis:
+            if self.state not in ['draft', 'confirmed']:
+                self.do_draft()
+            self.calculate()
+        if not self.eskd_file_mis:
+            raise UserError(_(
+                "Could not generate eSKD XML file. "
+                "Please run 'Calculate' first and check MIS report."))
+
+        partner = self._get_skv_partner()
+        if not partner or not partner.enable_skatteverket_api:
+            raise UserError(_(
+                "No Skatteverket API partner configured. "
+                "Enable 'Skatteverket API' on a partner record in Contacts."))
+
+        access_token = self._get_skv_access_token(partner)
+        settings = self._get_skv_settings()
+
+        # Decode eSKD XML from base64
+        xml_bytes = base64.b64decode(self.eskd_file_mis)
+
+        headers = {
+            'Authorization': 'Bearer %s' % access_token,
+            'Content-Type': 'application/xml; charset=ISO-8859-1',
+            'Accept': 'application/json',
+        }
+
+        try:
+            response = requests.post(
+                settings['api_url'],
+                data=xml_bytes,
+                headers=headers,
+                timeout=30,
+            )
+            _logger.info("SKV API response: %s %s", response.status_code, response.text[:500])
+
+            if response.status_code in (200, 201, 202):
+                self.write({
+                    'skv_api_status': 'accepted',
+                    'skv_response': 'OK: %s' % response.text[:500],
+                    'skv_submitted_date': fields.Datetime.now(),
+                    'state': 'done',
+                })
+            elif response.status_code == 401:
+                # Token expired — clear and let user retry
+                partner.write({'access_token': False})
+                self.write({
+                    'skv_api_status': 'error',
+                    'skv_response': 'Authentication failed. Token may have expired. Please retry.',
+                })
+                raise UserError(_(
+                    "Authentication failed. Token may have expired. "
+                    "Please retry the submission."))
+            else:
+                self.write({
+                    'skv_api_status': 'error',
+                    'skv_response': 'HTTP %s: %s' % (response.status_code, response.text[:1000]),
+                    'skv_submitted_date': fields.Datetime.now(),
+                })
+                raise UserError(_(
+                    "Skatteverket API returned error %s:\n%s")
+                    % (response.status_code, response.text[:500]))
+
+        except requests.exceptions.RequestException as e:
+            self.write({
+                'skv_api_status': 'error',
+                'skv_response': 'Connection error: %s' % str(e),
+                'skv_submitted_date': fields.Datetime.now(),
+            })
+            raise UserError(_(
+                "Could not connect to Skatteverket API:\n%s")
+                % str(e))
+
+    # --- Skatteverket API helper methods ---
+
+    def _get_skv_settings(self):
+        """Retrieve Skatteverket API settings from company."""
+        company = self.company_id or self.env.company
+        return {
+            'test_mode': company.skv_test_mode,
+            'auth_method': company.skv_auth_method,
+            'api_url': company.skv_api_url,
+            'auth_url': company.skv_auth_url,
+            'token_url': company.skv_token_url,
+        }
+
+    def _get_skv_partner(self):
+        """Find the Skatteverket partner configured for API access."""
+        partner = self.env['res.partner'].search(
+            [('enable_skatteverket_api', '=', True)], limit=1)
+        if not partner:
+            partner = self.env.ref(
+                'l10n_se_tax_report.res_partner-SKV', raise_if_not_found=False)
+        return partner
+
+    def _get_skv_access_token(self, partner):
+        """Obtain an access token for Skatteverket API."""
+        tax_account_module = self.env['ir.module.module'].search([
+            ('name', '=', 'l10n_se_tax_account'),
+            ('state', '=', 'installed'),
+        ])
+        if not tax_account_module:
+            raise UserError(_(
+                "The 'l10n_se_tax_account' module must be installed to use "
+                "the Skatteverket API. Please install it first."))
+
+        if partner.check_valid_access_token():
+            return partner.access_token
+
+        settings = self._get_skv_settings()
+
+        if settings['auth_method'] == 'cert':
+            if not partner.certificate:
+                raise UserError(_(
+                    "No certificate uploaded on the Skatteverket partner."))
+            cert_data = base64.b64decode(partner.certificate)
+            import tempfile, os
+            tmp = tempfile.NamedTemporaryFile(suffix='.pem', delete=False)
+            tmp.write(cert_data)
+            tmp.close()
+            session = requests.Session()
+            session.cert = tmp.name
+            try:
+                resp = session.post(
+                    settings['token_url'],
+                    data={
+                        'grant_type': 'client_credentials',
+                        'client_id': partner.oauth_client_id or '',
+                        'client_secret': partner.oauth_secret or '',
+                        'scope': 'ska',
+                    },
+                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
+                )
+                if resp.status_code == 200:
+                    token_data = resp.json()
+                    partner.write({
+                        'access_token': token_data.get('access_token'),
+                        'recived_token_on': fields.Datetime.now(),
+                        'expires_in': token_data.get('expires_in', 3600),
+                    })
+                    return token_data.get('access_token')
+                else:
+                    _logger.error("SKV token error: %s %s", resp.status_code, resp.text)
+                    raise UserError(_(
+                        "Failed to get access token from Skatteverket: %s")
+                        % resp.text[:200])
+            finally:
+                os.unlink(tmp.name)
+        else:
+            raise UserError(_(
+                "E-identification flow requires interactive browser. "
+                "Please use certificate authentication instead."))
+
+    @api.model
+    def _demo_fill_declarations(self):
+        """Create demo journal entries that fill all SKV form fields
+        for the two demo declarations (May 2026 and June 2026).
+        Uses tax codes from NAMEMAPPING to populate the MIS report."""
+        _logger.info("Creating demo journal entries for VAT declarations...")
+
+        AccountAccount = self.env['account.account']
+        AccountTax = self.env['account.tax']
+        AccountJournal = self.env['account.journal']
+        AccountMove = self.env['account.move']
+
+        # Find accounts by code
+        def find_acc(code):
+            return AccountAccount.search([
+                ('company_ids', 'in', [self.env.company.id]),
+                ('code', '=', code)
+            ], limit=1)
+
+        def find_tax(name):
+            return AccountTax.search([
+                ('company_id', '=', self.env.company.id),
+                ('name', '=', name)
+            ], limit=1)
+
+        sale_journal = AccountJournal.search([('type', '=', 'sale')], limit=1)
+        purchase_journal = AccountJournal.search([('type', '=', 'purchase')], limit=1)
+        bank_journal = AccountJournal.search([('type', '=', 'bank')], limit=1)
+
+        if not sale_journal or not purchase_journal:
+            _logger.warning("Cannot create demo entries: no sale/purchase journal found")
+            return False
+
+        partner = self.env['res.partner'].search([('name', '=', 'Skatteverket API (Test)')], limit=1)
+        if not partner:
+            partner = self.env.ref('l10n_se_tax_report.partner_eu_germany', raise_if_not_found=False)
+        if not partner:
+            partner = self.env.ref('l10n_se_tax_report.partner_skv_api', raise_if_not_found=False)
+        if not partner:
+            partner = self.env['res.partner'].search([('is_company', '=', True)], limit=1)
+        if not partner:
+            return False
+
+        # Partner for non-EU
+        partner_us = self.env.ref('l10n_se_tax_report.partner_non_eu', raise_if_not_found=False) or partner
+        partner_eu = self.env.ref('l10n_se_tax_report.partner_eu_france', raise_if_not_found=False) or partner
+
+        moves_to_post = []
+
+        def create_invoice(move_type, date_str, lines, journal=None, partner_id=None):
+            jrnl = journal or (sale_journal if move_type == 'out_invoice' else purchase_journal)
+            partner = partner_id or (partner_eu if move_type == 'out_invoice' else partner)
+            inv_lines = []
+            for name, qty, price, acc_code, tax_names in lines:
+                acc = find_acc(acc_code)
+                if not acc:
+                    acc = find_acc('3001') if move_type == 'out_invoice' else find_acc('4010')
+                if not acc:
+                    continue
+                taxes = AccountTax
+                for tn in tax_names:
+                    t = find_tax(tn)
+                    if t:
+                        taxes |= t
+                inv_lines.append((0, 0, {
+                    'name': name,
+                    'quantity': qty,
+                    'price_unit': price,
+                    'account_id': acc.id,
+                    'tax_ids': [(6, 0, taxes.ids)],
+                }))
+            if not inv_lines:
+                return None
+            move = AccountMove.create({
+                'move_type': move_type,
+                'journal_id': jrnl.id,
+                'partner_id': partner.id,
+                'invoice_date': date_str,
+                'date': date_str,
+                'invoice_line_ids': inv_lines,
+                'ref': 'DEMO-' + date_str.replace('-', ''),
+            })
+            moves_to_post.append(move)
+            return move
+
+        # ===== May 2026 =====
+        _logger.info("  Creating May 2026 demo entries...")
+
+        # Ruta 05/10: Domestisk försäljning 25% moms
+        tax_mp1 = find_tax('MP1')
+        tax_i = find_tax('I')
+        tax_i12 = find_tax('I12')
+        tax_i6 = find_tax('I6')
+        tax_mp2 = find_tax('MP2')
+        tax_mp3 = find_tax('MP3')
+
+        create_invoice('out_invoice', '2026-05-05', [
+            ('Konsulttjänster AB', 1, 80000, '3001', ['MP1']),
+        ], partner_id=partner)
+
+        # Ruta 11: Utgående moms 12%
+        create_invoice('out_invoice', '2026-05-08', [
+            ('Livsmedel', 1, 20000, '3001', ['MP2']),
+        ], partner_id=partner)
+
+        # Ruta 12: Utgående moms 6%
+        create_invoice('out_invoice', '2026-05-10', [
+            ('Tidningsprenumeration', 1, 10000, '3001', ['MP3']),
+        ], partner_id=partner)
+
+        # Ruta 35: Försäljning varor till EU (exempt)
+        create_invoice('out_invoice', '2026-05-12', [
+            ('Export varor EU', 1, 50000, '3106', []),
+        ], partner_id=partner_eu)
+
+        # Ruta 39: Försäljning tjänster till EU (reverse charge)  
+        create_invoice('out_invoice', '2026-05-14', [
+            ('IT-konsult EU', 1, 30000, '3001', []),
+        ], partner_id=partner_eu)
+
+        # Ruta 48: Ingående moms 25%
+        create_invoice('in_invoice', '2026-05-06', [
+            ('Kontorsmaterial', 1, 30000, '4010', ['I']),
+        ], partner_id=partner)
+
+        # Ingående moms 12%
+        create_invoice('in_invoice', '2026-05-09', [
+            ('Livsmedel inköp', 1, 10000, '4010', ['I12']),
+        ], partner_id=partner)
+
+        # Ruta 20: Inköp varor från EU (reverse charge)
+        create_invoice('in_invoice', '2026-05-15', [
+            ('Maskindelar EU', 1, 60000, '4515', []),
+        ], partner_id=partner_eu)
+
+        # Ruta 21: Inköp tjänster från EU (reverse charge)
+        create_invoice('in_invoice', '2026-05-18', [
+            ('Molntjänst EU', 1, 25000, '4535', []),
+        ], partner_id=partner_eu)
+
+        # Ruta 22: Inköp tjänster utanför EU (reverse charge)
+        create_invoice('in_invoice', '2026-05-20', [
+            ('Mjukvarulicens USA', 1, 20000, '4535', []),
+        ], partner_id=partner_us)
+
+        # Ruta 50: Import
+        create_invoice('in_invoice', '2026-05-25', [
+            ('Elektronik import', 1, 35000, '4545', []),
+        ], partner_id=partner_us)
+
+        # ===== June 2026 =====
+        _logger.info("  Creating June 2026 demo entries...")
+
+        create_invoice('out_invoice', '2026-06-03', [
+            ('Projekt fas 2', 1, 95000, '3001', ['MP1']),
+        ], partner_id=partner)
+
+        create_invoice('out_invoice', '2026-06-07', [
+            ('Restaurangtjänster', 1, 15000, '3001', ['MP2']),
+        ], partner_id=partner)
+
+        create_invoice('out_invoice', '2026-06-12', [
+            ('Böcker', 1, 8000, '3001', ['MP3']),
+        ], partner_id=partner)
+
+        # Ruta 36: Försäljning utanför EU
+        create_invoice('out_invoice', '2026-06-10', [
+            ('Export varor USA', 1, 45000, '3105', []),
+        ], partner_id=partner_us)
+
+        # Ruta 35 (igen): EU-varor
+        create_invoice('out_invoice', '2026-06-15', [
+            ('Leverans maskiner EU', 1, 70000, '3106', []),
+        ], partner_id=partner_eu)
+
+        create_invoice('in_invoice', '2026-06-05', [
+            ('IT-utrustning', 1, 45000, '4010', ['I']),
+        ], partner_id=partner)
+
+        create_invoice('in_invoice', '2026-06-08', [
+            ('Hotelltjänster', 1, 12000, '4010', ['I12']),
+        ], partner_id=partner)
+
+        create_invoice('in_invoice', '2026-06-14', [
+            ('Råvaror EU', 1, 55000, '4515', []),
+        ], partner_id=partner_eu)
+
+        create_invoice('in_invoice', '2026-06-18', [
+            ('Konsulttjänster EU', 1, 30000, '4535', []),
+        ], partner_id=partner_eu)
+
+        create_invoice('in_invoice', '2026-06-22', [
+            ('Webbtjänster UK', 1, 18000, '4535', []),
+        ], partner_id=partner_us)
+
+        # Post all moves
+        for move in moves_to_post:
+            try:
+                move.action_post()
+            except Exception as e:
+                _logger.warning("Could not post demo move %s: %s", move.ref, e)
+
+        _logger.info("Created %d demo journal entries for VAT declarations", len(moves_to_post))
+        return True
 
 
 class mis_report_instance(models.Model):
     _inherit = 'mis.report.instance'
     # ~ Should be one2one. account.vat.declaration should have one unique mis.report.instance. This is to insure that the instance created also gets deleted when the account.vat.declaration does.
     account_vat_declaration_id = fields.One2many(comodel_name='account.vat.declaration', inverse_name ='generated_mis_report_id', string="account vat decaration id")
+
+    @api.model
+    def _create_default_instances(self):
+        """Create default MIS report instances if they don't already exist.
+        Called from l10n_se_mis data files to avoid UniqueViolation errors."""
+        Report = self.env['mis.report']
+
+        def _ensure_instance(xmlid, report_xmlid, name, **kwargs):
+            existing = self.env.ref(xmlid, raise_if_not_found=False)
+            if existing:
+                return existing
+            report = self.env.ref(report_xmlid, raise_if_not_found=False)
+            if not report:
+                return None
+            vals = {'name': name, 'report_id': report.id, 'target_move': 'posted'}
+            vals.update(kwargs)
+            instance = self.create(vals)
+            # Register the XML-ID for the created record
+            module, _, xid = xmlid.partition('.')
+            self.env['ir.model.data'].create({
+                'module': module,
+                'name': xid,
+                'model': self._name,
+                'res_id': instance.id,
+                'noupdate': True,
+            })
+            return instance
+
+        # Resultaträkning
+        inst1 = _ensure_instance(
+            'l10n_se_mis.mis_report_instance_resultatrakning',
+            'l10n_se_mis.report_rr',
+            'Resultaträkning',
+        )
+        if inst1:
+            period_model = self.env['mis.report.instance.period']
+            if not period_model.search_count([
+                ('report_instance_id', '=', inst1.id),
+                ('name', '=', 'Current year'),
+            ]):
+                period_model.create([{
+                    'name': 'Current year',
+                    'report_instance_id': inst1.id,
+                    'mode': 'relative',
+                    'type': 'y',
+                    'offset': 0,
+                    'duration': 1,
+                    'sequence': 1,
+                }, {
+                    'name': 'Previous year',
+                    'report_instance_id': inst1.id,
+                    'mode': 'relative',
+                    'type': 'y',
+                    'offset': -1,
+                    'duration': 1,
+                    'sequence': 2,
+                }])
+
+        # Resultaträkning (kompakt)
+        inst2 = _ensure_instance(
+            'l10n_se_mis.mis_report_instance_resultatrakning_kompakt',
+            'l10n_se_mis.report_rr_compact',
+            'Resultaträkning (kompakt)',
+            no_auto_expand_accounts=True,
+        )
+        if inst2:
+            period_model = self.env['mis.report.instance.period']
+            if not period_model.search_count([
+                ('report_instance_id', '=', inst2.id),
+                ('name', '=', 'Current year'),
+            ]):
+                period_model.create([{
+                    'name': 'Current year',
+                    'report_instance_id': inst2.id,
+                    'mode': 'relative',
+                    'type': 'y',
+                    'offset': 0,
+                    'duration': 1,
+                    'sequence': 1,
+                }, {
+                    'name': 'Previous year',
+                    'report_instance_id': inst2.id,
+                    'mode': 'relative',
+                    'type': 'y',
+                    'offset': -1,
+                    'duration': 1,
+                    'sequence': 2,
+                }])
+
+        return True
 
 
 

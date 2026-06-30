@@ -1860,7 +1860,7 @@
     <record id="K3_2091_2017" model="account.account.template">
       <field name="name">Balanserad vinst eller förlust </field>
       <field name="code">2091</field>
-      <field name="account_type">equity</field>
+      <field name="account_type">equity_unaffected</field>
       <field name="chart_template_id" ref="chart_template_K3_2017"/>
       <field name="note">Summan av tidigare års vinster och förluster. Registrera balanserat resultat med minustecken om det balanserade resultatet är en balanserad förlust. Är det en balanserad vinst ska du inte använda minustecken.</field>
     </record>

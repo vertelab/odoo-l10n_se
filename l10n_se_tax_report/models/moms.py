@@ -28,6 +28,12 @@ import time
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 from workalendar.europe import Sweden
+import requests
+import logging
+import os
+import tempfile
+
+_logger = logging.getLogger(__name__)
 
 import logging
 
@@ -143,7 +149,21 @@ class account_declaration(models.Model):
     report_file = fields.Binary(string="Report-file", readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
     event_id = fields.Many2one(comodel_name='calendar.event', readonly=True)
-    
+
+    # --- Skatteverket API fields (shared across all declaration types) ---
+    skv_api_status = fields.Selection(
+        selection=[('draft', 'Not Submitted'), ('submitted', 'Submitted'),
+                   ('error', 'Error'), ('accepted', 'Accepted')],
+        string='SKV API Status',
+        default='draft',
+        help="Status of the submission to Skatteverket's API.")
+    skv_response = fields.Text(
+        string='SKV Response',
+        help="Response text from Skatteverket API (shown on error).")
+    skv_submitted_date = fields.Datetime(
+        string='SKV Submitted Date',
+        help="When the declaration was submitted to Skatteverket.")
+
     date_start = fields.Date(required=True)
     date_stop = fields.Date(required=True)
 
@@ -226,7 +246,7 @@ class account_declaration(models.Model):
     def do_cancel(self):
         for rec in self:
             if self.move_id and self.move_id.state != 'draft':
-                raise Warning('The declaration has been posted and cannot be canceled at this stage.')
+                raise UserError('The declaration has been posted and cannot be canceled at this stage.')
             # ~ self.line_ids.unlink()
             if self.move_id:
                 self.move_id.unlink()
@@ -306,6 +326,83 @@ class account_declaration(models.Model):
             deadline += timedelta(days=1)
         return deadline
 
+    # --- Skatteverket API helper methods (shared across all declaration types) ---
+
+    def _get_skv_settings(self):
+        """Retrieve Skatteverket API settings from company."""
+        company = self.company_id or self.env.company
+        return {
+            'test_mode': company.skv_test_mode,
+            'auth_method': company.skv_auth_method,
+            'api_url': company.skv_api_url,
+            'auth_url': company.skv_auth_url,
+            'token_url': company.skv_token_url,
+        }
+
+    def _get_skv_partner(self):
+        """Find the Skatteverket partner configured for API access."""
+        partner = self.env['res.partner'].search(
+            [('enable_skatteverket_api', '=', True)], limit=1)
+        if not partner:
+            partner = self.env.ref('l10n_se_tax_report.res_partner-SKV', raise_if_not_found=False)
+        return partner
+
+    def _get_skv_access_token(self, partner):
+        """Obtain an access token for Skatteverket API."""
+        if partner.check_valid_access_token():
+            return partner.access_token
+
+        settings = self._get_skv_settings()
+
+        if settings['auth_method'] == 'cert':
+            if not partner.certificate:
+                raise UserError(_(
+                    "No certificate uploaded on the Skatteverket partner. "
+                    "Upload a certificate on the partner record."))
+            cert_data = base64.b64decode(partner.certificate)
+            tmp = tempfile.NamedTemporaryFile(suffix='.pem', delete=False)
+            tmp.write(cert_data)
+            tmp.close()
+            session = requests.Session()
+            session.cert = tmp.name
+
+            try:
+                resp = session.post(
+                    settings['token_url'],
+                    data={
+                        'grant_type': 'client_credentials',
+                        'client_id': partner.oauth_client_id or '',
+                        'client_secret': partner.oauth_secret or '',
+                        'scope': 'ska',
+                    },
+                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
+                )
+                if resp.status_code == 200:
+                    token_data = resp.json()
+                    partner.write({
+                        'access_token': token_data.get('access_token'),
+                        'recived_token_on': datetime.now(),
+                        'expires_in': token_data.get('expires_in', 3600),
+                    })
+                    return token_data.get('access_token')
+                else:
+                    _logger.error("SKV token error: %s %s", resp.status_code, resp.text)
+                    raise UserError(_(
+                        "Failed to get access token from Skatteverket: %s")
+                        % resp.text[:200])
+            finally:
+                os.unlink(tmp.name)
+        else:
+            raise UserError(_(
+                "E-identification flow requires interactive browser. "
+                "Please use certificate authentication or complete "
+                "OAuth2 authorization via the Tax Account module first."))
+
+    def action_send_to_skv(self):
+        """Submit declaration to Skatteverket API. Override in subclass."""
+        raise NotImplementedError(_(
+            "SKV API submission not implemented for this declaration type."))
+
 
 class account_declaration_line_id(models.Model):
     _name = 'account.declaration.line.id'
@@ -351,6 +448,15 @@ class account_vat_declaration(models.Model):
 
     def _inverse_date(self):
         pass
+
+    def write(self, values):
+        """Override to update calendar event when date_stop (and thus date) changes.
+        Since date is a computed stored field based on date_stop, the parent write()
+        won't see 'date' in values and won't trigger create_event(). We handle it here."""
+        res = super(account_vat_declaration, self).write(values)
+        if values.get('date_stop') or values.get('date'):
+            self.create_event()
+        return res
 
     def comfirm_declaration(self):  # Atm just moves the report from draf to Confirmend
         self.write({"state": "confirmed"})
@@ -400,6 +506,7 @@ class account_vat_declaration(models.Model):
         })
 
         if declaration:
+            declaration.create_event()  # Ensure calendar event is created for cron-created declarations
             declaration.calculate()
         return True
 

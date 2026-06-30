@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Training Categories                                          -->
+    <!-- ============================================================ -->
+
+    <!-- 1. Grundläggande bokföring -->
+    <record id="cat_basics" model="l10n_se.training.category">
+        <field name="name">Grundläggande bokföring</field>
+        <field name="sequence">10</field>
+        <field name="icon">fa-book</field>
+        <field name="color">1</field>
+        <field name="description">
+            <![CDATA[
+            <p>Systemoberoende grundkurs i bokföringens principer. Lär dig:</p>
+            <ul>
+                <li>Dubbel bokföring och T-konton</li>
+                <li>BAS-kontoplanens uppbyggnad (klass 1-8)</li>
+                <li>Debet och kredit — hur affärshändelser påverkar balans- och resultaträkning</li>
+                <li>Verifikationer och bokföringsorder</li>
+                <li>Svensk bokföringslag (BFL) och god redovisningssed</li>
+            </ul>
+            <p><strong>Källa:</strong> FAR Grundläggande bokföring, Xpectum Ekonomiassistent</p>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/bokforing</field>
+    </record>
+
+    <!-- 2. Momsredovisning -->
+    <record id="cat_vat" model="l10n_se.training.category">
+        <field name="name">Momsredovisning</field>
+        <field name="sequence">20</field>
+        <field name="icon">fa-file-invoice</field>
+        <field name="color">2</field>
+        <field name="description">
+            <![CDATA[
+            <p>Allt om svensk moms — från grundläggande begrepp till praktisk redovisning:</p>
+            <ul>
+                <li>Utgående och ingående moms</li>
+                <li>Momssatser: 25%, 12%, 6%</li>
+                <li>Kontantmetoden vs fakturametoden</li>
+                <li>Momsdeklaration (SKV 4700) — ruta för ruta</li>
+                <li>Omvänd skattskyldighet (reverse charge)</li>
+                <li>EU-handel: VIES, periodisk sammanställning</li>
+                <li>Import och export</li>
+            </ul>
+            <p><strong>Källa:</strong> Skatteverket Rättslig vägledning Moms, SKV 4700</p>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/moms</field>
+    </record>
+
+    <!-- 3. Bankavstämning -->
+    <record id="cat_reconciliation" model="l10n_se.training.category">
+        <field name="name">Bankavstämning</field>
+        <field name="sequence">30</field>
+        <field name="icon">fa-check-double</field>
+        <field name="color">3</field>
+        <field name="description">
+            <![CDATA[
+            <p>Konsten att pricka banken — från manuell avprickning till automatisk matchning:</p>
+            <ul>
+                <li>Vad är bankavstämning och varför görs den?</li>
+                <li>4-pass matching: exakt belopp, OCR, datumtolerans, fuzzy</li>
+                <li>Konto 1930 — bankkontots roll i bokföringen</li>
+                <li>Differenser och felsökning</li>
+                <li>Automatisk avstämning med OCR-referenser</li>
+            </ul>
+            <p><strong>Källa:</strong> Xpectum Löpande bokföring II, Bokföringstips.se</p>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 4. Kundreskontra -->
+    <record id="cat_ar" model="l10n_se.training.category">
+        <field name="name">Kundreskontra</field>
+        <field name="sequence">40</field>
+        <field name="icon">fa-chart-line</field>
+        <field name="color">4</field>
+        <field name="description">
+            <![CDATA[
+            <p>Hantering av kundfordringar — från faktura till betalning:</p>
+            <ul>
+                <li>Kundfakturans livscykel</li>
+                <li>Reskontra vs huvudbok</li>
+                <li>Öppna poster och åldersanalys</li>
+                <li>Betalningspåminnelser och inkasso</li>
+                <li>Osäkra fordringar och nedskrivning</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 5. Leverantörsreskontra -->
+    <record id="cat_ap" model="l10n_se.training.category">
+        <field name="name">Leverantörsreskontra</field>
+        <field name="sequence">50</field>
+        <field name="icon">fa-chart-line</field>
+        <field name="color">5</field>
+        <field name="description">
+            <![CDATA[
+            <p>Hantering av leverantörsskulder — från inkommen faktura till betalning:</p>
+            <ul>
+                <li>Leverantörsfakturans livscykel</li>
+                <li>Attesthantering och kontering</li>
+                <li>3-way match (faktura vs inköpsorder vs mottagen vara)</li>
+                <li>Betalningsförslag och betalningsorder</li>
+                <li>Bankgiro och Plusgiro</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 6. Bokslut & Årsredovisning -->
+    <record id="cat_year_end" model="l10n_se.training.category">
+        <field name="name">Bokslut &amp; Årsredovisning</field>
+        <field name="sequence">60</field>
+        <field name="icon">fa-balance-scale</field>
+        <field name="color">6</field>
+        <field name="description">
+            <![CDATA[
+            <p>Från löpande bokföring till färdig årsredovisning:</p>
+            <ul>
+                <li>Bokslutsprocessen steg för steg</li>
+                <li>Periodiseringar och bokslutsjusteringar</li>
+                <li>Periodiseringsfonder och överavskrivningar</li>
+                <li>Skatteberäkning (20,6% bolagsskatt)</li>
+                <li>Resultaträkning och balansräkning</li>
+                <li>K2 vs K3 regelverk</li>
+                <li>SRU-export och INK2</li>
+            </ul>
+            <p><strong>Källa:</strong> FAR, BFNAR 2016:10 (K2), BFNAR 2012:1 (K3)</p>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 7. SIE -->
+    <record id="cat_sie" model="l10n_se.training.category">
+        <field name="name">SIE import/export</field>
+        <field name="sequence">70</field>
+        <field name="icon">fa-file-import</field>
+        <field name="color">7</field>
+        <field name="description">
+            <![CDATA[
+            <p>Standardiserat svenskt format för utbyte av bokföringsdata:</p>
+            <ul>
+                <li>Vad är SIE och när används det?</li>
+                <li>SIE-formatets struktur (SIE1-4)</li>
+                <li>Exportera från Fortnox/Visma/Bokio → importera till Odoo</li>
+                <li>Öppna poster, kontoplan, verifikationer</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 8. Skattekonto -->
+    <record id="cat_tax_account" model="l10n_se.training.category">
+        <field name="name">Skattekontoavstämning</field>
+        <field name="sequence">80</field>
+        <field name="icon">fa-landmark</field>
+        <field name="color">8</field>
+        <field name="description">
+            <![CDATA[
+            <p>Stäm av företagets skattekonto mot bokföringen:</p>
+            <ul>
+                <li>Vad är skattekontot?</li>
+                <li>Hämta transaktioner via SKV API</li>
+                <li>2-kolumnsavstämning — bokförda skatter mot SKV:s besked</li>
+                <li>OCR-referenser för skattekontobetalningar</li>
+            </ul>
+            <p><strong>Källa:</strong> Skatteverket Skattekonto</p>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/skattekonto</field>
+    </record>
+
+</odoo>

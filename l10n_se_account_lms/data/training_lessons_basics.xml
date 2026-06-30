@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Grundläggande bokföring — Lessons                            -->
+    <!-- ============================================================ -->
+
+    <!-- Lesson 1: Dubbel bokföring -->
+    <record id="lesson_double_entry" model="l10n_se.training.lesson">
+        <field name="name">Dubbel bokföring och T-konton</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_basics"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">20</field>
+        <field name="bas_accounts">1910, 1930, 2440</field>
+        <field name="legal_basis">Bokföringslagen (1999:1078) 4 kap. 4 §</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Dubbel bokföring är grunden för all modern redovisning. Varje affärshändelse bokförs på minst två konton — ett som debiteras och ett som krediteras. Summan av debet måste alltid vara lika med summan av kredit.</p>
+            <p>Detta är <strong>systemoberoende</strong> — samma princip gäller oavsett om du använder Odoo, Fortnox, Visma eller papper och penna.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>T-kontots anatomi</h3>
+            <p>Ett T-konto ser ut som ett T:</p>
+            <pre>
+            Debet  |  Kredit
+            -------+--------
+              +    |    -
+            </pre>
+            <p><strong>Tillgångskonton (klass 1):</strong> Ökar i debet, minskar i kredit.<br/>
+            <strong>Skuldkonton (klass 2):</strong> Ökar i kredit, minskar i debet.<br/>
+            <strong>Intäktskonton (klass 3):</strong> Ökar i kredit.<br/>
+            <strong>Kostnadskonton (klass 4-8):</strong> Ökar i debet.</p>
+
+            <h3>Exempel: Företaget köper kontorsmaterial för 1 250 kr (inkl. moms 250 kr)</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+            <tr><td>5410 Förbrukningsinventarier</td><td>1 000</td><td></td></tr>
+            <tr><td>2640 Ingående moms</td><td>250</td><td></td></tr>
+            <tr><td>1930 Bankkonto</td><td></td><td>1 250</td></tr>
+            </table>
+            <p>Debet: 1 250 = Kredit: 1 250 ✓</p>
+
+            <h3>Balansräkningen måste alltid balansera</h3>
+            <p><strong>Tillgångar = Eget kapital + Skulder</strong></p>
+            <p>Varje transaktion påverkar balansräkningen på ett sätt som bevarar denna ekvation.</p>
+            ]]>
+        </field>
+        <field name="procedure">
+            <![CDATA[
+            <h3>Generisk arbetsgång för en bokföringstransaktion</h3>
+            <ol>
+              <li><strong>Identifiera affärshändelsen:</strong> Vad har hänt? Köp, försäljning, betalning?</li>
+              <li><strong>Bestäm vilka konton som påverkas:</strong> Vilka konton ökar/minskar?</li>
+              <li><strong>Bestäm debet och kredit:</strong> Vilket konto debiteras? Vilket krediteras?</li>
+              <li><strong>Beräkna moms:</strong> Är det moms på transaktionen? Vilken sats?</li>
+              <li><strong>Fastställ belopp:</strong> Verifiera att debet = kredit.</li>
+              <li><strong>Skapa verifikation:</strong> Dokumentera med datum, text, konton, belopp.</li>
+              <li><strong>Bokför:</strong> Registrera i bokföringen.</li>
+            </ol>
+            ]]>
+        </field>
+        <field name="odoo_guide">
+            <![CDATA[
+            <h3>I Odoo gör du så här:</h3>
+            <ol>
+              <li>Gå till <strong>Bokföring → Redovisning → Journalposter</strong></li>
+              <li>Klicka <strong>Skapa</strong></li>
+              <li>Välj <strong>journal</strong> (t.ex. "Miscellaneous" eller "Bank")</li>
+              <li>Fyll i <strong>datum</strong> och <strong>referens</strong></li>
+              <li>Lägg till rader:
+                <ul>
+                  <li>Välj <strong>konto</strong> (t.ex. 5410)</li>
+                  <li>Fyll i <strong>debet</strong> eller <strong>kredit</strong></li>
+                  <li>Lägg till <strong>etikett</strong> (beskrivning)</li>
+                </ul>
+              </li>
+              <li>Kontrollera att <strong>debet = kredit</strong> (längst ner till vänster)</li>
+              <li>Klicka <strong>Bokför</strong></li>
+            </ol>
+            <p><em>Tips: Använd Ctrl+Enter för att snabbt bokföra.</em></p>
+            ]]>
+        </field>
+        <field name="skv_reference">SKV — Grundläggande bokföring</field>
+        <field name="check_questions">
+            <![CDATA[
+            <ol>
+              <li>Vad betyder "dubbel bokföring"?</li>
+              <li>Om företaget säljer varor för 10 000 kr (exkl. moms) mot kontant betalning — vilka konton debiteras/krediteras?</li>
+              <li>Vad händer om debet ≠ kredit i en verifikation?</li>
+            </ol>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Lesson 2: BAS-kontoplanen -->
+    <record id="lesson_bas_chart" model="l10n_se.training.lesson">
+        <field name="name">BAS-kontoplanen — Klass 1-8</field>
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_basics"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">25</field>
+        <field name="bas_accounts">1000-8999</field>
+        <field name="overview">
+            <![CDATA[
+            <p>BAS-kontoplanen är den svenska standarden för hur konton numreras och struktureras. Den är uppdelad i 8 klasser där varje klass representerar en typ av konto.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>BAS-kontoplanens 8 klasser</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Klass</th><th>Intervall</th><th>Typ</th><th>Exempel</th></tr>
+            <tr><td>1</td><td>1000-1999</td><td>Tillgångar</td><td>1930 Bankkonto, 1510 Kundfordringar</td></tr>
+            <tr><td>2</td><td>2000-2999</td><td>Eget kapital &amp; Skulder</td><td>2099 Årets resultat, 2440 Leverantörsskuld</td></tr>
+            <tr><td>3</td><td>3000-3999</td><td>Intäkter</td><td>3001 Försäljning, 3041 Tjänsteintäkter</td></tr>
+            <tr><td>4-5</td><td>4000-5999</td><td>Varukostnader</td><td>4010 Varuinköp, 5410 Förbrukningsinventarier</td></tr>
+            <tr><td>6-8</td><td>6000-8999</td><td>Övriga kostnader</td><td>7000 Löner, 8000 Räntekostnader</td></tr>
+            </table>
+
+            <h3>Varför standardisering?</h3>
+            <p>En standardiserad kontoplan gör att:</p>
+            <ul>
+              <li>Revisorer snabbt kan granska bokföringen</li>
+              <li>SIE-filer kan utbytas mellan system</li>
+              <li>SRU-rapportering blir korrekt</li>
+              <li>Jämförelser mellan företag blir möjliga</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="common_mistakes">
+            <![CDATA[
+            <p><strong>Vanliga fel:</strong></p>
+            <ul>
+              <li>Blanda ihop 1510 (kundfordringar) och 2440 (leverantörsskulder)</li>
+              <li>Använda klass 3 för kostnader (klass 3 är alltid intäkter)</li>
+              <li>Glömma att 2640 (ingående moms) alltid debiteras vid inköp</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Lesson 3: Verifikationer -->
+    <record id="lesson_vouchers" model="l10n_se.training.lesson">
+        <field name="name">Verifikationer och bokföringsorder</field>
+        <field name="sequence">30</field>
+        <field name="category_id" ref="cat_basics"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">15</field>
+        <field name="legal_basis">BFL 5 kap. 1-6 §§</field>
+        <field name="overview">
+            <![CDATA[
+            <p>En verifikation är beviset på en affärshändelse. Enligt svensk lag måste varje bokföringspost ha en verifikation. Verifikationer numreras sekventiellt och får inte ändras efter att de bokförts — korrigeringar görs via storno (omvänd verifikation).</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Verifikationens delar</h3>
+            <ol>
+              <li><strong>Verifikationsnummer:</strong> Sekventiellt, unikt</li>
+              <li><strong>Datum:</strong> När affärshändelsen inträffade</li>
+              <li><strong>Verifikationstext:</strong> Vad hände?</li>
+              <li><strong>Konteringsrader:</strong> Konto + debet/kredit per rad</li>
+              <li><strong>Underlag:</strong> Faktura, kvitto, kontoutdrag</li>
+            </ol>
+
+            <h3>Storno — korrigera, aldrig radera</h3>
+            <p>En bokförd verifikation får aldrig raderas. Korrigeringar görs via en ny verifikation som reverserar den felaktiga:</p>
+            <pre>
+            Original (fel):   1930 Debet 1000  →  3001 Kredit 1000
+            Storno (rättelse): 3001 Debet 1000  →  1930 Kredit 1000
+            Ny (korrekt):     1930 Debet 1000  →  3041 Kredit 1000
+            </pre>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

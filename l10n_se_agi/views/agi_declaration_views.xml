@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- AGI Declaration Form -->
+    <record id="view_agi_declaration_form" model="ir.ui.view">
+        <field name="name">account.agi.declaration.form</field>
+        <field name="model">account.agi.declaration</field>
+        <field name="arch" type="xml">
+            <form string="AGI Declaration">
+                <header>
+                    <button name="action_calculate" string="Calculate" type="object"
+                            states="draft,confirmed" class="btn-primary"/>
+                    <button name="action_generate_xml" string="Generate XML" type="object"
+                            states="confirmed"/>
+                    <button name="action_send_to_skv" string="Send to Skatteverket" type="object"
+                            states="confirmed" class="btn-primary"/>
+                    <button name="action_generate_ku10" string="Generate KU10" type="object"
+                            states="confirmed,done"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" required="1" options="{'no_create': True}"/>
+                            <field name="date_start" required="1"/>
+                            <field name="date_stop" required="1"/>
+                            <field name="payslip_run_id"
+                                   domain="[('state', 'in', ['done', 'paid'])]"/>
+                        </group>
+                        <group>
+                            <field name="target_move"/>
+                            <field name="employee_count"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <!-- SKV API Status -->
+                    <group string="Skatteverket API" colspan="4"
+                           attrs="{'invisible': [('skv_api_status', '=', False)]}">
+                        <field name="skv_api_status" widget="badge"
+                               decoration-success="skv_api_status == 'sent'"
+                               decoration-danger="skv_api_status == 'error'"/>
+                        <field name="skv_response" colspan="4"
+                               attrs="{'invisible': [('skv_response', '=', False)]}"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Employees">
+                            <group>
+                                <field name="total_salary" string="Total Salary"/>
+                                <field name="total_employer_fee" string="Total Employer Fee"/>
+                                <field name="total_tax_withheld" string="Total Tax Withheld"/>
+                                <field name="total_to_pay" string="Total to Pay"/>
+                            </group>
+                            <field name="line_ids" colspan="4" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="employee_id" required="1"/>
+                                    <field name="personal_number"/>
+                                    <field name="age_category" widget="badge"
+                                           decoration-info="age_category == 'full'"
+                                           decoration-warning="age_category == 'vaxa'"
+                                           decoration-muted="age_category in ('alderspension', 'sarskild_loneskatt')"/>
+                                    <field name="r50_bruttolon" sum="Total"/>
+                                    <field name="r51_formaner" sum="Total"/>
+                                    <field name="r52_avdrag" sum="Total"/>
+                                    <field name="r56_full_avg" sum="Total"/>
+                                    <field name="r58_vaxa_avg" sum="Total"/>
+                                    <field name="r60_aldersp_avg" sum="Total"/>
+                                    <field name="r62_sl_aldre_avg" sum="Total"/>
+                                    <field name="r82_avdragen_skatt" sum="Total"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="employee_id" required="1"/>
+                                            <field name="personal_number"/>
+                                            <field name="age_category" widget="badge"/>
+                                        </group>
+                                        <group>
+                                            <field name="r50_bruttolon"/>
+                                            <field name="r51_formaner"/>
+                                            <field name="r52_avdrag"/>
+                                        </group>
+                                    </group>
+                                    <group string="Employer Fee Details">
+                                        <group string="Full (31.42%)">
+                                            <field name="r55_full_avg_underlag"/>
+                                            <field name="r56_full_avg"/>
+                                        </group>
+                                        <group string="Växa-stöd (10.21%)">
+                                            <field name="r57_vaxa_underlag"/>
+                                            <field name="r58_vaxa_avg"/>
+                                        </group>
+                                        <group string="Ålderspension (16.36%)">
+                                            <field name="r59_aldersp_underlag"/>
+                                            <field name="r60_aldersp_avg"/>
+                                        </group>
+                                        <group string="Särskild löneskatt (6.15%)">
+                                            <field name="r61_sl_aldre_underlag"/>
+                                            <field name="r62_sl_aldre_avg"/>
+                                        </group>
+                                    </group>
+                                    <group string="Tax Withholding">
+                                        <field name="r81_skatteavdrag_underlag"/>
+                                        <field name="r82_avdragen_skatt"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="XML File">
+                            <group>
+                                <field name="agi_file" widget="binary"
+                                       filename="agi_file_name"/>
+                                <field name="agi_file_name" invisible="1"/>
+                            </group>
+                        </page>
+
+                        <page string="Skatteverket API">
+                            <group string="API Details">
+                                <field name="skv_api_status" widget="badge"/>
+                                <field name="skv_response" nolabel="1"/>
+                            </group>
+                        </page>
+
+                        <page string="KU10">
+                            <group string="Kontrolluppgift KU10">
+                                <p class="oe_grey">
+                                    Generate KU10 (Kontrolluppgift) from the AGI employee data.
+                                    KU10 reports total salary and tax withheld for each employee.
+                                </p>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- AGI Declaration Tree (List) -->
+    <record id="view_agi_declaration_tree" model="ir.ui.view">
+        <field name="name">account.agi.declaration.tree</field>
+        <field name="model">account.agi.declaration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_stop"/>
+                <field name="employee_count"/>
+                <field name="total_salary"/>
+                <field name="total_employer_fee"/>
+                <field name="total_to_pay"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-info="state == 'confirmed'"
+                       decoration-warning="state == 'draft'"
+                       decoration-danger="state == 'canceled'"/>
+                <field name="skv_api_status" widget="badge" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- AGI Declaration Search -->
+    <record id="view_agi_declaration_search" model="ir.ui.view">
+        <field name="name">account.agi.declaration.search</field>
+        <field name="model">account.agi.declaration</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="company_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter name="current_month" string="Current Month"
+                        domain="[('date_start', '&lt;=', context_today().strftime('%%Y-%%m-%%d')), ('date_stop', '&gt;=', context_today().strftime('%%Y-%%m-%%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_agi_declaration" model="ir.actions.act_window">
+        <field name="name">AGI Declarations</field>
+        <field name="res_model">account.agi.declaration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create an AGI Declaration
+            </p>
+            <p>
+                AGI (Arbetsgivardeklaration — Individuppgifter) reports individual
+                salary and tax data for each employee to Skatteverket every month.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_agi_declaration"
+              name="AGI (Individuppgifter)"
+              parent="l10n_se_tax_report.menu_report_authorities"
+              action="action_agi_declaration"
+              sequence="15"/>
+
+</odoo>

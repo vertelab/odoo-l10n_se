@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo: create a bokslut with adjustments -->
+    <record id="demo_bokslut" model="account.bokslut">
+        <field name="name">Bokslut 2025</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="date">2026-07-01</field>
+        <field name="state">draft</field>
+        <field name="target_move">posted</field>
+    </record>
+
+    <record id="demo_adjustment_1" model="account.bokslut.adjustment">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="name">Ej avdragsgilla representationskostnader</field>
+        <field name="type">non_deductible</field>
+        <field name="amount">15000.00</field>
+        <field name="is_permanent" eval="True"/>
+    </record>
+
+    <record id="demo_adjustment_2" model="account.bokslut.adjustment">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="name">Ej skattepliktiga utdelningar</field>
+        <field name="type">non_taxable</field>
+        <field name="amount">5000.00</field>
+        <field name="is_permanent" eval="True"/>
+    </record>
+
+    <!-- Periodization funds -->
+    <record id="demo_period_fund_1" model="account.periodization.fund">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="year">2023</field>
+        <field name="amount">50000.00</field>
+        <field name="reversal_year">2029</field>
+    </record>
+    <record id="demo_period_fund_2" model="account.periodization.fund">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="year">2024</field>
+        <field name="amount">30000.00</field>
+        <field name="reversal_year">2030</field>
+    </record>
+
+    <!-- Excess depreciation -->
+    <record id="demo_excess_depr_1" model="account.excess.depreciation">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="sequence">10</field>
+        <field name="name">Överavskrivning maskiner</field>
+        <field name="asset_category">machinery</field>
+        <field name="rule">main</field>
+        <field name="book_value_ib">200000.00</field>
+        <field name="acquisitions">50000.00</field>
+        <field name="disposals">0.00</field>
+        <field name="book_depreciation">40000.00</field>
+        <field name="tax_rest_value_ib">180000.00</field>
+        <field name="planned_depreciation">60000.00</field>
+    </record>
+    <record id="demo_excess_depr_2" model="account.excess.depreciation">
+        <field name="bokslut_id" ref="demo_bokslut"/>
+        <field name="sequence">20</field>
+        <field name="name">Överavskrivning inventarier</field>
+        <field name="asset_category">inventory</field>
+        <field name="rule">complement</field>
+        <field name="book_value_ib">80000.00</field>
+        <field name="acquisitions">20000.00</field>
+        <field name="disposals">10000.00</field>
+        <field name="book_depreciation">15000.00</field>
+        <field name="tax_rest_value_ib">75000.00</field>
+        <field name="planned_depreciation">20000.00</field>
+    </record>
+</odoo>

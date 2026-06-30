@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form view: bokslut planning -->
+    <record id="view_bokslut_form" model="ir.ui.view">
+        <field name="name">account.bokslut.form</field>
+        <field name="model">account.bokslut</field>
+        <field name="arch" type="xml">
+            <form string="Bokslut">
+                <header>
+                    <button name="calculate_skatt" type="object" string="Beräkna skatt" class="btn-primary"/>
+                    <button name="action_book_preliminary" type="object" string="Preliminärbokför"/>
+                    <button name="action_book" type="object" string="Bokför" class="btn-primary"/>
+                    <button name="action_create_checklist_project" type="object" string="Skapa checklista"/>
+                    <button name="action_open_checklist" type="object" string="Öppna checklista" class="btn-secondary"/>
+                    <button name="action_generate_annual_report" type="object" string="Årsredovisning" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" readonly="1"/>
+                            <field name="fiscalyear_id" required="1"/>
+                            <field name="project_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="period_start"/>
+                            <field name="period_stop"/>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Resultat">
+                            <group>
+                                <field name="resultat_fore_bokslut" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                <field name="target_move"/>
+                            </group>
+                        </page>
+                        <page string="Justeringar">
+                            <field name="adjustment_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="account_id"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="is_permanent"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Skatteberäkning">
+                            <group>
+                                <field name="resultat_fore_skatt" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                <field name="arets_skattekostnad" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                <field name="arets_resultat" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                            </group>
+                            <field name="tax_calculation_ids" readonly="1">
+                                <tree>
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="amount" widget="monetary"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Verifikationer">
+                            <group>
+                                <field name="move_id" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Periodiseringsfonder">
+                            <group>
+                                <field name="schablonintakt" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                            </group>
+                            <field name="periodization_fund_ids">
+                                <tree editable="bottom">
+                                    <field name="year"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="reversal_amount" widget="monetary"/>
+                                    <field name="remaining" widget="monetary"/>
+                                    <field name="is_mandatory_reversal" widget="boolean_toggle"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Överavskrivningar">
+                            <field name="excess_depreciation_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="asset_category"/>
+                                    <field name="rule"/>
+                                    <field name="book_depreciation" widget="monetary"/>
+                                    <field name="planned_depreciation" widget="monetary"/>
+                                    <field name="excess_depreciation" widget="monetary" sum="Summa"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- List view -->
+    <record id="view_bokslut_tree" model="ir.ui.view">
+        <field name="name">account.bokslut.tree</field>
+        <field name="model">account.bokslut</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="fiscalyear_id"/>
+                <field name="company_id"/>
+                <field name="state"/>
+                <field name="arets_resultat" widget="monetary"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_bokslut" model="ir.actions.act_window">
+        <field name="name">Bokslut</field>
+        <field name="res_model">account.bokslut</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_bokslut" name="Bokslut"
+        parent="l10n_se_tax_report.menu_report_authorities"
+        action="action_bokslut" sequence="50"/>
+</odoo>

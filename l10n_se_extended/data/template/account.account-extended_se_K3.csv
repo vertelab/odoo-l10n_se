@@ -268,7 +268,7 @@ a2087,2087,Insatsemission (ekonomiska föreningar),equity,False,Insatsemission (
 a2088,2088,Fond för yttre underhåll,equity,False,Fond för yttre underhåll
 a2089,2089,Fond för utvecklingsutgifter,equity,False,Fond för utvecklingsutgifter
 a2090,2090,Fritt eget kapital,equity,False,Fritt eget kapital
-a2091,2091,Balanserad vinst eller förlust,equity,False,Balanserad vinst eller förlust
+a2091,2091,Balanserad vinst eller förlust,equity_unaffected,False,Balanserad vinst eller förlust
 a2092,2092,Mottagna/lämnade koncernbidrag,equity,False,Mottagna/lämnade koncernbidrag
 a2093,2093,Erhållna aktieägartillskott,equity,False,Erhållna aktieägartillskott
 a2094,2094,Egna aktier,equity,False,Egna aktier

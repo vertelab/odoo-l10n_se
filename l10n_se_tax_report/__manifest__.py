@@ -38,11 +38,21 @@ Swedish accounting Tax Report
 =============================
 Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
 
+Skatteverket API Integration
+----------------------------
+- Submit VAT declarations directly to Skatteverket via API
+- Supports certificate (cert) and e-identification (e_id) authentication
+- Test/live mode toggle with configurable endpoints
+- Calendar integration showing submission deadlines
+
 Company Settings (res.company)
 -------------------------------
 - vat_declaration_frequency: Declaration period (month/quarter/year)
 - accounting_method: Kontantmetoden or Fakturametoden
 - vat_report_template_id: MIS report template for VAT declarations (default: Momsdeklaration)
+- skv_test_mode: Use Skatteverket test or production API
+- skv_auth_method: Authentication method (cert/e_id)
+- skv_api_url, skv_auth_url, skv_token_url: Configurable API endpoints
 
 External Dependencies
 ---------------------
@@ -60,6 +70,7 @@ External Dependencies
     'data': [
         'data/account_data.xml',
         'data/cron_data.xml',
+        'data/mis_report_instances.xml',
         'views/account_view.xml',
         'views/res_config_view.xml',
         'views/moms_report.xml',
@@ -71,8 +82,8 @@ External Dependencies
         'views/account_fiscalyear_views.xml',
      ],
     'demo': [
-        'demo/account_invoice.xml',
         'demo/periodic_compilation_demo.xml',
+        'demo/tax_report_demo.xml',
     ],
     'installable': 'True',
 }

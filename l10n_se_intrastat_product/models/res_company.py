@@ -19,21 +19,28 @@ SE_DISPATCHES_EXTENDED_THRESHOLD = 275_000_000
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    intrastat_arrivals = fields.Selection(
-        selection_add=[("standard_se", "Standard (≥ 12 MSEK)"), ("extended_se", "Extended (≥ 550 MSEK)")],
-        ondelete={"standard_se": "set default", "extended_se": "set default"},
-    )
-    intrastat_dispatches = fields.Selection(
-        selection_add=[("standard_se", "Standard (≥ 5 MSEK)"), ("extended_se", "Extended (≥ 275 MSEK)")],
-        ondelete={"standard_se": "set default", "extended_se": "set default"},
-    )
-
     intrastat_accessory_costs = fields.Boolean(
         default=True,
         string="Include Accessory Costs in Intrastat",
         help="In Sweden, accessory costs (freight, insurance) must be included "
         "in the statistical value for Intrastat reporting.",
     )
+
+    @api.model
+    def _intrastat_arrivals(self):
+        """Extend base selection with Swedish-specific options."""
+        return super()._intrastat_arrivals() + [
+            ("standard_se", "Standard (≥ 12 MSEK)"),
+            ("extended_se", "Extended (≥ 550 MSEK)"),
+        ]
+
+    @api.model
+    def _intrastat_dispatches(self):
+        """Extend base selection with Swedish-specific options."""
+        return super()._intrastat_dispatches() + [
+            ("standard_se", "Standard (≥ 5 MSEK)"),
+            ("extended_se", "Extended (≥ 275 MSEK)"),
+        ]
 
     intrastat_contact_name = fields.Char(
         string="Intrastat Contact Person",

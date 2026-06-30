@@ -2,37 +2,29 @@
 <odoo>
     <data noupdate="1">
 
-        <!-- Swedish Transport Modes for Intrastat -->
-        <record id="intrastat_transport_1_se" model="intrastat.transport_mode">
-            <field name="code">1</field>
+        <!-- Swedish Transport Modes for Intrastat (update base records) -->
+        <record id="intrastat_product.intrastat_transport_1" model="intrastat.transport_mode">
             <field name="name">Sjötransport</field>
         </record>
-        <record id="intrastat_transport_2_se" model="intrastat.transport_mode">
-            <field name="code">2</field>
+        <record id="intrastat_product.intrastat_transport_2" model="intrastat.transport_mode">
             <field name="name">Järnvägstransport</field>
         </record>
-        <record id="intrastat_transport_3_se" model="intrastat.transport_mode">
-            <field name="code">3</field>
+        <record id="intrastat_product.intrastat_transport_3" model="intrastat.transport_mode">
             <field name="name">Vägtransport</field>
         </record>
-        <record id="intrastat_transport_4_se" model="intrastat.transport_mode">
-            <field name="code">4</field>
+        <record id="intrastat_product.intrastat_transport_4" model="intrastat.transport_mode">
             <field name="name">Lufttransport</field>
         </record>
-        <record id="intrastat_transport_5_se" model="intrastat.transport_mode">
-            <field name="code">5</field>
+        <record id="intrastat_product.intrastat_transport_5" model="intrastat.transport_mode">
             <field name="name">Postförsändelse</field>
         </record>
-        <record id="intrastat_transport_7_se" model="intrastat.transport_mode">
-            <field name="code">7</field>
+        <record id="intrastat_product.intrastat_transport_7" model="intrastat.transport_mode">
             <field name="name">Fast installation (rörledning/elkabel)</field>
         </record>
-        <record id="intrastat_transport_8_se" model="intrastat.transport_mode">
-            <field name="code">8</field>
+        <record id="intrastat_product.intrastat_transport_8" model="intrastat.transport_mode">
             <field name="name">Transport på inre vattenvägar</field>
         </record>
-        <record id="intrastat_transport_9_se" model="intrastat.transport_mode">
-            <field name="code">9</field>
+        <record id="intrastat_product.intrastat_transport_9" model="intrastat.transport_mode">
             <field name="name">Annat transportsätt / Egen framdrivning</field>
         </record>
 

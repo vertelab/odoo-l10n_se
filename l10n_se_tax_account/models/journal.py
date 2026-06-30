@@ -1,130 +1,240 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2024 Vertel AB
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 import base64
 import logging
+import os
 import tempfile
-import requests
-import time
 from uuid import uuid4
+
+import requests
 from dateutil.relativedelta import relativedelta
 
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, AccessError, ValidationError
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
 
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    skatteverket_partner_id = fields.Many2one(comodel_name="res.partner")
-    api_state = fields.Char()
+    # ------------------------------------------------------------------
+    # SKV Tax Account fields
+    # ------------------------------------------------------------------
 
-    def action_tax_account_transaction_wizard(self):
+    tax_account_last_sync = fields.Datetime(
+        string='Last SKV Sync',
+        readonly=True,
+        help="When tax account transactions were last fetched "
+             "from Skatteverket.")
+
+    tax_account_transaction_count = fields.Integer(
+        string='SKV Transactions',
+        compute='_compute_tax_account_counts', store=True,
+        help="Number of imported tax account transactions.")
+
+    tax_account_reconcile_state = fields.Selection(
+        selection=[('not_started', 'Not Started'),
+                   ('in_progress', 'In Progress'),
+                   ('done', 'Fully Reconciled')],
+        string='Tax Account Reconciliation',
+        compute='_compute_tax_account_state', store=True,
+        help="Reconciliation status of the tax account.")
+
+    tax_account_balance = fields.Monetary(
+        string='Tax Account Balance (1630)',
+        compute='_compute_tax_account_balance',
+        help="Current balance of account 1630 (Skattekonto).")
+
+    tax_account_api_balance = fields.Monetary(
+        string='SKV Balance',
+        compute='_compute_tax_account_api_balance',
+        help="Balance reported by Skatteverket API "
+             "(from latest fetch).")
+
+    # ------------------------------------------------------------------
+    # Computed methods
+    # ------------------------------------------------------------------
+
+    @api.depends('company_id')
+    def _compute_tax_account_balance(self):
+        for journal in self:
+            tax_account = self.env['account.account'].search([
+                ('company_ids', 'in', [journal.company_id.id]),
+                ('code', '=', '1630'),
+            ], limit=1)
+            journal.tax_account_balance = (
+                tax_account.current_balance
+                if tax_account else 0.0)
+
+    def _compute_tax_account_api_balance(self):
+        for journal in self:
+            journal.tax_account_api_balance = 0.0  # populated after fetch
+
+    @api.depends('company_id')
+    def _compute_tax_account_counts(self):
+        for journal in self:
+            statements = self.env['account.bank.statement'].search([
+                ('journal_id', '=', journal.id),
+                ('skv_ocr_number', '!=', False),
+            ])
+            journal.tax_account_transaction_count = sum(
+                len(s.line_ids) for s in statements)
+
+    @api.depends('company_id')
+    def _compute_tax_account_state(self):
+        for journal in self:
+            statements = self.env['account.bank.statement'].search([
+                ('journal_id', '=', journal.id),
+                ('skv_ocr_number', '!=', False),
+            ])
+            if not statements:
+                journal.tax_account_reconcile_state = 'not_started'
+            elif all(s.reconcile_state == 'done' for s in statements):
+                journal.tax_account_reconcile_state = 'done'
+            else:
+                journal.tax_account_reconcile_state = 'in_progress'
+
+    # ------------------------------------------------------------------
+    # Actions
+    # ------------------------------------------------------------------
+
+    def action_open_tax_account_reconciliation(self):
+        """Open or create a tax account reconciliation for this journal."""
+        self.ensure_one()
+        # Find existing open reconciliation or create new
+        reconciliation = self.env['tax.account.reconciliation'].search([
+            ('journal_id', '=', self.id),
+            ('state', '=', 'open'),
+        ], limit=1, order='date_from desc')
+        if not reconciliation:
+            # Create a new one for current month
+            today = fields.Date.today()
+            date_from = today.replace(day=1)
+            date_to = today + relativedelta(months=1, day=1) - relativedelta(
+                days=1)
+            reconciliation = self.env[
+                'tax.account.reconciliation'].create({
+                    'journal_id': self.id,
+                    'date_from': date_from,
+                    'date_to': date_to,
+                })
+            reconciliation.action_open()
         return {
-        "type": "ir.actions.act_window",
-        "name": "Get Tax Account Transactions",
-        "res_model": "tax_account.transaction.wizard",
-        "view_mode": "form",
-        "context": {"default_journal_id": self.id},
-        "target": "new",
-    }
+            'type': 'ir.actions.act_window',
+            'name': _('Tax Account Reconciliation'),
+            'res_model': 'tax.account.reconciliation',
+            'view_mode': 'form',
+            'res_id': reconciliation.id,
+            'target': 'current',
+        }
 
-    def get_authorization(self):
-        partner_id = self.skatteverket_partner_id
+    def action_fetch_tax_account_transactions(self):
+        """Fetch transactions from Skatteverket and open reconciliation."""
+        self.ensure_one()
+        reconciliation = self.env['tax.account.reconciliation'].create({
+            'journal_id': self.id,
+            'date_from': (self.tax_account_last_sync
+                          or fields.Date.today()
+                          - relativedelta(days=555)),
+            'date_to': fields.Date.today(),
+        })
+        reconciliation.action_open()
+        reconciliation.action_fetch_transactions()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Tax Account Reconciliation'),
+            'res_model': 'tax.account.reconciliation',
+            'view_mode': 'form',
+            'res_id': reconciliation.id,
+            'target': 'current',
+        }
 
-        if partner_id.check_valid_access_token():
-            raise UserError(_("You already have a valid access token"))
-
-        if partner_id:
-
-            auth_url = self.build_url("authorize")
-
-            if partner_id.auth_method == "cert":
-                if not partner_id.certificate:
-                    raise UserError(_("No certificate uploaded on the partner"))
-                self.auth_cert_get_request(auth_url,partner_id)
-            elif partner_id.auth_method == "e_id":
-                return {
-                    'type': 'ir.actions.act_url',
-                    'url': auth_url,
-                    'target': 'self',
-                }
-
+    # ------------------------------------------------------------------
+    # Cron
+    # ------------------------------------------------------------------
 
     @api.model
     def _cron_tax_account(self):
-        journal_ids = self.env["account.journal"].search([("skatteverket_partner_id", "!=", False)])
-        filtered_journal_ids = journal_ids.filtered(lambda j: j.skatteverket_partner_id.auth_method == "cert" and j.skatteverket_partner_id.certificate)
-        for journal_id in filtered_journal_ids:
-            partner_id = journal_id.skatteverket_partner_id
-            if not partner_id.check_valid_access_token():
-                auth_url = journal_id.build_url("authorize")
-                journal_id.auth_cert_get_request(auth_url,partner_id)
-                time.sleep(5) # Wait untill we recive a access token
-            transaction_wizard_id = self.env["tax_account.transaction.wizard"].create({
-                "journal_id": journal_id.id,
-                "date_from": fields.Date.today() - relativedelta(days=1)
-            })
-            transaction_wizard_id.get_transactions()
+        """Daily cron: fetch tax account transactions for all companies."""
+        companies = self.env['res.company'].search([])
+        for company in companies:
+            if not company.skv_api_url:
+                continue
+            partner = self.env['res.partner'].search(
+                [('enable_skatteverket_api', '=', True)], limit=1)
+            if not partner:
+                partner = self.env.ref(
+                    'l10n_se_tax_report.res_partner-SKV',
+                    raise_if_not_found=False)
+            if not partner:
+                continue
+            if (partner.certificate
+                    and not partner.check_valid_access_token()):
+                # Get a fresh token
+                settings = {
+                    'token_url': company.skv_token_url,
+                    'auth_method': company.skv_auth_method,
+                }
+                if settings['auth_method'] == 'cert':
+                    cert_data = base64.b64decode(partner.certificate)
+                    tmp = tempfile.NamedTemporaryFile(
+                        suffix='.pem', delete=False)
+                    tmp.write(cert_data)
+                    tmp.close()
+                    session = requests.Session()
+                    session.cert = tmp.name
+                    try:
+                        resp = session.post(
+                            settings['token_url'],
+                            data={
+                                'grant_type': 'client_credentials',
+                                'client_id':
+                                    partner.oauth_client_id or '',
+                                'client_secret':
+                                    partner.oauth_secret or '',
+                                'scope': 'ska',
+                            },
+                            headers={
+                                'Content-Type':
+                                    'application/x-www-form-urlencoded',
+                            },
+                        )
+                        if resp.status_code == 200:
+                            token_data = resp.json()
+                            partner.write({
+                                'access_token': token_data.get(
+                                    'access_token'),
+                                'recived_token_on':
+                                    fields.Datetime.now(),
+                                'expires_in': token_data.get(
+                                    'expires_in', 3600),
+                            })
+                    finally:
+                        os.unlink(tmp.name)
+                    time.sleep(2)
 
-    def create_state(self):
-        state = str(uuid4())
-        self.api_state = state
-        self.env.cr.commit()
-        return state
+            # Find moms journal for this company
+            moms_journal = self.env['account.journal'].search([
+                ('company_id', '=', company.id),
+                ('code', '=', 'MOMS'),
+            ], limit=1)
+            if not moms_journal:
+                continue
 
-    def auth_cert_get_request(self,url,partner_id):
-        session = self.create_request_session(partner_id)
-        response = session.get(url)
-
-        return response
-
-    def create_request_session(self,partner_id=None):
-
-        session = requests.Session()
-
-        if partner_id and partner_id.auth_method == "cert":
-            cert = base64.b64decode(partner_id.certificate)
-
-            with tempfile.NamedTemporaryFile(suffix=".pem", delete=False) as tmp:
-                tmp.write(cert)
-                tmp_path = tmp.name
-
-            session.cert = tmp_path
-
-        return session
-
-    def build_url(self,type):
-        partner_id = self.skatteverket_partner_id
-        redirect_url = partner_id.redirect_url
-        client_id = partner_id.oauth_client_id
-        state = self.create_state()
-        base_url = partner_id.base_url
-        scope = "ska"
-
-        base_url = base_url if base_url[-1] == "/" else base_url + "/"
-        base_url = base_url if "https://" in base_url else "https://" + base_url
-
-        base_url = base_url.replace("https://","https://test.") if partner_id.test_mode and "test" not in base_url.split(".") else base_url 
-
-        if type == "authorize" or type == "token":
-            base_url = base_url.replace("https://","https://peroauth2.") + "oauth2/v1/per/"            
-
-        if partner_id.auth_method == "cert":
-            base_url = base_url.replace("per","org")
-
-        base_url = f"{base_url}{type}"
-
-        if type == "authorize":
-            base_url = base_url + (
-                f'?client_id={client_id}'
-                f'&response_type=code'
-                f'&state={state}'
-                f'&redirect_uri={redirect_url}'
-                f"&scope={scope}"
-                )
-        elif type == "beskattning":
-            base_url = base_url.replace("https://","https://api.")
-            base_url = base_url + f"/skattekonto/v2/skattekonton/{self.bank_account_id.acc_number}/transaktioner"
-
-        _logger.error(f"{base_url=}")
-
-        return base_url
+            today = fields.Date.today()
+            reconciliation = self.env[
+                'tax.account.reconciliation'].create({
+                    'journal_id': moms_journal.id,
+                    'date_from': today - relativedelta(days=1),
+                    'date_to': today,
+                })
+            reconciliation.action_open()
+            try:
+                reconciliation.action_fetch_transactions()
+            except Exception as e:
+                _logger.warning(
+                    "Cron tax account fetch failed for company %s: %s",
+                    company.name, e)

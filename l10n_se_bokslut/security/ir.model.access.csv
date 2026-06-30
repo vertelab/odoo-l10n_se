@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_bokslut,account.bokslut,model_account_bokslut,account.group_account_user,1,1,1,1
+access_account_bokslut_adjustment,account.bokslut.adjustment,model_account_bokslut_adjustment,account.group_account_user,1,1,1,1
+access_account_bokslut_tax_calc,account.bokslut.tax.calc,model_account_bokslut_tax_calc,account.group_account_user,1,1,1,1
+access_account_annual_report,account.annual.report,model_account_annual_report,account.group_account_user,1,1,1,1
+access_account_periodization_fund,account.periodization.fund,model_account_periodization_fund,account.group_account_user,1,1,1,1
+access_account_excess_depreciation,account.excess.depreciation,model_account_excess_depreciation,account.group_account_user,1,1,1,1

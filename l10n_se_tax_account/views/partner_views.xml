@@ -1,10 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
 
+    <!-- Partner form: simplified SKV tab -->
     <record id="view_partner_form" model="ir.ui.view">
-      <field name="name">res.partner.form.add.skatteverket.api</field>
+      <field name="name">res.partner.form.tax.account</field>
       <field name="model">res.partner</field>
       <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="priority">25</field>
       <field name="arch" type="xml">
 
         <field name="category_id" position="after">
@@ -12,24 +15,22 @@
         </field>
 
         <page name="internal_notes" position="after">
-          <page name="skatteverket_api" string="Skatteverket API" invisible="not enable_skatteverket_api">
+          <page name="skatteverket_api" string="Skatteverket API"
+                invisible="not enable_skatteverket_api">
             <group>
               <group>
-                <field name="test_mode" widget="boolean_toggle"/>
-                <field name="auth_method"/>
-                <field name="certificate" invisible="auth_method != 'cert'"/>
-                <field name="certificate_pin" invisible="auth_method != 'cert'"/>
-                <field name="base_url"/>
-                <field name="redirect_url"/>
+                <field name="certificate"
+                       widget="binary"
+                       filename="certificate_filename"/>
+                <field name="certificate_pin"/>
                 <field name="oauth_client_id"/>
                 <field name="oauth_secret"/>
-                <field name="api_client_id"/>
-                <field name="api_secret"/>
               </group>
               <group>
                 <field name="authorization_code" readonly="1"/>
                 <field name="recived_token_on" readonly="1"/>
-                <field name="access_token" readonly="1"/>
+                <field name="access_token" readonly="1"
+                       password="True"/>
               </group>
             </group>
           </page>

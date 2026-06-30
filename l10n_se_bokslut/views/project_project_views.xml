@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend project.project form: show bokslut link -->
+    <record id="view_project_form_bokslut" model="ir.ui.view">
+        <field name="name">project.project.form.bokslut</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="allow_milestones"/>
+            </field>
+        </field>
+    </record>
+</odoo>
