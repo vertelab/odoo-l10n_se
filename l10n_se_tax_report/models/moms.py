@@ -310,18 +310,21 @@ class account_declaration(models.Model):
 
     @api.model
     def _calculate_vat_deadline(self, date_stop, freq_months):
+        """Calculate the VAT declaration deadline.
+
+        Swedish rules (Skatteverket):
+        - Monthly: 12th day of the SECOND month after the period.
+          e.g. January → March 12, February → April 12.
+          This gives ~42-45 days from period end.
+        - Quarterly: 12th day of the second month after the quarter.
+          e.g. Q1 (Jan-Mar) → May 12.
+        - Annual: 12th day of the second month after year-end.
+        """
+        # All periods (monthly, quarterly, annual) use the same rule:
+        # the 12th of the SECOND month after the period end.
+        # Monthly example: January 31 → March 12 (~40 days).
         cal = Sweden()
-        if freq_months == 1:  # Monthly
-            if date_stop.month == 1:
-                deadline = date(date_stop.year, 3, 12)
-            elif date_stop.month == 8:
-                deadline = date(date_stop.year, 10, 12)
-            else:
-                deadline = date_stop + relativedelta(months=1, day=12)
-        elif freq_months == 3:  # Quarterly
-            deadline = date_stop + relativedelta(months=2, day=12)
-        else:  # Annual
-            deadline = date_stop + relativedelta(months=1, day=12)
+        deadline = date_stop + relativedelta(months=2, day=12)
         while not cal.is_working_day(deadline):
             deadline += timedelta(days=1)
         return deadline
