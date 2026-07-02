@@ -14,7 +14,7 @@
             <field name="city">Paris</field>
             <field name="street">8 Rue de la Bourse</field>
             <field name="zip">75002</field>
-            <field name="vat">FR12345678901</field>
+            <field name="vat">FR23334175221</field>
         </record>
 
         <record id="partner_eu_germany" model="res.partner">
