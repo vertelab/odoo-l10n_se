@@ -1,4 +1,7 @@
 # Swedish translations for l10n_se_intrastat_product
+# Copyright 2026 Vertel AB (https://vertel.se)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
@@ -77,87 +80,3 @@ msgstr "Standard (≥ 5 MSEK)"
 #: model:ir.model.fields.selection,name:l10n_se_intrastat_product.selection__res_company__intrastat_dispatches__extended_se
 msgid "Extended (≥ 275 MSEK)"
 msgstr "Utökad (≥ 275 MSEK)"
-
-#. module: l10n_se_intrastat_product
-#: model_terms:ir.ui.view,arch_db:l10n_se_intrastat_product.view_intrastat_res_config_settings_info
-msgid "Intrastat thresholds 2024"
-msgstr "Tröskelvärden för Intrastat 2024"
-
-#. module: l10n_se_intrastat_product
-#: model:ir.actions.act_window,name:l10n_se_intrastat_product.intrastat_transaction_action
-msgid "Transaction Types"
-msgstr "Transaktionstyper"
-
-#. module: l10n_se_intrastat_product
-#: model:ir.actions.act_window,name:l10n_se_intrastat_product.intrastat_region_action
-msgid "Regions (Län)"
-msgstr "Regioner (Län)"
-
-#. module: l10n_se_intrastat_product
-#: model:ir.actions.act_window,name:l10n_se_intrastat_product.intrastat_transport_mode_action
-msgid "Transport Modes"
-msgstr "Transportsätt"
-
-#. module: l10n_se_intrastat_product
-#: model:ir.ui.menu,name:l10n_se_intrastat_product.menu_intrastat_product_se
-msgid "Intrastat (SCB)"
-msgstr "Intrastat (SCB)"
-
-#. module: l10n_se_intrastat_product
-#. odoo-python
-msgid "Generate SCB XML file"
-msgstr "Generera SCB XML-fil"
-
-#. module: l10n_se_intrastat_product
-#. odoo-python
-msgid "Generate Lines from Invoices"
-msgstr "Hämta rader från fakturor"
-
-#. module: l10n_se_intrastat_product
-msgid "Köp/försäljning (direkthandel)"
-msgstr "Köp/försäljning (direkthandel)"
-
-msgid "Retur av varor"
-msgstr "Retur av varor"
-
-msgid "Kostnadsfri leverans"
-msgstr "Kostnadsfri leverans"
-
-msgid "Varor för bearbetning/reparation (utgående)"
-msgstr "Varor för bearbetning/reparation (utgående)"
-
-msgid "Varor efter bearbetning/reparation (inkommande)"
-msgstr "Varor efter bearbetning/reparation (inkommande)"
-
-msgid "Gemensamma projekt"
-msgstr "Gemensamma projekt"
-
-msgid "Bygg- och anläggningsarbeten"
-msgstr "Bygg- och anläggningsarbeten"
-
-msgid "Övrigt"
-msgstr "Övrigt"
-
-msgid "Sjötransport"
-msgstr "Sjötransport"
-
-msgid "Järnvägstransport"
-msgstr "Järnvägstransport"
-
-msgid "Vägtransport"
-msgstr "Vägtransport"
-
-msgid "Lufttransport"
-msgstr "Lufttransport"
-
-msgid "Postförsändelse"
-msgstr "Postförsändelse"
-
-msgid "Fast installation (rörledning/elkabel)"
-msgstr "Fast installation (rörledning/elkabel)"
-
-msgid "Transport på inre vattenvägar"
-msgstr "Transport på inre vattenvägar"
-
-msgid "Annat transportsätt / Egen framdrivning"
-msgstr "Annat transportsätt / Egen framdrivning"
