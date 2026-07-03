@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_partner_skatteverket_form" model="ir.ui.view">
-            <field name="name">res.partner.skatteverket.form.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form" />
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='category_id']" position="after">
-                    <group string="Skatteverket API" attrs="{'invisible': [('enable_skatteverket_api', '=', False)]}">
-                        <field name="enable_skatteverket_api"/>
-                        <field name="certificate" filename="certificate" password="certificate_pin"/>
-                        <field name="certificate_pin"/>
-                        <field name="oauth_client_id"/>
-                        <field name="oauth_secret"/>
-                        <field name="access_token" readonly="1"/>
-                        <field name="recived_token_on" readonly="1"/>
-                        <field name="expires_in" readonly="1"/>
-                    </group>
-                </xpath>
-            </field>
-        </record>
+        <!-- All SKV API fields moved to res.company settings view -->
     </data>
 </odoo>

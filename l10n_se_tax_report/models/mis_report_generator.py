@@ -355,15 +355,14 @@ class account_vat_declaration(models.Model):
                 "Could not generate eSKD XML file. "
                 "Please run 'Calculate' first and check MIS report."))
 
-        partner = self._get_skv_partner()
         company = self.company_id or self.env.company
         url = company.skv_moms_api_url
-        access_token = self._get_skv_access_token(partner)
+        access_token = self._get_skv_access_token(company)
 
         xml_bytes = base64.b64decode(self.eskd_file_mis)
-        response = self._skv_api_call(url, xml_bytes, access_token=access_token, partner=partner)
+        response = self._skv_api_call(url, xml_bytes, access_token=access_token)
         try:
-            result = self._handle_skv_response(response, partner)
+            result = self._handle_skv_response(response, company)
             result['state'] = 'done'
             self.write(result)
         except UserError:

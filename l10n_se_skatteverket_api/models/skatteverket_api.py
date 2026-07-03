@@ -18,27 +18,13 @@ _logger = logging.getLogger(__name__)
 class SkatteverketApi(models.AbstractModel):
     """Shared Skatteverket API methods.
 
-    Inherit from this abstract model in any model that needs
-    to communicate with Skatteverket's API (VAT declarations,
-    periodic compilation, tax account reconciliation).
-
-    Usage:
-        class MyModel(models.Model):
-            _inherit = 'skatteverket.api'
-            _name = 'my.model'
-
-            def action_send(self):
-                partner = self._get_skv_partner()
-                token = self._get_skv_access_token(partner)
-                headers = self._build_skv_headers(token)
-                url = self._get_skv_api_url('moms')
-                # ... make API call
+    All configuration is read from res.company (self._get_skv_company()).
     """
     _name = 'skatteverket.api'
     _description = 'Skatteverket API Shared Methods'
 
     # ------------------------------------------------------------------
-    # Helpers: settings & partner
+    # Helpers: company settings
     # ------------------------------------------------------------------
 
     def _get_skv_settings(self):
@@ -56,60 +42,51 @@ class SkatteverketApi(models.AbstractModel):
         return self.env.company
 
     def _get_skv_partner(self):
-        """Find the Skatteverket partner configured for API access."""
-        partner = self.env['res.partner'].search(
-            [('enable_skatteverket_api', '=', True)], limit=1)
-        if not partner:
-            partner = self.env.ref(
-                'l10n_se_skatteverket_api.res_partner_skv',
-                raise_if_not_found=False)
-        if not partner:
-            raise UserError(_(
-                "No Skatteverket partner configured. "
-                "Please create a partner with 'Enable Skatteverket API' "
-                "checked and upload a certificate."))
+        """Find a partner for reference (legacy). All config on company now."""
+        partner = self.env.ref(
+            'l10n_se_skatteverket_api.res_partner_skv',
+            raise_if_not_found=False)
         return partner
-
-    # ------------------------------------------------------------------
-    # API URL
-    # ------------------------------------------------------------------
 
     # ------------------------------------------------------------------
     # Authentication
     # ------------------------------------------------------------------
 
-    def _get_skv_access_token(self, partner):
+    def _get_skv_access_token(self, company=None):
         """Obtain an access token for Skatteverket API.
 
         Uses certificate-based OAuth2 client credentials flow.
         Returns cached token if still valid.
         """
-        if partner.check_valid_access_token():
-            return partner.access_token
+        if company is None:
+            company = self._get_skv_company()
+
+        if company._check_skv_access_token():
+            return company.skv_access_token
 
         settings = self._get_skv_settings()
 
         if settings['auth_method'] == 'cert':
-            if not partner.certificate:
+            if not company.skv_certificate:
                 raise UserError(_(
-                    "No certificate uploaded on the Skatteverket partner. "
-                    "Upload a certificate on the partner record."))
-            return self._authenticate_with_cert(partner, settings)
+                    "No certificate configured. "
+                    "Upload a certificate in Skatteverket API settings."))
+            return self._authenticate_with_cert(company, settings)
         else:
             raise UserError(_(
                 "E-identification flow requires interactive browser. "
                 "Please use certificate authentication or complete "
                 "OAuth2 authorization first."))
 
-    def _authenticate_with_cert(self, partner, settings=None):
+    def _authenticate_with_cert(self, company, settings=None):
         """Authenticate using certificate-based client credentials.
 
-        Returns the access token string and stores it on the partner.
+        Returns the access token string and stores it on the company.
         """
         if settings is None:
             settings = self._get_skv_settings()
 
-        cert_data = base64.b64decode(partner.certificate)
+        cert_data = base64.b64decode(company.skv_certificate)
         tmp = tempfile.NamedTemporaryFile(suffix='.pem', delete=False)
         tmp.write(cert_data)
         tmp.close()
@@ -176,7 +153,7 @@ class SkatteverketApi(models.AbstractModel):
     # ------------------------------------------------------------------
 
     def _skv_api_call(self, url, xml_bytes=None, method='POST',
-                      access_token=None, partner=None, service_type='moms'):
+                      access_token=None, service_type='moms'):
         """Make an authenticated API call to Skatteverket.
 
         Args:
@@ -184,18 +161,14 @@ class SkatteverketApi(models.AbstractModel):
             xml_bytes (bytes, optional): XML payload for POST.
             method (str): HTTP method ('POST' or 'GET').
             access_token (str, optional): Bearer token. If omitted,
-                will fetch using partner.
-            partner (res.partner, optional): SKV partner for auth.
-                Required if access_token is not provided.
+                will fetch using company config.
             service_type (str): Service type for error context.
 
         Returns:
             requests.Response: The API response.
         """
         if not access_token:
-            if not partner:
-                partner = self._get_skv_partner()
-            access_token = self._get_skv_access_token(partner)
+            access_token = self._get_skv_access_token()
 
         content_type = (
             'application/xml; charset=ISO-8859-1'
@@ -226,12 +199,12 @@ class SkatteverketApi(models.AbstractModel):
     # Response handler
     # ------------------------------------------------------------------
 
-    def _handle_skv_response(self, response, partner=None):
+    def _handle_skv_response(self, response, company=None):
         """Handle Skatteverket API response and update status fields.
 
         Args:
             response (requests.Response): The API response.
-            partner (res.partner, optional): For clearing expired tokens.
+            company (res.company, optional): For clearing expired tokens.
 
         Returns:
             dict: Status info with keys: status ('accepted'|'error'),
@@ -244,8 +217,8 @@ class SkatteverketApi(models.AbstractModel):
                 'skv_submitted_date': fields.Datetime.now(),
             }
         elif response.status_code == 401:
-            if partner:
-                partner.write({'access_token': False})
+            if company:
+                company.write({'skv_access_token': False})
             raise UserError(_(
                 "Authentication failed. Token may have expired. "
                 "Please retry the submission."))

@@ -209,8 +209,8 @@ class TaxAccountReconciliation(models.Model):
     def action_fetch_transactions(self):
         """Fetch tax account transactions from Skatteverket API."""
         self.ensure_one()
-        partner = self._get_skv_partner()
-        access_token = self._get_skv_access_token(partner)
+        company = self.company_id or self.env.company
+        access_token = self._get_skv_access_token(company)
 
         url = self._build_tax_account_url()
         headers = self._build_skv_headers(access_token)

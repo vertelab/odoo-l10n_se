@@ -8,18 +8,52 @@
             <field name="arch" type="xml">
                 <xpath expr="//setting[@id='tax_exigibility']" position="after">
                     <h4>l10n_se_skatteverket_api — Autentisering</h4>
-                    <setting id="skatteverket_api_auth"
-                             help="Configure Skatteverket API authentication"
-                             title="Skatteverket API"
-                             groups="account.group_account_user">
-                        <group>
-                            <group string="Authentication">
-                                <field name="skv_test_mode"/>
-                                <field name="skv_auth_method"/>
-                                <field name="skv_auth_url"/>
-                                <field name="skv_token_url"/>
-                            </group>
-                        </group>
+                    <setting id="skv_test_mode"
+                             title="SKV Test Mode" groups="account.group_account_user">
+                        <field name="skv_test_mode"/>
+                    </setting>
+                    <setting id="skv_auth_method"
+                             title="SKV Auth Method" groups="account.group_account_user">
+                        <field name="skv_auth_method"/>
+                    </setting>
+                    <setting id="skv_certificate"
+                             title="SKV Certificate" groups="account.group_account_user">
+                        <field name="skv_certificate" filename="skv_certificate" password="skv_certificate_pin"/>
+                        <field name="skv_certificate_pin"/>
+                    </setting>
+                    <h4>l10n_se_skatteverket_api — OAuth2</h4>
+                    <setting id="skv_oauth_client_id"
+                             title="OAuth Client ID" groups="account.group_account_user">
+                        <field name="skv_oauth_client_id"/>
+                    </setting>
+                    <setting id="skv_oauth_secret"
+                             title="OAuth Client Secret" groups="account.group_account_user">
+                        <field name="skv_oauth_secret"/>
+                    </setting>
+                    <setting id="skv_auth_url"
+                             title="Auth URL" groups="account.group_account_user">
+                        <field name="skv_auth_url"/>
+                    </setting>
+                    <setting id="skv_token_url"
+                             title="Token URL" groups="account.group_account_user">
+                        <field name="skv_token_url"/>
+                    </setting>
+                    <h4>l10n_se_skatteverket_api — API-endpoints</h4>
+                    <setting id="skv_moms_api_url"
+                             title="Moms API URL" groups="account.group_account_user">
+                        <field name="skv_moms_api_url"/>
+                    </setting>
+                    <setting id="skv_pc_api_url"
+                             title="PC API URL" groups="account.group_account_user">
+                        <field name="skv_pc_api_url"/>
+                    </setting>
+                    <setting id="skv_skattekonto_api_url"
+                             title="Skattekonto API URL" groups="account.group_account_user">
+                        <field name="skv_skattekonto_api_url"/>
+                    </setting>
+                    <setting id="skv_agd_api_url"
+                             title="AGD API URL" groups="account.group_account_user">
+                        <field name="skv_agd_api_url"/>
                     </setting>
                 </xpath>
             </field>

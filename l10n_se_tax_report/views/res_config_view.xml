@@ -26,22 +26,7 @@
                               title="PC Report Template" groups="account.group_account_user">
                          <field name="pc_report_template_id"/>
                      </setting>
-                     <h4>l10n_se_tax_report — SKV API-endpoints</h4>
-                     <setting id="skv_moms_api_url"
-                              help="Endpoint for VAT declarations"
-                              title="SKV Moms API URL" groups="account.group_account_user">
-                         <field name="skv_moms_api_url"/>
-                     </setting>
-                     <setting id="skv_pc_api_url"
-                              help="Endpoint for periodic compilation (EU sales list)"
-                              title="SKV PC API URL" groups="account.group_account_user">
-                         <field name="skv_pc_api_url"/>
-                     </setting>
-                     <setting id="skv_agd_api_url"
-                              help="Endpoint for employer declaration (AGD)"
-                              title="SKV AGD API URL" groups="account.group_account_user">
-                         <field name="skv_agd_api_url"/>
-                     </setting>
+
                   </setting>
             </field>
         </record>
