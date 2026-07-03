@@ -363,68 +363,22 @@ class account_periodic_compilation(models.Model):
                 "Please run 'Calculate' first."))
 
         partner = self._get_skv_partner()
-        if not partner or not partner.enable_skatteverket_api:
-            raise UserError(_(
-                "No Skatteverket API partner configured. "
-                "Enable 'Skatteverket API' on a partner record in Contacts."))
-
+        url = self._get_skv_api_url('pc')
         access_token = self._get_skv_access_token(partner)
 
-        pc_api_url = (self.company_id.skv_pc_api_url
-                      or self._get_skv_settings()['api_url'])
-
         xml_bytes = base64.b64decode(self.pc_file)
-
-        headers = {
-            'Authorization': 'Bearer %s' % access_token,
-            'Content-Type': 'application/xml; charset=ISO-8859-1',
-            'Accept': 'application/json',
-        }
-
+        response = self._skv_api_call(url, xml_bytes, access_token=access_token, partner=partner)
         try:
-            response = requests.post(
-                pc_api_url,
-                data=xml_bytes,
-                headers=headers,
-                timeout=30,
-            )
-            _logger.info("SKV PC API response: %s %s", response.status_code, response.text[:500])
-
-            if response.status_code in (200, 201, 202):
-                self.write({
-                    'skv_api_status': 'accepted',
-                    'skv_response': 'OK: %s' % response.text[:500],
-                    'skv_submitted_date': fields.Datetime.now(),
-                    'state': 'done',
-                })
-            elif response.status_code == 401:
-                partner.write({'access_token': False})
-                self.write({
-                    'skv_api_status': 'error',
-                    'skv_response': 'Authentication failed. Token may have expired. Please retry.',
-                })
-                raise UserError(_(
-                    "Authentication failed. Token may have expired. "
-                    "Please retry the submission."))
-            else:
-                self.write({
-                    'skv_api_status': 'error',
-                    'skv_response': 'HTTP %s: %s' % (response.status_code, response.text[:1000]),
-                    'skv_submitted_date': fields.Datetime.now(),
-                })
-                raise UserError(_(
-                    "Skatteverket API returned error %s:\n%s")
-                    % (response.status_code, response.text[:500]))
-
-        except requests.exceptions.RequestException as e:
+            result = self._handle_skv_response(response, partner)
+            result['state'] = 'done'
+            self.write(result)
+        except UserError:
             self.write({
                 'skv_api_status': 'error',
-                'skv_response': 'Connection error: %s' % str(e),
+                'skv_response': 'HTTP %s: %s' % (response.status_code, response.text[:1000]),
                 'skv_submitted_date': fields.Datetime.now(),
             })
-            raise UserError(_(
-                "Could not connect to Skatteverket API:\n%s")
-                % str(e))
+            raise
 
     @api.model
     def _cron_create_periodic_compilation(self):

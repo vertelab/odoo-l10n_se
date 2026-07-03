@@ -30,48 +30,6 @@ class Company(models.Model):
         default=lambda self: self.env.ref('l10n_se_mis.report_pc').id,
         help="MIS report template used for Periodic Compilation (EU sales list).")
 
-    # --- Skatteverket API settings ---
-    skv_test_mode = fields.Boolean(
-        string='Skatteverket Test Mode',
-        default=True,
-        help="Use Skatteverket's test environment instead of production.")
-    skv_auth_method = fields.Selection(
-        selection=[('cert', 'Certificate'), ('e_id', 'E-identification')],
-        string='SKV Auth Method',
-        default='cert',
-        help="Authentication method for Skatteverket API.")
-    skv_api_url = fields.Char(
-        string='SKV API URL',
-        default='https://test.api.skatteverket.se/moms/v2/deklaration',
-        help="Skatteverket API endpoint for submitting VAT declarations.")
-    skv_auth_url = fields.Char(
-        string='SKV Auth URL',
-        default='https://test.peroauth2.skatteverket.se/oauth2/v1/org/authorize',
-        help="Skatteverket OAuth2 authorization endpoint.")
-    skv_token_url = fields.Char(
-        string='SKV Token URL',
-        default='https://test.peroauth2.skatteverket.se/oauth2/v1/org/token',
-        help="Skatteverket OAuth2 token endpoint.")
-
-    # --- Skatteverket API: Periodic Compilation endpoint ---
-    skv_pc_api_url = fields.Char(
-        string='SKV PC API URL',
-        compute='_compute_skv_pc_api_url',
-        store=True,
-        readonly=False,
-        help="Skatteverket API endpoint for periodic compilation (EU sales list). "
-             "Auto-populated based on test mode; override to customize.")
-
-    @api.depends('skv_test_mode')
-    def _compute_skv_pc_api_url(self):
-        """Set default endpoint based on test/live mode when field is empty."""
-        for company in self:
-            if not company.skv_pc_api_url:
-                if company.skv_test_mode:
-                    company.skv_pc_api_url = 'https://test.api.skatteverket.se/moms/v2/periodsammandrag'
-                else:
-                    company.skv_pc_api_url = 'https://api.skatteverket.se/moms/v2/periodsammandrag'
-
     # --- Skatteverket API: Employer Declaration endpoint ---
     skv_agd_api_url = fields.Char(
         string='SKV AGD API URL',
@@ -123,40 +81,6 @@ class ResConfigSettings(models.TransientModel):
         help="MIS report template used for Periodic Compilation (EU sales list).",
         related='company_id.pc_report_template_id',
         readonly=False)
-
-    # --- Skatteverket API settings ---
-    skv_test_mode = fields.Boolean(
-        string='Skatteverket Test Mode',
-        related='company_id.skv_test_mode',
-        readonly=False,
-        help="Use Skatteverket's test environment instead of production.")
-    skv_auth_method = fields.Selection(
-        selection=[('cert', 'Certificate'), ('e_id', 'E-identification')],
-        string='SKV Auth Method',
-        related='company_id.skv_auth_method',
-        readonly=False,
-        help="Authentication method for Skatteverket API.")
-    skv_api_url = fields.Char(
-        string='SKV API URL',
-        related='company_id.skv_api_url',
-        readonly=False,
-        help="Skatteverket API endpoint for submitting VAT declarations.")
-    skv_auth_url = fields.Char(
-        string='SKV Auth URL',
-        related='company_id.skv_auth_url',
-        readonly=False,
-        help="Skatteverket OAuth2 authorization endpoint.")
-    skv_token_url = fields.Char(
-        string='SKV Token URL',
-        related='company_id.skv_token_url',
-        readonly=False,
-        help="Skatteverket OAuth2 token endpoint.")
-
-    skv_pc_api_url = fields.Char(
-        string='SKV PC API URL',
-        related='company_id.skv_pc_api_url',
-        readonly=False,
-        help="Skatteverket API endpoint for periodic compilation (EU sales list).")
 
     skv_agd_api_url = fields.Char(
         string='SKV AGD API URL',

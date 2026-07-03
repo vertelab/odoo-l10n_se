@@ -61,6 +61,7 @@ External Dependencies:
     'depends': [
         'account',
         'contacts',
+        'l10n_se_skatteverket_api',
         'l10n_se_tax_report',
         'account_reconcile_oca',
         'account_statement_reconcile_status',

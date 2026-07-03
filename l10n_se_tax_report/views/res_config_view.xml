@@ -25,37 +25,7 @@
                               title="PC Report Template" groups="account.group_account_user">
                          <field name="pc_report_template_id"/>
                      </setting>
-                     <!-- Skatteverket API settings -->
-                     <setting id="skv_test_mode"
-                              help="Use the test environment for development and testing"
-                              title="SKV Test Mode" groups="account.group_account_user">
-                         <field name="skv_test_mode"/>
-                     </setting>
-                     <setting id="skv_auth_method"
-                              help="Certificate or E-identification authentication"
-                              title="SKV Auth Method" groups="account.group_account_user">
-                         <field name="skv_auth_method"/>
-                     </setting>
-                     <setting id="skv_api_url"
-                              help="Endpoint for submitting VAT declarations"
-                              title="SKV API URL" groups="account.group_account_user">
-                         <field name="skv_api_url"/>
-                     </setting>
-                     <setting id="skv_auth_url"
-                              help="OAuth2 authorization endpoint"
-                              title="SKV Auth URL" groups="account.group_account_user">
-                         <field name="skv_auth_url"/>
-                     </setting>
-                     <setting id="skv_token_url"
-                              help="OAuth2 token endpoint"
-                              title="SKV Token URL" groups="account.group_account_user">
-                         <field name="skv_token_url"/>
-                     </setting>
-                     <setting id="skv_pc_api_url"
-                              help="Endpoint for periodic compilation (EU sales list)"
-                              title="SKV PC API URL" groups="account.group_account_user">
-                         <field name="skv_pc_api_url"/>
-                     </setting>
+                     <!-- Skatteverket API: Employer Declaration -->
                      <setting id="skv_agd_api_url"
                               help="Endpoint for employer declaration (AGD)"
                               title="SKV AGD API URL" groups="account.group_account_user">

@@ -356,148 +356,22 @@ class account_vat_declaration(models.Model):
                 "Please run 'Calculate' first and check MIS report."))
 
         partner = self._get_skv_partner()
-        if not partner or not partner.enable_skatteverket_api:
-            raise UserError(_(
-                "No Skatteverket API partner configured. "
-                "Enable 'Skatteverket API' on a partner record in Contacts."))
-
+        url = self._get_skv_api_url('moms')
         access_token = self._get_skv_access_token(partner)
-        settings = self._get_skv_settings()
 
-        # Decode eSKD XML from base64
         xml_bytes = base64.b64decode(self.eskd_file_mis)
-
-        headers = {
-            'Authorization': 'Bearer %s' % access_token,
-            'Content-Type': 'application/xml; charset=ISO-8859-1',
-            'Accept': 'application/json',
-        }
-
+        response = self._skv_api_call(url, xml_bytes, access_token=access_token, partner=partner)
         try:
-            response = requests.post(
-                settings['api_url'],
-                data=xml_bytes,
-                headers=headers,
-                timeout=30,
-            )
-            _logger.info("SKV API response: %s %s", response.status_code, response.text[:500])
-
-            if response.status_code in (200, 201, 202):
-                self.write({
-                    'skv_api_status': 'accepted',
-                    'skv_response': 'OK: %s' % response.text[:500],
-                    'skv_submitted_date': fields.Datetime.now(),
-                    'state': 'done',
-                })
-            elif response.status_code == 401:
-                # Token expired — clear and let user retry
-                partner.write({'access_token': False})
-                self.write({
-                    'skv_api_status': 'error',
-                    'skv_response': 'Authentication failed. Token may have expired. Please retry.',
-                })
-                raise UserError(_(
-                    "Authentication failed. Token may have expired. "
-                    "Please retry the submission."))
-            else:
-                self.write({
-                    'skv_api_status': 'error',
-                    'skv_response': 'HTTP %s: %s' % (response.status_code, response.text[:1000]),
-                    'skv_submitted_date': fields.Datetime.now(),
-                })
-                raise UserError(_(
-                    "Skatteverket API returned error %s:\n%s")
-                    % (response.status_code, response.text[:500]))
-
-        except requests.exceptions.RequestException as e:
+            result = self._handle_skv_response(response, partner)
+            result['state'] = 'done'
+            self.write(result)
+        except UserError:
             self.write({
                 'skv_api_status': 'error',
-                'skv_response': 'Connection error: %s' % str(e),
+                'skv_response': 'HTTP %s: %s' % (response.status_code, response.text[:1000]),
                 'skv_submitted_date': fields.Datetime.now(),
             })
-            raise UserError(_(
-                "Could not connect to Skatteverket API:\n%s")
-                % str(e))
-
-    # --- Skatteverket API helper methods ---
-
-    def _get_skv_settings(self):
-        """Retrieve Skatteverket API settings from company."""
-        company = self.company_id or self.env.company
-        return {
-            'test_mode': company.skv_test_mode,
-            'auth_method': company.skv_auth_method,
-            'api_url': company.skv_api_url,
-            'auth_url': company.skv_auth_url,
-            'token_url': company.skv_token_url,
-        }
-
-    def _get_skv_partner(self):
-        """Find the Skatteverket partner configured for API access."""
-        partner = self.env['res.partner'].search(
-            [('enable_skatteverket_api', '=', True)], limit=1)
-        if not partner:
-            partner = self.env.ref(
-                'l10n_se_tax_report.res_partner-SKV', raise_if_not_found=False)
-        return partner
-
-    def _get_skv_access_token(self, partner):
-        """Obtain an access token for Skatteverket API."""
-        tax_account_module = self.env['ir.module.module'].search([
-            ('name', '=', 'l10n_se_tax_account'),
-            ('state', '=', 'installed'),
-        ])
-        if not tax_account_module:
-            raise UserError(_(
-                "The 'l10n_se_tax_account' module must be installed to use "
-                "the Skatteverket API. Please install it first."))
-
-        if partner.check_valid_access_token():
-            return partner.access_token
-
-        settings = self._get_skv_settings()
-
-        if settings['auth_method'] == 'cert':
-            if not partner.certificate:
-                raise UserError(_(
-                    "No certificate uploaded on the Skatteverket partner."))
-            cert_data = base64.b64decode(partner.certificate)
-            import tempfile, os
-            tmp = tempfile.NamedTemporaryFile(suffix='.pem', delete=False)
-            tmp.write(cert_data)
-            tmp.close()
-            session = requests.Session()
-            session.cert = tmp.name
-            try:
-                resp = session.post(
-                    settings['token_url'],
-                    data={
-                        'grant_type': 'client_credentials',
-                        'client_id': partner.oauth_client_id or '',
-                        'client_secret': partner.oauth_secret or '',
-                        'scope': 'ska',
-                    },
-                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                )
-                if resp.status_code == 200:
-                    token_data = resp.json()
-                    partner.write({
-                        'access_token': token_data.get('access_token'),
-                        'recived_token_on': fields.Datetime.now(),
-                        'expires_in': token_data.get('expires_in', 3600),
-                    })
-                    return token_data.get('access_token')
-                else:
-                    _logger.error("SKV token error: %s %s", resp.status_code, resp.text)
-                    raise UserError(_(
-                        "Failed to get access token from Skatteverket: %s")
-                        % resp.text[:200])
-            finally:
-                os.unlink(tmp.name)
-        else:
-            raise UserError(_(
-                "E-identification flow requires interactive browser. "
-                "Please use certificate authentication instead."))
+            raise
 
     @api.model
     def _demo_fill_declarations(self):
