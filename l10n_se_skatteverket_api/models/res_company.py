@@ -8,7 +8,7 @@ from odoo import api, fields, models
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    # --- Skatteverket API settings ---
+    # --- Skatteverket API settings (generic, shared) ---
     skv_test_mode = fields.Boolean(
         string='Skatteverket Test Mode',
         default=True,
@@ -59,50 +59,3 @@ class ResCompany(models.Model):
                     company.skv_token_url = (
                         'https://peroauth2.skatteverket.se/'
                         'oauth2/v1/org/token')
-
-    # --- Per-service API URLs (computed) ---
-    skv_moms_api_url = fields.Char(
-        string='SKV Moms API URL',
-        compute='_compute_skv_service_urls',
-        store=True,
-        readonly=False,
-        help="Skatteverket API endpoint for VAT declarations.")
-
-    skv_pc_api_url = fields.Char(
-        string='SKV PC API URL',
-        compute='_compute_skv_service_urls',
-        store=True,
-        readonly=False,
-        help="Skatteverket API endpoint for periodic compilation (EU sales list).")
-
-    skv_skattekonto_api_url = fields.Char(
-        string='SKV Tax Account API URL',
-        compute='_compute_skv_service_urls',
-        store=True,
-        readonly=False,
-        help="Skatteverket API endpoint for tax account transactions.")
-
-    @api.depends('skv_test_mode')
-    def _compute_skv_service_urls(self):
-        for company in self:
-            if not company.skv_moms_api_url:
-                if company.skv_test_mode:
-                    company.skv_moms_api_url = (
-                        'https://test.api.skatteverket.se/moms/v2/deklaration')
-                else:
-                    company.skv_moms_api_url = (
-                        'https://api.skatteverket.se/moms/v2/deklaration')
-            if not company.skv_pc_api_url:
-                if company.skv_test_mode:
-                    company.skv_pc_api_url = (
-                        'https://test.api.skatteverket.se/moms/v2/periodsammandrag')
-                else:
-                    company.skv_pc_api_url = (
-                        'https://api.skatteverket.se/moms/v2/periodsammandrag')
-            if not company.skv_skattekonto_api_url:
-                if company.skv_test_mode:
-                    company.skv_skattekonto_api_url = (
-                        'https://test.api.skatteverket.se/skattekonto/v2')
-                else:
-                    company.skv_skattekonto_api_url = (
-                        'https://api.skatteverket.se/skattekonto/v2')

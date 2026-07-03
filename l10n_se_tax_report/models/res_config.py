@@ -30,6 +30,37 @@ class Company(models.Model):
         default=lambda self: self.env.ref('l10n_se_mis.report_pc').id,
         help="MIS report template used for Periodic Compilation (EU sales list).")
 
+    # --- Skatteverket API: VAT Declaration endpoint ---
+    skv_moms_api_url = fields.Char(
+        string='SKV Moms API URL',
+        compute='_compute_skv_service_urls',
+        store=True,
+        readonly=False,
+        help="Skatteverket API endpoint for VAT declarations. "
+             "Auto-populated based on test mode; override to customize.")
+
+    skv_pc_api_url = fields.Char(
+        string='SKV PC API URL',
+        compute='_compute_skv_service_urls',
+        store=True,
+        readonly=False,
+        help="Skatteverket API endpoint for periodic compilation (EU sales list). "
+             "Auto-populated based on test mode; override to customize.")
+
+    @api.depends('skv_test_mode')
+    def _compute_skv_service_urls(self):
+        for company in self:
+            if not company.skv_moms_api_url:
+                if company.skv_test_mode:
+                    company.skv_moms_api_url = 'https://test.api.skatteverket.se/moms/v2/deklaration'
+                else:
+                    company.skv_moms_api_url = 'https://api.skatteverket.se/moms/v2/deklaration'
+            if not company.skv_pc_api_url:
+                if company.skv_test_mode:
+                    company.skv_pc_api_url = 'https://test.api.skatteverket.se/moms/v2/periodsammandrag'
+                else:
+                    company.skv_pc_api_url = 'https://api.skatteverket.se/moms/v2/periodsammandrag'
+
     # --- Skatteverket API: Employer Declaration endpoint ---
     skv_agd_api_url = fields.Char(
         string='SKV AGD API URL',
@@ -81,6 +112,18 @@ class ResConfigSettings(models.TransientModel):
         help="MIS report template used for Periodic Compilation (EU sales list).",
         related='company_id.pc_report_template_id',
         readonly=False)
+
+    skv_moms_api_url = fields.Char(
+        string='SKV Moms API URL',
+        related='company_id.skv_moms_api_url',
+        readonly=False,
+        help="Skatteverket API endpoint for VAT declarations.")
+
+    skv_pc_api_url = fields.Char(
+        string='SKV PC API URL',
+        related='company_id.skv_pc_api_url',
+        readonly=False,
+        help="Skatteverket API endpoint for periodic compilation (EU sales list).")
 
     skv_agd_api_url = fields.Char(
         string='SKV AGD API URL',

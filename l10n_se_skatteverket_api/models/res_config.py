@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2026 Vertel AB
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 from odoo import fields, models
 
 
@@ -23,19 +27,4 @@ class ResConfigSettings(models.TransientModel):
     skv_token_url = fields.Char(
         string='SKV Token URL',
         related='company_id.skv_token_url',
-        readonly=False)
-
-    skv_moms_api_url = fields.Char(
-        string='SKV Moms API URL',
-        related='company_id.skv_moms_api_url',
-        readonly=False)
-
-    skv_pc_api_url = fields.Char(
-        string='SKV PC API URL',
-        related='company_id.skv_pc_api_url',
-        readonly=False)
-
-    skv_skattekonto_api_url = fields.Char(
-        string='SKV Tax Account API URL',
-        related='company_id.skv_skattekonto_api_url',
         readonly=False)

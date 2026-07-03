@@ -8,6 +8,12 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
+    skv_skattekonto_api_url = fields.Char(
+        string='SKV Tax Account API URL',
+        related='company_id.skv_skattekonto_api_url',
+        readonly=False,
+        help="Skatteverket API endpoint for tax account transactions.")
+
     skv_match_tolerance_days = fields.Integer(
         string='Match Tolerance (Days)',
         related='company_id.skv_match_tolerance_days',

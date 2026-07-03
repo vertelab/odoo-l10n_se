@@ -15,14 +15,6 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-# Mapping from service type to res.company field name
-SERVICE_API_URL_FIELDS = {
-    'moms': 'skv_moms_api_url',
-    'pc': 'skv_pc_api_url',
-    'skattekonto': 'skv_skattekonto_api_url',
-}
-
-
 class SkatteverketApi(models.AbstractModel):
     """Shared Skatteverket API methods.
 
@@ -81,27 +73,6 @@ class SkatteverketApi(models.AbstractModel):
     # ------------------------------------------------------------------
     # API URL
     # ------------------------------------------------------------------
-
-    def _get_skv_api_url(self, service_type='moms'):
-        """Build the Skatteverket API URL for a given service type.
-
-        Args:
-            service_type (str): One of 'moms', 'pc', 'skattekonto'.
-
-        Returns:
-            str: The API endpoint URL.
-        """
-        company = self._get_skv_company()
-        field_name = SERVICE_API_URL_FIELDS.get(service_type)
-        if not field_name:
-            raise UserError(_("Unknown SKV service type: %s") % service_type)
-        url = getattr(company, field_name, False)
-        if not url:
-            raise UserError(_(
-                "SKV API URL not configured for service type '%s'. "
-                "Check Accounting → Configuration → Settings → Skatteverket API.")
-                % service_type)
-        return url
 
     # ------------------------------------------------------------------
     # Authentication

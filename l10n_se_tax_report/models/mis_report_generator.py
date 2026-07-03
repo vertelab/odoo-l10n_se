@@ -356,7 +356,8 @@ class account_vat_declaration(models.Model):
                 "Please run 'Calculate' first and check MIS report."))
 
         partner = self._get_skv_partner()
-        url = self._get_skv_api_url('moms')
+        company = self.company_id or self.env.company
+        url = company.skv_moms_api_url
         access_token = self._get_skv_access_token(partner)
 
         xml_bytes = base64.b64decode(self.eskd_file_mis)
