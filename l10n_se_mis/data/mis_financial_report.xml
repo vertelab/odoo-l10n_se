@@ -975,7 +975,7 @@
         </record>
         <record id="kpi_title_report_br_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_Anlaggningstillgangar_title"/>
-            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+             ImmateriellaAnlaggningstillganga+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+             PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordriIntresforetagGemenInvis+             AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar+FordriIntresforetagGemenInvis</field>
+            <field name="name">KoncessionerPatentLicenserVaruma+HyresratterLiknandeRattigheter+Goodwill+ForskottImmateriellaAnlaggningst+ByggnaderMark+MaskinerAndraTekniskaAnlaggninga+InventarierVerktygInstallationer+ForbattringsutgifterAnnansFastig+OvrigaMateriellaAnlaggningstillg+PagaendeNyanlaggningarForskottMa+AndelarKoncernforetag+FordringarKoncernforetagLangfris+AndelarIntresseforetagGemensamtS+FordriIntresforetagGemenInvis+AgarintressenOvrigaForetag+FordringarOvrigaForetagAgarintre+AndraLangfristigaVardepappersinn+LanDelagareNarstaende+AndraLangfristigaFordringar</field>
         </record>
         <record id="report_br_OmsattningstillgangarAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
@@ -1272,7 +1272,7 @@
         </record>
         <record id="kpi_title_report_br_KassaBankExklRedovisningsmedel" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_KassaBankExklRedovisningsmedel"/>
-            <field name="name">bal[1910, 1911, 1912, 1913, 1914, 1915, 1916, 1917, 1918, 1919, 1920, 1921, 1922, 1923, 1924, 1925, 1926, 1927, 1928, 1929, 1930, 1931, 1932, 1933, 1934, 1935, 1936, 1937, 1938, 1939, 1940, 1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989]</field>
+            <field name="name">bal[1900, 1901, 1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909, 1910, 1911, 1912, 1913, 1914, 1915, 1916, 1917, 1918, 1919, 1920, 1921, 1922, 1923, 1924, 1925, 1926, 1927, 1928, 1929, 1930, 1931, 1932, 1933, 1934, 1935, 1936, 1937, 1938, 1939, 1940, 1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989]</field>
         </record>
         <record id="report_br_Redovisningsmedel" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
@@ -1312,7 +1312,7 @@
         </record>
         <record id="kpi_title_report_br_Omsattningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_Omsattningstillgangar_title"/>
-            <field name="name">LagerRavarorFornodenheter+LagerVarorUnderTillverkning+LagerFardigaVarorHandelsvaror+OvrigaLagertillgangar+PagaendeArbetenAnnansRakningOmsa+                 ForskottTillLeverantorer+VarulagerMm+Kundfordringar+FordringarKoncernforetagKortfris+FordringarIntresseforetagGemensa+OvrigaFordringarKortfristiga+UpparbetadEjFaktureradIntakt+                 ForutbetaldaKostnaderUpplupnaInt+AndelarKoncernforetagKortfristig+OvrigaKortfristigaPlaceringar+KortfristigaPlaceringar+KassaBank</field>
+            <field name="name">LagerRavarorFornodenheter+LagerVarorUnderTillverkning+LagerFardigaVarorHandelsvaror+OvrigaLagertillgangar+PagaendeArbetenAnnansRakningOmsa+ForskottTillLeverantorer+Kundfordringar+FordringarKoncernforetagKortfris+FordringarIntresseforetagGemensa+OvrigaFordringarKortfristiga+UpparbetadEjFaktureradIntakt+ForutbetaldaKostnaderUpplupnaInt+AndelarKoncernforetagKortfristig+OvrigaKortfristigaPlaceringar+KassaBank</field>
         </record>
         <record id="report_br_Tillgangar_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
@@ -1925,7 +1925,7 @@
         </record>
         <record id="kpi_title_report_br_UpplupnaKostnaderForutbetaldaInt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_UpplupnaKostnaderForutbetaldaInt"/>
-            <field name="name">bal[2910, 2911, 2912, 2913, 2914, 2915, 2916, 2917, 2918, 2919, 2920, 2921, 2922, 2923, 2924, 2925, 2926, 2927, 2928, 2929, 2930, 2931, 2932, 2933, 2934, 2935, 2936, 2937, 2938, 2939, 2940, 2941, 2942, 2943, 2944, 2945, 2946, 2947, 2948, 2949, 2950, 2951, 2952, 2953, 2954, 2955, 2956, 2957, 2958, 2959, 2960, 2961, 2962, 2963, 2964, 2965, 2966, 2967, 2968, 2969, 2970, 2971, 2972, 2973, 2974, 2975, 2976, 2977, 2978, 2979, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2989, 2990, 2991, 2992, 2993, 2994, 2995, 2996, 2997, 2998, 2999]* -1</field>
+            <field name="name">bal[2900, 2901, 2902, 2903, 2904, 2905, 2906, 2907, 2908, 2909, 2910, 2911, 2912, 2913, 2914, 2915, 2916, 2917, 2918, 2919, 2920, 2921, 2922, 2923, 2924, 2925, 2926, 2927, 2928, 2929, 2930, 2931, 2932, 2933, 2934, 2935, 2936, 2937, 2938, 2939, 2940, 2941, 2942, 2943, 2944, 2945, 2946, 2947, 2948, 2949, 2950, 2951, 2952, 2953, 2954, 2955, 2956, 2957, 2958, 2959, 2960, 2961, 2962, 2963, 2964, 2965, 2966, 2967, 2968, 2969, 2970, 2971, 2972, 2973, 2974, 2975, 2976, 2977, 2978, 2979, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2989, 2990, 2991, 2992, 2993, 2994, 2995, 2996, 2997, 2998, 2999]* -1</field>
         </record>
         <record id="report_br_EgetKapitalSkulder_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
@@ -1938,7 +1938,7 @@
         </record>
         <record id="kpi_title_report_br_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_EgetKapitalSkulder_title"/>
-            <field name="name">Obligationslan+CheckrakningskreditLangfristig+OvrigaLangfristigaSkulderKrediti+                     SkulderKoncernforetagLangfristig+SkulderIntresseforetagGemensamtS+SkulderOvrigaForetagAgarintresse+OvrigaLangfristigaSkulder+                     LangfristigaSkulder+CheckrakningskreditKortfristig+OvrigaKortfristigaSkulderKrediti+ForskottFranKunder+                     PagaendeArbetenAnnansRakningKort+FaktureradEjUpparbetadIntakt+Leverantorsskulder+Vaxelskulder+SkulderKoncernforetagKortfristig+                     SkulderOvrigaForetagAgarintresse+Skatteskulder+OvrigaKortfristigaSkulder+UpplupnaKostnaderForutbetaldaInt</field>
+            <field name="name">Obligationslan+CheckrakningskreditLangfristig+OvrigaLangfristigaSkulderKrediti+SkulderKoncernforetagLangfristig+SkulderIntresseforetagGemensamtS+OvrigaLangfristigaSkulder+CheckrakningskreditKortfristig+OvrigaKortfristigaSkulderKrediti+ForskottFranKunder+PagaendeArbetenAnnansRakningKort+FaktureradEjUpparbetadIntakt+Leverantorsskulder+Vaxelskulder+SkulderKoncernforetagKortfristig+SkulderOvrigaForetagAgarintresse+Skatteskulder+OvrigaKortfristigaSkulder+UpplupnaKostnaderForutbetaldaInt</field>
         </record>
     </data>
 </odoo>

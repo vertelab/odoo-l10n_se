@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 3: Pending-state — varför och hur?
+         Slides: 4 (2 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s3" model="slide.slide">
+        <field name="name">3. Pending-state — varför och hur?</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- SLIDE 3.1: Problemet -->
+    <record id="slide_s3_01" model="slide.slide">
+        <field name="name">Problemet: betalning före avstämning</field>
+        <field name="sequence">110</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #c53030;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Problemet med tidig matchning</h1>
+        <p class="lead" style="text-align: center;">Varför vi inte ska bokföra betalningen innan banken debiterat kontot.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Dagens flöde — ett problem</h2>
+        <p>I standardflödet för OCA account_payment_order händer följande vid <strong>generated2uploaded()</strong>:</p>
+        <ol>
+            <li><code>post_and_reconcile()</code> anropas</li>
+            <li>Betalningen bokförs: Kredit 1930 Bankkonto / Debet 2441 Leverantörsskulder</li>
+            <li>Leverantörsskulden kvittas — fakturan blir "paid"</li>
+        </ol>
+        <p>Problemet: <strong>Banken har inte debiterat kontot ännu!</strong> Det kan dröja 1-3 bankdagar innan betalningen processas. Under tiden visar Odoo att fakturan är betald, men pengarna finns fortfarande på bankkontot.</p>
+        <div class="alert alert-warning">
+            <strong>Resultat:</strong> Vilseledande bild av likviditeten. Leverantörsskulden är kvittad i systemet men inte i verkligheten.
+        </div>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Exempel: 10 000 kr till Leverantören AB</h2>
+                <table class="table table-bordered">
+                    <tr><th>Händelse</th><th>Standard</th><th>Pending</th></tr>
+                    <tr><td>Faktura bokförs</td><td>Skuld: 10 000</td><td>Skuld: 10 000</td></tr>
+                    <tr><td>Betalorder skapas</td><td>Status: in_payment</td><td>Status: in_payment</td></tr>
+                    <tr><td>Fil skapas</td><td>Status: in_payment</td><td>Status: in_payment</td></tr>
+                    <tr><td><strong>Uppladdad</strong></td><td><strong>Skuld: 0 ✅</strong></td><td><strong>Skuld: 10 000 ⏳</strong></td></tr>
+                    <tr><td>Bank avstäms</td><td>Bank: -10 000</td><td><strong>Skuld: 0 ✅ Bank: -10 000</strong></td></tr>
+                </table>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <p>Med pending-state förblir leverantörsskulden öppen tills banken faktiskt debiterat kontot. Detta ger en <strong>sannare bild</strong> av företagets ekonomi.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Varför det är viktigt att fakturor inte märks som betalda förrän bankavstämning.</field>
+    </record>
+
+    <!-- SLIDE 3.2: Hur pending-state fungerar -->
+    <record id="slide_s3_02" model="slide.slide">
+        <field name="name">Så fungerar pending_until_reconciliation</field>
+        <field name="sequence">120</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>pending_until_reconciliation — tekniskt</h2>
+        <p>Modulen <code>account_payment_order_pending</code> lägger till:</p>
+        <ol>
+            <li>Ett boolean-fält <code>pending_until_reconciliation</code> på <code>account.payment.method</code></li>
+            <li>En override av <code>generated2uploaded()</code> på <code>account.payment.order</code></li>
+        </ol>
+        <pre style="background:#f7fafc;padding:20px;border-radius:8px;font-size:13px;">
+def generated2uploaded(self):
+    self.ensure_one()
+    if self.payment_method_id.pending_until_reconciliation:
+        # HOPPAR ÖVER post_and_reconcile()
+        self.write({
+            "state": "uploaded",
+            "date_uploaded": fields.Date.context_today(self),
+        })
+        return True
+    else:
+        # Standard: post_and_reconcile()
+        return super().generated2uploaded()
+        </pre>
+        <p>När flaggan är <code>True</code> hoppas <code>post_and_reconcile()</code> över helt. Detta innebär:</p>
+        <ul>
+            <li>Inga betalningar bokförs</li>
+            <li>Ingen matchning mot fakturor sker</li>
+            <li>Fakturor förblir "in_payment"</li>
+            <li>Leverantörsskulden finns kvar</li>
+        </ul>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Vad händer vid bankavstämning?</h2>
+                <p>När bankkontoutdraget importeras:</p>
+                <ol>
+                    <li>Bankraden skapar en likviditetsrad + observationsrad (suspense)</li>
+                    <li>Användaren stämmer av bankraden mot fakturans reskontrarad</li>
+                    <li>Matchning sker: Debet 2441 / Kredit 1930</li>
+                    <li>Fakturans payment_state → "paid"</li>
+                    <li>Leverantörsskulden → 0</li>
+                </ol>
+                <p><strong>Resultat:</strong> Betalningen är avstämd mot verklig bankhändelse. God redovisningssed följs.</p>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Observationskonto (suspense account)</h2>
+                <p>När Odoo importerar en bankrad skapas en verifikatpost med:</p>
+                <pre style="background:#f7fafc;padding:15px;border-radius:8px;font-size:13px;">
+Debet  1930 Bankkonto          10 000
+Kredit Suspense Account         10 000
+                </pre>
+                <p>Vid avstämning ersätts suspense-raden av fakturans reskontrarad.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Teknisk förklaring av pending_until_reconciliation och hur bankavstämning fungerar.</field>
+    </record>
+
+    <!-- SLIDE 3.3: Infographic -->
+    <record id="slide_s3_03" model="slide.slide">
+        <field name="name">Flöde med pending-state</field>
+        <field name="sequence">130</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.15</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Flödesschema — pending-state</h2>
+        <pre style="background:#f7fafc;padding:20px;border-radius:8px;font-size:14px;line-height:1.6;">
+┌─────────────────────────────────────────────────────────────────┐
+│               Betalorder med pending_until_reconciliation        │
+│                                                                 │
+│  ┌─────────┐   ┌──────────┐   ┌───────────┐   ┌───────────┐   │
+│  │ Skapa   │   │ Bekräfta │   │ Generera  │   │ Uploaded  │   │
+│  │ faktura │   │ bet.order│   │ XML-fil   │   │ (pending) │   │
+│  └────┬────┘   └────┬─────┘   └─────┬─────┘   └─────┬─────┘   │
+│       │             │               │               │         │
+│       ▼             ▼               ▼               ▼         │
+│  not_paid     in_payment      in_payment       in_payment     │
+│  Skuld: 10k   Skuld: 10k      Skuld: 10k       Skuld: 10k    │
+│                                                                 │
+│  ┌────────────────────────────────────────────────────────┐    │
+│  │                Bankkontoutdrag importeras               │    │
+│  └────────────────────────┬───────────────────────────────┘    │
+│                           │                                    │
+│                           ▼                                    │
+│  ┌────────────────────────────────────────────────────────┐    │
+│  │  Avstämning: matcha bankrad mot fakturans reskontrarad  │    │
+│  │  Debet 2441 Leverantörsskulder   10 000                 │    │
+│  │  Kredit 1930 Bankkonto           10 000                 │    │
+│  └────────────────────────┬───────────────────────────────┘    │
+│                           │                                    │
+│                           ▼                                    │
+│                   payment_state = "paid" ✓                     │
+│                   Leverantörsskuld = 0 ✓                        │
+└─────────────────────────────────────────────────────────────────┘
+        </pre>
+    </div>
+</section>
+        </field>
+        <field name="description">Visuellt flödesschema över hela pending-flödet från faktura till avstämning.</field>
+    </record>
+
+    <!-- SLIDE 3.4: Quiz -->
+    <record id="slide_s3_04" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — Pending-state</field>
+        <field name="sequence">140</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om pending-state och bankavstämning.</field>
+    </record>
+
+    <!-- Q1 -->
+    <record id="slide_s3_04_q1" model="slide.question">
+        <field name="question">Vad händer med leverantörsskulden när en pending-betalorder markeras som uppladdad?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q1_a1" model="slide.answer">
+        <field name="text_value">Skulden kvittas direkt</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! I pending-mode kvittas skulden inte vid uppladdning.</field>
+        <field name="question_id" ref="slide_s3_04_q1"/>
+    </record>
+    <record id="slide_s3_04_q1_a2" model="slide.answer">
+        <field name="text_value">Skulden finns kvar — väntar på bankavstämning</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Leverantörsskulden finns kvar tills bankrad matchas.</field>
+        <field name="question_id" ref="slide_s3_04_q1"/>
+    </record>
+    <record id="slide_s3_04_q1_a3" model="slide.answer">
+        <field name="text_value">Skulden flyttas till observationskontot</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Inget verifikat skapas alls vid pending-uppladdning.</field>
+        <field name="question_id" ref="slide_s3_04_q1"/>
+    </record>
+
+    <!-- Q2 -->
+    <record id="slide_s3_04_q2" model="slide.question">
+        <field name="question">Vilket payment_state får fakturan efter uppladdning med pending=True?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q2_a1" model="slide.answer">
+        <field name="text_value">paid</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Fakturan blir först "paid" när bankrad matchats.</field>
+        <field name="question_id" ref="slide_s3_04_q2"/>
+    </record>
+    <record id="slide_s3_04_q2_a2" model="slide.answer">
+        <field name="text_value">not_paid</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Fakturan har betalrader så den är "in_payment".</field>
+        <field name="question_id" ref="slide_s3_04_q2"/>
+    </record>
+    <record id="slide_s3_04_q2_a3" model="slide.answer">
+        <field name="text_value">in_payment</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Fakturan är "in_payment" (pågående) tills bankavstämning.</field>
+        <field name="question_id" ref="slide_s3_04_q2"/>
+    </record>
+
+    <!-- Q3 -->
+    <record id="slide_s3_04_q3" model="slide.question">
+        <field name="question">Varför är pending-state viktigt ur redovisningssynpunkt?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q3_a1" model="slide.answer">
+        <field name="text_value">Det är lagkrav enligt BFL</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Delvis rätt — men det handlar mer om god redovisningssed.</field>
+        <field name="question_id" ref="slide_s3_04_q3"/>
+    </record>
+    <record id="slide_s3_04_q3_a2" model="slide.answer">
+        <field name="text_value">Leverantörsskulden ska kvittas först när betalning faktiskt skett</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Detta följer god redovisningssed — skulden kvar tills verklig betalning.</field>
+        <field name="question_id" ref="slide_s3_04_q3"/>
+    </record>
+    <record id="slide_s3_04_q3_a3" model="slide.answer">
+        <field name="text_value">Det går snabbare att stämma av</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det handlar om korrekt redovisning, inte snabbhet.</field>
+        <field name="question_id" ref="slide_s3_04_q3"/>
+    </record>
+
+    <!-- Q4 -->
+    <record id="slide_s3_04_q4" model="slide.question">
+        <field name="question">Vad kallas det konto som används som mellanhand vid bankavstämning?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q4_a1" model="slide.answer">
+        <field name="text_value">Leverantörsskulder (2441)</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 2441 är målet för avstämningen, inte mellanhanden.</field>
+        <field name="question_id" ref="slide_s3_04_q4"/>
+    </record>
+    <record id="slide_s3_04_q4_a2" model="slide.answer">
+        <field name="text_value">Observationskonto / Suspense Account</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Suspense account används som mellanhand vid bankavstämning.</field>
+        <field name="question_id" ref="slide_s3_04_q4"/>
+    </record>
+    <record id="slide_s3_04_q4_a3" model="slide.answer">
+        <field name="text_value">Bankkonto (1930)</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Bankkontot är likviditetskontot.</field>
+        <field name="question_id" ref="slide_s3_04_q4"/>
+    </record>
+
+    <!-- Q5 -->
+    <record id="slide_s3_04_q5" model="slide.question">
+        <field name="question">Vilken metod override:as i account_payment_order_pending?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q5_a1" model="slide.answer">
+        <field name="text_value">draft2open()</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! draft2open skapar account.payment — det påverkas inte.</field>
+        <field name="question_id" ref="slide_s3_04_q5"/>
+    </record>
+    <record id="slide_s3_04_q5_a2" model="slide.answer">
+        <field name="text_value">generated2uploaded()</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! generated2uploaded override:as för att hoppa över post_and_reconcile.</field>
+        <field name="question_id" ref="slide_s3_04_q5"/>
+    </record>
+    <record id="slide_s3_04_q5_a3" model="slide.answer">
+        <field name="text_value">post_and_reconcile()</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Nästan rätt! Men vi override:ar generated2uploaded som i sin tur hoppar över post_and_reconcile.</field>
+        <field name="question_id" ref="slide_s3_04_q5"/>
+    </record>
+
+    </data>
+</odoo>

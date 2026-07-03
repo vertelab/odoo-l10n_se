@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <record id="mis_report_instance_company_rule_k2_filial" model="ir.rule">
+            <field name="name">mis_report_instance: MIS Report multi-company (k2_filial)</field>
+            <field name="model_id" ref="mis_builder.model_mis_report_instance"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

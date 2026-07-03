@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 4: Praktisk guide — fyra betaltyper
+         Slides: 5 (3 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s4" model="slide.slide">
+        <field name="name">4. Praktisk guide — fyra betaltyper</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="sequence">150</field>
+    </record>
+
+    <!-- SLIDE 4.1: IBAN-betalning -->
+    <record id="slide_s4_01" model="slide.slide">
+        <field name="name">a) IBAN-betalning — steg för steg</field>
+        <field name="sequence">160</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.30</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #2f855a;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">IBAN-betalning — steg för steg</h1>
+        <p class="lead" style="text-align: center;">Så här gör du en IBAN-betalning via betalorder med pending-state.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Förutsättningar</h2>
+        <ul>
+            <li>Leverantören har ett IBAN-bankkonto ifyllt</li>
+            <li>Leverantören har Supplier Payment Mode = "SEB IBAN Utbetalning" (eller motsvarande)</li>
+            <li>Betalmetoden "Swedish Credit Transfer" har pending_until_reconciliation = True</li>
+            <li>Bankjournal med IBAN-konto finns konfigurerad</li>
+        </ul>
+
+        <h2 class="mt-4">Steg-för-steg</h2>
+        <ol>
+            <li><strong>Skapa leverantörsfaktura</strong> — betalsättet föreslås automatiskt från leverantören</li>
+            <li><strong>Gå till Redovisning > Betalningar > Betalorder</strong></li>
+            <li><strong>Skapa ny betalorder</strong> — välj rätt betalsätt</li>
+            <li><strong>Lägg till fakturor</strong> via "Skapa betalrader"-guiden</li>
+            <li><strong>Bekräfta betalordern</strong> — account.payment skapas i utkast</li>
+            <li><strong>Generera betalfil</strong> — XML skapas som bilaga</li>
+            <li><strong>Markera som uppskickad</strong> — pending-state: inget verifikat skapas!</li>
+            <li><strong>Skicka XML-filen till banken</strong> (manuellt eller via Enable Banking)</li>
+            <li><strong>Vänta på bankkontoutdrag</strong> — banken behandlar betalningen</li>
+            <li><strong>Importera och stäm av</strong> — bankrad matchas mot fakturan → betald!</li>
+        </ol>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Kontrollera efter uppladdning</h2>
+                <p>Öppna fakturan. Du bör se:</p>
+                <ul>
+                    <li><strong>Status:</strong> "In Payment" (pågående)</li>
+                    <li><strong>Belopp att betala:</strong> Samma som fakturabeloppet (residual > 0)</li>
+                    <li><strong>Betalorder:</strong> Länk till betalordern syns</li>
+                    <li><strong>Betalningar:</strong> Inga bokförda betalningar</li>
+                </ul>
+                <p>Detta bekräftar att pending-state fungerar korrekt.</p>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Vid bankavstämning</h2>
+                <p>När bankraden matchas:</p>
+                <ul>
+                    <li><strong>Status:</strong> "Paid" (betald) ✓</li>
+                    <li><strong>Residual:</strong> 0 ✓</li>
+                    <li><strong>Betalning:</strong> Bankraden syns som betalning ✓</li>
+                    <li><strong>Avstämd:</strong> Ja — mot verklig bankhändelse ✓</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Steg-för-steg-guide för IBAN-betalning via betalorder med pending-state.</field>
+    </record>
+
+    <!-- SLIDE 4.2: Bankgiro -->
+    <record id="slide_s4_02" model="slide.slide">
+        <field name="name">b) Bankgiro-betalning — steg för steg</field>
+        <field name="sequence">170</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Bankgiro — skillnader mot IBAN</h2>
+        <p>Samma flöde som IBAN, men:</p>
+        <table class="table table-bordered">
+            <tr><th>Aspekt</th><th>IBAN</th><th>Bankgiro</th></tr>
+            <tr><td>Bankkonto</td><td>IBAN-nummer (SE35...)</td><td>7-8 siffror (1234-5678)</td></tr>
+            <tr><td>XML-tagg</td><td>&lt;IBAN&gt;</td><td>&lt;Othr&gt;&lt;Prtry&gt;BGNR</td></tr>
+            <tr><td>Bankjournal</td><td>Vanligt bankkonto</td><td>Bankgiro-konto (1940)</td></tr>
+            <tr><td>Betalmetod</td><td>Swedish Credit Transfer</td><td>Swedish Bankgiro Transfer</td></tr>
+        </table>
+        <p><strong>Viktigt:</strong> Bankgiro-betalningar kräver en separat bankjournal med bankgironummer på företagets bankkonto.</p>
+    </div>
+</section>
+        </field>
+        <field name="description">Bankgiro-betalning — samma pending-flöde som IBAN men med BGNR-format.</field>
+    </record>
+
+    <!-- SLIDE 4.3: Autogiro och Manuell -->
+    <record id="slide_s4_03" model="slide.slide">
+        <field name="name">c) Autogiro och d) Manuell betalning</field>
+        <field name="sequence">180</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>c) Autogiro — knyt faktura till mandat</h2>
+        <p>Autogiro kräver inget XML — banken drar automatiskt. Flödet:</p>
+        <ol>
+            <li>Leverantören skickar faktura</li>
+            <li>Skapa faktura i Odoo — välj betalsätt "Autogiro"</li>
+            <li>Ange <strong>Autogiro-mandat</strong> på fakturan (fältet supplier_mandate_id)</li>
+            <li>Fakturan markeras som "in_payment" — pending-state aktivt</li>
+            <li>Banken drar beloppet enligt mandat</li>
+            <li>Bankkontoutdrag importeras — matcha mot fakturan → betald!</li>
+        </ol>
+        <div class="alert alert-info">
+            Autogiro kräver att ett mandat finns registrerat i systemet via OCA account_banking_mandate.
+            Mandatet knyter leverantören till bankkontot som används för autogiro.
+        </div>
+
+        <h2 class="mt-4">d) Manuell betalning — direktverifikat</h2>
+        <p>Manuell betalning är det enda flödet som skiljer sig:</p>
+        <ol>
+            <li>Öppna fakturan</li>
+            <li>Klicka "Registrera betalning"</li>
+            <li>Välj datum, belopp, bankkonto</li>
+            <li>Bekräfta — <strong>verifikat skapas direkt</strong></li>
+            <li>Fakturan blir "paid" omedelbart</li>
+        </ol>
+        <div class="alert alert-success">
+            <strong>Skillnad:</strong> Manuell betalning skapar ett verifikat mot banken direkt.
+            Detta ska sedan stämmas av vid bankavstämning — men fakturan är redan betald i systemet.
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Autogiro (mandat-baserat) och Manuell betalning (direktverifikat).</field>
+    </record>
+
+    <!-- SLIDE 4.4: Infographic fyra flöden -->
+    <record id="slide_s4_04" model="slide.slide">
+        <field name="name">Sammanfattning — fyra betalflöden</field>
+        <field name="sequence">190</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.15</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Jämförelsetabell</h2>
+        <table class="table table-bordered">
+            <tr><th></th><th>a) IBAN</th><th>b) Bankgiro</th><th>c) Autogiro</th><th>d) Manuell</th></tr>
+            <tr><td><strong>Pending-state?</strong></td><td>✅ Ja</td><td>✅ Ja</td><td>✅ Ja</td><td>❌ Nej</td></tr>
+            <tr><td><strong>Fil till bank?</strong></td><td>✅ XML</td><td>✅ XML</td><td>❌ Ingen</td><td>❌ Ingen</td></tr>
+            <tr><td><strong>Betalorder?</strong></td><td>✅ Ja</td><td>✅ Ja</td><td>✅ Ja</td><td>❌ Nej</td></tr>
+            <tr><td><strong>Verifikat skapas</strong></td><td>Vid avstämning</td><td>Vid avstämning</td><td>Vid avstämning</td><td>Direkt</td></tr>
+            <tr><td><strong>Faktura-status</strong></td><td>in_payment → paid</td><td>in_payment → paid</td><td>in_payment → paid</td><td>paid direkt</td></tr>
+            <tr><td><strong>Leverantörsskuld</strong></td><td>Kvar tills avstämt</td><td>Kvar tills avstämt</td><td>Kvar tills avstämt</td><td>Kvittas direkt</td></tr>
+        </table>
+    </div>
+</section>
+        </field>
+        <field name="description">Jämförelsetabell över alla fyra betaltypernas egenskaper.</field>
+    </record>
+
+    <!-- SLIDE 4.5: Quiz -->
+    <record id="slide_s4_05" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — Praktisk guide</field>
+        <field name="sequence">200</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina praktiska kunskaper om de fyra betaltyperna.</field>
+    </record>
+
+    <!-- Q1 -->
+    <record id="slide_s4_05_q1" model="slide.question">
+        <field name="question">Vilken betaltyp skapar ett verifikat direkt vid betalningstillfället?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q1_a1" model="slide.answer">
+        <field name="text_value">IBAN-betalning</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! IBAN skapar inget verifikat förrän avstämning.</field>
+        <field name="question_id" ref="slide_s4_05_q1"/>
+    </record>
+    <record id="slide_s4_05_q1_a2" model="slide.answer">
+        <field name="text_value">Autogiro</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Autogiro väntar också på bankavstämning.</field>
+        <field name="question_id" ref="slide_s4_05_q1"/>
+    </record>
+    <record id="slide_s4_05_q1_a3" model="slide.answer">
+        <field name="text_value">Manuell betalning</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Manuell betalning skapar och bokför verifikat direkt.</field>
+        <field name="question_id" ref="slide_s4_05_q1"/>
+    </record>
+
+    <!-- Q2 -->
+    <record id="slide_s4_05_q2" model="slide.question">
+        <field name="question">Vad krävs för Bankgiro-betalning som inte krävs för IBAN?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q2_a1" model="slide.answer">
+        <field name="text_value">En separat bankjournal med bankgironummer</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Bankgiro kräver en egen journal med bankgironummer.</field>
+        <field name="question_id" ref="slide_s4_05_q2"/>
+    </record>
+    <record id="slide_s4_05_q2_a2" model="slide.answer">
+        <field name="text_value">Ett autogiro-mandat</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Mandat krävs för autogiro, inte bankgiro.</field>
+        <field name="question_id" ref="slide_s4_05_q2"/>
+    </record>
+    <record id="slide_s4_05_q2_a3" model="slide.answer">
+        <field name="text_value">En PAIN-version 09</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Bankgiro använder samma PAIN-version som IBAN.</field>
+        <field name="question_id" ref="slide_s4_05_q2"/>
+    </record>
+
+    <!-- Q3 -->
+    <record id="slide_s4_05_q3" model="slide.question">
+        <field name="question">Hur knyter man en faktura till autogiro?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q3_a1" model="slide.answer">
+        <field name="text_value">Man skapar en betalorder med Autogiro-betalsätt</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Delvis rätt! Men man måste även ange ett autogiro-mandat på fakturan.</field>
+        <field name="question_id" ref="slide_s4_05_q3"/>
+    </record>
+    <record id="slide_s4_05_q3_a2" model="slide.answer">
+        <field name="text_value">Man anger supplier_mandate_id på fakturan (autogiro-mandat)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Mandatet knyter fakturan till autogiro-avtalet.</field>
+        <field name="question_id" ref="slide_s4_05_q3"/>
+    </record>
+    <record id="slide_s4_05_q3_a3" model="slide.answer">
+        <field name="text_value">Man skickar en XML-fil till banken med mandat-id</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Autogiro skickar ingen XML-fil.</field>
+        <field name="question_id" ref="slide_s4_05_q3"/>
+    </record>
+
+    <!-- Q4 -->
+    <record id="slide_s4_05_q4" model="slide.question">
+        <field name="question">Vad ska du kontrollera på fakturan efter att en pending-betalorder markerats som uppladdad?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q4_a1" model="slide.answer">
+        <field name="text_value">Att fakturan är "Paid" och residual = 0</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Med pending-state är fakturan INTE paid ännu.</field>
+        <field name="question_id" ref="slide_s4_05_q4"/>
+    </record>
+    <record id="slide_s4_05_q4_a2" model="slide.answer">
+        <field name="text_value">Att fakturan är "In Payment" och residual > 0</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Fakturan ska vara "in_payment" med kvarvarande skuld.</field>
+        <field name="question_id" ref="slide_s4_05_q4"/>
+    </record>
+    <record id="slide_s4_05_q4_a3" model="slide.answer">
+        <field name="text_value">Att ett betalverifikat skapats mot banken</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Inget verifikat skapas vid pending-uppladdning.</field>
+        <field name="question_id" ref="slide_s4_05_q4"/>
+    </record>
+
+    <!-- Q5 -->
+    <record id="slide_s4_05_q5" model="slide.question">
+        <field name="question">När blir en IBAN-betalning slutligen "paid"?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q5_a1" model="slide.answer">
+        <field name="text_value">När betalordern markeras som uppladdad</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Med pending-state händer inget vid uppladdning.</field>
+        <field name="question_id" ref="slide_s4_05_q5"/>
+    </record>
+    <record id="slide_s4_05_q5_a2" model="slide.answer">
+        <field name="text_value">När XML-filen skickats till banken</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Att skicka filen innebär inte att pengarna dragits.</field>
+        <field name="question_id" ref="slide_s4_05_q5"/>
+    </record>
+    <record id="slide_s4_05_q5_a3" model="slide.answer">
+        <field name="text_value">När bankkontoutdraget importerats och matchats mot fakturan</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Betalningen är slutligen avstämd först vid bankavstämning.</field>
+        <field name="question_id" ref="slide_s4_05_q5"/>
+    </record>
+
+    </data>
+</odoo>
