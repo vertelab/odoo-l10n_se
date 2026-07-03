@@ -20,6 +20,11 @@
                               title="VAT Report Template" groups="account.group_account_user">
                          <field name="vat_report_template_id"/>
                      </setting>
+                     <setting id="pc_report_template_id"
+                              help="MIS report template used for Periodic Compilation (EU sales list)"
+                              title="PC Report Template" groups="account.group_account_user">
+                         <field name="pc_report_template_id"/>
+                     </setting>
                      <!-- Skatteverket API settings -->
                      <setting id="skv_test_mode"
                               help="Use the test environment for development and testing"

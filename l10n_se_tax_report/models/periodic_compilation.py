@@ -36,8 +36,8 @@ class account_periodic_compilation(models.Model):
     report_id = fields.Many2one(
         'mis.report',
         string='Report',
-        default=lambda self: self.env.company.vat_report_template_id.id
-            or self.env.ref('l10n_se_mis.report_md').id,
+        default=lambda self: self.env.company.pc_report_template_id.id
+            or self.env.ref('l10n_se_mis.report_pc').id,
     )
 
     def _invoice_ids_count(self):
@@ -47,23 +47,45 @@ class account_periodic_compilation(models.Model):
 
     def _move_line_ids_count(self):
         for rec in self:
-            rec.move_line_ids_count = len(rec.line_ids)
+            rec.move_line_ids_count = self.env['account.move.line'].search_count([
+                ('move_id.periodic_compilation_id', '=', rec.id),
+            ])
     move_line_ids_count = fields.Integer(compute='_move_line_ids_count')
+
+    @api.model
+    def _calculate_pc_deadline(self, date_stop):
+        """Calculate the deadline for Periodisk sammanställning (EU sales list).
+
+        Swedish rules (ML 17 kap):
+        - Deadline is the LAST DAY of the month following the period end.
+          e.g. January 31 -> February 28, February 28 -> March 31
+        - If the deadline falls on a weekend/holiday, next working day.
+        """
+        from workalendar.europe import Sweden
+        cal = Sweden()
+        # Last day of the month following the period end:
+        # relativedelta(day=31) clips to the actual last day of the month
+        deadline = date_stop + relativedelta(months=1, day=31)
+        while not cal.is_working_day(deadline):
+            deadline += timedelta(days=1)
+        return deadline
 
     @api.onchange('date_start', 'date_stop')
     def _onchange_period_dates(self):
         if self.date_start and self.date_stop:
             self.name = '%s %s - %s' % (self._report_name, self.date_start, self.date_stop)
-            self.date = self._calculate_vat_deadline(
-                fields.Date.from_string(self.date_stop), 1)
+            self.date = self._calculate_pc_deadline(
+                fields.Date.from_string(self.date_stop))
 
     @api.model
     def _generate_mis_report(self, start_date, stop_date, target_move_param,
                              name_param, company_id, report_id=None):
         """Create a MIS report instance for the given period.
-        This mirrors account.vat.declaration._generate_mis_report()."""
+        Uses the PC-specific MIS report (not the momsdeklaration report)."""
         report_instance = self.env['mis.report.instance'].create({
-            'report_id': report_id or self.env.ref('l10n_se_mis.report_md').id,
+            'report_id': report_id
+                or company_id.pc_report_template_id.id
+                or self.env.ref('l10n_se_mis.report_pc').id,
             'target_move': target_move_param,
             'name': 'PC: ' + name_param,
             'company_id': company_id.id,
@@ -86,7 +108,7 @@ class account_periodic_compilation(models.Model):
             if not vals.get('date'):
                 date_stop = fields.Date.from_string(vals['date_stop'])
                 vals['date'] = fields.Date.to_string(
-                    self._calculate_vat_deadline(date_stop, 1))
+                    self._calculate_pc_deadline(date_stop))
             if not vals.get('name'):
                 vals['name'] = '%s %s - %s' % (
                     self._report_name, vals['date_start'], vals['date_stop'])
@@ -423,7 +445,7 @@ class account_periodic_compilation(models.Model):
         if existing:
             return False
 
-        deadline = self._calculate_vat_deadline(date_stop, 1)
+        deadline = self._calculate_pc_deadline(date_stop)
 
         self.create({
             'date_start': fields.Date.to_string(date_start),
@@ -467,6 +489,9 @@ class account_periodic_compilation(models.Model):
         action.update({
             'display_name': _('Fakturarader'),
             'domain': [('move_id.periodic_compilation_id', '=', self.id)],
+            'context': {
+                'group_by': ['partner_id'],
+            },
         })
         return action
 
@@ -521,6 +546,9 @@ class AccountDeclarationLine(models.Model):
         action.update({
             'display_name': _('Verifikat - %s') % self.partner_id.name,
             'domain': [('move_id', 'in', moves.ids)],
+            'context': {
+                'group_by': ['partner_id'],
+            },
         })
         return action
 

@@ -24,6 +24,11 @@ class Company(models.Model):
         string='VAT Report Template',
         default=lambda self: self.env.ref('l10n_se_mis.report_md').id,
         help="MIS report template used for VAT declarations.")
+    pc_report_template_id = fields.Many2one(
+        'mis.report',
+        string='Periodic Compilation Report Template',
+        default=lambda self: self.env.ref('l10n_se_mis.report_pc').id,
+        help="MIS report template used for Periodic Compilation (EU sales list).")
 
     # --- Skatteverket API settings ---
     skv_test_mode = fields.Boolean(
@@ -110,6 +115,13 @@ class ResConfigSettings(models.TransientModel):
         string='VAT Report Template',
         help="MIS report template used for VAT declarations.",
         related='company_id.vat_report_template_id',
+        readonly=False)
+
+    pc_report_template_id = fields.Many2one(
+        'mis.report',
+        string='Periodic Compilation Report Template',
+        help="MIS report template used for Periodic Compilation (EU sales list).",
+        related='company_id.pc_report_template_id',
         readonly=False)
 
     # --- Skatteverket API settings ---

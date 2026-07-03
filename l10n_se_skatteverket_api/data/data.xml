@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_partner_skv" model="res.partner">
+            <field name="name">Skatteverket API (Test)</field>
+            <field name="is_company">True</field>
+            <field name="enable_skatteverket_api">True</field>
+        </record>
+    </data>
+</odoo>

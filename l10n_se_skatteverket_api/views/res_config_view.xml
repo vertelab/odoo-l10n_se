@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_config_settings" model="ir.ui.view">
+            <field name="name">res.config.settings.inherit.skatteverket.api</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//setting[@id='tax_exigibility']" position="after">
+                    <setting id="skatteverket_api_config"
+                             help="Configure Skatteverket API connection"
+                             title="Skatteverket API"
+                             groups="account.group_account_user">
+                        <group>
+                            <group string="Authentication">
+                                <field name="skv_test_mode"/>
+                                <field name="skv_auth_method"/>
+                                <field name="skv_auth_url"/>
+                                <field name="skv_token_url"/>
+                            </group>
+                            <group string="API Endpoints">
+                                <field name="skv_moms_api_url"/>
+                                <field name="skv_pc_api_url"/>
+                                <field name="skv_skattekonto_api_url"/>
+                            </group>
+                        </group>
+                    </setting>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
