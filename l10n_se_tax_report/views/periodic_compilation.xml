@@ -46,19 +46,6 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Inställningar">
-                                <group>
-                                    <group string="Allmänt">
-                                        <field name="company_id" groups="base.group_multi_company"/>
-                                        <field name="target_move" readonly="not state"/>
-                                    </group>
-                                    <group string="MIS-rapportmall">
-                                        <field name="report_id" readonly="not state"/>
-                                    </group>
-                                    <field name="pc_file" filename="pc_file_name" invisible="1"/>
-                                    <field name="pc_file_name" invisible="1"/>
-                                </group>
-                            </page>
                             <page string="Rader">
                                 <field name="line_ids" nolabel="1">
                                     <list create="0" delete="0" edit="0" editable="top">
@@ -70,9 +57,19 @@
                                         <button class="oe_highlight" help="Show Invoice Lines" icon="fa-level-up" name="show_invoice_lines" title="Show Invoice Lines" type="object"/>
                                     </list>
                                 </field>
-                            </page>"}], 
+                            </page>
                             <page string="Upplysningstext">
                                 <field name="free_text" nolabel="1" readonly="not state"/>
+                            </page>
+                            <page string="Inställningar">
+                                <group>
+                                    <group string="Allmänt">
+                                        <field name="company_id" groups="base.group_multi_company"/>
+                                        <field name="target_move" readonly="not state"/>
+                                    </group>
+                                    <field name="pc_file" filename="pc_file_name" invisible="1"/>
+                                    <field name="pc_file_name" invisible="1"/>
+                                </group>
                             </page>
                             <page string="Skatteverket API" invisible="skv_api_status == 'draft' and not skv_response">
                                 <group>
