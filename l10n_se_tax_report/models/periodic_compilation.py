@@ -363,7 +363,7 @@ class account_periodic_compilation(models.Model):
                 "Please run 'Calculate' first."))
 
         company = self.company_id or self.env.company
-        url = company._get_skv_pc_api_url()
+        url = company._get_skv_api_url('/moms/v2/periodsammandrag')
         access_token = self._get_skv_access_token(company)
 
         xml_bytes = base64.b64decode(self.pc_file)

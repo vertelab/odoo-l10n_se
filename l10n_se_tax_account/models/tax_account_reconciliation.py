@@ -185,7 +185,7 @@ class TaxAccountReconciliation(models.Model):
                 "The tax journal must have a bank account "
                 "with the tax account number (OCR)."))
         company = self.company_id or self.env.company
-        base = company._get_skv_skattekonto_api_url()
+        base = company._get_skv_api_url('/skattekonto/v2')
         if not base.endswith('/'):
             base += '/'
         url = '%sskattekonton/%s/transaktioner' % (base, account_number)

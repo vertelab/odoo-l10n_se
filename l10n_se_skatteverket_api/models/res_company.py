@@ -91,15 +91,18 @@ class ResCompany(models.Model):
                 else:
                     company.skv_api_base_url = 'https://api.skatteverket.se'
 
-    # --- Service URL builders (use base URL + path) ---
-    def _get_skv_moms_api_url(self):
-        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/moms/v2/deklaration'
+    # --- Service URL builder (base URL + path) ---
+    def _get_skv_api_url(self, path):
+        """Build a Skatteverket API URL from base and path.
 
-    def _get_skv_pc_api_url(self):
-        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/moms/v2/periodsammandrag'
+        Args:
+            path (str): Path component, e.g. '/moms/v2/deklaration'
 
-    def _get_skv_skattekonto_api_url(self):
-        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/skattekonto/v2'
-
-    def _get_skv_agd_api_url(self):
-        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/arbetsgivare/v2/deklaration'
+        Returns:
+            str: Full API URL.
+        """
+        base = self.skv_api_base_url or (
+            'https://test.api.skatteverket.se'
+            if self.skv_test_mode else
+            'https://api.skatteverket.se')
+        return base + path
