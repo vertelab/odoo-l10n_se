@@ -7,6 +7,7 @@
             <field name="inherit_id" ref="account.res_config_settings_view_form" />
             <field name="arch" type="xml">
                   <setting id="tax_exigibility" position="after">
+                     <h4>l10n_se_tax_report — Deklarationsinställningar</h4>
                      <setting id="tax_frequency" help="Select the VAT declaration frequency"
                               title="VAT Declaration Frequency" groups="account.group_account_user">
                          <field name="vat_declaration_frequency"/>
@@ -25,7 +26,7 @@
                               title="PC Report Template" groups="account.group_account_user">
                          <field name="pc_report_template_id"/>
                      </setting>
-                     <!-- Skatteverket API: Service URLs -->
+                     <h4>l10n_se_tax_report — SKV API-endpoints</h4>
                      <setting id="skv_moms_api_url"
                               help="Endpoint for VAT declarations"
                               title="SKV Moms API URL" groups="account.group_account_user">
@@ -36,7 +37,6 @@
                               title="SKV PC API URL" groups="account.group_account_user">
                          <field name="skv_pc_api_url"/>
                      </setting>
-                     <!-- Skatteverket API: Employer Declaration -->
                      <setting id="skv_agd_api_url"
                               help="Endpoint for employer declaration (AGD)"
                               title="SKV AGD API URL" groups="account.group_account_user">

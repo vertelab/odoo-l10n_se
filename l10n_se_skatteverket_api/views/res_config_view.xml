@@ -7,6 +7,7 @@
             <field name="inherit_id" ref="account.res_config_settings_view_form" />
             <field name="arch" type="xml">
                 <xpath expr="//setting[@id='tax_exigibility']" position="after">
+                    <h4>l10n_se_skatteverket_api — Autentisering</h4>
                     <setting id="skatteverket_api_auth"
                              help="Configure Skatteverket API authentication"
                              title="Skatteverket API"
