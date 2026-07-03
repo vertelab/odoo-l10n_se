@@ -67,7 +67,6 @@ class ResCompany(models.Model):
     skv_oauth_secret = fields.Char(string='SKV OAuth Client Secret')
 
     def _check_skv_access_token(self):
-        """Check if the stored access token is still valid."""
         if (self.skv_access_token
                 and self.skv_recived_token_on
                 and self.skv_recived_token_on
@@ -76,47 +75,31 @@ class ResCompany(models.Model):
             return True
         return False
 
-    # --- Service endpoints (computed with test/live default) ---
-    skv_moms_api_url = fields.Char(
-        string='SKV Moms API URL',
-        compute='_compute_skv_service_urls', store=True, readonly=False,
-        help="Skatteverket API endpoint for VAT declarations.")
-
-    skv_pc_api_url = fields.Char(
-        string='SKV PC API URL',
-        compute='_compute_skv_service_urls', store=True, readonly=False,
-        help="Skatteverket API endpoint for periodic compilation (EU sales list).")
-
-    skv_skattekonto_api_url = fields.Char(
-        string='SKV Skattekonto API URL',
-        compute='_compute_skv_service_urls', store=True, readonly=False,
-        help="Skatteverket API endpoint for tax account transactions.")
-
-    skv_agd_api_url = fields.Char(
-        string='SKV AGD API URL',
-        compute='_compute_skv_service_urls', store=True, readonly=False,
-        help="Skatteverket API endpoint for employer declarations (AGD).")
+    # --- Generic API base URL (all services share this base) ---
+    skv_api_base_url = fields.Char(
+        string='SKV API Base URL',
+        compute='_compute_skv_api_base_url', store=True, readonly=False,
+        help="Base URL for Skatteverket API. "
+             "Service-specific paths are appended automatically.")
 
     @api.depends('skv_test_mode')
-    def _compute_skv_service_urls(self):
+    def _compute_skv_api_base_url(self):
         for company in self:
-            if not company.skv_moms_api_url:
-                company.skv_moms_api_url = (
-                    'https://test.api.skatteverket.se/moms/v2/deklaration'
-                    if company.skv_test_mode else
-                    'https://api.skatteverket.se/moms/v2/deklaration')
-            if not company.skv_pc_api_url:
-                company.skv_pc_api_url = (
-                    'https://test.api.skatteverket.se/moms/v2/periodsammandrag'
-                    if company.skv_test_mode else
-                    'https://api.skatteverket.se/moms/v2/periodsammandrag')
-            if not company.skv_skattekonto_api_url:
-                company.skv_skattekonto_api_url = (
-                    'https://test.api.skatteverket.se/skattekonto/v2'
-                    if company.skv_test_mode else
-                    'https://api.skatteverket.se/skattekonto/v2')
-            if not company.skv_agd_api_url:
-                company.skv_agd_api_url = (
-                    'https://test.api.skatteverket.se/arbetsgivare/v2/deklaration'
-                    if company.skv_test_mode else
-                    'https://api.skatteverket.se/arbetsgivare/v2/deklaration')
+            if not company.skv_api_base_url:
+                if company.skv_test_mode:
+                    company.skv_api_base_url = 'https://test.api.skatteverket.se'
+                else:
+                    company.skv_api_base_url = 'https://api.skatteverket.se'
+
+    # --- Service URL builders (use base URL + path) ---
+    def _get_skv_moms_api_url(self):
+        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/moms/v2/deklaration'
+
+    def _get_skv_pc_api_url(self):
+        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/moms/v2/periodsammandrag'
+
+    def _get_skv_skattekonto_api_url(self):
+        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/skattekonto/v2'
+
+    def _get_skv_agd_api_url(self):
+        return (self.skv_api_base_url or 'https://test.api.skatteverket.se') + '/arbetsgivare/v2/deklaration'

@@ -54,20 +54,14 @@
                             <h4>API-endpoints</h4>
                             <div class="content-group">
                                 <div class="row mt8">
-                                    <label for="skv_moms_api_url" string="Momsdeklaration" class="col-lg-4 o_light_label"/>
-                                    <field name="skv_moms_api_url" placeholder="https://test.api.skatteverket.se/moms/v2/deklaration"/>
+                                    <label for="skv_api_base_url" string="Bas-URL" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_api_base_url" placeholder="https://test.api.skatteverket.se"/>
                                 </div>
                                 <div class="row mt8">
-                                    <label for="skv_pc_api_url" string="Periodisk sammanställning" class="col-lg-4 o_light_label"/>
-                                    <field name="skv_pc_api_url" placeholder="https://test.api.skatteverket.se/moms/v2/periodsammandrag"/>
-                                </div>
-                                <div class="row mt8">
-                                    <label for="skv_skattekonto_api_url" string="Skattekonto" class="col-lg-4 o_light_label"/>
-                                    <field name="skv_skattekonto_api_url" placeholder="https://test.api.skatteverket.se/skattekonto/v2"/>
-                                </div>
-                                <div class="row mt8">
-                                    <label for="skv_agd_api_url" string="Arbetsgivardeklaration" class="col-lg-4 o_light_label"/>
-                                    <field name="skv_agd_api_url" placeholder="https://test.api.skatteverket.se/arbetsgivare/v2/deklaration"/>
+                                    <label class="col-lg-4 o_light_label"/>
+                                    <span class="text-muted small">
+                                        Moms: <field name="company_id" invisible="1"/>skv_api_base_url + /moms/v2/deklaration
+                                    </span>
                                 </div>
                             </div>
                         </setting>

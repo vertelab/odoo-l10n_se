@@ -161,7 +161,7 @@ class AccountJournal(models.Model):
         """Daily cron: fetch tax account transactions for all companies."""
         companies = self.env['res.company'].search([])
         for company in companies:
-            if not company.skv_skattekonto_api_url:
+            if not company.skv_api_base_url:
                 continue
             # Refresh token if needed using shared API method
             if company.skv_certificate and not company._check_skv_access_token():

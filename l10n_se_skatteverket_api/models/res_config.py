@@ -33,21 +33,9 @@ class ResConfigSettings(models.TransientModel):
         string='SKV Token URL',
         related='company_id.skv_token_url', readonly=False)
 
-    skv_moms_api_url = fields.Char(
-        string='SKV Moms API URL',
-        related='company_id.skv_moms_api_url', readonly=False)
-
-    skv_pc_api_url = fields.Char(
-        string='SKV PC API URL',
-        related='company_id.skv_pc_api_url', readonly=False)
-
-    skv_skattekonto_api_url = fields.Char(
-        string='SKV Skattekonto API URL',
-        related='company_id.skv_skattekonto_api_url', readonly=False)
-
-    skv_agd_api_url = fields.Char(
-        string='SKV AGD API URL',
-        related='company_id.skv_agd_api_url', readonly=False)
+    skv_api_base_url = fields.Char(
+        string='SKV API Base URL',
+        related='company_id.skv_api_base_url', readonly=False)
 
     skv_oauth_client_id = fields.Char(
         string='SKV OAuth Client ID',
