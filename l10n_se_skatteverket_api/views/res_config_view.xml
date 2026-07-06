@@ -58,7 +58,7 @@
                                     <field name="skv_api_base_url" placeholder="https://test.api.skatteverket.se"/>
                                 </div>
                                 <div class="row mt8">
-                                    <label class="col-lg-4 o_light_label"/>
+                                    <div class="col-lg-4"/>
                                     <span class="text-muted small">
                                         Moms: <field name="company_id" invisible="1"/>skv_api_base_url + /moms/v2/deklaration
                                     </span>

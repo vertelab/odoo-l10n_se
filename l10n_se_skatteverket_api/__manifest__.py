@@ -32,9 +32,7 @@ Features:
     },
     'data': [
         'security/ir.model.access.csv',
-        'data/data.xml',
         'views/res_config_view.xml',
-        'views/partner_views.xml',
     ],
     'demo': [],
     'application': False,

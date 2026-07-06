@@ -41,13 +41,6 @@ class SkatteverketApi(models.AbstractModel):
         """Return the company for API calls. Override in subclasses."""
         return self.env.company
 
-    def _get_skv_partner(self):
-        """Find a partner for reference (legacy). All config on company now."""
-        partner = self.env.ref(
-            'l10n_se_skatteverket_api.res_partner_skv',
-            raise_if_not_found=False)
-        return partner
-
     # ------------------------------------------------------------------
     # Authentication
     # ------------------------------------------------------------------
@@ -97,8 +90,8 @@ class SkatteverketApi(models.AbstractModel):
                 settings['token_url'],
                 data={
                     'grant_type': 'client_credentials',
-                    'client_id': partner.oauth_client_id or '',
-                    'client_secret': partner.oauth_secret or '',
+                    'client_id': company.skv_oauth_client_id or '',
+                    'client_secret': company.skv_oauth_secret or '',
                     'scope': 'ska',
                 },
                 headers={
@@ -108,10 +101,10 @@ class SkatteverketApi(models.AbstractModel):
             )
             if resp.status_code == 200:
                 token_data = resp.json()
-                partner.write({
-                    'access_token': token_data.get('access_token'),
-                    'recived_token_on': fields.Datetime.now(),
-                    'expires_in': token_data.get('expires_in', 3600),
+                company.write({
+                    'skv_access_token': token_data.get('access_token'),
+                    'skv_recived_token_on': fields.Datetime.now(),
+                    'skv_expires_in': token_data.get('expires_in', 3600),
                 })
                 return token_data.get('access_token')
             else:
