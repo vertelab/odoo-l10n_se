@@ -2,45 +2,15 @@
 <odoo>
   <data>
 
-    <!-- SKV API settings on Accounting Configuration -->
-    <record id="res_config_settings_view_form" model="ir.ui.view">
+    <!-- Tax Account settings — own block, separate from Skatteverket API connection -->
+    <record id="res_config_settings_view_form_inherit_tax_account" model="ir.ui.view">
       <field name="name">res.config.settings.view.form.inherit.tax.account</field>
       <field name="model">res.config.settings</field>
       <field name="inherit_id"
-             ref="account.res_config_settings_view_form"/>
+             ref="l10n_se_skatteverket_api.view_account_config_settings"/>
       <field name="arch" type="xml">
-        <xpath expr="//block[@id='account_digitalization']"
-               position="after">
-          <block title="Tax Account (Skatteverket)" id="skv_tax_account_block">
-            <setting id="skv_test_mode_setting"
-                     string="Skatteverket API"
-                     help="Configure the connection to Skatteverket's Tax Account API for automatic transaction fetching and reconciliation.">
-              <div class="content-group" id="skv_settings">
-                <field name="skv_test_mode" invisible="1"/>
-                <field name="skv_auth_method" invisible="1"/>
-                <div class="row mt8">
-                  <label for="skv_api_url"
-                         string="Tax Account API URL"
-                         class="col-lg-4 o_light_label"/>
-                  <field name="skv_api_url"
-                         placeholder="https://api.skatteverket.se/skattekonto/v2"/>
-                </div>
-                <div class="row mt8">
-                  <label for="skv_auth_url"
-                         string="Auth URL"
-                         class="col-lg-4 o_light_label"/>
-                  <field name="skv_auth_url"
-                         placeholder="https://peroauth2.skatteverket.se/oauth2/v1/org/authorize"/>
-                </div>
-                <div class="row mt8">
-                  <label for="skv_token_url"
-                         string="Token URL"
-                         class="col-lg-4 o_light_label"/>
-                  <field name="skv_token_url"
-                         placeholder="https://peroauth2.skatteverket.se/oauth2/v1/org/token"/>
-                </div>
-              </div>
-            </setting>
+        <xpath expr="//block[@id='skv_api_block']" position="after">
+          <block title="Tax Account" id="tax_account_settings_block" groups="account.group_account_user">
             <setting id="skv_match_tolerance_setting"
                      string="Auto-match Tolerance"
                      help="Number of days difference allowed when auto-matching tax account transactions with booked entries.">

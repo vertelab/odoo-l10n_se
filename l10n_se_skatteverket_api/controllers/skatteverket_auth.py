@@ -13,7 +13,10 @@ class SkatteverketAuth(http.Controller):
 
     @http.route('/skatteverket/auth', type='http', auth='public', website=True)
     def authenticate(self, **kw):
-        """OAuth2 callback for Skatteverket e-ID authentication."""
+        """OAuth2 callback for Skatteverket e-ID authentication.
+
+        Stores the authorization code on the company record.
+        """
         state = kw.get('state')
         auth_code = kw.get('code')
 
@@ -28,22 +31,23 @@ class SkatteverketAuth(http.Controller):
             reconciliation = rec_model.sudo().search(
                 [('api_state', '=', state)], limit=1)
             if reconciliation:
-                partner = reconciliation._get_skv_partner()
-                if partner:
-                    partner.authorization_code = auth_code
-                    token = reconciliation._get_skv_access_token(partner)
-                    if token:
-                        return request.redirect(
-                            '/web#id=%s&model=tax.account.reconciliation'
-                            '&view_type=form' % reconciliation.id)
+                company = reconciliation.company_id or request.env.company
+                company.sudo().write({
+                    'skv_authorization_code': auth_code,
+                })
+                token = reconciliation._get_skv_access_token(company)
+                if token:
+                    return request.redirect(
+                        '/web#id=%s&model=tax.account.reconciliation'
+                        '&view_type=form' % reconciliation.id)
 
         # Fallback: journal-based flow
         journal = request.env['account.journal'].sudo().search(
             [('api_state', '=', state)], limit=1)
         if journal:
-            partner = request.env['res.partner'].sudo().search(
-                [('enable_skatteverket_api', '=', True)], limit=1)
-            if partner:
-                partner.authorization_code = auth_code
+            company = journal.company_id or request.env.company
+            company.sudo().write({
+                'skv_authorization_code': auth_code,
+            })
 
         return request.redirect('/web')

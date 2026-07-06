@@ -445,16 +445,13 @@ class AGIDeclaration(models.Model):
         if not self.agi_file:
             self.action_generate_xml()
 
-        partner = self._get_skv_partner()
-        if not partner or not partner.enable_skatteverket_api:
+        company = self.company_id
+        access_token = self._get_skv_access_token(company)
+        if not access_token:
             raise UserError(_(
-                'No Skatteverket API partner configured. '
+                'Could not obtain access token for Skatteverket API. '
                 'Configure in Accounting > Configuration > Skatteverket API.'
             ))
-
-        access_token = self._get_skv_access_token(partner)
-        if not access_token:
-            raise UserError(_('Could not obtain access token for Skatteverket API.'))
 
         api_url = self.company_id.skv_agi_api_url or \
             'https://api.skatteverket.se/arbetsgivare/v2/deklaration/individuppgift'

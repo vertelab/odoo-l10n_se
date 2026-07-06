@@ -8,20 +8,8 @@
             <value eval="{'vat_declaration_frequency': 'month'}"/>
         </function>
 
-        <!-- ============================================================
-        Skatteverket API Partner (Test Environment)
-        ============================================================ -->
-        <record id="partner_skv_api" model="res.partner">
-            <field name="name">Skatteverket API (Test)</field>
-            <field name="is_company" eval="True"/>
-            <field name="country_id" ref="base.se"/>
-            <field name="enable_skatteverket_api" eval="True"/>
-            <field name="auth_method">cert</field>
-            <field name="test_mode" eval="True"/>
-            <field name="base_url">https://test.skatteverket.se</field>
-            <field name="oauth_client_id">demo-client-id</field>
-            <field name="oauth_secret">demo-secret</field>
-        </record>
+        <!-- SKV API settings are now on res.company — see l10n_se_skatteverket_api demo.
+        Partner-level fields were removed in the refactoring. -->
 
         <!-- ============================================================
         Demo VAT Declaration 1: May 2026

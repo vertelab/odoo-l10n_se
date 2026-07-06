@@ -6,24 +6,24 @@
             <field name="model">res.config.settings</field>
             <field name="inherit_id" ref="account.res_config_settings_view_form" />
             <field name="arch" type="xml">
-                <xpath expr="//setting[@id='tax_exigibility']" position="after">
+                <xpath expr="//block[@name='default_taxes_setting_container']" position="after">
                     <block title="Skatteverket API" id="skv_api_block" groups="account.group_account_user">
                         <setting id="skv_env_auth">
                             <h4>Miljö &amp; autentisering</h4>
                             <div class="content-group">
                                 <div class="row mt8">
                                     <label for="skv_test_mode" string="Test Mode" class="col-lg-4 o_light_label"/>
-                                    <field name="skv_test_mode"/>
+                                    <field name="skv_test_mode" widget="boolean_toggle"/>
                                 </div>
                                 <div class="row mt8">
                                     <label for="skv_auth_method" string="Auth Method" class="col-lg-4 o_light_label"/>
                                     <field name="skv_auth_method"/>
                                 </div>
-                                <div class="row mt8">
+                                <div class="row mt8" invisible="skv_auth_method == 'e_id'">
                                     <label for="skv_certificate" string="Certificate" class="col-lg-4 o_light_label"/>
                                     <field name="skv_certificate" filename="skv_certificate" password="skv_certificate_pin"/>
                                 </div>
-                                <div class="row mt8">
+                                <div class="row mt8" invisible="skv_auth_method == 'e_id'">
                                     <label for="skv_certificate_pin" string="Certificate PIN" class="col-lg-4 o_light_label"/>
                                     <field name="skv_certificate_pin"/>
                                 </div>

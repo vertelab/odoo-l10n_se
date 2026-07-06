@@ -4,30 +4,30 @@
         <record id="view_account_config_settings" model="ir.ui.view">
             <field name="name">account settings.inherited.l10n_se_tax_report</field>
             <field name="model">res.config.settings</field>
-            <field name="inherit_id" ref="account.res_config_settings_view_form" />
+            <field name="inherit_id" ref="l10n_se_skatteverket_api.view_account_config_settings" />
             <field name="arch" type="xml">
-                  <setting id="tax_exigibility" position="after">
-                     <h4>l10n_se_tax_report — Deklarationsinställningar</h4>
-                     <setting id="tax_frequency" help="Select the VAT declaration frequency"
-                              title="VAT Declaration Frequency" groups="account.group_account_user">
-                         <field name="vat_declaration_frequency"/>
-                     </setting>
-                     <setting id="accounting_method" help="Select the accounting method for VAT"
-                              title="Redovisningsmetod" groups="account.group_account_user">
-                         <field name="accounting_method"/>
-                     </setting>
-                     <setting id="vat_report_template_id"
-                              help="MIS report template used for VAT declarations"
-                              title="VAT Report Template" groups="account.group_account_user">
-                         <field name="vat_report_template_id"/>
-                     </setting>
-                     <setting id="pc_report_template_id"
-                              help="MIS report template used for Periodic Compilation (EU sales list)"
-                              title="PC Report Template" groups="account.group_account_user">
-                         <field name="pc_report_template_id"/>
-                     </setting>
-
-                  </setting>
+                <xpath expr="//block[@id='skv_api_block']" position="after">
+                    <block title="Deklarationsinställningar" id="declaration_settings_block" groups="account.group_account_user">
+                        <setting id="tax_frequency" help="Select the VAT declaration frequency"
+                                 title="VAT Declaration Frequency">
+                            <field name="vat_declaration_frequency"/>
+                        </setting>
+                        <setting id="accounting_method" help="Select the accounting method for VAT"
+                                 title="Redovisningsmetod">
+                            <field name="accounting_method"/>
+                        </setting>
+                        <setting id="vat_report_template_id"
+                                 help="MIS report template used for VAT declarations"
+                                 title="VAT Report Template">
+                            <field name="vat_report_template_id"/>
+                        </setting>
+                        <setting id="pc_report_template_id"
+                                 help="MIS report template used for Periodic Compilation (EU sales list)"
+                                 title="PC Report Template">
+                            <field name="pc_report_template_id"/>
+                        </setting>
+                    </block>
+                </xpath>
             </field>
         </record>
 
