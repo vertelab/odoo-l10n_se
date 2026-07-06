@@ -173,29 +173,7 @@ class account_declaration(models.Model):
 
     move_ids_count = fields.Integer(compute='_move_ids_count')
 
-    def _payment_ids_count(self):
-        for rec in self:
-            self.payment_ids_count = len(self.get_payment_orders())
 
-    payment_ids_count = fields.Integer(compute='_payment_ids_count')
-
-    def get_payment_orders(self):
-        payment_order = []
-        if self.move_id:
-            for l in self.move_id.line_ids:
-                line = self.env['account.payment.line'].search([('move_line_id', '=', l.id)])
-                if line:
-                    payment_order.append(line.order_id.id)
-        return payment_order
-
-    def show_payment_orders(self):
-        action = self.env['ir.actions.act_window']._for_xml_id(
-            'account_payment_order.account_payment_order_outbound_action')
-        action.update({
-            'display_name': _('%s') % self.name,
-            'domain': [('id', 'in', self.get_payment_orders())],
-        })
-        return action
 
     # ~ @api.model
     # ~ def get_next_periods(self, length=3):
@@ -462,4 +440,7 @@ class account_move(models.Model):
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
     full_reconcile_id = fields.Many2one(comodel_name='account.full.reconcile')
     year_end_move = fields.Boolean(string='Year End Move', default=False)
+
+
+
 

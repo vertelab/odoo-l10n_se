@@ -100,6 +100,8 @@ class account_vat_declaration(models.Model):
                     #'period_id': self.period_start.id,
                     'date': fields.Date.today(),
                     'ref': u'Momsdeklaration',
+                    'partner_id': self.env.ref(
+                        'l10n_se_tax_report.res_partner-SKV').id,
                 })
                 if entry:
                     move_line_list = []
@@ -172,7 +174,8 @@ class account_vat_declaration(models.Model):
                         move_line_list.append((0, 0, {
                             'name': skattekonto.name,
                             'account_id': skattekonto.id,
-                            'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
+                            'partner_id': self.env.ref(
+                                'l10n_se_tax_report.res_partner-SKV').id,
                             'debit': abs(moms_diff) if moms_diff < 0.0 else 0.0,
                             'credit': moms_diff if moms_diff > 0.0 else 0.0,
                             'move_id': entry.id,
@@ -181,6 +184,7 @@ class account_vat_declaration(models.Model):
                         'line_ids': move_line_list,
                     })
                     self.write({'move_id': entry.id})
+                    entry.vat_declaration_id = self.id
             else:
                 raise UserError(_('You are missing either a credit account, debit account or a tax account, please add these'))   
 

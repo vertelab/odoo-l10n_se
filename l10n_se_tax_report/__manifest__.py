@@ -61,7 +61,7 @@ External Dependencies
      """,
     'author': 'Vertel AB',
 
-    'depends': ['account_payment_order', 'calendar', 'mis_builder','l10n_se_mis', 'account_period_vrtl', 'l10n_se_skatteverket_api'],
+    'depends': ['calendar', 'mis_builder','l10n_se_mis', 'account_period_vrtl', 'l10n_se_skatteverket_api'],
 
     'external_dependencies': {
         'python': ['workalendar'],

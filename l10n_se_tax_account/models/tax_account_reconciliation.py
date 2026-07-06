@@ -39,8 +39,6 @@ class TaxAccountReconciliation(models.Model):
         comodel_name='account.journal', string='Tax Journal',
         required=True, ondelete='cascade',
         domain=[('type', '=', 'general')],
-        default=lambda self: self.env.ref(
-            'l10n_se_tax_report.moms_journal', raise_if_not_found=False),
         help="The VAT journal (Momsjournal) used for settlement entries.")
     company_id = fields.Many2one(
         comodel_name='res.company', string='Company',
