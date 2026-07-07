@@ -36,9 +36,51 @@
                         <field name="module_l10n_se_account_financial_report"/>
                     </setting>
                     <setting id="l10n_se_mis_setting"
-                        string="MIS Builder (K2/K3)"
-                        help="Pre-built MIS templates for K2, K3, and municipality reports.">
+                        string="MIS Builder"
+                        help="Pre-built MIS report templates for Swedish accounting.">
                         <field name="module_l10n_se_mis"/>
+                    </setting>
+                    <setting id="l10n_se_mis_k2_setting"
+                        string="├─ K2 Reports (Aktiebolag)"
+                        help="Balance sheet, income statement, cash flow for K2 companies."
+                        invisible="not module_l10n_se_mis">
+                        <field name="module_l10n_se_mis_k2"/>
+                    </setting>
+                    <setting id="l10n_se_mis_k3_setting"
+                        string="├─ K3 Reports (Aktiebolag)"
+                        help="Balance sheet, income statement (cost-type &amp; function), cash flow, equity for K3 companies."
+                        invisible="not module_l10n_se_mis">
+                        <field name="module_l10n_se_mis_k3"/>
+                    </setting>
+                    <setting id="l10n_se_mis_k2_filial_setting"
+                        string="├─ K2 Reports (Filial)"
+                        help="MIS reports for K2 branches."
+                        invisible="not module_l10n_se_mis">
+                        <field name="module_l10n_se_mis_k2_filial"/>
+                    </setting>
+                    <setting id="l10n_se_mis_k2_forening_setting"
+                        string="├─ K2 Reports (Ekonomisk förening)"
+                        help="MIS reports for K2 economic associations."
+                        invisible="not module_l10n_se_mis">
+                        <field name="module_l10n_se_mis_k2_forening"/>
+                    </setting>
+                    <setting id="l10n_se_mis_k2_handelsbolag_setting"
+                        string="├─ K2 Reports (Handelsbolag)"
+                        help="MIS reports for K2 trading partnerships."
+                        invisible="not module_l10n_se_mis">
+                        <field name="module_l10n_se_mis_k2_handelsbolag"/>
+                    </setting>
+                    <setting id="l10n_se_mis_k3_koncern_setting"
+                        string="├─ K3 Reports (Koncern)"
+                        help="MIS reports for K3 groups."
+                        invisible="not module_l10n_se_mis">
+                        <field name="module_l10n_se_mis_k3_koncern"/>
+                    </setting>
+                    <setting id="l10n_se_mis_kommun_setting"
+                        string="├─ Kommun Reports"
+                        help="MIS reports for Swedish municipalities."
+                        invisible="not module_l10n_se_mis">
+                        <field name="module_l10n_se_mis_kommun"/>
                     </setting>
                     <setting id="mis_builder_cash_flow_setting"
                         string="Cash Flow Statement"

@@ -19,8 +19,36 @@ class ResConfigSettings(models.TransientModel):
         help='Swedish-styled Balance Sheet and Income Statement. Installs l10n_se_account_financial_report.',
     )
     module_l10n_se_mis = fields.Boolean(
-        string='MIS Builder (K2/K3)',
-        help='Pre-built MIS templates for K2, K3, and municipality reports. Installs l10n_se_mis + K2/K3 variants.',
+        string='MIS Builder',
+        help='Pre-built MIS report templates for Swedish accounting. Installs l10n_se_mis.',
+    )
+    module_l10n_se_mis_k2 = fields.Boolean(
+        string='K2 Reports (Aktiebolag)',
+        help='MIS reports for K2 companies. Installs l10n_se_mis_k2.',
+    )
+    module_l10n_se_mis_k3 = fields.Boolean(
+        string='K3 Reports (Aktiebolag)',
+        help='MIS reports for K3 companies. Installs l10n_se_mis_k3.',
+    )
+    module_l10n_se_mis_k2_filial = fields.Boolean(
+        string='K2 Reports (Filial)',
+        help='MIS reports for K2 branches. Installs l10n_se_mis_k2_filial.',
+    )
+    module_l10n_se_mis_k2_forening = fields.Boolean(
+        string='K2 Reports (Ekonomisk förening)',
+        help='MIS reports for K2 economic associations. Installs l10n_se_mis_k2_forening.',
+    )
+    module_l10n_se_mis_k2_handelsbolag = fields.Boolean(
+        string='K2 Reports (Handelsbolag)',
+        help='MIS reports for K2 trading partnerships. Installs l10n_se_mis_k2_handelsbolag.',
+    )
+    module_l10n_se_mis_k3_koncern = fields.Boolean(
+        string='K3 Reports (Koncern)',
+        help='MIS reports for K3 groups. Installs l10n_se_mis_k3_koncern.',
+    )
+    module_l10n_se_mis_kommun = fields.Boolean(
+        string='Kommun Reports',
+        help='MIS reports for Swedish municipalities. Installs l10n_se_mis_kommun.',
     )
     module_mis_builder_cash_flow = fields.Boolean(
         string='Cash Flow Statement',
@@ -251,3 +279,14 @@ class ResConfigSettings(models.TransientModel):
     def _onchange_asset_management_grant(self):
         if self.module_account_asset_management_grant:
             self.module_account_asset_change = True
+
+    @api.onchange('module_l10n_se_mis_k2', 'module_l10n_se_mis_k3',
+                  'module_l10n_se_mis_k2_filial', 'module_l10n_se_mis_k2_forening',
+                  'module_l10n_se_mis_k2_handelsbolag', 'module_l10n_se_mis_k3_koncern',
+                  'module_l10n_se_mis_kommun')
+    def _onchange_mis_report_package(self):
+        if any([self.module_l10n_se_mis_k2, self.module_l10n_se_mis_k3,
+                self.module_l10n_se_mis_k2_filial, self.module_l10n_se_mis_k2_forening,
+                self.module_l10n_se_mis_k2_handelsbolag, self.module_l10n_se_mis_k3_koncern,
+                self.module_l10n_se_mis_kommun]):
+            self.module_l10n_se_mis = True
