@@ -28,22 +28,22 @@
                     <setting id="account_financial_report_setting"
                         string="OCA Financial Reports"
                         help="General Ledger, Trial Balance, Aged Partner Balance, Journal Ledger, Open Items, VAT Report.">
-                        <field name="module_account_financial_report" widget="upgrade_boolean"/>
+                        <field name="module_account_financial_report"/>
                     </setting>
                     <setting id="l10n_se_account_financial_report_setting"
                         string="Swedish Report Templates"
                         help="Swedish-styled Balance Sheet and Income Statement.">
-                        <field name="module_l10n_se_account_financial_report" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_account_financial_report"/>
                     </setting>
                     <setting id="l10n_se_mis_setting"
                         string="MIS Builder (K2/K3)"
                         help="Pre-built MIS templates for K2, K3, and municipality reports.">
-                        <field name="module_l10n_se_mis" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_mis"/>
                     </setting>
                     <setting id="mis_builder_cash_flow_setting"
                         string="Cash Flow Statement"
                         help="Cash flow statement for MIS Builder.">
-                        <field name="module_mis_builder_cash_flow" widget="upgrade_boolean"/>
+                        <field name="module_mis_builder_cash_flow"/>
                     </setting>
                 </block>
 
@@ -52,32 +52,32 @@
                     <setting id="account_payment_order_setting"
                         string="Payment Orders (Bankgiro/Plusgiro/SEPA)"
                         help="Create payment orders for SEPA, Bankgiro and Plusgiro.">
-                        <field name="module_account_payment_order" widget="upgrade_boolean"/>
+                        <field name="module_account_payment_order"/>
                     </setting>
                     <setting id="account_payment_order_sepa_seb_setting"
                         string="SEB SEPA Fix"
                         help="SEB-specific SEPA payment format.">
-                        <field name="module_account_payment_order_sepa_seb" widget="upgrade_boolean"/>
+                        <field name="module_account_payment_order_sepa_seb"/>
                     </setting>
                     <setting id="account_payment_order_autogiro_setting"
                         string="Autogiro (Direct Debit)"
                         help="Swedish Autogiro direct debit.">
-                        <field name="module_account_payment_order_autogiro" widget="upgrade_boolean"/>
+                        <field name="module_account_payment_order_autogiro"/>
                     </setting>
                     <setting id="account_enablebanking_setting"
                         string="Auto Bank Sync (PSD2)"
                         help="Automatic bank sync via Enable Banking API.">
-                        <field name="module_account_enablebanking" widget="upgrade_boolean"/>
+                        <field name="module_account_enablebanking"/>
                     </setting>
                     <setting id="l10n_se_mynt_setting"
                         string="Mynt Corporate Cards"
                         help="Integration with Mynt corporate cards.">
-                        <field name="module_l10n_se_mynt" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_mynt"/>
                     </setting>
                     <setting id="account_fortnox_setting"
                         string="Fortnox Integration"
                         help="Data migration and sync with Fortnox.">
-                        <field name="module_account_fortnox" widget="upgrade_boolean"/>
+                        <field name="module_account_fortnox"/>
                     </setting>
                 </block>
 
@@ -86,12 +86,12 @@
                     <setting id="l10n_se_account_bank_statement_import_setting"
                         string="Swedish Bank Statement Import"
                         help="Import bank statements in Swedish formats (Bankgiro, BGMax).">
-                        <field name="module_l10n_se_account_bank_statement_import" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_account_bank_statement_import"/>
                     </setting>
                     <setting id="l10n_se_ocr_reconcile_setting"
                         string="OCR Reconciliation"
                         help="Automatic OCR-based reconciliation for Swedish payment references.">
-                        <field name="module_l10n_se_ocr_reconcile" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_ocr_reconcile"/>
                     </setting>
                 </block>
 
@@ -101,7 +101,7 @@
                         string="AI Invoice Processing"
                         help="Digitize your PDF or scanned documents with AI-powered invoice processing."
                         documentation="/applications/finance/accounting/payables/supplier_bills/invoice_digitization.html">
-                        <field name="module_account_invoice_ai" widget="upgrade_boolean"/>
+                        <field name="module_account_invoice_ai"/>
                         <div id="msg_account_invoice_ai" class="content-group" invisible="not module_account_invoice_ai">
                             <div class="text-warning mt16 mb4">
                                 Save this page and come back here to set up the feature.
@@ -111,17 +111,17 @@
                     <setting id="account_invoice_ai_3way_match_setting"
                         string="AI 3-Way Match"
                         help="AI-powered PO/receipt/invoice matching. Requires AI Invoice Processing.">
-                        <field name="module_account_invoice_ai_3way_match" widget="upgrade_boolean"/>
+                        <field name="module_account_invoice_ai_3way_match"/>
                     </setting>
                     <setting id="account_3way_match_ce_setting"
                         string="Manual 3-Way Match"
                         help="Manual purchase order / receipt / invoice matching.">
-                        <field name="module_account_3way_match_ce" widget="upgrade_boolean"/>
+                        <field name="module_account_3way_match_ce"/>
                     </setting>
                     <setting id="account_import_excel_setting"
                         string="Excel Invoice Import"
                         help="Mass import invoices from Excel.">
-                        <field name="module_account_import_excel" widget="upgrade_boolean"/>
+                        <field name="module_account_import_excel"/>
                     </setting>
                 </block>
 
@@ -130,17 +130,17 @@
                     <setting id="account_due_reminder_setting"
                         string="Payment Reminders"
                         help="Automated payment reminders for overdue invoices.">
-                        <field name="module_account_due_reminder" widget="upgrade_boolean"/>
+                        <field name="module_account_due_reminder"/>
                     </setting>
                     <setting id="account_mass_invoice_generation_setting"
                         string="Mass Invoice Generation"
                         help="Generate invoices in bulk.">
-                        <field name="module_account_mass_invoice_generation" widget="upgrade_boolean"/>
+                        <field name="module_account_mass_invoice_generation"/>
                     </setting>
                     <setting id="account_bulk_invoices_setting"
                         string="Bulk Invoice Operations"
                         help="Bulk operations (print, send, validate).">
-                        <field name="module_account_bulk_invoices" widget="upgrade_boolean"/>
+                        <field name="module_account_bulk_invoices"/>
                     </setting>
                 </block>
 
@@ -149,27 +149,27 @@
                     <setting id="l10n_se_tax_report_setting"
                         string="Tax Reports &amp; SKV API"
                         help="VAT, AGD, periodic summary via Skatteverket API.">
-                        <field name="module_l10n_se_tax_report" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_tax_report"/>
                     </setting>
                     <setting id="l10n_se_tax_account_setting"
                         string="Tax Account Reconciliation"
                         help="Two-column tax account reconciliation vs Skatteverket API.">
-                        <field name="module_l10n_se_tax_account" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_tax_account"/>
                     </setting>
                     <setting id="l10n_se_agi_setting"
                         string="AGI (Individual Reporting)"
                         help="Monthly AGI to Skatteverket via API.">
-                        <field name="module_l10n_se_agi" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_agi"/>
                     </setting>
                     <setting id="l10n_se_intrastat_product_setting"
                         string="Intrastat (SCB)"
                         help="Intrastat reporting to SCB.">
-                        <field name="module_l10n_se_intrastat_product" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_intrastat_product"/>
                     </setting>
                     <setting id="l10n_se_tax_report_payment_order_setting"
                         string="Tax Payment Orders"
                         help="Payment orders for tax payments.">
-                        <field name="module_l10n_se_tax_report_payment_order" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_tax_report_payment_order"/>
                     </setting>
                 </block>
 
@@ -178,27 +178,27 @@
                     <setting id="account_period_vrtl_setting"
                         string="Swedish Periods"
                         help="Swedish fiscal periods (monthly/quarterly) with closing controls.">
-                        <field name="module_account_period_vrtl" widget="upgrade_boolean"/>
+                        <field name="module_account_period_vrtl"/>
                     </setting>
                     <setting id="account_closed_setting"
                         string="Period Lock"
                         help="Lock periods to prevent changes after closing.">
-                        <field name="module_account_closed" widget="upgrade_boolean"/>
+                        <field name="module_account_closed"/>
                     </setting>
                     <setting id="account_auto_reverse_vrtl_setting"
                         string="Auto-Reverse Entries"
                         help="Automatically reverse journal entries next period.">
-                        <field name="module_account_auto_reverse_vrtl" widget="upgrade_boolean"/>
+                        <field name="module_account_auto_reverse_vrtl"/>
                     </setting>
                     <setting id="account_deferred_revenue_expenses_setting"
                         string="Deferred Revenue &amp; Expenses"
                         help="Automatic revenue/expense accruals.">
-                        <field name="module_account_deferred_revenue_expenses" widget="upgrade_boolean"/>
+                        <field name="module_account_deferred_revenue_expenses"/>
                     </setting>
                     <setting id="account_inter_company_rules_ce_setting"
                         string="Inter-Company Rules"
                         help="Automatic inter-company transactions.">
-                        <field name="module_account_inter_company_rules_ce" widget="upgrade_boolean"/>
+                        <field name="module_account_inter_company_rules_ce"/>
                     </setting>
                 </block>
 
@@ -207,7 +207,7 @@
                     <setting id="l10n_se_bokslut_setting"
                         string="Year-End Closing"
                         help="Closing checklist, tax calculation, adjustments, annual report.">
-                        <field name="module_l10n_se_bokslut" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_bokslut"/>
                     </setting>
                 </block>
 
@@ -216,17 +216,17 @@
                     <setting id="account_mis_budget_setting"
                         string="MIS Budget Management"
                         help="MIS-based budgets with budget vs actual.">
-                        <field name="module_account_mis_budget" widget="upgrade_boolean"/>
+                        <field name="module_account_mis_budget"/>
                     </setting>
                     <setting id="account_mis_budget_forecast_setting"
                         string="Dynamic Forecast"
                         help="Dynamic forecast replacing budget with actuals for past periods.">
-                        <field name="module_account_mis_budget_forecast" widget="upgrade_boolean"/>
+                        <field name="module_account_mis_budget_forecast"/>
                     </setting>
                     <setting id="account_budget_analytic_account_setting"
                         string="Budget per Analytic Account"
                         help="Budgets per project/department.">
-                        <field name="module_account_budget_analytic_account" widget="upgrade_boolean"/>
+                        <field name="module_account_budget_analytic_account"/>
                     </setting>
                 </block>
 
@@ -235,22 +235,22 @@
                     <setting id="account_asset_change_setting"
                         string="Asset Management"
                         help="Extended asset management with change tracking.">
-                        <field name="module_account_asset_change" widget="upgrade_boolean"/>
+                        <field name="module_account_asset_change"/>
                     </setting>
                     <setting id="account_asset_lot_stock_setting"
                         string="Asset Lot/Serial Tracking"
                         help="Track assets by lot/serial number.">
-                        <field name="module_account_asset_lot_stock" widget="upgrade_boolean"/>
+                        <field name="module_account_asset_lot_stock"/>
                     </setting>
                     <setting id="account_asset_management_grant_setting"
                         string="Asset Grants"
                         help="Grants and subsidies for assets.">
-                        <field name="module_account_asset_management_grant" widget="upgrade_boolean"/>
+                        <field name="module_account_asset_management_grant"/>
                     </setting>
                     <setting id="account_loan_template_setting"
                         string="Loan Management"
                         help="Loan templates and accounting.">
-                        <field name="module_account_loan_template" widget="upgrade_boolean"/>
+                        <field name="module_account_loan_template"/>
                     </setting>
                 </block>
 
@@ -259,12 +259,12 @@
                     <setting id="l10n_se_sie_setting"
                         string="SIE Import/Export (Full)"
                         help="Full SIE4 import/export with dimensions.">
-                        <field name="module_l10n_se_sie" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_sie"/>
                     </setting>
                     <setting id="l10n_se_sie_minimal_setting"
                         string="SIE Import (Minimal)"
                         help="Lightweight SIE import for accounts and balances.">
-                        <field name="module_l10n_se_sie_minimal" widget="upgrade_boolean"/>
+                        <field name="module_l10n_se_sie_minimal"/>
                     </setting>
                 </block>
 
@@ -273,12 +273,12 @@
                     <setting id="account_attachment_directory_setting"
                         string="Document Directory"
                         help="Organize documents in structured directories.">
-                        <field name="module_account_attachment_directory" widget="upgrade_boolean"/>
+                        <field name="module_account_attachment_directory"/>
                     </setting>
                     <setting id="account_move_directory_setting"
                         string="Journal Entry Directory"
                         help="Organize journal entry attachments.">
-                        <field name="module_account_move_directory" widget="upgrade_boolean"/>
+                        <field name="module_account_move_directory"/>
                     </setting>
                 </block>
 
