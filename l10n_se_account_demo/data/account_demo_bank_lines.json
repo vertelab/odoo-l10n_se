@@ -1,0 +1,34 @@
+[
+  {
+    "date": "2026-05-07",
+    "amount": -3294.86,
+    "partner_vat": "SE556711569501",
+    "partner_name": "PostNord Sverige AB",
+    "payment_ref": "903096605626",
+    "name": "Betalning PostNord"
+  },
+  {
+    "date": "2026-06-01",
+    "amount": -5010.00,
+    "partner_vat": "SE556075172801",
+    "partner_name": "VVS-Informations Data i Stockholm AB",
+    "payment_ref": "516187",
+    "name": "Betalning VVS-Info"
+  },
+  {
+    "date": "2026-06-01",
+    "amount": -12370.57,
+    "partner_vat": "SE663000097101",
+    "partner_name": "Circle K Sverige AB",
+    "payment_ref": "889131167",
+    "name": "Betalning Circle K"
+  },
+  {
+    "date": "2026-06-01",
+    "amount": -250.00,
+    "partner_vat": "SE556258890401",
+    "partner_name": "Volkswagen Finans Sverige AB",
+    "payment_ref": "74448889",
+    "name": "Betalning VW Finans"
+  }
+]

@@ -100,6 +100,7 @@
         # 'data/tax_partner.xml',
         # 'wizard/merge_chart_wizard.xml',
         'security/ir.model.access.csv',
+        'views/res_config_settings_views.xml',
 
     ],
     #'demo': [

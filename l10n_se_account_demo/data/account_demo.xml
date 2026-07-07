@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+
+    
+    
+    
+
+    <record id="journal_26" model="account.journal">
+        <field name="name">Allmän journal</field>
+        <field name="type">general</field>
+        <field name="code">GEN</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="journal_51" model="account.journal">
+        <field name="name">Leverantörs Betalningar</field>
+        <field name="type">bank</field>
+        <field name="code">BNK2</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="journal_52" model="account.journal">
+        <field name="name">Bankgiro</field>
+        <field name="type">bank</field>
+        <field name="code">BNK3</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    
+    
+    
+
+    <record id="partner_164" model="res.partner">
+        <field name="name">Abigail Fitzgerald</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_166" model="res.partner">
+        <field name="name">Adam Morrow</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_168" model="res.partner">
+        <field name="name">Alex Brock</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_176" model="res.partner">
+        <field name="name">Amanda Brown</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_177" model="res.partner">
+        <field name="name">Amanda Lopez</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_195" model="res.partner">
+        <field name="name">Bethany Smith</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_199" model="res.partner">
+        <field name="name">Bonnie Walker</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_209" model="res.partner">
+        <field name="name">Brian Collins</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_212" model="res.partner">
+        <field name="name">Brian Sanders</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_213" model="res.partner">
+        <field name="name">Brian Sheppard</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_214" model="res.partner">
+        <field name="name">Brianna Peterson</field>
+        <field name="email">a@a</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_215" model="res.partner">
+        <field name="name">Bridget Hall</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_216" model="res.partner">
+        <field name="name">Bridget Williams</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_217" model="res.partner">
+        <field name="name">Brittany Stone</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_218" model="res.partner">
+        <field name="name">Brooke Castillo</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_219" model="res.partner">
+        <field name="name">Brooke Mathis</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_220" model="res.partner">
+        <field name="name">Brooke Wu</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_221" model="res.partner">
+        <field name="name">Bryce Smith</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_222" model="res.partner">
+        <field name="name">Caleb Bartlett</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_223" model="res.partner">
+        <field name="name">Cameron Jones</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_224" model="res.partner">
+        <field name="name">Cameron White</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_225" model="res.partner">
+        <field name="name">Candice Foster</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_226" model="res.partner">
+        <field name="name">Carla Fowler</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_227" model="res.partner">
+        <field name="name">Carly Thompson</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_228" model="res.partner">
+        <field name="name">Carrie Buchanan</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_229" model="res.partner">
+        <field name="name">Casey Cooper</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_230" model="res.partner">
+        <field name="name">Cassidy Watson</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_231" model="res.partner">
+        <field name="name">Castellum</field>
+        <field name="is_company" eval="True" />
+    </record>
+
+    <record id="partner_232" model="res.partner">
+        <field name="name">Cathy Contreras</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_233" model="res.partner">
+        <field name="name">Charles Smith</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_234" model="res.partner">
+        <field name="name">Chelsea Dillon</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_235" model="res.partner">
+        <field name="name">Cheryl Knight</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_236" model="res.partner">
+        <field name="name">Christian Jackson</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_237" model="res.partner">
+        <field name="name">Christina Palmer</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_238" model="res.partner">
+        <field name="name">Christine Harris</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_239" model="res.partner">
+        <field name="name">Christopher Brewer</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_240" model="res.partner">
+        <field name="name">Christopher Hale</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_837" model="res.partner">
+        <field name="name">Christopher Odonnell</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_842" model="res.partner">
+        <field name="name">Cody Maldonado</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_845" model="res.partner">
+        <field name="name">Coop Butiker &amp; Stormarknader</field>
+        <field name="email">coop</field>
+        <field name="is_company" eval="True" />
+    </record>
+
+    <record id="partner_846" model="res.partner">
+        <field name="name">Corey Jenkins</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_855" model="res.partner">
+        <field name="name">Dana Martinez</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_858" model="res.partner">
+        <field name="name">Daniel Carr</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_877" model="res.partner">
+        <field name="name">Dialect</field>
+        <field name="is_company" eval="True" />
+    </record>
+
+    <record id="partner_882" model="res.partner">
+        <field name="name">Donna White</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_886" model="res.partner">
+        <field name="name">Edward Smith</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_888" model="res.partner">
+        <field name="name">Elizabeth Silva</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_897" model="res.partner">
+        <field name="name">Franklin Daniels</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_898" model="res.partner">
+        <field name="name">Gabrielle Brown</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_902" model="res.partner">
+        <field name="name">Glen Sullivan</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_907" model="res.partner">
+        <field name="name">Heather Tucker</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_922" model="res.partner">
+        <field name="name">James Huynh</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_925" model="res.partner">
+        <field name="name">James Little</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_933" model="res.partner">
+        <field name="name">Jenny Taylor</field>
+        <field name="email">jenny@epost.se</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_935" model="res.partner">
+        <field name="name">Jeremy Martin</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_936" model="res.partner">
+        <field name="name">Jerome Gonzalez</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_937" model="res.partner">
+        <field name="name">Jesse Hudson</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_939" model="res.partner">
+        <field name="name">Jessica Forbes</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_948" model="res.partner">
+        <field name="name">John Moody</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_960" model="res.partner">
+        <field name="name">Joseph Wade</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_964" model="res.partner">
+        <field name="name">Julia Brown</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_970" model="res.partner">
+        <field name="name">Karen Reyes</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_981" model="res.partner">
+        <field name="name">Kevin Brooks</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_984" model="res.partner">
+        <field name="name">Kevin Perez</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_992" model="res.partner">
+        <field name="name">Kristina Hull</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_997" model="res.partner">
+        <field name="name">Linda Bailey</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_999" model="res.partner">
+        <field name="name">Lisa Goodwin DDS</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1008" model="res.partner">
+        <field name="name">Maria Miller</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1011" model="res.partner">
+        <field name="name">Marie Hardy</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1014" model="res.partner">
+        <field name="name">Mark Cruz</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1017" model="res.partner">
+        <field name="name">Megan May</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1021" model="res.partner">
+        <field name="name">Melanie Stuart</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1026" model="res.partner">
+        <field name="name">Melody Lucas</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1032" model="res.partner">
+        <field name="name">Michael Santiago</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1039" model="res.partner">
+        <field name="name">Molly Ross</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1040" model="res.partner">
+        <field name="name">Morgan Dawson</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1043" model="res.partner">
+        <field name="name">Mrs. Donna Bryan</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1044" model="res.partner">
+        <field name="name">Natalie Matthews</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1046" model="res.partner">
+        <field name="name">Natasha Walker</field>
+        <field name="email">natasha@epost.com</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1049" model="res.partner">
+        <field name="name">Nicholas Erickson</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1053" model="res.partner">
+        <field name="name">Patricia Pierce</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1054" model="res.partner">
+        <field name="name">Patrick Anderson</field>
+        <field name="country_id" ref="base.se" />
+        <field name="email">pattrick</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1056" model="res.partner">
+        <field name="name">Paul Key</field>
+        <field name="email">paul@epost.com</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1059" model="res.partner">
+        <field name="name">Rachel Jackson</field>
+        <field name="email">reachel@email.com</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1075" model="res.partner">
+        <field name="name">Ryan Silva</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1096" model="res.partner">
+        <field name="name">Sheri Hawkins</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1100" model="res.partner">
+        <field name="name">Stacy Montes</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1106" model="res.partner">
+        <field name="name">Steven Humphrey</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1110" model="res.partner">
+        <field name="name">Telenor Sverige Aktiebolag</field>
+        <field name="email">telenor@telenor.se</field>
+        <field name="is_company" eval="True" />
+    </record>
+
+    <record id="partner_1112" model="res.partner">
+        <field name="name">Teresa Delgado</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1116" model="res.partner">
+        <field name="name">Terri Jones</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1129" model="res.partner">
+        <field name="name">Walter Pham</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1130" model="res.partner">
+        <field name="name">William Miranda MD</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1155" model="res.partner">
+        <field name="name">Mediq Sverige AB</field>
+        <field name="ref">SE123456789701</field>
+        <field name="vat">SE123456789701</field>
+        <field name="street">Fraktvägen 7</field>
+        <field name="city">Upplands Väsby</field>
+        <field name="zip">19430</field>
+        <field name="country_id" ref="base.se" />
+        <field name="is_company" eval="True" />
+    </record>
+
+    <record id="partner_1164" model="res.partner">
+        <field name="name">Gastropartner AB</field>
+        <field name="email">Gastro</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1169" model="res.partner">
+        <field name="name">Castellum Linköping City Estate AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1170" model="res.partner">
+        <field name="name">Securitas Direct Sverige AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1171" model="res.partner">
+        <field name="name">Tekniska verken</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1172" model="res.partner">
+        <field name="name">Stormtrivs i Llnköping AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1173" model="res.partner">
+        <field name="name">Svenska Telekompaniet AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1174" model="res.partner">
+        <field name="name">SPP Pension och Forsäkring</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1175" model="res.partner">
+        <field name="name">Bixia AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1176" model="res.partner">
+        <field name="name">BILBORSEN I LINKOPING</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1177" model="res.partner">
+        <field name="name">Hallon</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1178" model="res.partner">
+        <field name="name">Ronaldo´s Bistro</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1179" model="res.partner">
+        <field name="name">SEB Sverige</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1180" model="res.partner">
+        <field name="name">Bahnhof AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1181" model="res.partner">
+        <field name="name">Jerns Reklam</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1182" model="res.partner">
+        <field name="name">Great Business Group Sale Sweden AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    <record id="partner_1183" model="res.partner">
+        <field name="name">InExchange Factorum AB</field>
+        <field name="is_company" eval="False" />
+    </record>
+
+    
+    
+    
+
+    <record id="fiscal_pos_9" model="account.fiscal.position">
+        <field name="name">Handel inom Sverige</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    
+    
+    
+
+    <record id="payment_term_4" model="account.payment.term">
+        <field name="name">30 dagar</field>
+    </record>
+
+    
+    
+    
+
+    <record id="product_template_16" model="product.template">
+        <field name="name">Sempermed Syntegra Nitrile Examination Gloves - Medium, Powder-Free</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_17" model="product.template">
+        <field name="name">Type IIR Surgical Face Mask - 3-Ply, Fluid Resistant</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_24" model="product.template">
+        <field name="name">Kikärtor</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_25" model="product.template">
+        <field name="name">Potatis</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_26" model="product.template">
+        <field name="name">Ägg</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_27" model="product.template">
+        <field name="name">Krossade tomater</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_28" model="product.template">
+        <field name="name">Palsternacka</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_30" model="product.template">
+        <field name="name">Pant</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="2.00" />
+    </record>
+
+    <record id="product_template_31" model="product.template">
+        <field name="name">Loka Citron</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_32" model="product.template">
+        <field name="name">Rent (automatically created)</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    <record id="product_template_34" model="product.template">
+        <field name="name">Telefonväxel</field>
+        <field name="type">consu</field>
+        <field name="list_price" eval="1.00" />
+    </record>
+
+    
+
+</odoo>
