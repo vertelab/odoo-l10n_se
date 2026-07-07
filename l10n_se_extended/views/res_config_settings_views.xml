@@ -214,7 +214,7 @@
                 <!-- ====== 9. Budget &amp; Forecast ====== -->
                 <block title="Budget &amp; Forecast" id="swedish_budget">
                     <setting id="account_mis_budget_setting"
-                        string="Budget Management"
+                        string="MIS Budget Management"
                         help="MIS-based budgets with budget vs actual.">
                         <field name="module_account_mis_budget" widget="upgrade_boolean"/>
                     </setting>

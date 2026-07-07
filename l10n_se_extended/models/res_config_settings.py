@@ -173,7 +173,7 @@ class ResConfigSettings(models.TransientModel):
     # 9. Budget & Forecast
     # ==================================================================
     module_account_mis_budget = fields.Boolean(
-        string='Budget Management',
+        string='MIS Budget Management',
         help='MIS-based budgets with budget vs actual. Installs account_mis_budget.',
     )
     module_account_mis_budget_forecast = fields.Boolean(
