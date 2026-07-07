@@ -3,9 +3,7 @@
 
     <!-- ==================================================================
          Swedish Accounting — Comprehensive Settings Page
-         Inject 12 blocks into Account settings after the Audit Trail block.
-         Replaces the old res_config_settings_view_form_digitization view;
-         module_account_invoice_ai is now in the Supplier Invoices section.
+         11 sections injected into Account settings.
          ================================================================== -->
     <record id="res_config_settings_view_form_swedish_accounting" model="ir.ui.view">
         <field name="name">res.config.settings.view.form.inherit.swedish.accounting</field>
@@ -19,15 +17,17 @@
                     <div class="text-muted mb16">
                         Configure your Swedish accounting setup. Enable features —
                         modules are installed automatically when you save.
-                        All modules are open source (Vertel AB / OCA).
                     </div>
                 </block>
 
-                <!-- ====== 1. Financial Reports ====== -->
-                <block title="Financial Reports" id="swedish_financial_reports">
+                <!-- ====== 1. Standardrapporter ====== -->
+                <block title="Standardrapporter" id="swedish_financial_reports">
+                    <div class="text-muted mb8">
+                        Balans och resultaträkning m.fl.
+                    </div>
                     <setting id="account_financial_report_setting"
-                        string="OCA Financial Reports"
-                        help="General Ledger, Trial Balance, Aged Partner Balance, Journal Ledger, Open Items, VAT Report.">
+                        string="Financial Reports"
+                        help="General Ledger, Trial Balance, Aged Partner Balance, Journal Ledger, Open Items.">
                         <field name="module_account_financial_report"/>
                     </setting>
                     <setting id="l10n_se_account_financial_report_setting"
@@ -40,47 +40,11 @@
                         help="Pre-built MIS report templates for Swedish accounting.">
                         <field name="module_l10n_se_mis"/>
                     </setting>
-                    <setting id="l10n_se_mis_k2_setting"
-                        string="├─ K2 Reports (Aktiebolag)"
-                        help="Balance sheet, income statement, cash flow for K2 companies."
+                    <setting id="mis_report_package_setting"
+                        string="Report Package"
+                        help="Select which MIS report package to install — balansräkning, resultaträkning, kassaflödesanalys. K2/K3/Kommun."
                         invisible="not module_l10n_se_mis">
-                        <field name="module_l10n_se_mis_k2"/>
-                    </setting>
-                    <setting id="l10n_se_mis_k3_setting"
-                        string="├─ K3 Reports (Aktiebolag)"
-                        help="Balance sheet, income statement (cost-type &amp; function), cash flow, equity for K3 companies."
-                        invisible="not module_l10n_se_mis">
-                        <field name="module_l10n_se_mis_k3"/>
-                    </setting>
-                    <setting id="l10n_se_mis_k2_filial_setting"
-                        string="├─ K2 Reports (Filial)"
-                        help="MIS reports for K2 branches."
-                        invisible="not module_l10n_se_mis">
-                        <field name="module_l10n_se_mis_k2_filial"/>
-                    </setting>
-                    <setting id="l10n_se_mis_k2_forening_setting"
-                        string="├─ K2 Reports (Ekonomisk förening)"
-                        help="MIS reports for K2 economic associations."
-                        invisible="not module_l10n_se_mis">
-                        <field name="module_l10n_se_mis_k2_forening"/>
-                    </setting>
-                    <setting id="l10n_se_mis_k2_handelsbolag_setting"
-                        string="├─ K2 Reports (Handelsbolag)"
-                        help="MIS reports for K2 trading partnerships."
-                        invisible="not module_l10n_se_mis">
-                        <field name="module_l10n_se_mis_k2_handelsbolag"/>
-                    </setting>
-                    <setting id="l10n_se_mis_k3_koncern_setting"
-                        string="├─ K3 Reports (Koncern)"
-                        help="MIS reports for K3 groups."
-                        invisible="not module_l10n_se_mis">
-                        <field name="module_l10n_se_mis_k3_koncern"/>
-                    </setting>
-                    <setting id="l10n_se_mis_kommun_setting"
-                        string="├─ Kommun Reports"
-                        help="MIS reports for Swedish municipalities."
-                        invisible="not module_l10n_se_mis">
-                        <field name="module_l10n_se_mis_kommun"/>
+                        <field name="mis_report_package"/>
                     </setting>
                     <setting id="mis_builder_cash_flow_setting"
                         string="Cash Flow Statement"
@@ -121,10 +85,6 @@
                         help="Data migration and sync with Fortnox.">
                         <field name="module_account_fortnox"/>
                     </setting>
-                </block>
-
-                <!-- ====== 3. Bank Import ====== -->
-                <block title="Bank Import" id="swedish_bank_import">
                     <setting id="l10n_se_account_bank_statement_import_setting"
                         string="Swedish Bank Statement Import"
                         help="Import bank statements in Swedish formats (Bankgiro, BGMax).">
@@ -135,9 +95,14 @@
                         help="Automatic OCR-based reconciliation for Swedish payment references.">
                         <field name="module_l10n_se_ocr_reconcile"/>
                     </setting>
+                    <div class="content-group mt8" invisible="not module_l10n_se_ocr_reconcile">
+                        <a href="#" class="oe_link" role="button"
+                            name="%(account.action_account_reconcile_model)d"
+                            type="action">Configure Reconciliation Rules</a>
+                    </div>
                 </block>
 
-                <!-- ====== 4. Supplier Invoices ====== -->
+                <!-- ====== 3. Supplier Invoices ====== -->
                 <block title="Supplier Invoices" id="swedish_supplier_invoices">
                     <setting id="document_digitization_ai_setting"
                         string="AI Invoice Processing"
@@ -167,7 +132,7 @@
                     </setting>
                 </block>
 
-                <!-- ====== 5. Customer Invoices ====== -->
+                <!-- ====== 4. Customer Invoices ====== -->
                 <block title="Customer Invoices" id="swedish_customer_invoices">
                     <setting id="account_due_reminder_setting"
                         string="Payment Reminders"
@@ -186,7 +151,7 @@
                     </setting>
                 </block>
 
-                <!-- ====== 6. Tax &amp; Authorities ====== -->
+                <!-- ====== 5. Tax &amp; Authorities ====== -->
                 <block title="Tax &amp; Authorities" id="swedish_tax">
                     <setting id="l10n_se_tax_report_setting"
                         string="Tax Reports &amp; SKV API"
@@ -215,11 +180,11 @@
                     </setting>
                 </block>
 
-                <!-- ====== 7. Period &amp; Closing ====== -->
+                <!-- ====== 6. Period &amp; Closing ====== -->
                 <block title="Period &amp; Closing" id="swedish_period">
                     <setting id="account_period_vrtl_setting"
                         string="Swedish Periods"
-                        help="Swedish fiscal periods (monthly/quarterly) with closing controls.">
+                        help="Swedish fiscal periods with closing controls.">
                         <field name="module_account_period_vrtl"/>
                     </setting>
                     <setting id="account_closed_setting"
@@ -244,7 +209,7 @@
                     </setting>
                 </block>
 
-                <!-- ====== 8. Year-End Closing ====== -->
+                <!-- ====== 7. Year-End Closing ====== -->
                 <block title="Year-End Closing" id="swedish_bokslut">
                     <setting id="l10n_se_bokslut_setting"
                         string="Year-End Closing"
@@ -253,7 +218,7 @@
                     </setting>
                 </block>
 
-                <!-- ====== 9. Budget &amp; Forecast ====== -->
+                <!-- ====== 8. Budget &amp; Forecast ====== -->
                 <block title="Budget &amp; Forecast" id="swedish_budget">
                     <setting id="account_mis_budget_setting"
                         string="MIS Budget Management"
@@ -262,7 +227,7 @@
                     </setting>
                     <setting id="account_mis_budget_forecast_setting"
                         string="Dynamic Forecast"
-                        help="Dynamic forecast replacing budget with actuals for past periods.">
+                        help="Dynamic forecast replacing budget with actuals.">
                         <field name="module_account_mis_budget_forecast"/>
                     </setting>
                     <setting id="account_budget_analytic_account_setting"
@@ -272,7 +237,7 @@
                     </setting>
                 </block>
 
-                <!-- ====== 10. Assets ====== -->
+                <!-- ====== 9. Assets ====== -->
                 <block title="Assets" id="swedish_assets">
                     <setting id="account_asset_change_setting"
                         string="Asset Management"
@@ -296,7 +261,7 @@
                     </setting>
                 </block>
 
-                <!-- ====== 11. SIE &amp; Migration ====== -->
+                <!-- ====== 10. SIE &amp; Migration ====== -->
                 <block title="SIE &amp; Migration" id="swedish_sie">
                     <setting id="l10n_se_sie_setting"
                         string="SIE Import/Export (Full)"
@@ -310,7 +275,7 @@
                     </setting>
                 </block>
 
-                <!-- ====== 12. Document Management ====== -->
+                <!-- ====== 11. Document Management ====== -->
                 <block title="Document Management" id="swedish_documents">
                     <setting id="account_attachment_directory_setting"
                         string="Document Directory"
@@ -326,6 +291,11 @@
 
             </xpath>
         </field>
+    </record>
+
+    <!-- Hide VAT Report from OCA Financial Reports menu when installed -->
+    <record id="account_financial_report.menu_vat_report_wizard" model="ir.ui.menu">
+        <field name="active" eval="False"/>
     </record>
 
 </odoo>

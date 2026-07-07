@@ -7,11 +7,11 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     # ==================================================================
-    # 1. Financial Reports
+    # 1. Standardrapporter
     # ==================================================================
     module_account_financial_report = fields.Boolean(
-        string='OCA Financial Reports',
-        help='General Ledger, Trial Balance, Aged Partner Balance, Journal Ledger, Open Items, VAT Report. '
+        string='Financial Reports',
+        help='General Ledger, Trial Balance, Aged Partner Balance, Journal Ledger, Open Items. '
              'Installs OCA account_financial_report.',
     )
     module_l10n_se_account_financial_report = fields.Boolean(
@@ -20,43 +20,37 @@ class ResConfigSettings(models.TransientModel):
     )
     module_l10n_se_mis = fields.Boolean(
         string='MIS Builder',
+        default=True,
         help='Pre-built MIS report templates for Swedish accounting. Installs l10n_se_mis.',
     )
-    module_l10n_se_mis_k2 = fields.Boolean(
-        string='K2 Reports (Aktiebolag)',
-        help='MIS reports for K2 companies. Installs l10n_se_mis_k2.',
-    )
-    module_l10n_se_mis_k3 = fields.Boolean(
-        string='K3 Reports (Aktiebolag)',
-        help='MIS reports for K3 companies. Installs l10n_se_mis_k3.',
-    )
-    module_l10n_se_mis_k2_filial = fields.Boolean(
-        string='K2 Reports (Filial)',
-        help='MIS reports for K2 branches. Installs l10n_se_mis_k2_filial.',
-    )
-    module_l10n_se_mis_k2_forening = fields.Boolean(
-        string='K2 Reports (Ekonomisk förening)',
-        help='MIS reports for K2 economic associations. Installs l10n_se_mis_k2_forening.',
-    )
-    module_l10n_se_mis_k2_handelsbolag = fields.Boolean(
-        string='K2 Reports (Handelsbolag)',
-        help='MIS reports for K2 trading partnerships. Installs l10n_se_mis_k2_handelsbolag.',
-    )
-    module_l10n_se_mis_k3_koncern = fields.Boolean(
-        string='K3 Reports (Koncern)',
-        help='MIS reports for K3 groups. Installs l10n_se_mis_k3_koncern.',
-    )
-    module_l10n_se_mis_kommun = fields.Boolean(
-        string='Kommun Reports',
-        help='MIS reports for Swedish municipalities. Installs l10n_se_mis_kommun.',
-    )
+    # MIS report package selector (dropdown)
+    mis_report_package = fields.Selection([
+        ('none', 'None'),
+        ('k2', 'K2 (Aktiebolag)'),
+        ('k3', 'K3 (Aktiebolag)'),
+        ('k2_filial', 'K2 (Filial)'),
+        ('k2_forening', 'K2 (Ekonomisk förening)'),
+        ('k2_handelsbolag', 'K2 (Handelsbolag)'),
+        ('k3_koncern', 'K3 (Koncern)'),
+        ('kommun', 'Kommun'),
+    ], string='Report Package',
+        help='Select which MIS report package to install — balansräkning, '
+             'resultaträkning, kassaflödesanalys. Requires MIS Builder.')
+    # Hidden module fields — set by onchange
+    module_l10n_se_mis_k2 = fields.Boolean()
+    module_l10n_se_mis_k3 = fields.Boolean()
+    module_l10n_se_mis_k2_filial = fields.Boolean()
+    module_l10n_se_mis_k2_forening = fields.Boolean()
+    module_l10n_se_mis_k2_handelsbolag = fields.Boolean()
+    module_l10n_se_mis_k3_koncern = fields.Boolean()
+    module_l10n_se_mis_kommun = fields.Boolean()
     module_mis_builder_cash_flow = fields.Boolean(
         string='Cash Flow Statement',
         help='Cash flow statement for MIS Builder. Installs OCA mis_builder_cash_flow.',
     )
 
     # ==================================================================
-    # 2. Bank & Payments
+    # 2. Bank & Payments (inkl. bankimport och avstämning)
     # ==================================================================
     module_account_payment_order = fields.Boolean(
         string='Payment Orders (Bankgiro/Plusgiro/SEPA)',
@@ -73,8 +67,7 @@ class ResConfigSettings(models.TransientModel):
     )
     module_account_enablebanking = fields.Boolean(
         string='Auto Bank Sync (PSD2)',
-        help='Automatic bank sync via Enable Banking API (Swedbank, SEB, Nordea, Handelsbanken). '
-             'Installs account_enablebanking.',
+        help='Automatic bank sync via Enable Banking API. Installs account_enablebanking.',
     )
     module_l10n_se_mynt = fields.Boolean(
         string='Mynt Corporate Cards',
@@ -84,10 +77,6 @@ class ResConfigSettings(models.TransientModel):
         string='Fortnox Integration',
         help='Data migration and sync with Fortnox. Installs account_fortnox.',
     )
-
-    # ==================================================================
-    # 3. Bank Import
-    # ==================================================================
     module_l10n_se_account_bank_statement_import = fields.Boolean(
         string='Swedish Bank Statement Import',
         help='Import bank statements in Swedish formats (Bankgiro, BGMax). '
@@ -100,14 +89,12 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 4. Supplier Invoices
+    # 3. Supplier Invoices
     # ==================================================================
-    # module_account_invoice_ai — kept for backward compatibility
     module_account_invoice_ai = fields.Boolean(
         string='AI Invoice Processing',
         help='Digitize your PDF or scanned documents using AI. '
-             'Installs the account_invoice_ai module for automatic '
-             'invoice processing with artificial intelligence.',
+             'Installs the account_invoice_ai module.',
     )
     module_account_invoice_ai_3way_match = fields.Boolean(
         string='AI 3-Way Match',
@@ -124,7 +111,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 5. Customer Invoices
+    # 4. Customer Invoices
     # ==================================================================
     module_account_due_reminder = fields.Boolean(
         string='Payment Reminders',
@@ -140,16 +127,14 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 6. Tax & Authorities
+    # 5. Tax & Authorities
     # ==================================================================
     module_l10n_se_tax_report = fields.Boolean(
         string='Tax Reports & SKV API',
-        default=True,
         help='VAT, AGD, periodic summary via Skatteverket API. Installs l10n_se_tax_report.',
     )
     module_l10n_se_tax_account = fields.Boolean(
         string='Tax Account Reconciliation',
-        default=True,
         help='Two-column tax account reconciliation vs Skatteverket API. Installs l10n_se_tax_account.',
     )
     module_l10n_se_agi = fields.Boolean(
@@ -166,11 +151,11 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 7. Period & Closing
+    # 6. Period & Closing
     # ==================================================================
     module_account_period_vrtl = fields.Boolean(
         string='Swedish Periods',
-        help='Swedish fiscal periods (monthly/quarterly) with closing controls. Installs account_period_vrtl.',
+        help='Swedish fiscal periods with closing controls. Installs account_period_vrtl.',
     )
     module_account_closed = fields.Boolean(
         string='Period Lock',
@@ -190,7 +175,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 8. Year-End Closing
+    # 7. Year-End Closing
     # ==================================================================
     module_l10n_se_bokslut = fields.Boolean(
         string='Year-End Closing',
@@ -198,7 +183,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 9. Budget & Forecast
+    # 8. Budget & Forecast
     # ==================================================================
     module_account_mis_budget = fields.Boolean(
         string='MIS Budget Management',
@@ -206,7 +191,7 @@ class ResConfigSettings(models.TransientModel):
     )
     module_account_mis_budget_forecast = fields.Boolean(
         string='Dynamic Forecast',
-        help='Dynamic forecast replacing budget with actuals for past periods. Installs account_mis_budget_forecast.',
+        help='Dynamic forecast replacing budget with actuals. Installs account_mis_budget_forecast.',
     )
     module_account_budget_analytic_account = fields.Boolean(
         string='Budget per Analytic Account',
@@ -214,11 +199,11 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 10. Assets
+    # 9. Assets
     # ==================================================================
     module_account_asset_change = fields.Boolean(
         string='Asset Management',
-        help='Extended asset management with change tracking. Installs account_asset_change + OCA asset management.',
+        help='Extended asset management with change tracking. Installs account_asset_change.',
     )
     module_account_asset_lot_stock = fields.Boolean(
         string='Asset Lot/Serial Tracking',
@@ -234,7 +219,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 11. SIE & Migration
+    # 10. SIE & Migration
     # ==================================================================
     module_l10n_se_sie = fields.Boolean(
         string='SIE Import/Export (Full)',
@@ -246,7 +231,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     # ==================================================================
-    # 12. Document Management
+    # 11. Document Management
     # ==================================================================
     module_account_attachment_directory = fields.Boolean(
         string='Document Directory',
@@ -260,6 +245,29 @@ class ResConfigSettings(models.TransientModel):
     # ==================================================================
     # Dependency Hints (onchange)
     # ==================================================================
+    @api.onchange('mis_report_package')
+    def _onchange_mis_report_package(self):
+        """Set the correct module_* field based on dropdown selection."""
+        self.module_l10n_se_mis_k2 = False
+        self.module_l10n_se_mis_k3 = False
+        self.module_l10n_se_mis_k2_filial = False
+        self.module_l10n_se_mis_k2_forening = False
+        self.module_l10n_se_mis_k2_handelsbolag = False
+        self.module_l10n_se_mis_k3_koncern = False
+        self.module_l10n_se_mis_kommun = False
+        mapping = {
+            'k2': 'module_l10n_se_mis_k2',
+            'k3': 'module_l10n_se_mis_k3',
+            'k2_filial': 'module_l10n_se_mis_k2_filial',
+            'k2_forening': 'module_l10n_se_mis_k2_forening',
+            'k2_handelsbolag': 'module_l10n_se_mis_k2_handelsbolag',
+            'k3_koncern': 'module_l10n_se_mis_k3_koncern',
+            'kommun': 'module_l10n_se_mis_kommun',
+        }
+        if self.mis_report_package and self.mis_report_package != 'none':
+            setattr(self, mapping[self.mis_report_package], True)
+            self.module_l10n_se_mis = True
+
     @api.onchange('module_account_invoice_ai_3way_match')
     def _onchange_ai_3way_match(self):
         if self.module_account_invoice_ai_3way_match:
@@ -279,14 +287,3 @@ class ResConfigSettings(models.TransientModel):
     def _onchange_asset_management_grant(self):
         if self.module_account_asset_management_grant:
             self.module_account_asset_change = True
-
-    @api.onchange('module_l10n_se_mis_k2', 'module_l10n_se_mis_k3',
-                  'module_l10n_se_mis_k2_filial', 'module_l10n_se_mis_k2_forening',
-                  'module_l10n_se_mis_k2_handelsbolag', 'module_l10n_se_mis_k3_koncern',
-                  'module_l10n_se_mis_kommun')
-    def _onchange_mis_report_package(self):
-        if any([self.module_l10n_se_mis_k2, self.module_l10n_se_mis_k3,
-                self.module_l10n_se_mis_k2_filial, self.module_l10n_se_mis_k2_forening,
-                self.module_l10n_se_mis_k2_handelsbolag, self.module_l10n_se_mis_k3_koncern,
-                self.module_l10n_se_mis_kommun]):
-            self.module_l10n_se_mis = True
