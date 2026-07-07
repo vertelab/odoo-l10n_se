@@ -21,17 +21,13 @@
 
 from odoo import models, fields, api, _
 from lxml import etree
-import base64
 from collections import OrderedDict
 from odoo.exceptions import UserError
 import time
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 from workalendar.europe import Sweden
-import requests
 import logging
-import os
-import tempfile
 
 _logger = logging.getLogger(__name__)
 
@@ -118,7 +114,7 @@ NAMEMAPPING = OrderedDict([
 
 class account_declaration(models.Model):
     _name = 'account.declaration'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'skatteverket.api']
     _description = 'Declaration Report'
     _report_name = 'Declaration Report'
     _order = 'date asc'
@@ -177,29 +173,7 @@ class account_declaration(models.Model):
 
     move_ids_count = fields.Integer(compute='_move_ids_count')
 
-    def _payment_ids_count(self):
-        for rec in self:
-            self.payment_ids_count = len(self.get_payment_orders())
 
-    payment_ids_count = fields.Integer(compute='_payment_ids_count')
-
-    def get_payment_orders(self):
-        payment_order = []
-        if self.move_id:
-            for l in self.move_id.line_ids:
-                line = self.env['account.payment.line'].search([('move_line_id', '=', l.id)])
-                if line:
-                    payment_order.append(line.order_id.id)
-        return payment_order
-
-    def show_payment_orders(self):
-        action = self.env['ir.actions.act_window']._for_xml_id(
-            'account_payment_order.account_payment_order_outbound_action')
-        action.update({
-            'display_name': _('%s') % self.name,
-            'domain': [('id', 'in', self.get_payment_orders())],
-        })
-        return action
 
     # ~ @api.model
     # ~ def get_next_periods(self, length=3):
@@ -310,93 +284,24 @@ class account_declaration(models.Model):
 
     @api.model
     def _calculate_vat_deadline(self, date_stop, freq_months):
+        """Calculate the VAT declaration deadline.
+
+        Swedish rules (Skatteverket):
+        - Monthly: 12th day of the SECOND month after the period.
+          e.g. January → March 12, February → April 12.
+          This gives ~42-45 days from period end.
+        - Quarterly: 12th day of the second month after the quarter.
+          e.g. Q1 (Jan-Mar) → May 12.
+        - Annual: 12th day of the second month after year-end.
+        """
+        # All periods (monthly, quarterly, annual) use the same rule:
+        # the 12th of the SECOND month after the period end.
+        # Monthly example: January 31 → March 12 (~40 days).
         cal = Sweden()
-        if freq_months == 1:  # Monthly
-            if date_stop.month == 1:
-                deadline = date(date_stop.year, 3, 12)
-            elif date_stop.month == 8:
-                deadline = date(date_stop.year, 10, 12)
-            else:
-                deadline = date_stop + relativedelta(months=1, day=12)
-        elif freq_months == 3:  # Quarterly
-            deadline = date_stop + relativedelta(months=2, day=12)
-        else:  # Annual
-            deadline = date_stop + relativedelta(months=1, day=12)
+        deadline = date_stop + relativedelta(months=2, day=12)
         while not cal.is_working_day(deadline):
             deadline += timedelta(days=1)
         return deadline
-
-    # --- Skatteverket API helper methods (shared across all declaration types) ---
-
-    def _get_skv_settings(self):
-        """Retrieve Skatteverket API settings from company."""
-        company = self.company_id or self.env.company
-        return {
-            'test_mode': company.skv_test_mode,
-            'auth_method': company.skv_auth_method,
-            'api_url': company.skv_api_url,
-            'auth_url': company.skv_auth_url,
-            'token_url': company.skv_token_url,
-        }
-
-    def _get_skv_partner(self):
-        """Find the Skatteverket partner configured for API access."""
-        partner = self.env['res.partner'].search(
-            [('enable_skatteverket_api', '=', True)], limit=1)
-        if not partner:
-            partner = self.env.ref('l10n_se_tax_report.res_partner-SKV', raise_if_not_found=False)
-        return partner
-
-    def _get_skv_access_token(self, partner):
-        """Obtain an access token for Skatteverket API."""
-        if partner.check_valid_access_token():
-            return partner.access_token
-
-        settings = self._get_skv_settings()
-
-        if settings['auth_method'] == 'cert':
-            if not partner.certificate:
-                raise UserError(_(
-                    "No certificate uploaded on the Skatteverket partner. "
-                    "Upload a certificate on the partner record."))
-            cert_data = base64.b64decode(partner.certificate)
-            tmp = tempfile.NamedTemporaryFile(suffix='.pem', delete=False)
-            tmp.write(cert_data)
-            tmp.close()
-            session = requests.Session()
-            session.cert = tmp.name
-
-            try:
-                resp = session.post(
-                    settings['token_url'],
-                    data={
-                        'grant_type': 'client_credentials',
-                        'client_id': partner.oauth_client_id or '',
-                        'client_secret': partner.oauth_secret or '',
-                        'scope': 'ska',
-                    },
-                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                )
-                if resp.status_code == 200:
-                    token_data = resp.json()
-                    partner.write({
-                        'access_token': token_data.get('access_token'),
-                        'recived_token_on': datetime.now(),
-                        'expires_in': token_data.get('expires_in', 3600),
-                    })
-                    return token_data.get('access_token')
-                else:
-                    _logger.error("SKV token error: %s %s", resp.status_code, resp.text)
-                    raise UserError(_(
-                        "Failed to get access token from Skatteverket: %s")
-                        % resp.text[:200])
-            finally:
-                os.unlink(tmp.name)
-        else:
-            raise UserError(_(
-                "E-identification flow requires interactive browser. "
-                "Please use certificate authentication or complete "
-                "OAuth2 authorization via the Tax Account module first."))
 
     def action_send_to_skv(self):
         """Submit declaration to Skatteverket API. Override in subclass."""
@@ -535,4 +440,7 @@ class account_move(models.Model):
     vat_declaration_id = fields.Many2one(comodel_name="account.vat.declaration")
     full_reconcile_id = fields.Many2one(comodel_name='account.full.reconcile')
     year_end_move = fields.Boolean(string='Year End Move', default=False)
+
+
+
 

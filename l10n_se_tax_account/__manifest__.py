@@ -61,7 +61,7 @@ External Dependencies:
     'depends': [
         'account',
         'contacts',
-        'l10n_se_tax_report',
+        'l10n_se_skatteverket_api',
         'account_reconcile_oca',
         'account_statement_reconcile_status',
     ],
@@ -77,6 +77,7 @@ External Dependencies:
         'views/tax_account_reconciliation_views.xml',
         'wizard/tax_account_transaction_wizard_views.xml',
         'data/cron_data.xml',
+        'data/skattekonto_data.xml',
     ],
     'demo': [],
     'application': False,

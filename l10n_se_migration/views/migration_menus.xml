@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_migration"
+              name="Migration"
+              parent="account.menu_finance"
+              action="action_migration_wizard"
+              sequence="90"/>
+
+</odoo>

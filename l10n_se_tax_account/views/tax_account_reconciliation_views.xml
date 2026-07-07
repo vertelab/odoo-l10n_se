@@ -155,7 +155,7 @@
     <menuitem
         id="menu_tax_account_reconciliation"
         name="Tax Account Reconciliation"
-        parent="l10n_se_tax_report.menu_report_authorities"
+        parent="account.menu_finance_entries"
         action="action_tax_account_reconciliation"
         groups="account.group_account_user,account.group_account_manager"
         sequence="20"/>

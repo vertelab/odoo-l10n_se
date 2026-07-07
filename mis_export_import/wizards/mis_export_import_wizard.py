@@ -45,10 +45,15 @@ class MISReportExportImport(models.TransientModel):
         'my_module.mis_report_resultatrakning' if module_prefix is set.
         Handles collisions by appending _1, _2, etc.
         """
-        name = record.name or ''
-        normalized = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
-        sanitized = re.sub(r'[^a-zA-Z0-9]+', '_', normalized).strip('_').lower()
-        sanitized = sanitized[:50] if sanitized else 'unnamed'
+        if 'name' in record._fields:
+            name = record.name or ''
+            normalized = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
+            sanitized = re.sub(r'[^a-zA-Z0-9]+', '_', normalized).strip('_').lower()
+            sanitized = sanitized[:50] if sanitized else 'unnamed'
+        else:
+            # Models like mis.report.instance.period.sum have no 'name' field.
+            # Fall back to model name + record id for a guaranteed unique ID.
+            sanitized = f"{model_name.replace('.', '_')}_{record.id}"
 
         base_id = f"{model_name.replace('.', '_')}_{sanitized}"
         if self.module_prefix:

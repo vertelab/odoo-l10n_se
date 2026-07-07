@@ -1,0 +1,1965 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="report_style_k2_1" model="mis.report.style">
+            <field name="name">Style for money K2</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+            <field eval="False" name="dp_inherit"/>
+            <field name="dp">0</field>
+            <field eval="False" name="indent_level_inherit"/>
+            <field name="indent_level">2</field>
+        </record>
+        <record id="report_style_k2_2" model="mis.report.style">
+            <field name="name">Style account K2</field>
+            <field eval="False" name="indent_level_inherit"/>
+            <field name="indent_level">4</field>
+            <field eval="False" name="font_style_inherit"/>
+            <field name="font_style">italic</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+        <record id="report_style_k2_3" model="mis.report.style">
+            <field name="name">Style total K2</field>
+            <field eval="False" name="background_color_inherit"/>
+            <field name="background_color">#967C8B</field>
+            <field eval="False" name="color_inherit"/>
+            <field name="color">#FFFFFF</field>
+            <field eval="False" name="font_weight_inherit"/>
+            <field name="font_weight">bold</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+        <record id="report_style_k2_4" model="mis.report.style">
+            <field name="name">Style bold K2</field>
+            <field eval="False" name="font_weight_inherit"/>
+            <field name="indent_level">0</field>
+            <field name="font_weight">bold</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+        <record id="report_style_k2_5" model="mis.report.style">
+            <field name="name">Style bold sum K2</field>
+            <field eval="False" name="font_weight_inherit"/>
+            <field name="indent_level">0</field>
+            <field name="font_weight">bold</field>
+            <field eval="False" name="font_size_inherit"/>
+            <field name="font_size">medium</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+
+        <record id="report_equity_k3_compact" model="mis.report">
+            <field name="name">Förändringar i eget kapital K3 (kompakt)</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAbstract</field>
+            <field name="description">Förändringar i eget kapital</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">1</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapital</field>
+            <field name="description">Förändringar i eget kapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">2</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAktiekapitalAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAktiekapitalAbstract</field>
+            <field name="description">Aktiekapital</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">3</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_Aktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Aktiekapital</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">4</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Aktiekapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Aktiekapital"/>
+            <field name="name">bal[2081] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAktiekapitalJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAktiekapitalJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">5</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAktiekapitalEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAktiekapitalEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalAktiekapitalEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">6</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradAktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradAktiekapital</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">7</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeAktiekapitalAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeAktiekapitalAbstract</field>
+            <field name="description">Förändringar av aktiekapital</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">8</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAktiekapitalFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAktiekapitalFondemission</field>
+            <field name="description">ForandringEgetKapitalAktiekapitalFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">9</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAktiekapitalNyemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAktiekapitalNyemission</field>
+            <field name="description">ForandringEgetKapitalAktiekapitalNyemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">10</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAktiekapitalOverforingFrittEgetKapitalAterbetalningAktieagare" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAktiekapitalOverforingFrittEgetKapitalAterbetalningAktieagare</field>
+            <field name="description">ForandringEgetKapitalAktiekapitalOverforingFrittEgetKapitalAterbetalningAktieagare</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">11</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAktiekapitalTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAktiekapitalTackningForlust</field>
+            <field name="description">ForandringEgetKapitalAktiekapitalTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">12</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_Aktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Aktiekapital</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">13</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Aktiekapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Aktiekapital"/>
+            <field name="name">bal[2081] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalEjRegistreratAktiekapitalAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalEjRegistreratAktiekapitalAbstract</field>
+            <field name="description">Pågående ny- och fondemission</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">14</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_EjRegistreratAktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">EjRegistreratAktiekapital</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">15</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_EjRegistreratAktiekapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_EjRegistreratAktiekapital"/>
+            <field name="name">bal[2082] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalEjRegistreratAktiekapitalJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalEjRegistreratAktiekapitalJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">16</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalEjRegistreratAktiekapitalEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalEjRegistreratAktiekapitalEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalEjRegistreratAktiekapitalEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">17</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradEjRegistreratAktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradEjRegistreratAktiekapital</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">18</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeEjRegistreratAktiekapitalAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeEjRegistreratAktiekapitalAbstract</field>
+            <field name="description">Förändringar av pågående ny- och fondemission</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">19</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalEjRegistreratAktiekapitalFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalEjRegistreratAktiekapitalFondemission</field>
+            <field name="description">ForandringEgetKapitalEjRegistreratAktiekapitalFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">20</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalEjRegistreratAktiekapitalNyemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalEjRegistreratAktiekapitalNyemission</field>
+            <field name="description">ForandringEgetKapitalEjRegistreratAktiekapitalNyemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">21</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_EjRegistreratAktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">EjRegistreratAktiekapital</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">22</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_EjRegistreratAktiekapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_EjRegistreratAktiekapital"/>
+            <field name="name">bal[2082] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondAbstract</field>
+            <field name="description">Bunden överkursfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">23</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_OverkursfondBunden" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">OverkursfondBunden</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">24</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_OverkursfondBunden" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_OverkursfondBunden"/>
+            <field name="name">bal[2087] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">25</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">26</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradBundenOverkursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradBundenOverkursfond</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">27</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeBundenOverkursfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeBundenOverkursfondAbstract</field>
+            <field name="description">Förändringar av bunden överkursfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">28</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondFondemission</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">29</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondNyemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondNyemission</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondNyemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">30</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondUtgifterHanforligaEmission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondUtgifterHanforligaEmission</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondUtgifterHanforligaEmission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">31</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondSkatteeffekt" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondSkatteeffekt</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondSkatteeffekt</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">32</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondMinskningBundenOverskursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondMinskningBundenOverskursfond</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondMinskningBundenOverskursfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">33</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondTackningForlust</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">34</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBundenOverkursfondKonvertiblaSkuldebrevEgetKapitalandel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBundenOverkursfondKonvertiblaSkuldebrevEgetKapitalandel</field>
+            <field name="description">ForandringEgetKapitalBundenOverkursfondKonvertiblaSkuldebrevEgetKapitalandel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">35</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_OverkursfondBunden" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">OverkursfondBunden</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">36</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_OverkursfondBunden" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_OverkursfondBunden"/>
+            <field name="name">bal[2087] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondAbstract</field>
+            <field name="description">Uppskrivningsfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">37</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_Uppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Uppskrivningsfond</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">38</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Uppskrivningsfond" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Uppskrivningsfond"/>
+            <field name="name">bal[2085] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">39</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalUppskrivningsfondEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">40</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradUppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradUppskrivningsfond</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">41</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeUppskrivningsfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeUppskrivningsfondAbstract</field>
+            <field name="description">Förändringar av uppskrivningsfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">42</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitaUppskrivningsfondFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitaUppskrivningsfondFondemission</field>
+            <field name="description">ForandringEgetKapitaUppskrivningsfondFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">43</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondTackningForlust</field>
+            <field name="description">ForandringEgetKapitalUppskrivningsfondTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">44</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondUppskrivningAnlaggningstillgang" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondUppskrivningAnlaggningstillgang</field>
+            <field name="description">ForandringEgetKapitalUppskrivningsfondUppskrivningAnlaggningstillgang</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">45</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondUpplosningUppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondUpplosningUppskrivningsfond</field>
+            <field name="description">ForandringEgetKapitalUppskrivningsfondUpplosningUppskrivningsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">46</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondSkatteeffektUppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondSkatteeffektUppskrivningsfond</field>
+            <field name="description">ForandringEgetKapitalUppskrivningsfondSkatteeffektUppskrivningsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">47</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUppskrivningsfondFusionsdifferens" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUppskrivningsfondFusionsdifferens</field>
+            <field name="description">ForandringEgetKapitalUppskrivningsfondFusionsdifferens</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">48</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_Uppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Uppskrivningsfond</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">49</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Uppskrivningsfond" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Uppskrivningsfond"/>
+            <field name="name">bal[2085] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalReservfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalReservfondAbstract</field>
+            <field name="description">Reservfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">50</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_Reservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Reservfond</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">51</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Reservfond" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Reservfond"/>
+            <field name="name">bal[2086] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalReservfondJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalReservfondJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">52</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalReservfondEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalReservfondEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalReservfondEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">53</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradReservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradReservfond</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">54</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeReservfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeReservfondAbstract</field>
+            <field name="description">Förändringar av reservfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">55</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalReservfondFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalReservfondFondemission</field>
+            <field name="description">ForandringEgetKapitalReservfondFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">56</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalReservfondForandringReservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalReservfondForandringReservfond</field>
+            <field name="description">ForandringEgetKapitalReservfondForandringReservfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">57</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalReservfondTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalReservfondTackningForlust</field>
+            <field name="description">ForandringEgetKapitalReservfondTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">58</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_Reservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Reservfond</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">59</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Reservfond" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Reservfond"/>
+            <field name="name">bal[2086] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalKapitalandelsfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalKapitalandelsfondAbstract</field>
+            <field name="description">Kapitalandelsfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">60</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_Kapitalandelsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Kapitalandelsfond</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">61</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalKapitalandelsfondJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalKapitalandelsfondJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">62</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalKapitalandelsfondEffektByteRedovisningsprincip" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalKapitalandelsfondEffektByteRedovisningsprincip</field>
+            <field name="description">ForandringEgetKapitalKapitalandelsfondEffektByteRedovisningsprincip</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">63</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalKapitalandelsfondEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalKapitalandelsfondEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalKapitalandelsfondEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">64</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradKapitalandelsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradKapitalandelsfond</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">65</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeKapitalandelsfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeKapitalandelsfondAbstract</field>
+            <field name="description">Förändringar av kapitalandelsfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">66</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalReservfondForandringKapitalandelsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalReservfondForandringKapitalandelsfond</field>
+            <field name="description">ForandringEgetKapitalReservfondForandringKapitalandelsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">67</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_Kapitalandelsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Kapitalandelsfond</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">68</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondUtvecklingsutgifterAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterAbstract</field>
+            <field name="description">Fond för utvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">69</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_FondUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">FondUtvecklingsutgifter</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">70</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_FondUtvecklingsutgifter" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_FondUtvecklingsutgifter"/>
+            <field name="name">bal[2089] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalUtvecklingsutgifterJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalUtvecklingsutgifterJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">71</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondUtvecklingsutgifterEffektByteRedovisningsprincip" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterEffektByteRedovisningsprincip</field>
+            <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterEffektByteRedovisningsprincip</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">72</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondUtvecklingsutgifterEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">73</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradFondUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradFondUtvecklingsutgifter</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">74</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeFondUtvecklingsutgifterAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeFondUtvecklingsutgifterAbstract</field>
+            <field name="description">Förändringar av fond för utvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">75</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondUtvecklingsutgifterFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterFondemission</field>
+            <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">76</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondUtvecklingsutgifterTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterTackningForlust</field>
+            <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">77</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondUtvecklingsutgifterAktiveringUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterAktiveringUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterAktiveringUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">78</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondUtvecklingsutgifterUpplosningFondUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterUpplosningFondUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterUpplosningFondUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">79</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_FondUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">FondUtvecklingsutgifter</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">80</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_FondUtvecklingsutgifter" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_FondUtvecklingsutgifter"/>
+            <field name="name">bal[2089] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondAbstract</field>
+            <field name="description">Fri överkursfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">81</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_Overkursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Overkursfond</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">82</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Overkursfond" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Overkursfond"/>
+            <field name="name">bal[2097] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondOverkursfondJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondOverkursfondJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">83</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalOverkursfondEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">84</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradOverkursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradOverkursfond</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">85</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeOverkursfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeOverkursfondAbstract</field>
+            <field name="description">Förändringar av överkursfond</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">86</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondBalanserasNyRakning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondBalanserasNyRakning</field>
+            <field name="description">ForandringEgetKapitalOverkursfondBalanserasNyRakning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">87</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondUtdelning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondUtdelning</field>
+            <field name="description">ForandringEgetKapitalOverkursfondUtdelning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">88</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondAterbetalningAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondAterbetalningAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalOverkursfondAterbetalningAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">89</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondFondemission</field>
+            <field name="description">ForandringEgetKapitalOverkursfondFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">90</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondNyemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondNyemission</field>
+            <field name="description">ForandringEgetKapitalOverkursfondNyemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">91</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondUtgifterHanforligaEmission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondUtgifterHanforligaEmission</field>
+            <field name="description">ForandringEgetKapitalOverkursfondUtgifterHanforligaEmission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">92</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondSkatteeffekterEmissionsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondSkatteeffekterEmissionsutgifter</field>
+            <field name="description">ForandringEgetKapitalOverkursfondSkatteeffekterEmissionsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">93</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondForandringReservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondForandringReservfond</field>
+            <field name="description">ForandringEgetKapitalOverkursfondForandringReservfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">94</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondTackningForlust</field>
+            <field name="description">ForandringEgetKapitalOverkursfondTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">95</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondAktiveringUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondAktiveringUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalOverkursfondAktiveringUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">96</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalOverkursfondKonvertiblaSkuldebrevEgetKapitalandel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalOverkursfondKonvertiblaSkuldebrevEgetKapitalandel</field>
+            <field name="description">ForandringEgetKapitalOverkursfondKonvertiblaSkuldebrevEgetKapitalandel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">97</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_Overkursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">Overkursfond</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">98</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_Overkursfond" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_Overkursfond"/>
+            <field name="name">bal[2097] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeAbstract</field>
+            <field name="description">Fond för verkligt värde</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">99</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_FondVerkligtVarde" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">FondVerkligtVarde</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">100</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_FondVerkligtVarde" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_FondVerkligtVarde"/>
+            <field name="name">bal[2096] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justering av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">101</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeEffektByteRedovisningsprincip" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeEffektByteRedovisningsprincip</field>
+            <field name="description">ForandringEgetKapitalFondVerkligtVardeEffektByteRedovisningsprincip</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">102</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalFondVerkligtVardeEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">103</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradFondVerkligtVarde" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradFondVerkligtVarde</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">104</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeFondVerkligtVardeOverkursfondAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeFondVerkligtVardeOverkursfondAbstract</field>
+            <field name="description">Förändringar av fond för verkligt värde</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">105</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeVarderingVerkligtVarde" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeVarderingVerkligtVarde</field>
+            <field name="description">ForandringEgetKapitalFondVerkligtVardeVarderingVerkligtVarde</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">106</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeSakringFramtidaKassaflode" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeSakringFramtidaKassaflode</field>
+            <field name="description">ForandringEgetKapitalFondVerkligtVardeSakringFramtidaKassaflode</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">107</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeOmrakningUtlandsverksamhet" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeOmrakningUtlandsverksamhet</field>
+            <field name="description">ForandringEgetKapitalFondVerkligtVardeOmrakningUtlandsverksamhet</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">108</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeSakringNettoinvesteringUtlandsverksamhet" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeSakringNettoinvesteringUtlandsverksamhet</field>
+            <field name="description">ForandringEgetKapitalFondVerkligtVardeSakringNettoinvesteringUtlandsverksamhet</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">109</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalFondVerkligtVardeSkatteffekterVarderingVerkligtVarde" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalFondVerkligtVardeSkatteffekterVarderingVerkligtVarde</field>
+            <field name="description">ForandringEgetKapitalFondVerkligtVardeSkatteffekterVarderingVerkligtVarde</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">110</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_FondVerkligtVarde" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">FondVerkligtVarde</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">111</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_FondVerkligtVarde" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_FondVerkligtVarde"/>
+            <field name="name">bal[2096] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAbstract</field>
+            <field name="description">Balanserat resultat inklusive årets resultat</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">112</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_BalanseratResultatInklusivePeriodensResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">BalanseratResultatInklusivePeriodensResultat</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">113</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_BalanseratResultatInklusivePeriodensResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_BalanseratResultatInklusivePeriodensResultat"/>
+            <field name="name">bal[2091, 2093, 2094, 2095, 2098, 2099] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justeringar av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">114</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektByteRedovisningsprincip" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektByteRedovisningsprincip</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektByteRedovisningsprincip</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">115</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">116</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradBalanseratResultatInklusivePeriodensResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradBalanseratResultatInklusivePeriodensResultat</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">117</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeBalanseratResultatInklusivePeriodensResultatAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeBalanseratResultatInklusivePeriodensResultatAbstract</field>
+            <field name="description">Förändringar av balanserat resultat inklusive årets resultat</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">118</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatBalanserasNyRakning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatBalanserasNyRakning</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatBalanserasNyRakning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">119</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtdelning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtdelning</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtdelning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">120</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatErhallnaAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatErhallnaAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatErhallnaAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">121</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAterbetalningAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAterbetalningAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAterbetalningAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">122</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFondemission</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">123</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtgifterHanforligaEmission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtgifterHanforligaEmission</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtgifterHanforligaEmission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">124</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningAktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningAktiekapital</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningAktiekapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">125</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningBundenOverkursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningBundenOverkursfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningBundenOverkursfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">126</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringReservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringReservfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringReservfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">127</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatTackningForlust</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">128</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForvarvEgnaAktier" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForvarvEgnaAktier</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForvarvEgnaAktier</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">129</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOverlatelseEgnaAktier" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOverlatelseEgnaAktier</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOverlatelseEgnaAktier</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">130</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktiveringUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktiveringUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktiveringUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">131</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningFondUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningFondUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningFondUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">132</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningUppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningUppskrivningsfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningUppskrivningsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">133</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmrakningUtlandsverksamhet" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmrakningUtlandsverksamhet</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmrakningUtlandsverksamhet</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">134</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatSkatteffekter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatSkatteffekter</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatSkatteffekter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">135</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmvarderingPensionsskuld" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmvarderingPensionsskuld</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmvarderingPensionsskuld</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">136</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktierelateradeErsattningar" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktierelateradeErsattningar</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktierelateradeErsattningar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">137</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringKapitalandelsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringKapitalandelsfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringKapitalandelsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">138</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFusionsdifferens" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFusionsdifferens</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFusionsdifferens</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">139</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAretsResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAretsResultat</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAretsResultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">140</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_BalanseratResultatInklusivePeriodensResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">BalanseratResultatInklusivePeriodensResultat</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">141</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_BalanseratResultatInklusivePeriodensResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_BalanseratResultatInklusivePeriodensResultat"/>
+            <field name="name">bal[2091, 2093, 2094, 2095, 2098, 2099] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatAbstract</field>
+            <field name="description">Balanserat resultat</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">142</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_BalanseratResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">BalanseratResultat</field>
+            <field name="description">BalanseratResultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">143</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_BalanseratResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_BalanseratResultat"/>
+            <field name="name">bal[2091, 2093, 2094, 2095, 2098] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatJusteringarIngaendeBalansAbstract</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatJusteringarIngaendeBalansAbstract</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">144</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatEffektByteRedovisningsprincip" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatEffektByteRedovisningsprincip</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatEffektByteRedovisningsprincip</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">145</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">146</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradBalanseratResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradBalanseratResultat</field>
+            <field name="description">ForandringEgetKapitalJusteradBalanseratResultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">147</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeBalanseratResultatAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeBalanseratResultatAbstract</field>
+            <field name="description">ForandringEgetKapitalIngaendeBalanseratResultatAbstract</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">148</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatBalanserasNyRakning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatBalanserasNyRakning</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatBalanserasNyRakning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">149</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatUtdelning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatUtdelning</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatUtdelning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">150</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatErhallnaAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatErhallnaAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatErhallnaAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">151</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatAterbetalningAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatAterbetalningAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatAterbetalningAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">152</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatFondemission</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">153</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatUtgifterHanforligaEmission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatUtgifterHanforligaEmission</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatUtgifterHanforligaEmission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">154</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatMinskningAktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatMinskningAktiekapital</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatMinskningAktiekapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">155</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatMinskningBundenOverskursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatMinskningBundenOverskursfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatMinskningBundenOverskursfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">156</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatForandringReservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatForandringReservfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatForandringReservfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">157</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatTackningForlust</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">158</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatEgnaAktier" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatEgnaAktier</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatEgnaAktier</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">159</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatOverlatelseEgnaAktier" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatOverlatelseEgnaAktier</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatOverlatelseEgnaAktier</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">160</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatAktiveringUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatAktiveringUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatAktiveringUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">161</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatUpplosningFondUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatUpplosningFondUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatUpplosningFondUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">162</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatUpplosningUppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatUpplosningUppskrivningsfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatUpplosningUppskrivningsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">163</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatOmrakningUtlandsverksamhet" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatOmrakningUtlandsverksamhet</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatOmrakningUtlandsverksamhet</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">164</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatSkatteeffekter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatSkatteeffekter</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatSkatteeffekter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">165</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatOmvarderingPensionsskuld" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatOmvarderingPensionsskuld</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatOmvarderingPensionsskuld</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">166</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatAktierelateradeErsattningar" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatAktierelateradeErsattningar</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatAktierelateradeErsattningar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">167</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatForandringKapitalandelsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatForandringKapitalandelsfond</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatForandringKapitalandelsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">168</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalBalanseratResultatFusionsdifferens" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalBalanseratResultatFusionsdifferens</field>
+            <field name="description">ForandringEgetKapitalBalanseratResultatFusionsdifferens</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">169</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_BalanseratResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">BalanseratResultat</field>
+            <field name="description">BalanseratResultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">170</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_BalanseratResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_BalanseratResultat"/>
+            <field name="name">bal[2091, 2093, 2094, 2095, 2098] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatAbstract</field>
+            <field name="description">Årets resultat</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">171</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_AretsResultatEgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">AretsResultatEgetKapital</field>
+            <field name="description">AretsResultatEgetKapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">172</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_AretsResultatEgetKapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_AretsResultatEgetKapital"/>
+            <field name="name">bal[2099] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatJusteringarIngaendeBalansAbstract</field>
+            <field name="description">ForandringEgetKapitalAretsResultatJusteringarIngaendeBalansAbstract</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">173</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatEffektByteRedovisningsprincip" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatEffektByteRedovisningsprincip</field>
+            <field name="description">ForandringEgetKapitalAretsResultatEffektByteRedovisningsprincip</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">174</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalAretsResultatEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">175</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradAretsResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradAretsResultat</field>
+            <field name="description">ForandringEgetKapitalJusteradAretsResultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">176</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeAretsResultatAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeAretsResultatAbstract</field>
+            <field name="description">ForandringEgetKapitalIngaendeAretsResultatAbstract</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">177</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatBalanserasNyRakning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatBalanserasNyRakning</field>
+            <field name="description">ForandringEgetKapitalAretsResultatBalanserasNyRakning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">178</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatUtdelning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatUtdelning</field>
+            <field name="description">ForandringEgetKapitalAretsResultatUtdelning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">179</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatAterbetalningAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatAterbetalningAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalAretsResultatAterbetalningAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">180</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatFondemission</field>
+            <field name="description">ForandringEgetKapitalAretsResultatFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">181</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatReservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatReservfond</field>
+            <field name="description">ForandringEgetKapitalAretsResultatReservfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">182</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalAretsResultatAretsResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalAretsResultatAretsResultat</field>
+            <field name="description">ForandringEgetKapitalAretsResultatAretsResultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">183</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_AretsResultatEgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">AretsResultatEgetKapital</field>
+            <field name="description">AretsResultatEgetKapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">184</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_AretsResultatEgetKapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_AretsResultatEgetKapital"/>
+            <field name="name">bal[2099] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltAbstract</field>
+            <field name="description">Totalt</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">185</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_EgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">EgetKapital</field>
+            <field name="description">Ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">186</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_EgetKapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_EgetKapital"/>
+            <field name="name">bal[2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltJusteringarIngaendeBalansAbstract</field>
+            <field name="description">Justeringar av ingående balans</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">187</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltEffektByteRedovisningsprincip" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltEffektByteRedovisningsprincip</field>
+            <field name="description">ForandringEgetKapitalTotaltEffektByteRedovisningsprincip</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">188</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltEffektRattelseFel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltEffektRattelseFel</field>
+            <field name="description">ForandringEgetKapitalTotaltEffektRattelseFel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">189</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalJusteradTotalt" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalJusteradTotalt</field>
+            <field name="description">Justerad ingående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">190</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalIngaendeTotaltAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalIngaendeTotaltAbstract</field>
+            <field name="description">Totala förändringar i eget kapital</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">191</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltBalanserasNyRakning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltBalanserasNyRakning</field>
+            <field name="description">ForandringEgetKapitalTotaltBalanserasNyRakning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">192</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltUtdelning" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltUtdelning</field>
+            <field name="description">ForandringEgetKapitalTotaltUtdelning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">193</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltErhallnaAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltErhallnaAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalTotaltErhallnaAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">194</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltAterbetalningAktieagartillskott" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltAterbetalningAktieagartillskott</field>
+            <field name="description">ForandringEgetKapitalTotaltAterbetalningAktieagartillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">195</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltFondemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltFondemission</field>
+            <field name="description">ForandringEgetKapitalTotaltFondemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">196</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltNyemission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltNyemission</field>
+            <field name="description">ForandringEgetKapitalTotaltNyemission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">197</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltUtgifterHanforligaEmission" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltUtgifterHanforligaEmission</field>
+            <field name="description">ForandringEgetKapitalTotaltUtgifterHanforligaEmission</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">198</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltMinskningAktiekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltMinskningAktiekapital</field>
+            <field name="description">ForandringEgetKapitalTotaltMinskningAktiekapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">199</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltMinskningBundenOverkursfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltMinskningBundenOverkursfond</field>
+            <field name="description">ForandringEgetKapitalTotaltMinskningBundenOverkursfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">200</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltForandringReservfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltForandringReservfond</field>
+            <field name="description">ForandringEgetKapitalTotaltForandringReservfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">201</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltTackningForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltTackningForlust</field>
+            <field name="description">ForandringEgetKapitalTotaltTackningForlust</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">202</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltForandringEgnaAktier" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltForandringEgnaAktier</field>
+            <field name="description">ForandringEgetKapitalTotaltForandringEgnaAktier</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">203</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltOverlatelseEgnaAktier" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltOverlatelseEgnaAktier</field>
+            <field name="description">ForandringEgetKapitalTotaltOverlatelseEgnaAktier</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">204</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltAktiveringUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltAktiveringUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalTotaltAktiveringUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">205</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltUpplosningFondUtvecklingsutgifter" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltUpplosningFondUtvecklingsutgifter</field>
+            <field name="description">ForandringEgetKapitalTotaltUpplosningFondUtvecklingsutgifter</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">206</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltUppskrivningAnlaggningstillgang" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltUppskrivningAnlaggningstillgang</field>
+            <field name="description">ForandringEgetKapitalTotaltUppskrivningAnlaggningstillgang</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">207</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltUpplosningUppskrivningsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltUpplosningUppskrivningsfond</field>
+            <field name="description">ForandringEgetKapitalTotaltUpplosningUppskrivningsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">208</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltVarderingVerkligtVarde" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltVarderingVerkligtVarde</field>
+            <field name="description">ForandringEgetKapitalTotaltVarderingVerkligtVarde</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">209</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltSakringFramtidaKassaflode" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltSakringFramtidaKassaflode</field>
+            <field name="description">ForandringEgetKapitalTotaltSakringFramtidaKassaflode</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">210</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltOmrakningUtlandsverksamhet" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltOmrakningUtlandsverksamhet</field>
+            <field name="description">ForandringEgetKapitalTotaltOmrakningUtlandsverksamhet</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">211</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltSakringNettoinvesteringUtlandsverksamhet" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltSakringNettoinvesteringUtlandsverksamhet</field>
+            <field name="description">ForandringEgetKapitalTotaltSakringNettoinvesteringUtlandsverksamhet</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">212</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltSkatteeffekt" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltSkatteeffekt</field>
+            <field name="description">ForandringEgetKapitalTotaltSkatteeffekt</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">213</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltOmvarderingPensionsskuld" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltOmvarderingPensionsskuld</field>
+            <field name="description">ForandringEgetKapitalTotaltOmvarderingPensionsskuld</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">214</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltAktierelateradeErsattningar" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltAktierelateradeErsattningar</field>
+            <field name="description">ForandringEgetKapitalTotaltAktierelateradeErsattningar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">215</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltKonvertiblaSkuldebrevEgetKapitalandel" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltKonvertiblaSkuldebrevEgetKapitalandel</field>
+            <field name="description">ForandringEgetKapitalTotaltKonvertiblaSkuldebrevEgetKapitalandel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">216</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltForandringKapitalandelsfond" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltForandringKapitalandelsfond</field>
+            <field name="description">ForandringEgetKapitalTotaltForandringKapitalandelsfond</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">217</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltFusionsdifferens" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltFusionsdifferens</field>
+            <field name="description">ForandringEgetKapitalTotaltFusionsdifferens</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">218</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalTotaltAretsResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalTotaltAretsResultat</field>
+            <field name="description">ForandringEgetKapitalTotaltAretsResultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">219</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="report_equity_k3_compact_EgetKapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">EgetKapital</field>
+            <field name="description">Utgående balans</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">220</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_k3_compact_EgetKapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_k3_compact_EgetKapital"/>
+            <field name="name">bal[2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009] * -1</field>
+        </record>
+        <record id="report_equity_k3_compact_ForandringEgetKapitalKommentar" model="mis.report.kpi">
+            <field name="report_id" ref="report_equity_k3_compact"/>
+            <field name="name">ForandringEgetKapitalKommentar</field>
+            <field name="description">Kommentar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">221</field>
+            <field name="budgetable">True</field>
+        </record>
+    </data>
+</odoo>

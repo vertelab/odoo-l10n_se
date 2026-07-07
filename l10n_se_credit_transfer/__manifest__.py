@@ -45,6 +45,7 @@ Supported transaction types
     "category": "Banking",
     "depends": [
         "account_payment_order",
+        "account_payment_order_pending",
         "account_banking_pain_base",
     ],
     "data": [

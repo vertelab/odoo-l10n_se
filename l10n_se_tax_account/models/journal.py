@@ -161,60 +161,12 @@ class AccountJournal(models.Model):
         """Daily cron: fetch tax account transactions for all companies."""
         companies = self.env['res.company'].search([])
         for company in companies:
-            if not company.skv_api_url:
+            if not company.skv_api_base_url:
                 continue
-            partner = self.env['res.partner'].search(
-                [('enable_skatteverket_api', '=', True)], limit=1)
-            if not partner:
-                partner = self.env.ref(
-                    'l10n_se_tax_report.res_partner-SKV',
-                    raise_if_not_found=False)
-            if not partner:
-                continue
-            if (partner.certificate
-                    and not partner.check_valid_access_token()):
-                # Get a fresh token
-                settings = {
-                    'token_url': company.skv_token_url,
-                    'auth_method': company.skv_auth_method,
-                }
-                if settings['auth_method'] == 'cert':
-                    cert_data = base64.b64decode(partner.certificate)
-                    tmp = tempfile.NamedTemporaryFile(
-                        suffix='.pem', delete=False)
-                    tmp.write(cert_data)
-                    tmp.close()
-                    session = requests.Session()
-                    session.cert = tmp.name
-                    try:
-                        resp = session.post(
-                            settings['token_url'],
-                            data={
-                                'grant_type': 'client_credentials',
-                                'client_id':
-                                    partner.oauth_client_id or '',
-                                'client_secret':
-                                    partner.oauth_secret or '',
-                                'scope': 'ska',
-                            },
-                            headers={
-                                'Content-Type':
-                                    'application/x-www-form-urlencoded',
-                            },
-                        )
-                        if resp.status_code == 200:
-                            token_data = resp.json()
-                            partner.write({
-                                'access_token': token_data.get(
-                                    'access_token'),
-                                'recived_token_on':
-                                    fields.Datetime.now(),
-                                'expires_in': token_data.get(
-                                    'expires_in', 3600),
-                            })
-                    finally:
-                        os.unlink(tmp.name)
-                    time.sleep(2)
+            # Refresh token if needed using shared API method
+            if company.skv_certificate and not company._check_skv_access_token():
+                SkatteverketApi = self.env['skatteverket.api']
+                SkatteverketApi.with_company(company)._get_skv_access_token(company)
 
             # Find moms journal for this company
             moms_journal = self.env['account.journal'].search([

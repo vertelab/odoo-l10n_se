@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_config_settings_inherit_agi" model="ir.ui.view">
+        <field name="name">res.config.settings.inherit.agi</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_se_tax_report.view_account_config_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='skv_tax_account_api_url']" position="after">
+                <field name="skv_agi_api_url"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

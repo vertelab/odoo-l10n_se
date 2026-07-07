@@ -40,12 +40,17 @@ class IntrastatProductDeclaration(models.Model):
     def _prepare_invoice_domain(self):
         """Swedish Intrastat: filter on invoice date (fakturadatum) instead of account.move date.
         Also include triangular trade (trepartshandel) transactions.
+        Falls back to accounting date (date) for entries where invoice_date is not set.
         """
         start_date = date(int(self.year), int(self.month), 1)
         end_date = start_date + relativedelta(day=1, months=+1, days=-1)
         domain = [
+            "|",
             ("invoice_date", ">=", start_date),
+            ("date", ">=", start_date),
+            "|",
             ("invoice_date", "<=", end_date),
+            ("date", "<=", end_date),
             ("state", "=", "posted"),
             ("intrastat_fiscal_position", "in", ("b2b", "b2c")),
             ("company_id", "=", self.company_id.id),
@@ -165,7 +170,10 @@ class IntrastatProductDeclaration(models.Model):
             # Commodity code (taric)
             classification = etree.SubElement(goods_item, "Classification")
             ident = etree.SubElement(classification, "Identification")
-            hs_code = decl_line.hs_code_id.local_code or decl_line.hs_code_id.code or "99999999"
+            if decl_line.hs_code_id:
+                hs_code = decl_line.hs_code_id.local_code or decl_line.hs_code_id.code or "99999999"
+            else:
+                hs_code = "99999999"
             # Pad to 8 digits for CN code
             if len(hs_code) < 8:
                 hs_code = hs_code.ljust(8, "0")
@@ -194,7 +202,7 @@ class IntrastatProductDeclaration(models.Model):
                     decl_line.suppl_unit_qty
                 )
                 etree.SubElement(measure, "SupplementaryUnitsCode").text = (
-                    decl_line.intrastat_unit_id.code or ""
+                    decl_line.intrastat_unit_id.name or ""
                 )
 
             # Nature of transaction (Swedish codes: 1, 2, 3...)

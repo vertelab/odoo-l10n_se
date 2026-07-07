@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_migration_wizard,l10n_se.migration.wizard,model_l10n_se_migration_wizard,account.group_account_manager,1,1,1,1
+access_migration_wizard_user,l10n_se.migration.wizard,model_l10n_se_migration_wizard,account.group_account_user,1,0,0,0

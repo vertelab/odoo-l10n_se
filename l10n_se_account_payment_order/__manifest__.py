@@ -38,13 +38,10 @@ Configuration of account for payment order.
 ==========================================
 
         """,
-    'data': [
-        'data/payment_order_config.xml',
-        # 'views/payment_order_config_views.xml',
-        'security/ir.model.access.csv',
-    ],
+    'data': [],
     'installable': 'True',
     'application': 'False',
+    'auto_install': True,
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -42,4 +42,19 @@
         </field>
     </record>
 
+    <!-- 4-Pass Reconciliation Button on Bank Statement -->
+    <record id="view_bank_statement_form_inherit_4pass" model="ir.ui.view">
+        <field name="name">account.bank.statement.form.inherit.4pass</field>
+        <field name="model">account.bank.statement</field>
+        <field name="inherit_id" ref="account.view_bank_statement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_open_reconcile']" position="after">
+                <button name="action_4pass_reconcile" string="4-Pass Auto-Reconcile"
+                        type="object" class="btn-secondary"
+                        help="Run 4-pass greedy matching: exact amount+date, OCR, date range, fuzzy amount"
+                        attrs="{'invisible': [('state', '!=', 'posted')]}"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

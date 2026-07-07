@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Diagnostiska frågor — Payroll LMS                             -->
+    <!-- ============================================================ -->
+
+    <!-- Löneadministration -->
+    <record id="q_salary_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="l10n_se_payroll_lms.cat_salary_basics"/>
+        <field name="difficulty">easy</field>
+        <field name="question_text">
+            <![CDATA[<p>En anställd är 35 år. Hur stor är arbetsgivaravgiften på dennes lön?</p>]]>
+        </field>
+        <field name="answer_a">16,36%</field>
+        <field name="answer_b">31,42%</field>
+        <field name="answer_c">6,15%</field>
+        <field name="answer_d">25%</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: B (31,42%).</strong> För anställda under 66 år gäller full arbetsgivaravgift på 31,42%. 16,36% gäller 66-79 år, 6,15% gäller 80+ år. Växa-stöd ger 10,21% för första anställd.</p>]]>
+        </field>
+    </record>
+
+    <record id="q_salary_2" model="l10n_se.training.question">
+        <field name="sequence">20</field>
+        <field name="category_id" ref="l10n_se_payroll_lms.cat_salary_basics"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>En anställd har bruttolön 35 000 kr, bilförmån 3 500 kr. Arbetsgivaravgiften är 31,42%. Vad blir den totala kostnaden för arbetsgivaren?</p>]]>
+        </field>
+        <field name="answer_a">35 000 kr</field>
+        <field name="answer_b">38 500 kr</field>
+        <field name="answer_c">45 997 kr</field>
+        <field name="answer_d">47 097 kr</field>
+        <field name="correct_answer">d</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: D (47 097 kr).</strong> Underlaget för arbetsgivaravgift = bruttolön + förmåner = 35 000 + 3 500 = 38 500 kr. Arbetsgivaravgift = 38 500 × 0,3142 = 12 097 kr. Total kostnad = 35 000 + 12 097 = 47 097 kr. Bilförmånen är en fiktiv kostnad — den betalas inte ut men påverkar avgifterna.</p>]]>
+        </field>
+    </record>
+
+    <!-- AGI -->
+    <record id="q_agi_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="l10n_se_payroll_lms.cat_employer"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>I AGI – vilken ruta rapporterar den anställdes bruttolön?</p>]]>
+        </field>
+        <field name="answer_a">Ruta 50</field>
+        <field name="answer_b">Ruta 55</field>
+        <field name="answer_c">Ruta 81</field>
+        <field name="answer_d">Ruta 82</field>
+        <field name="correct_answer">a</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: A (Ruta 50).</strong> Ruta 50 = avgiftspliktig bruttolön. Ruta 51 = förmåner, Ruta 52 = avdrag. Ruta 55 är underlaget för full arbetsgivaravgift (50+51-52). Ruta 81 är underlag för skatteavdrag. Ruta 82 är avdragen preliminärskatt.</p>
+            ]]>
+        </field>
+    </record>
+
+    <record id="q_agi_2" model="l10n_se.training.question">
+        <field name="sequence">20</field>
+        <field name="category_id" ref="l10n_se_payroll_lms.cat_employer"/>
+        <field name="difficulty">hard</field>
+        <field name="question_text">
+            <![CDATA[<p>Vad är Växa-stöd och vem kan få det?</p>]]>
+        </field>
+        <field name="answer_a">En lägre arbetsgivaravgift (10,21%) för företagets första anställd, gäller i upp till 24 månader</field>
+        <field name="answer_b">Ett bidrag till företag som anställer personer över 65 år</field>
+        <field name="answer_c">En skattereduktion för anställda med låg lön</field>
+        <field name="answer_d">Samma som nystartsjobb</field>
+        <field name="correct_answer">a</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: A.</strong> Växa-stöd innebär att arbetsgivaren bara betalar ålderspensionsavgift (10,21%) istället för full arbetsgivaravgift (31,42%) för den första anställda. Stödet gäller i upp till 24 månader för enskilda firmor och företag som inte haft anställda tidigare.</p>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Förmåner -->
+    <record id="q_benefits_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="l10n_se_payroll_lms.cat_benefits"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>Hur mycket friskvårdsbidrag kan arbetsgivaren ge skattefritt per anställd och år (2024)?</p>]]>
+        </field>
+        <field name="answer_a">2 000 kr</field>
+        <field name="answer_b">5 000 kr</field>
+        <field name="answer_c">10 000 kr</field>
+        <field name="answer_d">Obegränsat</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: B (5 000 kr).</strong> Arbetsgivaren kan ge upp till 5 000 kr per år i skattefritt friskvårdsbidrag. Beloppet gäller per anställd och bidraget måste vara riktat mot motion/friskvård av "mindre värde".</p>]]>
+        </field>
+    </record>
+
+    <!-- FORA -->
+    <record id="q_fora_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="l10n_se_payroll_lms.cat_fora"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>Vilka företag måste rapportera till FORA?</p>]]>
+        </field>
+        <field name="answer_a">Alla företag</field>
+        <field name="answer_b">Endast företag med kollektivavtal</field>
+        <field name="answer_c">Endast aktiebolag</field>
+        <field name="answer_d">Endast företag med fler än 10 anställda</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: B.</strong> FORA hanterar kollektivavtalade försäkringar och pensioner. Endast företag som har kollektivavtal (tecknat via arbetsgivarorganisation eller hängavtal) rapporterar till FORA. Detta inkluderar försäkringar som TGL, TFA, AGS, AGB och tjänstepensioner som SAF-LO, ITP1, ITP2, AKAP-KL.</p>]]>
+        </field>
+    </record>
+
+</odoo>

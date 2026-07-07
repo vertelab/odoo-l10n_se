@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Bankjournal för Skattekonto (1630) -->
+        <record id="skattekonto_journal" model="account.journal">
+            <field name="name">Skattekonto</field>
+            <field name="code">SKV</field>
+            <field name="type">bank</field>
+            <field name="default_account_id" search="[('code','=','1630')]"/>
+        </record>
+
+    </data>
+</odoo>

@@ -36,9 +36,13 @@ class AccountPaymentMethod(models.Model):
     @api.model
     def _get_payment_method_information(self):
         res = super()._get_payment_method_information()
-        for code in ("se_credit_transfer", "se_credit_transfer_20"):
+        for code in ("se_credit_transfer", "se_credit_transfer_20", "bankgiro"):
             res[code] = {
                 "mode": "multi",
                 "domain": [("type", "=", "bank")],
             }
+        res["autogiro"] = {
+            "mode": "multi",
+            "type": ("bank", "cash", "credit"),
+        }
         return res

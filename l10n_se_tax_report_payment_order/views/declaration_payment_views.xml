@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Momsdeklaration: lägg tillbaka betalningsknappen -->
+    <record id="view_account_moms_declaration_payment" model="ir.ui.view">
+        <field name="name">account.vat.declaration.payment</field>
+        <field name="model">account.vat.declaration</field>
+        <field name="inherit_id" ref="l10n_se_tax_report.view_account_moms_declaration"/>
+        <field name="arch" type="xml">
+            <button name="show_journal_entries_mis" position="after">
+                <button class="oe_stat_button" icon="fa-dollar" name="show_payment_orders" type="object">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="payment_ids_count"/>
+                        </span>
+                        <span class="o_stat_text">Betalning</span>
+                    </div>
+                </button>
+            </button>
+        </field>
+    </record>
+
+</odoo>

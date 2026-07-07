@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 5: Konfiguration och automatisering
+         Slides: 4 (2 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s5" model="slide.slide">
+        <field name="name">5. Konfiguration och automatisering</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="sequence">210</field>
+    </record>
+
+    <!-- SLIDE 5.1: Ställ in betalmetod och betalsätt -->
+    <record id="slide_s5_01" model="slide.slide">
+        <field name="name">Ställ in betalmetod och betalsätt</field>
+        <field name="sequence">220</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #553c9a;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Konfiguration av betalningar</h1>
+        <p class="lead" style="text-align: center;">Så här sätter du upp betalmetoder och betalsätt för pending-state.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Aktivera pending_until_reconciliation</h2>
+        <p>Följ dessa steg för att aktivera pending-state för en betalmetod:</p>
+        <ol>
+            <li>Gå till <strong>Redovisning > Konfiguration > Betalmetoder</strong></li>
+            <li>Välj en betalmetod (t.ex. "Swedish Credit Transfer")</li>
+            <li>Bocka i <strong>"Pending Until Reconciliation"</strong></li>
+            <li>Spara</li>
+        </ol>
+        <div class="alert alert-info">
+            <strong>Via inställningar:</strong> Gå till Redovisning > Konfiguration > Inställningar.
+            Under fliken "Betalningar" finns en kryssruta för att aktivera pending-state för alla
+            nya betalmetoder som standard.
+        </div>
+        <p>För betalmetoder som redan har <code>pending_until_reconciliation = True</code> i data-filer
+        (t.ex. Swedish Credit Transfer, Bankgiro, Autogiro) är detta redan aktiverat.</p>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Skapa betalningssätt (Payment Mode)</h2>
+                <ol>
+                    <li>Gå till <strong>Redovisning > Konfiguration > Betalningssätt</strong></li>
+                    <li>Klicka "Skapa"</li>
+                    <li><strong>Namn:</strong> T.ex. "SEB IBAN Utbetalning"</li>
+                    <li><strong>Betalmetod:</strong> Välj "Swedish Credit Transfer"</li>
+                    <li><strong>Payment Type:</strong> Outbound</li>
+                    <li><strong>Bank Account Link:</strong> Fixed</li>
+                    <li><strong>Bank Journal:</strong> Välj rätt bankjournal</li>
+                    <li><strong>Payment Order OK:</strong> Bocka i</li>
+                    <li>Spara</li>
+                </ol>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Konfigurationsexempel</h2>
+                <table class="table table-bordered">
+                    <tr><th>Fält</th><th>IBAN</th><th>Bankgiro</th></tr>
+                    <tr><td>Namn</td><td>SEB IBAN Utbetalning</td><td>SEB Bankgiro Utbetalning</td></tr>
+                    <tr><td>Betalmetod</td><td>Swedish Credit Transfer</td><td>Swedish Bankgiro Transfer</td></tr>
+                    <tr><td>Journal</td><td>SEB Bankkonto (1930)</td><td>SEB Bankgiro (1940)</td></tr>
+                    <tr><td>Pending</td><td>✅ Aktiverat</td><td>✅ Aktiverat</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Steg-för-steg för att konfigurera betalmetoder, betalsätt och aktivera pending-state.</field>
+    </record>
+
+    <!-- SLIDE 5.2: Supplier Payment Mode -->
+    <record id="slide_s5_02" model="slide.slide">
+        <field name="name">Supplier Payment Mode på leverantören</field>
+        <field name="sequence">230</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Automatisera med Supplier Payment Mode</h2>
+        <p>För att nya fakturor automatiskt ska få rätt betalsätt:</p>
+        <ol>
+            <li>Öppna leverantören</li>
+            <li>Gå till fliken <strong>Redovisning / Accounting</strong></li>
+            <li>Fältet <strong>Supplier Payment Mode</strong> — välj rätt betalsätt</li>
+            <li>Spara</li>
+        </ol>
+        <p>Från och med nu får alla nya leverantörsfakturor från denna leverantör automatiskt
+        rätt betalsätt och därmed rätt pending-beteende.</p>
+
+        <h2 class="mt-4">Rekommenderad setup</h2>
+        <table class="table table-bordered">
+            <tr><th>Leverantörstyp</th><th>Bankkonto</th><th>Supplier Payment Mode</th></tr>
+            <tr><td>Svensk med IBAN</td><td>IBAN-nummer</td><td>SEB IBAN Utbetalning</td></tr>
+            <tr><td>Svensk med Bankgiro</td><td>Bankgironummer</td><td>SEB Bankgiro Utbetalning</td></tr>
+            <tr><td>Med autogiro-avtal</td><td>(enl. mandat)</td><td>Autogiro</td></tr>
+            <tr><td>Engångs-/manuell</td><td>valfritt</td><td>(lämna tomt — välj per faktura)</td></tr>
+        </table>
+        <div class="alert alert-warning">
+            <strong>Tips:</strong> En leverantör kan ha flera betalsätt. Supplier Payment Mode är
+            standardvärdet — du kan alltid ändra på enskilda fakturor vid behov.
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Konfigurera Supplier Payment Mode på leverantörer för automatiskt betalflöde.</field>
+    </record>
+
+    <!-- SLIDE 5.3: Infographic konfig -->
+    <record id="slide_s5_03" model="slide.slide">
+        <field name="name">Konfigurationskarta</field>
+        <field name="sequence">240</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.15</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>All konfiguration på en sida</h2>
+        <pre style="background:#f7fafc;padding:20px;border-radius:8px;font-size:13px;line-height:1.6;">
+┌─────────────────────────────────────────────────────────────────┐
+│                    KONFIGURATIONSKARTA                            │
+│                                                                   │
+│  1. Betalmetod (account.payment.method)                            │
+│     └─ Redovisning > Konfiguration > Betalmetoder                  │
+│     └─ Bocka i "Pending Until Reconciliation"                      │
+│                                                                   │
+│  2. Betalsätt (account.payment.mode)                                │
+│     └─ Redovisning > Konfiguration > Betalningssätt                 │
+│     └─ Välj betalmetod → koppla till bankjournal                   │
+│     └─ Bocka i "Payment Order OK"                                  │
+│                                                                   │
+│  3. Supplier Payment Mode (res.partner)                             │
+│     └─ Leverantör > fliken Redovisning                              │
+│     └─ Välj betalsätt → auto-fylls på nya fakturor                 │
+│                                                                   │
+│  4. Bankjournal (account.journal)                                   │
+│     └─ Skapa en journal per bank/betalmetod                        │
+│     └─ Bankgiro: använd konto 1940                                 │
+│     └─ IBAN: använd konto 1930                                     │
+│     └─ Sätt Suspense Account för avstämning                        │
+│                                                                   │
+│  5. Klart! Skapa betalorder → fakturor får pending-state            │
+└─────────────────────────────────────────────────────────────────┘
+        </pre>
+    </div>
+</section>
+        </field>
+        <field name="description">Sammanfattande konfigurationskarta över alla steg.</field>
+    </record>
+
+    <!-- SLIDE 5.4: Quiz -->
+    <record id="slide_s5_04" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — Konfiguration</field>
+        <field name="sequence">250</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om konfiguration och automatisering.</field>
+    </record>
+
+    <!-- Q1 -->
+    <record id="slide_s5_04_q1" model="slide.question">
+        <field name="question">Var aktiverar man pending_until_reconciliation för en betalmetod?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s5_04"/>
+    </record>
+    <record id="slide_s5_04_q1_a1" model="slide.answer">
+        <field name="text_value">Redovisning > Konfiguration > Betalmetoder</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Pending-flaggan finns på betalmetoden.</field>
+        <field name="question_id" ref="slide_s5_04_q1"/>
+    </record>
+    <record id="slide_s5_04_q1_a2" model="slide.answer">
+        <field name="text_value">Redovisning > Konfiguration > Betalningssätt</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Betalsättet ärver från betalmetoden.</field>
+        <field name="question_id" ref="slide_s5_04_q1"/>
+    </record>
+    <record id="slide_s5_04_q1_a3" model="slide.answer">
+        <field name="text_value">Redovisning > Inställningar</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Delvis rätt! Där finns en global inställning, men per betalmetod görs det i Betalmetoder.</field>
+        <field name="question_id" ref="slide_s5_04_q1"/>
+    </record>
+
+    <!-- Q2 -->
+    <record id="slide_s5_04_q2" model="slide.question">
+        <field name="question">Vad gör Supplier Payment Mode på leverantören?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s5_04"/>
+    </record>
+    <record id="slide_s5_04_q2_a1" model="slide.answer">
+        <field name="text_value">Auto-fyller betalsättet på nya fakturor</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Supplier Payment Mode automatiskt föreslås på nya fakturor.</field>
+        <field name="question_id" ref="slide_s5_04_q2"/>
+    </record>
+    <record id="slide_s5_04_q2_a2" model="slide.answer">
+        <field name="text_value">Skapar automatiskt betalorder vid fakturering</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det gör den inte — betalorder skapas manuellt.</field>
+        <field name="question_id" ref="slide_s5_04_q2"/>
+    </record>
+    <record id="slide_s5_04_q2_a3" model="slide.answer">
+        <field name="text_value">Betalar fakturan automatiskt</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Supplier Payment Mode påverkar bara vilket betalsätt som föreslås.</field>
+        <field name="question_id" ref="slide_s5_04_q2"/>
+    </record>
+
+    <!-- Q3 -->
+    <record id="slide_s5_04_q3" model="slide.question">
+        <field name="question">Vilket BAS-konto används för Bankgiro-betalningar?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s5_04"/>
+    </record>
+    <record id="slide_s5_04_q3_a1" model="slide.answer">
+        <field name="text_value">1930 — Företagskonto</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 1930 är för vanliga bankkonton.</field>
+        <field name="question_id" ref="slide_s5_04_q3"/>
+    </record>
+    <record id="slide_s5_04_q3_a2" model="slide.answer">
+        <field name="text_value">1940 — Övriga bankkonton (Bankgiro)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Bankgiro använder konto 1940.</field>
+        <field name="question_id" ref="slide_s5_04_q3"/>
+    </record>
+    <record id="slide_s5_04_q3_a3" model="slide.answer">
+        <field name="text_value">2441 — Leverantörsskulder</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 2441 är för leverantörsskulder, inte bankkontot.</field>
+        <field name="question_id" ref="slide_s5_04_q3"/>
+    </record>
+
+    <!-- Q4 -->
+    <record id="slide_s5_04_q4" model="slide.question">
+        <field name="question">Vad måste vara ifyllt på bankjournalen för att bankavstämning ska fungera?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s5_04"/>
+    </record>
+    <record id="slide_s5_04_q4_a1" model="slide.answer">
+        <field name="text_value">Bankkonto (bank_account_id)</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Delvis rätt! Men även Suspense Account krävs.</field>
+        <field name="question_id" ref="slide_s5_04_q4"/>
+    </record>
+    <record id="slide_s5_04_q4_a2" model="slide.answer">
+        <field name="text_value">Suspense Account (observationskonto)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Suspense Account används som mellanhand vid avstämning.</field>
+        <field name="question_id" ref="slide_s5_04_q4"/>
+    </record>
+    <record id="slide_s5_04_q4_a3" model="slide.answer">
+        <field name="text_value">Inget särskilt — Odoo skapar automatiskt</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Suspense Account måste konfigureras på journalen.</field>
+        <field name="question_id" ref="slide_s5_04_q4"/>
+    </record>
+
+    <!-- Q5 -->
+    <record id="slide_s5_04_q5" model="slide.question">
+        <field name="question">En leverantör har både IBAN och Bankgiro. Hur hanterar man det?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s5_04"/>
+    </record>
+    <record id="slide_s5_04_q5_a1" model="slide.answer">
+        <field name="text_value">Man väljer ett som Supplier Payment Mode och ändrar per faktura vid behov</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Supplier Payment Mode är standard — du kan alltid ändra per faktura.</field>
+        <field name="question_id" ref="slide_s5_04_q5"/>
+    </record>
+    <record id="slide_s5_04_q5_a2" model="slide.answer">
+        <field name="text_value">Man måste skapa två leverantörskonton</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! En leverantör kan ha flera bankkonton och betalsätt.</field>
+        <field name="question_id" ref="slide_s5_04_q5"/>
+    </record>
+    <record id="slide_s5_04_q5_a3" model="slide.answer">
+        <field name="text_value">Bankgiro är alltid standard — IBAN måste väljas manuellt</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Du väljer själv vilket som ska vara standard.</field>
+        <field name="question_id" ref="slide_s5_04_q5"/>
+    </record>
+
+    </data>
+</odoo>

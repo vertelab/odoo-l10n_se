@@ -42,22 +42,12 @@ class TaxAccountTransactionWizard(models.TransientModel):
         if not journal:
             raise UserError(_("No journal selected."))
 
-        partner = self.env['res.partner'].search(
-            [('enable_skatteverket_api', '=', True)], limit=1)
-        if not partner:
-            partner = self.env.ref(
-                'l10n_se_tax_report.res_partner-SKV',
-                raise_if_not_found=False)
-        if not partner:
-            raise UserError(_(
-                "No Skatteverket partner configured. "
-                "Create a partner with 'Enable Skatteverket API' "
-                "checked."))
-
-        if not partner.check_valid_access_token():
+        company = journal.company_id or self.env.company
+        if not company._check_skv_access_token():
             raise UserError(_(
                 "No valid access token. "
-                "Please authorize first on the journal."))
+                "Please authorize first via Accounting > Configuration "
+                "> Skatteverket API settings."))
 
         # Create reconciliation and fetch
         reconciliation = self.env['tax.account.reconciliation'].create({

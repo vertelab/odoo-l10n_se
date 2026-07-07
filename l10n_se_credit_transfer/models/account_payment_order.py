@@ -31,6 +31,7 @@ class AccountPaymentOrder(models.Model):
             "se_credit_transfer",
             "se_credit_transfer_bankgiro",
             "se_credit_transfer_20",
+            "bankgiro",
         )
 
     def _mig_version(self):
@@ -349,6 +350,8 @@ class AccountPaymentOrder(models.Model):
 
     def generate_payment_file(self):
         self.ensure_one()
+        if self.payment_method_id.code == "autogiro":
+            return (False, False)
         if self._is_se_payment():
             identifier = self._se_identifier()
             if not identifier:

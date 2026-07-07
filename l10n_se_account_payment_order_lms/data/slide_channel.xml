@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         Betalorder och Pending-state — Utbildning
+         5 sektioner, 20+ slides
+         ═══════════════════════════════════════════════════════════ -->
+
+    <record id="slide_channel_payment_pending" model="slide.channel">
+        <field name="name">Betalorder och Pending-state — så fungerar betalningar i Odoo</field>
+        <field name="description">
+Utbildning om betalorder i Odoo med svenska betalsätt (IBAN, Bankgiro, Autogiro).
+Omfattar: betalorderns livscykel, pending-state (in_payment), bankavstämning,
+och praktisk konfiguration av betalmetoder och betalsätt.
+        </field>
+        <field name="channel_type">training</field>
+        <field name="enroll">public</field>
+        <field name="is_published" eval="True"/>
+    </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,82 @@
+# Swedish translations for l10n_se_intrastat_product
+# Copyright 2026 Vertel AB (https://vertel.se)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-26 12:00+0000\n"
+"PO-Revision-Date: 2026-06-26 12:00+0000\n"
+"Last-Translator: Vertel AB <info@vertel.se>\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sv\n"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model,name:l10n_se_intrastat_product.model_res_company
+msgid "Company"
+msgstr "Företag"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model,name:l10n_se_intrastat_product.model_intrastat_product_declaration
+msgid "Intrastat Product Declaration"
+msgstr "Intrastatdeklaration"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields,field_description:l10n_se_intrastat_product.field_intrastat_product_declaration__swedish_declaration_id
+msgid "SCB Declaration ID"
+msgstr "SCB Deklarations-ID"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields,field_description:l10n_se_intrastat_product.field_res_company__intrastat_arrivals
+msgid "Intrastat Arrivals"
+msgstr "Intrastat Införsel"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields,field_description:l10n_se_intrastat_product.field_res_company__intrastat_dispatches
+msgid "Intrastat Dispatches"
+msgstr "Intrastat Utförsel"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields,field_description:l10n_se_intrastat_product.field_res_company__intrastat_accessory_costs
+msgid "Include Accessory Costs in Intrastat"
+msgstr "Inkludera bikostnader i Intrastat"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields,field_description:l10n_se_intrastat_product.field_res_company__intrastat_contact_name
+msgid "Intrastat Contact Name"
+msgstr "Intrastat Kontaktperson"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields,field_description:l10n_se_intrastat_product.field_res_company__intrastat_contact_phone
+msgid "Intrastat Contact Phone"
+msgstr "Intrastat Telefon"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields,field_description:l10n_se_intrastat_product.field_res_company__intrastat_contact_email
+msgid "Intrastat Contact Email"
+msgstr "Intrastat E-post"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields.selection,name:l10n_se_intrastat_product.selection__res_company__intrastat_arrivals__standard_se
+msgid "Standard (≥ 12 MSEK)"
+msgstr "Standard (≥ 12 MSEK)"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields.selection,name:l10n_se_intrastat_product.selection__res_company__intrastat_arrivals__extended_se
+msgid "Extended (≥ 550 MSEK)"
+msgstr "Utökad (≥ 550 MSEK)"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields.selection,name:l10n_se_intrastat_product.selection__res_company__intrastat_dispatches__standard_se
+msgid "Standard (≥ 5 MSEK)"
+msgstr "Standard (≥ 5 MSEK)"
+
+#. module: l10n_se_intrastat_product
+#: model:ir.model.fields.selection,name:l10n_se_intrastat_product.selection__res_company__intrastat_dispatches__extended_se
+msgid "Extended (≥ 275 MSEK)"
+msgstr "Utökad (≥ 275 MSEK)"

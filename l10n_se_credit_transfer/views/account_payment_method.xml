@@ -11,7 +11,7 @@
             <field name="pain_version" position="after">
                 <field
                     name="se_org_id_required"
-                    invisible="code not in ('se_credit_transfer', 'se_credit_transfer_bankgiro', 'se_credit_transfer_20')"
+                    invisible="code not in ('se_credit_transfer', 'se_credit_transfer_bankgiro', 'se_credit_transfer_20', 'bankgiro')"
                 />
             </field>
         </field>

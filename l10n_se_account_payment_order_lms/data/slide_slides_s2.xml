@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 2: Betalorder — grunderna
+         Slides: 4 (2 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s2" model="slide.slide">
+        <field name="name">2. Betalorder — grunderna</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- SLIDE 2.1: Payment Method vs Payment Mode -->
+    <record id="slide_s2_01" model="slide.slide">
+        <field name="name">account.payment.method vs account.payment.mode</field>
+        <field name="sequence">60</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #2b6cb0;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Betalordens byggstenar</h1>
+        <p class="lead" style="text-align: center;">account.payment.method, account.payment.mode och account.payment.order.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Tre nivåer av inställningar</h2>
+        <table class="table table-bordered">
+            <tr><th>Nivå</th><th>Modell</th><th>Exempel</th><th>Styr</th></tr>
+            <tr>
+                <td><strong>1</strong></td>
+                <td>account.payment.method</td>
+                <td>"Swedish Credit Transfer"</td>
+                <td>Hur betalningen görs (SEPA, Bankgiro, manuell), PAIN-version, pending-flagga</td>
+            </tr>
+            <tr>
+                <td><strong>2</strong></td>
+                <td>account.payment.mode</td>
+                <td>"SEB IBAN Utbetalning"</td>
+                <td>Kopplar betalmetoden till bankjournal, företag och standardinställningar</td>
+            </tr>
+            <tr>
+                <td><strong>3</strong></td>
+                <td>account.payment.order</td>
+                <td>"BET-2026-00001"</td>
+                <td>Samlar betalningar, styr livscykeln (draft → open → generated → uploaded)</td>
+            </tr>
+        </table>
+        <p>För att förstå pending-state måste man förstå dessa tre nivåer. Flaggan <code>pending_until_reconciliation</code> sätts på nivå 1 (betalmetoden) och påverkar nivå 3 (betalorderns beteende).</p>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Inställningskedjan</h2>
+                <pre style="background:#f7fafc;padding:15px;border-radius:8px;font-size:13px;">
+account.payment.method
+  ├── code = "se_credit_transfer"
+  ├── pending_until_reconciliation = True
+  └── pain_version = "pain.001.001.03"
+        │
+        ▼
+account.payment.mode
+  ├── payment_method_id → se_credit_transfer
+  ├── payment_order_ok = True
+  └── fixed_journal_id → SEB Bankkonto
+        │
+        ▼
+account.payment.order
+  ├── state: draft → open → generated → uploaded
+  └── payment_method_id.pending_until_reconciliation = True
+      → Hoppar över post_and_reconcile()
+      → Faktura förblir "in_payment"
+                </pre>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Förstå de tre inställningsnivåerna: method, mode och order.</field>
+    </record>
+
+    <!-- SLIDE 2.2: Betalorderns livscykel -->
+    <record id="slide_s2_02" model="slide.slide">
+        <field name="name">Betalorderns livscykel</field>
+        <field name="sequence">70</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Betalordens fyra tillstånd</h2>
+        <pre style="background:#f7fafc;padding:20px;border-radius:8px;font-size:14px;line-height:1.6;">
+┌─────────┐     ┌─────────┐     ┌───────────┐     ┌───────────┐
+│  Draft  │────▶│  Open   │────▶│ Generated │────▶│ Uploaded  │
+│(Utkast) │     │(Bekräft)│     │(Fil klar) │     │(Uppskick) │
+└─────────┘     └─────────┘     └───────────┘     └───────────┘
+     │               │               │                  │
+     │               │               │                  │
+  Skapa         Bekräfta        Generera          Markera som
+  betalorder    → skapar        → XML-fil         uppskickad
+  &amp; lägg till     account.         skapas           → HÄR händer
+  fakturor        payment         som bilaga        skillnaden!
+                (i utkast)
+        </pre>
+        <p><strong>Skillnaden mellan standard och pending:</strong></p>
+        <table class="table table-bordered">
+            <tr><th>Steg</th><th>Standard (pending=False)</th><th>Pending (pending=True)</th></tr>
+            <tr><td>Draft → Open</td><td>account.payment skapas</td><td>Samma</td></tr>
+            <tr><td>Open → Generated</td><td>XML skapas</td><td>Samma</td></tr>
+            <tr><td>Generated → Uploaded</td><td>✅ post_and_reconcile()<br/>Betalning bokförs &amp; matchas<br/>Faktura → "paid"</td><td>❌ HOPPAR ÖVER<br/>Ingen bokföring<br/>Faktura → "in_payment"</td></tr>
+            <tr><td>Efter uppladdning</td><td>Klart — fakturan betald</td><td>Väntar på bankavstämning</td></tr>
+        </table>
+    </div>
+</section>
+        </field>
+        <field name="description">Betalordens fyra tillstånd — och var skillnaden mellan standard och pending uppstår.</field>
+    </record>
+
+    <!-- SLIDE 2.3: Infographic livscykel -->
+    <record id="slide_s2_03" model="slide.slide">
+        <field name="name">T-konto — standard vs pending</field>
+        <field name="sequence">80</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.15</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Jämförelse: Standard vs Pending i T-konton</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <h3 class="h4-fs">Standard (post_and_reconcile vid uppladdning)</h3>
+                <pre style="background:#fff5f5;padding:15px;border-radius:8px;font-size:13px;">
+Vid uppladdning (generated2uploaded):
+  Kredit 1930 Bankkonto        10 000
+  Debet  2441 Leverantörsskulder  10 000
+  ✅ Skulden kvittas DIREKT
+  ❌ Innan banken hunnit dra pengarna!
+
+Bankkontoutdrag kommer senare:
+  Bankraden matchas mot tomt konto
+  → Svårt att härleda betalningen
+                </pre>
+            </div>
+            <div class="col-lg-6">
+                <h3 class="h4-fs">Pending (hoppar över post_and_reconcile)</h3>
+                <pre style="background:#f0fff4;padding:15px;border-radius:8px;font-size:13px;">
+Vid uppladdning (generated2uploaded):
+  Ingenting — pending-state!
+  ✅ Leverantörsskulden finns kvar
+  ✅ Väntar på verklig bankhändelse
+
+Bankkontoutdrag importeras:
+  Bankrad: -10 000 kr
+  Matchas mot 2441 Leverantörsskulder
+  → Skuld kvittas, banken stämmer
+  ✅ Korrekt enligt god redovisningssed
+                </pre>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Visualisering av T-konton för standard vs pending. Se hur leverantörsskulden hanteras olika.</field>
+    </record>
+
+    <!-- SLIDE 2.4: Quiz -->
+    <record id="slide_s2_04" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — Betalorder</field>
+        <field name="sequence">90</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om betalorderns uppbyggnad och livscykel.</field>
+    </record>
+
+    <!-- Q1 -->
+    <record id="slide_s2_04_q1" model="slide.question">
+        <field name="question">På vilken nivå sätts flaggan pending_until_reconciliation?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q1_a1" model="slide.answer">
+        <field name="text_value">account.payment.method (betalmetoden)</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Flaggan sätts på betalmetoden — det är metoden som avgör om pending ska användas.</field>
+        <field name="question_id" ref="slide_s2_04_q1"/>
+    </record>
+    <record id="slide_s2_04_q1_a2" model="slide.answer">
+        <field name="text_value">account.payment.mode (betalsättet)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Betalsättet ärver från betalmetoden, men flaggan sätts på metoden.</field>
+        <field name="question_id" ref="slide_s2_04_q1"/>
+    </record>
+    <record id="slide_s2_04_q1_a3" model="slide.answer">
+        <field name="text_value">account.payment.order (betalordern)</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Betalordern använder flaggan från betalmetoden via related-fältet payment_method_id.</field>
+        <field name="question_id" ref="slide_s2_04_q1"/>
+    </record>
+
+    <!-- Q2 -->
+    <record id="slide_s2_04_q2" model="slide.question">
+        <field name="question">Vilket tillstånd har betalordern när XML-filen är genererad?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q2_a1" model="slide.answer">
+        <field name="text_value">draft (utkast)</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Draft är före bekräftelse.</field>
+        <field name="question_id" ref="slide_s2_04_q2"/>
+    </record>
+    <record id="slide_s2_04_q2_a2" model="slide.answer">
+        <field name="text_value">generated (fil skapad)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Generated betyder att XML-filen är skapad men ännu inte uppladdad.</field>
+        <field name="question_id" ref="slide_s2_04_q2"/>
+    </record>
+    <record id="slide_s2_04_q2_a3" model="slide.answer">
+        <field name="text_value">uploaded (uppladdad)</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Uploaded kommer efter generated — när filen markerats som skickad.</field>
+        <field name="question_id" ref="slide_s2_04_q2"/>
+    </record>
+
+    <!-- Q3 -->
+    <record id="slide_s2_04_q3" model="slide.question">
+        <field name="question">Vad händer i standardflödet (pending=False) vid steget generated → uploaded?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q3_a1" model="slide.answer">
+        <field name="text_value">Ingenting — betalordern väntar på banken</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! I standardflödet händer det något — post_and_reconcile körs.</field>
+        <field name="question_id" ref="slide_s2_04_q3"/>
+    </record>
+    <record id="slide_s2_04_q3_a2" model="slide.answer">
+        <field name="text_value">post_and_reconcile() — betalningar bokförs och matchas mot fakturor</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! I standardflödet bokförs betalningar och matchas — fakturan blir "paid".</field>
+        <field name="question_id" ref="slide_s2_04_q3"/>
+    </record>
+    <record id="slide_s2_04_q3_a3" model="slide.answer">
+        <field name="text_value">XML-filen laddas ner från banken</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! XML-filen skickas till banken, inte tvärtom.</field>
+        <field name="question_id" ref="slide_s2_04_q3"/>
+    </record>
+
+    <!-- Q4 -->
+    <record id="slide_s2_04_q4" model="slide.question">
+        <field name="question">Vilken metod i koden styr vad som händer vid steget generated → uploaded?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q4_a1" model="slide.answer">
+        <field name="text_value">draft2open()</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! draft2open körs när betalordern bekräftas, inte vid uppladdning.</field>
+        <field name="question_id" ref="slide_s2_04_q4"/>
+    </record>
+    <record id="slide_s2_04_q4_a2" model="slide.answer">
+        <field name="text_value">generated2uploaded()</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! generated2uploaded() anropar post_and_reconcile() — eller hoppar över om pending=True.</field>
+        <field name="question_id" ref="slide_s2_04_q4"/>
+    </record>
+    <record id="slide_s2_04_q4_a3" model="slide.answer">
+        <field name="text_value">open2generated()</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! open2generated körs när XML-filen skapas.</field>
+        <field name="question_id" ref="slide_s2_04_q4"/>
+    </record>
+
+    <!-- Q5 -->
+    <record id="slide_s2_04_q5" model="slide.question">
+        <field name="question">Var på leverantören ställer man in betalningssätt för automatisering?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q5_a1" model="slide.answer">
+        <field name="text_value">På fakturan — fältet payment_mode_id</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Delvis rätt! Men för automatisering sätter man det på leverantören.</field>
+        <field name="question_id" ref="slide_s2_04_q5"/>
+    </record>
+    <record id="slide_s2_04_q5_a2" model="slide.answer">
+        <field name="text_value">På leverantören — fältet supplier_payment_mode_id</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Supplier Payment Mode på leverantören auto-fylls på nya fakturor.</field>
+        <field name="question_id" ref="slide_s2_04_q5"/>
+    </record>
+    <record id="slide_s2_04_q5_a3" model="slide.answer">
+        <field name="text_value">På bankjournalen</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Journalen kopplas via betalningssättet, inte direkt till leverantören.</field>
+        <field name="question_id" ref="slide_s2_04_q5"/>
+    </record>
+
+    </data>
+</odoo>
