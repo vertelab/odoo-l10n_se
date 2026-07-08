@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- K3 closing template — placeholder, to be populated with real account mappings -->
+    <record id="closing_template_k3" model="account.fiscalyear.closing.template">
+        <field name="name">Swedish K3 Closing</field>
+        <field name="chart_template" eval="False"/>
+    </record>
+</odoo>

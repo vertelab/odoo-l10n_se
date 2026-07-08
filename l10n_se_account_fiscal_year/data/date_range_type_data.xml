@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="date_range_type_fiscalyear" model="date.range.type">
+            <field name="name">Fiscal Year</field>
+            <field name="unit_of_time">0</field>
+            <field name="duration_count">1</field>
+            <field name="name_expr">'Y20%s' % date_start.strftime('%y')</field>
+        </record>
+
+        <record id="date_range_type_quarter" model="date.range.type">
+            <field name="name">Quarter</field>
+             <field name="unit_of_time">1</field>
+            <field name="duration_count">3</field>
+            <field name="name_expr">'Q%s-%s' % (date_start.strftime('%y'), ((date_start.month - 1) // 3 + 1))</field>
+        </record>
+
+        <record id="date_range_type_month" model="date.range.type">
+            <field name="name">Month</field>
+            <field name="unit_of_time">1</field>
+            <field name="duration_count">1</field>
+            <field name="name_expr">'M%s' % date_start.strftime('%y%m')</field>
+        </record>
+        
+        <record id="date_range_type_week" model="date.range.type">
+            <field name="name">Week</field>
+            <field name="unit_of_time">2</field>
+            <field name="duration_count">1</field>
+            <field name="name_expr">'W%s' % date_start.strftime('%y%V')</field>
+        </record>
+
+    </data>
+</odoo>

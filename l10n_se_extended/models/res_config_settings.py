@@ -153,9 +153,9 @@ class ResConfigSettings(models.TransientModel):
     # ==================================================================
     # 6. Period & Closing
     # ==================================================================
-    module_account_period_vrtl = fields.Boolean(
-        string='Swedish Periods',
-        help='Swedish fiscal periods with closing controls. Installs account_period_vrtl.',
+    module_account_fiscal_year_vrtl = fields.Boolean(
+        string='Fiscal Year & Periods',
+        help='Install account_fiscal_year_vrtl: Generic fiscal year with monthly periods, closing, and hash-locking.',
     )
     module_account_closed = fields.Boolean(
         string='Period Lock',

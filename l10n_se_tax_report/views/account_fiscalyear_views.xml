@@ -4,7 +4,7 @@
         <record id="view_account_fiscalyear_form" model="ir.ui.view">
             <field name="name">account.fiscalyear.form</field>
             <field name="model">account.fiscalyear</field>
-            <field name="inherit_id" ref="account_period_vrtl.view_account_fiscalyear_form"/>
+            <field name="inherit_id" ref="account_fiscal_year_vrtl.view_account_fiscal_year_form"/>
             <field name="arch" type="xml">
                 <button name="create_balance" position="after">
                     <button name="action_generate_tax_declaration" type="object" string="Generate Tax Declaration" class="btn btn-primary" />

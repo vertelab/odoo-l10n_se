@@ -182,10 +182,10 @@
 
                 <!-- ====== 6. Period &amp; Closing ====== -->
                 <block title="Period &amp; Closing" id="swedish_period">
-                    <setting id="account_period_vrtl_setting"
+                    <setting id="account_fiscal_year_vrtl_setting"
                         string="Swedish Periods"
                         help="Swedish fiscal periods with closing controls.">
-                        <field name="module_account_period_vrtl"/>
+                        <field name="module_account_fiscal_year_vrtl"/>
                     </setting>
                     <setting id="account_closed_setting"
                         string="Period Lock"
