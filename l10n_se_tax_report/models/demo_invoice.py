@@ -95,7 +95,7 @@ class PeriodicCompilationDemo(models.AbstractModel):
         eu_partners = {}
         partner_defs = [
             ('partner_eu_france_demo', 'Camptocamp France SAS', 'base.fr', 'FR12345678901'),
-            ('partner_eu_germany_demo', 'Handel GmbH', 'base.de', 'DE987654321'),
+            ('partner_eu_germany_demo', 'Handel GmbH', 'base.de', 'DE123456788'),
             ('partner_eu_netherlands_demo', 'Dutch Trading BV', 'base.nl', 'NL852341256B01'),
             ('partner_eu_denmark_demo', 'Nordic Supply ApS', 'base.dk', 'DK12345678'),
         ]

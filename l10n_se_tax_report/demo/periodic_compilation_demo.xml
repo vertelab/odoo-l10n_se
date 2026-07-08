@@ -24,7 +24,7 @@
             <field name="city">Berlin</field>
             <field name="street">Hauptstraße 42</field>
             <field name="zip">10115</field>
-            <field name="vat">DE987654321</field>
+            <field name="vat">DE123456788</field>
         </record>
 
         <record id="partner_non_eu" model="res.partner">
