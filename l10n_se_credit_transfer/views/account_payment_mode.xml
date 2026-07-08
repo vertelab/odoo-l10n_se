@@ -12,12 +12,12 @@
                 <separator string="Swedish Credit Transfer" />
                 <field
                     name="se_initiating_party_identifier"
-                    invisible="payment_method_id.code not in ('se_credit_transfer', 'se_credit_transfer_bankgiro', 'bankgiro')"
-                    required="payment_method_id.code in ('se_credit_transfer', 'se_credit_transfer_bankgiro', 'bankgiro')"
+                    invisible="payment_method_id.code not in ('se_credit_transfer', 'se_credit_transfer_bankgiro')"
+                    required="payment_method_id.code in ('se_credit_transfer', 'se_credit_transfer_bankgiro')"
                 />
                 <field
                     name="se_corporate_pay_agreement_id"
-                    invisible="payment_method_id.code not in ('se_credit_transfer', 'se_credit_transfer_bankgiro', 'bankgiro')"
+                    invisible="payment_method_id.code not in ('se_credit_transfer', 'se_credit_transfer_bankgiro')"
                 />
 
             </field>

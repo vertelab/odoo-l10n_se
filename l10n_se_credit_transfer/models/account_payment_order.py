@@ -29,9 +29,7 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         return self.payment_method_id.code in (
             "se_credit_transfer",
-            "se_credit_transfer_bankgiro",
             "se_credit_transfer_20",
-            "bankgiro",
         )
 
     def _mig_version(self):
@@ -73,8 +71,7 @@ class AccountPaymentOrder(models.Model):
     def _is_bankgiro_account(self, partner_bank):
         if not partner_bank:
             return False
-        acc_num = partner_bank.sanitized_acc_number or ""
-        return acc_num.isdigit() and len(acc_num) in (7, 8)
+        return partner_bank.acc_type == "bgnr"
 
     # -----------------------------------------------------------------
     # XML builders
@@ -188,20 +185,57 @@ class AccountPaymentOrder(models.Model):
             self._x(pa, "Ctry",
                     partner_bank.partner_id.country_id.code or "SE")
 
+    def _get_debtor_account(self, creditor_bank):
+        """Välj rätt debtor-konto baserat på creditor-typ.
+
+        Flöde:
+        1. Om creditor har IBAN:
+           - Kolla om företagets bankkonto är IBAN → använd det
+           - Annars → error
+        2. Om creditor har Bankgiro (bgnr):
+           - Kolla om företagets bankkonto är Bankgiro → använd det
+           - Annars: kolla om journalen har bankgiro_account_id → använd det
+           - Annars → error
+        """
+        self.ensure_one()
+        journal_bank = self.company_partner_bank_id
+
+        if creditor_bank.acc_type == "iban":
+            if journal_bank and journal_bank.acc_type == "iban":
+                return journal_bank
+            raise UserError(_(
+                "Mottagaren har IBAN men företagets bankkonto (%s) "
+                "är inte ett IBAN-konto."
+            ) % (journal_bank.sanitized_acc_number if journal_bank else _("inget")))
+
+        if creditor_bank.acc_type == "bgnr":
+            if journal_bank and journal_bank.acc_type == "bgnr":
+                return journal_bank
+            if self.journal_id.bankgiro_account_id:
+                return self.journal_id.bankgiro_account_id
+            raise UserError(_(
+                "Mottagaren har Bankgiro men ingen bankgiro-koppling "
+                "finns på journalen '%s'. Gå till journalen och välj "
+                "ett Bankgiro-konto under 'Bankgiro-konto'."
+            ) % self.journal_id.display_name)
+
+        return journal_bank
+
     def _build_account(self, parent, prefix, partner_bank, currency=None):
         acct = self._x(parent, "%sAcct" % prefix)
         aid = self._x(acct, "Id")
         if partner_bank.acc_type == "iban":
             self._x(aid, "IBAN", partner_bank.sanitized_acc_number)
+        elif partner_bank.acc_type == "bgnr":
+            oth = self._x(aid, "Othr")
+            self._x(oth, "Id", partner_bank.sanitized_acc_number)
+            schme_nm = self._x(oth, "SchmeNm")
+            self._x(schme_nm, "Prtry", "BGNR")
         else:
             oth = self._x(aid, "Othr")
             self._x(oth, "Id", partner_bank.sanitized_acc_number)
-            acc_num = partner_bank.sanitized_acc_number or ""
             schme_nm = self._x(oth, "SchmeNm")
-            if self._is_bankgiro_account(partner_bank):
-                self._x(schme_nm, "Prtry", "BGNR")
-            else:
-                self._x(schme_nm, "Cd", "BBAN")
+            self._x(schme_nm, "Cd", "BBAN")
         if currency:
             self._x(acct, "Ccy", currency)
 
@@ -247,19 +281,26 @@ class AccountPaymentOrder(models.Model):
         sum_total = self._x(gh, "CtrlSum")
         self._build_initiating_party(gh, gen_args)
 
-        # Group lines by date
-        by_date = {}
+        # Group lines by date + account type (IBAN vs Bankgiro)
+        # så debtor-konto blir rätt per grupp
+        by_group = {}
         for line in self.payment_line_ids:
-            by_date.setdefault(line.date, []).append(line)
+            if line.partner_bank_id:
+                acc_type = "iban" if line.partner_bank_id.acc_type == "iban" else "bgnr"
+            else:
+                acc_type = "unknown"
+            key = (line.date, acc_type)
+            by_group.setdefault(key, []).append(line)
 
         txn = 0
         amt = 0.0
 
-        for req_date, lines in sorted(by_date.items()):
+        for (req_date, acc_type), lines in sorted(by_group.items()):
             ds = fields.Date.to_string(req_date)
+            grp_suffix = "%s-%s" % (ds.replace("-", ""), acc_type)
             pi = self._x(cstmr, "PmtInf")
 
-            self._xf(pi, "PmtInfId", '"%s-%s"' % (self.name, ds.replace("-", "")),
+            self._xf(pi, "PmtInfId", '"%s-%s"' % (self.name, grp_suffix),
                      {}, 35, gen_args)
             self._x(pi, "PmtMtd", "TRF")
             bic = self.company_partner_bank_id.bank_id.bic or ""
@@ -277,24 +318,15 @@ class AccountPaymentOrder(models.Model):
             else:
                 red.text = ds
 
-            debtor = self.company_partner_bank_id
-            debtor_is_bgnr = self._is_bankgiro_account(debtor)
-            if not debtor_is_bgnr:
-                has_bgnr_creditor = any(
-                    self._is_bankgiro_account(line.partner_bank_id) for line in lines
-                )
-                if has_bgnr_creditor:
-                    raise UserError(_(
-                        "The debtor account '%s' uses IBAN/BBAN format, "
-                        "but some creditors use Bankgiro numbers.\n"
-                        "Bankgiro creditors require a Bankgiro debtor account.\n"
-                        "Create a separate Bankgiro payment mode with a "
-                        "Bankgiro bank account (7-8 digits)."
-                    ) % debtor.sanitized_acc_number)
+            # Välj rätt debtor-konto baserat på första creditor i gruppen
+            first_creditor = lines[0].partner_bank_id
+            debtor_account = self._get_debtor_account(first_creditor)
 
             self._build_debtor(pi, gen_args)
-            self._build_account(pi, "Dbtr", self.company_partner_bank_id,
+            self._build_account(pi, "Dbtr", debtor_account,
                                 currency=lines[0].currency_id.name)
+            # BIC ska alltid vara från journalens bankkonto (t.ex. SWEDSESS)
+            # inte från bankgiro-kontot, eftersom banken är densamma
             self._build_agent(pi, "Dbtr", self.company_partner_bank_id, gen_args)
             if "SWEDSESS" not in bic:
                 self._x(pi, "ChrgBr", self.charge_bearer or "SHAR")

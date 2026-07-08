@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_journal_form_view_se" model="ir.ui.view">
+        <field name="name">l10n_se_credit_transfer.account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <field name="bank_account_id" position="after">
+                <field name="bankgiro_account_id"
+                       invisible="type != 'bank'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

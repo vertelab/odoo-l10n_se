@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
     <record id="se_credit_transfer" model="account.payment.method">
-        <field name="name">Swedish Credit Transfer (SEK)</field>
+        <field name="name">20022 (IBAN, Bankgiro)</field>
         <field name="code">se_credit_transfer</field>
-        <field name="payment_type">outbound</field>
-        <field name="bank_account_required" eval="True" />
-        <field name="pain_version">pain.001.001.03</field>
-        <field name="se_org_id_required" eval="True" />
-        <field name="pending_until_reconciliation" eval="True" />
-    </record>
-
-    <record id="se_credit_transfer_bankgiro" model="account.payment.method">
-        <field name="name">Swedish Bankgiro Transfer (SEK)</field>
-        <field name="code">se_credit_transfer_bankgiro</field>
         <field name="payment_type">outbound</field>
         <field name="bank_account_required" eval="True" />
         <field name="pain_version">pain.001.001.03</field>
@@ -30,18 +20,8 @@
         <field name="pending_until_reconciliation" eval="True" />
     </record>
 
-    <record id="bankgiro" model="account.payment.method">
-        <field name="name">Bankgiro</field>
-        <field name="code">bankgiro</field>
-        <field name="payment_type">outbound</field>
-        <field name="bank_account_required" eval="True" />
-        <field name="pain_version">pain.001.001.03</field>
-        <field name="se_org_id_required" eval="True" />
-        <field name="pending_until_reconciliation" eval="True" />
-    </record>
-
     <record id="autogiro" model="account.payment.method">
-        <field name="name">Autogiro</field>
+        <field name="name">Autogiro (direktbetalning)</field>
         <field name="code">autogiro</field>
         <field name="payment_type">outbound</field>
         <field name="bank_account_required" eval="False" />

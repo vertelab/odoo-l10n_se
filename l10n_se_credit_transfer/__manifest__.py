@@ -53,6 +53,7 @@ Supported transaction types
         "views/account_payment_mode.xml",
         "views/account_payment_order.xml",
         "views/account_payment_method.xml",
+        "views/account_journal.xml",
     ],
     "demo": ["demo/demo_data.xml"],
     "installable": True,
