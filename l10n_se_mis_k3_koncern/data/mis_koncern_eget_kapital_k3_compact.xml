@@ -50,7 +50,6 @@
             <field eval="False" name="font_size_inherit"/>
             <field name="font_size">medium</field>
             <field eval="False" name="prefix_inherit"/>
-            <field eval="False" name="suffix_inherit"/>
             <field name="suffix">SEK</field>
         </record>
 
@@ -93,7 +92,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_Aktiekapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_Aktiekapital"/>
-            <field name="name">bal[2081] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalAktiekapitalJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -119,6 +118,10 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">7</field>
             <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradAktiekapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradAktiekapital"/>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalIngaendeAktiekapitalAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -171,7 +174,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_Aktiekapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_Aktiekapital"/>
-            <field name="name">bal[2081] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalOvrigtTillskjutetKapitalAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -218,6 +221,10 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">18</field>
             <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradOvrigtTillskjutetKapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradOvrigtTillskjutetKapital"/>
+            <field name="name">bal[2082, 2087, 2093, 2097] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalIngaendeOvrigtTillskjutetKapitalAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -413,6 +420,10 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">41</field>
             <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradAnnatEgetKapitalInklusivePeriodensResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradAnnatEgetKapitalInklusivePeriodensResultat"/>
+            <field name="name">bal[2085, 2086, 2089, 2091, 2093, 2094, 2095, 2096, 2098, 2099] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalIngaendeAnnatEgetKapitalInklusivePeriodensResultatAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -825,7 +836,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_Uppskrivningsfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_Uppskrivningsfond"/>
-            <field name="name">bal[2085] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalUppskrivningsfondJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -927,7 +938,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_Uppskrivningsfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_Uppskrivningsfond"/>
-            <field name="name">bal[2085] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalReservfondAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -948,7 +959,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_Reservfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_Reservfond"/>
-            <field name="name">bal[2086] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalReservfondJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -1026,7 +1037,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_Reservfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_Reservfond"/>
-            <field name="name">bal[2086] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalKapitalandelsfondAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -1130,7 +1141,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_FondUtvecklingsutgifter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_FondUtvecklingsutgifter"/>
-            <field name="name">bal[2089] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalUtvecklingsutgifterJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -1224,7 +1235,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_FondUtvecklingsutgifter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_FondUtvecklingsutgifter"/>
-            <field name="name">bal[2089] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalFondVerkligtVardeAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -1245,7 +1256,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_FondVerkligtVarde" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_FondVerkligtVarde"/>
-            <field name="name">bal[2096] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalFondVerkligtVardeJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -1347,7 +1358,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_FondVerkligtVarde" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_FondVerkligtVarde"/>
-            <field name="name">bal[2096] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalOmrakningsdifferensEgetKapitalAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -2244,7 +2255,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_EgetKapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_EgetKapital"/>
-            <field name="name">bal[2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalTotaltJusteringarIngaendeBalansAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -2278,6 +2289,10 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">263</field>
             <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradTotalt" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_koncern_k3_compact_ForandringEgetKapitalJusteradTotalt"/>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalIngaendeTotaltAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -2530,7 +2545,7 @@
         </record>
         <record id="kpi_report_equity_koncern_k3_compact_EgetKapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_equity_koncern_k3_compact_EgetKapital"/>
-            <field name="name">bal[2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009] * -1</field>
+            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_equity_koncern_k3_compact_ForandringEgetKapitalKommentar" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3_compact"/>
@@ -2539,6 +2554,10 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">295</field>
             <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_equity_koncern_k3_compact_ForandringEgetKapitalKommentar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_equity_koncern_k3_compact_ForandringEgetKapitalKommentar"/>
+            <field name="name">bal[20%%]</field>
         </record>
     </data>
 </odoo>
