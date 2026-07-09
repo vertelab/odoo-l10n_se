@@ -268,11 +268,17 @@ def generate_report_xml(sheet_def, compact=False):
         s = nseq()
         kpi_id = f"{report_id}_{rd['elem']}"
 
-        # Stil
-        if rd['abstract'] and rd['is_sum']:
-            style = 'report_style_k2_5'
+        # Stil:
+        # - level 1 abstract headers (huvudrubriker) → style_3 (grå bakgrund)
+        # - Other abstract headers → style_4 (bold)
+        # - Sum rows (non-abstract) → style_5 (bold sum, medium)
+        # - Leaf KPIs → style_1 (money, indent 2)
+        if rd['abstract'] and rd['level'] == 1:
+            style = 'report_style_k2_3'
         elif rd['abstract']:
             style = 'report_style_k2_4'
+        elif rd['is_sum']:
+            style = 'report_style_k2_5'
         else:
             style = 'report_style_k2_1'
 

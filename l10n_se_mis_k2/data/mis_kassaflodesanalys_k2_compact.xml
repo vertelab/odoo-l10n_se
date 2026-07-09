@@ -69,7 +69,7 @@
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">KassaflodesanalysLopandeVerksamhetenAbstract</field>
             <field name="description">Den löpande verksamheten</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
@@ -265,7 +265,7 @@
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">KassaflodesanalysInvesteringsverksamhetenAbstract</field>
             <field name="description">Investeringsverksamheten</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">23</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
@@ -365,7 +365,7 @@
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">KassaflodesanalysFinansieringsverksamhetenAbstract</field>
             <field name="description">Finansieringsverksamheten</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">34</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>

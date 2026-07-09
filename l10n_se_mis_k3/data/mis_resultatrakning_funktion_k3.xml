@@ -69,7 +69,7 @@
             <field name="report_id" ref="report_rr_funktion_k3"/>
             <field name="name">RorelseresultatAbstract</field>
             <field name="description">Rörelseresultat</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
@@ -237,7 +237,7 @@
             <field name="report_id" ref="report_rr_funktion_k3"/>
             <field name="name">FunktionerMm</field>
             <field name="description">Summa funktioner m.m.</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">15</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -266,7 +266,7 @@
             <field name="report_id" ref="report_rr_funktion_k3"/>
             <field name="name">FinansiellaPosterAbstract</field>
             <field name="description">Resultat från finansiella poster</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">17</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
@@ -491,7 +491,7 @@
             <field name="report_id" ref="report_rr_funktion_k3"/>
             <field name="name">FinansiellaPoster</field>
             <field name="description">Summa resultat från finansiella poster</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">33</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -516,7 +516,7 @@
             <field name="report_id" ref="report_rr_funktion_k3"/>
             <field name="name">BokslutsdispositionerAbstract</field>
             <field name="description">Bokslutsdispositioner</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">35</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
@@ -616,7 +616,7 @@
             <field name="report_id" ref="report_rr_funktion_k3"/>
             <field name="name">Bokslutsdispositioner</field>
             <field name="description">Summa bokslutsdispositioner</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">42</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -637,7 +637,7 @@
             <field name="report_id" ref="report_rr_funktion_k3"/>
             <field name="name">SkatterAbstract</field>
             <field name="description">Skatter</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">44</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>

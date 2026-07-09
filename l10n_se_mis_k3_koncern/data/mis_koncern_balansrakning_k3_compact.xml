@@ -69,7 +69,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">TillgangarAbstract</field>
             <field name="description">Tillgångar</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
@@ -172,7 +172,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">ImmateriellaAnlaggningstillgangar</field>
             <field name="description">Summa immateriella anläggningstillgångar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">11</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -264,7 +264,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">MateriellaAnlaggningstillgangar</field>
             <field name="description">Summa materiella anläggningstillgångar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">19</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -392,7 +392,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">FinansiellaAnlaggningstillgangar</field>
             <field name="description">Summa finansiella anläggningstillgångar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">30</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -402,7 +402,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">Anlaggningstillgangar</field>
             <field name="description">Summa anläggningstillgångar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">31</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -496,7 +496,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">VarulagerMm</field>
             <field name="description">Summa varulager m.m.</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">39</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -612,7 +612,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">KortfristigaFordringar</field>
             <field name="description">Summa kortfristiga fordringar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">49</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -644,7 +644,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">KortfristigaPlaceringar</field>
             <field name="description">Summa kortfristiga placeringar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">52</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -688,7 +688,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">KassaBank</field>
             <field name="description">Summa kassa och bank</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">56</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -698,7 +698,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">Omsattningstillgangar</field>
             <field name="description">Summa omsättningstillgångar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">57</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -712,7 +712,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">Tillgangar</field>
             <field name="description">Summa tillgångar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">58</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -726,7 +726,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">EgetKapitalSkulderAbstract</field>
             <field name="description">Eget kapital och skulder</field>
-            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">59</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
@@ -834,7 +834,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">EgetKapital</field>
             <field name="description">Summa eget kapital</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">69</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -888,7 +888,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">AvsattningarPensionerLiknandeForpliktelser</field>
             <field name="description">Summa avsättningar för pensioner och liknande förpliktelser</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">74</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -937,7 +937,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">Avsattningar</field>
             <field name="description">Summa avsättningar</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">78</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -1008,7 +1008,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">SkulderKreditinstitutLangfristiga</field>
             <field name="description">Summa skulder till kreditinstitut</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">84</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -1070,7 +1070,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">LangfristigaSkulder</field>
             <field name="description">Summa långfristiga skulder</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">89</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -1137,7 +1137,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">SkulderKreditinstitutKortfristiga</field>
             <field name="description">Summa skulder till kreditinstitut</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">95</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -1277,7 +1277,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">KortfristigaSkulder</field>
             <field name="description">Summa kortfristiga skulder</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">106</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
@@ -1287,7 +1287,7 @@
             <field name="report_id" ref="report_br_koncern_k3_compact"/>
             <field name="name">EgetKapitalSkulder</field>
             <field name="description">Summa eget kapital och skulder</field>
-            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="style_id" ref="report_style_k2_5"/>
             <field name="sequence">107</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
