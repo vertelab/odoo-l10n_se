@@ -73,6 +73,7 @@
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -83,6 +84,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_forening_indirekt_k2_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_forening_indirekt_k2_Rorelseresultat"/>
@@ -96,6 +98,7 @@
             <field name="sequence">4</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -106,6 +109,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_RealisationsVinstForlustRorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -116,6 +120,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeValutakursdifferenser" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -126,6 +131,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAvsattningPensioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -136,6 +142,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAvsattningGarantier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -146,6 +153,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -156,6 +164,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_JusteringPosterInteIngarKassaflodeAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ErhallenRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -166,10 +175,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_ErhallenRanta" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_ErhallenRanta"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ErhallenUtdelning" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -180,10 +186,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_ErhallenUtdelning" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_ErhallenUtdelning"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ErlagdRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -194,10 +197,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_ErlagdRanta" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_ErlagdRanta"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_BetaldSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -208,10 +208,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_BetaldSkatt" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_BetaldSkatt"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -222,10 +219,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeRorelsekapitaletAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -235,6 +229,7 @@
             <field name="sequence">16</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeVarulagerPagaendeArbeten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -245,6 +240,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeKundfordringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -255,6 +251,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeOvrigaKortfristigaFordringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -265,6 +262,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeLeverantorsskulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -275,6 +273,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeOvrigaKortfristigaSkulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -285,6 +284,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_KassaflodeLopandeVerksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -295,10 +295,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_KassaflodeLopandeVerksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_KassaflodeLopandeVerksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -308,6 +305,7 @@
             <field name="sequence">23</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_LamnadeKapitaltillskottInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -318,6 +316,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_LamnadeKoncernbidragInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -328,6 +327,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_InvesteringImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -338,6 +338,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForsaljningImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -348,6 +349,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_InvesteringMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -358,6 +360,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForsaljningMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -368,6 +371,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_InvesteringFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -378,6 +382,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForsaljningFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -388,6 +393,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeOvrigaKortfristigaPlaceringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -398,6 +404,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_KassaflodeInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -408,10 +415,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_KassaflodeInvesteringsverksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_KassaflodeInvesteringsverksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -421,6 +425,7 @@
             <field name="sequence">34</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -431,6 +436,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -441,6 +447,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_UpptagnaLan" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -451,6 +458,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_AmorteringSkuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -461,6 +469,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_KortfristigaFinansiellaSkulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -471,6 +480,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_UtbetaldUtdelningKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -481,6 +491,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_UtbetaldEfterlikvidKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -491,6 +502,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_UtbetaldInsatsemissionKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -501,6 +513,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringMedlemsinsatserKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -511,6 +524,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_ForandringForlagsinsatserKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -521,6 +535,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_KassaflodeFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -531,10 +546,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_KassaflodeFinansieringsverksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_KassaflodeFinansieringsverksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_AretsKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -545,10 +557,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_AretsKassaflode" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_AretsKassaflode"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -559,10 +568,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_LikvidaMedel" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_LikvidaMedel"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_LikvidaMedelKursdifferens" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -573,10 +579,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_LikvidaMedelKursdifferens" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_LikvidaMedelKursdifferens"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_forening_indirekt_k2_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_forening_indirekt_k2"/>
@@ -587,10 +590,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_forening_indirekt_k2_LikvidaMedel" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_forening_indirekt_k2_LikvidaMedel"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="parent_id" ref="report_kf_forening_indirekt_k2_KassaflodesanalysIndirektAbstract"/>
         </record>
     </data>
 </odoo>

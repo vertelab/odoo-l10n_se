@@ -73,6 +73,7 @@
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_BruttoresultatForkortadFunktionsindelad" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -81,6 +82,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">3</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_BruttoresultatForkortadFunktionsindelad" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_BruttoresultatForkortadFunktionsindelad"/>
@@ -94,6 +96,7 @@
             <field name="sequence">4</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_RorelseresultatAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_Forsaljningskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -102,10 +105,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">5</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FunktionerMmAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_Forsaljningskostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_Forsaljningskostnader"/>
-            <field name="name">bal[38%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
+            <field name="name">bal[3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807, 3808, 3809, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_Administrationskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -114,10 +118,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">6</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FunktionerMmAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_Administrationskostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_Administrationskostnader"/>
-            <field name="name">bal[38%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
+            <field name="name">bal[3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807, 3808, 3809, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ForskningsUtvecklingskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -126,10 +131,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">7</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FunktionerMmAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ForskningsUtvecklingskostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ForskningsUtvecklingskostnader"/>
-            <field name="name">bal[38%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
+            <field name="name">bal[3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807, 3808, 3809, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_OvrigaRorelsekostnaderFunktionsindelad" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -138,10 +144,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">8</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FunktionerMmAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_OvrigaRorelsekostnaderFunktionsindelad" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_OvrigaRorelsekostnaderFunktionsindelad"/>
-            <field name="name">bal[78%%, 79%%]</field>
+            <field name="name">bal[7800, 7801, 7802, 7803, 7804, 7805, 7806, 7807, 7808, 7809, 7900, 7901, 7902, 7903, 7904, 7905, 7906, 7907, 7908, 7909]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_FunktionerMm" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -151,10 +158,11 @@
             <field name="sequence">9</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_FunktionerMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_FunktionerMm"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%]</field>
+            <field name="name">sum('Forsaljningskostnader', 'Administrationskostnader', 'ForskningsUtvecklingskostnader', 'OvrigaRorelsekostnaderFunktionsindelad')</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -163,6 +171,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">10</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_Rorelseresultat"/>
@@ -176,6 +185,7 @@
             <field name="sequence">11</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -185,6 +195,7 @@
             <field name="sequence">12</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ResultatAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -193,10 +204,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">13</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatAndelarKoncernforetag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatAndelarKoncernforetag"/>
-            <field name="name">bal[80%%] * -1</field>
+            <field name="name">bal[8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ResultatAndelarIntresseforetagGemensamtStyrda" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -205,6 +217,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">14</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatAndelarIntresseforetagGemensamtStyrda" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatAndelarIntresseforetagGemensamtStyrda"/>
@@ -217,6 +230,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">15</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatOvrigaforetagAgarintresse" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatOvrigaforetagAgarintresse"/>
@@ -229,6 +243,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">16</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatOvrigaFinansiellaAnlaggningstillgangar"/>
@@ -241,6 +256,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">17</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_OvrigaRanteintakterLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_OvrigaRanteintakterLiknandeResultatposter"/>
@@ -253,10 +269,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">18</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar"/>
-            <field name="name">bal[80%%, 81%%, 82%%, 83%%]</field>
+            <field name="name">bal[8070, 8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8079, 8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179, 8180, 8181, 8182, 8183, 8184, 8185, 8186, 8187, 8188, 8189, 8270, 8271, 8272, 8273, 8274, 8275, 8276, 8277, 8278, 8279, 8280, 8281, 8282, 8283, 8284, 8285, 8286, 8287, 8288, 8289, 8370, 8371, 8372, 8373, 8374, 8375, 8376, 8377, 8378, 8379, 8380, 8381, 8382, 8383, 8384, 8385, 8386, 8387, 8388, 8389]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_RantekostnaderLiknandeResultatposter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -265,10 +282,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">19</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_RantekostnaderLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_RantekostnaderLiknandeResultatposter"/>
-            <field name="name">bal[84%%]</field>
+            <field name="name">bal[8400, 8401, 8402, 8403, 8404, 8405, 8406, 8407, 8408, 8409]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -278,6 +296,7 @@
             <field name="sequence">20</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ResultatAndelarKoncernforetagInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -286,10 +305,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">21</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatAndelarKoncernforetagInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatAndelarKoncernforetagInklNedskrivning"/>
-            <field name="name">bal[80%%] * -1</field>
+            <field name="name">bal[8000, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008, 8009] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -298,6 +318,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">22</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning"/>
@@ -310,6 +331,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">23</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatOvrigaforetagAgarintresseInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatOvrigaforetagAgarintresseInklNedskrivning"/>
@@ -322,10 +344,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">24</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning"/>
-            <field name="name">bal[82%%] * -1</field>
+            <field name="name">bal[8200, 8201, 8202, 8203, 8204, 8205, 8206, 8207, 8208, 8209] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_OvrigaRanteintakterLiknandeResultatposterInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -334,10 +357,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">25</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_OvrigaRanteintakterLiknandeResultatposterInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_OvrigaRanteintakterLiknandeResultatposterInklNedskrivning"/>
-            <field name="name">bal[83%%] * -1</field>
+            <field name="name">bal[8300, 8301, 8302, 8303, 8304, 8305, 8306, 8307, 8308, 8309] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_RantekostnaderLiknandeResultatposter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -346,10 +370,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">26</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_RantekostnaderLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_RantekostnaderLiknandeResultatposter"/>
-            <field name="name">bal[84%%]</field>
+            <field name="name">bal[8400, 8401, 8402, 8403, 8404, 8405, 8406, 8407, 8408, 8409]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_FinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -359,10 +384,11 @@
             <field name="sequence">27</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_FinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_FinansiellaPoster"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 8000, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008, 8009, 8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039, 8070, 8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8079, 8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 8111, 8112, 8113, 8116, 8117, 8118, 8121, 8122, 8123, 8131, 8132, 8133, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179, 8180, 8181, 8182, 8183, 8184, 8185, 8186, 8187, 8188, 8189, 82%%, 83%%, 84%%] * -1</field>
+            <field name="name">sum('BruttoresultatForkortadFunktionsindelad', 'FunktionerMm') * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -371,10 +397,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">28</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatEfterFinansiellaPoster"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 8000, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008, 8009, 8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039, 8070, 8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8079, 8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 8111, 8112, 8113, 8116, 8117, 8118, 8121, 8122, 8123, 8131, 8132, 8133, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179, 8180, 8181, 8182, 8183, 8184, 8185, 8186, 8187, 8188, 8189, 82%%, 83%%, 84%%] * -1</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -384,6 +407,7 @@
             <field name="sequence">29</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ErhallnaKoncernbidrag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -392,10 +416,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">30</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ErhallnaKoncernbidrag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ErhallnaKoncernbidrag"/>
-            <field name="name">bal[88%%] * -1</field>
+            <field name="name">bal[8820, 8821, 8822, 8823, 8824, 8825, 8826, 8827, 8828, 8829] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_LamnadeKoncernbidrag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -404,10 +429,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">31</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_LamnadeKoncernbidrag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_LamnadeKoncernbidrag"/>
-            <field name="name">bal[88%%]</field>
+            <field name="name">bal[8830, 8831, 8832, 8833, 8834, 8835, 8836, 8837, 8838, 8839]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ForandringPeriodiseringsfond" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -416,10 +442,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">32</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ForandringPeriodiseringsfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ForandringPeriodiseringsfond"/>
-            <field name="name">bal[88%%] * -1</field>
+            <field name="name">bal[8810, 8811, 8812, 8813, 8814, 8815, 8816, 8817, 8818, 8819] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ForandringOveravskrivningar" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -428,10 +455,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">33</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ForandringOveravskrivningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ForandringOveravskrivningar"/>
-            <field name="name">bal[88%%] * -1</field>
+            <field name="name">bal[8850, 8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ForandringErsattningsfond" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -440,10 +468,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">34</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ForandringErsattningsfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ForandringErsattningsfond"/>
-            <field name="name">bal[88%%] * -1</field>
+            <field name="name">bal[8860, 8861, 8862, 8863, 8864, 8865, 8866, 8867, 8868, 8869] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_AndraBokslutsdispositioner" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -452,10 +481,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">35</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_AndraBokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_AndraBokslutsdispositioner"/>
-            <field name="name">bal[88%%] * -1</field>
+            <field name="name">bal[8890, 8891, 8892, 8893, 8894, 8895, 8896, 8897, 8898, 8899] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_Bokslutsdispositioner" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -465,10 +495,7 @@
             <field name="sequence">36</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
-        </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_compact_Bokslutsdispositioner" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_Bokslutsdispositioner"/>
-            <field name="name">bal[8810, 8811, 8812, 8813, 8814, 8815, 8816, 8817, 8818, 8819, 8820, 8821, 8822, 8823, 8824, 8825, 8826, 8827, 8828, 8829, 8830, 8831, 8832, 8833, 8834, 8835, 8836, 8837, 8838, 8839, 8850, 8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859, 8860, 8861, 8862, 8863, 8864, 8865, 8866, 8867, 8868, 8869, 8890, 8891, 8892, 8893, 8894, 8895, 8896, 8897, 8898, 8899] * -1</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_ResultatForeSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -477,10 +504,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">37</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatForeSkatt" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatForeSkatt"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 8000, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008, 8009, 8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039, 8070, 8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8079, 8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 8111, 8112, 8113, 8116, 8117, 8118, 8121, 8122, 8123, 8131, 8132, 8133, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179, 8180, 8181, 8182, 8183, 8184, 8185, 8186, 8187, 8188, 8189, 82%%, 83%%, 84%%, 8810, 8811, 8812, 8813, 8814, 8815, 8816, 8817, 8818, 8819, 8820, 8821, 8822, 8823, 8824, 8825, 8826, 8827, 8828, 8829, 8830, 8831, 8832, 8833, 8834, 8835, 8836, 8837, 8838, 8839, 8850, 8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859, 8860, 8861, 8862, 8863, 8864, 8865, 8866, 8867, 8868, 8869, 8890, 8891, 8892, 8893, 8894, 8895, 8896, 8897, 8898, 8899] * -1</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -490,6 +514,7 @@
             <field name="sequence">38</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_SkattAretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -498,10 +523,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">39</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_SkatterAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_SkattAretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_SkattAretsResultat"/>
-            <field name="name">bal[89%%]</field>
+            <field name="name">bal[8910, 8911, 8912, 8913, 8914, 8915, 8916, 8917, 8918, 8919, 8920, 8921, 8922, 8923, 8924, 8925, 8926, 8927, 8928, 8929, 8930, 8931, 8932, 8933, 8934, 8935, 8936, 8937, 8938, 8939, 8940, 8941, 8942, 8943, 8944, 8945, 8946, 8947, 8948, 8949]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_OvrigaSkatter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -510,10 +536,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">40</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_SkatterAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_OvrigaSkatter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_OvrigaSkatter"/>
-            <field name="name">bal[89%%]</field>
+            <field name="name">bal[8980, 8981, 8982, 8983, 8984, 8985, 8986, 8987, 8988, 8989]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_AretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -522,10 +549,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">41</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_AretsResultat"/>
-            <field name="name">bal[89%%] * -1</field>
+            <field name="name">bal[8990, 8991, 8992, 8993, 8994, 8995, 8996, 8997, 8998, 8999] * -1</field>
         </record>
     </data>
 </odoo>

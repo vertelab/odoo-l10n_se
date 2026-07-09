@@ -73,6 +73,7 @@
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_BruttoresultatKostnadsslagsindelad" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -83,6 +84,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_BruttoresultatKostnadsslagsindelad" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_BruttoresultatKostnadsslagsindelad"/>
@@ -97,6 +99,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_Personalkostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_Personalkostnader"/>
@@ -111,6 +114,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar"/>
@@ -125,6 +129,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar"/>
@@ -139,6 +144,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_OvrigaRorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_OvrigaRorelsekostnader"/>
@@ -153,6 +159,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_Rorelseresultat"/>
@@ -166,6 +173,7 @@
             <field name="sequence">9</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_ResultatAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -176,6 +184,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatAndelarKoncernforetag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatAndelarKoncernforetag"/>
@@ -190,6 +199,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatAndelarIntresseforetagGemensamtStyrda" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatAndelarIntresseforetagGemensamtStyrda"/>
@@ -204,6 +214,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatOvrigaforetagAgarintresse" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatOvrigaforetagAgarintresse"/>
@@ -218,6 +229,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatOvrigaFinansiellaAnlaggningstillgangar"/>
@@ -232,6 +244,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_OvrigaRanteintakterLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_OvrigaRanteintakterLiknandeResultatposter"/>
@@ -246,6 +259,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar"/>
@@ -260,6 +274,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_RantekostnaderLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_RantekostnaderLiknandeResultatposter"/>
@@ -274,10 +289,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_rr_kostnadsslag_forkortad_k2_FinansiellaPoster" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPoster"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039, 8070, 8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8079, 8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 8111, 8112, 8113, 8116, 8117, 8118, 8121, 8122, 8123, 8131, 8132, 8133, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179, 8180, 8181, 8182, 8183, 8184, 8185, 8186, 8187, 8188, 8189, 8210, 8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220, 8221, 8222, 8223, 8224, 8225, 8226, 8227, 8228, 8229, 8230, 8231, 8232, 8233, 8234, 8235, 8236, 8237, 8238, 8239, 8240, 8241, 8242, 8243, 8244, 8245, 8246, 8247, 8248, 8249, 8250, 8251, 8252, 8253, 8254, 8255, 8256, 8257, 8258, 8259, 8260, 8261, 8262, 8263, 8264, 8265, 8266, 8267, 8268, 8269, 8270, 8271, 8272, 8273, 8274, 8275, 8276, 8277, 8278, 8279, 8280, 8281, 8282, 8283, 8284, 8285, 8286, 8287, 8288, 8289, 8290, 8291, 8292, 8293, 8294, 8295, 8296, 8297, 8298, 8299, 8310, 8311, 8312, 8313, 8314, 8315, 8316, 8317, 8318, 8319, 8320, 8321, 8322, 8323, 8324, 8325, 8326, 8327, 8328, 8329, 8330, 8331, 8332, 8333, 8334, 8335, 8336, 8337, 8338, 8339, 8340, 8341, 8342, 8343, 8344, 8345, 8346, 8347, 8348, 8349, 8350, 8351, 8352, 8353, 8354, 8355, 8356, 8357, 8358, 8359, 8360, 8361, 8362, 8363, 8364, 8365, 8366, 8367, 8368, 8369, 8370, 8371, 8372, 8373, 8374, 8375, 8376, 8377, 8378, 8379, 8380, 8381, 8382, 8383, 8384, 8385, 8386, 8387, 8388, 8389, 8390, 8391, 8392, 8393, 8394, 8395, 8396, 8397, 8398, 8399, 8400, 8401, 8402, 8403, 8404, 8405, 8406, 8407, 8408, 8409] * -1</field>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -288,10 +300,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039, 8070, 8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8079, 8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 8111, 8112, 8113, 8116, 8117, 8118, 8121, 8122, 8123, 8131, 8132, 8133, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179, 8180, 8181, 8182, 8183, 8184, 8185, 8186, 8187, 8188, 8189, 8210, 8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220, 8221, 8222, 8223, 8224, 8225, 8226, 8227, 8228, 8229, 8230, 8231, 8232, 8233, 8234, 8235, 8236, 8237, 8238, 8239, 8240, 8241, 8242, 8243, 8244, 8245, 8246, 8247, 8248, 8249, 8250, 8251, 8252, 8253, 8254, 8255, 8256, 8257, 8258, 8259, 8260, 8261, 8262, 8263, 8264, 8265, 8266, 8267, 8268, 8269, 8270, 8271, 8272, 8273, 8274, 8275, 8276, 8277, 8278, 8279, 8280, 8281, 8282, 8283, 8284, 8285, 8286, 8287, 8288, 8289, 8290, 8291, 8292, 8293, 8294, 8295, 8296, 8297, 8298, 8299, 8310, 8311, 8312, 8313, 8314, 8315, 8316, 8317, 8318, 8319, 8320, 8321, 8322, 8323, 8324, 8325, 8326, 8327, 8328, 8329, 8330, 8331, 8332, 8333, 8334, 8335, 8336, 8337, 8338, 8339, 8340, 8341, 8342, 8343, 8344, 8345, 8346, 8347, 8348, 8349, 8350, 8351, 8352, 8353, 8354, 8355, 8356, 8357, 8358, 8359, 8360, 8361, 8362, 8363, 8364, 8365, 8366, 8367, 8368, 8369, 8370, 8371, 8372, 8373, 8374, 8375, 8376, 8377, 8378, 8379, 8380, 8381, 8382, 8383, 8384, 8385, 8386, 8387, 8388, 8389, 8390, 8391, 8392, 8393, 8394, 8395, 8396, 8397, 8398, 8399, 8400, 8401, 8402, 8403, 8404, 8405, 8406, 8407, 8408, 8409] * -1</field>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -301,6 +310,7 @@
             <field name="sequence">19</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_ErhallnaKoncernbidrag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -311,6 +321,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ErhallnaKoncernbidrag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ErhallnaKoncernbidrag"/>
@@ -325,6 +336,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_LamnadeKoncernbidrag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_LamnadeKoncernbidrag"/>
@@ -339,6 +351,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ForandringPeriodiseringsfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ForandringPeriodiseringsfond"/>
@@ -353,6 +366,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ForandringOveravskrivningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ForandringOveravskrivningar"/>
@@ -367,6 +381,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_OvrigaBokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_OvrigaBokslutsdispositioner"/>
@@ -381,6 +396,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_Bokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_Bokslutsdispositioner"/>
@@ -395,10 +411,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatForeSkatt" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatForeSkatt"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039, 8070, 8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8079, 8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 8111, 8112, 8113, 8116, 8117, 8118, 8121, 8122, 8123, 8131, 8132, 8133, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179, 8180, 8181, 8182, 8183, 8184, 8185, 8186, 8187, 8188, 8189, 8210, 8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220, 8221, 8222, 8223, 8224, 8225, 8226, 8227, 8228, 8229, 8230, 8231, 8232, 8233, 8234, 8235, 8236, 8237, 8238, 8239, 8240, 8241, 8242, 8243, 8244, 8245, 8246, 8247, 8248, 8249, 8250, 8251, 8252, 8253, 8254, 8255, 8256, 8257, 8258, 8259, 8260, 8261, 8262, 8263, 8264, 8265, 8266, 8267, 8268, 8269, 8270, 8271, 8272, 8273, 8274, 8275, 8276, 8277, 8278, 8279, 8280, 8281, 8282, 8283, 8284, 8285, 8286, 8287, 8288, 8289, 8290, 8291, 8292, 8293, 8294, 8295, 8296, 8297, 8298, 8299, 8310, 8311, 8312, 8313, 8314, 8315, 8316, 8317, 8318, 8319, 8320, 8321, 8322, 8323, 8324, 8325, 8326, 8327, 8328, 8329, 8330, 8331, 8332, 8333, 8334, 8335, 8336, 8337, 8338, 8339, 8340, 8341, 8342, 8343, 8344, 8345, 8346, 8347, 8348, 8349, 8350, 8351, 8352, 8353, 8354, 8355, 8356, 8357, 8358, 8359, 8360, 8361, 8362, 8363, 8364, 8365, 8366, 8367, 8368, 8369, 8370, 8371, 8372, 8373, 8374, 8375, 8376, 8377, 8378, 8379, 8380, 8381, 8382, 8383, 8384, 8385, 8386, 8387, 8388, 8389, 8390, 8391, 8392, 8393, 8394, 8395, 8396, 8397, 8398, 8399, 8400, 8401, 8402, 8403, 8404, 8405, 8406, 8407, 8408, 8409, 8800, 8801, 8802, 8803, 8804, 8805, 8806, 8807, 8808, 8809, 8810, 8811, 8812, 8813, 8814, 8815, 8816, 8817, 8818, 8819, 8820, 8821, 8822, 8823, 8824, 8825, 8826, 8827, 8828, 8829, 8830, 8831, 8832, 8833, 8834, 8835, 8836, 8837, 8838, 8839, 8850, 8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859, 8860, 8861, 8862, 8863, 8864, 8865, 8866, 8867, 8868, 8869, 8890, 8891, 8892, 8893, 8894, 8895, 8896, 8897, 8898, 8899] * -1</field>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -408,6 +421,7 @@
             <field name="sequence">27</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_SkattAretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -418,6 +432,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_SkatterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_SkattAretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_SkattAretsResultat"/>
@@ -432,6 +447,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_SkatterAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_OvrigaSkatter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_OvrigaSkatter"/>
@@ -446,6 +462,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_AretsResultat"/>

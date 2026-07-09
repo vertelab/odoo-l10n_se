@@ -73,6 +73,7 @@
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -82,6 +83,7 @@
             <field name="sequence">3</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -90,6 +92,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">4</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_compact_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_compact_Rorelseresultat"/>
@@ -102,10 +105,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">5</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_ResultatEfterFinansiellaPoster"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%] * -1</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_AretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -114,10 +114,11 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">6</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_compact_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_compact_AretsResultat"/>
-            <field name="name">bal[89%%] * -1</field>
+            <field name="name">bal[8990, 8991, 8992, 8993, 8994, 8995, 8996, 8997, 8998, 8999] * -1</field>
         </record>
         <record id="report_kf_indirekt_k3_compact_JusteringPosterSomInteIngarIKassaflodet" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -126,10 +127,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">7</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_JusteringPosterSomInteIngarIKassaflodet" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_JusteringPosterSomInteIngarIKassaflodet"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ErhallenRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -138,10 +136,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">8</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_ErhallenRanta" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_ErhallenRanta"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ErhallenUtdelning" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -150,10 +145,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">9</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_ErhallenUtdelning" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_ErhallenUtdelning"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ErlagdRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -162,10 +154,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">10</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_ErlagdRanta" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_ErlagdRanta"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_BetaldSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -174,10 +163,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">11</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_BetaldSkatt" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_BetaldSkatt"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -186,10 +172,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">12</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -199,6 +182,7 @@
             <field name="sequence">13</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeVarulagerPagaendeArbeten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -207,6 +191,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">14</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelsefodringarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -216,6 +201,7 @@
             <field name="sequence">15</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeKundfordringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -240,6 +226,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">18</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelseskulderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -249,6 +236,7 @@
             <field name="sequence">19</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeLeverantorsskulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -273,6 +261,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">22</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KassaflodeLopandeVerksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -281,10 +270,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">23</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_KassaflodeLopandeVerksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_KassaflodeLopandeVerksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -294,6 +280,7 @@
             <field name="sequence">24</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_LamnadeKapitaltillskottInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -302,6 +289,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">25</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_LamnadeKoncernbidragInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -310,6 +298,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">26</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_InvesteringImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -318,6 +307,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">27</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -326,6 +316,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">28</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvMateriellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -335,6 +326,7 @@
             <field name="sequence">29</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvForvaltningsfastigheter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -343,6 +335,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">30</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForvarvMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvOvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -351,6 +344,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">31</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForvarvMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_InvesteringMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -359,6 +353,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">32</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningMateriellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -368,6 +363,7 @@
             <field name="sequence">33</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningForvaltningsfastigheter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -376,6 +372,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">34</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForsaljningMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningOvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -384,6 +381,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">35</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForsaljningMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -392,6 +390,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">36</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvRorelseInkram" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -400,6 +399,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">37</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningRorelseInkram" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -408,6 +408,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">38</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -417,6 +418,7 @@
             <field name="sequence">39</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -425,6 +427,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">40</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -433,6 +436,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">41</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvAgarintressenOvrigaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -441,6 +445,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">42</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_LamnadeLanKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -449,6 +454,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">43</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForvarvOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -457,6 +463,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">44</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_InvesteringFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -465,6 +472,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">45</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -474,6 +482,7 @@
             <field name="sequence">46</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -482,6 +491,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">47</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -490,6 +500,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">48</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningAgarintressenOvrigaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -498,6 +509,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">49</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ErhallnaAmorteringarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -506,6 +518,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">50</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -514,6 +527,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">51</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForsaljningFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -522,6 +536,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">52</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeOvrigaKortfristigaPlaceringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -530,6 +545,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">53</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KassaflodeInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -538,10 +554,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">54</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_KassaflodeInvesteringsverksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_KassaflodeInvesteringsverksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -551,6 +564,7 @@
             <field name="sequence">55</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_UtstalldaAktieoptioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -559,6 +573,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">56</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_InlostaAktieoptioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -567,6 +582,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">57</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_NyemissionKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -575,6 +591,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">58</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_Emissionsutgifter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -583,6 +600,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">59</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_AterkopEgnaAktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -591,6 +609,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">60</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_OverlatelseEgnaAktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -599,6 +618,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">61</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringCheckrakningskredit" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -607,6 +627,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">62</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ErhallnaAktieagartillskottKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -615,6 +636,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">63</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -623,6 +645,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">64</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_EmissionKonvertibellan" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -631,6 +654,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">65</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_EmissionInlosningsbaraPreferensaktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -639,6 +663,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">66</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -647,6 +672,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">67</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_UpptagnaLan" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -655,6 +681,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">68</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_AmorteringSkuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -663,6 +690,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">69</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_AmorteringLeasingskuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -671,6 +699,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">70</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_GottgorelsePensionsstiftelse" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -679,6 +708,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">71</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_AmortoringPensionsskuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -687,6 +717,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">72</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KortfristigaFinansiellaSkulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -695,6 +726,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">73</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_UtbetaldUtdelningKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -703,6 +735,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">74</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_KassaflodeFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -711,10 +744,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">75</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_KassaflodeFinansieringsverksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_KassaflodeFinansieringsverksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_AretsKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -723,10 +753,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">76</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_AretsKassaflode" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_AretsKassaflode"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -735,10 +762,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">77</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_LikvidaMedel" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_LikvidaMedel"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_ForandringLikvidaMeldelAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -748,6 +772,7 @@
             <field name="sequence">78</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_LikvidaMedelKursdifferens" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -756,6 +781,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">79</field>
             <field name="budgetable">True</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_ForandringLikvidaMeldelAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_compact_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3_compact"/>
@@ -764,10 +790,7 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">80</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_kf_indirekt_k3_compact_LikvidaMedel" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_indirekt_k3_compact_LikvidaMedel"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_indirekt_k3_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
     </data>
 </odoo>

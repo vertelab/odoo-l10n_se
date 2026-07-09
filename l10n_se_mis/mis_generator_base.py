@@ -1,48 +1,25 @@
 #!/usr/bin/env python3
 """
 Gemensam basgenerator för MIS XML från Excel-taxonomi.
-Används av: l10n_se_mis_k2, l10n_se_mis_k2_filial, l10n_se_mis_k2_forening,
-            l10n_se_mis_k2_handelsbolag, l10n_se_mis_k3, l10n_se_mis_k3_koncern
-
-Kör via respektive moduls generate_mis_xml.py som importerar denna modul.
-
-Fixes v2:
-- Expand narrow BAS ranges (26xx→2600-2669, 27xx→2700-2799, 17xx→1700-1799, 29xx→2900-2999 etc.)
-- Track hierarchy via display columns (E-H) for parent_id
-- Aggregate sum KPIs by collecting all accounts from their children
+v3: parent_id, sum() på rader, svenska tecken.
 """
 import os
 from openpyxl import load_workbook
 
 # ── Expanded BAS range overrides ──────────────────────────────────────────────
-# The K2/K3 taxonomies use narrow xx-suffix patterns (e.g. 26xx → 2600-2609)
-# but real BAS plans have wider ranges. These overrides extend them.
 BAS_RANGE_EXPANSIONS = {
-    '26xx': range(2600, 2670),    # 2600-2669 includes all VAT accounts
-    '27xx': range(2700, 2800),    # 2700-2799 personal taxes + other
-    '29xx': range(2900, 3000),    # 2900-2999 accrued expenses + prepaid income
-    '17xx': range(1700, 1800),    # 1700-1799 prepaid expenses + accrued income
-    '20xx': range(2000, 2100),    # 2000-2099 all equity accounts
-    '209x': range(2090, 2100),    # 2090-2099
-    '208x': range(2080, 2090),    # 2080-2089
+    '26xx': range(2600, 2670),
+    '27xx': range(2700, 2800),
+    '29xx': range(2900, 3000),
+    '17xx': range(1700, 1800),
+    '20xx': range(2000, 2100),
+    '209x': range(2090, 2100),
+    '208x': range(2080, 2090),
 }
-
-# ── Negate (credit) mappings for aggregated sum KPIs ─────────────────────────
-# Sum KPIs without own BAS accounts inherit negate from their section type
-ASSET_SUM_KPIS = ('Tillgangar', 'Omsattningstillgangar', 'Anlaggningstillgangar',
-                  'TecknatEjInbetaltKapital')
-LIABILITY_SUM_KPIS = ('EgetKapitalSkulder', 'EgetKapital', 'KortfristigaSkulder',
-                      'LangfristigaSkulder', 'Avsattningar', 'ObeskattadeReserver',
-                      'BundetEgetKapital', 'FrittEgetKapital',
-                      'RorelseintakterLagerforandringarMm', 'Rorelsekostnader',
-                      'FinansiellaPoster', 'ResultatEfterFinansiellaPoster',
-                      'ResultatEfterBokslutsdispositioner', 'AretsResultat',
-                      'Rorelseresultat')
 
 
 def expand_bas_range(bas_str):
-    """Expandera BAS-konto range som '191x-198x' eller '1331-1334' till lista.
-    Uses BAS_RANGE_EXPANSIONS for wider ranges where the taxonomy is too narrow."""
+    """Expandera BAS-konto range till lista med kontonummer."""
     if not bas_str:
         return []
     bas_str = bas_str.strip()
@@ -53,20 +30,17 @@ def expand_bas_range(bas_str):
         bas_str = bas_str.split('/')[-1]
     if '-' in bas_str:
         parts = bas_str.split('-')
-        start = parts[0].strip()
-        end = parts[1].strip()
+        start, end = parts[0].strip(), parts[1].strip()
         if 'x' in start.lower() or 'x' in end.lower():
-            start_num = int(start.lower().replace('x', '0'))
-            end_num_str = end.lower().replace('x', '9')
-            for a in range(start_num, int(end_num_str) + 1):
+            for a in range(int(start.lower().replace('x', '0')),
+                           int(end.lower().replace('x', '9')) + 1):
                 accounts.append(a)
         else:
             for a in range(int(start), int(end) + 1):
                 accounts.append(a)
     elif 'x' in bas_str.lower():
         base = int(bas_str.lower().replace('x', '0'))
-        for i in range(10):
-            accounts.append(base + i)
+        accounts.extend(base + i for i in range(10))
     else:
         try:
             accounts.append(int(bas_str))
@@ -76,77 +50,48 @@ def expand_bas_range(bas_str):
 
 
 def compress_account_codes(accounts):
-    """Compress account codes into wildcard patterns for MIS Builder.
-    
-    MIS Builder supports %% wildcards in bal[] expressions.
-    Consecutive full hundred-blocks are compressed:
-      [3000, 3001, ..., 3099] → ['30%%']
-      [3000, 3001, ..., 3799] → ['30%%', '31%%', ..., '37%%']
-    
-    This dramatically reduces expression size and SQL query complexity
-    (from 800 OR conditions to 8 LIKE conditions).
-    """
+    """Kompakta kontonummer med %% wildcards för MIS Builder."""
     if not accounts:
         return ''
-    # Group by first 2 digits (hundreds block)
     from collections import defaultdict
     groups = defaultdict(list)
     for acc in accounts:
-        prefix = str(acc)[:2]
-        groups[prefix].append(acc)
-    
+        groups[str(acc)[:2]].append(acc)
     result = []
     for prefix in sorted(groups.keys()):
         codes = sorted(groups[prefix])
-        n = len(codes)
         lo, hi = min(codes), max(codes)
         base = int(prefix + '00')
-        # Check if this group covers the full hundred-block (XX00-XX99)
-        # so wildcards are safe (won't match unintended accounts)
-        full_block = (n == 100 and lo == base and hi == base + 99)
-        near_full = (n >= 90 and lo == base and hi == base + 99)
-        if full_block or near_full:
+        if len(codes) == 100 and lo == base and hi == base + 99:
             result.append(f'{prefix}%%')
         else:
-            # Small/specific range: keep individual codes
-            for c in codes:
-                result.append(str(c))
+            result.extend(str(c) for c in codes)
     return ', '.join(result)
 
 
 def format_bal_expression(accounts, negate=False):
-    """Skapa MIS bal[]-uttryck från kontonummer.
-    Uses wildcard compression for performance."""
+    """Skapa MIS bal[]-uttryck med wildcard-kompression."""
     if not accounts:
         return ''
-    compressed = compress_account_codes(accounts)
-    expr = 'bal[' + compressed + ']'
-    if negate:
-        expr += ' * -1'
-    return expr
+    expr = 'bal[' + compress_account_codes(accounts) + ']'
+    return expr + ' * -1' if negate else expr
 
 
 def extract_bas_accounts(sh, row_num):
-    """Hitta BAS-kontoreferenser i en rad.
-    BAS-referenser finns som grupper av 3 kolumner:
-      Col C: 'BAS' (Utgivare)
-      Col C+1: 'BAS-konto' (Namn)
-      Col C+2: kontorangen (Nummer), t.ex. '191x-198x'
-    """
+    """Hitta BAS-kontoreferenser i en rad (kolumn 20+)."""
     accounts = []
-    max_col = min(sh.max_column + 1, 250)
-    for c in range(20, max_col - 2):
-        val_c = str(sh.cell(row_num, c).value or '')
-        val_c1 = str(sh.cell(row_num, c + 1).value or '')
-        if val_c == 'BAS' and 'BAS-konto' in val_c1:
-            num_val = str(sh.cell(row_num, c + 2).value or '')
-            if num_val:
-                accounts.extend(expand_bas_range(num_val))
+    for c in range(20, min(sh.max_column + 1, 250) - 2):
+        vc = str(sh.cell(row_num, c).value or '')
+        vc1 = str(sh.cell(row_num, c + 1).value or '')
+        if vc == 'BAS' and 'BAS-konto' in vc1:
+            val = str(sh.cell(row_num, c + 2).value or '')
+            if val:
+                accounts.extend(expand_bas_range(val))
     return sorted(set(accounts))
 
 
 def get_display_name(sh, row_num):
-    """Hämta det svenska visningsnamnet för en KPI."""
+    """Hämta svenskt visningsnamn från kolumn E-H (5-8)."""
     for c in [8, 7, 6, 5]:
         val = sh.cell(row_num, c).value
         if val and str(val).strip():
@@ -155,17 +100,16 @@ def get_display_name(sh, row_num):
 
 
 def get_hierarchy_level(sh, row_num):
-    """Bestäm hierarkinivå baserat på display-kolumner (E=5, F=6, G=7, H=8).
-    Returnerar (level, display_text) där level 0=mest yttre, 3=innersta."""
+    """Bestäm hierarkinivå (0-3) från kolumn E-H."""
     for c in [5, 6, 7, 8]:
         val = sh.cell(row_num, c).value
         if val and str(val).strip():
-            return (c - 5, str(val).strip())
-    return (None, '')
+            return c - 5
+    return None
 
 
 def generate_styles_xml():
-    """Generera standard 5-stilars XML för K2/K3 rapporter."""
+    """Standard 5-stilars XML."""
     return '''        <record id="report_style_k2_1" model="mis.report.style">
             <field name="name">Style for money K2</field>
             <field eval="False" name="prefix_inherit"/>
@@ -220,10 +164,8 @@ def generate_styles_xml():
 
 
 def generate_report_xml(sheet_def, compact=False):
-    """Generera XML för en rapport.
-    compact=True: utelämnar auto_expand_accounts (inga kontokolumner)."""
-    excel_path = sheet_def['excel_path']
-    wb = load_workbook(excel_path)
+    """Generera XML för en rapport med parent_id och sum()-uttryck."""
+    wb = load_workbook(sheet_def['excel_path'])
     sh = wb[sheet_def['sheet']]
     report_id = sheet_def['report_id']
     if compact:
@@ -231,141 +173,157 @@ def generate_report_xml(sheet_def, compact=False):
     report_name = sheet_def['report_name']
     if compact:
         report_name += ' (kompakt)'
-    elem_col = sheet_def['elem_col']
-    abstract_col = sheet_def['abstract_col']
-    saldo_col = sheet_def['saldo_col']
+    ec = sheet_def['elem_col']
+    ac = sheet_def['abstract_col']
+    sc = sheet_def['saldo_col']
 
-    lines = []
-    seq_counter = [0]
+    seq = [0]
+    def nseq():
+        seq[0] += 1
+        return seq[0]
 
-    def next_seq():
-        seq_counter[0] += 1
-        return seq_counter[0]
-
-    # ── Collect all rows with hierarchy info ────────────────────────────────
-    rows_data = []
+    # ── Läs alla rader ─────────────────────────────────────────────────────
+    rows = []
     for r in range(2, sh.max_row + 1):
-        elem = sh.cell(r, elem_col).value
-        if elem and str(elem).strip():
-            abstract = str(sh.cell(r, abstract_col).value or '').lower() == 'true'
-            saldo = str(sh.cell(r, saldo_col).value or '')
-            display = get_display_name(sh, r)
-            level, level_text = get_hierarchy_level(sh, r)
-            accounts = extract_bas_accounts(sh, r)
-            negate = saldo == 'credit'
-            is_sum = 'Summa' in display or elem.startswith('Summa')
+        elem = sh.cell(r, ec).value
+        if not elem:
+            continue
+        elem = str(elem).strip()
+        abstract = str(sh.cell(r, ac).value or '').lower() == 'true'
+        saldo = str(sh.cell(r, sc).value or '')
+        display = get_display_name(sh, r)
+        level = get_hierarchy_level(sh, r)
+        accounts = extract_bas_accounts(sh, r)
+        is_sum = 'Summa' in display or elem.startswith('Summa')
 
-            rows_data.append({
-                'row': r,
-                'elem': str(elem).strip(),
-                'abstract': abstract,
-                'saldo': saldo,
-                'display': display,
-                'level': level,
-                'level_text': level_text,
-                'accounts': accounts,
-                'negate': negate,
-                'is_sum': is_sum,
-            })
+        rows.append({
+            'row': r, 'elem': elem, 'abstract': abstract,
+            'display': display, 'level': level,
+            'accounts': accounts, 'negate': saldo == 'credit',
+            'is_sum': is_sum,
+        })
 
-    # ── Build hierarchy tree ────────────────────────────────────────────────
-    for i, rd in enumerate(rows_data):
-        parent = None
-        level = rd['level']
-        if level is not None:
+    # ── Bygg parent_id-hierarki ───────────────────────────────────────────
+    # parent = närmast föregående KPI med lägre level
+    for i, rd in enumerate(rows):
+        rd['parent_idx'] = None
+        if rd['level'] is not None:
             for j in range(i - 1, -1, -1):
-                prev = rows_data[j]
-                prev_level = prev['level']
-                if prev_level is not None and prev_level < level:
-                    parent = prev
+                p = rows[j]
+                if p['level'] is not None and p['level'] < rd['level']:
+                    rd['parent_idx'] = j
                     break
-        rd['parent'] = parent
 
-    # ── Second pass: for KPIs without own accounts, aggregate from section scope
-    # A KPI at level N should collect all accounts from KPIs between
-    # the preceding KPI at a strictly lower level and itself (exclusive).
-    for i, rd in enumerate(rows_data):
+    # ── Generera sum()-uttryck för sum-KPI:er ─────────────────────────────
+    # En sum-KPI på level N summerar KPI:er på level N+1 inom sitt sektion.
+    # Section start = förra KPI:n med level < N.
+    for i, rd in enumerate(rows):
+        if not rd['is_sum']:
+            continue
         if rd['accounts']:
-            continue  # Already has accounts from taxonomy
-        if rd['abstract']:
-            continue  # Abstract headers don't need accounts
-        if rd['level'] is None:
-            continue  # No hierarchy info, can't determine section
-        # Find section start: the preceding KPI at a strictly lower level
-        section_start = 0
+            continue  # Har egna BAS-konton (leaf-KPI), behåll bal[]
+
         kpi_level = rd['level']
+        if kpi_level is None:
+            continue
+
+        # Hitta section start: förra KPI:n med level < kpi_level
+        section_start = 0
         for j in range(i - 1, -1, -1):
-            prev = rows_data[j]
-            prev_level = prev['level']
-            if prev_level is not None and prev_level < kpi_level:
+            p = rows[j]
+            pl = p['level']
+            if pl is not None and pl < kpi_level:
                 section_start = j + 1
                 break
-        # Collect all accounts from section children
-        child_accounts = set()
-        for j in range(section_start, i):
-            child = rows_data[j]
-            if child['accounts']:
-                child_accounts.update(child['accounts'])
-        if child_accounts:
-            rd['accounts'] = sorted(child_accounts)
-            if rd['elem'] in ASSET_SUM_KPIS:
-                rd['negate'] = False  # Assets are debit
-            elif rd['elem'] in LIABILITY_SUM_KPIS:
-                rd['negate'] = True  # Liabilities/equity/income are credit
 
-    # ─── Report record ─────────────────────────────────────────────────────
+        # Samla sum-barn: bara KPI:er på level == kpi_level + 1
+        # Skippa level None (djupa löv) — de täcks av sub-sums på level N+1
+        # Skippa nivåer djupare än kpi_level + 1 för att undvika dubbelräkning
+        child_names = []
+        for j in range(section_start, i):
+            child = rows[j]
+            cl = child['level']
+            if child['abstract']:
+                continue
+            if cl is None:
+                # Deep leaf without explicit level — skip, covered by sub-sums
+                continue
+            if cl == kpi_level + 1:
+                child_names.append(child['elem'])
+
+        if child_names:
+            expr = "sum(" + ", ".join(f"'{n}'" for n in child_names) + ")"
+            if rd['negate']:
+                expr += ' * -1'
+            rows[i]['sum_expr'] = expr
+            rows[i]['accounts'] = []  # Rensa bal[] (använd sum())
+
+    # ─── XML-utdata ──────────────────────────────────────────────────────
+    lines = []
     lines.append(f'''        <record id="{report_id}" model="mis.report">
             <field name="name">{report_name}</field>
         </record>''')
 
-    # ─── KPI records ──────────────────────────────────────────────────────
-    for rd in rows_data:
-        seq = next_seq()
-        elem = rd['elem']
-        is_abstract = rd['abstract']
-        display = rd['display'] or elem
-        kpi_id = f"{report_id}_{elem}"
+    for rd in rows:
+        s = nseq()
+        kpi_id = f"{report_id}_{rd['elem']}"
 
-        is_sum = rd['is_sum']
-
-        if is_abstract and is_sum:
+        # Stil
+        if rd['abstract'] and rd['is_sum']:
             style = 'report_style_k2_5'
-        elif is_abstract:
+        elif rd['abstract']:
             style = 'report_style_k2_4'
         else:
             style = 'report_style_k2_1'
 
+        # Typ
         type_field = ''
         budgetable = 'True'
-        if is_abstract and not is_sum:
+        if rd['abstract'] and not rd['is_sum']:
             type_field = '\n            <field name="type">str</field>'
             budgetable = 'False'
-        elif is_sum:
+        elif rd['is_sum']:
             type_field = '\n            <field name="type">num</field>'
             budgetable = 'False'
 
-        auto_expand = ''
+        # auto_expand_accounts (bara leaf-KPI:er i full version)
+        auto = ''
         auto_style = ''
-        if not compact and not is_abstract and not is_sum:
-            auto_expand = '\n            <field name="auto_expand_accounts">True</field>'
+        if not compact and not rd['abstract'] and not rd['is_sum']:
+            auto = '\n            <field name="auto_expand_accounts">True</field>'
             auto_style = '\n            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>'
+
+        # Parent
+        parent_field = ''
+        if rd['parent_idx'] is not None:
+            p = rows[rd['parent_idx']]
+            parent_id = f"{report_id}_{p['elem']}"
+            parent_field = f'\n            <field name="parent_id" ref="{parent_id}"/>'
+
+        display = rd['display'] or rd['elem']
 
         lines.append(f'''        <record id="{kpi_id}" model="mis.report.kpi">
             <field name="report_id" ref="{report_id}"/>
-            <field name="name">{elem}</field>
+            <field name="name">{rd['elem']}</field>
             <field name="description">{display}</field>
             <field name="style_id" ref="{style}"/>
-            <field name="sequence">{seq}</field>{type_field}
-            <field name="budgetable">{budgetable}</field>{auto_expand}{auto_style}
+            <field name="sequence">{s}</field>{type_field}
+            <field name="budgetable">{budgetable}</field>{auto}{auto_style}{parent_field}
         </record>''')
 
-        accounts = rd['accounts']
-        if accounts:
-            bal_expr = format_bal_expression(accounts, rd['negate'])
-            expr_id = f"kpi_{kpi_id}"
-            lines.append(f'''        <record id="{expr_id}" model="mis.report.kpi.expression">
+        # Expression
+        if rd.get('sum_expr'):
+            eid = f"kpi_{kpi_id}"
+            lines.append(f'''        <record id="{eid}" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="{kpi_id}"/>
-            <field name="name">{bal_expr}</field>
+            <field name="name">{rd['sum_expr']}</field>
+        </record>''')
+        elif rd['accounts'] and not rd['is_sum']:
+            bal = format_bal_expression(rd['accounts'], rd['negate'])
+            eid = f"kpi_{kpi_id}"
+            lines.append(f'''        <record id="{eid}" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="{kpi_id}"/>
+            <field name="name">{bal}</field>
         </record>''')
 
     wb.close()
@@ -373,8 +331,7 @@ def generate_report_xml(sheet_def, compact=False):
 
 
 def write_xml(filename, output_dir, styles_xml, report_xml):
-    """Write one XML file with styles + report data."""
-    full_xml = f'''<?xml version="1.0" encoding="utf-8"?>
+    full = f'''<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
 {styles_xml}
@@ -382,22 +339,21 @@ def write_xml(filename, output_dir, styles_xml, report_xml):
 {report_xml}
     </data>
 </odoo>'''
-    filepath = os.path.join(output_dir, filename)
-    with open(filepath, 'w', encoding='utf-8') as f:
-        f.write(full_xml)
-    return os.path.getsize(filepath)
+    path = os.path.join(output_dir, filename)
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(full)
+    return os.path.getsize(path)
 
 
 def generate_all(sheets, output_dir):
-    """Generera alla XML-filer för en uppsättning SHEETS-definitioner."""
     print("Generating MIS XML files from Excel taxonomy...")
-    styles_xml = generate_styles_xml()
+    styles = generate_styles_xml()
     for sd in sheets:
         print(f"  Processing sheet: {sd['sheet']}...")
-        report_xml = generate_report_xml(sd, compact=False)
-        size = write_xml(sd['filename'], output_dir, styles_xml, report_xml)
-        print(f"    → Full: {sd['filename']} ({size} bytes)")
-        report_xml_compact = generate_report_xml(sd, compact=True)
-        size_c = write_xml(sd['filename_compact'], output_dir, styles_xml, report_xml_compact)
-        print(f"    → Compact: {sd['filename_compact']} ({size_c} bytes)")
-    print("\nDone!")
+        r = generate_report_xml(sd, compact=False)
+        s = write_xml(sd['filename'], output_dir, styles, r)
+        print(f"    → Full: {sd['filename']} ({s} bytes)")
+        r2 = generate_report_xml(sd, compact=True)
+        s2 = write_xml(sd['filename_compact'], output_dir, styles, r2)
+        print(f"    → Compact: {sd['filename_compact']} ({s2} bytes)")
+    print("Done!")

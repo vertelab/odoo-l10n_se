@@ -73,6 +73,7 @@
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -82,6 +83,7 @@
             <field name="sequence">3</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -92,6 +94,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_Rorelseresultat"/>
@@ -106,10 +109,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_ResultatEfterFinansiellaPoster"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%] * -1</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_AretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -120,10 +120,11 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_AretsResultat"/>
-            <field name="name">bal[89%%] * -1</field>
+            <field name="name">bal[8990, 8991, 8992, 8993, 8994, 8995, 8996, 8997, 8998, 8999] * -1</field>
         </record>
         <record id="report_kf_koncern_k3_JusteringPosterSomInteIngarIKassaflodet" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -134,10 +135,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_JusteringPosterSomInteIngarIKassaflodet" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_JusteringPosterSomInteIngarIKassaflodet"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ErhallenRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -148,10 +146,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_ErhallenRanta" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_ErhallenRanta"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ErhallenUtdelning" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -162,10 +157,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_ErhallenUtdelning" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_ErhallenUtdelning"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ErlagdRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -176,10 +168,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_ErlagdRanta" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_ErlagdRanta"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_BetaldSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -190,10 +179,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_BetaldSkatt" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_BetaldSkatt"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -204,10 +190,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeRorelsekapitaletAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -217,6 +200,7 @@
             <field name="sequence">13</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeVarulagerPagaendeArbeten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -227,6 +211,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeRorelsefodringarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -236,6 +221,7 @@
             <field name="sequence">15</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeKundfordringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -266,6 +252,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeRorelseskulderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -275,6 +262,7 @@
             <field name="sequence">19</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeLeverantorsskulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -305,6 +293,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KassaflodeLopandeVerksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -315,10 +304,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_KassaflodeLopandeVerksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_KassaflodeLopandeVerksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -328,6 +314,7 @@
             <field name="sequence">24</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_LamnadeKapitaltillskottInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -338,6 +325,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_LamnadeKoncernbidragInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -348,6 +336,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_InvesteringImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -358,6 +347,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -368,6 +358,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvMateriellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -377,6 +368,7 @@
             <field name="sequence">29</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvForvaltningsfastigheter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -387,6 +379,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForvarvMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvOvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -397,6 +390,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForvarvMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_InvesteringMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -407,6 +401,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningMateriellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -416,6 +411,7 @@
             <field name="sequence">33</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningForvaltningsfastigheter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -426,6 +422,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForsaljningMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningOvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -436,6 +433,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForsaljningMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -446,6 +444,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvRorelseInkram" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -456,6 +455,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningRorelseInkram" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -466,6 +466,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvFinansiellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -475,6 +476,7 @@
             <field name="sequence">39</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -485,6 +487,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -495,6 +498,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvAgarintressenOvrigaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -505,6 +509,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_LamnadeLanKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -515,6 +520,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -525,6 +531,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_InvesteringFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -535,6 +542,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -544,6 +552,7 @@
             <field name="sequence">46</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -554,6 +563,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -564,6 +574,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningAgarintressenOvrigaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -574,6 +585,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ErhallnaAmorteringarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -584,6 +596,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -594,6 +607,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -604,6 +618,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeOvrigaKortfristigaPlaceringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -614,6 +629,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KassaflodeInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -624,10 +640,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_KassaflodeInvesteringsverksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_KassaflodeInvesteringsverksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -637,6 +650,7 @@
             <field name="sequence">55</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_UtstalldaAktieoptioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -647,6 +661,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_InlostaAktieoptioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -657,6 +672,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_NyemissionKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -667,6 +683,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_Emissionsutgifter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -677,6 +694,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_AterkopEgnaAktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -687,6 +705,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_OverlatelseEgnaAktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -697,6 +716,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringCheckrakningskredit" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -707,6 +727,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ErhallnaAktieagartillskottKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -717,6 +738,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -727,6 +749,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_EmissionKonvertibellan" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -737,6 +760,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_EmissionInlosningsbaraPreferensaktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -747,6 +771,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -757,6 +782,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_UpptagnaLan" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -767,6 +793,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_AmorteringSkuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -777,6 +804,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_AmorteringLeasingskuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -787,6 +815,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForvarvAndelUtanBestammandeInflytande" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -797,6 +826,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForsaljningAndelAgareUtanBestammandeInflytande" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -807,6 +837,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_GottgorelsePensionsstiftelse" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -817,6 +848,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_AmortoringPensionsskuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -827,6 +859,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KortfristigaFinansiellaSkulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -837,6 +870,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_UtbetaldUtdelningAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -846,6 +880,7 @@
             <field name="sequence">76</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_UtbetaldUtdelningModerforetagetsAgare" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -856,6 +891,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_UtbetaldUtdelningAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_UtbetaldUtdelningAndelUtanBestammandeInflytande" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -866,6 +902,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_UtbetaldUtdelningAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_UtbetaldUtdelningKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -876,6 +913,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_KassaflodeFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -886,10 +924,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_KassaflodeFinansieringsverksamheten" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_KassaflodeFinansieringsverksamheten"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_AretsKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -900,10 +935,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_AretsKassaflode" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_AretsKassaflode"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -914,10 +946,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_LikvidaMedel" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_LikvidaMedel"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_ForandringLikvidaMeldelAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -927,6 +956,7 @@
             <field name="sequence">83</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_LikvidaMedelKursdifferens" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -937,6 +967,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+            <field name="parent_id" ref="report_kf_koncern_k3_ForandringLikvidaMeldelAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3"/>
@@ -947,10 +978,7 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-        </record>
-        <record id="kpi_report_kf_koncern_k3_LikvidaMedel" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_kf_koncern_k3_LikvidaMedel"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%, 89%%]</field>
+            <field name="parent_id" ref="report_kf_koncern_k3_KassaflodesanalysIndirektKoncernAbstract"/>
         </record>
     </data>
 </odoo>
