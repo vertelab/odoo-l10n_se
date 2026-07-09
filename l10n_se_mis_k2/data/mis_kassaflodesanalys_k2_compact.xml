@@ -161,6 +161,10 @@
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_ErhallenRanta" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_ErhallenRanta"/>
+            <field name="name">sum('JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar', 'RealisationsVinstForlustRorelseresultat', 'JusteringPosterInteIngarKassaflodeValutakursdifferenser', 'JusteringPosterInteIngarKassaflodeAvsattningPensioner', 'JusteringPosterInteIngarKassaflodeAvsattningGarantier', 'JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering')</field>
+        </record>
         <record id="report_kf_indirekt_k2_compact_ErhallenUtdelning" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">ErhallenUtdelning</field>
@@ -169,6 +173,10 @@
             <field name="sequence">12</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
+        </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_ErhallenUtdelning" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_ErhallenUtdelning"/>
+            <field name="name">sum('JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar', 'RealisationsVinstForlustRorelseresultat', 'JusteringPosterInteIngarKassaflodeValutakursdifferenser', 'JusteringPosterInteIngarKassaflodeAvsattningPensioner', 'JusteringPosterInteIngarKassaflodeAvsattningGarantier', 'JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering')</field>
         </record>
         <record id="report_kf_indirekt_k2_compact_ErlagdRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
@@ -179,6 +187,10 @@
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_ErlagdRanta" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_ErlagdRanta"/>
+            <field name="name">sum('JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar', 'RealisationsVinstForlustRorelseresultat', 'JusteringPosterInteIngarKassaflodeValutakursdifferenser', 'JusteringPosterInteIngarKassaflodeAvsattningPensioner', 'JusteringPosterInteIngarKassaflodeAvsattningGarantier', 'JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering')</field>
+        </record>
         <record id="report_kf_indirekt_k2_compact_BetaldSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">BetaldSkatt</field>
@@ -188,6 +200,10 @@
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_BetaldSkatt" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_BetaldSkatt"/>
+            <field name="name">sum('JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar', 'RealisationsVinstForlustRorelseresultat', 'JusteringPosterInteIngarKassaflodeValutakursdifferenser', 'JusteringPosterInteIngarKassaflodeAvsattningPensioner', 'JusteringPosterInteIngarKassaflodeAvsattningGarantier', 'JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering')</field>
+        </record>
         <record id="report_kf_indirekt_k2_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital</field>
@@ -196,6 +212,10 @@
             <field name="sequence">15</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
+        </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital"/>
+            <field name="name">sum('JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar', 'RealisationsVinstForlustRorelseresultat', 'JusteringPosterInteIngarKassaflodeValutakursdifferenser', 'JusteringPosterInteIngarKassaflodeAvsattningPensioner', 'JusteringPosterInteIngarKassaflodeAvsattningGarantier', 'JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering')</field>
         </record>
         <record id="report_kf_indirekt_k2_compact_ForandringKassaflodeRorelsekapitaletAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
@@ -260,6 +280,10 @@
             <field name="sequence">22</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysIndirektAbstract"/>
+        </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_KassaflodeLopandeVerksamheten" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_KassaflodeLopandeVerksamheten"/>
+            <field name="name">sum('Rorelseresultat', 'ErhallenRanta', 'ErhallenUtdelning', 'ErlagdRanta', 'BetaldSkatt', 'KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital')</field>
         </record>
         <record id="report_kf_indirekt_k2_compact_KassaflodesanalysInvesteringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
@@ -361,6 +385,10 @@
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_KassaflodeInvesteringsverksamheten" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_KassaflodeInvesteringsverksamheten"/>
+            <field name="name">sum('Rorelseresultat', 'ErhallenRanta', 'ErhallenUtdelning', 'ErlagdRanta', 'BetaldSkatt', 'KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital', 'LamnadeKapitaltillskottInvesteringsverksamheten', 'LamnadeKoncernbidragInvesteringsverksamheten', 'InvesteringImmateriellaAnlaggningstillgangar', 'ForsaljningImmateriellaAnlaggningstillgangar', 'InvesteringMateriellaAnlaggningstillgangar', 'ForsaljningMateriellaAnlaggningstillgangar', 'InvesteringFinansiellaAnlaggningstillgangar', 'ForsaljningFinansiellaAnlaggningstillgangar', 'ForandringKassaflodeOvrigaKortfristigaPlaceringar')</field>
+        </record>
         <record id="report_kf_indirekt_k2_compact_KassaflodesanalysFinansieringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">KassaflodesanalysFinansieringsverksamhetenAbstract</field>
@@ -452,6 +480,10 @@
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_KassaflodeFinansieringsverksamheten" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_KassaflodeFinansieringsverksamheten"/>
+            <field name="name">sum('Rorelseresultat', 'ErhallenRanta', 'ErhallenUtdelning', 'ErlagdRanta', 'BetaldSkatt', 'KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital', 'LamnadeKapitaltillskottInvesteringsverksamheten', 'LamnadeKoncernbidragInvesteringsverksamheten', 'InvesteringImmateriellaAnlaggningstillgangar', 'ForsaljningImmateriellaAnlaggningstillgangar', 'InvesteringMateriellaAnlaggningstillgangar', 'ForsaljningMateriellaAnlaggningstillgangar', 'InvesteringFinansiellaAnlaggningstillgangar', 'ForsaljningFinansiellaAnlaggningstillgangar', 'ForandringKassaflodeOvrigaKortfristigaPlaceringar', 'NyemissionKassaflode', 'ErhallnaAktieagartillskottKassaflode', 'ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten', 'ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten', 'UpptagnaLan', 'AmorteringSkuld', 'KortfristigaFinansiellaSkulder', 'UtbetaldUtdelningKassaflode')</field>
+        </record>
         <record id="report_kf_indirekt_k2_compact_AretsKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">AretsKassaflode</field>
@@ -460,6 +492,10 @@
             <field name="sequence">44</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysIndirektAbstract"/>
+        </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_AretsKassaflode" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_AretsKassaflode"/>
+            <field name="name">sum('Rorelseresultat', 'ErhallenRanta', 'ErhallenUtdelning', 'ErlagdRanta', 'BetaldSkatt', 'KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital', 'LamnadeKapitaltillskottInvesteringsverksamheten', 'LamnadeKoncernbidragInvesteringsverksamheten', 'InvesteringImmateriellaAnlaggningstillgangar', 'ForsaljningImmateriellaAnlaggningstillgangar', 'InvesteringMateriellaAnlaggningstillgangar', 'ForsaljningMateriellaAnlaggningstillgangar', 'InvesteringFinansiellaAnlaggningstillgangar', 'ForsaljningFinansiellaAnlaggningstillgangar', 'ForandringKassaflodeOvrigaKortfristigaPlaceringar', 'NyemissionKassaflode', 'ErhallnaAktieagartillskottKassaflode', 'ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten', 'ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten', 'UpptagnaLan', 'AmorteringSkuld', 'KortfristigaFinansiellaSkulder', 'UtbetaldUtdelningKassaflode')</field>
         </record>
         <record id="report_kf_indirekt_k2_compact_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
@@ -470,6 +506,10 @@
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_LikvidaMedel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_LikvidaMedel"/>
+            <field name="name">sum('Rorelseresultat', 'ErhallenRanta', 'ErhallenUtdelning', 'ErlagdRanta', 'BetaldSkatt', 'KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital', 'LamnadeKapitaltillskottInvesteringsverksamheten', 'LamnadeKoncernbidragInvesteringsverksamheten', 'InvesteringImmateriellaAnlaggningstillgangar', 'ForsaljningImmateriellaAnlaggningstillgangar', 'InvesteringMateriellaAnlaggningstillgangar', 'ForsaljningMateriellaAnlaggningstillgangar', 'InvesteringFinansiellaAnlaggningstillgangar', 'ForsaljningFinansiellaAnlaggningstillgangar', 'ForandringKassaflodeOvrigaKortfristigaPlaceringar', 'NyemissionKassaflode', 'ErhallnaAktieagartillskottKassaflode', 'ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten', 'ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten', 'UpptagnaLan', 'AmorteringSkuld', 'KortfristigaFinansiellaSkulder', 'UtbetaldUtdelningKassaflode')</field>
+        </record>
         <record id="report_kf_indirekt_k2_compact_LikvidaMedelKursdifferens" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">LikvidaMedelKursdifferens</field>
@@ -479,6 +519,10 @@
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysIndirektAbstract"/>
         </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_LikvidaMedelKursdifferens" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_LikvidaMedelKursdifferens"/>
+            <field name="name">sum('Rorelseresultat', 'ErhallenRanta', 'ErhallenUtdelning', 'ErlagdRanta', 'BetaldSkatt', 'KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital', 'LamnadeKapitaltillskottInvesteringsverksamheten', 'LamnadeKoncernbidragInvesteringsverksamheten', 'InvesteringImmateriellaAnlaggningstillgangar', 'ForsaljningImmateriellaAnlaggningstillgangar', 'InvesteringMateriellaAnlaggningstillgangar', 'ForsaljningMateriellaAnlaggningstillgangar', 'InvesteringFinansiellaAnlaggningstillgangar', 'ForsaljningFinansiellaAnlaggningstillgangar', 'ForandringKassaflodeOvrigaKortfristigaPlaceringar', 'NyemissionKassaflode', 'ErhallnaAktieagartillskottKassaflode', 'ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten', 'ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten', 'UpptagnaLan', 'AmorteringSkuld', 'KortfristigaFinansiellaSkulder', 'UtbetaldUtdelningKassaflode')</field>
+        </record>
         <record id="report_kf_indirekt_k2_compact_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k2_compact"/>
             <field name="name">LikvidaMedel</field>
@@ -487,6 +531,10 @@
             <field name="sequence">47</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_kf_indirekt_k2_compact_KassaflodesanalysIndirektAbstract"/>
+        </record>
+        <record id="kpi_report_kf_indirekt_k2_compact_LikvidaMedel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_indirekt_k2_compact_LikvidaMedel"/>
+            <field name="name">sum('Rorelseresultat', 'ErhallenRanta', 'ErhallenUtdelning', 'ErlagdRanta', 'BetaldSkatt', 'KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital', 'LamnadeKapitaltillskottInvesteringsverksamheten', 'LamnadeKoncernbidragInvesteringsverksamheten', 'InvesteringImmateriellaAnlaggningstillgangar', 'ForsaljningImmateriellaAnlaggningstillgangar', 'InvesteringMateriellaAnlaggningstillgangar', 'ForsaljningMateriellaAnlaggningstillgangar', 'InvesteringFinansiellaAnlaggningstillgangar', 'ForsaljningFinansiellaAnlaggningstillgangar', 'ForandringKassaflodeOvrigaKortfristigaPlaceringar', 'NyemissionKassaflode', 'ErhallnaAktieagartillskottKassaflode', 'ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten', 'ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten', 'UpptagnaLan', 'AmorteringSkuld', 'KortfristigaFinansiellaSkulder', 'UtbetaldUtdelningKassaflode')</field>
         </record>
     </data>
 </odoo>

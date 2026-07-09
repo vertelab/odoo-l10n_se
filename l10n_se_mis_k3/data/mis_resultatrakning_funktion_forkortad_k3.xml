@@ -111,10 +111,6 @@
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FunktionerMmAbstract"/>
         </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_Forsaljningskostnader" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_Forsaljningskostnader"/>
-            <field name="name">bal[3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807, 3808, 3809, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
-        </record>
         <record id="report_rr_funktion_forkortad_k3_Administrationskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">Administrationskostnader</field>
@@ -126,10 +122,6 @@
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FunktionerMmAbstract"/>
         </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_Administrationskostnader" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_Administrationskostnader"/>
-            <field name="name">bal[3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807, 3808, 3809, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
-        </record>
         <record id="report_rr_funktion_forkortad_k3_ForskningsUtvecklingskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ForskningsUtvecklingskostnader</field>
@@ -140,10 +132,6 @@
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FunktionerMmAbstract"/>
-        </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_ForskningsUtvecklingskostnader" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ForskningsUtvecklingskostnader"/>
-            <field name="name">bal[3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807, 3808, 3809, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_OvrigaRorelsekostnaderFunktionsindelad" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -158,7 +146,7 @@
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_OvrigaRorelsekostnaderFunktionsindelad" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_OvrigaRorelsekostnaderFunktionsindelad"/>
-            <field name="name">bal[7800, 7801, 7802, 7803, 7804, 7805, 7806, 7807, 7808, 7809, 7900, 7901, 7902, 7903, 7904, 7905, 7906, 7907, 7908, 7909]</field>
+            <field name="name">bal[7900, 7901, 7902, 7903, 7904, 7905, 7906, 7907, 7908, 7909]</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_FunktionerMm" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -187,7 +175,7 @@
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_Rorelseresultat"/>
-            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%] * -1</field>
+            <field name="name">bal[7910, 7911, 7912, 7913, 7914, 7915, 7916, 7917, 7918, 7919, 7920, 7921, 7922, 7923, 7924, 7925, 7926, 7927, 7928, 7929, 7930, 7931, 7932, 7933, 7934, 7935, 7936, 7937, 7938, 7939, 7940, 7941, 7942, 7943, 7944, 7945, 7946, 7947, 7948, 7949, 7950, 7951, 7952, 7953, 7954, 7955, 7956, 7957, 7958, 7959, 7960, 7961, 7962, 7963, 7964, 7965, 7966, 7967, 7968, 7969, 7970, 7971, 7972, 7973, 7974, 7975, 7976, 7977, 7978, 7979, 7980, 7981, 7982, 7983, 7984, 7985, 7986, 7987, 7988, 7989, 7990, 7991, 7992, 7993, 7994, 7995, 7996, 7997, 7998, 7999] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_FinansiellaPosterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -350,10 +338,6 @@
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning"/>
-            <field name="name">bal[8111, 8112, 8116, 8117, 8121, 8122, 8131, 8132, 8171, 8172, 8173, 8174, 8181, 8182, 8183, 8184] * -1</field>
-        </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatOvrigaforetagAgarintresseInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatOvrigaforetagAgarintresseInklNedskrivning</field>
@@ -364,10 +348,6 @@
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
-        </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_ResultatOvrigaforetagAgarintresseInklNedskrivning" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatOvrigaforetagAgarintresseInklNedskrivning"/>
-            <field name="name">bal[8113, 8118, 8123, 8133, 8176, 8177, 8186, 8187] * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -410,10 +390,6 @@
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_RantekostnaderLiknandeResultatposter" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_RantekostnaderLiknandeResultatposter"/>
-            <field name="name">bal[8400, 8401, 8402, 8403, 8404, 8405, 8406, 8407, 8408, 8409]</field>
-        </record>
         <record id="report_rr_funktion_forkortad_k3_FinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">FinansiellaPoster</field>
@@ -423,10 +399,6 @@
             <field name="type">num</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_ResultatrakningFunktionsindeladForkortadAbstract"/>
-        </record>
-        <record id="kpi_report_rr_funktion_forkortad_k3_FinansiellaPoster" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPoster"/>
-            <field name="name">sum('BruttoresultatForkortadFunktionsindelad', 'FunktionerMm') * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -438,6 +410,10 @@
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_ResultatrakningFunktionsindeladForkortadAbstract"/>
+        </record>
+        <record id="kpi_report_rr_funktion_forkortad_k3_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatEfterFinansiellaPoster"/>
+            <field name="name">sum('BruttoresultatForkortadFunktionsindelad', 'FunktionerMm') * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -549,6 +525,10 @@
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_ResultatrakningFunktionsindeladForkortadAbstract"/>
         </record>
+        <record id="kpi_report_rr_funktion_forkortad_k3_Bokslutsdispositioner" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_Bokslutsdispositioner"/>
+            <field name="name">bal[8810, 8811, 8812, 8813, 8814, 8815, 8816, 8817, 8818, 8819, 8820, 8821, 8822, 8823, 8824, 8825, 8826, 8827, 8828, 8829, 8830, 8831, 8832, 8833, 8834, 8835, 8836, 8837, 8838, 8839, 8850, 8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859, 8860, 8861, 8862, 8863, 8864, 8865, 8866, 8867, 8868, 8869, 8890, 8891, 8892, 8893, 8894, 8895, 8896, 8897, 8898, 8899] * -1</field>
+        </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatForeSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatForeSkatt</field>
@@ -559,6 +539,10 @@
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
             <field name="parent_id" ref="report_rr_funktion_forkortad_k3_ResultatrakningFunktionsindeladForkortadAbstract"/>
+        </record>
+        <record id="kpi_report_rr_funktion_forkortad_k3_ResultatForeSkatt" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatForeSkatt"/>
+            <field name="name">sum('BruttoresultatForkortadFunktionsindelad', 'FunktionerMm', 'ErhallnaKoncernbidrag', 'LamnadeKoncernbidrag', 'ForandringPeriodiseringsfond', 'ForandringOveravskrivningar', 'ForandringErsattningsfond', 'AndraBokslutsdispositioner') * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>

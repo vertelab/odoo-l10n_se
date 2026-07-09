@@ -203,6 +203,19 @@ def generate_report_xml(sheet_def, compact=False):
             'is_sum': is_sum,
         })
 
+    # ── Deduplicera konton ────────────────────────────────────────────────
+    # Ett BAS-konto får bara förekomma i en leaf-KPI per rapport.
+    # BFN-taxonomin har ibland samma konto i flera KPI:er (t.ex. 1338).
+    used_accounts = set()
+    for rd in rows:
+        if rd['is_sum'] or rd['abstract']:
+            continue  # Sum/abstract får ha samma konton som barnen
+        if rd['accounts']:
+            dupes = [a for a in rd['accounts'] if a in used_accounts]
+            if dupes:
+                rd['accounts'] = [a for a in rd['accounts'] if a not in used_accounts]
+            used_accounts.update(rd['accounts'])
+
     # ── Bygg parent_id-hierarki ───────────────────────────────────────────
     # parent = närmast föregående KPI med lägre level
     for i, rd in enumerate(rows):
@@ -214,31 +227,47 @@ def generate_report_xml(sheet_def, compact=False):
                     rd['parent_idx'] = j
                     break
 
-    # ── Generera sum()-uttryck för sum-KPI:er ─────────────────────────────
-    # En sum-KPI på level N summerar KPI:er på level N+1 inom sitt sektion.
-    # Section start = förra KPI:n med level < N.
+    # ── Generera sum()-uttryck ────────────────────────────────────────────
+    # För sum-KPI:er OCH beräknade rader (Resultat efter finansiella poster etc.)
+    # som inte har egna BAS-konton från taxonomin.
+    # En KPI på level N summerar barn på level N+1 inom sitt sektion.
+    # Section start = förra abstract på level N (eller level < N om ingen sådan).
     for i, rd in enumerate(rows):
-        if not rd['is_sum']:
-            continue
         if rd['accounts']:
-            continue  # Har egna BAS-konton (leaf-KPI), behåll bal[]
+            continue  # Har egna BAS-konton, behåll bal[]
+        if rd['abstract']:
+            continue  # Rubriker har inga uttryck
 
         kpi_level = rd['level']
         if kpi_level is None:
             continue
 
-        # Hitta section start: förra KPI:n med level < kpi_level
+        # Hitta section start:
+        # För Summa-rader (is_sum): börja från förra abstract på samma level
+        #   (summerar bara inom sektionen, t.ex. Summa rörelsekostnader)
+        # För löpande rader (Resultat efter finansiella poster):
+        #   börja från level < kpi_level (inkluderar allt ovanför)
         section_start = 0
         for j in range(i - 1, -1, -1):
             p = rows[j]
             pl = p['level']
-            if pl is not None and pl < kpi_level:
-                section_start = j + 1
-                break
+            if rd['is_sum']:
+                # Summa-rader: avgränsas av förra abstract på samma level
+                if pl is not None and pl == kpi_level and p['abstract']:
+                    section_start = j + 1
+                    break
+                elif pl is not None and pl < kpi_level:
+                    section_start = j + 1
+                    break
+            else:
+                # Löpande rader: inkludera allt från föregående level < N
+                if pl is not None and pl < kpi_level:
+                    section_start = j + 1
+                    break
 
-        # Samla sum-barn: bara KPI:er på level == kpi_level + 1
-        # Skippa level None (djupa löv) — de täcks av sub-sums på level N+1
-        # Skippa nivåer djupare än kpi_level + 1 för att undvika dubbelräkning
+        # Samla sum-barn:
+        # För Summa-rader: bara barn på level == kpi_level + 1 (subsection)
+        # För löpande rader: alla barn på level >= kpi_level + 1 (running total)
         child_names = []
         for j in range(section_start, i):
             child = rows[j]
@@ -246,8 +275,9 @@ def generate_report_xml(sheet_def, compact=False):
             if child['abstract']:
                 continue
             if cl is None:
-                # Deep leaf without explicit level — skip, covered by sub-sums
-                continue
+                continue  # Djupa löv — täcks av sub-sums
+            # Alla typer: bara barn på level == kpi_level + 1
+            # Detta undviker dubbelräkning (sub-sum + dess barn)
             if cl == kpi_level + 1:
                 child_names.append(child['elem'])
 
@@ -317,19 +347,18 @@ def generate_report_xml(sheet_def, compact=False):
             <field name="budgetable">{budgetable}</field>{auto}{auto_style}{parent_field}
         </record>''')
 
-        # Expression
+        # Expression: sum() > bal[] > inget
         if rd.get('sum_expr'):
+            expr = rd['sum_expr']
+        elif rd['accounts']:
+            expr = format_bal_expression(rd['accounts'], rd['negate'])
+        else:
+            expr = None
+        if expr:
             eid = f"kpi_{kpi_id}"
             lines.append(f'''        <record id="{eid}" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="{kpi_id}"/>
-            <field name="name">{rd['sum_expr']}</field>
-        </record>''')
-        elif rd['accounts'] and not rd['is_sum']:
-            bal = format_bal_expression(rd['accounts'], rd['negate'])
-            eid = f"kpi_{kpi_id}"
-            lines.append(f'''        <record id="{eid}" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="{kpi_id}"/>
-            <field name="name">{bal}</field>
+            <field name="name">{expr}</field>
         </record>''')
 
     wb.close()

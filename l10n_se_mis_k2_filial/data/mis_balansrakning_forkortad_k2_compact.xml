@@ -225,7 +225,7 @@
         </record>
         <record id="kpi_report_br_filial_forkortad_k2_compact_Omsattningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_filial_forkortad_k2_compact_Omsattningstillgangar"/>
-            <field name="name">sum('ImmateriellaAnlaggningstillgangar', 'MateriellaAnlaggningstillgangar', 'FinansiellaAnlaggningstillgangar', 'VarulagerMm', 'KortfristigaFordringar', 'KortfristigaPlaceringar', 'KassaBankExklRedovisningsmedel', 'Redovisningsmedel')</field>
+            <field name="name">sum('VarulagerMm', 'KortfristigaFordringar', 'KortfristigaPlaceringar', 'KassaBankExklRedovisningsmedel', 'Redovisningsmedel')</field>
         </record>
         <record id="report_br_filial_forkortad_k2_compact_Tillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br_filial_forkortad_k2_compact"/>
@@ -390,7 +390,7 @@
         </record>
         <record id="kpi_report_br_filial_forkortad_k2_compact_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_filial_forkortad_k2_compact_EgetKapitalSkulder"/>
-            <field name="name">sum('Anlaggningstillgangar', 'Omsattningstillgangar', 'ObeskattadeReserver', 'AvsattningarForkortad', 'AvsattningarPensionerLiknandeForpliktelserEnligtLag', 'LangfristigaSkulder', 'KortfristigaSkulder') * -1</field>
+            <field name="name">sum('ObeskattadeReserver', 'AvsattningarForkortad', 'AvsattningarPensionerLiknandeForpliktelserEnligtLag', 'LangfristigaSkulder', 'KortfristigaSkulder') * -1</field>
         </record>
     </data>
 </odoo>

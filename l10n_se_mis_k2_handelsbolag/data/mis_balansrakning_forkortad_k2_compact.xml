@@ -225,7 +225,7 @@
         </record>
         <record id="kpi_report_br_hbkb_forkortad_k2_compact_Omsattningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_hbkb_forkortad_k2_compact_Omsattningstillgangar"/>
-            <field name="name">sum('ImmateriellaAnlaggningstillgangar', 'MateriellaAnlaggningstillgangar', 'FinansiellaAnlaggningstillgangar', 'VarulagerMm', 'KortfristigaFordringar', 'KortfristigaPlaceringar', 'KassaBankExklRedovisningsmedel', 'Redovisningsmedel')</field>
+            <field name="name">sum('VarulagerMm', 'KortfristigaFordringar', 'KortfristigaPlaceringar', 'KassaBankExklRedovisningsmedel', 'Redovisningsmedel')</field>
         </record>
         <record id="report_br_hbkb_forkortad_k2_compact_Tillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br_hbkb_forkortad_k2_compact"/>
@@ -292,10 +292,6 @@
             <field name="sequence">20</field>
             <field name="budgetable">True</field>
         </record>
-        <record id="kpi_report_br_hbkb_forkortad_k2_compact_ForandringEgetKapitalInsattningarUttag" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_br_hbkb_forkortad_k2_compact_ForandringEgetKapitalInsattningarUttag"/>
-            <field name="name">bal[2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048] * -1</field>
-        </record>
         <record id="report_br_hbkb_forkortad_k2_compact_AretsResultatEgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_hbkb_forkortad_k2_compact"/>
             <field name="name">AretsResultatEgetKapital</field>
@@ -303,10 +299,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">21</field>
             <field name="budgetable">True</field>
-        </record>
-        <record id="kpi_report_br_hbkb_forkortad_k2_compact_AretsResultatEgetKapital" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_br_hbkb_forkortad_k2_compact_AretsResultatEgetKapital"/>
-            <field name="name">bal[2019, 2029, 2039, 2049, 2099] * -1</field>
         </record>
         <record id="report_br_hbkb_forkortad_k2_compact_EgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_hbkb_forkortad_k2_compact"/>
@@ -316,10 +308,6 @@
             <field name="sequence">22</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_br_hbkb_forkortad_k2_compact_EgetKapitalAbstract"/>
-        </record>
-        <record id="kpi_report_br_hbkb_forkortad_k2_compact_EgetKapital" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="report_br_hbkb_forkortad_k2_compact_EgetKapital"/>
-            <field name="name">bal[20%%] * -1</field>
         </record>
         <record id="report_br_hbkb_forkortad_k2_compact_ObeskattadeReserver" model="mis.report.kpi">
             <field name="report_id" ref="report_br_hbkb_forkortad_k2_compact"/>
@@ -398,7 +386,7 @@
         </record>
         <record id="kpi_report_br_hbkb_forkortad_k2_compact_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_hbkb_forkortad_k2_compact_EgetKapitalSkulder"/>
-            <field name="name">sum('Anlaggningstillgangar', 'Omsattningstillgangar', 'ObeskattadeReserver', 'AvsattningarForkortad', 'AvsattningarPensionerLiknandeForpliktelserEnligtLag', 'LangfristigaSkulder', 'KortfristigaSkulder') * -1</field>
+            <field name="name">sum('ObeskattadeReserver', 'AvsattningarForkortad', 'AvsattningarPensionerLiknandeForpliktelserEnligtLag', 'LangfristigaSkulder', 'KortfristigaSkulder') * -1</field>
         </record>
     </data>
 </odoo>
