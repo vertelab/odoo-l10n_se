@@ -60,7 +60,7 @@
         <record id="report_kf_koncern_k3_compact_KassaflodesanalysLopandeVerksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodesanalysLopandeVerksamhetenAbstract</field>
-            <field name="description">Den löpande verksamheten</field>
+            <field name="description">Den löpande verksamheten (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">1</field>
             <field name="type">str</field>
@@ -69,12 +69,11 @@
         <record id="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodeIngangsvardeLopandeVerksamhetenAbstract</field>
-            <field name="description">Ingångsvärde löpande verksamheten</field>
+            <field name="description">Ingångsvärde löpande verksamheten för kassaflöde (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
@@ -83,7 +82,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">3</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_Rorelseresultat"/>
@@ -96,16 +94,14 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">4</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_AretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">AretsResultat</field>
-            <field name="description">Årets resultat</field>
+            <field name="description">Periodens resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">5</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_AretsResultat"/>
@@ -114,56 +110,50 @@
         <record id="report_kf_koncern_k3_compact_JusteringPosterSomInteIngarIKassaflodet" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">JusteringPosterSomInteIngarIKassaflodet</field>
-            <field name="description">Justering för poster som inte ingår i kassaflödet</field>
+            <field name="description">Positiv (negativ) justering för poster som inte ingår i kassaflödet</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">6</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ErhallenRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ErhallenRanta</field>
-            <field name="description">Erhållen ränta</field>
+            <field name="description">Ökning av kassaflöde vid erhållen ränta</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">7</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ErhallenUtdelning" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ErhallenUtdelning</field>
-            <field name="description">Erhållen utdelning</field>
+            <field name="description">Ökning av kassaflöde vid erhållen utdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">8</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ErlagdRanta" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ErlagdRanta</field>
-            <field name="description">Erlagd ränta</field>
+            <field name="description">Minskning av kassaflöde vid erlagd ränta</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">9</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_BetaldSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">BetaldSkatt</field>
-            <field name="description">Betald inkomstskatt</field>
+            <field name="description">Minskning av kassaflöde vid betald inkomstskatt</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">10</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodeIngangsvardeLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital</field>
-            <field name="description">Kassaflöde från den löpande verksamheten före förändringar av rörelsekapital</field>
+            <field name="description">Ökning (minskning) av kassaflöde från den löpande verksamheten före förändringar av rörelsekapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">11</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital"/>
@@ -172,36 +162,33 @@
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeRorelsekapitaletAbstract</field>
-            <field name="description">Kassaflöde från förändringar i rörelsekapital</field>
+            <field name="description">Kassaflöde från förändringar i rörelsekapital (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">12</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysLopandeVerksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeVarulagerPagaendeArbeten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeVarulagerPagaendeArbeten</field>
-            <field name="description">Ökning/minskning varulager och pågående arbeten</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av varulager och pågående arbeten</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">13</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsefodringarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeRorelsefodringarAbstract</field>
-            <field name="description">Förändring rörelsefordringar</field>
+            <field name="description">Förändring av kassaflöde vid förändring av rörelsefordringar (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">14</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeKundfordringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeKundfordringar</field>
-            <field name="description">ForandringKassaflodeKundfordringar</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av kundfordringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">15</field>
             <field name="budgetable">True</field>
@@ -209,7 +196,7 @@
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeOvrigaKortfristigaFordringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeOvrigaKortfristigaFordringar</field>
-            <field name="description">ForandringKassaflodeOvrigaKortfristigaFordringar</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av övriga kortfristiga fordringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">16</field>
             <field name="budgetable">True</field>
@@ -217,26 +204,24 @@
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsefodringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeRorelsefodringar</field>
-            <field name="description">Ökning/minskning av rörelsefodringar</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring rörelsefordringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">17</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeRorelseskulderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeRorelseskulderAbstract</field>
-            <field name="description">Förändring rörelseskulder</field>
+            <field name="description">Förändring kassaflöde vid förändring av rörelseskulder (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">18</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeLeverantorsskulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeLeverantorsskulder</field>
-            <field name="description">ForandringKassaflodeLeverantorsskulder</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av leverantörsskulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">19</field>
             <field name="budgetable">True</field>
@@ -244,7 +229,7 @@
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeOvrigaKortfristigaSkulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeOvrigaKortfristigaSkulder</field>
-            <field name="description">ForandringKassaflodeOvrigaKortfristigaSkulder</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av övriga kortfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">20</field>
             <field name="budgetable">True</field>
@@ -252,16 +237,15 @@
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeRorelseskulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeRorelseskulder</field>
-            <field name="description">Ökning/minskning av rörelseskulder</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring rörelseskulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">21</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForandringKassaflodeRorelsekapitaletAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_KassaflodeLopandeVerksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodeLopandeVerksamheten</field>
-            <field name="description">Kassaflöde från den löpande verksamheten</field>
+            <field name="description">Ökning (minskning) av kassaflöde från den löpande verksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">22</field>
             <field name="budgetable">True</field>
@@ -273,7 +257,7 @@
         <record id="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodesanalysInvesteringsverksamhetenAbstract</field>
-            <field name="description">Investeringsverksamheten</field>
+            <field name="description">Investeringsverksamheten (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">23</field>
             <field name="type">str</field>
@@ -282,75 +266,67 @@
         <record id="report_kf_koncern_k3_compact_LamnadeKapitaltillskottInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">LamnadeKapitaltillskottInvesteringsverksamheten</field>
-            <field name="description">Lämnade tillskott</field>
+            <field name="description">Minskning av kassaflöde vid lämnade tillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">24</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_LamnadeKoncernbidragInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">LamnadeKoncernbidragInvesteringsverksamheten</field>
-            <field name="description">Lämnade koncernbidrag</field>
+            <field name="description">Minskning av kassaflöde vid lämnade koncernbidrag i investeringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">25</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_InvesteringImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">InvesteringImmateriellaAnlaggningstillgangar</field>
-            <field name="description">Förvärv av immateriella anläggningstillgångar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av immateriella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">26</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningImmateriellaAnlaggningstillgangar</field>
-            <field name="description">Avyttring av immateriella anläggningstillgångar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av immateriella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">27</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvMateriellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvMateriellaAnlaggningstillgangarAbstract</field>
-            <field name="description">Förvärv av materiella anläggningstillgångar</field>
+            <field name="description">Förvärv av materiella anläggningstillgångar (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">28</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvForvaltningsfastigheter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvForvaltningsfastigheter</field>
-            <field name="description">Förvärv av förvaltningsfastigheter</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av förvaltningsfastigheter</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">29</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForvarvMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvOvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvOvrigaMateriellaAnlaggningstillgangar</field>
-            <field name="description">Förvärv av övriga materiella anläggningstillgångar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av övriga materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">30</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForvarvMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_InvesteringMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">InvesteringMateriellaAnlaggningstillgangar</field>
-            <field name="description">Förvärv av materiella anläggningstillgångar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">31</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_InvesteringMateriellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_InvesteringMateriellaAnlaggningstillgangar"/>
@@ -359,39 +335,35 @@
         <record id="report_kf_koncern_k3_compact_ForsaljningMateriellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningMateriellaAnlaggningstillgangarAbstract</field>
-            <field name="description">Avyttring av materiella anläggningstillgångar</field>
+            <field name="description">Avyttring av materiella anläggningstillgångar (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">32</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningForvaltningsfastigheter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningForvaltningsfastigheter</field>
-            <field name="description">Avyttring av förvaltningsfastigheter</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av förvaltningsfastigheter</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">33</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForsaljningMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningOvrigaMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningOvrigaMateriellaAnlaggningstillgangar</field>
-            <field name="description">Avyttring av övriga materiella anläggningstillgångar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av övriga materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">34</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForsaljningMateriellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningMateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningMateriellaAnlaggningstillgangar</field>
-            <field name="description">Avyttring av materiella anläggningstillgångar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">35</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_ForsaljningMateriellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_ForsaljningMateriellaAnlaggningstillgangar"/>
@@ -400,11 +372,10 @@
         <record id="report_kf_koncern_k3_compact_ForvarvRorelseInkram" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvRorelseInkram</field>
-            <field name="description">Förvärv av rörelse i form av inkråm</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av rörelse i form av inkråm</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">36</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_ForvarvRorelseInkram" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_ForvarvRorelseInkram"/>
@@ -413,11 +384,10 @@
         <record id="report_kf_koncern_k3_compact_ForsaljningRorelseInkram" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningRorelseInkram</field>
-            <field name="description">Avyttring av rörelse i form av inkråm</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av rörelse i form av inkråm</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">37</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_ForsaljningRorelseInkram" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_ForsaljningRorelseInkram"/>
@@ -426,66 +396,59 @@
         <record id="report_kf_koncern_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvFinansiellaAnlaggningstillgangarAbstract</field>
-            <field name="description">Förvärv av finansiella anläggningstillgångar</field>
+            <field name="description">Förvärv av finansiella anläggningstillgångar (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">38</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvAndelarKoncernforetag</field>
-            <field name="description">Förvärv av andelar i koncernföretag</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av andelar i koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">39</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvIntresseforetagGemensamtStyrdaForetag</field>
-            <field name="description">Förvärv av andelar i intresseföretag och gemensamt styrda företag</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av andelar i intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">40</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvAgarintressenOvrigaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvAgarintressenOvrigaForetag</field>
-            <field name="description">Förvärv av ägarintressen i övriga företag</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av ägarintressen i övriga företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">41</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_LamnadeLanKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">LamnadeLanKoncernforetag</field>
-            <field name="description">Lämnade lån till koncernföretag</field>
+            <field name="description">Minskning av kassaflöde vid lämnade lån till koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">42</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvOvrigaFinansiellaAnlaggningstillgangar</field>
-            <field name="description">Förvärv av övriga finansiella anläggningstillgångar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av övriga finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">43</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForvarvFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_InvesteringFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">InvesteringFinansiellaAnlaggningstillgangar</field>
-            <field name="description">Förvärv av finansiella anläggningstillgångar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">44</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_InvesteringFinansiellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_InvesteringFinansiellaAnlaggningstillgangar"/>
@@ -494,66 +457,59 @@
         <record id="report_kf_koncern_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract</field>
-            <field name="description">Avyttring/amortering av finansiella anläggningstillgångar</field>
+            <field name="description">Avyttring eller amortering av finansiella anläggningstillgångar (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">45</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningKoncernforetag</field>
-            <field name="description">Avyttring av andelar i koncernföretag</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av andelar i koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">46</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningIntresseforetagGemensamtStyrdaForetag</field>
-            <field name="description">Avyttring av andelar i intresseföretag och gemensamt styrda företag</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av andelar i intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">47</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningAgarintressenOvrigaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningAgarintressenOvrigaForetag</field>
-            <field name="description">Avyttring av ägarintressen i övriga företag</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av ägarintressen i övriga företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">48</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ErhallnaAmorteringarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ErhallnaAmorteringarKoncernforetag</field>
-            <field name="description">Erhållna amorteringar från koncernföretag</field>
+            <field name="description">Ökning av kassaflöde vid erhållna amorteringar från koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">49</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningOvrigaFinansiellaAnlaggningstillgangar</field>
-            <field name="description">Avyttring av övriga finansiella anläggningstillgångar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av övriga finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">50</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningFinansiellaAnlaggningstillgangar</field>
-            <field name="description">Avyttring/amortering av finansiella anläggningstillgångar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring eller amortering av finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">51</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_ForsaljningFinansiellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_ForsaljningFinansiellaAnlaggningstillgangar"/>
@@ -562,11 +518,10 @@
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeOvrigaKortfristigaPlaceringar" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeOvrigaKortfristigaPlaceringar</field>
-            <field name="description">Ökning/minskning av kortfristiga placeringar</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av kortfristiga placeringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">52</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_ForandringKassaflodeOvrigaKortfristigaPlaceringar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_ForandringKassaflodeOvrigaKortfristigaPlaceringar"/>
@@ -575,7 +530,7 @@
         <record id="report_kf_koncern_k3_compact_KassaflodeInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodeInvesteringsverksamheten</field>
-            <field name="description">Kassaflöde från investeringsverksamheten</field>
+            <field name="description">Ökning (minskning) av kassaflöde från investeringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">53</field>
             <field name="budgetable">True</field>
@@ -587,7 +542,7 @@
         <record id="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodesanalysFinansieringsverksamhetenAbstract</field>
-            <field name="description">Finansieringsverksamheten</field>
+            <field name="description">Finansieringsverksamheten (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">54</field>
             <field name="type">str</field>
@@ -596,219 +551,195 @@
         <record id="report_kf_koncern_k3_compact_UtstalldaAktieoptioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">UtstalldaAktieoptioner</field>
-            <field name="description">Utställda aktieoptioner</field>
+            <field name="description">Ökning av kassaflöde vid utställande av aktieoptioner</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">55</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_InlostaAktieoptioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">InlostaAktieoptioner</field>
-            <field name="description">Inlösta aktieoptioner</field>
+            <field name="description">Minskning av kassaflöde vid inlösning av aktieoptioner</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">56</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_NyemissionKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">NyemissionKassaflode</field>
-            <field name="description">Nyemission</field>
+            <field name="description">Ökning av kassaflöde vid nyemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">57</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_Emissionsutgifter" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">Emissionsutgifter</field>
-            <field name="description">Emissionsutgifter</field>
+            <field name="description">Minskning av kassaflöde till följd av emissionsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">58</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_AterkopEgnaAktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">AterkopEgnaAktier</field>
-            <field name="description">Återköp av egna aktier inklusive transaktionsutgifter</field>
+            <field name="description">Minskning av kassaflöde vid återköp av egna aktier inklusive transaktionsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">59</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_OverlatelseEgnaAktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">OverlatelseEgnaAktier</field>
-            <field name="description">Överlåtelse av egna aktier</field>
+            <field name="description">Ökning av kassaflöde vid överlåtelse av egna aktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">60</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringCheckrakningskredit" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringCheckrakningskredit</field>
-            <field name="description">Ökning/minskning av checkräkningskredit</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av checkräkningskredit</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">61</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ErhallnaAktieagartillskottKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ErhallnaAktieagartillskottKassaflode</field>
-            <field name="description">Erhållna tillskott</field>
+            <field name="description">Ökning av kassaflöde vid erhållna tillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">62</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten</field>
-            <field name="description">Erhållna koncernbidrag</field>
+            <field name="description">Ökning av kassaflöde vid erhållna koncernbidrag</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">63</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_EmissionKonvertibellan" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">EmissionKonvertibellan</field>
-            <field name="description">Emission av konvertibellån</field>
+            <field name="description">Ökning av kassaflöde vid emission av konvertibellån</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">64</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_EmissionInlosningsbaraPreferensaktier" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">EmissionInlosningsbaraPreferensaktier</field>
-            <field name="description">Emission av inlösningsbara preferensaktier</field>
+            <field name="description">Ökning av kassaflöde vid emission av inlösningsbara preferensaktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">65</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten</field>
-            <field name="description">Lämnade koncernbidrag</field>
+            <field name="description">Minskning av kassaflöde vid lämnade koncernbidrag i finansieringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">66</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_UpptagnaLan" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">UpptagnaLan</field>
-            <field name="description">Upptagna lån</field>
+            <field name="description">Ökning av kassaflöde till följd av upptagna lån</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">67</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_AmorteringSkuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">AmorteringSkuld</field>
-            <field name="description">Amortering av skuld</field>
+            <field name="description">Minskning av kassaflöde vid amortering av skuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">68</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_AmorteringLeasingskuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">AmorteringLeasingskuld</field>
-            <field name="description">Amortering av leasingskuld</field>
+            <field name="description">Minskning av kassaflöde vid amortering av leasingskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">69</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForvarvAndelUtanBestammandeInflytande" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForvarvAndelUtanBestammandeInflytande</field>
-            <field name="description">Förvärv av andelar utan bestämmande inflytande</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av andelar utan bestämmande inflytande</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">70</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_ForsaljningAndelAgareUtanBestammandeInflytande" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForsaljningAndelAgareUtanBestammandeInflytande</field>
-            <field name="description">Försäljning av andel till ägare utan bestämmande inflytande</field>
+            <field name="description">Ökning av kassaflöde vid försäljning av andel till ägare utan bestämmande inflytande</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">71</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_GottgorelsePensionsstiftelse" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">GottgorelsePensionsstiftelse</field>
-            <field name="description">Gottgörelse från pensionsstiftelse</field>
+            <field name="description">Ökning av kassaflöde vid gottgörelse från pensionsstiftelse</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">72</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_AmortoringPensionsskuld" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">AmortoringPensionsskuld</field>
-            <field name="description">Amortering av pensionsskuld</field>
+            <field name="description">Minskning av kassaflöde vid amortering av pensionsskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">73</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_KortfristigaFinansiellaSkulder" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KortfristigaFinansiellaSkulder</field>
-            <field name="description">Ökning/minskning av kortfristiga finansiella skulder</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av kortfristiga finansiella skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">74</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_UtbetaldUtdelningAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">UtbetaldUtdelningAbstract</field>
-            <field name="description">Utbetald utdelning</field>
+            <field name="description">Utbetald utdelning (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">75</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_UtbetaldUtdelningModerforetagetsAgare" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">UtbetaldUtdelningModerforetagetsAgare</field>
-            <field name="description">Utbetald utdelning till moderföretagets ägare</field>
+            <field name="description">Minskning av kassaflöde till följd av utbetald utdelning till moderföretagets ägare</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">76</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_UtbetaldUtdelningAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_UtbetaldUtdelningAndelUtanBestammandeInflytande" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">UtbetaldUtdelningAndelUtanBestammandeInflytande</field>
-            <field name="description">Utbetald utdelning till ägare utan bestämmande inflytande</field>
+            <field name="description">Minskning av kassaflöde till följd av utbetald utdelning till ägare utan bestämmande inflytande</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">77</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_UtbetaldUtdelningAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_UtbetaldUtdelningKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">UtbetaldUtdelningKassaflode</field>
-            <field name="description">Utbetald utdelning</field>
+            <field name="description">Minskning av kassaflöde till följd av utbetald utdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">78</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_KassaflodesanalysFinansieringsverksamhetenAbstract"/>
         </record>
         <record id="kpi_report_kf_koncern_k3_compact_UtbetaldUtdelningKassaflode" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_koncern_k3_compact_UtbetaldUtdelningKassaflode"/>
@@ -817,7 +748,7 @@
         <record id="report_kf_koncern_k3_compact_KassaflodeFinansieringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">KassaflodeFinansieringsverksamheten</field>
-            <field name="description">Kassaflöde från finansieringsverksamheten</field>
+            <field name="description">Ökning (minskning) av kassaflöde från finansieringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">79</field>
             <field name="budgetable">True</field>
@@ -829,7 +760,7 @@
         <record id="report_kf_koncern_k3_compact_AretsKassaflode" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">AretsKassaflode</field>
-            <field name="description">Årets kassaflöde</field>
+            <field name="description">Ökning (minskning) av kassaflöde</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">80</field>
             <field name="budgetable">True</field>
@@ -841,7 +772,7 @@
         <record id="report_kf_koncern_k3_compact_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">LikvidaMedel</field>
-            <field name="description">Likvida medel vid årets början</field>
+            <field name="description">Likvida medel</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">81</field>
             <field name="budgetable">True</field>
@@ -853,7 +784,7 @@
         <record id="report_kf_koncern_k3_compact_ForandringLikvidaMeldelAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">ForandringLikvidaMeldelAbstract</field>
-            <field name="description">Förändring av likvida medel</field>
+            <field name="description">Förändring av likvida medel (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">82</field>
             <field name="type">str</field>
@@ -862,16 +793,15 @@
         <record id="report_kf_koncern_k3_compact_LikvidaMedelKursdifferens" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">LikvidaMedelKursdifferens</field>
-            <field name="description">Kursdifferens i likvida medel</field>
+            <field name="description">Ökning (minskning) av likvida medel vid kursdifferenser</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">83</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_kf_koncern_k3_compact_ForandringLikvidaMeldelAbstract"/>
         </record>
         <record id="report_kf_koncern_k3_compact_LikvidaMedel" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_koncern_k3_compact"/>
             <field name="name">LikvidaMedel</field>
-            <field name="description">Likvida medel vid årets slut</field>
+            <field name="description">Likvida medel</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">84</field>
             <field name="budgetable">True</field>

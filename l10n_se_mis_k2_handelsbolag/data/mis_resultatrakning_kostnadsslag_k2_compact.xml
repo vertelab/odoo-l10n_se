@@ -60,7 +60,7 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_RorelseresultatAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">RorelseresultatAbstract</field>
-            <field name="description">Rörelseresultat</field>
+            <field name="description">Rörelseresultat (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">1</field>
             <field name="type">str</field>
@@ -69,12 +69,11 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_RorelsensIntakterLagerforandringarMmAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">RorelsensIntakterLagerforandringarMmAbstract</field>
-            <field name="description">Rörelseintäkter, lagerförändringar m.m.</field>
+            <field name="description">Rörelseintäkter, lagerförändringar m.m. (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelseresultatAbstract"/>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_Nettoomsattning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
@@ -83,7 +82,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">3</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_Nettoomsattning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_Nettoomsattning"/>
@@ -92,11 +90,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning</field>
-            <field name="description">Förändringar av lager av produkter i arbete, färdiga varor och pågående arbeten för annans räkning</field>
+            <field name="description">Förändring av lager av färdiga varor, av varor under tillverkning och pågående arbeten för annans räkning</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">4</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning"/>
@@ -109,7 +106,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">5</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_AktiveratArbeteEgenRakning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_AktiveratArbeteEgenRakning"/>
@@ -122,7 +118,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">6</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRorelseintakter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRorelseintakter"/>
@@ -131,12 +126,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_RorelseintakterLagerforandringarMm" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">RorelseintakterLagerforandringarMm</field>
-            <field name="description">Summa rörelseintäkter, lagerförändringar m.m.</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Rörelseintäkter, lagerförändringar m.m.</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">7</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelseresultatAbstract"/>
+            <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_RorelseintakterLagerforandringarMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelseintakterLagerforandringarMm"/>
@@ -145,21 +138,19 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">RorelsekostnaderAbstract</field>
-            <field name="description">Rörelsekostnader</field>
+            <field name="description">Rörelsekostnader (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">8</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelseresultatAbstract"/>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_RavarorFornodenheterKostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">RavarorFornodenheterKostnader</field>
-            <field name="description">Råvaror och förnödenheter</field>
+            <field name="description">Kostnad för förbrukning av råvaror och förnödenheter</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">9</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_RavarorFornodenheterKostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RavarorFornodenheterKostnader"/>
@@ -168,11 +159,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_HandelsvarorKostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">HandelsvarorKostnader</field>
-            <field name="description">Handelsvaror</field>
+            <field name="description">Kostnad för sålda handelsvaror</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">10</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_HandelsvarorKostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_HandelsvarorKostnader"/>
@@ -185,7 +175,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">11</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_OvrigaExternaKostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaExternaKostnader"/>
@@ -198,7 +187,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">12</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_Personalkostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_Personalkostnader"/>
@@ -207,11 +195,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar</field>
-            <field name="description">Av- och nedskrivningar av materiella och immateriella anläggningstillgångar</field>
+            <field name="description">Avskrivningar och nedskrivningar av materiella och immateriella anläggningstillgångar inklusive återföringar av nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">13</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar"/>
@@ -224,7 +211,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">14</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar"/>
@@ -233,11 +219,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRorelsekostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">OvrigaRorelsekostnader</field>
-            <field name="description">Övriga rörelsekostnader</field>
+            <field name="description">Övriga rörelsekostnader i kostnadsslagsindelad resultaträkning</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">15</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelsekostnaderAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRorelsekostnader"/>
@@ -246,16 +231,14 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_Rorelsekostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">Rorelsekostnader</field>
-            <field name="description">Summa rörelsekostnader</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Rörelsekostnader</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">16</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RorelseresultatAbstract"/>
+            <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_Rorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_Rorelsekostnader"/>
-            <field name="name">sum([RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader])</field>
+            <field name="name">sum([Nettoomsattning, ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning, AktiveratArbeteEgenRakning, OvrigaRorelseintakter, RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader])</field>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
@@ -272,7 +255,7 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">FinansiellaPosterAbstract</field>
-            <field name="description">Finansiella poster</field>
+            <field name="description">Resultat från finansiella poster (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">18</field>
             <field name="type">str</field>
@@ -281,11 +264,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_ResultatAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">ResultatAndelarKoncernforetag</field>
-            <field name="description">Resultat från andelar i koncernföretag</field>
+            <field name="description">Resultat från andelar i koncernföretag exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">19</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_ResultatAndelarKoncernforetag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_ResultatAndelarKoncernforetag"/>
@@ -294,11 +276,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_ResultatAndelarIntresseforetagGemensamtStyrda" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">ResultatAndelarIntresseforetagGemensamtStyrda</field>
-            <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag</field>
+            <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">20</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_ResultatAndelarIntresseforetagGemensamtStyrda" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_ResultatAndelarIntresseforetagGemensamtStyrda"/>
@@ -307,11 +288,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_ResultatOvrigaforetagAgarintresse" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">ResultatOvrigaforetagAgarintresse</field>
-            <field name="description">Resultat från övriga företag som det finns ett ägarintresse i</field>
+            <field name="description">Resultat från övriga företag som det finns ett ägarintresse i exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">21</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_ResultatOvrigaforetagAgarintresse" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_ResultatOvrigaforetagAgarintresse"/>
@@ -320,11 +300,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_ResultatOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">ResultatOvrigaFinansiellaAnlaggningstillgangar</field>
-            <field name="description">Resultat från övriga finansiella anläggningstillgångar</field>
+            <field name="description">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">22</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_ResultatOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_ResultatOvrigaFinansiellaAnlaggningstillgangar"/>
@@ -333,11 +312,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRanteintakterLiknandeResultatposter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">OvrigaRanteintakterLiknandeResultatposter</field>
-            <field name="description">Övriga ränteintäkter och liknande resultatposter</field>
+            <field name="description">Övriga ränteintäkter och liknande resultatposter exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">23</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRanteintakterLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaRanteintakterLiknandeResultatposter"/>
@@ -350,7 +328,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">24</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar"/>
@@ -363,7 +340,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">25</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPosterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_RantekostnaderLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_RantekostnaderLiknandeResultatposter"/>
@@ -372,15 +348,14 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">FinansiellaPoster</field>
-            <field name="description">Summa finansiella poster</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Resultat från finansiella poster</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">26</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_FinansiellaPoster"/>
-            <field name="name">sum([ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
+            <field name="name">sum([RorelseintakterLagerforandringarMm, Rorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
@@ -397,7 +372,7 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">BokslutsdispositionerAbstract</field>
-            <field name="description">Bokslutsdispositioner</field>
+            <field name="description">Bokslutsdispositioner (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">28</field>
             <field name="type">str</field>
@@ -410,7 +385,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">29</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_ForandringOveravskrivningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_ForandringOveravskrivningar"/>
@@ -423,7 +397,6 @@
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">30</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_OvrigaBokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaBokslutsdispositioner"/>
@@ -432,11 +405,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_Bokslutsdispositioner" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">Bokslutsdispositioner</field>
-            <field name="description">Summa bokslutsdispositioner</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Bokslutsdispositioner</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">31</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_Bokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_Bokslutsdispositioner"/>
@@ -457,7 +429,7 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">SkatterAbstract</field>
-            <field name="description">Skatter</field>
+            <field name="description">Skatter (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">33</field>
             <field name="type">str</field>
@@ -466,11 +438,10 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaSkatter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">OvrigaSkatter</field>
-            <field name="description">Övriga skatter</field>
+            <field name="description">Övriga skattekostnader</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">34</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_SkatterAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_k2_compact_OvrigaSkatter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_k2_compact_OvrigaSkatter"/>
@@ -479,7 +450,7 @@
         <record id="report_rr_hbkb_kostnadsslag_k2_compact_AretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_k2_compact"/>
             <field name="name">AretsResultat</field>
-            <field name="description">Årets resultat</field>
+            <field name="description">Periodens resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">35</field>
             <field name="budgetable">True</field>

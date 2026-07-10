@@ -90,12 +90,18 @@ def extract_bas_accounts(sh, row_num):
     return sorted(set(accounts))
 
 
-def get_display_name(sh, row_num):
-    """Hämta svenskt visningsnamn från kolumn E-H (5-8)."""
+def get_display_name(sh, row_num, elem_col=None):
+    """Hämta svenskt visningsnamn från Standardrubrik (elem_col + 2) eller hierarki."""
+    # Primärt: Standardrubrik (elem_col + 2)
+    if elem_col is not None:
+        val = sh.cell(row_num, elem_col + 2).value
+        if val and str(val).strip() and str(val).strip() not in ('xbrli:stringItemType', 'xbrli:monetaryItemType'):
+            return str(val).strip().replace(" (Presentation)", "")
+    # Fallback: hierarki-kolumner
     for c in [8, 7, 6, 5]:
         val = sh.cell(row_num, c).value
         if val and str(val).strip():
-            return str(val).strip()
+            return str(val).strip().replace(" (Presentation)", "")
     return ''
 
 
@@ -191,7 +197,7 @@ def generate_report_xml(sheet_def, compact=False):
         elem = str(elem).strip()
         abstract = str(sh.cell(r, ac).value or '').lower() == 'true'
         saldo = str(sh.cell(r, sc).value or '')
-        display = get_display_name(sh, r)
+        display = get_display_name(sh, r, ec)
         level = get_hierarchy_level(sh, r)
         accounts = extract_bas_accounts(sh, r)
         is_sum = 'Summa' in display or elem.startswith('Summa')

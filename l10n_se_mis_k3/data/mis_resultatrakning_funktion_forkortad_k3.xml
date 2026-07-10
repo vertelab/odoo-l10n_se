@@ -60,7 +60,7 @@
         <record id="report_rr_funktion_forkortad_k3_RorelseresultatAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">RorelseresultatAbstract</field>
-            <field name="description">Rörelseresultat</field>
+            <field name="description">Rörelseresultat (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">1</field>
             <field name="type">str</field>
@@ -69,13 +69,12 @@
         <record id="report_rr_funktion_forkortad_k3_BruttoresultatForkortadFunktionsindelad" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">BruttoresultatForkortadFunktionsindelad</field>
-            <field name="description">Bruttoresultat</field>
+            <field name="description">Bruttoresultat i förkortad funktionsindelad resultaträkning</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">2</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_RorelseresultatAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_BruttoresultatForkortadFunktionsindelad" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_BruttoresultatForkortadFunktionsindelad"/>
@@ -84,12 +83,11 @@
         <record id="report_rr_funktion_forkortad_k3_FunktionerMmAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">FunktionerMmAbstract</field>
-            <field name="description">Funktioner m.m.</field>
+            <field name="description">Funktioner m.m. (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">3</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_RorelseresultatAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_Forsaljningskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -100,7 +98,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FunktionerMmAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_Administrationskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -111,7 +108,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FunktionerMmAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ForskningsUtvecklingskostnader" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -122,18 +118,16 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FunktionerMmAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_OvrigaRorelsekostnaderFunktionsindelad" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">OvrigaRorelsekostnaderFunktionsindelad</field>
-            <field name="description">Övriga rörelsekostnader</field>
+            <field name="description">Övriga rörelsekostnader i funktionsindelad resultaträkning</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">7</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FunktionerMmAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_OvrigaRorelsekostnaderFunktionsindelad" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_OvrigaRorelsekostnaderFunktionsindelad"/>
@@ -142,12 +136,12 @@
         <record id="report_rr_funktion_forkortad_k3_FunktionerMm" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">FunktionerMm</field>
-            <field name="description">Summa funktioner m.m.</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Funktioner m.m.</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">8</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_RorelseresultatAbstract"/>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_FunktionerMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_FunktionerMm"/>
@@ -170,7 +164,7 @@
         <record id="report_rr_funktion_forkortad_k3_FinansiellaPosterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">FinansiellaPosterAbstract</field>
-            <field name="description">Resultat från finansiella poster</field>
+            <field name="description">Resultat från finansiella poster (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">10</field>
             <field name="type">str</field>
@@ -179,23 +173,21 @@
         <record id="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">FinansiellaPosterNedskrivningEgenPostAbstract</field>
-            <field name="description">Resultat från finansiella poster - med nedskrivningar i egen post</field>
+            <field name="description">Resultat från finansiella poster med nedskrivningar i egen post (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">11</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatAndelarKoncernforetag</field>
-            <field name="description">Resultat från andelar i koncernföretag</field>
+            <field name="description">Resultat från andelar i koncernföretag exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">12</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ResultatAndelarKoncernforetag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatAndelarKoncernforetag"/>
@@ -204,13 +196,12 @@
         <record id="report_rr_funktion_forkortad_k3_ResultatAndelarIntresseforetagGemensamtStyrda" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatAndelarIntresseforetagGemensamtStyrda</field>
-            <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag</field>
+            <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">13</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ResultatAndelarIntresseforetagGemensamtStyrda" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatAndelarIntresseforetagGemensamtStyrda"/>
@@ -219,13 +210,12 @@
         <record id="report_rr_funktion_forkortad_k3_ResultatOvrigaforetagAgarintresse" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatOvrigaforetagAgarintresse</field>
-            <field name="description">Resultat från övriga företag som det finns ett ägarintresse i</field>
+            <field name="description">Resultat från övriga företag som det finns ett ägarintresse i exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">14</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ResultatOvrigaforetagAgarintresse" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatOvrigaforetagAgarintresse"/>
@@ -234,13 +224,12 @@
         <record id="report_rr_funktion_forkortad_k3_ResultatOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatOvrigaFinansiellaAnlaggningstillgangar</field>
-            <field name="description">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar</field>
+            <field name="description">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">15</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ResultatOvrigaFinansiellaAnlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatOvrigaFinansiellaAnlaggningstillgangar"/>
@@ -249,13 +238,12 @@
         <record id="report_rr_funktion_forkortad_k3_OvrigaRanteintakterLiknandeResultatposter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">OvrigaRanteintakterLiknandeResultatposter</field>
-            <field name="description">Övriga ränteintäkter och liknande resultatposter</field>
+            <field name="description">Övriga ränteintäkter och liknande resultatposter exklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">16</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_OvrigaRanteintakterLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_OvrigaRanteintakterLiknandeResultatposter"/>
@@ -270,7 +258,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar"/>
@@ -285,7 +272,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_RantekostnaderLiknandeResultatposter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_RantekostnaderLiknandeResultatposter"/>
@@ -294,23 +280,21 @@
         <record id="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">FinansiellaPosterNedskrivningRespektivePostAbstract</field>
-            <field name="description">Resultat från finansiella poster - med nedskrivningar i respektive post</field>
+            <field name="description">Resultat från finansiella poster med nedskrivningar i respektive post (Presentation)</field>
             <field name="style_id" ref="report_style_k2_4"/>
             <field name="sequence">19</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatAndelarKoncernforetagInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatAndelarKoncernforetagInklNedskrivning</field>
-            <field name="description">Resultat från andelar i koncernföretag</field>
+            <field name="description">Resultat från andelar i koncernföretag inklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">20</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ResultatAndelarKoncernforetagInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatAndelarKoncernforetagInklNedskrivning"/>
@@ -319,35 +303,32 @@
         <record id="report_rr_funktion_forkortad_k3_ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning</field>
-            <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag</field>
+            <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag inklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">21</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatOvrigaforetagAgarintresseInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatOvrigaforetagAgarintresseInklNedskrivning</field>
-            <field name="description">Resultat från övriga företag som det finns ett ägarintresse i</field>
+            <field name="description">Resultat från övriga företag som det finns ett ägarintresse i inklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">22</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning</field>
-            <field name="description">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar</field>
+            <field name="description">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar inklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">23</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning"/>
@@ -356,13 +337,12 @@
         <record id="report_rr_funktion_forkortad_k3_OvrigaRanteintakterLiknandeResultatposterInklNedskrivning" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">OvrigaRanteintakterLiknandeResultatposterInklNedskrivning</field>
-            <field name="description">Övriga ränteintäkter och liknande resultatposter</field>
+            <field name="description">Övriga ränteintäkter och liknande resultatposter inklusive nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">24</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_OvrigaRanteintakterLiknandeResultatposterInklNedskrivning" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_OvrigaRanteintakterLiknandeResultatposterInklNedskrivning"/>
@@ -377,16 +357,20 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
         <record id="report_rr_funktion_forkortad_k3_FinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">FinansiellaPoster</field>
-            <field name="description">Summa resultat från finansiella poster</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Resultat från finansiella poster</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">26</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_rr_funktion_forkortad_k3_FinansiellaPoster" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_FinansiellaPoster"/>
+            <field name="name">sum([BruttoresultatForkortadFunktionsindelad, FunktionerMm]) * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -405,7 +389,7 @@
         <record id="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">BokslutsdispositionerAbstract</field>
-            <field name="description">Bokslutsdispositioner</field>
+            <field name="description">Bokslutsdispositioner (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">28</field>
             <field name="type">str</field>
@@ -420,7 +404,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ErhallnaKoncernbidrag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ErhallnaKoncernbidrag"/>
@@ -435,7 +418,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_LamnadeKoncernbidrag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_LamnadeKoncernbidrag"/>
@@ -450,7 +432,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ForandringPeriodiseringsfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ForandringPeriodiseringsfond"/>
@@ -465,7 +446,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ForandringOveravskrivningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ForandringOveravskrivningar"/>
@@ -480,7 +460,6 @@
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_ForandringErsattningsfond" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_ForandringErsattningsfond"/>
@@ -489,13 +468,12 @@
         <record id="report_rr_funktion_forkortad_k3_AndraBokslutsdispositioner" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">AndraBokslutsdispositioner</field>
-            <field name="description">Andra bokslutsdispositioner</field>
+            <field name="description">Andra bokslutsdispositioner än koncernbidrag, förändring av periodiseringsfonder, förändring av överavskrivningar och förändring av ersättningsfonder</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">34</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_BokslutsdispositionerAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_AndraBokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_AndraBokslutsdispositioner"/>
@@ -504,15 +482,16 @@
         <record id="report_rr_funktion_forkortad_k3_Bokslutsdispositioner" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">Bokslutsdispositioner</field>
-            <field name="description">Summa bokslutsdispositioner</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Bokslutsdispositioner</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">35</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_Bokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_Bokslutsdispositioner"/>
-            <field name="name">bal[8810, 8811, 8812, 8813, 8814, 8815, 8816, 8817, 8818, 8819, 8820, 8821, 8822, 8823, 8824, 8825, 8826, 8827, 8828, 8829, 8830, 8831, 8832, 8833, 8834, 8835, 8836, 8837, 8838, 8839, 8850, 8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859, 8860, 8861, 8862, 8863, 8864, 8865, 8866, 8867, 8868, 8869, 8890, 8891, 8892, 8893, 8894, 8895, 8896, 8897, 8898, 8899] * -1</field>
+            <field name="name">sum([BruttoresultatForkortadFunktionsindelad, FunktionerMm, ErhallnaKoncernbidrag, LamnadeKoncernbidrag, ForandringPeriodiseringsfond, ForandringOveravskrivningar, ForandringErsattningsfond, AndraBokslutsdispositioner]) * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_ResultatForeSkatt" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
@@ -531,7 +510,7 @@
         <record id="report_rr_funktion_forkortad_k3_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">SkatterAbstract</field>
-            <field name="description">Skatter</field>
+            <field name="description">Skatter (Presentation)</field>
             <field name="style_id" ref="report_style_k2_3"/>
             <field name="sequence">37</field>
             <field name="type">str</field>
@@ -540,13 +519,12 @@
         <record id="report_rr_funktion_forkortad_k3_SkattAretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">SkattAretsResultat</field>
-            <field name="description">Skatt på årets resultat</field>
+            <field name="description">Skatt på periodens resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">38</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_SkatterAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_SkattAretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_SkattAretsResultat"/>
@@ -555,13 +533,12 @@
         <record id="report_rr_funktion_forkortad_k3_OvrigaSkatter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">OvrigaSkatter</field>
-            <field name="description">Övriga skatter</field>
+            <field name="description">Övriga skattekostnader</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">39</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_funktion_forkortad_k3_SkatterAbstract"/>
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_OvrigaSkatter" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_OvrigaSkatter"/>
@@ -570,7 +547,7 @@
         <record id="report_rr_funktion_forkortad_k3_AretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3"/>
             <field name="name">AretsResultat</field>
-            <field name="description">Årets resultat</field>
+            <field name="description">Periodens resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">40</field>
             <field name="budgetable">True</field>

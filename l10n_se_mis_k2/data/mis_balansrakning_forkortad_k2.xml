@@ -134,11 +134,12 @@
         <record id="report_br_forkortad_k2_Anlaggningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">Anlaggningstillgangar</field>
-            <field name="description">Summa anläggningstillgångar</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">7</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_br_forkortad_k2_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_Anlaggningstillgangar"/>
@@ -198,7 +199,7 @@
         <record id="report_br_forkortad_k2_KassaBankExklRedovisningsmedel" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">KassaBankExklRedovisningsmedel</field>
-            <field name="description">Kassa och bank</field>
+            <field name="description">Kassa och bank exklusive redovisningsmedel</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">12</field>
             <field name="budgetable">True</field>
@@ -226,24 +227,26 @@
         <record id="report_br_forkortad_k2_Omsattningstillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">Omsattningstillgangar</field>
-            <field name="description">Summa omsättningstillgångar</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Omsättningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">14</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_br_forkortad_k2_Omsattningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_Omsattningstillgangar"/>
-            <field name="name">sum([VarulagerMm, KortfristigaFordringar, KortfristigaPlaceringar, KassaBankExklRedovisningsmedel, Redovisningsmedel])</field>
+            <field name="name">sum([ImmateriellaAnlaggningstillgangar, MateriellaAnlaggningstillgangar, FinansiellaAnlaggningstillgangar, VarulagerMm, KortfristigaFordringar, KortfristigaPlaceringar, KassaBankExklRedovisningsmedel, Redovisningsmedel])</field>
         </record>
         <record id="report_br_forkortad_k2_Tillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">Tillgangar</field>
-            <field name="description">Summa tillgångar</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Tillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">15</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_br_forkortad_k2_Tillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_Tillgangar"/>
@@ -293,7 +296,7 @@
         <record id="report_br_forkortad_k2_EjRegistreratAktiekapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">EjRegistreratAktiekapital</field>
-            <field name="description">EjRegistreratAktiekapital</field>
+            <field name="description">Ej registrerat aktiekapital vid pågående ny- och fondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">20</field>
             <field name="budgetable">True</field>
@@ -307,7 +310,7 @@
         <record id="report_br_forkortad_k2_OverkursfondBunden" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">OverkursfondBunden</field>
-            <field name="description">OverkursfondBunden</field>
+            <field name="description">Bunden överkursfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">21</field>
             <field name="budgetable">True</field>
@@ -349,15 +352,16 @@
         <record id="report_br_forkortad_k2_BundetEgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">BundetEgetKapital</field>
-            <field name="description">Summa bundet eget kapital</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Bundet eget kapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">24</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_br_forkortad_k2_BundetEgetKapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_BundetEgetKapital"/>
-            <field name="name">bal[2080, 2081, 2082, 2083, 2084, 2085, 2086, 2087, 2088, 2089] * -1</field>
+            <field name="name">bal[2080, 2083, 2084, 2088, 2089] * -1</field>
         </record>
         <record id="report_br_forkortad_k2_FrittEgetKapitalAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
@@ -371,7 +375,7 @@
         <record id="report_br_forkortad_k2_Overkursfond" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">Overkursfond</field>
-            <field name="description">Overkursfond</field>
+            <field name="description">Fri överkursfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">26</field>
             <field name="budgetable">True</field>
@@ -385,7 +389,7 @@
         <record id="report_br_forkortad_k2_BalanseratResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">BalanseratResultat</field>
-            <field name="description">BalanseratResultat</field>
+            <field name="description">Balanserat resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">27</field>
             <field name="budgetable">True</field>
@@ -399,7 +403,7 @@
         <record id="report_br_forkortad_k2_AretsResultatEgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">AretsResultatEgetKapital</field>
-            <field name="description">AretsResultatEgetKapital</field>
+            <field name="description">Periodens resultat i eget kapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">28</field>
             <field name="budgetable">True</field>
@@ -413,28 +417,30 @@
         <record id="report_br_forkortad_k2_FrittEgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">FrittEgetKapital</field>
-            <field name="description">Summa fritt eget kapital</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Fritt eget kapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">29</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_br_forkortad_k2_FrittEgetKapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_FrittEgetKapital"/>
-            <field name="name">bal[2090, 2091, 2092, 2093, 2094, 2095, 2096, 2097, 2098, 2099] * -1</field>
+            <field name="name">bal[2090, 2092] * -1</field>
         </record>
         <record id="report_br_forkortad_k2_EgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">EgetKapital</field>
-            <field name="description">Summa eget kapital</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Eget kapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">30</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_br_forkortad_k2_EgetKapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_EgetKapital"/>
-            <field name="name">bal[20%%] * -1</field>
+            <field name="name">bal[2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, 2070, 2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079] * -1</field>
         </record>
         <record id="report_br_forkortad_k2_ObeskattadeReserver" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
@@ -453,7 +459,7 @@
         <record id="report_br_forkortad_k2_AvsattningarForkortad" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">AvsattningarForkortad</field>
-            <field name="description">Avsättningar</field>
+            <field name="description">Andra avsättningar än avsättningar för pensioner och liknande förpliktelser enligt tryggandelagen</field>
             <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">32</field>
             <field name="budgetable">True</field>
@@ -509,15 +515,16 @@
         <record id="report_br_forkortad_k2_EgetKapitalSkulder" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2"/>
             <field name="name">EgetKapitalSkulder</field>
-            <field name="description">Summa eget kapital och skulder</field>
-            <field name="style_id" ref="report_style_k2_5"/>
+            <field name="description">Eget kapital och skulder</field>
+            <field name="style_id" ref="report_style_k2_1"/>
             <field name="sequence">36</field>
-            <field name="type">num</field>
-            <field name="budgetable">False</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
         </record>
         <record id="kpi_report_br_forkortad_k2_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_EgetKapitalSkulder"/>
-            <field name="name">sum([EgetKapital, ObeskattadeReserver, AvsattningarForkortad, AvsattningarPensionerLiknandeForpliktelserEnligtLag, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
+            <field name="name">sum([TecknatEjInbetaltKapital, Anlaggningstillgangar, Omsattningstillgangar, EgetKapital, ObeskattadeReserver, AvsattningarForkortad, AvsattningarPensionerLiknandeForpliktelserEnligtLag, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
         </record>
     </data>
 </odoo>
