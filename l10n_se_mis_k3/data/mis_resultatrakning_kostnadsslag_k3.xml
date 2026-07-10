@@ -53,7 +53,7 @@
             <field name="suffix">SEK</field>
         </record>
     </data>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_rr_kostnadsslag_k3" model="mis.report">
             <field name="name">Resultaträkning kostnadsslagsindelad K3</field>
         </record>

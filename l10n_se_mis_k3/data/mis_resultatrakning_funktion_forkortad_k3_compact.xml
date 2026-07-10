@@ -53,7 +53,7 @@
             <field name="suffix">SEK</field>
         </record>
     </data>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_rr_funktion_forkortad_k3_compact" model="mis.report">
             <field name="name">Förkortad resultaträkning funktionsindelad K3 (kompakt)</field>
         </record>

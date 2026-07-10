@@ -332,13 +332,7 @@ def generate_report_xml(sheet_def, compact=False):
             auto = '\n            <field name="auto_expand_accounts">True</field>'
             auto_style = '\n            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>'
 
-        # Parent (skippa referenser till borttagen root-abstract)
-        parent_field = ''
-        if rd['parent_idx'] is not None:
-            p = rows[rd['parent_idx']]
-            if not (p['level'] == 0 and p['abstract']):
-                parent_id = f"{report_id}_{p['elem']}"
-                parent_field = f'\n            <field name="parent_id" ref="{parent_id}"/>'
+        parent_field = ''  # MIS Builder saknar parent_id
 
         display = rd['display'] or rd['elem']
 
@@ -377,7 +371,7 @@ def write_xml(filename, output_dir, styles_xml, report_xml):
     <data noupdate="0">
 {styles_xml}
     </data>
-    <data noupdate="1">
+    <data noupdate="0">
 {report_xml}
     </data>
 </odoo>'''

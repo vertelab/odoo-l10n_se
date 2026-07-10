@@ -53,7 +53,7 @@
             <field name="suffix">SEK</field>
         </record>
     </data>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2" model="mis.report">
             <field name="name">Förkortad resultaträkning kostnadsslagsindelad K2</field>
         </record>

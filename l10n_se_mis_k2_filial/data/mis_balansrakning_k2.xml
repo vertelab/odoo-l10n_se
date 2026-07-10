@@ -53,7 +53,7 @@
             <field name="suffix">SEK</field>
         </record>
     </data>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_br_filial_k2" model="mis.report">
             <field name="name">Balansräkning K2</field>
         </record>

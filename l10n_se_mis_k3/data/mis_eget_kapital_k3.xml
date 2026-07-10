@@ -53,7 +53,7 @@
             <field name="suffix">SEK</field>
         </record>
     </data>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_equity_k3" model="mis.report">
             <field name="name">Förändringar i eget kapital K3</field>
         </record>
