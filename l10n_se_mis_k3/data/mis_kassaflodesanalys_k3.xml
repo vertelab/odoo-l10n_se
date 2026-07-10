@@ -57,31 +57,21 @@
         <record id="report_kf_indirekt_k3" model="mis.report">
             <field name="name">Kassaflödesanalys indirekt metod K3</field>
         </record>
-        <record id="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract" model="mis.report.kpi">
-            <field name="report_id" ref="report_kf_indirekt_k3"/>
-            <field name="name">KassaflodesanalysIndirektAbstract</field>
-            <field name="description">Kassaflödesanalys indirekt metod</field>
-            <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">1</field>
-            <field name="type">str</field>
-            <field name="budgetable">False</field>
-        </record>
         <record id="report_kf_indirekt_k3_KassaflodesanalysLopandeVerksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3"/>
             <field name="name">KassaflodesanalysLopandeVerksamhetenAbstract</field>
             <field name="description">Den löpande verksamheten</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">2</field>
+            <field name="sequence">1</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_KassaflodeIngangsvardeLopandeVerksamhetenAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3"/>
             <field name="name">KassaflodeIngangsvardeLopandeVerksamhetenAbstract</field>
             <field name="description">Ingångsvärde löpande verksamheten</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">3</field>
+            <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysLopandeVerksamhetenAbstract"/>
@@ -91,7 +81,7 @@
             <field name="name">Rorelseresultat</field>
             <field name="description">Rörelseresultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">4</field>
+            <field name="sequence">3</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -106,7 +96,7 @@
             <field name="name">ResultatEfterFinansiellaPoster</field>
             <field name="description">Resultat efter finansiella poster</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">5</field>
+            <field name="sequence">4</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -117,7 +107,7 @@
             <field name="name">AretsResultat</field>
             <field name="description">Årets resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">6</field>
+            <field name="sequence">5</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -132,7 +122,7 @@
             <field name="name">JusteringPosterSomInteIngarIKassaflodet</field>
             <field name="description">Justering för poster som inte ingår i kassaflödet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">7</field>
+            <field name="sequence">6</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -143,7 +133,7 @@
             <field name="name">ErhallenRanta</field>
             <field name="description">Erhållen ränta</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">8</field>
+            <field name="sequence">7</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -154,7 +144,7 @@
             <field name="name">ErhallenUtdelning</field>
             <field name="description">Erhållen utdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">9</field>
+            <field name="sequence">8</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -165,7 +155,7 @@
             <field name="name">ErlagdRanta</field>
             <field name="description">Erlagd ränta</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">10</field>
+            <field name="sequence">9</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -176,7 +166,7 @@
             <field name="name">BetaldSkatt</field>
             <field name="description">Betald inkomstskatt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">11</field>
+            <field name="sequence">10</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -187,7 +177,7 @@
             <field name="name">KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital</field>
             <field name="description">Kassaflöde från den löpande verksamheten före förändringar av rörelsekapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">12</field>
+            <field name="sequence">11</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -202,7 +192,7 @@
             <field name="name">ForandringKassaflodeRorelsekapitaletAbstract</field>
             <field name="description">Kassaflöde från förändringar i rörelsekapital</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">13</field>
+            <field name="sequence">12</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysLopandeVerksamhetenAbstract"/>
@@ -212,7 +202,7 @@
             <field name="name">ForandringKassaflodeVarulagerPagaendeArbeten</field>
             <field name="description">Ökning/minskning varulager och pågående arbeten</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">14</field>
+            <field name="sequence">13</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -223,7 +213,7 @@
             <field name="name">ForandringKassaflodeRorelsefodringarAbstract</field>
             <field name="description">Förändring rörelsefordringar</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">15</field>
+            <field name="sequence">14</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_ForandringKassaflodeRorelsekapitaletAbstract"/>
@@ -233,7 +223,7 @@
             <field name="name">ForandringKassaflodeKundfordringar</field>
             <field name="description">ForandringKassaflodeKundfordringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">16</field>
+            <field name="sequence">15</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -243,7 +233,7 @@
             <field name="name">ForandringKassaflodeOvrigaKortfristigaFordringar</field>
             <field name="description">ForandringKassaflodeOvrigaKortfristigaFordringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">17</field>
+            <field name="sequence">16</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -253,7 +243,7 @@
             <field name="name">ForandringKassaflodeRorelsefodringar</field>
             <field name="description">Ökning/minskning av rörelsefordringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">18</field>
+            <field name="sequence">17</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -264,7 +254,7 @@
             <field name="name">ForandringKassaflodeRorelseskulderAbstract</field>
             <field name="description">Förändring rörelseskulder</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">19</field>
+            <field name="sequence">18</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_ForandringKassaflodeRorelsekapitaletAbstract"/>
@@ -274,7 +264,7 @@
             <field name="name">ForandringKassaflodeLeverantorsskulder</field>
             <field name="description">ForandringKassaflodeLeverantorsskulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">20</field>
+            <field name="sequence">19</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -284,7 +274,7 @@
             <field name="name">ForandringKassaflodeOvrigaKortfristigaSkulder</field>
             <field name="description">ForandringKassaflodeOvrigaKortfristigaSkulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">21</field>
+            <field name="sequence">20</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -294,7 +284,7 @@
             <field name="name">ForandringKassaflodeRorelseskulder</field>
             <field name="description">Ökning/minskning av rörelseskulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">22</field>
+            <field name="sequence">21</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -305,11 +295,10 @@
             <field name="name">KassaflodeLopandeVerksamheten</field>
             <field name="description">Kassaflöde från den löpande verksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">23</field>
+            <field name="sequence">22</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_KassaflodeLopandeVerksamheten" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_KassaflodeLopandeVerksamheten"/>
@@ -320,17 +309,16 @@
             <field name="name">KassaflodesanalysInvesteringsverksamhetenAbstract</field>
             <field name="description">Investeringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">24</field>
+            <field name="sequence">23</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_LamnadeKapitaltillskottInvesteringsverksamheten" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3"/>
             <field name="name">LamnadeKapitaltillskottInvesteringsverksamheten</field>
             <field name="description">Lämnade tillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">25</field>
+            <field name="sequence">24</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -341,7 +329,7 @@
             <field name="name">LamnadeKoncernbidragInvesteringsverksamheten</field>
             <field name="description">Lämnade koncernbidrag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">26</field>
+            <field name="sequence">25</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -352,7 +340,7 @@
             <field name="name">InvesteringImmateriellaAnlaggningstillgangar</field>
             <field name="description">Förvärv av immateriella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">27</field>
+            <field name="sequence">26</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -363,7 +351,7 @@
             <field name="name">ForsaljningImmateriellaAnlaggningstillgangar</field>
             <field name="description">Avyttring av immateriella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">28</field>
+            <field name="sequence">27</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -374,7 +362,7 @@
             <field name="name">ForvarvMateriellaAnlaggningstillgangarAbstract</field>
             <field name="description">Förvärv av materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">29</field>
+            <field name="sequence">28</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
@@ -384,7 +372,7 @@
             <field name="name">ForvarvForvaltningsfastigheter</field>
             <field name="description">Förvärv av förvaltningsfastigheter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">30</field>
+            <field name="sequence">29</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -395,7 +383,7 @@
             <field name="name">ForvarvOvrigaMateriellaAnlaggningstillgangar</field>
             <field name="description">Förvärv av övriga materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">31</field>
+            <field name="sequence">30</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -406,7 +394,7 @@
             <field name="name">InvesteringMateriellaAnlaggningstillgangar</field>
             <field name="description">Förvärv av materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">32</field>
+            <field name="sequence">31</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -421,7 +409,7 @@
             <field name="name">ForsaljningMateriellaAnlaggningstillgangarAbstract</field>
             <field name="description">Avyttring av materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">33</field>
+            <field name="sequence">32</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
@@ -431,7 +419,7 @@
             <field name="name">ForsaljningForvaltningsfastigheter</field>
             <field name="description">Avyttring av förvaltningsfastigheter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">34</field>
+            <field name="sequence">33</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -442,7 +430,7 @@
             <field name="name">ForsaljningOvrigaMateriellaAnlaggningstillgangar</field>
             <field name="description">Avyttring av övriga materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">35</field>
+            <field name="sequence">34</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -453,7 +441,7 @@
             <field name="name">ForsaljningMateriellaAnlaggningstillgangar</field>
             <field name="description">Avyttring av materiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">36</field>
+            <field name="sequence">35</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -468,7 +456,7 @@
             <field name="name">ForvarvRorelseInkram</field>
             <field name="description">Förvärv av rörelse i form av inkråm</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">37</field>
+            <field name="sequence">36</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -483,7 +471,7 @@
             <field name="name">ForsaljningRorelseInkram</field>
             <field name="description">Avyttring av rörelse i form av inkråm</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">38</field>
+            <field name="sequence">37</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -498,7 +486,7 @@
             <field name="name">ForvarvFinansiellaAnlaggningstillgangarAbstract</field>
             <field name="description">Förvärv av finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">39</field>
+            <field name="sequence">38</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
@@ -508,7 +496,7 @@
             <field name="name">ForvarvAndelarKoncernforetag</field>
             <field name="description">Förvärv av andelar i koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">40</field>
+            <field name="sequence">39</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -519,7 +507,7 @@
             <field name="name">ForvarvIntresseforetagGemensamtStyrdaForetag</field>
             <field name="description">Förvärv av andelar i intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">41</field>
+            <field name="sequence">40</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -530,7 +518,7 @@
             <field name="name">ForvarvAgarintressenOvrigaForetag</field>
             <field name="description">Förvärv av ägarintressen i övriga företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">42</field>
+            <field name="sequence">41</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -541,7 +529,7 @@
             <field name="name">LamnadeLanKoncernforetag</field>
             <field name="description">Lämnade lån till koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">43</field>
+            <field name="sequence">42</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -552,7 +540,7 @@
             <field name="name">ForvarvOvrigaFinansiellaAnlaggningstillgangar</field>
             <field name="description">Förvärv av övriga finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">44</field>
+            <field name="sequence">43</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -563,7 +551,7 @@
             <field name="name">InvesteringFinansiellaAnlaggningstillgangar</field>
             <field name="description">Förvärv av finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">45</field>
+            <field name="sequence">44</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -578,7 +566,7 @@
             <field name="name">ForsaljningAmorteringFinansiellaAnlaggningstillgangarAbstract</field>
             <field name="description">Avyttring/amortering av finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">46</field>
+            <field name="sequence">45</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysInvesteringsverksamhetenAbstract"/>
@@ -588,7 +576,7 @@
             <field name="name">ForsaljningKoncernforetag</field>
             <field name="description">Avyttring av andelar i koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">47</field>
+            <field name="sequence">46</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -599,7 +587,7 @@
             <field name="name">ForsaljningIntresseforetagGemensamtStyrdaForetag</field>
             <field name="description">Avyttring av andelar i intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">48</field>
+            <field name="sequence">47</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -610,7 +598,7 @@
             <field name="name">ForsaljningAgarintressenOvrigaForetag</field>
             <field name="description">Avyttring av ägarintressen i övriga företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">49</field>
+            <field name="sequence">48</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -621,7 +609,7 @@
             <field name="name">ErhallnaAmorteringarKoncernforetag</field>
             <field name="description">Erhållna amorteringar från koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">50</field>
+            <field name="sequence">49</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -632,7 +620,7 @@
             <field name="name">ForsaljningOvrigaFinansiellaAnlaggningstillgangar</field>
             <field name="description">Avyttring av övriga finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">51</field>
+            <field name="sequence">50</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -643,7 +631,7 @@
             <field name="name">ForsaljningFinansiellaAnlaggningstillgangar</field>
             <field name="description">Avyttring/amortering av finansiella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">52</field>
+            <field name="sequence">51</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -658,7 +646,7 @@
             <field name="name">ForandringKassaflodeOvrigaKortfristigaPlaceringar</field>
             <field name="description">Ökning/minskning av kortfristiga placeringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">53</field>
+            <field name="sequence">52</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -673,11 +661,10 @@
             <field name="name">KassaflodeInvesteringsverksamheten</field>
             <field name="description">Kassaflöde från investeringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">54</field>
+            <field name="sequence">53</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_KassaflodeInvesteringsverksamheten" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_KassaflodeInvesteringsverksamheten"/>
@@ -688,17 +675,16 @@
             <field name="name">KassaflodesanalysFinansieringsverksamhetenAbstract</field>
             <field name="description">Finansieringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">55</field>
+            <field name="sequence">54</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_UtstalldaAktieoptioner" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3"/>
             <field name="name">UtstalldaAktieoptioner</field>
             <field name="description">Utställda aktieoptioner</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">56</field>
+            <field name="sequence">55</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -709,7 +695,7 @@
             <field name="name">InlostaAktieoptioner</field>
             <field name="description">Inlösta aktieoptioner</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">57</field>
+            <field name="sequence">56</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -720,7 +706,7 @@
             <field name="name">NyemissionKassaflode</field>
             <field name="description">Nyemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">58</field>
+            <field name="sequence">57</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -731,7 +717,7 @@
             <field name="name">Emissionsutgifter</field>
             <field name="description">Emissionsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">59</field>
+            <field name="sequence">58</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -742,7 +728,7 @@
             <field name="name">AterkopEgnaAktier</field>
             <field name="description">Återköp av egna aktier inklusive transaktionsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">60</field>
+            <field name="sequence">59</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -753,7 +739,7 @@
             <field name="name">OverlatelseEgnaAktier</field>
             <field name="description">Överlåtelse av egna aktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">61</field>
+            <field name="sequence">60</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -764,7 +750,7 @@
             <field name="name">ForandringCheckrakningskredit</field>
             <field name="description">Ökning/minskning av checkräkningskredit</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">62</field>
+            <field name="sequence">61</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -775,7 +761,7 @@
             <field name="name">ErhallnaAktieagartillskottKassaflode</field>
             <field name="description">Erhållna tillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">63</field>
+            <field name="sequence">62</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -786,7 +772,7 @@
             <field name="name">ForandringKassaflodeErhallnaKoncernbidragFinansieringsverksamheten</field>
             <field name="description">Erhållna koncernbidrag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">64</field>
+            <field name="sequence">63</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -797,7 +783,7 @@
             <field name="name">EmissionKonvertibellan</field>
             <field name="description">Emission av konvertibellån</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">65</field>
+            <field name="sequence">64</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -808,7 +794,7 @@
             <field name="name">EmissionInlosningsbaraPreferensaktier</field>
             <field name="description">Emission av inlösningsbara preferensaktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">66</field>
+            <field name="sequence">65</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -819,7 +805,7 @@
             <field name="name">ForandringKassaflodeLamnadeKoncernbidragFinansieringsverksamheten</field>
             <field name="description">Lämnade koncernbidrag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">67</field>
+            <field name="sequence">66</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -830,7 +816,7 @@
             <field name="name">UpptagnaLan</field>
             <field name="description">Upptagna lån</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">68</field>
+            <field name="sequence">67</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -841,7 +827,7 @@
             <field name="name">AmorteringSkuld</field>
             <field name="description">Amortering av skuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">69</field>
+            <field name="sequence">68</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -852,7 +838,7 @@
             <field name="name">AmorteringLeasingskuld</field>
             <field name="description">Amortering av leasingskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">70</field>
+            <field name="sequence">69</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -863,7 +849,7 @@
             <field name="name">GottgorelsePensionsstiftelse</field>
             <field name="description">Gottgörelse från pensionsstiftelse</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">71</field>
+            <field name="sequence">70</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -874,7 +860,7 @@
             <field name="name">AmortoringPensionsskuld</field>
             <field name="description">Amortering av pensionsskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">72</field>
+            <field name="sequence">71</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -885,7 +871,7 @@
             <field name="name">KortfristigaFinansiellaSkulder</field>
             <field name="description">Ökning/minskning av kortfristiga finansiella skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">73</field>
+            <field name="sequence">72</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -896,7 +882,7 @@
             <field name="name">UtbetaldUtdelningKassaflode</field>
             <field name="description">Utbetald utdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">74</field>
+            <field name="sequence">73</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -907,11 +893,10 @@
             <field name="name">KassaflodeFinansieringsverksamheten</field>
             <field name="description">Kassaflöde från finansieringsverksamheten</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">75</field>
+            <field name="sequence">74</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_KassaflodeFinansieringsverksamheten" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_KassaflodeFinansieringsverksamheten"/>
@@ -922,11 +907,10 @@
             <field name="name">AretsKassaflode</field>
             <field name="description">Årets kassaflöde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">76</field>
+            <field name="sequence">75</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_AretsKassaflode" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_AretsKassaflode"/>
@@ -937,11 +921,10 @@
             <field name="name">LikvidaMedel</field>
             <field name="description">Likvida medel vid årets början</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">77</field>
+            <field name="sequence">76</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_LikvidaMedel" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_LikvidaMedel"/>
@@ -952,17 +935,16 @@
             <field name="name">ForandringLikvidaMeldelAbstract</field>
             <field name="description">Förändring av likvida medel</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">78</field>
+            <field name="sequence">77</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="report_kf_indirekt_k3_LikvidaMedelKursdifferens" model="mis.report.kpi">
             <field name="report_id" ref="report_kf_indirekt_k3"/>
             <field name="name">LikvidaMedelKursdifferens</field>
             <field name="description">Kursdifferens i likvida medel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">79</field>
+            <field name="sequence">78</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -973,11 +955,10 @@
             <field name="name">LikvidaMedel</field>
             <field name="description">Likvida medel vid årets slut</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">80</field>
+            <field name="sequence">79</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_kf_indirekt_k3_KassaflodesanalysIndirektAbstract"/>
         </record>
         <record id="kpi_report_kf_indirekt_k3_LikvidaMedel" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_kf_indirekt_k3_LikvidaMedel"/>

@@ -57,31 +57,21 @@
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2" model="mis.report">
             <field name="name">Förkortad resultaträkning kostnadsslagsindelad K2</field>
         </record>
-        <record id="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract" model="mis.report.kpi">
-            <field name="report_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2"/>
-            <field name="name">ResultatrakningKostnadsslagsindeladForkortadAbstract</field>
-            <field name="description">ResultatrakningKostnadsslagsindeladForkortadAbstract</field>
-            <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">1</field>
-            <field name="type">str</field>
-            <field name="budgetable">False</field>
-        </record>
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2_RorelseresultatAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2"/>
             <field name="name">RorelseresultatAbstract</field>
             <field name="description">RorelseresultatAbstract</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">2</field>
+            <field name="sequence">1</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2_BruttoresultatKostnadsslagsindelad" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2"/>
             <field name="name">BruttoresultatKostnadsslagsindelad</field>
             <field name="description">BruttoresultatKostnadsslagsindelad</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">3</field>
+            <field name="sequence">2</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -96,7 +86,7 @@
             <field name="name">Personalkostnader</field>
             <field name="description">Personalkostnader</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">4</field>
+            <field name="sequence">3</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -111,7 +101,7 @@
             <field name="name">AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar</field>
             <field name="description">AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">5</field>
+            <field name="sequence">4</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -126,7 +116,7 @@
             <field name="name">NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar</field>
             <field name="description">NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">6</field>
+            <field name="sequence">5</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -141,7 +131,7 @@
             <field name="name">OvrigaRorelsekostnader</field>
             <field name="description">OvrigaRorelsekostnader</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">7</field>
+            <field name="sequence">6</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -156,11 +146,10 @@
             <field name="name">Rorelseresultat</field>
             <field name="description">Rorelseresultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">8</field>
+            <field name="sequence">7</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_forkortad_k2_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_Rorelseresultat"/>
@@ -171,17 +160,16 @@
             <field name="name">FinansiellaPosterAbstract</field>
             <field name="description">FinansiellaPosterAbstract</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">9</field>
+            <field name="sequence">8</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatAndelarKoncernforetag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2"/>
             <field name="name">ResultatAndelarKoncernforetag</field>
             <field name="description">ResultatAndelarKoncernforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">10</field>
+            <field name="sequence">9</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -196,7 +184,7 @@
             <field name="name">ResultatAndelarIntresseforetagGemensamtStyrda</field>
             <field name="description">ResultatAndelarIntresseforetagGemensamtStyrda</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">11</field>
+            <field name="sequence">10</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -211,7 +199,7 @@
             <field name="name">ResultatOvrigaforetagAgarintresse</field>
             <field name="description">ResultatOvrigaforetagAgarintresse</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">12</field>
+            <field name="sequence">11</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -226,7 +214,7 @@
             <field name="name">ResultatOvrigaFinansiellaAnlaggningstillgangar</field>
             <field name="description">ResultatOvrigaFinansiellaAnlaggningstillgangar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">13</field>
+            <field name="sequence">12</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -241,7 +229,7 @@
             <field name="name">OvrigaRanteintakterLiknandeResultatposter</field>
             <field name="description">OvrigaRanteintakterLiknandeResultatposter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">14</field>
+            <field name="sequence">13</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -256,7 +244,7 @@
             <field name="name">NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar</field>
             <field name="description">NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">15</field>
+            <field name="sequence">14</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -271,7 +259,7 @@
             <field name="name">RantekostnaderLiknandeResultatposter</field>
             <field name="description">RantekostnaderLiknandeResultatposter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">16</field>
+            <field name="sequence">15</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -286,11 +274,10 @@
             <field name="name">FinansiellaPoster</field>
             <field name="description">FinansiellaPoster</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">17</field>
+            <field name="sequence">16</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_forkortad_k2_FinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_FinansiellaPoster"/>
@@ -301,11 +288,10 @@
             <field name="name">ResultatEfterFinansiellaPoster</field>
             <field name="description">ResultatEfterFinansiellaPoster</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">18</field>
+            <field name="sequence">17</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster"/>
@@ -316,17 +302,16 @@
             <field name="name">BokslutsdispositionerAbstract</field>
             <field name="description">BokslutsdispositionerAbstract</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">19</field>
+            <field name="sequence">18</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2_ForandringOveravskrivningar" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2"/>
             <field name="name">ForandringOveravskrivningar</field>
             <field name="description">ForandringOveravskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">20</field>
+            <field name="sequence">19</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -341,7 +326,7 @@
             <field name="name">OvrigaBokslutsdispositioner</field>
             <field name="description">OvrigaBokslutsdispositioner</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">21</field>
+            <field name="sequence">20</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -356,11 +341,10 @@
             <field name="name">Bokslutsdispositioner</field>
             <field name="description">Bokslutsdispositioner</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">22</field>
+            <field name="sequence">21</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_forkortad_k2_Bokslutsdispositioner" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_Bokslutsdispositioner"/>
@@ -371,11 +355,10 @@
             <field name="name">ResultatForeSkatt</field>
             <field name="description">ResultatForeSkatt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">23</field>
+            <field name="sequence">22</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatForeSkatt"/>
@@ -386,17 +369,16 @@
             <field name="name">SkatterAbstract</field>
             <field name="description">SkatterAbstract</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">24</field>
+            <field name="sequence">23</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2_OvrigaSkatter" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2"/>
             <field name="name">OvrigaSkatter</field>
             <field name="description">OvrigaSkatter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">25</field>
+            <field name="sequence">24</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -411,11 +393,10 @@
             <field name="name">AretsResultat</field>
             <field name="description">AretsResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">26</field>
+            <field name="sequence">25</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_ResultatrakningKostnadsslagsindeladForkortadAbstract"/>
         </record>
         <record id="kpi_report_rr_hbkb_kostnadsslag_forkortad_k2_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_hbkb_kostnadsslag_forkortad_k2_AretsResultat"/>

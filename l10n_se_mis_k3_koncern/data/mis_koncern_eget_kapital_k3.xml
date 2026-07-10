@@ -57,32 +57,22 @@
         <record id="report_equity_koncern_k3" model="mis.report">
             <field name="name">Koncernens förändringar i eget kapital K3</field>
         </record>
-        <record id="report_equity_koncern_k3_ForandringEgetKapitalKoncernAbstract" model="mis.report.kpi">
-            <field name="report_id" ref="report_equity_koncern_k3"/>
-            <field name="name">ForandringEgetKapitalKoncernAbstract</field>
-            <field name="description">Koncernens förändringar i eget kapital</field>
-            <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">1</field>
-            <field name="type">str</field>
-            <field name="budgetable">False</field>
-        </record>
         <record id="report_equity_koncern_k3_ForandringEgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3"/>
             <field name="name">ForandringEgetKapital</field>
             <field name="description">Förändringar i eget kapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">2</field>
+            <field name="sequence">1</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalKoncernAbstract"/>
         </record>
         <record id="report_equity_koncern_k3_ForandringEgetKapitalAktiekapitalAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_equity_koncern_k3"/>
             <field name="name">ForandringEgetKapitalAktiekapitalAbstract</field>
             <field name="description">Aktiekapital</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">3</field>
+            <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapital"/>
@@ -92,7 +82,7 @@
             <field name="name">Aktiekapital</field>
             <field name="description">Ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">4</field>
+            <field name="sequence">3</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -107,7 +97,7 @@
             <field name="name">ForandringEgetKapitalAktiekapitalJusteringarIngaendeBalansAbstract</field>
             <field name="description">Justering av ingående balans</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">5</field>
+            <field name="sequence">4</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalAktiekapitalAbstract"/>
@@ -117,7 +107,7 @@
             <field name="name">ForandringEgetKapitalAktiekapitalEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalAktiekapitalEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">6</field>
+            <field name="sequence">5</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -127,7 +117,7 @@
             <field name="name">ForandringEgetKapitalJusteradAktiekapital</field>
             <field name="description">Justerad ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">7</field>
+            <field name="sequence">6</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -138,7 +128,7 @@
             <field name="name">ForandringEgetKapitalIngaendeAktiekapitalAbstract</field>
             <field name="description">Förändringar av aktiekapital</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">8</field>
+            <field name="sequence">7</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalAktiekapitalAbstract"/>
@@ -148,7 +138,7 @@
             <field name="name">ForandringEgetKapitalAktiekapitalFondemission</field>
             <field name="description">ForandringEgetKapitalAktiekapitalFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">9</field>
+            <field name="sequence">8</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -158,7 +148,7 @@
             <field name="name">ForandringEgetKapitalAktiekapitalNyemission</field>
             <field name="description">ForandringEgetKapitalAktiekapitalNyemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">10</field>
+            <field name="sequence">9</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -168,7 +158,7 @@
             <field name="name">ForandringEgetKapitalAktiekapitalOverforingFrittEgetKapitalAterbetalningAktieagare</field>
             <field name="description">ForandringEgetKapitalAktiekapitalOverforingFrittEgetKapitalAterbetalningAktieagare</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">11</field>
+            <field name="sequence">10</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -178,7 +168,7 @@
             <field name="name">ForandringEgetKapitalAktiekapitalTackningForlust</field>
             <field name="description">ForandringEgetKapitalAktiekapitalTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">12</field>
+            <field name="sequence">11</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -188,7 +178,7 @@
             <field name="name">Aktiekapital</field>
             <field name="description">Utgående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">13</field>
+            <field name="sequence">12</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -199,7 +189,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalAbstract</field>
             <field name="description">Övrigt tillskjutet kapital</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">14</field>
+            <field name="sequence">13</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapital"/>
@@ -209,7 +199,7 @@
             <field name="name">OvrigtTillskjutetKapital</field>
             <field name="description">Ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">15</field>
+            <field name="sequence">14</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -224,7 +214,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalJusteringarIngaendeBalansAbstract</field>
             <field name="description">Justering av ingående balans</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">16</field>
+            <field name="sequence">15</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalOvrigtTillskjutetKapitalAbstract"/>
@@ -234,7 +224,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">17</field>
+            <field name="sequence">16</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -244,7 +234,7 @@
             <field name="name">ForandringEgetKapitalJusteradOvrigtTillskjutetKapital</field>
             <field name="description">Justerad ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">18</field>
+            <field name="sequence">17</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -255,7 +245,7 @@
             <field name="name">ForandringEgetKapitalIngaendeOvrigtTillskjutetKapitalAbstract</field>
             <field name="description">Förändringar av övrigt tillskjutet kapital</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">19</field>
+            <field name="sequence">18</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalOvrigtTillskjutetKapitalAbstract"/>
@@ -265,7 +255,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalErhallnaAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalErhallnaAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">20</field>
+            <field name="sequence">19</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -275,7 +265,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalUtdelning</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalUtdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">21</field>
+            <field name="sequence">20</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -285,7 +275,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalAterbetalningAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalAterbetalningAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">22</field>
+            <field name="sequence">21</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -295,7 +285,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalFondemission</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">23</field>
+            <field name="sequence">22</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -305,7 +295,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalNyemission</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalNyemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">24</field>
+            <field name="sequence">23</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -315,7 +305,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalUtgifterHanforligaEmission</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalUtgifterHanforligaEmission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">25</field>
+            <field name="sequence">24</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -325,7 +315,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">26</field>
+            <field name="sequence">25</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -335,7 +325,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalMinskningAktiekapital</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalMinskningAktiekapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">27</field>
+            <field name="sequence">26</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -345,7 +335,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalMinskningBundenOverkursfond</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalMinskningBundenOverkursfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">28</field>
+            <field name="sequence">27</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -355,7 +345,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalSkatteeffekterEmissionsutgifter</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalSkatteeffekterEmissionsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">29</field>
+            <field name="sequence">28</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -365,7 +355,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalAktierelateradeErsattningar</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalAktierelateradeErsattningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">30</field>
+            <field name="sequence">29</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -375,7 +365,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalForandringReservfond</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalForandringReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">31</field>
+            <field name="sequence">30</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -385,7 +375,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalTackningForlust</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">32</field>
+            <field name="sequence">31</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -395,7 +385,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalAktiveringUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalAktiveringUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">33</field>
+            <field name="sequence">32</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -405,7 +395,7 @@
             <field name="name">ForandringEgetKapitalOvrigtTillskjutetKapitalKonvertiblaSkuldebrevEgetKapitalandel</field>
             <field name="description">ForandringEgetKapitalOvrigtTillskjutetKapitalKonvertiblaSkuldebrevEgetKapitalandel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">34</field>
+            <field name="sequence">33</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -415,7 +405,7 @@
             <field name="name">OvrigtTillskjutetKapital</field>
             <field name="description">Utgående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">35</field>
+            <field name="sequence">34</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -426,7 +416,7 @@
             <field name="name">ForandringEgetKapitaAnnatEgetKapitalInklusivePeriodensResultatAbstract</field>
             <field name="description">Annat eget kapital inklusive årets resultat</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">36</field>
+            <field name="sequence">35</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapital"/>
@@ -436,7 +426,7 @@
             <field name="name">AnnatEgetKapitalInklusivePeriodensResultat</field>
             <field name="description">Ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">37</field>
+            <field name="sequence">36</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -451,7 +441,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatJusteringarIngaendeBalansAbstract</field>
             <field name="description">Justeringar av ingående balans</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">38</field>
+            <field name="sequence">37</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitaAnnatEgetKapitalInklusivePeriodensResultatAbstract"/>
@@ -461,7 +451,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">39</field>
+            <field name="sequence">38</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -471,7 +461,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">40</field>
+            <field name="sequence">39</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -481,7 +471,7 @@
             <field name="name">ForandringEgetKapitalJusteradAnnatEgetKapitalInklusivePeriodensResultat</field>
             <field name="description">Justerad ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">41</field>
+            <field name="sequence">40</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -492,7 +482,7 @@
             <field name="name">ForandringEgetKapitalIngaendeAnnatEgetKapitalInklusivePeriodensResultatAbstract</field>
             <field name="description">Förändringar av annat eget kapital inklusive årets resultat</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">42</field>
+            <field name="sequence">41</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitaAnnatEgetKapitalInklusivePeriodensResultatAbstract"/>
@@ -502,7 +492,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatUtdelning</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatUtdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">43</field>
+            <field name="sequence">42</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -512,7 +502,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAterbetalningAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAterbetalningAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">44</field>
+            <field name="sequence">43</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -522,7 +512,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatFondemission</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">45</field>
+            <field name="sequence">44</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -532,7 +522,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatUtgifterHanforligaEmission</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatUtgifterHanforligaEmission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">46</field>
+            <field name="sequence">45</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -542,7 +532,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">47</field>
+            <field name="sequence">46</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -552,7 +542,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOrealiseradInternvinst</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOrealiseradInternvinst</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">48</field>
+            <field name="sequence">47</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -562,7 +552,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatMinskningAktiekapital</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatMinskningAktiekapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">49</field>
+            <field name="sequence">48</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -572,7 +562,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForandringReservfond</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForandringReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">50</field>
+            <field name="sequence">49</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -582,7 +572,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatTackningForlust</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">51</field>
+            <field name="sequence">50</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -592,7 +582,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForvarvEgnaAktier</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForvarvEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">52</field>
+            <field name="sequence">51</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -602,7 +592,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOverlatelseEgnaAktier</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOverlatelseEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">53</field>
+            <field name="sequence">52</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -612,7 +602,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAktiveringUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAktiveringUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">54</field>
+            <field name="sequence">53</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -622,7 +612,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatUppskrivningAnlaggningstillgang</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatUppskrivningAnlaggningstillgang</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">55</field>
+            <field name="sequence">54</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -632,7 +622,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">56</field>
+            <field name="sequence">55</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -642,7 +632,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatSakringFramtidaKassaflode</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatSakringFramtidaKassaflode</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">57</field>
+            <field name="sequence">56</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -652,7 +642,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">58</field>
+            <field name="sequence">57</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -662,7 +652,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatSakringNettoinvesteringarUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatSakringNettoinvesteringarUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">59</field>
+            <field name="sequence">58</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -672,7 +662,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatSkatteeffekt</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatSkatteeffekt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">60</field>
+            <field name="sequence">59</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -682,7 +672,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOmvarderingPensionsskuld</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatOmvarderingPensionsskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">61</field>
+            <field name="sequence">60</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -692,7 +682,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAktierelateradeErsattningar</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAktierelateradeErsattningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">62</field>
+            <field name="sequence">61</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -702,7 +692,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForandringKapitalandelsfond</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatForandringKapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">63</field>
+            <field name="sequence">62</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -712,7 +702,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatFusionsdifferens</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatFusionsdifferens</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">64</field>
+            <field name="sequence">63</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -722,7 +712,7 @@
             <field name="name">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAretsResultat</field>
             <field name="description">ForandringEgetKapitalAnnatEgetKapitalInklusivePeriodensResultatAretsResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">65</field>
+            <field name="sequence">64</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -732,7 +722,7 @@
             <field name="name">AnnatEgetKapitalInklusivePeriodensResultat</field>
             <field name="description">Utgående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">66</field>
+            <field name="sequence">65</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -743,7 +733,7 @@
             <field name="name">ForandringEgetKapitalReserverAbstract</field>
             <field name="description">Reserver</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">67</field>
+            <field name="sequence">66</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitaAnnatEgetKapitalInklusivePeriodensResultatAbstract"/>
@@ -753,7 +743,7 @@
             <field name="name">ReserverEgetKapital</field>
             <field name="description">ReserverEgetKapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">68</field>
+            <field name="sequence">67</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -763,7 +753,7 @@
             <field name="name">ForandringEgetKapitalReserverJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalReserverJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">69</field>
+            <field name="sequence">68</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -772,7 +762,7 @@
             <field name="name">ForandringEgetKapitalReserverEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalReserverEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">70</field>
+            <field name="sequence">69</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -782,7 +772,7 @@
             <field name="name">ForandringEgetKapitalReserverEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalReserverEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">71</field>
+            <field name="sequence">70</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -792,7 +782,7 @@
             <field name="name">ForandringEgetKapitalJusteradReserver</field>
             <field name="description">ForandringEgetKapitalJusteradReserver</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">72</field>
+            <field name="sequence">71</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -802,7 +792,7 @@
             <field name="name">ForandringEgetKapitalIngaendeReserverAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeReserverAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">73</field>
+            <field name="sequence">72</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -811,7 +801,7 @@
             <field name="name">ForandringEgetKapitalReserverFondemission</field>
             <field name="description">ForandringEgetKapitalReserverFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">74</field>
+            <field name="sequence">73</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -821,7 +811,7 @@
             <field name="name">ForandringEgetKapitalReserverForandringReservfond</field>
             <field name="description">ForandringEgetKapitalReserverForandringReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">75</field>
+            <field name="sequence">74</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -831,7 +821,7 @@
             <field name="name">ForandringEgetKapitalReserverForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalReserverForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">76</field>
+            <field name="sequence">75</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -841,7 +831,7 @@
             <field name="name">ForandringEgetKapitalReserverTackningForlust</field>
             <field name="description">ForandringEgetKapitalReserverTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">77</field>
+            <field name="sequence">76</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -851,7 +841,7 @@
             <field name="name">ForandringEgetKapitalReserverAktiveringUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalReserverAktiveringUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">78</field>
+            <field name="sequence">77</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -861,7 +851,7 @@
             <field name="name">ForandringEgetKapitalReserverUpplosningFondUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalReserverUpplosningFondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">79</field>
+            <field name="sequence">78</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -871,7 +861,7 @@
             <field name="name">ForandringEgetKapitalReserverUppskrivningAnlaggningstillgang</field>
             <field name="description">ForandringEgetKapitalReserverUppskrivningAnlaggningstillgang</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">80</field>
+            <field name="sequence">79</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -881,7 +871,7 @@
             <field name="name">ForandringEgetKapitalReserverUpplosningUppskrivningsfond</field>
             <field name="description">ForandringEgetKapitalReserverUpplosningUppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">81</field>
+            <field name="sequence">80</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -891,7 +881,7 @@
             <field name="name">ForandringEgetKapitalReserverVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalReserverVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">82</field>
+            <field name="sequence">81</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -901,7 +891,7 @@
             <field name="name">ForandringEgetKapitalReserverSakringFramtidaKassaflode</field>
             <field name="description">ForandringEgetKapitalReserverSakringFramtidaKassaflode</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">83</field>
+            <field name="sequence">82</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -911,7 +901,7 @@
             <field name="name">ForandringEgetKapitalReserverOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalReserverOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">84</field>
+            <field name="sequence">83</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -921,7 +911,7 @@
             <field name="name">ForandringEgetKapitalReserverSkatteffekterReserver</field>
             <field name="description">ForandringEgetKapitalReserverSkatteffekterReserver</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">85</field>
+            <field name="sequence">84</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -931,7 +921,7 @@
             <field name="name">ForandringEgetKapitalReserverSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalReserverSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">86</field>
+            <field name="sequence">85</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -941,7 +931,7 @@
             <field name="name">ForandringEgetKapitalReserverForandringKapitalandelsfond</field>
             <field name="description">ForandringEgetKapitalReserverForandringKapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">87</field>
+            <field name="sequence">86</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -951,7 +941,7 @@
             <field name="name">ReserverEgetKapital</field>
             <field name="description">ReserverEgetKapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">88</field>
+            <field name="sequence">87</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -961,7 +951,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondAbstract</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">89</field>
+            <field name="sequence">88</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -970,7 +960,7 @@
             <field name="name">Uppskrivningsfond</field>
             <field name="description">Uppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">90</field>
+            <field name="sequence">89</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -980,7 +970,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">91</field>
+            <field name="sequence">90</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -989,7 +979,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">92</field>
+            <field name="sequence">91</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -999,7 +989,7 @@
             <field name="name">ForandringEgetKapitalJusteradUppskrivningsfond</field>
             <field name="description">ForandringEgetKapitalJusteradUppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">93</field>
+            <field name="sequence">92</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1009,7 +999,7 @@
             <field name="name">ForandringEgetKapitalIngaendeUppskrivningsfondAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeUppskrivningsfondAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">94</field>
+            <field name="sequence">93</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1018,7 +1008,7 @@
             <field name="name">ForandringEgetKapitaUppskrivningsfondFondemission</field>
             <field name="description">ForandringEgetKapitaUppskrivningsfondFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">95</field>
+            <field name="sequence">94</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1028,7 +1018,7 @@
             <field name="name">ForandringEgetKapitaUppskrivningsfondForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitaUppskrivningsfondForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">96</field>
+            <field name="sequence">95</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1038,7 +1028,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondTackningForlust</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">97</field>
+            <field name="sequence">96</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1048,7 +1038,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondUppskrivningAnlaggningstillgang</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondUppskrivningAnlaggningstillgang</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">98</field>
+            <field name="sequence">97</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1058,7 +1048,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondUpplosningUppskrivningsfond</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondUpplosningUppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">99</field>
+            <field name="sequence">98</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1068,7 +1058,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondSkatteeffektUppskrivningsfond</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondSkatteeffektUppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">100</field>
+            <field name="sequence">99</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1078,7 +1068,7 @@
             <field name="name">ForandringEgetKapitalUppskrivningsfondFusionsdifferens</field>
             <field name="description">ForandringEgetKapitalUppskrivningsfondFusionsdifferens</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">101</field>
+            <field name="sequence">100</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1088,7 +1078,7 @@
             <field name="name">Uppskrivningsfond</field>
             <field name="description">Uppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">102</field>
+            <field name="sequence">101</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1098,7 +1088,7 @@
             <field name="name">ForandringEgetKapitalReservfondAbstract</field>
             <field name="description">ForandringEgetKapitalReservfondAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">103</field>
+            <field name="sequence">102</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1107,7 +1097,7 @@
             <field name="name">Reservfond</field>
             <field name="description">Reservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">104</field>
+            <field name="sequence">103</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1117,7 +1107,7 @@
             <field name="name">ForandringEgetKapitalReservfondJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalReservfondJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">105</field>
+            <field name="sequence">104</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1126,7 +1116,7 @@
             <field name="name">ForandringEgetKapitalReservfondEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalReservfondEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">106</field>
+            <field name="sequence">105</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1136,7 +1126,7 @@
             <field name="name">ForandringEgetKapitalJusteradReservfond</field>
             <field name="description">ForandringEgetKapitalJusteradReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">107</field>
+            <field name="sequence">106</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1146,7 +1136,7 @@
             <field name="name">ForandringEgetKapitalIngaendeReservfondAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeReservfondAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">108</field>
+            <field name="sequence">107</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1155,7 +1145,7 @@
             <field name="name">ForandringEgetKapitalReservfondFondemission</field>
             <field name="description">ForandringEgetKapitalReservfondFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">109</field>
+            <field name="sequence">108</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1165,7 +1155,7 @@
             <field name="name">ForandringEgetKapitalReservfondForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalReservfondForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">110</field>
+            <field name="sequence">109</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1175,7 +1165,7 @@
             <field name="name">ForandringEgetKapitalReservfondForandringReservfond</field>
             <field name="description">ForandringEgetKapitalReservfondForandringReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">111</field>
+            <field name="sequence">110</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1185,7 +1175,7 @@
             <field name="name">ForandringEgetKapitalReservfondTackningForlust</field>
             <field name="description">ForandringEgetKapitalReservfondTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">112</field>
+            <field name="sequence">111</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1195,7 +1185,7 @@
             <field name="name">Reservfond</field>
             <field name="description">Reservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">113</field>
+            <field name="sequence">112</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1205,7 +1195,7 @@
             <field name="name">ForandringEgetKapitalKapitalandelsfondAbstract</field>
             <field name="description">ForandringEgetKapitalKapitalandelsfondAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">114</field>
+            <field name="sequence">113</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1214,7 +1204,7 @@
             <field name="name">Kapitalandelsfond</field>
             <field name="description">Kapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">115</field>
+            <field name="sequence">114</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1224,7 +1214,7 @@
             <field name="name">ForandringEgetKapitalKapitalandelsfondJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalKapitalandelsfondJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">116</field>
+            <field name="sequence">115</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1233,7 +1223,7 @@
             <field name="name">ForandringEgetKapitalKapitalandelsfondEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalKapitalandelsfondEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">117</field>
+            <field name="sequence">116</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1243,7 +1233,7 @@
             <field name="name">ForandringEgetKapitalKapitalandelsfondEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalKapitalandelsfondEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">118</field>
+            <field name="sequence">117</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1253,7 +1243,7 @@
             <field name="name">ForandringEgetKapitalJusteradKapitalandelsfond</field>
             <field name="description">ForandringEgetKapitalJusteradKapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">119</field>
+            <field name="sequence">118</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1263,7 +1253,7 @@
             <field name="name">ForandringEgetKapitalIngaendeKapitalandelsfondAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeKapitalandelsfondAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">120</field>
+            <field name="sequence">119</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1272,7 +1262,7 @@
             <field name="name">ForandringEgetKapitalKapitalandelsfondForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalKapitalandelsfondForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">121</field>
+            <field name="sequence">120</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1282,7 +1272,7 @@
             <field name="name">ForandringEgetKapitalReservfondForandringKapitalandelsfond</field>
             <field name="description">ForandringEgetKapitalReservfondForandringKapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">122</field>
+            <field name="sequence">121</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1292,7 +1282,7 @@
             <field name="name">Kapitalandelsfond</field>
             <field name="description">Kapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">123</field>
+            <field name="sequence">122</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1302,7 +1292,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterAbstract</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">124</field>
+            <field name="sequence">123</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1311,7 +1301,7 @@
             <field name="name">FondUtvecklingsutgifter</field>
             <field name="description">FondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">125</field>
+            <field name="sequence">124</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1321,7 +1311,7 @@
             <field name="name">ForandringEgetKapitalUtvecklingsutgifterJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalUtvecklingsutgifterJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">126</field>
+            <field name="sequence">125</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1330,7 +1320,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">127</field>
+            <field name="sequence">126</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1340,7 +1330,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">128</field>
+            <field name="sequence">127</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1350,7 +1340,7 @@
             <field name="name">ForandringEgetKapitalJusteradFondUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalJusteradFondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">129</field>
+            <field name="sequence">128</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1360,7 +1350,7 @@
             <field name="name">ForandringEgetKapitalIngaendeFondUtvecklingsutgifterAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeFondUtvecklingsutgifterAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">130</field>
+            <field name="sequence">129</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1369,7 +1359,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterFondemission</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">131</field>
+            <field name="sequence">130</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1379,7 +1369,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">132</field>
+            <field name="sequence">131</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1389,7 +1379,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterTackningForlust</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">133</field>
+            <field name="sequence">132</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1399,7 +1389,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterAktiveringUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterAktiveringUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">134</field>
+            <field name="sequence">133</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1409,7 +1399,7 @@
             <field name="name">ForandringEgetKapitalFondUtvecklingsutgifterUpplosningFondUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalFondUtvecklingsutgifterUpplosningFondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">135</field>
+            <field name="sequence">134</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1419,7 +1409,7 @@
             <field name="name">FondUtvecklingsutgifter</field>
             <field name="description">FondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">136</field>
+            <field name="sequence">135</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1429,7 +1419,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeAbstract</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">137</field>
+            <field name="sequence">136</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1438,7 +1428,7 @@
             <field name="name">FondVerkligtVarde</field>
             <field name="description">FondVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">138</field>
+            <field name="sequence">137</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1448,7 +1438,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">139</field>
+            <field name="sequence">138</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1457,7 +1447,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">140</field>
+            <field name="sequence">139</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1467,7 +1457,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">141</field>
+            <field name="sequence">140</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1477,7 +1467,7 @@
             <field name="name">ForandringEgetKapitalJusteradFondVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalJusteradFondVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">142</field>
+            <field name="sequence">141</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1487,7 +1477,7 @@
             <field name="name">ForandringEgetKapitalIngaendeFondVerkligtVardeOverkursfondAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeFondVerkligtVardeOverkursfondAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">143</field>
+            <field name="sequence">142</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1496,7 +1486,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">144</field>
+            <field name="sequence">143</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1506,7 +1496,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">145</field>
+            <field name="sequence">144</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1516,7 +1506,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeSakringFramtidaKassaflode</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeSakringFramtidaKassaflode</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">146</field>
+            <field name="sequence">145</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1526,7 +1516,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">147</field>
+            <field name="sequence">146</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1536,7 +1526,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">148</field>
+            <field name="sequence">147</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1546,7 +1536,7 @@
             <field name="name">ForandringEgetKapitalFondVerkligtVardeSkatteffekterVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalFondVerkligtVardeSkatteffekterVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">149</field>
+            <field name="sequence">148</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1556,7 +1546,7 @@
             <field name="name">FondVerkligtVarde</field>
             <field name="description">FondVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">150</field>
+            <field name="sequence">149</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1566,7 +1556,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalAbstract</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">151</field>
+            <field name="sequence">150</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1575,7 +1565,7 @@
             <field name="name">OmrakningsdifferensEgetKapital</field>
             <field name="description">OmrakningsdifferensEgetKapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">152</field>
+            <field name="sequence">151</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1585,7 +1575,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">153</field>
+            <field name="sequence">152</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1594,7 +1584,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">154</field>
+            <field name="sequence">153</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1604,7 +1594,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">155</field>
+            <field name="sequence">154</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1614,7 +1604,7 @@
             <field name="name">ForandringEgetKapitalJusteradOmrakningsdifferensEgetKapital</field>
             <field name="description">ForandringEgetKapitalJusteradOmrakningsdifferensEgetKapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">156</field>
+            <field name="sequence">155</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1624,7 +1614,7 @@
             <field name="name">ForandringEgetKapitalIngaendeOmrakningsdifferensEgetKapitalAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeOmrakningsdifferensEgetKapitalAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">157</field>
+            <field name="sequence">156</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1633,7 +1623,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">158</field>
+            <field name="sequence">157</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1643,7 +1633,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">159</field>
+            <field name="sequence">158</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1653,7 +1643,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalSakringFramtidaKassaflode</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalSakringFramtidaKassaflode</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">160</field>
+            <field name="sequence">159</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1663,7 +1653,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">161</field>
+            <field name="sequence">160</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1673,7 +1663,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">162</field>
+            <field name="sequence">161</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1683,7 +1673,7 @@
             <field name="name">ForandringEgetKapitalOmrakningsdifferensEgetKapitalSkatteeffektOmrakningsdifferenser</field>
             <field name="description">ForandringEgetKapitalOmrakningsdifferensEgetKapitalSkatteeffektOmrakningsdifferenser</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">163</field>
+            <field name="sequence">162</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1693,7 +1683,7 @@
             <field name="name">OmrakningsdifferensEgetKapital</field>
             <field name="description">OmrakningsdifferensEgetKapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">164</field>
+            <field name="sequence">163</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1703,7 +1693,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAbstract</field>
             <field name="description">Balanserat resultat inklusive årets resultat</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">165</field>
+            <field name="sequence">164</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitaAnnatEgetKapitalInklusivePeriodensResultatAbstract"/>
@@ -1713,7 +1703,7 @@
             <field name="name">BalanseratResultatInklusivePeriodensResultat</field>
             <field name="description">BalanseratResultatInklusivePeriodensResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">166</field>
+            <field name="sequence">165</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1723,7 +1713,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatJusteringarIngaendeBalansAbstract</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatJusteringarIngaendeBalansAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">167</field>
+            <field name="sequence">166</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1732,7 +1722,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">168</field>
+            <field name="sequence">167</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1742,7 +1732,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">169</field>
+            <field name="sequence">168</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1752,7 +1742,7 @@
             <field name="name">ForandringEgetKapitalJusteradBalanseratResultatInklusivePeriodensResultat</field>
             <field name="description">ForandringEgetKapitalJusteradBalanseratResultatInklusivePeriodensResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">170</field>
+            <field name="sequence">169</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1762,7 +1752,7 @@
             <field name="name">ForandringEgetKapitalIngaendeBalanseratResultatInklusivePeriodensResultatAbstract</field>
             <field name="description">ForandringEgetKapitalIngaendeBalanseratResultatInklusivePeriodensResultatAbstract</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">171</field>
+            <field name="sequence">170</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1771,7 +1761,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtdelning</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">172</field>
+            <field name="sequence">171</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1781,7 +1771,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAterbetalningAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAterbetalningAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">173</field>
+            <field name="sequence">172</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1791,7 +1781,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFondemission</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">174</field>
+            <field name="sequence">173</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1801,7 +1791,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtgifterHanforligaEmission</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUtgifterHanforligaEmission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">175</field>
+            <field name="sequence">174</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1811,7 +1801,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">176</field>
+            <field name="sequence">175</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1821,7 +1811,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOrealiseradInternvinst</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOrealiseradInternvinst</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">177</field>
+            <field name="sequence">176</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1831,7 +1821,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningAktiekapital</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningAktiekapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">178</field>
+            <field name="sequence">177</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1841,7 +1831,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningBundenOverkursfond</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatMinskningBundenOverkursfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">179</field>
+            <field name="sequence">178</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1851,7 +1841,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringReservfond</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">180</field>
+            <field name="sequence">179</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1861,7 +1851,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatTackningForlust</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">181</field>
+            <field name="sequence">180</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1871,7 +1861,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForvarvEgnaAktier</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForvarvEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">182</field>
+            <field name="sequence">181</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1881,7 +1871,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOverlatelseEgnaAktier</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOverlatelseEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">183</field>
+            <field name="sequence">182</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1891,7 +1881,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktiveringUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktiveringUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">184</field>
+            <field name="sequence">183</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1901,7 +1891,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningFondUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningFondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">185</field>
+            <field name="sequence">184</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1911,7 +1901,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningUppskrivningsfond</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatUpplosningUppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">186</field>
+            <field name="sequence">185</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1921,7 +1911,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">187</field>
+            <field name="sequence">186</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1931,7 +1921,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatSkatteffekter</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatSkatteffekter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">188</field>
+            <field name="sequence">187</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1941,7 +1931,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmvarderingPensionsskuld</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatOmvarderingPensionsskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">189</field>
+            <field name="sequence">188</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1951,7 +1941,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktierelateradeErsattningar</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAktierelateradeErsattningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">190</field>
+            <field name="sequence">189</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1961,7 +1951,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringKapitalandelsfond</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatForandringKapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">191</field>
+            <field name="sequence">190</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1971,7 +1961,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFusionsdifferens</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatFusionsdifferens</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">192</field>
+            <field name="sequence">191</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1981,7 +1971,7 @@
             <field name="name">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAretsResultat</field>
             <field name="description">ForandringEgetKapitalBalanseratResultatInklusivePeriodensResultatAretsResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">193</field>
+            <field name="sequence">192</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -1991,7 +1981,7 @@
             <field name="name">BalanseratResultatInklusivePeriodensResultat</field>
             <field name="description">BalanseratResultatInklusivePeriodensResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">194</field>
+            <field name="sequence">193</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2001,7 +1991,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAbstract</field>
             <field name="description">Eget kapital hänförligt till moderföretagets ägare</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">195</field>
+            <field name="sequence">194</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapital"/>
@@ -2011,7 +2001,7 @@
             <field name="name">EgetKapitalHanforligtModerforetagetsAktieagare</field>
             <field name="description">Ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">196</field>
+            <field name="sequence">195</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2022,7 +2012,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareJusteringarIngaendeBalansAbstract</field>
             <field name="description">Justeringar av ingående balans</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">197</field>
+            <field name="sequence">196</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalHanforligtModerforetagetsAktieagareAbstract"/>
@@ -2032,7 +2022,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">198</field>
+            <field name="sequence">197</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2042,7 +2032,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">199</field>
+            <field name="sequence">198</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2052,7 +2042,7 @@
             <field name="name">ForandringEgetKapitalJusteradHanforligtModerforetagetsAktieagare</field>
             <field name="description">Justerad ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">200</field>
+            <field name="sequence">199</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2063,7 +2053,7 @@
             <field name="name">ForandringEgetKapitalIngaendeHanforligtModerforetagetsAktieagareAbstract</field>
             <field name="description">Förändringar av eget kapital hänförligt till moderföretagets ägare</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">201</field>
+            <field name="sequence">200</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalHanforligtModerforetagetsAktieagareAbstract"/>
@@ -2073,7 +2063,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUtdelning</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUtdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">202</field>
+            <field name="sequence">201</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2083,7 +2073,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareErhallnaAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareErhallnaAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">203</field>
+            <field name="sequence">202</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2093,7 +2083,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAterbetalningAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAterbetalningAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">204</field>
+            <field name="sequence">203</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2103,7 +2093,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareFondemission</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">205</field>
+            <field name="sequence">204</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2113,7 +2103,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareNyemission</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareNyemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">206</field>
+            <field name="sequence">205</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2123,7 +2113,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUtgifterHanforligaEmission</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUtgifterHanforligaEmission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">207</field>
+            <field name="sequence">206</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2133,7 +2123,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">208</field>
+            <field name="sequence">207</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2143,7 +2133,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOrealiseradInternvinst</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOrealiseradInternvinst</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">209</field>
+            <field name="sequence">208</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2153,7 +2143,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareMinskningAktiekapital</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareMinskningAktiekapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">210</field>
+            <field name="sequence">209</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2163,7 +2153,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareMinskningBundenOverkursfond</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareMinskningBundenOverkursfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">211</field>
+            <field name="sequence">210</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2173,7 +2163,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForandringReservfond</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForandringReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">212</field>
+            <field name="sequence">211</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2183,7 +2173,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareTackningForlust</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">213</field>
+            <field name="sequence">212</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2193,7 +2183,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForvarvEgnaAktier</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForvarvEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">214</field>
+            <field name="sequence">213</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2203,7 +2193,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOverlatelseEgnaAktier</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOverlatelseEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">215</field>
+            <field name="sequence">214</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2213,7 +2203,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAktiveringUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAktiveringUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">216</field>
+            <field name="sequence">215</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2223,7 +2213,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUpplosningFondUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUpplosningFondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">217</field>
+            <field name="sequence">216</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2233,7 +2223,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUppskrivningAnlaggningstillgang</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUppskrivningAnlaggningstillgang</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">218</field>
+            <field name="sequence">217</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2243,7 +2233,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUpplosningUppskrivningsfond</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareUpplosningUppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">219</field>
+            <field name="sequence">218</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2253,7 +2243,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">220</field>
+            <field name="sequence">219</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2263,7 +2253,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareSakringFramtidaKassaflode</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareSakringFramtidaKassaflode</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">221</field>
+            <field name="sequence">220</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2273,7 +2263,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">222</field>
+            <field name="sequence">221</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2283,7 +2273,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">223</field>
+            <field name="sequence">222</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2293,7 +2283,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareSkatteeffekt</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareSkatteeffekt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">224</field>
+            <field name="sequence">223</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2303,7 +2293,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOmvarderingPensionsskuld</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareOmvarderingPensionsskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">225</field>
+            <field name="sequence">224</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2313,7 +2303,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAktierelateradeErsattningar</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAktierelateradeErsattningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">226</field>
+            <field name="sequence">225</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2323,7 +2313,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareKonvertiblaSkuldebrevKapitalandel</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareKonvertiblaSkuldebrevKapitalandel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">227</field>
+            <field name="sequence">226</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2333,7 +2323,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForandringKapitalandelsfond</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareForandringKapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">228</field>
+            <field name="sequence">227</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2343,7 +2333,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareFusionsdifferens</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareFusionsdifferens</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">229</field>
+            <field name="sequence">228</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2353,7 +2343,7 @@
             <field name="name">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAretsResultat</field>
             <field name="description">ForandringEgetKapitalHanforligtModerforetagetsAktieagareAretsResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">230</field>
+            <field name="sequence">229</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2363,7 +2353,7 @@
             <field name="name">EgetKapitalHanforligtModerforetagetsAktieagare</field>
             <field name="description">Utgående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">231</field>
+            <field name="sequence">230</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2374,7 +2364,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAbstract</field>
             <field name="description">Innehav utan bestämmande inflytande</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">232</field>
+            <field name="sequence">231</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapital"/>
@@ -2384,7 +2374,7 @@
             <field name="name">EgetKapitalHanforligtInnehavareUtanBestammandeInflytande</field>
             <field name="description">Ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">233</field>
+            <field name="sequence">232</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2395,7 +2385,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeJusteringarIngaendeBalansAbstract</field>
             <field name="description">Justeringar av ingående balans</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">234</field>
+            <field name="sequence">233</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAbstract"/>
@@ -2405,7 +2395,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">235</field>
+            <field name="sequence">234</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2415,7 +2405,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">236</field>
+            <field name="sequence">235</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2425,7 +2415,7 @@
             <field name="name">ForandringEgetKapitalJusteradHanforligtInnehavUtanBestammandeInflytande</field>
             <field name="description">Justerad ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">237</field>
+            <field name="sequence">236</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2436,7 +2426,7 @@
             <field name="name">ForandringEgetKapitalIngaendeHanforligtInnehavUtanBestammandeInflytandeAbstract</field>
             <field name="description">Förändringar av innehav utan bestämmande inflytande</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">238</field>
+            <field name="sequence">237</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAbstract"/>
@@ -2446,7 +2436,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeUtdelning</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeUtdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">239</field>
+            <field name="sequence">238</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2456,7 +2446,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeErhallnaAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeErhallnaAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">240</field>
+            <field name="sequence">239</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2466,7 +2456,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAterbetalningAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAterbetalningAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">241</field>
+            <field name="sequence">240</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2476,7 +2466,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeNyemission</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeNyemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">242</field>
+            <field name="sequence">241</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2486,7 +2476,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeUtgifterHanforligaEmission</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeUtgifterHanforligaEmission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">243</field>
+            <field name="sequence">242</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2496,7 +2486,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">244</field>
+            <field name="sequence">243</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2506,7 +2496,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeOrealiseradInternvinst</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeOrealiseradInternvinst</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">245</field>
+            <field name="sequence">244</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2516,7 +2506,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeUppskrivningAnlaggningstillgang</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeUppskrivningAnlaggningstillgang</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">246</field>
+            <field name="sequence">245</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2526,7 +2516,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">247</field>
+            <field name="sequence">246</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2536,7 +2526,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeSakringFramtidaKassaflode</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeSakringFramtidaKassaflode</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">248</field>
+            <field name="sequence">247</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2546,7 +2536,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">249</field>
+            <field name="sequence">248</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2556,7 +2546,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">250</field>
+            <field name="sequence">249</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2566,7 +2556,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeSkatteeffekt</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeSkatteeffekt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">251</field>
+            <field name="sequence">250</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2576,7 +2566,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeOmvarderingPensionsskuld</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeOmvarderingPensionsskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">252</field>
+            <field name="sequence">251</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2586,7 +2576,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAktierelateradeErsattningar</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAktierelateradeErsattningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">253</field>
+            <field name="sequence">252</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2596,7 +2586,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeKonvertiblaSkuldebrevKapitalandel</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeKonvertiblaSkuldebrevKapitalandel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">254</field>
+            <field name="sequence">253</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2606,7 +2596,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeFusionsdifferens</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeFusionsdifferens</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">255</field>
+            <field name="sequence">254</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2616,7 +2606,7 @@
             <field name="name">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAretsResultat</field>
             <field name="description">ForandringEgetKapitalHanforligtInnehavUtanBestammandeInflytandeAretsResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">256</field>
+            <field name="sequence">255</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2626,7 +2616,7 @@
             <field name="name">EgetKapitalHanforligtInnehavareUtanBestammandeInflytande</field>
             <field name="description">Utgående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">257</field>
+            <field name="sequence">256</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2637,7 +2627,7 @@
             <field name="name">ForandringEgetKapitalTotaltAbstract</field>
             <field name="description">Totalt</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">258</field>
+            <field name="sequence">257</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapital"/>
@@ -2647,7 +2637,7 @@
             <field name="name">EgetKapital</field>
             <field name="description">Ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">259</field>
+            <field name="sequence">258</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2662,7 +2652,7 @@
             <field name="name">ForandringEgetKapitalTotaltJusteringarIngaendeBalansAbstract</field>
             <field name="description">Justeringar av ingående balans</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">260</field>
+            <field name="sequence">259</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalTotaltAbstract"/>
@@ -2672,7 +2662,7 @@
             <field name="name">ForandringEgetKapitalTotaltEffektByteRedovisningsprincip</field>
             <field name="description">ForandringEgetKapitalTotaltEffektByteRedovisningsprincip</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">261</field>
+            <field name="sequence">260</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2682,7 +2672,7 @@
             <field name="name">ForandringEgetKapitalTotaltEffektRattelseFel</field>
             <field name="description">ForandringEgetKapitalTotaltEffektRattelseFel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">262</field>
+            <field name="sequence">261</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2692,7 +2682,7 @@
             <field name="name">ForandringEgetKapitalJusteradTotalt</field>
             <field name="description">Justerad ingående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">263</field>
+            <field name="sequence">262</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2703,7 +2693,7 @@
             <field name="name">ForandringEgetKapitalIngaendeTotaltAbstract</field>
             <field name="description">Totala förändringar i eget kapital</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">264</field>
+            <field name="sequence">263</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalTotaltAbstract"/>
@@ -2713,7 +2703,7 @@
             <field name="name">ForandringEgetKapitalTotaltUtdelning</field>
             <field name="description">ForandringEgetKapitalTotaltUtdelning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">265</field>
+            <field name="sequence">264</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2723,7 +2713,7 @@
             <field name="name">ForandringEgetKapitalTotaltErhallnaAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalTotaltErhallnaAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">266</field>
+            <field name="sequence">265</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2733,7 +2723,7 @@
             <field name="name">ForandringEgetKapitalTotaltAterbetalningAktieagartillskott</field>
             <field name="description">ForandringEgetKapitalTotaltAterbetalningAktieagartillskott</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">267</field>
+            <field name="sequence">266</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2743,7 +2733,7 @@
             <field name="name">ForandringEgetKapitalTotaltFondemission</field>
             <field name="description">ForandringEgetKapitalTotaltFondemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">268</field>
+            <field name="sequence">267</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2753,7 +2743,7 @@
             <field name="name">ForandringEgetKapitalTotaltNyemission</field>
             <field name="description">ForandringEgetKapitalTotaltNyemission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">269</field>
+            <field name="sequence">268</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2763,7 +2753,7 @@
             <field name="name">ForandringEgetKapitalTotaltUtgifterHanforligaEmission</field>
             <field name="description">ForandringEgetKapitalTotaltUtgifterHanforligaEmission</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">270</field>
+            <field name="sequence">269</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2773,7 +2763,7 @@
             <field name="name">ForandringEgetKapitalTotaltForandringAndelDotterforetag</field>
             <field name="description">ForandringEgetKapitalTotaltForandringAndelDotterforetag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">271</field>
+            <field name="sequence">270</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2783,7 +2773,7 @@
             <field name="name">ForandringEgetKapitalTotaltOrealiseradInternvinst</field>
             <field name="description">ForandringEgetKapitalTotaltOrealiseradInternvinst</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">272</field>
+            <field name="sequence">271</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2793,7 +2783,7 @@
             <field name="name">ForandringEgetKapitalTotaltMinskningAktiekapital</field>
             <field name="description">ForandringEgetKapitalTotaltMinskningAktiekapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">273</field>
+            <field name="sequence">272</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2803,7 +2793,7 @@
             <field name="name">ForandringEgetKapitalTotaltMinskningBundenOverkursfond</field>
             <field name="description">ForandringEgetKapitalTotaltMinskningBundenOverkursfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">274</field>
+            <field name="sequence">273</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2813,7 +2803,7 @@
             <field name="name">ForandringEgetKapitalTotaltForandringReservfond</field>
             <field name="description">ForandringEgetKapitalTotaltForandringReservfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">275</field>
+            <field name="sequence">274</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2823,7 +2813,7 @@
             <field name="name">ForandringEgetKapitalTotaltTackningForlust</field>
             <field name="description">ForandringEgetKapitalTotaltTackningForlust</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">276</field>
+            <field name="sequence">275</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2833,7 +2823,7 @@
             <field name="name">ForandringEgetKapitalTotaltForandringEgnaAktier</field>
             <field name="description">ForandringEgetKapitalTotaltForandringEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">277</field>
+            <field name="sequence">276</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2843,7 +2833,7 @@
             <field name="name">ForandringEgetKapitalTotaltOverlatelseEgnaAktier</field>
             <field name="description">ForandringEgetKapitalTotaltOverlatelseEgnaAktier</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">278</field>
+            <field name="sequence">277</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2853,7 +2843,7 @@
             <field name="name">ForandringEgetKapitalTotaltAktiveringUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalTotaltAktiveringUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">279</field>
+            <field name="sequence">278</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2863,7 +2853,7 @@
             <field name="name">ForandringEgetKapitalTotaltUpplosningFondUtvecklingsutgifter</field>
             <field name="description">ForandringEgetKapitalTotaltUpplosningFondUtvecklingsutgifter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">280</field>
+            <field name="sequence">279</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2873,7 +2863,7 @@
             <field name="name">ForandringEgetKapitalTotaltUppskrivningAnlaggningstillgang</field>
             <field name="description">ForandringEgetKapitalTotaltUppskrivningAnlaggningstillgang</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">281</field>
+            <field name="sequence">280</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2883,7 +2873,7 @@
             <field name="name">ForandringEgetKapitalTotaltUpplosningUppskrivningsfond</field>
             <field name="description">ForandringEgetKapitalTotaltUpplosningUppskrivningsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">282</field>
+            <field name="sequence">281</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2893,7 +2883,7 @@
             <field name="name">ForandringEgetKapitalTotaltVarderingVerkligtVarde</field>
             <field name="description">ForandringEgetKapitalTotaltVarderingVerkligtVarde</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">283</field>
+            <field name="sequence">282</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2903,7 +2893,7 @@
             <field name="name">ForandringEgetKapitalTotaltSakringFramtidaKassaflode</field>
             <field name="description">ForandringEgetKapitalTotaltSakringFramtidaKassaflode</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">284</field>
+            <field name="sequence">283</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2913,7 +2903,7 @@
             <field name="name">ForandringEgetKapitalTotaltOmrakningUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalTotaltOmrakningUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">285</field>
+            <field name="sequence">284</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2923,7 +2913,7 @@
             <field name="name">ForandringEgetKapitalTotaltSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="description">ForandringEgetKapitalTotaltSakringNettoinvesteringUtlandsverksamhet</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">286</field>
+            <field name="sequence">285</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2933,7 +2923,7 @@
             <field name="name">ForandringEgetKapitalTotaltSkatteeffekt</field>
             <field name="description">ForandringEgetKapitalTotaltSkatteeffekt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">287</field>
+            <field name="sequence">286</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2943,7 +2933,7 @@
             <field name="name">ForandringEgetKapitalTotaltOmvarderingPensionsskuld</field>
             <field name="description">ForandringEgetKapitalTotaltOmvarderingPensionsskuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">288</field>
+            <field name="sequence">287</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2953,7 +2943,7 @@
             <field name="name">ForandringEgetKapitalTotaltAktierelateradeErsattningar</field>
             <field name="description">ForandringEgetKapitalTotaltAktierelateradeErsattningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">289</field>
+            <field name="sequence">288</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2963,7 +2953,7 @@
             <field name="name">ForandringEgetKapitalTotaltKonvertiblaSkuldebrevEgetKapitalandel</field>
             <field name="description">ForandringEgetKapitalTotaltKonvertiblaSkuldebrevEgetKapitalandel</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">290</field>
+            <field name="sequence">289</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2973,7 +2963,7 @@
             <field name="name">ForandringEgetKapitalTotaltForandringKapitalandelsfond</field>
             <field name="description">ForandringEgetKapitalTotaltForandringKapitalandelsfond</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">291</field>
+            <field name="sequence">290</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2983,7 +2973,7 @@
             <field name="name">ForandringEgetKapitalTotaltFusionsdifferens</field>
             <field name="description">ForandringEgetKapitalTotaltFusionsdifferens</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">292</field>
+            <field name="sequence">291</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -2993,7 +2983,7 @@
             <field name="name">ForandringEgetKapitalTotaltAretsResultat</field>
             <field name="description">ForandringEgetKapitalTotaltAretsResultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">293</field>
+            <field name="sequence">292</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -3003,7 +2993,7 @@
             <field name="name">EgetKapital</field>
             <field name="description">Utgående balans</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">294</field>
+            <field name="sequence">293</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
@@ -3014,11 +3004,10 @@
             <field name="name">ForandringEgetKapitalKommentar</field>
             <field name="description">Kommentar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">295</field>
+            <field name="sequence">294</field>
             <field name="budgetable">True</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
-            <field name="parent_id" ref="report_equity_koncern_k3_ForandringEgetKapitalKoncernAbstract"/>
         </record>
     </data>
 </odoo>

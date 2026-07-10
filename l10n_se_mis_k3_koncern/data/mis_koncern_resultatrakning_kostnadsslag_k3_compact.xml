@@ -57,31 +57,21 @@
         <record id="report_rr_koncern_k3_compact" model="mis.report">
             <field name="name">Koncernens resultaträkning kostnadsslagsindelad K3 (kompakt)</field>
         </record>
-        <record id="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract" model="mis.report.kpi">
-            <field name="report_id" ref="report_rr_koncern_k3_compact"/>
-            <field name="name">ResultatrakningKostnadsslagsindeladKoncernAbstract</field>
-            <field name="description">Koncernens kostnadsslagsindelade resultaträkning</field>
-            <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">1</field>
-            <field name="type">str</field>
-            <field name="budgetable">False</field>
-        </record>
         <record id="report_rr_koncern_k3_compact_RorelseresultatAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
             <field name="name">RorelseresultatAbstract</field>
             <field name="description">Rörelseresultat</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">2</field>
+            <field name="sequence">1</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="report_rr_koncern_k3_compact_RorelsensIntakterLagerforandringarMmAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
             <field name="name">RorelsensIntakterLagerforandringarMmAbstract</field>
             <field name="description">Rörelsens intäkter, lagerförändringar m.m.</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">3</field>
+            <field name="sequence">2</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelseresultatAbstract"/>
@@ -91,7 +81,7 @@
             <field name="name">Nettoomsattning</field>
             <field name="description">Nettoomsättning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">4</field>
+            <field name="sequence">3</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
@@ -104,7 +94,7 @@
             <field name="name">ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning</field>
             <field name="description">Förändring av lager av färdiga varor, av varor under tillverkning och pågående arbeten för annans räkning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">5</field>
+            <field name="sequence">4</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
@@ -117,7 +107,7 @@
             <field name="name">AktiveratArbeteEgenRakning</field>
             <field name="description">Aktiverat arbete för egen räkning</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">6</field>
+            <field name="sequence">5</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
@@ -130,7 +120,7 @@
             <field name="name">OvrigaRorelseintakter</field>
             <field name="description">Övriga rörelseintäkter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">7</field>
+            <field name="sequence">6</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsensIntakterLagerforandringarMmAbstract"/>
         </record>
@@ -143,7 +133,7 @@
             <field name="name">RorelseintakterLagerforandringarMm</field>
             <field name="description">Summa rörelsens intäkter, lagerförändringar m.m.</field>
             <field name="style_id" ref="report_style_k2_5"/>
-            <field name="sequence">8</field>
+            <field name="sequence">7</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelseresultatAbstract"/>
@@ -157,7 +147,7 @@
             <field name="name">RorelsekostnaderAbstract</field>
             <field name="description">Rörelsens kostnader</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">9</field>
+            <field name="sequence">8</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelseresultatAbstract"/>
@@ -167,7 +157,7 @@
             <field name="name">RavarorFornodenheterKostnader</field>
             <field name="description">Råvaror och förnödenheter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">10</field>
+            <field name="sequence">9</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsekostnaderAbstract"/>
         </record>
@@ -180,7 +170,7 @@
             <field name="name">HandelsvarorKostnader</field>
             <field name="description">Handelsvaror</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">11</field>
+            <field name="sequence">10</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsekostnaderAbstract"/>
         </record>
@@ -193,7 +183,7 @@
             <field name="name">OvrigaExternaKostnader</field>
             <field name="description">Övriga externa kostnader</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">12</field>
+            <field name="sequence">11</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsekostnaderAbstract"/>
         </record>
@@ -206,7 +196,7 @@
             <field name="name">Personalkostnader</field>
             <field name="description">Personalkostnader</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">13</field>
+            <field name="sequence">12</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsekostnaderAbstract"/>
         </record>
@@ -219,7 +209,7 @@
             <field name="name">AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar</field>
             <field name="description">Av- och nedskrivningar av materiella och immateriella anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">14</field>
+            <field name="sequence">13</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsekostnaderAbstract"/>
         </record>
@@ -232,7 +222,7 @@
             <field name="name">NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar</field>
             <field name="description">Nedskrivningar av omsättningstillgångar utöver normala nedskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">15</field>
+            <field name="sequence">14</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsekostnaderAbstract"/>
         </record>
@@ -245,7 +235,7 @@
             <field name="name">OvrigaRorelsekostnader</field>
             <field name="description">Övriga rörelsekostnader</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">16</field>
+            <field name="sequence">15</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelsekostnaderAbstract"/>
         </record>
@@ -258,7 +248,7 @@
             <field name="name">Rorelsekostnader</field>
             <field name="description">Summa rörelsens kostnader</field>
             <field name="style_id" ref="report_style_k2_5"/>
-            <field name="sequence">17</field>
+            <field name="sequence">16</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelseresultatAbstract"/>
@@ -272,7 +262,7 @@
             <field name="name">AndelarIntresseforetagGemensamtStyrdaForetagResultat</field>
             <field name="description">Andelar i intresseföretags och gemensamt styrda företags resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">18</field>
+            <field name="sequence">17</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelseresultatAbstract"/>
         </record>
@@ -285,7 +275,7 @@
             <field name="name">RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag</field>
             <field name="description">Realisationsresultat vid försäljning av intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">19</field>
+            <field name="sequence">18</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_RorelseresultatAbstract"/>
         </record>
@@ -298,9 +288,8 @@
             <field name="name">Rorelseresultat</field>
             <field name="description">Rörelseresultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">20</field>
+            <field name="sequence">19</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_Rorelseresultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_Rorelseresultat"/>
@@ -311,17 +300,16 @@
             <field name="name">FinansiellaPosterAbstract</field>
             <field name="description">Resultat från finansiella poster</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">21</field>
+            <field name="sequence">20</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
             <field name="name">FinansiellaPosterNedskrivningEgenPostAbstract</field>
             <field name="description">Resultat från finansiella poster - med nedskrivningar i egen post</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">22</field>
+            <field name="sequence">21</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterAbstract"/>
@@ -331,7 +319,7 @@
             <field name="name">ResultatAndelarIntresseforetagGemensamtStyrda</field>
             <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">23</field>
+            <field name="sequence">22</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
@@ -344,7 +332,7 @@
             <field name="name">ResultatOvrigaforetagAgarintresse</field>
             <field name="description">Resultat från övriga företag som det finns ett ägarintresse i</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">24</field>
+            <field name="sequence">23</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
@@ -357,7 +345,7 @@
             <field name="name">ResultatOvrigaFinansiellaAnlaggningstillgangar</field>
             <field name="description">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">25</field>
+            <field name="sequence">24</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
@@ -370,7 +358,7 @@
             <field name="name">OvrigaRanteintakterLiknandeResultatposter</field>
             <field name="description">Övriga ränteintäkter och liknande resultatposter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">26</field>
+            <field name="sequence">25</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
@@ -383,7 +371,7 @@
             <field name="name">NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar</field>
             <field name="description">Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">27</field>
+            <field name="sequence">26</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
@@ -396,7 +384,7 @@
             <field name="name">RantekostnaderLiknandeResultatposter</field>
             <field name="description">Räntekostnader och liknande resultatposter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">28</field>
+            <field name="sequence">27</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningEgenPostAbstract"/>
         </record>
@@ -409,7 +397,7 @@
             <field name="name">FinansiellaPosterNedskrivningRespektivePostAbstract</field>
             <field name="description">Resultat från finansiella poster - med nedskrivningar i respektive post</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">29</field>
+            <field name="sequence">28</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterAbstract"/>
@@ -419,7 +407,7 @@
             <field name="name">ResultatAndelarIntresseforetagGemensamtStyrdaInklNedskrivning</field>
             <field name="description">Resultat från andelar i intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">30</field>
+            <field name="sequence">29</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
@@ -428,7 +416,7 @@
             <field name="name">ResultatOvrigaforetagAgarintresseInklNedskrivning</field>
             <field name="description">Resultat från övriga företag som det finns ett ägarintresse i</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">31</field>
+            <field name="sequence">30</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
@@ -437,7 +425,7 @@
             <field name="name">ResultatOvrigaFinansiellaAnlaggningstillgangarInklNedskrivning</field>
             <field name="description">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">32</field>
+            <field name="sequence">31</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
@@ -450,7 +438,7 @@
             <field name="name">OvrigaRanteintakterLiknandeResultatposterInklNedskrivning</field>
             <field name="description">Övriga ränteintäkter och liknande resultatposter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">33</field>
+            <field name="sequence">32</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
@@ -463,7 +451,7 @@
             <field name="name">RantekostnaderLiknandeResultatposter</field>
             <field name="description">Räntekostnader och liknande resultatposter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">34</field>
+            <field name="sequence">33</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FinansiellaPosterNedskrivningRespektivePostAbstract"/>
         </record>
@@ -472,19 +460,17 @@
             <field name="name">FinansiellaPoster</field>
             <field name="description">Summa resultat från finansiella poster</field>
             <field name="style_id" ref="report_style_k2_5"/>
-            <field name="sequence">35</field>
+            <field name="sequence">34</field>
             <field name="type">num</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="report_rr_koncern_k3_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
             <field name="name">ResultatEfterFinansiellaPoster</field>
             <field name="description">Resultat efter finansiella poster</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">36</field>
+            <field name="sequence">35</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_ResultatEfterFinansiellaPoster"/>
@@ -495,17 +481,16 @@
             <field name="name">BokslutsdispositionerAbstract</field>
             <field name="description">Bokslutsdispositioner</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">37</field>
+            <field name="sequence">36</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="report_rr_koncern_k3_compact_ErhallnaKoncernbidrag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
             <field name="name">ErhallnaKoncernbidrag</field>
             <field name="description">Erhållna koncernbidrag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">38</field>
+            <field name="sequence">37</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
@@ -518,7 +503,7 @@
             <field name="name">LamnadeKoncernbidrag</field>
             <field name="description">Lämnade koncernbidrag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">39</field>
+            <field name="sequence">38</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_BokslutsdispositionerAbstract"/>
         </record>
@@ -531,9 +516,8 @@
             <field name="name">ResultatForeSkatt</field>
             <field name="description">Resultat före skatt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">40</field>
+            <field name="sequence">39</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_ResultatForeSkatt"/>
@@ -544,17 +528,16 @@
             <field name="name">SkatterAbstract</field>
             <field name="description">Skatter</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">41</field>
+            <field name="sequence">40</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="report_rr_koncern_k3_compact_SkattAretsResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
             <field name="name">SkattAretsResultat</field>
             <field name="description">Skatt på årets resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">42</field>
+            <field name="sequence">41</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_SkatterAbstract"/>
         </record>
@@ -567,7 +550,7 @@
             <field name="name">OvrigaSkatter</field>
             <field name="description">Övriga skatter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">43</field>
+            <field name="sequence">42</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_SkatterAbstract"/>
         </record>
@@ -580,9 +563,8 @@
             <field name="name">AretsResultat</field>
             <field name="description">Årets resultat</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">44</field>
+            <field name="sequence">43</field>
             <field name="budgetable">True</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_AretsResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_AretsResultat"/>
@@ -593,17 +575,16 @@
             <field name="name">FordelningPeriodensResultatAbstract</field>
             <field name="description">Årets resultat hänförligt till</field>
             <field name="style_id" ref="report_style_k2_3"/>
-            <field name="sequence">45</field>
+            <field name="sequence">44</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
-            <field name="parent_id" ref="report_rr_koncern_k3_compact_ResultatrakningKostnadsslagsindeladKoncernAbstract"/>
         </record>
         <record id="report_rr_koncern_k3_compact_ResultatHanforligModerforetagetAktieagare" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
             <field name="name">ResultatHanforligModerforetagetAktieagare</field>
             <field name="description">Moderföretagets ägare</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">46</field>
+            <field name="sequence">45</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FordelningPeriodensResultatAbstract"/>
         </record>
@@ -612,7 +593,7 @@
             <field name="name">ResultatHanforligInnehavareUtanBestammandeInflytande</field>
             <field name="description">Innehav utan bestämmande inflytande</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">47</field>
+            <field name="sequence">46</field>
             <field name="budgetable">True</field>
             <field name="parent_id" ref="report_rr_koncern_k3_compact_FordelningPeriodensResultatAbstract"/>
         </record>

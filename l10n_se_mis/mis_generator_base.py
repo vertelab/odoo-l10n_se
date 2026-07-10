@@ -295,6 +295,9 @@ def generate_report_xml(sheet_def, compact=False):
         </record>''')
 
     for rd in rows:
+        # Skippa rot-nivåns abstract header (rapportens titel)
+        if rd['level'] == 0 and rd['abstract']:
+            continue
         s = nseq()
         kpi_id = f"{report_id}_{rd['elem']}"
 
@@ -329,12 +332,13 @@ def generate_report_xml(sheet_def, compact=False):
             auto = '\n            <field name="auto_expand_accounts">True</field>'
             auto_style = '\n            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>'
 
-        # Parent
+        # Parent (skippa referenser till borttagen root-abstract)
         parent_field = ''
         if rd['parent_idx'] is not None:
             p = rows[rd['parent_idx']]
-            parent_id = f"{report_id}_{p['elem']}"
-            parent_field = f'\n            <field name="parent_id" ref="{parent_id}"/>'
+            if not (p['level'] == 0 and p['abstract']):
+                parent_id = f"{report_id}_{p['elem']}"
+                parent_field = f'\n            <field name="parent_id" ref="{parent_id}"/>'
 
         display = rd['display'] or rd['elem']
 
