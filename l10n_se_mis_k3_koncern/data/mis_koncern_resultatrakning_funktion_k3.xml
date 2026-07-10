@@ -119,7 +119,7 @@
         </record>
         <record id="kpi_report_rr_koncern_funktion_k3_BruttoresultatFunktionsindelad" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_funktion_k3_BruttoresultatFunktionsindelad"/>
-            <field name="name">sum('Nettoomsattning', 'KostnadSaldaVaror') * -1</field>
+            <field name="name">sum([Nettoomsattning, KostnadSaldaVaror]) * -1</field>
         </record>
         <record id="report_rr_koncern_funktion_k3_FunktionerMmAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_funktion_k3"/>
@@ -228,7 +228,7 @@
         </record>
         <record id="kpi_report_rr_koncern_funktion_k3_FunktionerMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_funktion_k3_FunktionerMm"/>
-            <field name="name">sum('Forsaljningskostnader', 'Administrationskostnader', 'ForskningsUtvecklingskostnader', 'OvrigaRorelseintakter', 'OvrigaRorelsekostnaderFunktionsindelad', 'AndelarIntresseforetagGemensamtStyrdaForetagResultat', 'RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag')</field>
+            <field name="name">sum([Forsaljningskostnader, Administrationskostnader, ForskningsUtvecklingskostnader, OvrigaRorelseintakter, OvrigaRorelsekostnaderFunktionsindelad, AndelarIntresseforetagGemensamtStyrdaForetagResultat, RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag])</field>
         </record>
         <record id="report_rr_koncern_funktion_k3_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_funktion_k3"/>
@@ -447,7 +447,7 @@
         </record>
         <record id="kpi_report_rr_koncern_funktion_k3_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_funktion_k3_ResultatEfterFinansiellaPoster"/>
-            <field name="name">sum('BruttoresultatFunktionsindelad', 'FunktionerMm') * -1</field>
+            <field name="name">sum([BruttoresultatFunktionsindelad, FunktionerMm]) * -1</field>
         </record>
         <record id="report_rr_koncern_funktion_k3_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_funktion_k3"/>
@@ -500,7 +500,7 @@
         </record>
         <record id="kpi_report_rr_koncern_funktion_k3_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_funktion_k3_ResultatForeSkatt"/>
-            <field name="name">sum('BruttoresultatFunktionsindelad', 'FunktionerMm', 'ErhallnaKoncernbidrag', 'LamnadeKoncernbidrag') * -1</field>
+            <field name="name">sum([BruttoresultatFunktionsindelad, FunktionerMm, ErhallnaKoncernbidrag, LamnadeKoncernbidrag]) * -1</field>
         </record>
         <record id="report_rr_koncern_funktion_k3_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_funktion_k3"/>

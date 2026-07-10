@@ -282,11 +282,11 @@ def generate_report_xml(sheet_def, compact=False):
                 child_names.append(child['elem'])
 
         if child_names:
-            expr = "sum(" + ", ".join(f"'{n}'" for n in child_names) + ")"
+            expr = "sum([" + ", ".join(child_names) + "])"
             if rd['negate']:
                 expr += ' * -1'
             rows[i]['sum_expr'] = expr
-            rows[i]['accounts'] = []  # Rensa bal[] (använd sum())
+            rows[i]['accounts'] = []  # Rensa bal[] (använd addition)
 
     # ─── XML-utdata ──────────────────────────────────────────────────────
     lines = []

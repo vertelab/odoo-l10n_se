@@ -141,7 +141,7 @@
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_FunktionerMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_FunktionerMm"/>
-            <field name="name">sum('Forsaljningskostnader', 'Administrationskostnader', 'ForskningsUtvecklingskostnader', 'OvrigaRorelsekostnaderFunktionsindelad')</field>
+            <field name="name">sum([Forsaljningskostnader, Administrationskostnader, ForskningsUtvecklingskostnader, OvrigaRorelsekostnaderFunktionsindelad])</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -360,7 +360,7 @@
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatEfterFinansiellaPoster"/>
-            <field name="name">sum('BruttoresultatForkortadFunktionsindelad', 'FunktionerMm') * -1</field>
+            <field name="name">sum([BruttoresultatForkortadFunktionsindelad, FunktionerMm]) * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>
@@ -472,7 +472,7 @@
         </record>
         <record id="kpi_report_rr_funktion_forkortad_k3_compact_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_funktion_forkortad_k3_compact_ResultatForeSkatt"/>
-            <field name="name">sum('BruttoresultatForkortadFunktionsindelad', 'FunktionerMm', 'ErhallnaKoncernbidrag', 'LamnadeKoncernbidrag', 'ForandringPeriodiseringsfond', 'ForandringOveravskrivningar', 'ForandringErsattningsfond', 'AndraBokslutsdispositioner') * -1</field>
+            <field name="name">sum([BruttoresultatForkortadFunktionsindelad, FunktionerMm, ErhallnaKoncernbidrag, LamnadeKoncernbidrag, ForandringPeriodiseringsfond, ForandringOveravskrivningar, ForandringErsattningsfond, AndraBokslutsdispositioner]) * -1</field>
         </record>
         <record id="report_rr_funktion_forkortad_k3_compact_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_funktion_forkortad_k3_compact"/>

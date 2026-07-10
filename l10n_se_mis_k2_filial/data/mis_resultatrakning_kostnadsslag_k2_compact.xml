@@ -140,7 +140,7 @@
         </record>
         <record id="kpi_report_rr_filial_kostnadsslag_k2_compact_RorelseintakterLagerforandringarMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_filial_kostnadsslag_k2_compact_RorelseintakterLagerforandringarMm"/>
-            <field name="name">sum('Nettoomsattning', 'ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning', 'AktiveratArbeteEgenRakning', 'OvrigaRorelseintakter') * -1</field>
+            <field name="name">sum([Nettoomsattning, ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning, AktiveratArbeteEgenRakning, OvrigaRorelseintakter]) * -1</field>
         </record>
         <record id="report_rr_filial_kostnadsslag_k2_compact_RorelsekostnaderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_filial_kostnadsslag_k2_compact"/>
@@ -255,7 +255,7 @@
         </record>
         <record id="kpi_report_rr_filial_kostnadsslag_k2_compact_Rorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_filial_kostnadsslag_k2_compact_Rorelsekostnader"/>
-            <field name="name">sum('RavarorFornodenheterKostnader', 'HandelsvarorKostnader', 'OvrigaExternaKostnader', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader')</field>
+            <field name="name">sum([RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader])</field>
         </record>
         <record id="report_rr_filial_kostnadsslag_k2_compact_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_filial_kostnadsslag_k2_compact"/>
@@ -380,7 +380,7 @@
         </record>
         <record id="kpi_report_rr_filial_kostnadsslag_k2_compact_FinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_filial_kostnadsslag_k2_compact_FinansiellaPoster"/>
-            <field name="name">sum('ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter') * -1</field>
+            <field name="name">sum([ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
         </record>
         <record id="report_rr_filial_kostnadsslag_k2_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_filial_kostnadsslag_k2_compact"/>
@@ -392,7 +392,7 @@
         </record>
         <record id="kpi_report_rr_filial_kostnadsslag_k2_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_filial_kostnadsslag_k2_compact_ResultatEfterFinansiellaPoster"/>
-            <field name="name">sum('RorelseintakterLagerforandringarMm', 'Rorelsekostnader', 'ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter') * -1</field>
+            <field name="name">sum([RorelseintakterLagerforandringarMm, Rorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
         </record>
         <record id="report_rr_filial_kostnadsslag_k2_compact_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_filial_kostnadsslag_k2_compact"/>
@@ -504,7 +504,7 @@
         </record>
         <record id="kpi_report_rr_filial_kostnadsslag_k2_compact_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_filial_kostnadsslag_k2_compact_ResultatForeSkatt"/>
-            <field name="name">sum('RorelseintakterLagerforandringarMm', 'Rorelsekostnader', 'ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter', 'ErhallnaKoncernbidrag', 'LamnadeKoncernbidrag', 'ForandringPeriodiseringsfond', 'ForandringOveravskrivningar', 'LamnadGottgorelse', 'OvrigaBokslutsdispositioner') * -1</field>
+            <field name="name">sum([RorelseintakterLagerforandringarMm, Rorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter, ErhallnaKoncernbidrag, LamnadeKoncernbidrag, ForandringPeriodiseringsfond, ForandringOveravskrivningar, LamnadGottgorelse, OvrigaBokslutsdispositioner]) * -1</field>
         </record>
         <record id="report_rr_filial_kostnadsslag_k2_compact_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_filial_kostnadsslag_k2_compact"/>

@@ -140,7 +140,7 @@
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_RorelseintakterLagerforandringarMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_RorelseintakterLagerforandringarMm"/>
-            <field name="name">sum('Nettoomsattning', 'ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning', 'AktiveratArbeteEgenRakning', 'OvrigaRorelseintakter') * -1</field>
+            <field name="name">sum([Nettoomsattning, ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning, AktiveratArbeteEgenRakning, OvrigaRorelseintakter]) * -1</field>
         </record>
         <record id="report_rr_koncern_k3_compact_RorelsekostnaderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
@@ -255,7 +255,7 @@
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_Rorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_Rorelsekostnader"/>
-            <field name="name">sum('RavarorFornodenheterKostnader', 'HandelsvarorKostnader', 'OvrigaExternaKostnader', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader')</field>
+            <field name="name">sum([RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader])</field>
         </record>
         <record id="report_rr_koncern_k3_compact_AndelarIntresseforetagGemensamtStyrdaForetagResultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
@@ -268,7 +268,7 @@
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_AndelarIntresseforetagGemensamtStyrdaForetagResultat" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_AndelarIntresseforetagGemensamtStyrdaForetagResultat"/>
-            <field name="name">sum('Nettoomsattning', 'ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning', 'AktiveratArbeteEgenRakning', 'OvrigaRorelseintakter', 'RavarorFornodenheterKostnader', 'HandelsvarorKostnader', 'OvrigaExternaKostnader', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader') * -1</field>
+            <field name="name">sum([Nettoomsattning, ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning, AktiveratArbeteEgenRakning, OvrigaRorelseintakter, RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader]) * -1</field>
         </record>
         <record id="report_rr_koncern_k3_compact_RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
@@ -281,7 +281,7 @@
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag"/>
-            <field name="name">sum('Nettoomsattning', 'ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning', 'AktiveratArbeteEgenRakning', 'OvrigaRorelseintakter', 'RavarorFornodenheterKostnader', 'HandelsvarorKostnader', 'OvrigaExternaKostnader', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader') * -1</field>
+            <field name="name">sum([Nettoomsattning, ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning, AktiveratArbeteEgenRakning, OvrigaRorelseintakter, RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader]) * -1</field>
         </record>
         <record id="report_rr_koncern_k3_compact_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
@@ -474,7 +474,7 @@
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_ResultatEfterFinansiellaPoster"/>
-            <field name="name">sum('RorelseintakterLagerforandringarMm', 'Rorelsekostnader', 'AndelarIntresseforetagGemensamtStyrdaForetagResultat', 'RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag') * -1</field>
+            <field name="name">sum([RorelseintakterLagerforandringarMm, Rorelsekostnader, AndelarIntresseforetagGemensamtStyrdaForetagResultat, RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag]) * -1</field>
         </record>
         <record id="report_rr_koncern_k3_compact_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>
@@ -521,7 +521,7 @@
         </record>
         <record id="kpi_report_rr_koncern_k3_compact_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_koncern_k3_compact_ResultatForeSkatt"/>
-            <field name="name">sum('RorelseintakterLagerforandringarMm', 'Rorelsekostnader', 'AndelarIntresseforetagGemensamtStyrdaForetagResultat', 'RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag', 'ErhallnaKoncernbidrag', 'LamnadeKoncernbidrag') * -1</field>
+            <field name="name">sum([RorelseintakterLagerforandringarMm, Rorelsekostnader, AndelarIntresseforetagGemensamtStyrdaForetagResultat, RealisationsresultatForsaljningIntresseforetagGemensamtStyrdaForetag, ErhallnaKoncernbidrag, LamnadeKoncernbidrag]) * -1</field>
         </record>
         <record id="report_rr_koncern_k3_compact_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_koncern_k3_compact"/>

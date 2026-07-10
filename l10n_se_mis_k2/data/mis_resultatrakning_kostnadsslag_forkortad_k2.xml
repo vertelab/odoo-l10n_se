@@ -281,7 +281,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_FinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_FinansiellaPoster"/>
-            <field name="name">sum('BruttoresultatKostnadsslagsindelad', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader', 'ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter') * -1</field>
+            <field name="name">sum([BruttoresultatKostnadsslagsindelad, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -295,7 +295,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatEfterFinansiellaPoster"/>
-            <field name="name">sum('BruttoresultatKostnadsslagsindelad', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader', 'ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter') * -1</field>
+            <field name="name">sum([BruttoresultatKostnadsslagsindelad, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>
@@ -407,7 +407,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_forkortad_k2_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_forkortad_k2_ResultatForeSkatt"/>
-            <field name="name">sum('BruttoresultatKostnadsslagsindelad', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader', 'ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter', 'ErhallnaKoncernbidrag', 'LamnadeKoncernbidrag', 'ForandringPeriodiseringsfond', 'ForandringOveravskrivningar', 'OvrigaBokslutsdispositioner') * -1</field>
+            <field name="name">sum([BruttoresultatKostnadsslagsindelad, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter, ErhallnaKoncernbidrag, LamnadeKoncernbidrag, ForandringPeriodiseringsfond, ForandringOveravskrivningar, OvrigaBokslutsdispositioner]) * -1</field>
         </record>
         <record id="report_rr_kostnadsslag_forkortad_k2_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_forkortad_k2"/>

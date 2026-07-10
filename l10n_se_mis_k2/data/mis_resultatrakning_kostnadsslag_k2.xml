@@ -148,7 +148,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_k2_RorelseintakterLagerforandringarMm" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_k2_RorelseintakterLagerforandringarMm"/>
-            <field name="name">sum('Nettoomsattning', 'ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning', 'AktiveratArbeteEgenRakning', 'OvrigaRorelseintakter') * -1</field>
+            <field name="name">sum([Nettoomsattning, ForandringLagerProdukterIArbeteFardigaVarorPagaendeArbetenAnnansRakning, AktiveratArbeteEgenRakning, OvrigaRorelseintakter]) * -1</field>
         </record>
         <record id="report_rr_kostnadsslag_k2_RorelsekostnaderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_k2"/>
@@ -277,7 +277,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_k2_Rorelsekostnader" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_k2_Rorelsekostnader"/>
-            <field name="name">sum('RavarorFornodenheterKostnader', 'HandelsvarorKostnader', 'OvrigaExternaKostnader', 'Personalkostnader', 'AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar', 'NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar', 'OvrigaRorelsekostnader')</field>
+            <field name="name">sum([RavarorFornodenheterKostnader, HandelsvarorKostnader, OvrigaExternaKostnader, Personalkostnader, AvskrivningarNedskrivningarMateriellaImmateriellaAnlaggningstillgangar, NedskrivningarOmsattningstillgangarUtoverNormalaNedskrivningar, OvrigaRorelsekostnader])</field>
         </record>
         <record id="report_rr_kostnadsslag_k2_Rorelseresultat" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_k2"/>
@@ -418,7 +418,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_k2_FinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_k2_FinansiellaPoster"/>
-            <field name="name">sum('ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter') * -1</field>
+            <field name="name">sum([ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
         </record>
         <record id="report_rr_kostnadsslag_k2_ResultatEfterFinansiellaPoster" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_k2"/>
@@ -432,7 +432,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_k2_ResultatEfterFinansiellaPoster" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_k2_ResultatEfterFinansiellaPoster"/>
-            <field name="name">sum('RorelseintakterLagerforandringarMm', 'Rorelsekostnader', 'ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter') * -1</field>
+            <field name="name">sum([RorelseintakterLagerforandringarMm, Rorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter]) * -1</field>
         </record>
         <record id="report_rr_kostnadsslag_k2_BokslutsdispositionerAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_k2"/>
@@ -543,7 +543,7 @@
         </record>
         <record id="kpi_report_rr_kostnadsslag_k2_ResultatForeSkatt" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_rr_kostnadsslag_k2_ResultatForeSkatt"/>
-            <field name="name">sum('RorelseintakterLagerforandringarMm', 'Rorelsekostnader', 'ResultatAndelarKoncernforetag', 'ResultatAndelarIntresseforetagGemensamtStyrda', 'ResultatOvrigaforetagAgarintresse', 'ResultatOvrigaFinansiellaAnlaggningstillgangar', 'OvrigaRanteintakterLiknandeResultatposter', 'NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar', 'RantekostnaderLiknandeResultatposter', 'ErhallnaKoncernbidrag', 'LamnadeKoncernbidrag', 'ForandringPeriodiseringsfond', 'ForandringOveravskrivningar', 'OvrigaBokslutsdispositioner') * -1</field>
+            <field name="name">sum([RorelseintakterLagerforandringarMm, Rorelsekostnader, ResultatAndelarKoncernforetag, ResultatAndelarIntresseforetagGemensamtStyrda, ResultatOvrigaforetagAgarintresse, ResultatOvrigaFinansiellaAnlaggningstillgangar, OvrigaRanteintakterLiknandeResultatposter, NedskrivningarFinansiellaAnlaggningstillgangarKortfristigaPlaceringar, RantekostnaderLiknandeResultatposter, ErhallnaKoncernbidrag, LamnadeKoncernbidrag, ForandringPeriodiseringsfond, ForandringOveravskrivningar, OvrigaBokslutsdispositioner]) * -1</field>
         </record>
         <record id="report_rr_kostnadsslag_k2_SkatterAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_rr_kostnadsslag_k2"/>

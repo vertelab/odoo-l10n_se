@@ -441,7 +441,7 @@
         </record>
         <record id="kpi_report_br_k2_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_k2_Anlaggningstillgangar"/>
-            <field name="name">sum('ImmateriellaAnlaggningstillgangar', 'MateriellaAnlaggningstillgangar', 'FinansiellaAnlaggningstillgangar')</field>
+            <field name="name">sum([ImmateriellaAnlaggningstillgangar, MateriellaAnlaggningstillgangar, FinansiellaAnlaggningstillgangar])</field>
         </record>
         <record id="report_br_k2_OmsattningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_br_k2"/>
@@ -799,7 +799,7 @@
         </record>
         <record id="kpi_report_br_k2_Omsattningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_k2_Omsattningstillgangar"/>
-            <field name="name">sum('VarulagerMm', 'KortfristigaFordringar', 'KortfristigaPlaceringar', 'KassaBank')</field>
+            <field name="name">sum([VarulagerMm, KortfristigaFordringar, KortfristigaPlaceringar, KassaBank])</field>
         </record>
         <record id="report_br_k2_Tillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br_k2"/>
@@ -812,7 +812,7 @@
         </record>
         <record id="kpi_report_br_k2_Tillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_k2_Tillgangar"/>
-            <field name="name">sum('TecknatEjInbetaltKapital', 'Anlaggningstillgangar', 'Omsattningstillgangar')</field>
+            <field name="name">sum([TecknatEjInbetaltKapital, Anlaggningstillgangar, Omsattningstillgangar])</field>
         </record>
         <record id="report_br_k2_EgetKapitalSkulderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_br_k2"/>
@@ -1504,7 +1504,7 @@
         </record>
         <record id="kpi_report_br_k2_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_k2_EgetKapitalSkulder"/>
-            <field name="name">sum('EgetKapital', 'ObeskattadeReserver', 'Avsattningar', 'LangfristigaSkulder', 'KortfristigaSkulder') * -1</field>
+            <field name="name">sum([EgetKapital, ObeskattadeReserver, Avsattningar, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
         </record>
     </data>
 </odoo>

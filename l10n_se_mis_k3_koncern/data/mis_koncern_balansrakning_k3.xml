@@ -455,7 +455,7 @@
         </record>
         <record id="kpi_report_br_koncern_k3_Anlaggningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_koncern_k3_Anlaggningstillgangar"/>
-            <field name="name">sum('ImmateriellaAnlaggningstillgangar', 'MateriellaAnlaggningstillgangar', 'FinansiellaAnlaggningstillgangar')</field>
+            <field name="name">sum([ImmateriellaAnlaggningstillgangar, MateriellaAnlaggningstillgangar, FinansiellaAnlaggningstillgangar])</field>
         </record>
         <record id="report_br_koncern_k3_OmsattningstillgangarAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_br_koncern_k3"/>
@@ -799,7 +799,7 @@
         </record>
         <record id="kpi_report_br_koncern_k3_Omsattningstillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_koncern_k3_Omsattningstillgangar"/>
-            <field name="name">sum('VarulagerMm', 'KortfristigaFordringar', 'KortfristigaPlaceringar', 'KassaBank')</field>
+            <field name="name">sum([VarulagerMm, KortfristigaFordringar, KortfristigaPlaceringar, KassaBank])</field>
         </record>
         <record id="report_br_koncern_k3_Tillgangar" model="mis.report.kpi">
             <field name="report_id" ref="report_br_koncern_k3"/>
@@ -812,7 +812,7 @@
         </record>
         <record id="kpi_report_br_koncern_k3_Tillgangar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_koncern_k3_Tillgangar"/>
-            <field name="name">sum('TecknatEjInbetaltKapital', 'Anlaggningstillgangar', 'Omsattningstillgangar')</field>
+            <field name="name">sum([TecknatEjInbetaltKapital, Anlaggningstillgangar, Omsattningstillgangar])</field>
         </record>
         <record id="report_br_koncern_k3_EgetKapitalSkulderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_br_koncern_k3"/>
@@ -1060,7 +1060,7 @@
         </record>
         <record id="kpi_report_br_koncern_k3_Avsattningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_koncern_k3_Avsattningar"/>
-            <field name="name">sum('AvsattningarPensionerLiknandeForpliktelser', 'UppskjutenSkatteskuld', 'AvsattningarOvrigSkatt', 'OvrigaAvsattningar') * -1</field>
+            <field name="name">sum([AvsattningarPensionerLiknandeForpliktelser, UppskjutenSkatteskuld, AvsattningarOvrigSkatt, OvrigaAvsattningar]) * -1</field>
         </record>
         <record id="report_br_koncern_k3_LangfristigaSkulderAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_br_koncern_k3"/>
@@ -1465,7 +1465,7 @@
         </record>
         <record id="kpi_report_br_koncern_k3_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_koncern_k3_EgetKapitalSkulder"/>
-            <field name="name">sum('EgetKapital', 'Avsattningar', 'LangfristigaSkulder', 'KortfristigaSkulder') * -1</field>
+            <field name="name">sum([EgetKapital, Avsattningar, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
         </record>
     </data>
 </odoo>
