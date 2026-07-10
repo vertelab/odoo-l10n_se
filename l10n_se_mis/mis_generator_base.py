@@ -217,13 +217,13 @@ def generate_report_xml(sheet_def, compact=False):
             used_accounts.update(rd['accounts'])
 
     # ── Bygg parent_id-hierarki ───────────────────────────────────────────
-    # parent = närmast föregående KPI med lägre level
+    # parent = närmast föregående KPI med lägre level (skippa level 0)
     for i, rd in enumerate(rows):
         rd['parent_idx'] = None
-        if rd['level'] is not None:
+        if rd['level'] is not None and rd['level'] > 0:
             for j in range(i - 1, -1, -1):
                 p = rows[j]
-                if p['level'] is not None and p['level'] < rd['level']:
+                if p['level'] is not None and p['level'] < rd['level'] and p['level'] > 0:
                     rd['parent_idx'] = j
                     break
 
