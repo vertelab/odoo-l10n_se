@@ -366,11 +366,14 @@ def generate_report_xml(sheet_def, compact=False):
 
 
 def write_xml(filename, output_dir, styles_xml, report_xml):
+    # Separata data-block: stilarna i noupdate="0" (återskapas vid upgrade),
+    # rapportdata i noupdate="1" (uppdateras inte automatiskt)
     full = f'''<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
 {styles_xml}
-
+    </data>
+    <data noupdate="1">
 {report_xml}
     </data>
 </odoo>'''

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_style_k2_1" model="mis.report.style">
             <field name="name">Style for money K2</field>
             <field eval="False" name="prefix_inherit"/>
@@ -52,7 +52,8 @@
             <field eval="False" name="prefix_inherit"/>
             <field name="suffix">SEK</field>
         </record>
-
+    </data>
+    <data noupdate="1">
         <record id="report_rr_hbkb_kostnadsslag_forkortad_k2" model="mis.report">
             <field name="name">Förkortad resultaträkning kostnadsslagsindelad K2</field>
         </record>
