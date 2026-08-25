@@ -293,9 +293,9 @@
         </field>
     </record>
 
-    <!-- Hide VAT Report from OCA Financial Reports menu when installed -->
-    <record id="account_financial_report.menu_vat_report_wizard" model="ir.ui.menu">
-        <field name="active" eval="False"/>
-    </record>
+    <!-- Hide VAT Report from OCA Financial Reports menu when installed.
+         OBS: account_financial_report är INTE ett hårt beroende — XML-id:t
+         saknas när OCA-modulen inte är installerad → ParseError. Borttagen
+         (2026-08-25); om OCA-rapporten ska döljas, gör det villkorligt. -->
 
 </odoo>
