@@ -134,7 +134,6 @@ class account_declaration(models.Model):
         default='posted', string='Target Moves')
 
     accounting_method = fields.Selection(
-        selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden')],
         related='company_id.accounting_method')
 
     accounting_yearend = fields.Boolean(string="Bokslutsperiod",
@@ -255,11 +254,12 @@ class account_declaration(models.Model):
                     'privacy': 'confidential',
                 })
 
-    @api.model
-    def create(self, vals):
-        res = super(account_declaration, self).create(vals)
-        if vals.get('date'):
-            res.create_event()
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super(account_declaration, self).create(vals_list)
+        for rec, vals in zip(res, vals_list):
+            if vals.get('date'):
+                rec.create_event()
         return res
 
     # ~ @api.multi

@@ -91,6 +91,7 @@ class account_journal(models.Model):
 
 class serie_to_journal(models.Model):
     _name = 'serie.to.journal'
+    _description = 'Serie to Journal'
 
     name = fields.Char(string="Serie")
     journal_id = fields.Many2one(comodel_name="account.journal", string="Journal",

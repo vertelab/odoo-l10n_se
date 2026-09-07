@@ -100,31 +100,33 @@ class account_periodic_compilation(models.Model):
         })
         return report_instance
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Ensure date and name are computed when created from code (cron, batch).
         Also create a MIS report instance for consistent data with VAT report."""
-        if vals.get('date_start') and vals.get('date_stop'):
-            if not vals.get('date'):
-                date_stop = fields.Date.from_string(vals['date_stop'])
-                vals['date'] = fields.Date.to_string(
-                    self._calculate_pc_deadline(date_stop))
-            if not vals.get('name'):
-                vals['name'] = '%s %s - %s' % (
-                    self._report_name, vals['date_start'], vals['date_stop'])
-        record = super(account_periodic_compilation, self).create(vals)
-        # Create MIS report instance (must be done after super() so record has company_id)
-        if record.date_start and record.date_stop:
-            company = record.company_id or self.env.company
-            record.generated_mis_report_id = self._generate_mis_report(
-                record.date_start,
-                record.date_stop,
-                record.target_move,
-                record.name,
-                company,
-                report_id=record.report_id.id,
-            )
-        return record
+        for vals in vals_list:
+            if vals.get('date_start') and vals.get('date_stop'):
+                if not vals.get('date'):
+                    date_stop = fields.Date.from_string(vals['date_stop'])
+                    vals['date'] = fields.Date.to_string(
+                        self._calculate_pc_deadline(date_stop))
+                if not vals.get('name'):
+                    vals['name'] = '%s %s - %s' % (
+                        self._report_name, vals['date_start'], vals['date_stop'])
+        records = super(account_periodic_compilation, self).create(vals_list)
+        # Create MIS report instance (must be done after super() so records have company_id)
+        for record in records:
+            if record.date_start and record.date_stop:
+                company = record.company_id or self.env.company
+                record.generated_mis_report_id = self._generate_mis_report(
+                    record.date_start,
+                    record.date_stop,
+                    record.target_move,
+                    record.name,
+                    company,
+                    report_id=record.report_id.id,
+                )
+        return records
 
     def _get_period_invoices(self):
         domain = [

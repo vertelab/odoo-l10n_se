@@ -13,7 +13,6 @@ class ResConfigSettings(models.TransientModel):
         related='company_id.skv_test_mode', readonly=False)
 
     skv_auth_method = fields.Selection(
-        selection=[('cert', 'Certificate'), ('e_id', 'E-identification')],
         string='SKV Auth Method',
         related='company_id.skv_auth_method', readonly=False)
 

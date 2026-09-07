@@ -229,30 +229,30 @@ class account_vat_declaration(models.Model):
         )
         return report_instance
             
-    @api.model
-    def create(self,values):
-        record = super(account_vat_declaration, self).create(values)
-        
-        if record.accounting_yearend:
-            accounting_method = 'invoice'
-        else:
-            if not record.company_id.accounting_method:
-                raise UserError(_(
-                    "Accounting method is not configured for company %s. "
-                    "Set it in Accounting → Configuration → Settings.")
-                    % record.company_id.name)
-            accounting_method = record.company_id.accounting_method
-        record.generated_mis_report_id = self._generate_mis_report(
-            record.date_start, 
-            record.date_stop, 
-            record.target_move, 
-            record.name, 
-            accounting_method, 
-            record.company_id,
-            report_id=record.report_id.id,
-        )
-        
-        return record
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super(account_vat_declaration, self).create(vals_list)
+        for record in records:
+            if record.accounting_yearend:
+                accounting_method = 'invoice'
+            else:
+                if not record.company_id.accounting_method:
+                    raise UserError(_(
+                        "Accounting method is not configured for company %s. "
+                        "Set it in Accounting → Configuration → Settings.")
+                        % record.company_id.name)
+                accounting_method = record.company_id.accounting_method
+            record.generated_mis_report_id = self._generate_mis_report(
+                record.date_start,
+                record.date_stop,
+                record.target_move,
+                record.name,
+                accounting_method,
+                record.company_id,
+                report_id=record.report_id.id,
+            )
+
+        return records
         
     def create_eskd_xml_file(self):
         if type(self.date_start) == bool or type(self.date_stop) == bool:

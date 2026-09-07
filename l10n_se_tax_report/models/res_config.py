@@ -37,14 +37,12 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     vat_declaration_frequency = fields.Selection(
-        selection=[('month', 'Month'), ('quarter', 'Quarter'), ('year', 'Year')],
         string='Tax Declaration Frequency',
         help="Length of the VAT declaration period.",
         related='company_id.vat_declaration_frequency',
         readonly=False)
 
     accounting_method = fields.Selection(
-        selection=[('cash', 'Kontantmetoden'), ('invoice', 'Fakturametoden')],
         string='Redovisningsmetod',
         help="Ange redovisningsmetod, OBS även företag som tillämpar kontantmetoden "
              "skall välja fakturametoden i sista perioden/bokslutsperioden",

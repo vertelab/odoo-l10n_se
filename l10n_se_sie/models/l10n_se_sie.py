@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 
 class account_sie_serie_to_journal(models.TransientModel):
     _name = 'account.sie.serie.to.journal'
+    _description = 'SIE Serie to Journal'
 
     name = fields.Char(string="Serie")
     journal_id = fields.Many2one(comodel_name="account.journal", string="Journal",
@@ -34,7 +35,7 @@ class account_sie_account(models.TransientModel):
     wizard_id = fields.Many2one(comodel_name='account.sie', string='Wizard')
     checked = fields.Boolean(string='')
     reconcile = fields.Boolean(string='')
-    name = fields.Char(string='Name', required=True, select=True)
+    name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', size=64, required=True)
 
     account_type = fields.Selection(
@@ -64,9 +65,6 @@ class account_sie_account(models.TransientModel):
     )
 
     parent_id = fields.Many2one(comodel_name='account.account', string='Parent', domain=[('type', '=', 'view')])
-
-class account_sie(models.TransientModel):
-    _name = 'account.sie'
 
 class account_sie(models.TransientModel):
     _name = 'account.sie'
