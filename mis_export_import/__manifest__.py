@@ -34,7 +34,7 @@
         * Subreports
         * Sub-KPIs
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se',
     'license': 'AGPL-3',
     'depends': ['mis_builder', 'l10n_se_mis'],

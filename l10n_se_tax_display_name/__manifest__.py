@@ -9,7 +9,7 @@
         the tax name when no description is set. Affects all many2one
         dropdowns, search results, and any other field relying on display_name.
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/l10n_se_tax_display_name',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

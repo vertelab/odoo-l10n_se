@@ -1,5 +1,6 @@
 {
     'name': 'l10n_se: Account Demo Data',
+'author': 'Vertel Sverige AB',
     'version': '2.8',
     'category': 'Accounting/Localization',
     'license': 'AGPL-3',

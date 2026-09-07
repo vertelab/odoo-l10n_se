@@ -37,7 +37,7 @@
         
         Om någon av dessa rubriker används måste konto-listan knuten till rubriken justeras
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
     'license': 'AGPL-3',
     'contributor': '',

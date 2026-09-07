@@ -6,7 +6,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Svensk utbildning om betalorder, pending-state och bankavstämning via website_slides',
     'category': 'Accounting/Training',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

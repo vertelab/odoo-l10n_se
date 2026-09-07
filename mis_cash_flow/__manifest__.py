@@ -27,7 +27,7 @@
     'description': """
     MIS Cash flow template.
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/mis_cash_flow',
     'license': 'AGPL-3',
     'contributor': '',

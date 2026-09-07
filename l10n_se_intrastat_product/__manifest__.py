@@ -8,7 +8,7 @@
     "category": "Reporting",
     "license": "AGPL-3",
     "summary": "Swedish Intrastat Product Declaration (SCB EDAS XML)",
-    "author": "Vertel AB, Odoo Community Association (OCA)",
+    "author": "Vertel Sverige AB, Odoo Community Association (OCA)",
     "maintainers": [],
     "website": "https://vertel.se/apps/odoo-l10n_se/l10n_se_intrastat_product",
     "depends": [

@@ -11,7 +11,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Swedish payroll education — system-independent theory with Odoo practice guides',
     'category': 'Payroll/Training',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_payroll_lms',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

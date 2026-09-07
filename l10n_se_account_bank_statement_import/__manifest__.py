@@ -28,7 +28,7 @@
     'description': """
     Base Module for Import of Swedish Account Bank Statements.
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_bank_statement_import',
     'license': 'AGPL-3',
     'contributor': '',

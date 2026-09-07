@@ -29,7 +29,7 @@
     for each transaction using bank-assigned references (NtryRef, AcctSvcrRef, TxId, etc.).
     This prevents the same bank file from being imported multiple times.
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/bank_statement_import_id',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

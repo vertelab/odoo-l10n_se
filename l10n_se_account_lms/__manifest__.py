@@ -11,7 +11,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Swedish accounting education — system-independent theory with Odoo practice guides',
     'category': 'Accounting/Training',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_lms',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

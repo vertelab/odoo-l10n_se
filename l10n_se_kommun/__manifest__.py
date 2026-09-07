@@ -24,7 +24,7 @@
     'version': '1.0',
     'summary': 'Sweden Kommun - Chart of accounts',
     'category': 'Accounting/Localizations/Account Charts',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_kommun',
     'license': 'AGPL-3',
     'contributor': '',

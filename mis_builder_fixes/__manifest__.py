@@ -14,7 +14,7 @@
            subkpis have been removed from a report, preventing an
            AssertionError in _get_expressions().
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se',
     'license': 'AGPL-3',
     'depends': ['mis_builder'],

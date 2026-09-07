@@ -24,7 +24,7 @@
     'version': '18.0.0.0.1',
     'summary': 'Sweden - Year-End Closing and Annual Report',
     'category': 'Accounting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_bokslut',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

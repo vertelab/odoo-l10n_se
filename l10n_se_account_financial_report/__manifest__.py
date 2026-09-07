@@ -25,7 +25,7 @@
     'summary': 'Sweden - Account Financial Report',
     'category': 'Accounting',
     #'sequence': '1',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': '',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

@@ -30,7 +30,7 @@
         The module adds support for importing and reading SIE-files (.se-files)
     """,
 	 #'sequence': '1',
-	'author': 'Vertel AB',
+	'author': 'Vertel Sverige AB',
 	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_sie',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

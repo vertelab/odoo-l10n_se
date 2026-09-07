@@ -29,7 +29,7 @@
         K3-variant av svenska MIS-rapporter för aktiebolag.
         Baserad på l10n_se_mis men anpassad för K3-regelverket (BFNAR 2012:1).
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k3',
     'license': 'AGPL-3',
     'contributor': '',

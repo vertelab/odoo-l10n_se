@@ -33,7 +33,7 @@
 	\n
 	Version 14.0.0.1.0 Added a list of municipalities\n
      """,
-	'author': 'Vertel AB',
+	'author': 'Vertel Sverige AB',
 	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_municipality_class',
     'license': 'AGPL-3',
 	'contributor': '',

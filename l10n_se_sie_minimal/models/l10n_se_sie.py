@@ -55,7 +55,7 @@ class account_sie_account(models.TransientModel):
             ("expense_direct_cost", "Cost of Revenue"),
             ("off_balance", "Off-Balance Sheet"),
         ],
-        string="Type", tracking=True,
+        string="Type",
         required=True,
         default="asset_fixed",
     )
@@ -130,7 +130,7 @@ class account_sie(models.TransientModel):
             ("expense_direct_cost", "Cost of Revenue"),
             ("off_balance", "Off-Balance Sheet"),
         ],
-        string="Type", tracking=True,
+        string="Type",
         required=True,
         default="asset_fixed",
     )

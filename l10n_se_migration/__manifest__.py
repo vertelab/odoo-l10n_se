@@ -11,7 +11,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Migrate accounting data from Fortnox, Visma, Bokio to Odoo',
     'category': 'Accounting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_migration',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

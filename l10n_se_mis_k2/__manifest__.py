@@ -31,7 +31,7 @@
         Innehåller balansräkning, resultaträkning (kostnadsslagsindelad) och
         kassaflödesanalys enligt K2:s förenklade regler.
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k2',
     'license': 'AGPL-3',
     'contributor': '',

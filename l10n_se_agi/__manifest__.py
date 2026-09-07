@@ -24,7 +24,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Swedish AGI (Arbetsgivardeklaration individuppgifter) and KU (Kontrolluppgifter) generation',
     'category': 'Accounting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_agi',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

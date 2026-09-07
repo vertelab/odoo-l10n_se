@@ -54,7 +54,7 @@ Configuration:
 External Dependencies:
 - requests (HTTP client for SKV API)
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_account',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

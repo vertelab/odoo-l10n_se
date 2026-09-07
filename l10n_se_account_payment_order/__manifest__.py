@@ -25,7 +25,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Swedish Payment Order Configuration',
     'category': 'Accounting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_payment_order',
     'license': 'AGPL-3',
     'contributor': 'Configuration of account for payment order',

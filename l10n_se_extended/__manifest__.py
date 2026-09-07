@@ -25,7 +25,7 @@
     # Version ledger: 16.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Chart of accounts',
     'category': 'Accounting/Localizations/Account Charts',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se',
     'license': 'AGPL-3',
     'contributor': '',

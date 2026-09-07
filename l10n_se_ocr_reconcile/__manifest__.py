@@ -3,7 +3,7 @@
     'version': '18.0.1.0.0',
     'category': 'Accounting',
     'summary': 'Bridge module to match Swedish OCR numbers from bank feeds with invoices via OCA reconciliation',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/account_swedish_ocr_reconcile',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

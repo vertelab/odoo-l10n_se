@@ -28,7 +28,7 @@
     'description': """
     Handles Mynt Transactions
      """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mynt',
     'license': 'AGPL-3',
     'contributor': '',
