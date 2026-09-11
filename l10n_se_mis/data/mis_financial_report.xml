@@ -20,6 +20,8 @@
             <field eval="False" name="prefix_inherit"/>
             <field eval="False" name="suffix_inherit"/>
             <field name="suffix">SEK</field>
+            <field eval="False" name="dp_inherit"/>
+            <field name="dp">0</field>
         </record>
         <record id="report_style_3" model="mis.report.style">
             <field name="name">Style total</field>
@@ -1084,7 +1086,8 @@
             <field name="name">VarulagerMm</field>
             <field name="description">Varulager m.m.</field>
             <field name="style_id" ref="report_style_1"/>
-            <field name="type">str</field>
+            <field name="type">num</field>
+            <field name="accumulation_method">none</field>
             <field name="sequence">40</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>

@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Aktiebolag)',
-    'version': '18.0.1.3',
+    'version': '18.0.1.4',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Swedish MIS-reports for Aktiebolag enligt K2 (BFNAR 2016:10)',
     'category': 'Accounting/Localizations',
