@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_style_1" model="mis.report.style">
             <field name="name">Style for money</field>
             <field eval="False" name="prefix_inherit"/>
@@ -1084,6 +1084,7 @@
             <field name="name">VarulagerMm</field>
             <field name="description">Varulager m.m.</field>
             <field name="style_id" ref="report_style_1"/>
+            <field name="type">str</field>
             <field name="sequence">40</field>
             <field name="auto_expand_accounts">True</field>
             <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
@@ -1551,6 +1552,19 @@
             <field name="kpi_id" ref="report_br_OvrigaObeskattadeReserver"/>
             <field name="name">bal[2160, 2161, 2162, 2163, 2164, 2165, 2166, 2167, 2168, 2169, 2190, 2191, 2192, 2193, 2194, 2195, 2196, 2197, 2198, 2199]* -1</field>
         </record>
+        <record id="report_br_ObeskattadeReserver" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">ObeskattadeReserver</field>
+            <field name="description">Summa obeskattade reserver</field>
+            <field name="style_id" ref="report_style_5"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">77</field>
+        </record>
+        <record id="kpi_title_report_br_ObeskattadeReserver" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_ObeskattadeReserver"/>
+            <field name="name">Periodiseringsfonder+AckumuleradeOveravskrivningar+OvrigaObeskattadeReserver</field>
+        </record>
         <record id="report_br_AvsattningarAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
             <field name="name">AvsattningarAbstract</field>
@@ -1613,7 +1627,7 @@
         </record>
         <record id="kpi_title_report_br_Avsattningar" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_Avsattningar_title"/>
-            <field name="name">Periodiseringsfonder+AckumuleradeOveravskrivningar+OvrigaObeskattadeReserver+                 AvsattningarPensionerLiknandeFor+OvrigaAvsattningarPensionerLikna+OvrigaAvsattningar</field>
+            <field name="name">AvsattningarPensionerLiknandeFor+OvrigaAvsattningarPensionerLikna+OvrigaAvsattningar</field>
         </record>
         <record id="report_br_LangfristigaSkulderAbstract_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
@@ -1927,6 +1941,19 @@
             <field name="kpi_id" ref="report_br_UpplupnaKostnaderForutbetaldaInt"/>
             <field name="name">bal[2900, 2901, 2902, 2903, 2904, 2905, 2906, 2907, 2908, 2909, 2910, 2911, 2912, 2913, 2914, 2915, 2916, 2917, 2918, 2919, 2920, 2921, 2922, 2923, 2924, 2925, 2926, 2927, 2928, 2929, 2930, 2931, 2932, 2933, 2934, 2935, 2936, 2937, 2938, 2939, 2940, 2941, 2942, 2943, 2944, 2945, 2946, 2947, 2948, 2949, 2950, 2951, 2952, 2953, 2954, 2955, 2956, 2957, 2958, 2959, 2960, 2961, 2962, 2963, 2964, 2965, 2966, 2967, 2968, 2969, 2970, 2971, 2972, 2973, 2974, 2975, 2976, 2977, 2978, 2979, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2989, 2990, 2991, 2992, 2993, 2994, 2995, 2996, 2997, 2998, 2999]* -1</field>
         </record>
+        <record id="report_br_KortfristigaSkulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">KortfristigaSkulder</field>
+            <field name="description">Summa kortfristiga skulder</field>
+            <field name="style_id" ref="report_style_5"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">106</field>
+        </record>
+        <record id="kpi_title_report_br_KortfristigaSkulder" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_KortfristigaSkulder"/>
+            <field name="name">CheckrakningskreditKortfristig+OvrigaKortfristigaSkulderKrediti+ForskottFranKunder+PagaendeArbetenAnnansRakningKort+FaktureradEjUpparbetadIntakt+Leverantorsskulder+Vaxelskulder+SkulderKoncernforetagKortfristig+SkulderIntresseforetagGemensamtS+SkulderOvrigaForetagAgarintresse+Skatteskulder+OvrigaKortfristigaSkulder+UpplupnaKostnaderForutbetaldaInt</field>
+        </record>
         <record id="report_br_EgetKapitalSkulder_title" model="mis.report.kpi">
             <field name="report_id" ref="report_br"/>
             <field name="name">EgetKapitalSkulder</field>
@@ -1938,7 +1965,20 @@
         </record>
         <record id="kpi_title_report_br_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_EgetKapitalSkulder_title"/>
-            <field name="name">Obligationslan+CheckrakningskreditLangfristig+OvrigaLangfristigaSkulderKrediti+SkulderKoncernforetagLangfristig+SkulderIntresseforetagGemensamtS+OvrigaLangfristigaSkulder+CheckrakningskreditKortfristig+OvrigaKortfristigaSkulderKrediti+ForskottFranKunder+PagaendeArbetenAnnansRakningKort+FaktureradEjUpparbetadIntakt+Leverantorsskulder+Vaxelskulder+SkulderKoncernforetagKortfristig+SkulderOvrigaForetagAgarintresse+Skatteskulder+OvrigaKortfristigaSkulder+UpplupnaKostnaderForutbetaldaInt</field>
+            <field name="name">sum([EgetKapital, ObeskattadeReserver, Avsattningar, LangfristigaSkulder, KortfristigaSkulder])</field>
+        </record>
+        <record id="report_br_IckeBokfordVinstForlust_title" model="mis.report.kpi">
+            <field name="report_id" ref="report_br"/>
+            <field name="name">IckeBokfordVinstForlust</field>
+            <field name="description">Icke bokförd vinst/förlust</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">108</field>
+        </record>
+        <record id="kpi_title_report_br_IckeBokfordVinstForlust" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_IckeBokfordVinstForlust_title"/>
+            <field name="name">bal[3%,4%,5%,6%,7%,8%] * -1</field>
         </record>
     </data>
 </odoo>

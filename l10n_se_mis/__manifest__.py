@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports',
-    'version': '1.0',
+    'version': '18.0.1.8',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Create Swedish MIS-reports',
     'category': 'Accounting',
