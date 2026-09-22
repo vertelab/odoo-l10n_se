@@ -15,7 +15,7 @@
            AssertionError in _get_expressions().
     """,
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/mis_builder_fixes',
     'license': 'AGPL-3',
     'depends': ['mis_builder'],
     'data': [],

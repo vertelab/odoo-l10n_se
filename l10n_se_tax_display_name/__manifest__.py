@@ -10,7 +10,7 @@
         dropdowns, search results, and any other field relying on display_name.
     """,
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/l10n_se_tax_display_name',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_display_name',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'depends': ['account'],

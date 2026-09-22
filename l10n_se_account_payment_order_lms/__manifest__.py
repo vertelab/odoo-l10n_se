@@ -7,7 +7,7 @@
     'summary': 'Svensk utbildning om betalorder, pending-state och bankavstämning via website_slides',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_payment_order_lms',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'description': """

@@ -30,7 +30,7 @@
     This prevents the same bank file from being imported multiple times.
     """,
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/bank_statement_import_id',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/bank_statment_import_id',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'depends': ['account_statement_import_camt'],

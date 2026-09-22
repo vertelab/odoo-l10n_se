@@ -7,6 +7,7 @@
     'summary': 'Payment order support for tax declarations',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_report_payment_order',
     'license': 'AGPL-3',
     'depends': [
         'l10n_se_tax_report',

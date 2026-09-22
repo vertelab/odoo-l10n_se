@@ -26,7 +26,7 @@
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
-    'website': '',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_financial_report',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',

@@ -41,7 +41,7 @@ Supported transaction types
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB, Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/bank-payment",
+    "website": "https://vertel.se/apps/odoo-l10n_se/l10n_se_credit_transfer",
     "category": "Banking",
     "depends": [
         "account_payment_order",

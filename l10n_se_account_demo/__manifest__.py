@@ -1,6 +1,7 @@
 {
     'name': 'l10n_se: Account Demo Data',
 'author': 'Vertel Sverige AB',
+'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_demo',
     'version': '2.8',
     'category': 'Accounting/Localization',
     'license': 'AGPL-3',

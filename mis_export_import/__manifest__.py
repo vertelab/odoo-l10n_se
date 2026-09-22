@@ -35,7 +35,7 @@
         * Sub-KPIs
     """,
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/mis_export_import',
     'license': 'AGPL-3',
     'depends': ['mis_builder', 'l10n_se_mis'],
     "data": [

@@ -5,7 +5,7 @@
     'summary': 'Provides fiscal year, quarter, and month date range types for Swedish localization.',
     'description': 'Creates date range types for fiscal year, quarter, and month.',
     'author': 'Vertel Sverige AB',
-    'website': 'vertel.se',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_date_ranges',
     'license': 'AGPL-3',
     'depends': ['date_range'],
     'data': [
