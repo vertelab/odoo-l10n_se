@@ -1,6 +1,10 @@
 l10n_se-bank -- icons
 2021-12-16
 
+Be aware of these!
+odoo-l10n_se/l10n_se_bank/static/description/banner.png
+odoo-l10n_se/l10n_se_bank/static/description/icon.png
+
 Path:
 /static/description/icon.png
 

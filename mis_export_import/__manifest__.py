@@ -22,18 +22,25 @@
 {
     'name': 'MIS Report: Export/Import',
     'version': '18.0.0.0.0',
-    'summary': 'Export and Import MIS Report templates with all related data (KPIs, Styles, Queries, etc.)',
+    'summary': 'Export and Import MIS Report templates with all related data (KPIs, Styles, Queries, etc.).',
     'category': 'Accounting',
-    'description': """
-        This module allows users to export MIS Report templates to XML files and import them into other Odoo instances.
-        It handles:
-        * MIS Report Template
-        * KPIs and their expressions
-        * Styles
-        * Queries
-        * Subreports
-        * Sub-KPIs
-    """,
+    'description': '''
+Export/Import
+=============
+
+    This module allows users to export MIS Report templates to XML files and import them into other Odoo instances.
+            It handles:
+            * MIS Report Template
+            * KPIs and their expressions
+            * Styles
+            * Queries
+            * Subreports
+            * Sub-KPIs
+
+    Features:
+
+        - Guided Wizards: Step-by-step dialogs for data entry.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/mis_export_import',
     'license': 'AGPL-3',

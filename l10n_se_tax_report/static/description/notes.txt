@@ -1,6 +1,10 @@
 l10n_se-tax report -- icons
 2021-12-21
 
+Be aware of these!
+odoo-l10n_se/l10n_se_tax_report/static/description/banner.png
+odoo-l10n_se/l10n_se_tax_report/static/description/icon.png
+
 Path:
 /static/description/icon.png
 

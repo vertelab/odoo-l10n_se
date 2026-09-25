@@ -21,12 +21,19 @@
 
 {
     'name': 'l10n_se: MIS Cash Flow',
-    'version': '1.1',
+    'version': '18.0.1.1.0',
     'summary': 'MIS Cash flow template.',
     'category': 'Accounting',
-    'description': """
+    'description': '''
+MIS Cash Flow
+=============
+
     MIS Cash flow template.
-    """,
+
+    Features:
+
+        - Demo Data: Ships pre-configured demo data for the industry.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/mis_cash_flow',
     'license': 'AGPL-3',

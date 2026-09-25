@@ -21,13 +21,16 @@
 
 {
     'name': 'l10n_se: Svenska Kommun MIS-reports',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Svenska Kommun MIS-reports',
+    'summary': 'Svenska Kommun MIS-reports.',
     'category': 'Accounting',
-    'description': """
-        Innehåller rapportsmallar för balance och resultat.  
-    """,
+    'description': '''
+Svenska Kommun MIS-reports
+==========================
+
+    Contains report templates for balance sheet and income statement.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_kommun',
     'license': 'AGPL-3',

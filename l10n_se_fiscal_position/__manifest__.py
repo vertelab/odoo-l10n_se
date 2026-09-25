@@ -23,11 +23,18 @@
     'name': 'l10n_se: Fiscal Position',
     'version': '18.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds support for Big Business around the globe!',
+    'summary': 'Adds support for Big Business around the globe!.',
     'category': 'Accounting',
-    'description': """
-    Adds support for trading and to send correct invoices to international companies not connected with the Swedish law. 
-    """,
+    'description': '''
+Fiscal Position
+===============
+
+    Adds support for trading and to send correct invoices to international companies not connected with the Swedish law.
+
+    Features:
+
+        - Extends Odoo: Builds on account.chart.template, account.fiscal.position, account.fiscal.position.tax.balance, account.fiscal.position.tax.balance.template.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_fiscal_position',
     'license': 'AGPL-3',

@@ -26,34 +26,38 @@
     'version': '18.0.2.0.0',
     'summary': 'Sweden - Tax Account Reconciliation (Skattekontoavst\u00e4mning)',
     'category': 'Accounting',
-    'description': """
-Swedish Tax Account Reconciliation (Skattekontoavst\u00e4mning)
-===========================================================
+    'description': '''
+Tax Account
+===========
 
-Fetches transactions from Skatteverket's Tax Account API and provides
-a two-column reconciliation view (inspired by Fortnox, Visma, and
-Business Central) for matching booked tax transactions against
-official tax account records.
+    Fetches transactions from Skatteverket's Tax Account API and provides
+    a two-column reconciliation view (inspired by Fortnox, Visma, and
+    Business Central) for matching booked tax transactions against
+    official tax account records.
 
-Features:
-- Fetch tax account transactions via Skatteverket API
-- Two-column reconciliation view (booked vs imported)
-- Auto-matching by amount with configurable date tolerance
-- Settlement journal creation on the VAT journal
-- Tax account balance display and verification
-- OCA reconciliation engine integration
-- Batch reconciliation (massavst\u00e4mning) for past periods
-- Company-level API configuration via res.config.settings
-- Daily cron for automatic transaction fetching
+    Features:
+    - Fetch tax account transactions via Skatteverket API
+    - Two-column reconciliation view (booked vs imported)
+    - Auto-matching by amount with configurable date tolerance
+    - Settlement journal creation on the VAT journal
+    - Tax account balance display and verification
+    - OCA reconciliation engine integration
+    - Batch reconciliation (massavst\u00e4mning) for past periods
+    - Company-level API configuration via res.config.settings
+    - Daily cron for automatic transaction fetching
 
-Configuration:
-- Accounting \u2192 Configuration \u2192 Settings \u2192 Skatteverket API
-- Requires a certificate uploaded on the Skatteverket partner
+    Configuration:
+    - Accounting \u2192 Configuration \u2192 Settings \u2192 Skatteverket API
+    - Requires a certificate uploaded on the Skatteverket partner
 
+    Features:
 
-External Dependencies:
-- requests (HTTP client for SKV API)
-    """,
+        - Web integration: Exposes HTTP endpoints for external systems.
+        - Automation: Scheduled jobs: l10n_se: Fetch Tax Account Transactions.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 5 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.bank.statement, account.journal, account.move, account.move.line.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_account',
     'images': ['static/description/banner.png'],

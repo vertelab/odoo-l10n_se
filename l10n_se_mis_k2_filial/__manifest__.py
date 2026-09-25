@@ -21,13 +21,17 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Filial)',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'summary': 'Swedish MIS-reports for Filial till utländskt företag enligt K2 (BFNAR 2016:10)',
     'category': 'Accounting/Localizations',
-    'description': """
-        K2-variant av svenska MIS-rapporter för filial till utländskt företag.
-        Baserad på l10n_se_mis men anpassad för K2-regelverket (BFNAR 2016:10).
-    """,
+    'description': '''
+Swedish MIS-reports K2 (Filial)
+===============================
+
+    K2 variant of the Swedish MIS reports for a branch of a foreign company.
+
+Based on l10n_se_mis but adapted to the K2 framework (BFNAR 2016:10).
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k2_filial',
     'license': 'AGPL-3',

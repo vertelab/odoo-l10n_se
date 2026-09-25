@@ -23,16 +23,24 @@
     'name': 'l10n_se: Municipality Swedish Municipalities',
     'version': '18.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'A list of Swedish Municipalities',
+    'summary': 'A list of Swedish Municipalities.',
     'category': 'Accounting',
-    'description': """
-	The standard hiearchy of Country states is on the second level in a country. This module adds a third level: Country -> State -> Municipality.\n
-	\n
-	The module can be used to group res_partners and other objects if it is linked to.\n
-	An other similar module is: https://github.com/OCA/partner-contact/tree/14.0/base_location_nuts \n
-	\n
-	Version 14.0.0.1.0 Added a list of municipalities\n
-     """,
+    'description': '''
+Municipality Swedish Municipalities
+===================================
+
+    The standard hiearchy of Country states is on the second level in a country. This module adds a third level: Country -> State -> Municipality.\n
+    	\n
+    	The module can be used to group res_partners and other objects if it is linked to.\n
+    	An other similar module is: https://github.com/OCA/partner-contact/tree/14.0/base_location_nuts \n
+    	\n
+    	Version 14.0.0.1.0 Added a list of municipalities\n
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on existing Odoo models.
+    ''',
 	'author': 'Vertel Sverige AB',
 	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_municipality_class',
     'license': 'AGPL-3',

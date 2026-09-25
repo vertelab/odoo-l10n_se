@@ -21,14 +21,18 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K3 (Aktiebolag)',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Swedish MIS-reports for Aktiebolag enligt K3 (BFNAR 2012:1)',
+    'summary': 'Swedish MIS-reports for Aktiebolag enligt K3 (BFNAR 2012:1).',
     'category': 'Accounting/Localizations',
-    'description': """
-        K3-variant av svenska MIS-rapporter för aktiebolag.
-        Baserad på l10n_se_mis men anpassad för K3-regelverket (BFNAR 2012:1).
-    """,
+    'description': '''
+Swedish MIS-reports K3 (Aktiebolag)
+===================================
+
+    K3 variant of the Swedish MIS reports for limited companies.
+
+Based on l10n_se_mis but adapted to the K3 framework (BFNAR 2012:1).
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k3',
     'license': 'AGPL-3',

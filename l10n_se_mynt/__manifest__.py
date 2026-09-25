@@ -21,13 +21,22 @@
 
 {
     'name': 'l10n_se: Mynt',
-    'version': '0.1',
+    'version': '18.0.1.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Handles Mynt Transactions',
+    'summary': 'Handles Mynt Transactions.',
     'category': 'Accounting',
-    'description': """
-    Handles Mynt Transactions
-     """,
+    'description': '''
+Mynt
+====
+
+    Handles Mynt Transactions.
+
+    Features:
+
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move, mynt.account.move.reconcile.wizard.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mynt',
     'license': 'AGPL-3',

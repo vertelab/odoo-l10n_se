@@ -23,11 +23,19 @@
     'name': 'l10n_se: Swedish Account Bank Statement Import',
     'version': '18.0.1.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Base Module for Import of Swedish Account Bank Statements',
+    'summary': 'Base Module for Import of Swedish Account Bank Statements.',
     'category': 'Accounting',
-    'description': """
+    'description': '''
+Swedish Account Bank Statement Import
+=====================================
+
     Base Module for Import of Swedish Account Bank Statements.
-    """,
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.bank.statement, account.bank.statement.line, account.statement.import.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_bank_statement_import',
     'license': 'AGPL-3',

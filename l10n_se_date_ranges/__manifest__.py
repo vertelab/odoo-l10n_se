@@ -3,6 +3,16 @@
     'version': '18.0.1.1.0',
     'category': 'Accounting/Localizations',
     'summary': 'Provides fiscal year, quarter, and month date range types for Swedish localization.',
+    'description': '''
+l10n_se Date Ranges
+===================
+
+    Provides fiscal year, quarter, and month date range types for Swedish localization.
+
+    Features:
+
+        - Extends Odoo: Builds on date.range.generator, date.range.type.
+    ''',
     'description': 'Creates date range types for fiscal year, quarter, and month.',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_date_ranges',

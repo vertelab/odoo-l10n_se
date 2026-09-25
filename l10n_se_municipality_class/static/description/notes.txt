@@ -1,6 +1,10 @@
 l10n_se-municipality_class -- icons
 2021-12-28
 
+Be aware of these!
+odoo-l10n_se/l10n_se_municipality_class/static/description/banner.png
+odoo-l10n_se/l10n_se_municipality_class/static/description/icon.png
+
 Path:
 /static/description/icon.png
 

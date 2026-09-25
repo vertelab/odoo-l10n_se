@@ -22,28 +22,35 @@
 {
     'name': 'l10n_se: AGI — Individual Information (Individuppgifter) + KU',
     'version': '18.0.1.0.0',
-    'summary': 'Swedish AGI (Arbetsgivardeklaration individuppgifter) and KU (Kontrolluppgifter) generation',
+    'summary': 'Swedish AGI (Arbetsgivardeklaration individuppgifter) and KU (Kontrolluppgifter) generation.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_agi',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'description': """
-Swedish AGI — Individual Information (Individuppgifter)
-=======================================================
-Implements monthly AGI declaration (SKV rutor 50-82) and
-KU10 (Kontrolluppgift) for Swedish employers.
+    'description': '''
+AGI — Individual Information (Individuppgifter) + KU
+====================================================
 
-Features:
-- AGI declaration model inheriting from account.declaration
-- Per-employee aggregation from payslips
-- Age-based employer fee percentages (<65: 31.42%, 66-79: 16.36%, >=80: 6.15%)
-- eSKD XML generation (DTD 6.0)
-- SKV API submission via l10n_se_tax_report infrastructure
-- KU10 generation
-- Växa-stöd support (lower employer fee for first employee)
-    """,
+    Implements monthly AGI declaration (SKV rutor 50-82) and
+    KU10 (Kontrolluppgift) for Swedish employers.
+
+    Features:
+    - AGI declaration model inheriting from account.declaration
+    - Per-employee aggregation from payslips
+    - Age-based employer fee percentages (<65: 31.42%, 66-79: 16.36%, >=80: 6.15%)
+    - eSKD XML generation (DTD 6.0)
+    - SKV API submission via l10n_se_tax_report infrastructure
+    - KU10 generation
+    - Växa-stöd support (lower employer fee for first employee)
+
+    Features:
+
+        - Automation: Scheduled jobs: AGI: Auto-create monthly declaration.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.agi.declaration, account.agi.declaration.line, account.declaration.
+    ''',
     'depends': [
         'l10n_se_tax_report',
         'l10n_se_tax_account',

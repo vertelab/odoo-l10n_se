@@ -21,8 +21,8 @@
 
 {
     'name': 'l10n_se: Sweden Kommun - Accounting',
-    'version': '1.0',
-    'summary': 'Sweden Kommun - Chart of accounts',
+    'version': '18.0.1.0.0',
+    'summary': 'Sweden Kommun - Chart of accounts.',
     'category': 'Accounting/Localizations/Account Charts',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_kommun',
@@ -31,14 +31,16 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'],  # 560x280 px.
-    'description': """
-        Sweden Kommun- Chart of accounts
+    'description': '''
+Sweden Kommun - Accounting
+==========================
 
-        * Kommun BAS 2025 (Chart of account, rules from SKV-283 v16)
-        * Tax-codes from SKV-4700 r1-49  SKV-409
+    Next step is to choose a chart_of_accounts and that can be done in the settings meny but you need to check "Show Full Accounting Features" on you current user.
 
-        Next step is to choose a chart_of_accounts and that can be done in the settings meny but you need to check "Show Full Accounting Features" on you current user.
-     """,
+    Features:
+
+        - Extends Odoo: Builds on account.chart.template.
+    ''',
     'depends': ['account', 'l10n_se'],
     'init_xml': [],
     'data': [

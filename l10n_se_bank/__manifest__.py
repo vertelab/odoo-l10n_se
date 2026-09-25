@@ -25,9 +25,17 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds support for swedish bank account formats.',
     'category': 'Accounting',
-    'description': """
+    'description': '''
+Swedish Bank Accounts
+=====================
+
     Adds support for swedish bank account formats.
-    """,
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on existing Odoo models.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_bank',
     'license': 'AGPL-3',

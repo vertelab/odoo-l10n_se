@@ -21,16 +21,19 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Aktiebolag)',
-    'version': '18.0.1.4',
+    'version': '18.0.1.4.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Swedish MIS-reports for Aktiebolag enligt K2 (BFNAR 2016:10)',
+    'summary': 'Swedish MIS-reports for Aktiebolag enligt K2 (BFNAR 2016:10).',
     'category': 'Accounting/Localizations',
-    'description': """
-        K2-variant av svenska MIS-rapporter för aktiebolag.
-        Baserad på l10n_se_mis men anpassad för K2-regelverket (BFNAR 2016:10).
-        Innehåller balansräkning, resultaträkning (kostnadsslagsindelad) och
-        kassaflödesanalys enligt K2:s förenklade regler.
-    """,
+    'description': '''
+Swedish MIS-reports K2 (Aktiebolag)
+===================================
+
+    K2 variant of the Swedish MIS reports for limited companies.
+
+Based on l10n_se_mis but adapted to the K2 framework (BFNAR 2016:10).
+Contains balance sheet and income statement (cost of sales method).
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k2',
     'license': 'AGPL-3',

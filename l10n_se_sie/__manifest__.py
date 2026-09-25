@@ -21,14 +21,22 @@
 
 {
     'name': 'l10n_se: SIE-import',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
-    'summary': 'Module for importing SIE-files',
+    'summary': 'Module for importing SIE-files.',
     'category': 'Accounting',
-    'description': """
-        The module adds support for importing and reading SIE-files (.se-files)
-    """,
+    'description': '''
+SIE-import
+==========
+
+    The module adds support for importing and reading SIE-files (.se-files)
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.account, account.chart.template, account.fiscalyear, account.journal.
+    ''',
 	 #'sequence': '1',
 	'author': 'Vertel Sverige AB',
 	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_sie',

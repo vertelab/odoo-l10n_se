@@ -4,7 +4,18 @@
 {
     'name': 'l10n_se: Tax Report Payment Order',
     'version': '18.0.1.0.0',
-    'summary': 'Payment order support for tax declarations',
+    'summary': 'Payment order support for tax declarations.',
+    'description': '''
+Tax Report Payment Order
+========================
+
+    Payment order support for tax declarations.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.declaration.
+    ''',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_tax_report_payment_order',

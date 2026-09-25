@@ -1,6 +1,10 @@
 l10n_se-account payment order -- icons
 2021-12-16
 
+Be aware of these!
+odoo-l10n_se/l10n_se_account_payment_order/static/description/banner.png
+odoo-l10n_se/l10n_se_account_payment_order/static/description/icon.png
+
 Path:
 /static/description/icon.png
 

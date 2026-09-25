@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="L10n Se Bokslut icon">
+  <!-- Odoo O (purple) -->
+  <circle cx="58" cy="58" r="38" fill="none" stroke="#875A7B" stroke-width="11"/>
+  <rect x="70" y="22" width="22" height="24" fill="#F8FAFC" rx="2"/>
+  <!-- Domain symbol (accent) bottom-right -->
+  <g transform="translate(76, 72) scale(1.05)">
+    <g fill="none" stroke="#3B82F6" stroke-width="2.2">
+      <line x1="6" y1="2" x2="6" y2="22"/>
+      <path d="M6 3 h12 l-3 4 3 4 h-12 z" fill="#3B82F6"/></g>
+  </g>
+</svg>

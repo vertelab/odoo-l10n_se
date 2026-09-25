@@ -22,7 +22,7 @@
 {
     'name': 'l10n_se: Account Financial Report',
     'version': '18.0.0.0.0',
-    'summary': 'Sweden - Account Financial Report',
+    'summary': 'Sweden - Account Financial Report.',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
@@ -32,9 +32,17 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'description': """
-Swedish Account Financial Report
-     """,
+    'description': '''
+Account Financial Report
+========================
+
+    Sweden - Account Financial Report.
+
+    Features:
+
+        - UI Integration: Extends 3 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on financial.reports, financial.reports.instance, financial.reports.line, financial.reports.line.results.
+    ''',
     'author': 'Vertel AB',
     'depends': ['l10n_se_extended'],
     'data': [

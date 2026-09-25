@@ -9,33 +9,38 @@
 {
     'name': 'l10n_se: Swedish Payroll Training (LMS)',
     'version': '18.0.1.0.0',
-    'summary': 'Swedish payroll education — system-independent theory with Odoo practice guides',
+    'summary': 'Swedish payroll education — system-independent theory with Odoo practice guides.',
     'category': 'Payroll/Training',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_payroll_lms',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'description': """
-Swedish Payroll LMS (l10n_se_payroll_lms)
-=========================================
-System-independent training in Swedish payroll concepts and procedures,
-with Odoo-specific practice guides.
+    'description': '''
+Swedish Payroll Training (LMS)
+==============================
 
-Topics covered:
-- Löneadministration (Salary administration basics)
-- Skattetabeller & Preliminärskatt (Tax tables & withholding)
-- Semester & Semesterlöneskuld (Holiday pay & liability)
-- Sjuklön, VAB & Föräldraledighet (Sick pay & parental leave)
-- Kollektivavtal (Collective agreements)
-- Förmåner & Löneväxling (Benefits & salary exchange)
-- Arbetsgivardeklaration AGI (Employer monthly declaration)
-- FORA & Tjänstepension (Pension reporting)
-- Arbetsgivarintyg (Employment certificates)
-- Tidrapportering & SCB (Time reporting & Statistics Sweden)
+    System-independent training in Swedish payroll concepts and procedures,
+    with Odoo-specific practice guides.
 
-Sources: Skatteverket, Försäkringskassan, FORA, Arbetsgivarverket
-    """,
+    Topics covered:
+    - Löneadministration (Salary administration basics)
+    - Skattetabeller & Preliminärskatt (Tax tables & withholding)
+    - Semester & Semesterlöneskuld (Holiday pay & liability)
+    - Sjuklön, VAB & Föräldraledighet (Sick pay & parental leave)
+    - Kollektivavtal (Collective agreements)
+    - Förmåner & Löneväxling (Benefits & salary exchange)
+    - Arbetsgivardeklaration AGI (Employer monthly declaration)
+    - FORA & Tjänstepension (Pension reporting)
+    - Arbetsgivarintyg (Employment certificates)
+    - Tidrapportering & SCB (Time reporting & Statistics Sweden)
+
+    Sources: Skatteverket, Försäkringskassan, FORA, Arbetsgivarverket
+
+    Features:
+
+        - Demo Data: Ships pre-configured demo data for the industry.
+    ''',
     'depends': [
         'l10n_se_account_lms',
     ],

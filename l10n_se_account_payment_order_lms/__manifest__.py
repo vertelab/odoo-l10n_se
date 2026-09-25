@@ -10,33 +10,13 @@
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_payment_order_lms',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
-    'description': """
+    'description': '''
 Betalorder och Pending-state — Utbildning (LMS)
-================================================
-Training material delivered as website_slides courses.
+===============================================
 
-5 sections, 20+ slides (articles, infographics, Mermaid diagrams, quizzes):
-
-- **Section 1:** Introduktion till betalningar i Odoo
-  Olika betalsätt, SEPA vs Bankgiro vs Autogiro, BAS-konton.
-
-- **Section 2:** Betalorder — grunderna
-  account.payment.method vs account.payment.mode, betalorderns livscykel,
-  när blir fakturan betald? (T-konto + mermaid)
-
-- **Section 3:** Pending-state — varför och hur?
-  Problemet med tidig matchning, nytt flöde med pending_until_reconciliation,
-  jämförelse före/efter (T-konto + mermaid)
-
-- **Section 4:** Praktisk guide — fyra betaltyper
-  IBAN, Bankgiro, Autogiro, Manuell betalning — steg för steg med demo.
-  Bankavstämning som avslutar flödet.
-
-- **Section 5:** Konfiguration och automatisering
-  Supplier Payment Mode, aktivera pending-state i settings, tips för löpande arbete.
-
-5 quiz-slides med 5 frågor var — totalt 25 frågor.
-    """,
+    Training material delivered as website_slides courses. 5 sections, 20+ slides
+(articles) covering payment orders and the pending state.
+    ''',
     'depends': [
         'website_slides',
     ],

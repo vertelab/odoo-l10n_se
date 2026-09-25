@@ -1,6 +1,10 @@
 l10n_se-l10n_se -- icons
 2021-12-20
 
+Be aware of these!
+odoo-l10n_se/l10n_se_extended/static/description/banner.png
+odoo-l10n_se/l10n_se_extended/static/description/icon.png
+
 Path:
 /static/description/icon.png
 

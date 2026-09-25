@@ -1,6 +1,10 @@
 l10n_se-account bank statement import -- icons
 2021-12-16
 
+Be aware of these!
+odoo-l10n_se/l10n_se_account_bank_statement_import/static/description/banner.png
+odoo-l10n_se/l10n_se_account_bank_statement_import/static/description/icon.png
+
 Path:
 /static/description/icon.png
 
