@@ -32,6 +32,7 @@ class AccountBokslutAdjustment(models.Model):
             ('cost', 'Deductible Cost'),
             ('non_deductible', 'Non-Deductible Cost'),
             ('non_taxable', 'Non-Taxable Income'),
+            ('currency_diff', 'Valutakursdifferens'),
         ],
         string='Type',
         required=True,

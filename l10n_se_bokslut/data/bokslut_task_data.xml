@@ -50,6 +50,14 @@
         <field name="is_template" eval="True"/>
         <field name="sequence">31</field>
     </record>
+    <record id="task_tpl_assets_kundfordringar_valuta" model="project.task">
+        <field name="name">Kundfordringar: valutavärdera öppna poster</field>
+        <field name="description">Värdera öppna kundfordringar i utländsk valuta till balansdagens kurs. Bokför omräkningsdifferensen mot kursdifferenskonto (3960). Använd fliken Valutavärdering i bokslutet: ladda öppna poster, kontrollera kurser och skapa verifikationen.</field>
+        <field name="bokslut_section">assets</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">32</field>
+    </record>
     <record id="task_tpl_assets_varulager_inventera" model="project.task">
         <field name="name">Varulager: inventera och upprätta intyg</field>
         <field name="description">Inventera varulagret och upprätta intyg för inventering. Läs samtliga inventeringslistor. Kontrollera att varor i kommission inte tagits med.</field>
@@ -88,6 +96,14 @@
         <field name="bokslut_section">liabilities</field>
         <field name="is_template" eval="True"/>
         <field name="sequence">61</field>
+    </record>
+    <record id="task_tpl_liab_leverantorsskulder_valuta" model="project.task">
+        <field name="name">Leverantörsskulder: valutavärdera öppna poster</field>
+        <field name="description">Värdera öppna leverantörsskulder i utländsk valuta till balansdagens kurs. Bokför omräkningsdifferensen mot kursdifferenskonto (7960). Använd fliken Valutavärdering i bokslutet.</field>
+        <field name="bokslut_section">liabilities</field>
+        <field name="is_template" eval="True"/>
+        <field name="is_required" eval="True"/>
+        <field name="sequence">62</field>
     </record>
     <record id="task_tpl_liab_skatter_inkomst" model="project.task">
         <field name="name">Skatteskulder: kontrollera beräkning av årets skattekostnad</field>

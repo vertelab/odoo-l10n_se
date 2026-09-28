@@ -5,3 +5,4 @@ access_account_bokslut_tax_calc,account.bokslut.tax.calc,model_account_bokslut_t
 access_account_annual_report,account.annual.report,model_account_annual_report,account.group_account_user,1,1,1,1
 access_account_periodization_fund,account.periodization.fund,model_account_periodization_fund,account.group_account_user,1,1,1,1
 access_account_excess_depreciation,account.excess.depreciation,model_account_excess_depreciation,account.group_account_user,1,1,1,1
+access_account_bokslut_currency_revaluation,account.bokslut.currency.revaluation,model_account_bokslut_currency_revaluation,account.group_account_user,1,1,1,1

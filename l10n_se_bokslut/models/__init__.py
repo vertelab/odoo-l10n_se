@@ -5,3 +5,4 @@ from . import annual_report
 from . import res_config
 from . import periodization_fund
 from . import excess_depreciation
+from . import currency_revaluation

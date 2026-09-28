@@ -12,7 +12,7 @@
                     <button name="action_book" type="object" string="Bokför" class="btn-primary"/>
                     <button name="action_create_checklist_project" type="object" string="Skapa checklista"/>
                     <button name="action_open_checklist" type="object" string="Öppna checklista" class="btn-secondary"/>
-                    <button name="action_generate_annual_report" type="object" string="Årsredovisning" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                    <button name="action_generate_annual_report" type="object" string="Årsredovisning" invisible="state != 'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
                 </header>
                 <sheet>
@@ -97,14 +97,50 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Valutavärdering">
+                            <group>
+                                <field name="total_currency_difference" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                <button name="action_generate_currency_revaluation" type="object" string="Skapa valutavärderingsverifikation" class="btn-primary" colspan="2"/>
+                            </group>
+                            <field name="currency_revaluation_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="partner_id"/>
+                                    <field name="account_id"/>
+                                    <field name="currency_id"/>
+                                    <field name="amount_foreign" widget="monetary"/>
+                                    <field name="rate_booking"/>
+                                    <field name="rate_closing"/>
+                                    <field name="amount_company_booking" widget="monetary"/>
+                                    <field name="amount_company_closing" widget="monetary"/>
+                                    <field name="difference" widget="monetary" sum="Summa"/>
+                                    <field name="move_id"/>
+                                    <button name="action_open_partner_statement" type="object" string="Partnerutdrag" icon="fa-file-text-o"/>
+                                </tree>
+                            </field>
+                            <button name="action_load_currency_revaluation" type="object" string="Ladda öppna poster i valuta" class="btn-secondary"/>
+                        </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
+        </field>
+    </record>
+
+    <!-- Currency Revaluation: standalone list view (for the model) -->
+    <record id="view_currency_revaluation_tree" model="ir.ui.view">
+        <field name="name">account.bokslut.currency.revaluation.tree</field>
+        <field name="model">account.bokslut.currency.revaluation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="partner_id"/>
+                <field name="account_id"/>
+                <field name="currency_id"/>
+                <field name="amount_foreign" widget="monetary"/>
+                <field name="difference" widget="monetary" sum="Summa"/>
+                <field name="bokslut_id"/>
+            </tree>
         </field>
     </record>
 
@@ -128,7 +164,7 @@
     <record id="action_bokslut" model="ir.actions.act_window">
         <field name="name">Bokslut</field>
         <field name="res_model">account.bokslut</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Menu -->

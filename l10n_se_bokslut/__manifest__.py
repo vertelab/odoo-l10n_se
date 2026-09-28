@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Bokslut och Årsredovisning',
-    'version': '18.0.0.0.1',
+    'version': '18.0.0.1.0',
     'summary': 'Sweden - Year-End Closing and Annual Report.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
@@ -45,6 +45,7 @@ Bokslut och Årsredovisning
     - Annual report generation (BR, RR, notes, management report)
     - Periodization funds (tax allocation reserves)
     - Excess depreciation (tax depreciation above book depreciation)
+    - Currency revaluation of open customer invoices / vendor bills (AR/AP in foreign currency)
 
     Integration
     - Uses project.task for the closing checklist (Kanban visualization)

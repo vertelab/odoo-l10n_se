@@ -74,6 +74,19 @@ class AccountBokslut(models.Model):
         inverse_name='bokslut_id',
         string='Excess Depreciation',
     )
+    currency_revaluation_ids = fields.One2many(
+        comodel_name='account.bokslut.currency.revaluation',
+        inverse_name='bokslut_id',
+        string='Currency Revaluation',
+        help='Revaluation of open customer invoices / vendor bills in foreign currency.',
+    )
+    total_currency_difference = fields.Monetary(
+        string='Total Exchange Difference',
+        currency_field='company_currency_id',
+        compute='_compute_total_currency_difference',
+        store=True,
+        help='Sum of all revaluation differences for this closing.',
+    )
     schablonintakt = fields.Monetary(
         string='Schablonintäkt',
         currency_field='company_currency_id',
@@ -205,6 +218,13 @@ class AccountBokslut(models.Model):
         for rec in self:
             rec.schablonintakt = self.env['account.periodization.fund'].calculate_schablonintakt(rec)
 
+    @api.depends('currency_revaluation_ids', 'currency_revaluation_ids.difference')
+    def _compute_total_currency_difference(self):
+        for rec in self:
+            rec.total_currency_difference = sum(
+                r.difference or 0.0 for r in rec.currency_revaluation_ids
+            )
+
     def calculate_resultat(self):
         """Calculate result before dispositions (accounts 3000-8999)."""
         self.ensure_one()
@@ -286,6 +306,10 @@ class AccountBokslut(models.Model):
             if d.excess_depreciation
         )
 
+        # Currency revaluation of open AR/AP (unrealised exchange difference)
+        self._compute_total_currency_difference()
+        total_currency_diff = self.total_currency_difference or 0.0
+
         # Taxable result
         taxable_result = (
             result
@@ -297,6 +321,7 @@ class AccountBokslut(models.Model):
             + period_reversal
             - period_allocation
             - total_excess
+            + total_currency_diff
         )
 
         # Swedish corporate tax rate: 20.6%
@@ -318,9 +343,10 @@ class AccountBokslut(models.Model):
             (6, _('+ Periodization Fund Reversal'), period_reversal),
             (7, _('- Periodization Fund Allocation'), -period_allocation),
             (8, _('- Excess Depreciation'), -total_excess),
-            (9, _('= Taxable Result'), taxable_result),
-            (10, _('Tax (20.6%)'), skatt),
-            (11, _('= Net Result'), self.arets_resultat),
+            (9, _('+/- Currency Revaluation'), total_currency_diff),
+            (10, _('= Taxable Result'), taxable_result),
+            (11, _('Tax (20.6%)'), skatt),
+            (12, _('= Net Result'), self.arets_resultat),
         ]
         for seq, name, amount in lines:
             self.env['account.bokslut.tax.calc'].create({
@@ -411,10 +437,28 @@ class AccountBokslut(models.Model):
             # Tag the move with bokslut context
             self.move_id.write({'ref': _('Bokslut (Preliminary) %s') % self.fiscalyear_id.name})
 
+    def action_generate_currency_revaluation(self):
+        """Generate the currency revaluation verification for all lines."""
+        self.ensure_one()
+        lines = self.currency_revaluation_ids.filtered(lambda r: r.difference and not r.move_id)
+        if not lines:
+            raise UserError(_('No currency revaluation lines with a difference to post.'))
+        return lines.action_create_move()
+
+    def action_load_currency_revaluation(self):
+        """Load open foreign-currency AR/AP items into this closing."""
+        self.ensure_one()
+        self.env['account.bokslut.currency.revaluation']._load_open_items_for(self)
+        return True
+
     def action_book(self):
         """Final booking of all verifications."""
         self.ensure_one()
         self.generate_verifications()
+        # Post currency revaluation verifications as well
+        for rec in self.currency_revaluation_ids.filtered(lambda r: r.move_id):
+            if rec.move_id.state == 'draft':
+                rec.move_id.action_post()
         if self.move_id and self.move_id.state == 'draft':
             self.move_id.action_post()
         # Also post any adjustment moves
