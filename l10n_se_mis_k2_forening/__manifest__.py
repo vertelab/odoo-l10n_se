@@ -59,4 +59,3 @@ Based on l10n_se_mis but adapted to the K2 framework (BFNAR 2016:10).
     'installable': 'True',
     'application': 'False',
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

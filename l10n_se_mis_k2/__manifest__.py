@@ -61,4 +61,3 @@ Contains balance sheet and income statement (cost of sales method).
     'installable': 'True',
     'application': 'False',
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
