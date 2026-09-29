@@ -3,16 +3,48 @@
     <data noupdate="1">
 
     <!-- ═══════════════════════════════════════════════════
-         SEKTION 4: Praktisk guide — fyra betaltyper
+         SEKTION 4: Praktisk guide — fyra betalsätt
          Slides: 5 (3 article, 1 infographic, 1 quiz)
          ═══════════════════════════════════════════════════ -->
 
     <!-- SECTION HEADER -->
     <record id="slide_category_s4" model="slide.slide">
-        <field name="name">4. Praktisk guide — fyra betaltyper</field>
+        <field name="name">4. Praktisk guide — fyra betalsätt</field>
         <field name="is_category" eval="True"/>
         <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
         <field name="sequence">150</field>
+    </record>
+
+    <!-- SLIDE 4.0: Läs den generiska betalkursen för utfallen -->
+    <record id="slide_s4_00" model="slide.slide">
+        <field name="name">Läs vidare — utfall per betalväg</field>
+        <field name="sequence">155</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Den här sektionen visar <em>hur</em> — inte <em>vad som händer</em></h2>
+        <p>Här går vi igenom stegen för varje betalsätt: IBAN, Bankgiro, Autogiro och manuell betalning. Det är den praktiska handgreppsguiden.</p>
+        <p>Vill du förstå <strong>vilket tillstånd fakturan hamnar i</strong> — Betald eller Pågående — och varför, finns en separat kurs: <strong>"Betalning av leverantörsfakturor — Betalorder och Autogiro"</strong> (modul <code>account_payment_order_autogiro_lms</code>). Den beskriver de fyra betalvägarna a–d, vad som bokförs per väg och när en bankavstämning krävs.</p>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Viktigt: flaggan styr, inte betalsättet</h3>
+                <p class="lead">Om en betalning bokförs direkt eller väntar på banken avgörs av betalmetodens inställning <strong>Pending Until Reconciliation</strong> — inte av om betalsättet heter IBAN, Bankgiro eller Autogiro. Även IBAN och Bankgiro kan vara inställda att vänta.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Hänvisning till den generiska kursen för utfall per betalväg, och påminnelse om att pending-flaggan på betalmetoden styr — inte betalsättets namn.</field>
     </record>
 
     <!-- SLIDE 4.1: IBAN-betalning -->
@@ -189,7 +221,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Jämförelsetabell över alla fyra betaltypernas egenskaper.</field>
+        <field name="description">Jämförelsetabell över alla fyra betalsättens egenskaper.</field>
     </record>
 
     <!-- SLIDE 4.5: Quiz -->
@@ -205,7 +237,7 @@
         <field name="quiz_second_attempt_reward">75</field>
         <field name="quiz_third_attempt_reward">50</field>
         <field name="quiz_fourth_attempt_reward">25</field>
-        <field name="description">Testa dina praktiska kunskaper om de fyra betaltyperna.</field>
+        <field name="description">Testa dina praktiska kunskaper om de fyra betalsätten.</field>
     </record>
 
     <!-- Q1 -->
