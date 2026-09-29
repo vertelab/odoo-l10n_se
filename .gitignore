@@ -7,3 +7,5 @@ __pycache__/
 graphify-out/
 .shazam/
 PLAN.md
+*.pyc
+openspec/
