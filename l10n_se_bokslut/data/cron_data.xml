@@ -10,7 +10,5 @@ model.search([]).filtered(lambda c: c.bokslut_auto_checklist).check_bokslut_dead
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
     </record>
 </odoo>

@@ -5,7 +5,7 @@
         <field name="name">account.periodization.fund.tree</field>
         <field name="model">account.periodization.fund</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="year"/>
                 <field name="amount" widget="monetary"/>
                 <field name="remaining" widget="monetary"/>
@@ -13,7 +13,7 @@
                 <field name="state" optional="show"/>
                 <field name="is_mandatory_reversal" widget="boolean_toggle"/>
                 <field name="bokslut_id" invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -45,7 +45,7 @@
         <field name="name">account.excess.depreciation.tree</field>
         <field name="model">account.excess.depreciation</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="asset_category"/>
@@ -55,7 +55,7 @@
                 <field name="planned_depreciation" widget="monetary"/>
                 <field name="excess_depreciation" widget="monetary" sum="Total"/>
                 <field name="bokslut_id" invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 

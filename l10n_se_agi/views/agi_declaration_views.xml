@@ -57,7 +57,7 @@
                                 <field name="total_to_pay" string="Total to Pay"/>
                             </group>
                             <field name="line_ids" colspan="4" nolabel="1">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="employee_id" required="1"/>
                                     <field name="personal_number"/>
                                     <field name="age_category" widget="badge"
@@ -72,7 +72,7 @@
                                     <field name="r60_aldersp_avg" sum="Total"/>
                                     <field name="r62_sl_aldre_avg" sum="Total"/>
                                     <field name="r82_avdragen_skatt" sum="Total"/>
-                                </tree>
+                                </list>
                                 <form>
                                     <group>
                                         <group>
@@ -151,7 +151,7 @@
         <field name="name">account.agi.declaration.tree</field>
         <field name="model">account.agi.declaration</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="date_start"/>
                 <field name="date_stop"/>
@@ -165,7 +165,7 @@
                        decoration-warning="state == 'draft'"
                        decoration-danger="state == 'canceled'"/>
                 <field name="skv_api_status" widget="badge" optional="show"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -196,7 +196,7 @@
     <record id="action_agi_declaration" model="ir.actions.act_window">
         <field name="name">AGI Declarations</field>
         <field name="res_model">account.agi.declaration</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Create an AGI Declaration

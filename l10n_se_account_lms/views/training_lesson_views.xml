@@ -6,7 +6,7 @@
         <field name="name">l10n_se.training.lesson.tree</field>
         <field name="model">l10n_se.training.lesson</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="category_id"/>
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
@@ -15,7 +15,7 @@
                        decoration-warning="difficulty == 'intermediate'"
                        decoration-danger="difficulty == 'advanced'"/>
                 <field name="estimated_minutes"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -116,7 +116,7 @@
     <record id="action_training_lesson" model="ir.actions.act_window">
         <field name="name">Training Lessons</field>
         <field name="res_model">l10n_se.training.lesson</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
 </odoo>

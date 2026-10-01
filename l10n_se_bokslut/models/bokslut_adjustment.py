@@ -19,7 +19,7 @@ class AccountBokslutAdjustment(models.Model):
     account_id = fields.Many2one(
         comodel_name='account.account',
         string='Account',
-        domain="[('company_id', '=', company_id)]",
+        domain="[('company_ids', 'in', company_id)]",
     )
     amount = fields.Monetary(
         string='Amount',

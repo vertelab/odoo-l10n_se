@@ -45,11 +45,11 @@
         <field name="name">l10n_se.training.category.tree</field>
         <field name="model">l10n_se.training.category</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="lesson_count"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -80,7 +80,7 @@
                     <notebook>
                         <page string="Lessons">
                             <field name="lesson_ids" context="{'default_category_id': id}">
-                                <tree>
+                                <list>
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
                                     <field name="difficulty" widget="badge"
@@ -88,7 +88,7 @@
                                            decoration-warning="difficulty == 'intermediate'"
                                            decoration-danger="difficulty == 'advanced'"/>
                                     <field name="estimated_minutes"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>

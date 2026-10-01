@@ -5,7 +5,7 @@
         <field name="name">account.bokslut.adjustment.tree</field>
         <field name="model">account.bokslut.adjustment</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="type"/>
@@ -13,7 +13,7 @@
                 <field name="amount" widget="monetary"/>
                 <field name="is_permanent"/>
                 <field name="bokslut_id" invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 

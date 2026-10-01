@@ -45,7 +45,7 @@
                                 <span>
                                     -
                                 </span>
-                                <field domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '>=', period_start),('state','=','draft')]" name="period_stop" nolabel="1" readonly="not state"/>
+                                <field domain="[('fiscalyear_id', '=', fiscalyear_id),('id', '&gt;=', period_start),('state','=','draft')]" name="period_stop" nolabel="1" readonly="not state"/>
                             </group>
                             <newline/>
                             <group col="4" string="Årets resultat">
