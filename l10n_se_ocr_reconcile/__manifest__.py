@@ -1,6 +1,6 @@
 {
     'name': 'Swedish OCR Bank Reconciliation',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.2',
     'category': 'Accounting',
     'summary': 'Bridge module to match Swedish OCR numbers from bank feeds with invoices via OCA reconciliation.',
     'description': '''

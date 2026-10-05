@@ -270,7 +270,9 @@ class AccountBankStatement(models.Model):
         """
         total_reconciled = 0
         for statement in self:
-            if statement.state != 'posted':
+            # Odoo 18 removed ``state`` from account.bank.statement; a
+            # statement that is not yet complete cannot be reconciled.
+            if hasattr(statement, 'is_complete') and not statement.is_complete:
                 continue
             reconciled = statement._try_4pass_auto_reconcile()
             total_reconciled += len(reconciled)

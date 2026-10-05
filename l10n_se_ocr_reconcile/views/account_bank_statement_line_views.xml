@@ -4,13 +4,13 @@
     <record id="view_bank_statement_line_form_inherit_ocr" model="ir.ui.view">
         <field name="name">account.bank.statement.line.form.inherit.ocr</field>
         <field name="model">account.bank.statement.line</field>
-        <field name="inherit_id" ref="account.view_bank_statement_line_form"/>
+        <field name="inherit_id" ref="account_statement_base.account_bank_statement_line_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='payment_reference']" position="after">
+            <xpath expr="//field[@name='payment_ref']" position="after">
                 <field name="extracted_ocr"
                        readonly="1"
                        class="oe_inline"
-                       attrs="{'invisible': [('extracted_ocr', '=', False)]}"/>
+                       invisible="not extracted_ocr"/>
             </xpath>
         </field>
     </record>
@@ -18,9 +18,9 @@
     <record id="view_bank_statement_line_tree_inherit_ocr" model="ir.ui.view">
         <field name="name">account.bank.statement.line.tree.inherit.ocr</field>
         <field name="model">account.bank.statement.line</field>
-        <field name="inherit_id" ref="account.view_bank_statement_line_tree"/>
+        <field name="inherit_id" ref="account_statement_base.account_bank_statement_line_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='payment_reference']" position="after">
+            <xpath expr="//field[@name='payment_ref']" position="after">
                 <field name="extracted_ocr" optional="show"/>
             </xpath>
         </field>
@@ -29,7 +29,7 @@
     <record id="view_bank_statement_line_search_inherit_ocr" model="ir.ui.view">
         <field name="name">account.bank.statement.line.search.inherit.ocr</field>
         <field name="model">account.bank.statement.line</field>
-        <field name="inherit_id" ref="account.view_bank_statement_line_search"/>
+        <field name="inherit_id" ref="account_statement_base.account_bank_statement_line_search"/>
         <field name="arch" type="xml">
             <xpath expr="//search" position="inside">
                 <filter name="has_ocr"
@@ -46,13 +46,12 @@
     <record id="view_bank_statement_form_inherit_4pass" model="ir.ui.view">
         <field name="name">account.bank.statement.form.inherit.4pass</field>
         <field name="model">account.bank.statement</field>
-        <field name="inherit_id" ref="account.view_bank_statement_form"/>
+        <field name="inherit_id" ref="account_statement_base.view_bank_statement_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='action_open_reconcile']" position="after">
+            <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="action_4pass_reconcile" string="4-Pass Auto-Reconcile"
-                        type="object" class="btn-secondary"
-                        help="Run 4-pass greedy matching: exact amount+date, OCR, date range, fuzzy amount"
-                        attrs="{'invisible': [('state', '!=', 'posted')]}"/>
+                        type="object" class="oe_stat_button" icon="fa-magic"
+                        help="Run 4-pass greedy matching: exact amount+date, OCR, date range, fuzzy amount"/>
             </xpath>
         </field>
     </record>
