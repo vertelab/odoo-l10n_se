@@ -28,10 +28,11 @@
                 <header>
                     <button name="action_mark_complete" string="Mark Complete"
                             type="object" class="btn-success"
-                            attrs="{'invisible': [('user_progress_ids.completed', '=', True)]}"/>
+                            invisible="is_completed"/>
                     <button name="action_mark_incomplete" string="Mark Incomplete"
                             type="object" class="btn-secondary"
-                            attrs="{'invisible': [('user_progress_ids.completed', '=', False)]}"/>
+                            invisible="not is_completed"/>
+                    <field name="is_completed" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_title">

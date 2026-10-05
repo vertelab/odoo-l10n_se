@@ -8,7 +8,7 @@
 
 {
     'name': 'l10n_se: Swedish Accounting Training (LMS)',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.3',
     'summary': 'Swedish accounting education — system-independent theory with Odoo practice guides.',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',

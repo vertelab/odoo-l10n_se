@@ -107,6 +107,25 @@ class TrainingLesson(models.Model):
         'l10n_se.training.progress', 'lesson_id',
         string='User Progress',
     )
+    is_completed = fields.Boolean(
+        string='Completed by Current User',
+        compute='_compute_is_completed',
+        help='Whether the current user has marked this lesson as completed.',
+    )
+
+    @api.depends('user_progress_ids.completed', 'user_progress_ids.user_id')
+    def _compute_is_completed(self):
+        """Per-user completion flag, used by the form buttons.
+
+        ``user_progress_ids`` holds the progress records of *all* users, so
+        it cannot be used directly in a view domain. This computed field
+        exposes the current user's own completion state.
+        """
+        for lesson in self:
+            lesson.is_completed = any(
+                progress.user_id == self.env.user and progress.completed
+                for progress in lesson.user_progress_ids
+            )
 
     # Self-check
     check_questions = fields.Html(

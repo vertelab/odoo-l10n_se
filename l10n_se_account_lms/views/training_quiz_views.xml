@@ -10,14 +10,14 @@
                 <header>
                     <button name="action_start_quiz" string="Start Quiz"
                             type="object" class="btn-primary"
-                            attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                            invisible="state != 'in_progress'"/>
                     <button name="action_complete_quiz" string="Finish Quiz"
                             type="object" class="btn-success"
-                            attrs="{'invisible': [('state', '!=', 'in_progress')]}"
+                            invisible="state != 'in_progress'"
                             confirm="Are you sure you want to finish? Unanswered questions will count as wrong."/>
                     <button name="action_retake" string="Retake Quiz"
                             type="object" class="btn-secondary"
-                            attrs="{'invisible': [('state', '!=', 'completed')]}"/>
+                            invisible="state != 'completed'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="in_progress,completed"/>
                 </header>
@@ -33,7 +33,7 @@
                             <field name="user_id"/>
                             <field name="date_started"/>
                             <field name="date_completed"
-                                   attrs="{'invisible': [('date_completed', '=', False)]}"/>
+                                   invisible="not date_completed"/>
                         </group>
                         <group>
                             <field name="question_count"/>
@@ -60,27 +60,28 @@
                             <form>
                                 <group>
                                     <field name="question_id" readonly="1"/>
-                                    <field name="question_id.question_text" readonly="1" nolabel="1"/>
+                                    <field name="question_text" readonly="1" nolabel="1"/>
                                 </group>
                                 <group string="Your Answer">
                                     <field name="answer_given" widget="radio"
-                                           attrs="{'readonly': [('answered_at', '!=', False)]}"/>
+                                           readonly="answered_at != False"/>
                                 </group>
                                 <group string="Explanation"
-                                       attrs="{'invisible': [('answer_given', '=', False)]}">
-                                    <field name="question_id.explanation" readonly="1" nolabel="1"/>
+                                       invisible="not answer_given">
+                                    <field name="explanation" readonly="1" nolabel="1"/>
                                     <field name="is_correct" invisible="1"/>
+                                    <field name="correct_answer" invisible="1"/>
                                     <div class="alert alert-success"
-                                         attrs="{'invisible': [('is_correct', '=', False)]}">
+                                         invisible="not is_correct">
                                         ✅ Correct!
                                     </div>
                                     <div class="alert alert-danger"
-                                         attrs="{'invisible': [('is_correct', '=', True)]}">
+                                         invisible="is_correct">
                                         ❌ Incorrect — correct answer was:
-                                        <span t-if="question_id.correct_answer == 'a'"><field name="question_id.answer_a"/></span>
-                                        <span t-if="question_id.correct_answer == 'b'"><field name="question_id.answer_b"/></span>
-                                        <span t-if="question_id.correct_answer == 'c'"><field name="question_id.answer_c"/></span>
-                                        <span t-if="question_id.correct_answer == 'd'"><field name="question_id.answer_d"/></span>
+                                        <field name="answer_a" invisible="correct_answer != 'a'"/>
+                                        <field name="answer_b" invisible="correct_answer != 'b'"/>
+                                        <field name="answer_c" invisible="correct_answer != 'c'"/>
+                                        <field name="answer_d" invisible="correct_answer != 'd'"/>
                                     </div>
                                 </group>
                             </form>

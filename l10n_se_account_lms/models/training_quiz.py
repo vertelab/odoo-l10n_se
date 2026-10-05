@@ -225,6 +225,32 @@ class TrainingQuizAttemptLine(models.Model):
     )
     answered_at = fields.Datetime(string='Answered At')
 
+    # Related fields: Odoo 18 forbids composed field names in <field name="...">
+    # ("Field question_id.question_text does not exist") and t-field is not
+    # allowed in backend views. Exposing the question data as related fields
+    # lets the form/list reference them directly.
+    question_text = fields.Html(
+        string='Question', related='question_id.question_text',
+    )
+    explanation = fields.Html(
+        string='Explanation', related='question_id.explanation',
+    )
+    correct_answer = fields.Selection(
+        string='Correct Answer', related='question_id.correct_answer',
+    )
+    answer_a = fields.Char(
+        string='Answer A', related='question_id.answer_a',
+    )
+    answer_b = fields.Char(
+        string='Answer B', related='question_id.answer_b',
+    )
+    answer_c = fields.Char(
+        string='Answer C', related='question_id.answer_c',
+    )
+    answer_d = fields.Char(
+        string='Answer D', related='question_id.answer_d',
+    )
+
     @api.depends('answer_given', 'question_id.correct_answer')
     def _compute_is_correct(self):
         for line in self:
