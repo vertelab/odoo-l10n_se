@@ -141,6 +141,12 @@ class MigrationWizard(models.TransientModel):
     # Step 3: Map and import
     # ------------------------------------------------------------------
 
+    def action_back_to_select(self):
+        """Return to step 1 (select source)."""
+        self.ensure_one()
+        self.state = 'select'
+        return self._reopen_wizard()
+
     def action_import(self):
         """Execute the migration."""
         self.ensure_one()
@@ -281,7 +287,6 @@ class MigrationWizard(models.TransientModel):
                 'is_company': True,
                 'customer_rank': 1 if partner_type == 'customer' else 0,
                 'supplier_rank': 1 if partner_type == 'supplier' else 0,
-                supplier_rank=1 if partner_type == 'supplier' else 1,
             }
             partner_model.create(vals)
             count += 1
