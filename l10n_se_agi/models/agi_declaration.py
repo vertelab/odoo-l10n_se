@@ -148,7 +148,7 @@ class AGIDeclaration(models.Model):
     and calendar event handling. One declaration per month per company.
     """
     _name = 'account.agi.declaration'
-    _inherit = ['account.declaration', 'mail.thread']
+    _inherit = ['account.declaration', 'mail.thread', 'mail.activity.mixin']
     _description = 'AGI Declaration (Individuppgifter)'
     _order = 'date_start desc'
 

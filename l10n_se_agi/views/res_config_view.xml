@@ -6,8 +6,11 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="l10n_se_tax_report.view_account_config_settings"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='skv_tax_account_api_url']" position="after">
-                <field name="skv_agi_api_url"/>
+            <xpath expr="//setting[@id='skv_endpoints']" position="after">
+                <setting id="skv_agi_endpoint" help="URL for Skatteverket AGI (individuppgifter) API"
+                         title="AGI API URL">
+                    <field name="skv_agi_api_url" placeholder="https://api.skatteverket.se/arbetsgivare/v2/deklaration/individuppgift"/>
+                </setting>
             </xpath>
         </field>
     </record>

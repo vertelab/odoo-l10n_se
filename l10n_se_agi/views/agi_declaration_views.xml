@@ -9,13 +9,13 @@
             <form string="AGI Declaration">
                 <header>
                     <button name="action_calculate" string="Calculate" type="object"
-                            states="draft,confirmed" class="btn-primary"/>
+                            invisible="state not in ['draft', 'confirmed']" class="btn-primary"/>
                     <button name="action_generate_xml" string="Generate XML" type="object"
-                            states="confirmed"/>
+                            invisible="state != 'confirmed'"/>
                     <button name="action_send_to_skv" string="Send to Skatteverket" type="object"
-                            states="confirmed" class="btn-primary"/>
+                            invisible="state != 'confirmed'" class="btn-primary"/>
                     <button name="action_generate_ku10" string="Generate KU10" type="object"
-                            states="confirmed,done"/>
+                            invisible="state not in ['confirmed', 'done']"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,confirmed,done"/>
                 </header>
@@ -28,8 +28,7 @@
                             <field name="company_id" required="1" options="{'no_create': True}"/>
                             <field name="date_start" required="1"/>
                             <field name="date_stop" required="1"/>
-                            <field name="payslip_run_id"
-                                   domain="[('state', 'in', ['done', 'paid'])]"/>
+                            <field name="payslip_run_id"/>
                         </group>
                         <group>
                             <field name="target_move"/>
@@ -40,12 +39,12 @@
 
                     <!-- SKV API Status -->
                     <group string="Skatteverket API" colspan="4"
-                           attrs="{'invisible': [('skv_api_status', '=', False)]}">
+                           invisible="not skv_api_status">
                         <field name="skv_api_status" widget="badge"
                                decoration-success="skv_api_status == 'sent'"
                                decoration-danger="skv_api_status == 'error'"/>
                         <field name="skv_response" colspan="4"
-                               attrs="{'invisible': [('skv_response', '=', False)]}"/>
+                               invisible="not skv_response"/>
                     </group>
 
                     <notebook>

@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: AGI — Individual Information (Individuppgifter) + KU',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     'summary': 'Swedish AGI (Arbetsgivardeklaration individuppgifter) and KU (Kontrolluppgifter) generation.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
