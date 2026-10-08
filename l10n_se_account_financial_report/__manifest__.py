@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2021- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,28 +22,20 @@
 {
     'name': 'l10n_se: Account Financial Report',
     'version': '18.0.0.0.0',
-    'summary': 'Sweden - Account Financial Report.',
+    'summary': 'Sweden - Account Financial Report',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_financial_report',
+    'website': '',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'description': '''
-Account Financial Report
-========================
-
-    Sweden - Account Financial Report.
-
-    Features:
-
-        - UI Integration: Extends 3 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on financial.reports, financial.reports.instance, financial.reports.line, financial.reports.line.results.
-    ''',
-    'author': 'Vertel AB',
+    'description': """
+Swedish Account Financial Report
+     """,
+    'author': 'Vertel Sverige AB',
     'depends': ['l10n_se_extended'],
     'data': [
         'security/ir.model.access.csv',
@@ -54,3 +46,4 @@ Account Financial Report
     ],
     'installable': 'True',
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

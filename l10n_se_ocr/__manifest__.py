@@ -19,7 +19,7 @@ OCR Documents for Invoices
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'depends': ['account'],
     'data': [

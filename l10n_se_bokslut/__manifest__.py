@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,45 +22,41 @@
 {
     'name': 'l10n_se: Bokslut och Årsredovisning',
     'version': '18.0.0.0.1',
-    'summary': 'Sweden - Year-End Closing and Annual Report.',
+    'summary': 'Sweden - Year-End Closing and Annual Report',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_bokslut',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'description': '''
-Bokslut och Årsredovisning
-==========================
+    'description': """
+Swedish Year-End Closing and Annual Report
+===========================================
 
-    Adds a complete year-end closing workflow for Swedish companies:
-    - Year-end planning with tax calculation
-    - Bookkeeping adjustments (non-deductible costs, non-taxable income)
-    - Tax calculation with full chain (result before dispositions -> taxable result -> tax)
-    - Closing verifications with preliminary booking support
-    - Checklist via Kanban board (project.task with stages)
-    - Milestone tracking for key closing dates
-    - Annual report generation (BR, RR, notes, management report)
-    - Periodization funds (tax allocation reserves)
-    - Excess depreciation (tax depreciation above book depreciation)
+Adds a complete year-end closing workflow for Swedish companies:
+- Year-end planning with tax calculation
+- Bookkeeping adjustments (non-deductible costs, non-taxable income)
+- Tax calculation with full chain (result before dispositions -> taxable result -> tax)
+- Closing verifications with preliminary booking support
+- Checklist via Kanban board (project.task with stages)
+- Milestone tracking for key closing dates
+- Annual report generation (BR, RR, notes, management report)
+- Periodization funds (tax allocation reserves)
+- Excess depreciation (tax depreciation above book depreciation)
 
-    Integration
-    - Uses project.task for the closing checklist (Kanban visualization)
-    - Uses project.milestone for key closing milestones
-    - Integrates with account.sru.declaration for SRU generation
-    - Integrates with account.financial.report for BR/RR structure
-    - Integrates with l10n_se_tax_report for SKV API infrastructure
+Integration
+-----------
+- Uses project.task for the closing checklist (Kanban visualization)
+- Uses project.milestone for key closing milestones
+- Integrates with account.sru.declaration for SRU generation
+- Integrates with account.financial.report for BR/RR structure
+- Integrates with l10n_se_tax_report for SKV API infrastructure
 
-    Features:
-
-        - Automation: Scheduled jobs: Bokslut: Påminnelse om deadline.
-        - Reports: Adds printable reports.
-        - UI Integration: Extends 5 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.account, account.annual.report, account.asset, account.bokslut.
-    ''',
-    'author': 'Vertel AB',
+K2 and K3 rule sets supported for annual reports.
+     """,
+    'author': 'Vertel Sverige AB',
 
     'depends': [
         'l10n_se_tax_report',

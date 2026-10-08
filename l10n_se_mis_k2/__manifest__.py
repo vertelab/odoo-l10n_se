@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -38,7 +38,7 @@ Contains balance sheet and income statement (cost of sales method).
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k2',
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'], # 560x280 px.
     'depends': ['mis_builder', 'mis_builder_budget', 'l10n_se_mis'],

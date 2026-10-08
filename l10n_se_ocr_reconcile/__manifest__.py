@@ -18,7 +18,7 @@ Swedish OCR Bank Reconciliation
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_ocr_reconcile',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'depends': ['l10n_se_ocr', 'account_reconcile_oca', 'account'],
     'data': [

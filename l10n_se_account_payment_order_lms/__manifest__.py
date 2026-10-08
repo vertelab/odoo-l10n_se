@@ -1,18 +1,19 @@
-# Copyright (C) 2026 Vertel AB (<https://vertel.se>).
+# Copyright (C) 2026 Vertel Sverige AB (<https://vertel.se>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     'name': 'l10n_se: Betalorder och Pending-state — Utbildning (LMS)',
-    'version': '18.0.1.1.0',
+    'version': '18.0.1.0.0',
     'summary': 'Svensk utbildning om betalorder, pending-state och bankavstämning via website_slides',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_payment_order_lms',
+    'website': 'https://vertel.se',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
-    'description': '''
+    'maintainer': 'Vertel Sverige AB',
+    'description': """
 Betalorder och Pending-state — Utbildning (LMS)
-===============================================
+================================================
+Training material delivered as website_slides courses.
 
 5 sections, 20+ slides (articles, infographics, Mermaid diagrams, quizzes):
 
@@ -27,16 +28,15 @@ Betalorder och Pending-state — Utbildning (LMS)
   Problemet med tidig matchning, nytt flöde med pending_until_reconciliation,
   jämförelse före/efter (T-konto + mermaid)
 
-- **Section 4:** Praktisk guide — fyra betalsätt
+- **Section 4:** Praktisk guide — fyra betaltyper
   IBAN, Bankgiro, Autogiro, Manuell betalning — steg för steg med demo.
-  Bankavstämning som avslutar flödet. Inleds med en hänvisning till kursen
-  account_payment_order_autogiro_lms för utfall per betalväg (Betald/Pågående).
+  Bankavstämning som avslutar flödet.
 
 - **Section 5:** Konfiguration och automatisering
   Supplier Payment Mode, aktivera pending-state i settings, tips för löpande arbete.
 
 5 quiz-slides med 5 frågor var — totalt 25 frågor.
-    ''',
+    """,
     'depends': [
         'website_slides',
     ],

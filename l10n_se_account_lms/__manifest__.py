@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<http://vertel.se>).
 #
 ##############################################################################
 
@@ -14,7 +14,7 @@
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_lms',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'description': '''
 Swedish Accounting Training (LMS)
