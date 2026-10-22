@@ -8,7 +8,7 @@
 
 {
     'name': 'l10n_se: Swedish Accounting Training (LMS)',
-    'version': '18.0.1.0.4',
+    'version': '18.0.1.0.5',
     'summary': 'Swedish accounting education — system-independent theory with Odoo practice guides.',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
@@ -43,8 +43,9 @@ Swedish Accounting Training (LMS)
         - Extends Odoo: Builds on lesson_id, mail.thread.
     ''',
     'depends': [
-        # account_accountant_ce owns the "Accounting" root menu that replaces
-        # the core "Invoicing" one; the training menu must hang under it.
+        # account_accountant_ce renames the core "Invoicing" root to
+        # "Accounting" (account.menu_finance); the training menu must hang
+        # under that root, not under the deleted legacy one.
         'account_accountant_ce',
         'l10n_se_extended',
         'l10n_se_tax_report',
