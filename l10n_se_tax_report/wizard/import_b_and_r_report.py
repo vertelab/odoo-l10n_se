@@ -127,7 +127,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 for sep in separators:
                     txt = txt.replace(sep, ' %s ' % sep)
                 return sign, [('code', 'in', parse_domain(txt.split()))], None
-            except:
+            except Exception:
                 error_info = sys.exc_info()
                 _logger.warn('\n' + ''.join(traceback.format_exception(error_info[0], error_info[1], error_info[2])))
                 return None, [], "Couldn't parse domain: %s" % text
@@ -234,7 +234,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                     vals['field_code'] = str(code['code'])
                 elif code['sign'] == '-':
                     vals['field_code_neg'] = str(code['code'])
-            account = self.env['account.financial.report'].create(vals)
+            self.env['account.financial.report'].create(vals)
 
         def create_heading(values, parent, sequence):
             heading = self.env['account.financial.report'].create({

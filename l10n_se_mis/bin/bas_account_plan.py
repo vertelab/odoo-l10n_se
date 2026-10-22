@@ -126,7 +126,7 @@ def import_excel(year, input, output):
                         2660,2710,2730,2760,2850,3000,3001,3002,3003,3004,3740,
                         4000,7000,7500,8990,8999]
     for row in ws.get_rows():
-        if type(row[2].value) == float and 1000 <= row[2].value <= 9999 and not row[2].value in general_accounts:
+        if isinstance(row[2].value, float) and 1000 <= row[2].value <= 9999 and row[2].value not in general_accounts:
             k3.append({
                 'code': str(int(row[2].value)),
                 'name': row[3].value,
@@ -136,7 +136,7 @@ def import_excel(year, input, output):
                     'code': str(int(row[2].value)),
                     'name': row[3].value,
                 })
-        if type(row[5].value) == float and 1000 <= row[5].value <= 9999 and not row[5].value in general_accounts:
+        if isinstance(row[5].value, float) and 1000 <= row[5].value <= 9999 and row[5].value not in general_accounts:
             k3.append({
                 'code': str(int(row[5].value)),
                 'name': row[6].value,
