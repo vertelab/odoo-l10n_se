@@ -24,13 +24,14 @@ from tempfile import TemporaryFile
 import base64
 import sys
 import traceback
+import logging
+_logger = logging.getLogger(__name__)
+
 try:
     from xlrd import open_workbook
 except ImportError:
     _logger.info('project_task_planned_vehicle_import requires xlrd (pip install xlrd)')
 
-import logging
-_logger = logging.getLogger(__name__)
 
 class ImportBalanceAndResultReports(models.TransientModel):
     _name = 'account.financial.report.balance_result.import'

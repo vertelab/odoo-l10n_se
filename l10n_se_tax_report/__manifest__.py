@@ -59,7 +59,6 @@ External Dependencies
 - workalendar: Used for Swedish public holiday calculation to correctly
   determine VAT declaration deadlines. Install: pip3 install workalendar
      """,
-    'author': 'Vertel Sverige AB',
 
     'depends': ['calendar', 'mis_builder','l10n_se_mis', 'account_period_vrtl', 'l10n_se_skatteverket_api'],
 
