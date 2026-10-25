@@ -2,7 +2,7 @@
 <odoo>
 
     <menuitem id="menu_migration"
-              name="Migration"
+              name="Fortnox Migration"
               parent="account.menu_finance"
               action="action_migration_wizard"
               sequence="90"/>

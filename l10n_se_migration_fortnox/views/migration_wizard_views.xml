@@ -3,10 +3,10 @@
 
     <!-- Migration Wizard Form -->
     <record id="view_migration_wizard_form" model="ir.ui.view">
-        <field name="name">l10n_se.migration.wizard.form</field>
-        <field name="model">l10n_se.migration.wizard</field>
+        <field name="name">l10n_se.fortnox.migration.wizard.form</field>
+        <field name="model">l10n_se.fortnox.migration.wizard</field>
         <field name="arch" type="xml">
-            <form string="Migrate from Competitor">
+            <form string="Fortnox Migration">
                 <field name="state" invisible="1"/>
 
                 <!-- Step 1: Select Source -->
@@ -42,9 +42,13 @@
                                help="Get this from Fortnox: Settings → Integrations → API Keys"/>
                         <field name="fortnox_fiscal_year"
                                help="Leave empty to import all years"/>
+                        <field name="fortnox_use_sie"/>
+                        <field name="fortnox_export_pdf"/>
+                        <field name="fortnox_dry_run"/>
                         <p class="oe_grey">
-                            Fortnox integration requires an API key from your Fortnox
-                            account. Go to Fortnox → Settings → Integrations to create one.
+                            SIE 4 rekommenderas: ett anrop ger kontoplan,
+                            ingående balans och alla verifikationer. API:t
+                            används för kunder, leverantörer och faktura-PDF:er.
                         </p>
                     </group>
 
@@ -82,6 +86,8 @@
                         <field name="imported_invoices" string="Invoices"/>
                         <field name="imported_entries" string="Journal Entries"/>
                         <field name="result_log" nolabel="1" colspan="2"/>
+                        <field name="sie_report" nolabel="1" colspan="2"
+                               invisible="not sie_report"/>
                     </div>
                     <footer>
                         <button special="cancel" string="Close" class="btn-primary"/>
@@ -93,8 +99,8 @@
 
     <!-- Migration Wizard Action -->
     <record id="action_migration_wizard" model="ir.actions.act_window">
-        <field name="name">Migrate from Competitor</field>
-        <field name="res_model">l10n_se.migration.wizard</field>
+        <field name="name">Fortnox Migration</field>
+        <field name="res_model">l10n_se.fortnox.migration.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

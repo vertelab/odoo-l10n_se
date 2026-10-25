@@ -1,10 +1,10 @@
-odoo-l10n_se / l10n_se_migration
+odoo-l10n_se / l10n_se_migration_fortnox
 2026-09-24
 
 
 Be aware of these!
-odoo-l10n_se/l10n_se_migration/static/description/banner.png
-odoo-l10n_se/l10n_se_migration/static/description/icon.png
+odoo-l10n_se/l10n_se_migration_fortnox/static/description/banner.png
+odoo-l10n_se/l10n_se_migration_fortnox/static/description/icon.png
 
 
 Icon: "l10n_se: Migration from competitors"

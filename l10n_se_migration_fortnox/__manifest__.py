@@ -7,18 +7,18 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Migration from competitors',
-    'version': '18.0.1.0.4',
-    'summary': 'Migrate accounting data from Fortnox, Visma, Bokio to Odoo.',
+    'name': 'l10n_se: Fortnox Migration (accounting data)',
+    'version': '18.0.1.3.0',
+    'summary': 'Migrate accounting data from Fortnox (plus Visma/Bokio via SIE) to Odoo.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_migration',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_migration_fortnox',
     'license': 'AGPL-3',
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'description': '''
-Migration from competitors
-==========================
+Fortnox Migration
+=================
 
     Supported sources:
     - Fortnox (OAuth API)
@@ -37,6 +37,7 @@ Migration from competitors
         - Guided Wizards: Step-by-step dialogs for data entry.
         - UI Integration: Extends 2 view(s) in the Odoo interface.
     ''',
+    'external_dependencies': {'python': ['requests']},
     'depends': [
         'l10n_se_sie',
         'l10n_se_extended',
