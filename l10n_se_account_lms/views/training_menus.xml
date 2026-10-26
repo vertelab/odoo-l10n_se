@@ -1,42 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <!--
-        Main Training Menu.
+        This module deliberately contributes NO menus.
 
-        It belongs under the accounting root, but which root that is has
-        changed: account_accountant_ce used to create its own
-        (account_accountant_ce.menu_accounting) and now renames the core
-        account.menu_finance instead. The old root is deleted by
-        account_accountant_ce, so parenting here must use the core menu —
-        otherwise this module recreates the very menu that was removed, and
-        the user sees two "Accounting" apps again.
+        It used to hang a "Swedish Accounting Training" menu under the
+        accounting root. That made the module responsible for knowing which
+        root the accounting app uses, and the answer changed twice:
 
-        account_accountant_ce is a hard dependency, so account.menu_finance is
-        guaranteed to exist and to carry the "Accounting" name.
+          * account_accountant_ce 18.0.1.0.x created its own root
+            (account_accountant_ce.menu_accounting) and left the core
+            account.menu_finance behind as an empty shell. Parenting the
+            training menu to account.menu_finance made that empty shell
+            visible again, so users saw two accounting apps.
+
+          * account_accountant_ce 18.0.1.1.0 reversed course and renamed
+            account.menu_finance in place instead. The training menu then had
+            to move back, because the root it pointed at was deleted.
+
+        A training module has no business tracking the accounting app's menu
+        structure. The content stays reachable through the Training Categories,
+        All Lessons and Diagnostic Quizzes actions, which are granted to the
+        relevant groups in security/ir.model.access.csv. If a menu is wanted,
+        install it somewhere that is not the accounting root.
+
+        NOTE ON CLEANUP
+        Earlier versions created menu_training_root, menu_training_categories,
+        menu_training_lessons and menu_quiz. They are NOT deleted here:
+        <delete> on an xmlid that no longer exists raises
+        "External ID not found" and aborts the whole upgrade. Odoo also removes
+        a module's ir.model.data rows on upgrade when the record is gone from
+        the files, so the menus disappear from the UI on their own.
     -->
-    <record id="menu_training_root" model="ir.ui.menu">
-        <field name="name">Swedish Accounting Training</field>
-        <field name="parent_id" ref="account.menu_finance"/>
-        <field name="sequence">95</field>
-    </record>
-
-    <menuitem id="menu_training_categories"
-              name="Training Categories"
-              parent="menu_training_root"
-              action="action_training_category"
-              sequence="10"/>
-
-    <menuitem id="menu_training_lessons"
-              name="All Lessons"
-              parent="menu_training_root"
-              action="action_training_lesson"
-              sequence="20"/>
-
-    <menuitem id="menu_quiz"
-              name="Diagnostic Quizzes"
-              parent="menu_training_root"
-              action="action_quiz_attempt"
-              sequence="30"/>
-
 </odoo>
