@@ -100,6 +100,7 @@ Sweden - Accounting
         #'demo/load_account_chart_template_data.xml',
         #'demo/l10n_se_demo.xml',
     #],
+    'post_init_hook': 'post_init_hook',
     'installable': 'True',
     'application': 'False',
     'auto_install': True
