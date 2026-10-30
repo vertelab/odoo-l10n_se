@@ -93,8 +93,7 @@ class account_vat_declaration(models.Model):
             # ~ moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
             momsskuld = moms_journal.default_credit_account_id
             momsfordran = moms_journal.default_debit_account_id
-            skattekonto = self.env['account.account'].search([('company_ids','in',[self.company_id.id]),('code', '=', '1630')])
-            if momsskuld and momsfordran and skattekonto:
+            if momsskuld and momsfordran:
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
                     #'period_id': self.period_start.id,
@@ -169,11 +168,18 @@ class account_vat_declaration(models.Model):
                         moms_diff -= rounding_diff
 
                     # Settlement logic: use moms_diff (net of all reversed tax lines)
-                    # as the balancing line against the tax account (1630).
+                    # as the balancing line against the VAT settlement account.
+                    #
+                    # Swedish standard (BAS): the net VAT (Ruta 49) is cleared
+                    # against 2650 "Redovisningskonto för moms" — NOT directly
+                    # against 1630 "Skattekonto". The transfer to the tax account
+                    # is a separate step, see _create_tax_account_transfer().
                     if moms_diff != 0.0:
+                        settlement_account = (
+                            momsskuld if moms_diff > 0.0 else momsfordran)
                         move_line_list.append((0, 0, {
-                            'name': skattekonto.name,
-                            'account_id': skattekonto.id,
+                            'name': settlement_account.name,
+                            'account_id': settlement_account.id,
                             'partner_id': self.env.ref(
                                 'l10n_se_tax_report.res_partner-SKV').id,
                             'debit': abs(moms_diff) if moms_diff < 0.0 else 0.0,
@@ -186,7 +192,95 @@ class account_vat_declaration(models.Model):
                     self.write({'move_id': entry.id})
                     entry.vat_declaration_id = self.id
             else:
-                raise UserError(_('You are missing either a credit account, debit account or a tax account, please add these'))   
+                raise UserError(_('You are missing either a credit account or a debit account on the VAT journal, please add these'))
+
+        # Step 2: move the VAT debt from 2650 to the tax account (1630).
+        # Runs automatically when the declaration is confirmed (calculate()).
+        self._create_tax_account_transfer()
+
+    def _create_tax_account_transfer(self):
+        """Move the net VAT from 2650 to 1630 (Skattekonto).
+
+        Swedish standard (BAS):
+            1. Period:      utgående moms 261x / ingående moms 264x
+            2. Declaration: net against 2650 (Redovisningskonto för moms)
+            3. Payment:     2650 <-> 1630 (Skattekonto)
+
+        Step 2 is done by calculate(). This method performs step 3 so that the
+        VAT debt lands on 1630, where the payment order can pick it up and
+        where l10n_se_tax_account reconciles it against Skatteverket.
+
+        Idempotent: does nothing if the transfer entry already exists.
+        """
+        for rec in self:
+            if rec.skattekonto_move_id:
+                continue
+            amount = rec.vat_momsbetala
+            if not amount:
+                continue
+
+            moms_journal = self.env['account.journal'].search([
+                ('company_id', '=', rec.company_id.id),
+                ('name', '=', 'Momsjournal'),
+                ('type', '=', 'general'),
+                ('code', '=', 'MOMS'),
+            ], limit=1)
+            if not moms_journal:
+                raise UserError(_(
+                    'Configure your tax declaration journal! It needs to be '
+                    'named Momsjournal, be of the general/miscellaneous type, '
+                    'and have MOMS as the code.'))
+
+            momsskuld = moms_journal.default_credit_account_id
+            momsfordran = moms_journal.default_debit_account_id
+            skattekonto = self.env['account.account'].search([
+                ('company_ids', 'in', [rec.company_id.id]),
+                ('code', '=', '1630'),
+            ], limit=1)
+            if not (momsskuld and momsfordran and skattekonto):
+                raise UserError(_(
+                    'You are missing either a credit account, debit account '
+                    'or the tax account 1630, please add these'))
+
+            skv_partner = self.env.ref('l10n_se_tax_report.res_partner-SKV')
+            amount = int(round(amount))
+
+            entry = self.env['account.move'].create({
+                'journal_id': moms_journal.id,
+                'date': fields.Date.today(),
+                'ref': _('Momsdeklaration - överföring till skattekonto'),
+                'partner_id': skv_partner.id,
+            })
+
+            if amount > 0:
+                # VAT to pay: debt moves 2650 -> 1630
+                vat_debit, vat_credit = 0.0, amount
+                tax_debit, tax_credit = amount, 0.0
+            else:
+                # VAT refund: receivable moves 1630 -> 1650
+                vat_debit, vat_credit = abs(amount), 0.0
+                tax_debit, tax_credit = 0.0, abs(amount)
+
+            entry.write({'line_ids': [
+                (0, 0, {
+                    'name': momsskuld.name if amount > 0 else momsfordran.name,
+                    'account_id': (momsskuld if amount > 0 else momsfordran).id,
+                    'partner_id': skv_partner.id,
+                    'debit': vat_debit,
+                    'credit': vat_credit,
+                    'move_id': entry.id,
+                }),
+                (0, 0, {
+                    'name': skattekonto.name,
+                    'account_id': skattekonto.id,
+                    'partner_id': skv_partner.id,
+                    'debit': tax_debit,
+                    'credit': tax_credit,
+                    'move_id': entry.id,
+                }),
+            ]})
+            entry.vat_declaration_id = rec.id
+            rec.skattekonto_move_id = entry.id
 
                     
     def do_draft(self):
@@ -194,8 +288,8 @@ class account_vat_declaration(models.Model):
             create_eskd_xml_file = None
             super(account_vat_declaration, rec).do_draft()
             for move in rec.move_ids:
-                move.vat_declaration_id = None 
-
+                move.vat_declaration_id = None
+            rec._unlink_tax_account_transfer()
 
     def do_cancel(self):
         for rec in self:
@@ -203,7 +297,25 @@ class account_vat_declaration(models.Model):
             create_eskd_xml_file = None
             for move in rec.move_ids:
                 move.vat_declaration_id = None
-        
+            rec._unlink_tax_account_transfer()
+
+    def _unlink_tax_account_transfer(self):
+        """Remove the 2650 -> 1630 transfer entry, if any.
+
+        Must run whenever the declaration is reset to draft/cancelled,
+        otherwise the tax account (1630) keeps a balance that no longer
+        corresponds to a declaration. Declarations created before this
+        feature have no transfer entry — handled by the empty check.
+        """
+        for rec in self:
+            move = rec.skattekonto_move_id
+            if not move:
+                continue
+            if move.state == 'posted':
+                move.button_draft()
+            move.unlink()
+            rec.skattekonto_move_id = False
+
         
     @api.model
     def _generate_mis_report(self, start_date, stop_date, target_move_param, name_param, accounting_method_param, company_id, report_id=None):

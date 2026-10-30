@@ -143,6 +143,12 @@ class account_declaration(models.Model):
     free_text = fields.Text(string='Upplysningstext')
     report_file = fields.Binary(string="Report-file", readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
+    skattekonto_move_id = fields.Many2one(
+        comodel_name='account.move', string='Verifikat skattekonto',
+        readonly=True, copy=False,
+        help="Verifikat som flyttar momsskulden från 2650 "
+             "(Redovisningskonto för moms) till 1630 (Skattekonto). "
+             "Skapas automatiskt när deklarationen beräknas/bekräftas.")
     event_id = fields.Many2one(comodel_name='calendar.event', readonly=True)
 
     # --- Skatteverket API fields (shared across all declaration types) ---
