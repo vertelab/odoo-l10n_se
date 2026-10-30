@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Bokslut och Årsredovisning',
-    'version': '18.0.0.0.1',
+    'version': '18.0.1.0.0',
     'summary': 'Sweden - Year-End Closing and Annual Report',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
@@ -78,6 +78,7 @@ K2 and K3 rule sets supported for annual reports.
         'views/project_task_views.xml',
         'views/project_project_views.xml',
         'views/fas4_views.xml',
+        'views/bokslut_k3_views.xml',
         'report/annual_report_pdf.xml',
         'report/bokslut_dokumentation_pdf.xml',
     ],

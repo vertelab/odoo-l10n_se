@@ -138,4 +138,13 @@ def _generate_swedish_date_ranges(env):
             else:
                 start = date(year, 1, 1)
 
+            # generate_full_year definieras i l10n_se_date_ranges, som beror
+            # pa den har modulen. Vid installation av enbart den har modulen
+            # finns metoden an inte - hoppa over i stallet for att krascha.
+            if not hasattr(date_range_type, 'generate_full_year'):
+                _logger.info(
+                    'generate_full_year saknas pa %s (l10n_se_date_ranges '
+                    'ar inte installerad) - hoppar over %s.',
+                    date_range_type.name, year)
+                continue
             date_range_type.generate_full_year(year, date_start=start)
