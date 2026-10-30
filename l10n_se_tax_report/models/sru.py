@@ -107,7 +107,11 @@ class account_sru_declaration(models.Model):
     # ~ @api.one
     def _set_date_and_name(self):
         for rec in self:
-            self.accounting_yearend = (self.period_stop == self.fiscalyear_id.period_ids[-1] if self.fiscalyear_id else None)
+            # Ported 2026-10-30: compare against the fiscal year end date
+            # instead of the last period record.
+            self.accounting_yearend = (
+                fields.Date.from_string(self.period_stop.date_stop) == self.fiscalyear_id.date_to
+                if self.fiscalyear_id else None)
             d = fields.Date.from_string(self.period_stop.date_stop)
             if d.month >= 1 and d.month <= 4:
                 newdate = self.next_monday(datetime(d.year, 11 ,1) )
@@ -128,8 +132,10 @@ class account_sru_declaration(models.Model):
     @api.onchange('fiscalyear_id')
     def onchange_fiscalyear_id(self):
         if self.fiscalyear_id:
-            self.period_start = self.fiscalyear_id.period_ids[0]
-            self.period_stop  = self.fiscalyear_id.period_ids[-1]
+            periods = self.fiscalyear_id.period_ids.sorted('date_start')
+            if periods:
+                self.period_start = periods[0]
+                self.period_stop = periods[-1]
             self._set_date_and_name()
 
     @api.onchange('period_stop')
@@ -178,7 +184,6 @@ class account_sru_declaration(models.Model):
                             if not entry:
                                 entry = self.env['account.move'].create({
                                     'journal_id': journal.id,
-                                    'period_id': self.period_stop.id,
                                     'date': self.period_stop.date_stop,
                                     'ref': u'Bokslut',
                                 })
@@ -278,7 +283,6 @@ class account_sru_declaration(models.Model):
                             if not entry:
                                 entry = self.env['account.move'].create({
                                     'journal_id': journal.id,
-                                    'period_id': self.period_stop.id,
                                     'date': self.period_stop.date_stop,
                                     'ref': u'Bokslut',
                                 })
@@ -370,13 +374,12 @@ class account_sru_declaration(models.Model):
             b_afr = self.env['account.financial.report'].search([('name', '=', u'BALANSRÄKNING'), ('parent_id', '=', self.report_id.id)])
             r_afr = self.env['account.financial.report'].search([('name', '=', u'RESULTATRÄKNING'), ('parent_id', '=', self.report_id.id)])
             
-            period_ids = self.env['account.period'].get_period_ids(self.period_start, self.period_stop)
-            # ~ grouped_lines = self.env['account.move.line'].read_group([('move_id.period_id', 'in', period_ids)], ['balance', 'account_id'], ['account_id'])
-            # ~ accounts = {'%s' % g['account_id']: g['balance'] for g in grouped_lines}
-            
-            # ~ all_move_lines = self.env['account.move'].with_context(self._context).get_movelines()
-            period_ids.append(self.period_start.id)
-            all_move_lines = self.env['account.move'].search([('period_id','in',period_ids)]).mapped('line_ids')
+            # Ported 2026-10-30: account.move has no period_id. Filter the
+            # moves on the date window of the selected period span.
+            all_move_lines = self.env['account.move'].search([
+                ('date', '>=', self.period_start.date_start),
+                ('date', '<=', self.period_stop.date_stop),
+            ]).mapped('line_ids')
             for ml in all_move_lines:
                 ml.sru_declaration_id = self.id
             
@@ -547,18 +550,24 @@ class account_sru_declaration(models.Model):
         last_declaration = self.search([], order='date_stop desc', limit=1)
         if not last_declaration:
             last_year = str(int(fields.Date.today()[:4]) - 1)
-            fiscalyear = self.env['account.fiscalyear'].search([('code', '=', last_year)])
+            fiscalyear = self.env['account.fiscal.year'].search([
+                ('date_from', '<=', '%s-01-01' % last_year),
+                ('date_to', '>=', '%s-12-31' % last_year),
+            ], limit=1)
             if not fiscalyear:
                 raise UserError(_('Please add fiscal year for %s') %last_year)
-            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %last_year), ('date_stop', '=', '%s-01-31' %last_year), ('special', '=', False)])
+            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %last_year), ('date_stop', '=', '%s-01-31' %last_year)])
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %last_year), ('date_stop', '=', '%s-12-31' %last_year)])
             return [start_period, stop_period]
         else:
             next_year = str(int(last_declaration.period_stop.date_start[:4]) + 1)
-            fiscalyear = self.env['account.fiscalyear'].search([('code', '=', next_year)])
+            fiscalyear = self.env['account.fiscal.year'].search([
+                ('date_from', '<=', '%s-01-01' % next_year),
+                ('date_to', '>=', '%s-12-31' % next_year),
+            ], limit=1)
             if not fiscalyear:
                 raise UserError(_('Please add fiscal year for %s') %next_year)
-            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %next_year), ('date_stop', '=', '%s-01-31' %next_year), ('special', '=', False)])
+            start_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-01-01' %next_year), ('date_stop', '=', '%s-01-31' %next_year)])
             stop_period = self.env['account.period'].search([('fiscalyear_id', '=', fiscalyear.id), ('date_start', '=', '%s-12-01' %next_year), ('date_stop', '=', '%s-12-31' %next_year)])
             return [start_period, stop_period]
 

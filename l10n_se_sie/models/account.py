@@ -19,9 +19,20 @@ _logger = logging.getLogger(__name__)
 
 class account_period(models.Model):
     _inherit = 'account.period'
-    
+
     def export_sie(self):
-        ver_ids = self.env['account.move'].search([('period_id','in',self.ids)])
+        """Export moves whose date falls inside these periods.
+
+        Ported 2026-10-30: account.move has no period_id; filter on date.
+        """
+        Move = self.env['account.move']
+        move_ids = []
+        for period in self:
+            move_ids += Move.search([
+                ('date', '>=', period.date_start),
+                ('date', '<=', period.date_stop),
+            ]).ids
+        ver_ids = Move.browse(sorted(set(move_ids)))
         return self.env['account.sie'].export_sie(ver_ids)
         
 #class account_chart_template(models.Model):
@@ -49,25 +60,42 @@ class account_account(models.Model):
         return missing
         
         
-class account_fiscalyear(models.Model):
-    _inherit = 'account.fiscalyear'
-    
+class account_fiscal_year(models.Model):
+    _inherit = 'account.fiscal.year'
+
     def export_sie(self):
-        #fiscal_year_ids = self.env['account.fiscalyear'].browse(ids)
-        ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.period_id.fiscalyear_id.id in self.ids)
-        #_logger.warning('\n\nfiscal_year\n%s'%ver_ids)
+        """Export all moves whose date falls inside these fiscal years.
+
+        Ported 2026-10-30 from account_period_vrtl's account.fiscalyear.
+        There is no period_id on account.move any more — the period is
+        derived from move.date via account.period.date2period().
+        """
+        Period = self.env['account.period']
+        move_ids = []
+        for fy in self:
+            periods = Period.search([('fiscalyear_id', '=', fy.id)])
+            if not periods:
+                continue
+            move_ids += self.env['account.move'].search([
+                ('date', '>=', fy.date_from),
+                ('date', '<=', fy.date_to),
+            ]).ids
+        ver_ids = self.env['account.move'].browse(sorted(set(move_ids)))
         return self.env['account.sie'].export_sie(ver_ids)
 
     def get_rar_code(self):
+        """Return the RAR offset of the current date relative to this year.
+
+        Ported 2026-10-30: date_start/date_stop -> date_from/date_to.
+        """
         d = datetime.date.today()
         rar = 0
         fiscalyear = self[0]
-        while True:            
+        while True:
             if rar < -10 or rar > 10:
                 break
-            if d.strftime('%Y-%m-%s') >= fiscalyear.date_start and d.strftime('%Y-%m-%s') <= fiscalyear.date_stop:
+            if fiscalyear.date_from <= d <= fiscalyear.date_to:
                 break
-            
             d -= datetime.timedelta(days=365)
             rar -= 1
         return rar

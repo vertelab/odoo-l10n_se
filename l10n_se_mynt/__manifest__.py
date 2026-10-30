@@ -46,7 +46,7 @@ Mynt
     'images': ['static/description/banner.png'],  # 560x280 px.
     'depends': [
         'account',
-        'account_period_vrtl',
+        'account_fiscal_year_vrtl',
         'mail',
         # 'l10n_se_account_bank_statement_import',
         'account_journal_card_type',

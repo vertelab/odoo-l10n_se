@@ -32,7 +32,7 @@ class AccountBokslut(models.Model):
     _description = 'Year-End Closing'
 
     fiscalyear_id = fields.Many2one(
-        comodel_name='account.fiscalyear',
+        comodel_name='account.fiscal.year',
         string='Fiscal Year',
         required=True,
     )
@@ -116,9 +116,10 @@ class AccountBokslut(models.Model):
     def _onchange_fiscalyear_id(self):
         """Set period_start/period_stop from fiscal year."""
         if self.fiscalyear_id:
+            # Ported 2026-10-30: the new account.period has no 'special'
+            # flag (no opening-balance period).
             periods = self.env['account.period'].search([
                 ('fiscalyear_id', '=', self.fiscalyear_id.id),
-                ('special', '=', False),
             ], order='date_start asc')
             if periods:
                 self.period_start = periods[0]

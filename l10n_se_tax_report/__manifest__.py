@@ -60,7 +60,7 @@ External Dependencies
   determine VAT declaration deadlines. Install: pip3 install workalendar
      """,
 
-    'depends': ['calendar', 'mis_builder','l10n_se_mis', 'account_period_vrtl', 'l10n_se_skatteverket_api'],
+    'depends': ['calendar', 'mis_builder','l10n_se_mis', 'account_fiscal_year_vrtl', 'l10n_se_account_fiscal_year', 'l10n_se_skatteverket_api'],
 
     'external_dependencies': {
         'python': ['workalendar'],

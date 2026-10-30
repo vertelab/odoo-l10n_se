@@ -45,7 +45,7 @@ SIE-import
     'contributor': '',
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'depends': ['account_period_vrtl', 'l10n_se'],
+    'depends': ['account_fiscal_year_vrtl', 'l10n_se_account_fiscal_year', 'l10n_se'],
     'data': [
 		'data/l10n_se_sie_view.xml',
                 'views/account_view.xml',

@@ -161,7 +161,6 @@ class AccountBankStatementImport(models.TransientModel):
                         account_move.to_check = True  # Missing an attachment, set
 
                 reverse_move_date = reverse_move_date.replace(day=5) + relativedelta(months=1)
-                reverse_move_period_id = self.env['account.period'].date2period(reverse_move_date).id
                 card_credit_account = journal_id.card_credit_account
                 card_debit_account = journal_id.card_debit_account
 
@@ -334,9 +333,6 @@ class AccountBankStatementImport(models.TransientModel):
         if not account_id:
             account_id = journal_id.card_credit_account
 
-        period_id = self.env['account.period'].date2period(datetime.strptime(
-            row.get("Date", row.get("Transaction date")), '%Y-%m-%d'))
-
         partner_id = False
         if row.get('Description'):
             partner_id = self.env['res.partner'].search([('name', '=', row.get('Description'))], limit=1)
@@ -350,7 +346,6 @@ class AccountBankStatementImport(models.TransientModel):
             "move_type": move_type,
             'ref': current_ref,
             'invoice_origin': row.get("Person", "") + " " + row.get("Card name", "") + " " + row.get("Card number", ""),
-            'period_id': period_id.id,
             'date': row.get("Date", row.get("Transaction date")),
             'invoice_date': row.get("Date", row.get("Transaction date")),
             'to_check': True,

@@ -401,9 +401,10 @@ class account_vat_declaration(models.Model):
 
         report = self.env.company.vat_report_template_id or self.env.ref('l10n_se_mis.report_md')
 
-        fiscalyear = self.env['account.fiscalyear'].search([
-            ('date_start', '<=', date_start),
-            ('date_stop', '>=', date_stop),
+        # Ported 2026-10-30: account.fiscalyear -> account.fiscal.year.
+        fiscalyear = self.env['account.fiscal.year'].search([
+            ('date_from', '<=', date_start),
+            ('date_to', '>=', date_stop),
         ], limit=1)
 
         name = '%s %s - %s' % (self._report_name, date_start, date_stop)
@@ -413,7 +414,7 @@ class account_vat_declaration(models.Model):
             'date_stop': fields.Date.to_string(date_stop),
             'date': fields.Date.to_string(date_deadline),
             'report_id': report.id,
-            'accounting_yearend': fiscalyear and date_stop >= fiscalyear.date_stop,
+            'accounting_yearend': fiscalyear and date_stop >= fiscalyear.date_to,
         })
 
         if declaration:

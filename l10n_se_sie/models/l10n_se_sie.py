@@ -80,8 +80,10 @@ class account_sie(models.TransientModel):
     # ~ include_res = fields.Boolean("Include Res Balans")
 
     def _get_default_current_fiscalyear(self):
-        return self.env['account.fiscalyear'].search(
-            [('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today()),
+        # Ported 2026-10-30: account.fiscalyear -> account.fiscal.year
+        # (date_start/date_stop -> date_from/date_to).
+        return self.env['account.fiscal.year'].search(
+            [('date_from', '<=', fields.Date.today()), ('date_to', '>=', fields.Date.today()),
              ('company_id', '=', self.env.company.id)], limit=1)
 
     def _set_period_fiscal_domain(self):
@@ -90,12 +92,12 @@ class account_sie(models.TransientModel):
     def _set_account_domain(self):
         return [('company_ids', 'in', [self.env.company.id])]
 
-    current_transaction_year = fields.Many2one(comodel_name="account.fiscalyear", string="Current Fiscal Year",
+    current_transaction_year = fields.Many2one(comodel_name="account.fiscal.year", string="Current Fiscal Year",
                                                help="Posts are relative to this year",
                                                domain=_set_period_fiscal_domain,
                                                default=_get_default_current_fiscalyear)
-                                               
-    fiscalyear_4e_ids = fields.Many2many(comodel_name="account.fiscalyear",
+
+    fiscalyear_4e_ids = fields.Many2many(comodel_name="account.fiscal.year",
                                          string="Fiscal years for #IB/#UB/#RES",
                                          domain=_set_period_fiscal_domain)
     #### 
@@ -105,7 +107,7 @@ class account_sie(models.TransientModel):
     period_ids = fields.Many2many(comodel_name="account.period",
                                   string="Periods", domain=_set_period_fiscal_domain)
 
-    fiscalyear_ids = fields.Many2one(comodel_name="account.fiscalyear", string="Fiscal Year",
+    fiscalyear_ids = fields.Many2one(comodel_name="account.fiscal.year", string="Fiscal Year",
                                      help="Moves in this fiscal years", domain=_set_period_fiscal_domain)
     journal_ids = fields.Many2many(comodel_name="account.journal", string="Journal",
                                    help="Moves with this type of journals")
@@ -189,9 +191,9 @@ class account_sie(models.TransientModel):
                                          domain=[('type', '=', 'view')])
 
     def _get_rar_code(self, fiscalyear):
-    
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
-                                                                 order='date_start ASC')
+        # Ported 2026-10-30: account.fiscalyear -> account.fiscal.year.
+        all_fiscal_years = self.env['account.fiscal.year'].search([('company_id', '=', self.env.company.id)],
+                                                                  order='date_from ASC')
         current_fiscalyear_index = next(
             (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
             
@@ -414,10 +416,14 @@ class account_sie(models.TransientModel):
                 if self.date_start:
                     search.append(('date', '>=', self.date_start))
                     search.append(('date', '<=', self.date_stop))
+                # Ported 2026-10-30: account.move has no period_id. Filter on
+                # the date window of the selected fiscal year / periods.
                 if self.fiscalyear_ids:
-                    search.append(('period_id', 'in', [p.id for p in self.fiscalyear_ids.period_ids]))
+                    search.append(('date', '>=', self.fiscalyear_ids.date_from))
+                    search.append(('date', '<=', self.fiscalyear_ids.date_to))
                 if self.period_ids:
-                    search.append(('period_id', 'in', [p.id for p in self.period_ids]))
+                    search.append(('date', '>=', min(self.period_ids.mapped('date_start'))))
+                    search.append(('date', '<=', max(self.period_ids.mapped('date_stop'))))
                 if self.journal_ids:
                     search.append(('journal_id', 'in', [j.id for j in self.journal_ids]))
                 if self.partner_ids:
@@ -468,7 +474,8 @@ class account_sie(models.TransientModel):
 
     def get_sie_value_dict(self, accounts, include_current_year=False, just_current_year=False):#Not done yet
         self.ensure_one()
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)], order='date_start ASC')
+        all_fiscal_years = self.env['account.fiscal.year'].search(
+            [('company_id', '=', self.env.company.id)], order='date_from ASC')
         current_fiscalyear_index = self._get_fiscalyear_index(self.current_transaction_year, all_fiscal_years)
         formated_result = []
         for fiscalyear in self.fiscalyear_4e_ids:
@@ -486,11 +493,11 @@ class account_sie(models.TransientModel):
             search = []
             search.append(('move_id.state', '=', 'posted'))
             search.append(('move_id.company_id', '=', self.env.company.id))
-            if self.date_field_to_use == "go_by_period":
-                search.append(('move_id.period_id', 'in', [p.id for p in years.period_ids]))
-            else:
-                search.append(('move_id.date', '>=', years[0].date_start))
-                search.append(('move_id.date', '<=', years[-1].date_stop))
+            # Ported 2026-10-30: account.move has no period_id. Both branches
+            # now filter on the date window — "go_by_period" was only a way of
+            # expressing the same span through periods.
+            search.append(('move_id.date', '>=', years[0].date_from))
+            search.append(('move_id.date', '<=', years[-1].date_to))
             search.append(('account_id.id', 'in', accounts.ids))
             result = self.env['account.move.line'].read_group(
                 search,
@@ -507,9 +514,18 @@ class account_sie(models.TransientModel):
         
     def make_sie(self, ver_ids, ib_dict, ub_dict, res_dict):
         def get_fiscalyears(ver_ids):
+            # Ported 2026-10-30: account.move has no period_id. Derive the
+            # fiscal year from the move date.
+            FiscalYear = self.env['account.fiscal.year']
             year_list = set()
             for ver in ver_ids:
-                year_list.add(ver.period_id.fiscalyear_id)
+                fy = FiscalYear.search([
+                    ('company_id', '=', ver.company_id.id),
+                    ('date_from', '<=', ver.date),
+                    ('date_to', '>=', ver.date),
+                ], limit=1)
+                if fy:
+                    year_list.add(fy)
             return year_list
 
         def get_accounts_ver(ver_ids):
@@ -544,9 +560,13 @@ class account_sie(models.TransientModel):
             sie_form = self[0]
         company = self.env.company
         if ver_ids:
-            fiscalyear = ver_ids[0].period_id.fiscalyear_id
+            fiscalyear = self.env['account.fiscal.year'].search([
+                ('company_id', '=', ver_ids[0].company_id.id),
+                ('date_from', '<=', ver_ids[0].date),
+                ('date_to', '>=', ver_ids[0].date),
+            ], limit=1)
         else:
-            self.current_transaction_year
+            fiscalyear = self.current_transaction_year
         user = self.env['res.users'].browse(self._context['uid'])
 
         str = ''
@@ -567,10 +587,10 @@ class account_sie(models.TransientModel):
         if res_dict:
            for fiscalyear_res in set([d['yearnr'] for d in res_dict if 'yearnr' in d]):
                fiscalyears = fiscalyears | self._get_accountfiscalyear_from_index(fiscalyear_res)
-        fiscalyears = sorted(fiscalyears, key=lambda r: r.date_start, reverse=True)
+        fiscalyears = sorted(fiscalyears, key=lambda r: r.date_from, reverse=True)
         for fiscalyear in fiscalyears:
-            str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
-                                        fiscalyear.date_stop.strftime("%Y%m%d"))
+            str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_from.strftime("%Y%m%d"),
+                                        fiscalyear.date_to.strftime("%Y%m%d"))
             
         #for fiscalyear in get_fiscalyears(ver_ids):
         #   str += '#RAR %s %s %s\n' % (self._get_rar_code(fiscalyear), fiscalyear.date_start.strftime("%Y%m%d"),
@@ -594,7 +614,10 @@ class account_sie(models.TransientModel):
         ub_accounts = []
         for ver in ver_ids:
             # ~ _logger.warning(f"{ver=}")
-            if ver.period_id.special == False:
+            # Ported 2026-10-30: account.move has no period_id and
+            # account.period has no 'special' flag (no opening-balance period
+            # in the new model) — every move is a normal verification.
+            if True:
                 str += '#VER %s "%s" %s "%s" %s %s\n{\n' % (self.escape_sie_string(ver.journal_id.type), ver.id,
                                                             self.escape_sie_string(ver.date.strftime("%Y%m%d")),
                                                             self.escape_sie_string(self.fix_empty(ver.narration))[:20],
@@ -647,8 +670,8 @@ class account_sie(models.TransientModel):
         
     def _get_accountfiscalyear_from_index(self, index):
         # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscalyear to return.
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
-                                                                 order='date_start ASC')
+        all_fiscal_years = self.env['account.fiscal.year'].search(
+            [('company_id', '=', self.env.company.id)], order='date_from ASC')
         current_fiscalyear_index = next(
             (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
         
@@ -895,10 +918,9 @@ class account_sie(models.TransientModel):
             elif line['label'] == '#IB' and self.create_balance_posts and self.balance_journal_id:#TODO
                 year_num = int(line.get(1))  # Opening period for current fiscal year
                 first_date_of_year = '%s-01-01' % (datetime.today().year + year_num)
-                period_id = self.env['account.period'].search(
-                    [('date_start', '=', first_date_of_year), ('date_stop', '=', first_date_of_year),
-                     ("company_id", '=', self.company_id.id),
-                     ('special', '=', True)]).id
+                # Ported 2026-10-30: account.move has no period_id and the new
+                # model has no 'special' opening period — the opening balance
+                # is simply a move dated on the first day of the year.
                 ib_account = self.env['account.account'].search(
                     [('code', '=', line.get(2)), ("company_ids", 'in', [self.company_id.id])])
                 ib_amount = line.get(3)
@@ -907,7 +929,6 @@ class account_sie(models.TransientModel):
                 ib_move_journal_id = self.balance_journal_id.id
                 if not ib_move_id:
                     ib_move_id = self.env['account.move'].with_context({'check_move_period_validity': False}).create({
-                        'period_id': period_id,
                         'journal_id': ib_move_journal_id,
                         'date': first_date_of_year,
                         'ref': "IB",
