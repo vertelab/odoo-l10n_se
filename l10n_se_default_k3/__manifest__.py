@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'l10n_se: Default K3 Chart of Accounts',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'summary': 'Satt BAS K3-kontoplan som standard for svenska foretag.',
     'category': 'Accounting/Localizations/Account Charts',
     'author': 'Vertel Sverige AB',
@@ -26,8 +26,8 @@ i bolag som tillampar K3 - de tva ar alternativa, inte komplementara.
 Modulen ar idempotent och ror aldrig ett foretag som redan har en
 kontoplan med bokforingsposter.
 ''',
-    'depends': ['l10n_se'],
-    'data': [],
+    'depends': ['l10n_se', 'l10n_se_extended'],
+    'data': ['data/cron_data.xml'],
     'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': False,
