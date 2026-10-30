@@ -15,7 +15,7 @@ class TestPeriodicCompilation(common.TransactionCase):
         cls.Partner = cls.env['res.partner']
         cls.AccountMove = cls.env['account.move']
         cls.AccountTax = cls.env['account.tax']
-        cls.AccountFiscalyear = cls.env['account.fiscalyear']
+        cls.AccountFiscalyear = cls.env['account.fiscal.year']
         cls.PeriodicCompilation = cls.env['account.periodic.compilation']
         cls.VatDeclaration = cls.env['account.vat.declaration']
 
@@ -73,9 +73,8 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         cls.fiscalyear = cls.AccountFiscalyear.create({
             'name': 'Test Fiscal Year %d' % TEST_YEAR,
-            'code': str(TEST_YEAR),
-            'date_start': date(TEST_YEAR, 1, 1),
-            'date_stop': date(TEST_YEAR, 12, 31),
+            'date_from': date(TEST_YEAR, 1, 1),
+            'date_to': date(TEST_YEAR, 12, 31),
             'company_id': cls.env.company.id,
         })
 
@@ -159,7 +158,6 @@ class TestPeriodicCompilation(common.TransactionCase):
     def test_create_periodic(self):
         pc = self.PeriodicCompilation.create({
             'name': 'Test PC',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 1, 1),
             'date_stop': date(TEST_YEAR, 1, 31),
         })
@@ -180,7 +178,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'EU Goods Test',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -197,7 +194,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'EU Service Test',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -226,7 +222,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Group By Partner',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -246,7 +241,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Non-EU excluded',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -263,7 +257,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Draft Reset',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -308,7 +301,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Manual Entry Test',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -365,7 +357,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Combined Test',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
