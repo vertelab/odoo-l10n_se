@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_journal_form_no_suspense" model="ir.ui.view">
+        <field name="name">account.journal.form.no.suspense</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_settings']" position="inside">
+                <group
+                    string="Bank Statement Counterpart (No Suspense)"
+                    name="no_suspense_counterpart"
+                >
+                    <field name="no_suspense_counterpart" />
+                    <field
+                        name="counterpart_receivable_account_id"
+                        invisible="not no_suspense_counterpart"
+                    />
+                    <field
+                        name="counterpart_payable_account_id"
+                        invisible="not no_suspense_counterpart"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
