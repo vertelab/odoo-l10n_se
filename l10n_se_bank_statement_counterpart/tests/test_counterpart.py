@@ -85,6 +85,12 @@ class TestBankStatementCounterpart(TransactionCase):
     def test_refuses_suspense_when_unresolved(self):
         """Without any counterpart the line must be refused, not silently
         parked on the suspense account."""
+        self.journal.write(
+            {
+                "counterpart_receivable_account_id": False,
+                "counterpart_payable_account_id": False,
+            }
+        )
         statement = self._make_statement(50.0)
         with self.assertRaises(UserError):
             self.env["account.bank.statement.line"].create(

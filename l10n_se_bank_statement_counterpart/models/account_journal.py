@@ -73,7 +73,7 @@ class AccountJournal(models.Model):
             )
         return res
 
-    def _get_no_suspense_counterpart(self, st_line_vals, speeddict):
+    def _get_no_suspense_counterpart(self, st_line_vals, speeddict=None):
         """Return the account.account to use as counterpart, or None.
 
         Resolution order:
@@ -81,6 +81,10 @@ class AccountJournal(models.Model):
         1. The partner's own property account (receivable for incoming,
            payable for outgoing). This is the most precise answer.
         2. The journal's configured receivable/payable counterpart.
+
+        ``speeddict`` is only available during import; when called from
+        ``action_undo_reconciliation`` it is omitted and the partner is
+        taken from ``st_line_vals['partner_id']`` alone.
         """
         amount = st_line_vals.get("amount") or 0.0
         incoming = amount >= 0
@@ -89,7 +93,7 @@ class AccountJournal(models.Model):
         partner_id = st_line_vals.get("partner_id")
         if partner_id:
             partner = self.env["res.partner"].browse(partner_id)
-        elif st_line_vals.get("account_number"):
+        elif speeddict and st_line_vals.get("account_number"):
             # The base hook already resolved partner from the bank account
             # number; fall back to doing it ourselves for safety.
             account_number = self._sanitize_bank_account_number(
