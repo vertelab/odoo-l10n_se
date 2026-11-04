@@ -184,27 +184,49 @@ class AccountBankStatementImport(models.TransientModel):
         return super(AccountBankStatementImport, self).import_single_statement(single_statement_data, result)
 
     def _import_file(self):
+        """Import a Mynt zip file, or delegate to the standard importer.
+
+        The standard importer (account_statement_import_file) already calls
+        import_single_file() itself, so calling it here as well would import
+        the same file twice: the second pass finds the lines already created
+        by the first one and raises "You have already imported this file".
+        """
         self.ensure_one()
+        file_data = base64.b64decode(self.statement_file)
+        if not self._is_mynt_file(file_data):
+            return super(AccountBankStatementImport, self)._import_file()
+
+        logger.info("Start to import Mynt bank statement file %s", self.statement_filename)
         result = {
             "statement_ids": [],
             "notifications": [],
         }
-        logger.info("Start to import bank statement file %s", self.statement_filename)
-        file_data = base64.b64decode(self.statement_file)
         self.import_single_file(file_data, result)
-        if result["notifications"] == "Mynt":
-            return result
-        else:
-            return super(AccountBankStatementImport, self)._import_file()
+        return result
+
+    @api.model
+    def _is_mynt_file(self, file_data):
+        """Return True when file_data is a zip containing Mynt CSV files.
+
+        This is a pure check: it must not call extract_zip(), which has side
+        effects (it creates account.card.statement records).
+        """
+        try:
+            with zipfile.ZipFile(BytesIO(file_data)) as data:
+                return any(
+                    filename.endswith(".csv") for filename in data.namelist()
+                )
+        except (BadZipfile, ValueError):
+            return False
 
     def import_file_and_reconcile_button(self):
         """Process the file chosen in the wizard, create bank statement(s)
         and jump directly to the reconcilition widget"""
-        result = self._import_file()
-        if result["notifications"] == "Mynt":
-            return
-        else:
-            return super(AccountBankStatementImport, self).import_file_and_reconcile_button()
+        # Do NOT call self._import_file() here: the parent implementation
+        # (account_statement_import_file_reconcile_oca) already calls it.
+        # Calling it twice imports the file twice and the second pass fails
+        # with "You have already imported this file".
+        return super(AccountBankStatementImport, self).import_file_and_reconcile_button()
 
     def import_file_button(self):
         """Process the file chosen in the wizard, create bank statement(s)
@@ -256,17 +278,19 @@ class AccountBankStatementImport(models.TransientModel):
                 action["domain"] = [("id", "in", result["statement_ids"])]
         else:
             # dispatch to reconciliation interface
-            lines = self.env["account.bank.statement.line"].search(
-                [("statement_id", "in", result["statement_ids"])]
+            # NOTE: the legacy client action tag "bank_statement_reconciliation_view"
+            # no longer exists in Odoo 18 (removed with the old reconciliation
+            # widget). Use the account_reconcile_oca action instead.
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                "account_reconcile_oca.action_bank_statement_line_reconcile"
             )
-            action = {
-                "type": "ir.actions.client",
-                "tag": "bank_statement_reconciliation_view",
-                "context": {
-                    "statement_line_ids": lines.ids,
-                    "company_ids": self.env.user.company_ids.ids,
-                    "notifications": result["notifications"],
-                },
+            action["context"] = {
+                "default_journal_id": self._context.get("journal_id"),
+                "active_id": self._context.get("journal_id"),
+                "active_ids": [self._context.get("journal_id")],
+                "active_model": "account.journal",
+                "search_default_not_reconciled": True,
+                "view_ref": "account_reconcile_oca.bank_statement_line_form_reconcile_view",
             }
         return action
 
