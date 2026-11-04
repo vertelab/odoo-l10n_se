@@ -199,6 +199,8 @@ class AccountPaymentOrder(models.Model):
         """
         self.ensure_one()
         journal_bank = self.company_partner_bank_id
+        if not journal_bank and self.journal_id.bank_account_id:
+            journal_bank = self.journal_id.bank_account_id
 
         if creditor_bank.acc_type == "iban":
             if journal_bank and journal_bank.acc_type == "iban":

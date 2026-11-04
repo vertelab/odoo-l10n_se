@@ -38,7 +38,7 @@ Supported transaction types
 - **Bankgiro** (7–8 digit account number) → ``<Othr><Id>`` + ``<SchmeNm><Prtry>BGNR``.
 - **PlusGiro / BBAN** → ``<Othr><Id>`` + ``<SchmeNm><Cd>BBAN``.
     """,
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB, Odoo Community Association (OCA)",
     "website": "https://vertel.se/apps/odoo-l10n_se/l10n_se_credit_transfer",
@@ -56,6 +56,7 @@ Supported transaction types
         "views/account_journal.xml",
     ],
     "demo": ["demo/demo_data.xml"],
+    "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,
 }

@@ -39,6 +39,12 @@ class TestSeCreditTransfer(TransactionCase):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.company = cls.env.ref("base.main_company")
+        # The company partner must carry a valid Peppol endpoint (10 digits)
+        # before the country is switched to Sweden, otherwise the Peppol
+        # constraint trips while writing the company.
+        cls.company.partner_id.write(
+            {"peppol_eas": "0007", "peppol_endpoint": "1234567890"}
+        )
         cls.company.write({
             "country_id": cls.env.ref("base.se").id,
             "vat": "SE123456789701",
@@ -253,6 +259,13 @@ class TestSeCreditTransfer(TransactionCase):
             "communication": "005041",
             "communication_type": "normal",
         })
+
+        self.assertEqual(bg_bank.acc_type, "bgnr")
+        # The debtor side must also be a Bankgiro account: link the company's
+        # Bankgiro account to the journal (UI: Journal > Bankgiro-konto).
+        bg_bank_account.acc_type = "bgnr"
+        order.journal_id.bankgiro_account_id = bg_bank_account
+        self.assertEqual(order.journal_id.bankgiro_account_id.acc_type, "bgnr")
 
         xml_bytes, filename = order.generate_se_payment_file()
         root = etree.fromstring(xml_bytes)

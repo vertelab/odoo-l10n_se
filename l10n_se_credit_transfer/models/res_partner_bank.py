@@ -28,11 +28,6 @@ def validate_bgnr(bgnr):
     if not bgnr:
         raise ValidationError(_("There is no Bankgiro Number."))
 
-    if bgnr.find("-") not in range(3, 5):
-        raise ValidationError(
-            _("There is no dash in position 3 or 4 in the Number.")
-        )
-
     bgnr = normalize_bgnr(bgnr)
 
     if len(bgnr) not in range(7, 9):
