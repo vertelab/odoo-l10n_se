@@ -144,3 +144,16 @@ class AccountJournal(models.Model):
         ).lower():
             return True
         return False
+
+    def _no_suspense_counterpart_accounts(self):
+        """Return the accounts this journal may use as a counterpart.
+
+        Used by ``account.bank.statement.line._seek_for_lines()`` to keep
+        Odoo's reconciliation state machine working when the counterpart is
+        booked on a real account instead of the suspense account.
+        """
+        self.ensure_one()
+        return (
+            self.counterpart_receivable_account_id
+            | self.counterpart_payable_account_id
+        )
