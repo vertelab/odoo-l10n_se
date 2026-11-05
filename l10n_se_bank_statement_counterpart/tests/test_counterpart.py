@@ -33,23 +33,24 @@ class TestBankStatementCounterpart(TransactionCase):
                 "counterpart_payable_account_id": cls.payable.id,
             }
         )
-        # Early-payment discounts need a dedicated expense/income account.
-        # The company default may point at an unrelated account (SFA has both
-        # gain and loss pointing at 3738), so give the tests their own.
-        cls.discount_account = cls.env["account.account"].create(
-            {
-                "name": "Test Cash Discount",
-                "code": "T9991",
-                "account_type": "expense",
-                "company_ids": [(6, 0, cls.env.company.ids)],
-            }
-        )
-        cls.env.company.write(
-            {
-                "account_journal_early_pay_discount_loss_account_id": cls.discount_account.id,
-                "account_journal_early_pay_discount_gain_account_id": cls.discount_account.id,
-            }
-        )
+        # Early-payment discounts need a discount account. Which one is a
+        # bookkeeping decision made by the company (SFA books it on 3738), so
+        # only supply one when the company has none configured.
+        if not cls.env.company.account_journal_early_pay_discount_gain_account_id:
+            cls.discount_account = cls.env["account.account"].create(
+                {
+                    "name": "Test Cash Discount",
+                    "code": "T9991",
+                    "account_type": "expense",
+                    "company_ids": [(6, 0, cls.env.company.ids)],
+                }
+            )
+            cls.env.company.write(
+                {
+                    "account_journal_early_pay_discount_loss_account_id": cls.discount_account.id,
+                    "account_journal_early_pay_discount_gain_account_id": cls.discount_account.id,
+                }
+            )
 
     def _make_statement(self, balance_end):
         return self.env["account.bank.statement"].create(
@@ -481,15 +482,26 @@ class TestBankStatementCounterpart(TransactionCase):
             msg="the full payable must be cleared by payment + discount",
         )
 
-        # The discount itself must land on the expense account, not on a
-        # suspense account.
-        expense_lines = move.line_ids.filtered(
-            lambda line: line.account_id.account_type
-            in ("expense", "expense_direct_cost")
+        # The discount must land on the account the company configured for
+        # early-payment discounts. Which account that is, and which type it
+        # has, is a bookkeeping decision - SFA books it on 3738, an income
+        # account - so assert on the configuration, never on the type.
+        discount_lines = move.line_ids.filtered(
+            lambda line: line.account_id
+            == self.env.company.account_journal_early_pay_discount_gain_account_id
         )
         self.assertTrue(
-            expense_lines,
-            "the discount must reduce the expense account",
+            discount_lines,
+            "the discount must land on the company's discount account",
+        )
+        # With an "included" discount the amount is split between the discount
+        # account and the tax lines, exactly as Odoo's own reconciliation
+        # does it, so only assert that the account is actually used.
+        self.assertNotAlmostEqual(
+            sum(discount_lines.mapped("balance")),
+            0.0,
+            places=2,
+            msg="the discount account must carry a balance",
         )
         self.assertFalse(
             move.line_ids.filtered(
