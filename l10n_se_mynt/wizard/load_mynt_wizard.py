@@ -50,7 +50,7 @@ class AccountBankStatementImport(models.TransientModel):
         try:
             _logger.warning(u"Try parsing with Mynt.")
             return self.extract_zip(statement_file)
-        except BadZipfile as e:
+        except BadZipfile:
             _logger.warning("Was not a zip file.")
             return super(AccountBankStatementImport, self)._parse_file(statement_file)
         except ValueError as e:
@@ -59,7 +59,6 @@ class AccountBankStatementImport(models.TransientModel):
 
     def extract_zip(self, statement_file):
         account_card_statement_id = False
-        statement_file_copy = statement_file
         file_data = base64.b64decode(self.statement_file)
         with zipfile.ZipFile(BytesIO(file_data)) as data:
             # A list of filenames that end with .csv, this is used since I don't know what the csv file is called or
@@ -163,9 +162,6 @@ class AccountBankStatementImport(models.TransientModel):
                         account_move.to_check = True  # Missing an attachment, set
 
                 reverse_move_date = reverse_move_date.replace(day=5) + relativedelta(months=1)
-                card_credit_account = journal_id.card_credit_account
-                card_debit_account = journal_id.card_debit_account
-
                 account_card_statement_id.journal_id = journal_id
                 self.env['ir.attachment'].create({
                     'name': self.statement_filename,
