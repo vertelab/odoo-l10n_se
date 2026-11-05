@@ -20,6 +20,7 @@
 ##############################################################################
 
 from . import models
+from . import hooks
 from . import wizard
 from . import controllers
 

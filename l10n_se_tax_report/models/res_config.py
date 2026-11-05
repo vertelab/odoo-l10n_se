@@ -62,3 +62,29 @@ class ResConfigSettings(models.TransientModel):
         help="MIS report template used for Periodic Compilation (EU sales list).",
         related='company_id.pc_report_template_id',
         readonly=False)
+
+
+class ResConfigSettingsTaxAccount(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    def action_l10n_se_tax_report_configure_tax_account(self):
+        """Make the tax account (1630) reconcilable.
+
+        Exposed as a settings button so databases upgraded from an earlier
+        version - where the post-install hook already ran - can apply the
+        configuration without reinstalling the module.
+        """
+        accounts = self.env['account.account']._l10n_se_tax_report_configure_tax_account()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'type': 'success',
+                'message': _(
+                    'Tax account %(codes)s is now reconcilable.',
+                    codes=', '.join(accounts.mapped('code')),
+                ),
+                'next': {'type': 'ir.actions.act_window_close'},
+                'sticky': False,
+            },
+        }

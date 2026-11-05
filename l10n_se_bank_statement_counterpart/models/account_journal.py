@@ -365,6 +365,12 @@ class AccountJournal(models.Model):
         one of the two configured defaults. Without those, Odoo would treat
         the line as already reconciled and hide it from the reconciliation
         widget.
+
+        Other modules may resolve a counterpart that is neither receivable
+        nor payable - ``l10n_se_tax_report`` books VAT payments against the
+        tax account 1630 (``asset_current``). Such a counterpart must be
+        listed too, otherwise the line is marked reconciled on import and
+        never reaches the reconciliation widget.
         """
         self.ensure_one()
         configured = (
@@ -374,4 +380,20 @@ class AccountJournal(models.Model):
         real_accounts = self.env["account.account"].search(
             [("account_type", "in", ("asset_receivable", "liability_payable"))]
         )
-        return configured | real_accounts
+        tax_account = self._get_tax_account_counterpart()
+        return configured | real_accounts | tax_account
+
+    def _get_tax_account_counterpart(self):
+        """Return the Swedish tax account (1630) if a module resolved it.
+
+        ``l10n_se_tax_report`` books VAT payments against 1630 and provides
+        ``_l10n_se_tax_report_get_tax_account``. This module must not depend
+        on it, so the method is looked up defensively: without
+        ``l10n_se_tax_report`` installed there is simply no tax counterpart
+        to add.
+        """
+        self.ensure_one()
+        getter = getattr(self, "_l10n_se_tax_report_get_tax_account", None)
+        if not getter:
+            return self.env["account.account"]
+        return getter()

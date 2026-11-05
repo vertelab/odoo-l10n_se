@@ -6,6 +6,7 @@ from datetime import timedelta
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
+from odoo.tests import common
 
 
 @tagged("post_install", "-at_install")
@@ -533,3 +534,77 @@ class TestBankStatementCounterpart(TransactionCase):
             [],
             "no discount lines may be added after the discount date",
         )
+
+
+class TestNoSuspenseKeepsLineOpen(TransactionCase):
+    """A counterpart on a real account must not look reconciled on import.
+
+    Core's ``_compute_is_reconciled`` only looks for a line on
+    ``journal.suspense_account_id``. When the counterpart is booked directly
+    on 1510/2440/1630 that recordset is empty and Odoo marks the line as
+    reconciled before anyone reconciled it, hiding it from the widget.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.journal = cls.env["account.journal"].search(
+            [("type", "=", "bank")], limit=1
+        )
+        if not cls.journal:
+            cls.journal = cls.env["account.journal"].create(
+                {"name": "Test Bank", "type": "bank", "code": "TBNK"}
+            )
+        cls.receivable = cls.env["account.account"].search(
+            [("account_type", "=", "asset_receivable")], limit=1
+        )
+        cls.payable = cls.env["account.account"].search(
+            [("account_type", "=", "liability_payable")], limit=1
+        )
+        if not (cls.receivable and cls.payable):
+            raise common.SkipTest("Receivable/payable accounts are required.")
+        cls.journal.write(
+            {
+                "no_suspense_counterpart": True,
+                "counterpart_receivable_account_id": cls.receivable.id,
+                "counterpart_payable_account_id": cls.payable.id,
+            }
+        )
+
+    def _make_line(self, amount):
+        statement = self.env["account.bank.statement"].create(
+            {
+                "name": "TEST",
+                "journal_id": self.journal.id,
+                "balance_start": 0.0,
+                "balance_end_real": amount,
+            }
+        )
+        return self.env["account.bank.statement.line"].create(
+            {
+                "statement_id": statement.id,
+                "journal_id": self.journal.id,
+                "payment_ref": "No suspense",
+                "amount": amount,
+            }
+        )
+
+    def test_new_line_is_not_reconciled(self):
+        """The line stays open so it reaches the reconciliation widget."""
+        line = self._make_line(100.0)
+        self.assertFalse(
+            line.is_reconciled,
+            "A freshly imported line with a real counterpart must stay open.",
+        )
+
+    def test_no_suspense_line_is_created(self):
+        """The counterpart goes to the real account, never to suspense."""
+        line = self._make_line(100.0)
+        self.assertNotIn(
+            self.journal.suspense_account_id, line.move_id.line_ids.account_id
+        )
+
+    def test_counterpart_lands_on_receivable(self):
+        """An incoming amount books the counterpart on the receivable."""
+        line = self._make_line(100.0)
+        self.assertIn(self.receivable, line.move_id.line_ids.account_id)

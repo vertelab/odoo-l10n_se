@@ -27,6 +27,18 @@
                             <field name="pc_report_template_id"/>
                         </setting>
                     </block>
+                    <block title="Skattekonto" id="tax_account_block" groups="account.group_account_manager">
+                        <setting id="tax_account_reconcile"
+                                 help="Mark account 1630 (Avräkning för skatter och avgifter) as reconcilable so VAT payments can be matched against the declaration."
+                                 title="Tax Account 1630"
+                                 company_dependent="False">
+                            <button name="action_l10n_se_tax_report_configure_tax_account"
+                                    type="object"
+                                    string="Make 1630 reconcilable"
+                                    class="btn-link"
+                                    icon="oi-arrow-right"/>
+                        </setting>
+                    </block>
                 </xpath>
             </field>
         </record>

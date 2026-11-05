@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Account Tax Report',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Account Tax Report',
     'category': 'Accounting',
@@ -80,6 +80,7 @@ External Dependencies
         'views/mis_report_view.xml',
         'views/account_fiscalyear_views.xml',
      ],
+    'post_init_hook': 'post_init_hook',
     'demo': [
         'demo/periodic_compilation_demo.xml',
         'demo/tax_report_demo.xml',

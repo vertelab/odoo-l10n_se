@@ -29,7 +29,6 @@ import tempfile
 from io import BytesIO
 import csv
 from zipfile import BadZipfile
-from odoo.http import request
 
 import logging
 
@@ -43,8 +42,11 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def _parse_file(self, statement_file):
-        _logger.warning(f"{request.httprequest.environ['REMOTE_ADDR']=}")
         """Parse a Mynt zip file."""
+        # A debug log of REMOTE_ADDR used to sit here. It called
+        # request.httprequest unconditionally, which raises "object is not
+        # bound" whenever the parser runs outside an HTTP request (odoo
+        # shell, cron, tests) - i.e. it broke every non-web import.
         try:
             _logger.warning(u"Try parsing with Mynt.")
             return self.extract_zip(statement_file)

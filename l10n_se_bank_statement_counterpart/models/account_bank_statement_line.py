@@ -89,6 +89,49 @@ class AccountBankStatementLine(models.Model):
         # ``_synchronize_from_moves`` see a move without a liquidity line.
         return res
 
+    def _compute_is_reconciled(self):
+        """Keep a no-suspense counterpart open until it is really reconciled.
+
+        Core's ``_compute_is_reconciled`` decides the state like this::
+
+            if suspense_lines:
+                is_reconciled = is_zero(amount_residual)
+            else:
+                is_reconciled = True          # <-- assumes "already reconciled"
+
+        It looks for a line on ``journal.suspense_account_id``. When this
+        module books the counterpart directly on a real account
+        (1510/2440/1630) that recordset is empty, so Odoo marks the line as
+        reconciled on import and it never shows up in the reconciliation
+        widget.
+
+        The counterpart line itself is the right signal: it stays open
+        exactly as long as there is an amount left to reconcile against it.
+        """
+        res = super()._compute_is_reconciled()
+        for st_line in self:
+            if not st_line.id or not st_line.journal_id.no_suspense_counterpart:
+                continue
+            _liquidity_lines, suspense_lines, other_lines = st_line._seek_for_lines()
+            if suspense_lines:
+                # Core already decided from a real suspense line.
+                continue
+            counterpart_accounts = (
+                st_line.journal_id._no_suspense_counterpart_accounts()
+            )
+            if not counterpart_accounts:
+                continue
+            counterpart_lines = other_lines.filtered(
+                lambda line: line.account_id in counterpart_accounts
+            )
+            if not counterpart_lines:
+                continue
+            currency = counterpart_lines.currency_id or st_line.currency_id
+            st_line.is_reconciled = currency.is_zero(
+                sum(counterpart_lines.mapped("amount_residual"))
+            )
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
         """Add early-payment discount lines once the statement move exists.
