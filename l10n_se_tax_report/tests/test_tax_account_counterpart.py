@@ -111,3 +111,31 @@ class TestTaxAccountCounterpart(common.TransactionCase):
         self.AccountAccount._l10n_se_tax_report_configure_tax_account()
         self.assertTrue(self.tax_account.reconcile)
         self.assertNotEqual(self.tax_account.account_type, 'asset_cash')
+
+    def test_configure_makes_vat_account_reconcilable(self):
+        """2650 must be reconcilable, otherwise the VAT debt is invisible.
+
+        account.bank.statement.line._get_default_amls_matching_domain()
+        filters candidates on account.account.reconcile. When 2650 is not
+        reconcilable the VAT debt cannot be matched anywhere in the bank
+        reconciliation widget.
+        """
+        vat_account = self.env['account.account'].search(
+            [('code', '=', '2650')], limit=1)
+        if not vat_account:
+            raise common.SkipTest('2650 is not configured in this database.')
+        vat_account.reconcile = False
+        self.AccountAccount._l10n_se_tax_report_configure_tax_account()
+        self.assertTrue(
+            vat_account.reconcile,
+            '2650 must become reconcilable so the VAT debt shows up in the '
+            'bank reconciliation.',
+        )
+
+    def test_configure_reports_both_accounts(self):
+        """The method returns 1630 and 2650 so callers can report on them."""
+        accounts = self.AccountAccount._l10n_se_tax_report_configure_tax_account()
+        self.assertIn(self.tax_account, accounts)
+        codes = accounts.mapped('code')
+        self.assertIn('1630', codes)
+

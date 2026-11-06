@@ -253,13 +253,20 @@ class account_vat_declaration(models.Model):
             })
 
             if amount > 0:
-                # VAT to pay: debt moves 2650 -> 1630
-                vat_debit, vat_credit = 0.0, amount
-                tax_debit, tax_credit = amount, 0.0
+                # VAT to pay: the debt moves 2650 -> 1630.
+                # 2650 (Redovisningskonto för moms) is debited to clear the
+                # debt, 1630 (Skattekonto) is credited because the debt is
+                # now owed to Skatteverket. The payment later debits 1630,
+                # which is exactly how the historical manual entries are
+                # booked ("moms okt" credits 1630, "/bet moms" debits it).
+                vat_debit, vat_credit = amount, 0.0
+                tax_debit, tax_credit = 0.0, amount
             else:
-                # VAT refund: receivable moves 1630 -> 1650
-                vat_debit, vat_credit = abs(amount), 0.0
-                tax_debit, tax_credit = 0.0, abs(amount)
+                # VAT refund: the receivable moves 1650 -> 1630.
+                # 1650 (Momsfordran) is credited to clear the receivable,
+                # 1630 is debited because Skatteverket now owes us money.
+                vat_debit, vat_credit = 0.0, abs(amount)
+                tax_debit, tax_credit = abs(amount), 0.0
 
             entry.write({'line_ids': [
                 (0, 0, {
@@ -281,6 +288,14 @@ class account_vat_declaration(models.Model):
             ]})
             entry.vat_declaration_id = rec.id
             rec.skattekonto_move_id = entry.id
+
+            # The transfer must be posted. A draft move is invisible to the
+            # reconciliation widget, which only considers posted lines
+            # (see account.bank.statement.line._get_default_amls_matching_domain).
+            # Leaving it in draft made the VAT debt silently disappear from
+            # the bank reconciliation: 2650 is not reconcilable either, so the
+            # amount could not be matched anywhere.
+            entry._post()
 
                     
     def do_draft(self):
