@@ -21,6 +21,10 @@ class TestSeTaxReportHandler(common.TransactionCase):
         cls.company = cls.env.company
         cls.country = cls.env.ref('base.se')
         cls.company.country_id = cls.country
+        # Posting validates the tax against the company's FISCAL country, not
+        # just its country_id. Without this every invoice is rejected with
+        # "taxes incompatible with your fiscal country".
+        cls.company.account_fiscal_country_id = cls.country
         cls.handler = cls.env['account.se.tax.report.handler']
 
         cls.report = cls.env['account.report'].create({
@@ -68,6 +72,17 @@ class TestSeTaxReportHandler(common.TransactionCase):
         ], limit=1)
         if tax:
             return tax
+        # account.tax.tax_group_id is NOT NULL; a bare create() fails.
+        group = self.env['account.tax.group'].search(
+            [('company_id', '=', self.company.id),
+             ('country_id', '=', self.country.id)], limit=1)
+        if not group:
+            group = self.env['account.tax.group'].create({
+                'name': 'Test group',
+                'company_id': self.company.id,
+                # The group's country must match the tax's, or validation fails.
+                'country_id': self.country.id,
+            })
         return self.env['account.tax'].create({
             'name': name,
             'amount': amount,
@@ -75,6 +90,7 @@ class TestSeTaxReportHandler(common.TransactionCase):
             'type_tax_use': use,
             'company_id': self.company.id,
             'country_id': self.country.id,
+            'tax_group_id': group.id,
             'invoice_repartition_line_ids': [
                 (0, 0, {'repartition_type': 'base'}),
                 (0, 0, {'repartition_type': 'tax'}),
