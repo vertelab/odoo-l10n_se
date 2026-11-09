@@ -50,7 +50,11 @@ _logger = logging.getLogger(__name__)
 # equals the set of KPI records there (28 == 28).
 BOX_BY_KPI = {
     'ForsMomsEjAnnan': 'se_05',
+    # Box 06 is named 'Momspliktiga' in the shipped data file and
+    # 'UttagMoms' in older customer databases (SFA runs one of those).
+    # Same box, two names -- accept both rather than miss the row.
     'Momspliktiga': 'se_06',
+    'UttagMoms': 'se_06',
     'UlagMargbesk': 'se_07',
     'HyrinkomstFriv': 'se_08',
     'MomsUtgHog': 'se_10',
@@ -276,6 +280,20 @@ def compare(env, date_from, date_to, company=None, tol=DEFAULT_TOLERANCE):
 
     ctx = _credit_note_context(env, date_from, date_to, company)
 
+    # An engine that returns 0 for every box is not "a company without VAT" --
+    # it is an engine that is not computing. Reporting "0 differ" on that is
+    # the exact false comfort this tool exists to prevent.
+    for label, amounts, error in (
+            ('MIS', mis, mis_error),
+            ('Ny rapport', new, None if generated else 'rapporten hittades inte'),
+            ('Core', core, None if core_report else 'rapporten hittades inte')):
+        if error:
+            print("VARNING: %s kan inte mätas: %s" % (label, error))
+            continue
+        if amounts and not any(abs(v) > 0.01 for v in amounts.values()):
+            print("VARNING: %s gav 0 på ALLA rutor — motorn räknar inte. "
+                  "En sådan kolumn bevisar ingenting." % label)
+
     print("%-5s %-24s %13s %13s %13s %12s %s" % (
         "Ruta", "KPI", "MIS", "Ny rapport", "Core", "Diff ny-MIS", "Status"))
     print("-" * 92)
@@ -318,6 +336,16 @@ def compare(env, date_from, date_to, company=None, tol=DEFAULT_TOLERANCE):
         print("")
         print("  %d OKLARA avvikelser — verifieringen kan inte godkännas "
               "förrän de är klassade." % len(oklara))
+
+    dead = []
+    if not mis or not any(abs(v) > 0.01 for v in mis.values()):
+        dead.append('MIS')
+    if not new or not any(abs(v) > 0.01 for v in new.values()):
+        dead.append('Ny rapport')
+    if dead:
+        print("")
+        print("  MOTORN/N RÄKNAR INTE: %s. Jämförelsen är inte giltig som "
+              "godkännande." % ', '.join(dead))
     return rows
 
 

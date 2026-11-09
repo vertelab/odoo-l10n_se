@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports',
-    'version': '18.0.2.0.3',
+    'version': '18.0.2.0.4',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Create Swedish MIS-reports.',
     'category': 'Accounting',
@@ -51,6 +51,7 @@ adjust according to the applicable accounting guidelines.
         # row by row (see the change's tasks.md section 7.10).
         'data/ar_balance_sheet.xml',
         'data/ar_profit_and_loss.xml',
+        'data/ar_momsdeklaration.xml',
         'views/ar_report_actions.xml',
         'security/security.xml',
     ],
