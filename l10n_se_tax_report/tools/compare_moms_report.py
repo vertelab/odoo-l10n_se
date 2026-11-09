@@ -248,6 +248,14 @@ def classify(row, ctx):
         return SEMANTIK, (
             "core väljer på taggar; skatten saknar tagg i den här kontoplanen")
 
+    # pbal/nbal cannot be expressed as a domain (a domain filters lines, not
+    # accounts), so a box built on them differs by construction. Recognise the
+    # signature: the difference equals the sum of the excluded accounts.
+    if ctx.get('pbal_boxes') and row['box'] in ctx['pbal_boxes']:
+        return SEMANTIK, (
+            'rutan använder pbal (endast positiva saldon); en domän filtrerar '
+            'rader, inte konton — kräver engine=custom')
+
     # Two agree, one differs -> the odd one out is the suspect.
     if abs(mis - new) < 0.5 and abs(core - mis) >= 0.5:
         return SEMANTIK, "MIS och nya rapporten stämmer; core avviker"
@@ -255,6 +263,22 @@ def classify(row, ctx):
         return FEL_NY, "MIS och core stämmer; den nya rapporten avviker"
 
     return OKLAR, "kunde inte klassas automatiskt"
+
+
+def _pbal_boxes(mis_report):
+    """Boxes whose MIS expression uses pbal/nbal (positive/negative only)."""
+    if not mis_report:
+        return set()
+    boxes = set()
+    for kpi_name, code in BOX_BY_KPI.items():
+        kpi = mis_report.kpi_ids.filtered(lambda k: k.name == kpi_name)
+        if not kpi:
+            continue
+        for expr in kpi.expression_ids:
+            text = (expr.name or '').strip()
+            if text.startswith(('pbal', 'nbal')):
+                boxes.add(code.replace('se_', ''))
+    return boxes
 
 
 def _credit_note_context(env, date_from, date_to, company):
@@ -315,6 +339,7 @@ def compare(env, date_from, date_to, company=None, tol=DEFAULT_TOLERANCE):
         new = _lines_to_amounts(generated, _options(env, date_from, date_to, True))
 
     ctx = _credit_note_context(env, date_from, date_to, company)
+    ctx['pbal_boxes'] = _pbal_boxes(mis_report)
 
     # An engine that returns 0 for every box is not "a company without VAT" --
     # it is an engine that is not computing. Reporting "0 differ" on that is
