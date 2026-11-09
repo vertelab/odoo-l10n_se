@@ -1272,7 +1272,7 @@
                 <record id="line_egetkapitalskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
                     <field name="engine">aggregation</field>
-                    <field name="formula">EGETKAPITAL.balance + OBESKATTADERESERVER.balance + AVSATTNINGAR.balance + LANGFRISTIGASKULDER.balance + KORTFRISTIGASKULDER.balance</field>
+                    <field name="formula">EGETKAPITAL.balance + OBESKATTADERESERVER.balance + AVSATTNINGAR.balance + LANGFRISTIGASKULDER.balance + KORTFRISTIGASKULDER.balance + ICKEBOKFORDVINSTFORLUST.balance</field>
                     <field name="date_scope">from_beginning</field>
                 </record>
             </field>
