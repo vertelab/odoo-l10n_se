@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Svenska Kommun MIS-reports',
-    'version': '18.0.1.0.0',
+    'version': '18.0.2.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Svenska Kommun MIS-reports.',
     'category': 'Accounting',
@@ -38,14 +38,13 @@ Svenska Kommun MIS-reports
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder', 'mis_builder_budget'],
+    'depends': ['account', 'account_dynamic_reports'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
     'data': [
-        'data/mis_financial_report.xml',
-        'data/rr_financial_report.xml',
-        'data/br_financial_report.xml',
+        'data/ar_br.xml',
+        'data/ar_rr.xml',
     ],
     'installable': 'True',
     'application': 'False',

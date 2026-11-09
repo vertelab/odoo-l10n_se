@@ -20,15 +20,20 @@ class Company(models.Model):
         string='Tax Declaration Frequency',
         help="Length of the VAT declaration period.")
     vat_report_template_id = fields.Many2one(
-        'mis.report',
+        'account.report',
         string='VAT Report Template',
-        default=lambda self: self.env.ref('l10n_se_mis.report_md').id,
-        help="MIS report template used for VAT declarations.")
+        default=lambda self: self.env['account.report'].search(
+            [('country_id.code', '=', 'SE'), ('name', '=', 'skatterapport')],
+            limit=1).id,
+        help="The account.report used for VAT declarations. Defaults to the "
+             "Swedish tax report shipped by l10n_se.")
     pc_report_template_id = fields.Many2one(
-        'mis.report',
+        'account.report',
         string='Periodic Compilation Report Template',
-        default=lambda self: self.env.ref('l10n_se_mis.report_pc').id,
-        help="MIS report template used for Periodic Compilation (EU sales list).")
+        default=lambda self: self.env['account.report'].search(
+            [('country_id.code', '=', 'SE'),
+             ('name', '=', 'Periodisk sammanställning')], limit=1).id,
+        help="The account.report used for Periodic Compilation (EU sales list).")
 
     # All SKV API fields moved to l10n_se_skatteverket_api/models/res_company.py
 
@@ -50,15 +55,15 @@ class ResConfigSettings(models.TransientModel):
         readonly=False)
 
     vat_report_template_id = fields.Many2one(
-        'mis.report',
+        'account.report',
         string='VAT Report Template',
-        help="MIS report template used for VAT declarations.",
+        help="Report used for VAT declarations.",
         related='company_id.vat_report_template_id',
         readonly=False)
 
     pc_report_template_id = fields.Many2one(
-        'mis.report',
+        'account.report',
         string='Periodic Compilation Report Template',
-        help="MIS report template used for Periodic Compilation (EU sales list).",
+        help="Report used for Periodic Compilation (EU sales list).",
         related='company_id.pc_report_template_id',
         readonly=False)

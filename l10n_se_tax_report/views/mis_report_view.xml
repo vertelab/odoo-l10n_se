@@ -8,9 +8,10 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='move_id'][last()]" position="after">
                     <field invisible="state not in ['draft','done','confirmed','canceled']" name="eskd_file_mis"/>
+                    <field name="generated_report_id" invisible="1"/>
                 </xpath>
                 <xpath expr="//header" position="inside">
-                    <button class="oe_highlight" invisible="state not in ['draft','done','confirmed','canceled']" name="show_mis_report" string="Show Report" type="object"/>
+                    <button class="oe_highlight" invisible="state not in ['draft','done','confirmed','canceled']" name="show_report" string="Show Report" type="object"/>
                 </xpath></field>
         </record>
     </data>

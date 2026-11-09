@@ -60,7 +60,7 @@ K2 and K3 rule sets supported for annual reports.
 
     'depends': [
         'l10n_se_tax_report',
-        'l10n_se_mis',
+        'account_dynamic_reports',
         'l10n_se_account_financial_report',
         'l10n_se_extended',
         'project',

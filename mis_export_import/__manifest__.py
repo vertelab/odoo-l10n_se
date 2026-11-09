@@ -44,7 +44,7 @@ Export/Import
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/mis_export_import',
     'license': 'AGPL-3',
-    'depends': ['mis_builder', 'l10n_se_mis'],
+    'depends': ['mis_builder'],
     "data": [
         "security/ir.model.access.csv",
         "wizards/mis_export_import_wizard_views.xml",

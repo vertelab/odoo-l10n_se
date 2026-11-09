@@ -399,7 +399,12 @@ class account_vat_declaration(models.Model):
         if existing:
             return False
 
-        report = self.env.company.vat_report_template_id or self.env.ref('l10n_se_mis.report_md')
+        # The declaration is computed from the Swedish account.report, not
+        # from a MIS Builder template. vat_report_template_id is kept for
+        # configurations that pointed at a customer-specific MIS report.
+        report = self.env['account.report'].search(
+            [('country_id.code', '=', 'SE'), ('name', '=', 'skatterapport')],
+            limit=1)
 
         # Ported 2026-10-30: account.fiscalyear -> account.fiscal.year.
         fiscalyear = self.env['account.fiscal.year'].search([
@@ -413,7 +418,7 @@ class account_vat_declaration(models.Model):
             'date_start': fields.Date.to_string(date_start),
             'date_stop': fields.Date.to_string(date_stop),
             'date': fields.Date.to_string(date_deadline),
-            'report_id': report.id,
+            'generated_report_id': report.id,
             'accounting_yearend': fiscalyear and date_stop >= fiscalyear.date_to,
         })
 

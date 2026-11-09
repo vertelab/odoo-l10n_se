@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Aktiebolag)',
-    'version': '18.0.1.4.0',
+    'version': '18.0.2.0.1',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Swedish MIS-reports for Aktiebolag enligt K2 (BFNAR 2016:10).',
     'category': 'Accounting/Localizations',
@@ -41,22 +41,22 @@ Contains balance sheet and income statement (cost of sales method).
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder', 'mis_builder_budget', 'l10n_se_mis'],
+    'depends': ['account', 'account_dynamic_reports', 'l10n_se_mis'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
     'data': [
         'security/security.xml',
-        'data/mis_balansrakning_k2.xml',
-        'data/mis_balansrakning_k2_compact.xml',
-        'data/mis_balansrakning_forkortad_k2.xml',
-        'data/mis_balansrakning_forkortad_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2_compact.xml',
-        'data/mis_kassaflodesanalys_k2.xml',
-        'data/mis_kassaflodesanalys_k2_compact.xml',
+        'data/ar_balansrakning_k2.xml',
+        'data/ar_balansrakning_k2_compact.xml',
+        'data/ar_balansrakning_forkortad_k2.xml',
+        'data/ar_balansrakning_forkortad_k2_compact.xml',
+        'data/ar_resultatrakning_kostnadsslag_k2.xml',
+        'data/ar_resultatrakning_kostnadsslag_k2_compact.xml',
+        'data/ar_resultatrakning_kostnadsslag_forkortad_k2.xml',
+        'data/ar_resultatrakning_kostnadsslag_forkortad_k2_compact.xml',
+        'data/ar_kassaflodesanalys_k2.xml',
+        'data/ar_kassaflodesanalys_k2_compact.xml',
     ],
     'installable': 'True',
     'application': 'False',

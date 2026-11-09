@@ -430,46 +430,40 @@ class TestPeriodicCompilation(common.TransactionCase):
             'date_stop': date_stop,
         })
 
-        # Get VAT report KPI value for ForsVaruAnnatEg
-        if vat_decl.generated_mis_report_id:
-            matrix = vat_decl.generated_mis_report_id._compute_matrix()
-            vat_goods_value = 0.0
-            for row in matrix.iter_rows():
-                if row.kpi.name == 'ForsVaruAnnatEg':
-                    vals = [c.val for c in row.iter_cells()]
-                    if isinstance(vals[0], (float, int)):
-                        vat_goods_value = abs(vals[0])
+        # Get the VAT report's box 35 value.
+        amounts = vat_decl._get_box_amounts()
+        vat_goods_value = abs(amounts.get('se_35', 0.0))
 
-            # PC total goods should match VAT Ruta 35
-            pc_goods_total = sum(pc.line_ids.mapped('pc_supplied_goods'))
-            self.assertAlmostEqual(
-                pc_goods_total, vat_goods_value, delta=1.0,
-                msg="PC total goods should match VAT Ruta 35 (ForsVaruAnnatEg)")
+        # PC total goods should match VAT box 35
+        pc_goods_total = sum(pc.line_ids.mapped('pc_supplied_goods'))
+        self.assertAlmostEqual(
+            pc_goods_total, vat_goods_value, delta=1.0,
+            msg="PC total goods should match VAT box 35")
 
-    def test_mis_instance_created(self):
-        """A MIS report instance should be automatically created when
-        the periodic compilation is created."""
+    def test_report_created(self):
+        """The periodic compilation points at an account.report.
+
+        Before the migration it auto-created a MIS Builder instance. That
+        instance is gone; the compilation now references the report it is
+        computed from, and the period comes from the compilation's own dates.
+        """
         pc = self.PeriodicCompilation.create({
-            'name': 'MIS Instance Test',
+            'name': 'Report Test',
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
         self.assertTrue(
+            pc.generated_report_id,
+            "The compilation should reference an account.report")
+        self.assertEqual(pc.generated_report_id._name, 'account.report')
+        self.assertFalse(
             pc.generated_mis_report_id,
-            "A MIS report instance should be auto-created")
-        self.assertEqual(
-            pc.generated_mis_report_id.period_ids[0].manual_date_from,
-            date(TEST_YEAR, 6, 1),
-        )
-        self.assertEqual(
-            pc.generated_mis_report_id.period_ids[0].manual_date_to,
-            date(TEST_YEAR, 6, 30),
-        )
+            "No MIS instance should be created any more")
 
-    def test_same_data_via_invoice_and_mis(self):
+    def test_same_data_via_invoice_and_report(self):
         """When EU goods are on account 3106 with VTEU tax, they should
-        appear only ONCE in the PC (not double-counted via both MIS
-        drilldown and invoice iteration)."""
+        appear only ONCE in the PC (not double-counted via both the report
+        drill-down and the invoice iteration)."""
         if not self.eu_goods_account:
             self.skipTest("Missing account 3106")
 

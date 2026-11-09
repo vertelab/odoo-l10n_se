@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Point the Swedish VAT boxes at account.se.tax.report.handler.
+
+    The core report (l10n_se) computes every box from tax tags. That is correct
+    for the taxes Odoo SA ships, but blind to the taxes l10n_se_extended adds
+    (MP1, MP2, MP3, I, MU1, MBBU, MPFF, TFEU/VFEU...): those have empty
+    tag_ids and post to 2610/2620/2630/2640 instead of 2611/2621/2641.
+    Measured 2026-11-09: MIS reported 5 000 kr in box 10 and account.report
+    reported 0 for the same invoice.
+
+    The handler selects by tax name AND by tag, so both chart populations are
+    covered and a database carrying both is not double-counted.
+
+    Only boxes whose tax population includes extended-chart taxes are
+    re-pointed. Boxes the core chart fully covers keep using tax_tags, so this
+    file stays small and the change is auditable.
+-->
+<odoo>
+    <data>
+        <!-- Box 05: base amount of taxable domestic sales -->
+        <record id="l10n_se.tax_report_line_05_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval_base</field>
+            <field name="subformula">se_05</field>
+        </record>
+
+        <!-- Box 10 / 11 / 12: outgoing VAT 25 / 12 / 6 % -->
+        <record id="l10n_se.tax_report_line_10_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_10</field>
+        </record>
+        <record id="l10n_se.tax_report_line_11_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_11</field>
+        </record>
+        <record id="l10n_se.tax_report_line_12_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_12</field>
+        </record>
+
+        <!-- Box 30 / 31 / 32: outgoing VAT, reverse charge -->
+        <record id="l10n_se.tax_report_line_30_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_30</field>
+        </record>
+        <record id="l10n_se.tax_report_line_31_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_31</field>
+        </record>
+        <record id="l10n_se.tax_report_line_32_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_32</field>
+        </record>
+
+        <!-- Box 48: incoming VAT, including the extended chart I/I6/IVIS/ITIS taxes -->
+        <record id="l10n_se.tax_report_line_48_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_48</field>
+        </record>
+
+        <!-- Box 60 / 61 / 62: import VAT -->
+        <record id="l10n_se.tax_report_line_60_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_60</field>
+        </record>
+        <record id="l10n_se.tax_report_line_61_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_61</field>
+        </record>
+        <record id="l10n_se.tax_report_line_62_tag" model="account.report.expression">
+            <field name="engine">custom</field>
+            <field name="formula">_custom_expression_eval</field>
+            <field name="subformula">se_62</field>
+        </record>
+
+        <!-- Put the handler on the core report so expressions can find it. -->
+        <record id="l10n_se.tax_report" model="account.report">
+            <field name="custom_handler_model_id"
+                   ref="model_account_se_tax_report_handler"/>
+        </record>
+    </data>
+</odoo>

@@ -32,12 +32,15 @@ class account_periodic_compilation(models.Model):
         string='MIS Report Instance',
         ondelete='cascade',
         readonly=True,
+        help='Legacy: the MIS Builder instance used before the migration. '
+             'Readable for historical compilations; never written any more.',
     )
-    report_id = fields.Many2one(
-        'mis.report',
-        string='Report',
-        default=lambda self: self.env.company.pc_report_template_id.id
-            or self.env.ref('l10n_se_mis.report_pc').id,
+    generated_report_id = fields.Many2one(
+        comodel_name='account.report',
+        string='Generated Report',
+        ondelete='restrict',
+        readonly=True,
+        help='The account.report this compilation was computed from.',
     )
 
     def _invoice_ids_count(self):
@@ -78,27 +81,17 @@ class account_periodic_compilation(models.Model):
                 fields.Date.from_string(self.date_stop))
 
     @api.model
-    def _generate_mis_report(self, start_date, stop_date, target_move_param,
-                             name_param, company_id, report_id=None):
-        """Create a MIS report instance for the given period.
-        Uses the PC-specific MIS report (not the momsdeklaration report)."""
-        report_instance = self.env['mis.report.instance'].create({
-            'report_id': report_id
-                or company_id.pc_report_template_id.id
-                or self.env.ref('l10n_se_mis.report_pc').id,
-            'target_move': target_move_param,
-            'name': 'PC: ' + name_param,
-            'company_id': company_id.id,
-            'period_ids': [
-                (0, 0, {
-                    'name': 'p1',
-                    'mode': 'fix',
-                    'manual_date_from': start_date,
-                    'manual_date_to': stop_date,
-                }),
-            ],
-        })
-        return report_instance
+    def _get_pc_report(self):
+        """The periodic-compilation account.report.
+
+        Looks the report up by name rather than by xmlid so a customer copy
+        (renamed) is still found. Falls back to None, and the caller degrades
+        to invoice-only data instead of raising.
+        """
+        return self.env['account.report'].search([
+            ('country_id.code', '=', 'SE'),
+            ('name', '=', 'Periodisk sammanställning'),
+        ], limit=1)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -114,18 +107,11 @@ class account_periodic_compilation(models.Model):
                     vals['name'] = '%s %s - %s' % (
                         self._report_name, vals['date_start'], vals['date_stop'])
         records = super(account_periodic_compilation, self).create(vals_list)
-        # Create MIS report instance (must be done after super() so records have company_id)
-        for record in records:
-            if record.date_start and record.date_stop:
-                company = record.company_id or self.env.company
-                record.generated_mis_report_id = self._generate_mis_report(
-                    record.date_start,
-                    record.date_stop,
-                    record.target_move,
-                    record.name,
-                    company,
-                    report_id=record.report_id.id,
-                )
+        # Point the compilation at the account.report it is computed from.
+        report = records._get_pc_report()
+        if report:
+            for record in records:
+                record.generated_report_id = report
         return records
 
     def _get_period_invoices(self):
@@ -146,37 +132,52 @@ class account_periodic_compilation(models.Model):
     _EU_SERVICE_TAX_NAMES = ['FTEU']
 
     def _get_move_lines_for_kpi(self, kpi_name):
-        """Use MIS drilldown to get account.move.line records contributing
-        to a specific KPI. Returns an empty recordset if no MIS instance.
-        Falls back gracefully if the MIS report or KPI is unavailable."""
-        self.ensure_one()
-        if not self.generated_mis_report_id:
-            return self.env['account.move.line']
-        try:
-            mis = self.generated_mis_report_id
-            if mis.period_ids:
-                mis.period_ids.write({
-                    'manual_date_from': self.date_start,
-                    'manual_date_to': self.date_stop,
-                })
-            mis.write({'target_move': self.target_move})
+        """The account.move.line records behind one periodic-compilation box.
 
-            matrix = mis._compute_matrix()
-            move_lines = self.env['account.move.line']
-            for row in matrix.iter_rows():
-                if row.kpi.name == kpi_name:
-                    for cell in row.iter_cells():
-                        drilldown_arg = cell.drilldown_arg
-                        res = mis.drilldown(drilldown_arg)
-                        move_lines |= self.env['account.move.line'].search(res['domain'])
-            return move_lines
-        except Exception as e:
+        Asks the report's own drill-down, so the amount shown and the lines
+        listed can never disagree. ``kpi_name`` is still a MIS KPI name for
+        backward compatibility; it maps onto the report's box code.
+        """
+        self.ensure_one()
+        report = self.env['account.report'].search([
+            ('country_id.code', '=', 'SE'),
+            ('name', '=', 'Periodisk sammanställning'),
+        ], limit=1)
+        if not report:
             _logger.warning(
-                'MIS drilldown failed for KPI %s on PC %s: %s. '
-                'Falling back to invoice-only data.',
-                kpi_name, self.display_name, e,
-            )
+                'Periodic compilation report missing; PC %s gets no lines.',
+                self.display_name)
             return self.env['account.move.line']
+
+        code = self.KPI_TO_CODE.get(kpi_name, kpi_name)
+        line = report.line_ids.filtered(lambda l: l.code == code)
+        if not line:
+            _logger.warning(
+                'Periodic compilation: no report line with code %s (KPI %s)',
+                code, kpi_name)
+            return self.env['account.move.line']
+
+        options = {
+            'date': {
+                'date_from': fields.Date.to_string(self.date_start) if self.date_start else None,
+                'date_to': fields.Date.to_string(self.date_stop) if self.date_stop else None,
+            },
+            'company_ids': [self.company_id.id],
+        }
+        return report._get_line_drilldown_lines(line, options)
+
+    # MIS KPI name -> report line code. The PC boxes are the same as the VAT
+    # report's boxes 35-42, so no separate code space is needed.
+    KPI_TO_CODE = {
+        'ForsVaruAnnatEg': 'se_35',
+        'ForsVaruUtomEg': 'se_36',
+        'InkopVaruMellan3p': 'se_37',
+        'ForsVaruMellan3p': 'se_38',
+        'ForsTjSkskAnnatEg': 'se_39',
+        'ForsTjOvrUtomEg': 'se_40',
+        'ForsKopareSkskSverige': 'se_41',
+        'ForsOvrigt': 'se_42',
+    }
 
     def calculate(self):
         for rec in self:
@@ -186,22 +187,25 @@ class account_periodic_compilation(models.Model):
             rec.line_ids.unlink()
             rec.invoice_ids = [(5,)]
 
-            # --- Part 1: EU goods via MIS report (account 3106/3108) ---
+            # --- Part 1: EU goods via the report's drill-down (3106/3108) ---
             # This catches ALL entries on those accounts, including manual
-            # journal entries that the old invoice-based approach missed.
+            # journal entries that a purely invoice-based approach would miss.
             goods_move_lines = rec._get_move_lines_for_kpi('ForsVaruAnnatEg')
 
             # --- Part 2: EU services & goods via invoice iteration ---
-            # Services (FTEU) and triangulation (3FEU) use 0% marker taxes.
-            # The MIS KPI for these looks at tax_line_id, but 0% taxes
-            # produce 0-amount tax lines so drilldown is unreliable.
-            # We keep invoice-line approach for these.
+            #
+            # WHY THIS PART CANNOT BE A REPORT DRILL-DOWN:
+            # FTEU (services) and 3FEU (triangulation) are 0 % marker taxes.
+            # A 0 % tax produces a tax line whose amount is zero, so selecting
+            # on the tax line finds nothing -- there is no amount to find.
+            # The box is driven by the *base* line, and the only reliable way
+            # to know which base line belongs to a 0 % marker tax is to walk
+            # the invoices. That is why this loop exists and must stay.
             #
             # VTEU goods: also iterated here, but only for invoices NOT
-            # already captured by MIS (on 3106/3108). The MIS drilldown on
-            # ForsVaruAnnatEg (crd[3106,3108]) captures entries on those
-            # accounts, but VTEU on other accounts (e.g. 3001) needs the
-            # invoice iteration to be found.
+            # already captured by the drill-down (3106/3108). The drill-down
+            # on ForsVaruAnnatEg captures entries on those accounts, but VTEU
+            # on other accounts (e.g. 3001) needs the invoice iteration.
             invoices = rec._get_period_invoices()
 
             # Build a dict: partner_id -> { goods, services, triangulation }
@@ -507,13 +511,3 @@ class AccountDeclarationLine(models.Model):
             },
         })
         return action
-
-
-class MisReportInstance(models.Model):
-    _inherit = 'mis.report.instance'
-
-    account_periodic_compilation_id = fields.One2many(
-        comodel_name='account.periodic.compilation',
-        inverse_name='generated_mis_report_id',
-        string='Periodic Compilation',
-    )

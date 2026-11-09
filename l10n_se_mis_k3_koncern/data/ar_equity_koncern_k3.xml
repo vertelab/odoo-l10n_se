@@ -1,0 +1,1728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ar_report_equity_koncern_k3" model="account.report">
+            <field name="name">Koncernens förändringar i eget kapital K3</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="column_ids">
+                <record id="ar_report_equity_koncern_k3_col_balance" model="account.report.column">
+                    <field name="name">Balance</field>
+                    <field name="expression_label">balance</field>
+                    <field name="figure_type">monetary</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapital" model="account.report.line">
+            <field name="name">Sammanställning av förändringar i eget kapital</field>
+            <field name="code">FORANDRINGEGETKAPITAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalaktiekapita" model="account.report.line">
+            <field name="name">Förändring av aktiekapital i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALAKTIEKAPITA</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">2</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalaktiekapita_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för aktiekapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALAKTIEKAPITA_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">4</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalaktiekapita_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av aktiekapital vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALAKTIEKAPITA_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">5</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradakt" model="account.report.line">
+            <field name="name">Justerad ingående balans för aktiekapital</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADAKT</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">6</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendeakt" model="account.report.line">
+            <field name="name">Specifikation av förändringar av aktiekapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEAKT</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">7</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalaktiekapita_4" model="account.report.line">
+            <field name="name">Ökning av aktiekapital vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALAKTIEKAPITA_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">8</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalaktiekapita_5" model="account.report.line">
+            <field name="name">Ökning av aktiekapital vid nyemission</field>
+            <field name="code">FORANDRINGEGETKAPITALAKTIEKAPITA_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">9</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalaktiekapita_6" model="account.report.line">
+            <field name="name">Minskning av aktiekapital vid överföring till fritt eget kapital eller återbetalning till aktieägarna</field>
+            <field name="code">FORANDRINGEGETKAPITALAKTIEKAPITA_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalaktiekapita_7" model="account.report.line">
+            <field name="name">Minskning av aktiekapitalet vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALAKTIEKAPITA_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">11</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_aktiekapital" model="account.report.line">
+            <field name="name">Aktiekapital</field>
+            <field name="code">AKTIEKAPITAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">12</field>
+            <field name="expression_ids">
+                <record id="ar_report_equity_koncern_k3_line_aktiekapital_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-2081</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills" model="account.report.line">
+            <field name="name">Förändring av övrigt tillskjutet kapital i specifikationen av förändringar övrigt tillskjutet kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">13</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för övrigt tillskjutet kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">15</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av övrigt tillskjutet kapital vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">16</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradovr" model="account.report.line">
+            <field name="name">Justerad ingående balans för övrigt tillskjutet kapital</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADOVR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">17</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendeovr" model="account.report.line">
+            <field name="name">Specifikation av förändringar av övrigt tillskjutet kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEOVR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">18</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_4" model="account.report.line">
+            <field name="name">Ökning av övrigt tillskjutet kapital vid erhållna aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">19</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_5" model="account.report.line">
+            <field name="name">Minskning av övrigt tillskjutet kapital vid utdelning</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">20</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_6" model="account.report.line">
+            <field name="name">Minskning av övrigt tillskjutet kapital vid återbetalning av aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">21</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_7" model="account.report.line">
+            <field name="name">Ökning (minskning) av övrigt tillskjutet kapital vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">22</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_8" model="account.report.line">
+            <field name="name">Ökning (minskning) av övrigt tillskjutet kapital vid nyemission</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">23</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_9" model="account.report.line">
+            <field name="name">Ökning (minskning) av övrigt tillskjutet kapital till följd av utgifter hänförliga till emission</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_9</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">24</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_10" model="account.report.line">
+            <field name="name">Ökning (minskning) av övrigt tillskjutet kapital vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_10</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">25</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_11" model="account.report.line">
+            <field name="name">Ökning av övrigt tillskjutet kapital vid minskning av aktiekapitalet</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_11</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">26</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_12" model="account.report.line">
+            <field name="name">Minskning av övrigt tillskjutet kapital vid minskning av bunden överkursfond</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_12</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">27</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_13" model="account.report.line">
+            <field name="name">Ökning (minskning) av övrigt tillskjutet kapital till följd av skatteeffekt på emissionsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_13</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">28</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_14" model="account.report.line">
+            <field name="name">Ökning (minskning) av övrigt tillskjutet kapital vid aktierelaterade ersättningar</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_14</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">29</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_15" model="account.report.line">
+            <field name="name">Minskning av övrigt tillskjutet kapital vid förändring av reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_15</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_16" model="account.report.line">
+            <field name="name">Minskning av övrigt tillskjutet kapital vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_16</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">31</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_17" model="account.report.line">
+            <field name="name">Minskning av övrigt tillskjutet kapital vid aktivering av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_17</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">32</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalovrigttills_18" model="account.report.line">
+            <field name="name">Ökning av övrigt tillskjutet kapital vid emission av konvertibla skuldebrev</field>
+            <field name="code">FORANDRINGEGETKAPITALOVRIGTTILLS_18</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">33</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_ovrigttillskjutetkapital" model="account.report.line">
+            <field name="name">Övrigt tillskjutet kapital</field>
+            <field name="code">OVRIGTTILLSKJUTETKAPITAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">34</field>
+            <field name="expression_ids">
+                <record id="ar_report_equity_koncern_k3_line_ovrigttillskjutetkapital_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-2082,2087,2093,2097</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaannategetkap" model="account.report.line">
+            <field name="name">Förändringar av annat eget kapital inklusive periodens resultat i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITAANNATEGETKAP</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">35</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka" model="account.report.line">
+            <field name="name">Justering av ingående balans för annat eget kapital inklusive periodens resultat (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">37</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">38</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">39</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradann" model="account.report.line">
+            <field name="name">Justerad ingående balans för annat eget kapital inklusive periodens resultat</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADANN</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">40</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendeann" model="account.report.line">
+            <field name="name">Specifikation av förändringar av annat eget kapital inklusive periodens resultat (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEANN</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">41</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_4" model="account.report.line">
+            <field name="name">Minskning av annat eget kapital inklusive periodens resultat vid utdelning</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">42</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_5" model="account.report.line">
+            <field name="name">Minskning av annat eget kapital inklusive periodens resultat vid återbetalning av aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">43</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_6" model="account.report.line">
+            <field name="name">Minskning av annat eget kapital inklusive periodens resultat vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">44</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_7" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat för utgifter hänförliga till emission</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">45</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_8" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">46</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_9" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid orealiserad internvinst</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_9</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">47</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_10" model="account.report.line">
+            <field name="name">Ökning av annat eget kapital inklusive periodens resultat vid minskning av aktiekapital</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_10</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">48</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_11" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid förändring av reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_11</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">49</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_12" model="account.report.line">
+            <field name="name">Ökning av annat eget kapital inklusive periodens resultat vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_12</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">50</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_13" model="account.report.line">
+            <field name="name">Minskning av annat eget kapital inklusive periodens resultat vid förvärv av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_13</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">51</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_14" model="account.report.line">
+            <field name="name">Ökning av annat eget kapital inklusive periodens resultat vid överlåtelse av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_14</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">52</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_15" model="account.report.line">
+            <field name="name">Ökning av annat eget kapital inklusive periodens resultat vid aktivering av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_15</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">53</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_16" model="account.report.line">
+            <field name="name">Ökning av annat eget kapital inklusive periodens resultat vid uppskrivning av anläggningstillgång</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_16</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">54</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_17" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_17</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">55</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_18" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid säkring av framtida kassaflöde</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_18</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">56</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_19" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_19</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">57</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_20" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive årets resultat vid säkring av nettoinvesteringar i utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_20</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">58</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_21" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat till följd av skatteeffekt</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_21</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">59</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_22" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid omvärdering av pensionsskuld</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_22</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">60</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_23" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid aktierelaterade ersättningar</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_23</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">61</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_24" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid förändring av kapitalandelsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_24</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">62</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_25" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid fusionsdifferens</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_25</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">63</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalannategetka_26" model="account.report.line">
+            <field name="name">Ökning (minskning) av annat eget kapital inklusive periodens resultat vid periodens resultat</field>
+            <field name="code">FORANDRINGEGETKAPITALANNATEGETKA_26</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">64</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_annategetkapitalinklusiveperiode" model="account.report.line">
+            <field name="name">Annat eget kapital inklusive periodens resultat</field>
+            <field name="code">ANNATEGETKAPITALINKLUSIVEPERIODE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">65</field>
+            <field name="expression_ids">
+                <record id="ar_report_equity_koncern_k3_line_annategetkapitalinklusiveperiode_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-2085,2086,2089,2091,2094,2095,2096,2098,2099</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverabs" model="account.report.line">
+            <field name="name">Förändringar av reserver i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERABS</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">66</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverjus" model="account.report.line">
+            <field name="name">Justering av ingående balans för reserver (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERJUS</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">68</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservereff" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVEREFF</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">69</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservereff_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVEREFF_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">70</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradres" model="account.report.line">
+            <field name="name">Justerad ingående balans för reserver</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADRES</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">71</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaenderes" model="account.report.line">
+            <field name="name">Specifikation av förändringar av reserver (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDERES</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">72</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverfon" model="account.report.line">
+            <field name="name">Minskning av reserver vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERFON</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">73</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverfor" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid förändring av reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERFOR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">74</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverfor_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERFOR_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">75</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservertac" model="account.report.line">
+            <field name="name">Minskning av reserver vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERTAC</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">76</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverakt" model="account.report.line">
+            <field name="name">Ökning av reserver vid aktivering av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERAKT</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">77</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverupp" model="account.report.line">
+            <field name="name">Minskning av reserver vid upplösning av fond för utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERUPP</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">78</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverupp_2" model="account.report.line">
+            <field name="name">Ökning av reserver vid uppskrivning av anläggningstillgång</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERUPP_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">79</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverupp_3" model="account.report.line">
+            <field name="name">Minskning av reserver vid upplösning av uppskrivningsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERUPP_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">80</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservervar" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERVAR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">81</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserversak" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid säkring av framtida kassaflöde</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERSAK</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">82</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserveromr" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVEROMR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">83</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverska" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver till följd av skatteeffekt</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERSKA</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">84</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserversak_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid säkring av nettoinvesteringar i utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERSAK_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">85</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreserverfor_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av reserver vid förändring av kapitalandelsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVERFOR_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">86</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_reserveregetkapital" model="account.report.line">
+            <field name="name">Reserver i eget kapital</field>
+            <field name="code">RESERVEREGETKAPITAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">87</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin" model="account.report.line">
+            <field name="name">Förändringar av uppskrivningsfond i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">88</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för uppskrivningsfond (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">90</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av uppskrivningsfond vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">91</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradupp" model="account.report.line">
+            <field name="name">Justerad ingående balans för uppskrivningsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADUPP</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">92</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendeupp" model="account.report.line">
+            <field name="name">Specifikation av förändringar av uppskrivningsfond (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEUPP</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">93</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitauppskrivning" model="account.report.line">
+            <field name="name">Minskning av uppskrivningsfond vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITAUPPSKRIVNING</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">94</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitauppskrivning_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av uppskrivningsfond vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITAUPPSKRIVNING_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">95</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin_4" model="account.report.line">
+            <field name="name">Minskning av uppskrivningsfond vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">96</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin_5" model="account.report.line">
+            <field name="name">Ökning av uppskrivningsfond vid uppskrivning av anläggningstillgång</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">97</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin_6" model="account.report.line">
+            <field name="name">Minskning av uppskrivningsfond vid upplösning</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">98</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin_7" model="account.report.line">
+            <field name="name">Ökning (minskning) av uppskrivningsfond till följd av skatteeffekt</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">99</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaluppskrivnin_8" model="account.report.line">
+            <field name="name">Ökning av uppskrivningsfond till följd av fusionsdifferens</field>
+            <field name="code">FORANDRINGEGETKAPITALUPPSKRIVNIN_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">100</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_uppskrivningsfond" model="account.report.line">
+            <field name="name">Uppskrivningsfond</field>
+            <field name="code">UPPSKRIVNINGSFOND</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">101</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfonda" model="account.report.line">
+            <field name="name">Förändringar av reservfond i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDA</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">102</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfondj" model="account.report.line">
+            <field name="name">Justering av ingående balans för reservfond (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDJ</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">104</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfonde" model="account.report.line">
+            <field name="name">Ökning (minskning) av reservfond vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">105</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradres_2" model="account.report.line">
+            <field name="name">Justerad ingående balans för reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADRES_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">106</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaenderes_2" model="account.report.line">
+            <field name="name">Specifikation av förändringar av reservfond (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDERES_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">107</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfondf" model="account.report.line">
+            <field name="name">Minskning av reservfond vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDF</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">108</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfondf_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av reservfond vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDF_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">109</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfondf_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDF_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">110</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfondt" model="account.report.line">
+            <field name="name">Minskning av reservfond vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDT</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">111</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_reservfond" model="account.report.line">
+            <field name="name">Reservfond</field>
+            <field name="code">RESERVFOND</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">112</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalkapitalande" model="account.report.line">
+            <field name="name">Förändringar av kapitalandelsfond i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALKAPITALANDE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">113</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalkapitalande_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för kapitalandelsfond (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALKAPITALANDE_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">115</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalkapitalande_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av kapitalandelsfond vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALKAPITALANDE_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">116</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalkapitalande_4" model="account.report.line">
+            <field name="name">Ökning (minskning) av kapitalandelsfond i samband med rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALKAPITALANDE_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">117</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradkap" model="account.report.line">
+            <field name="name">Justerad ingående balans för kapitalandelsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADKAP</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">118</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendekap" model="account.report.line">
+            <field name="name">Specifikation av förändringar av kapitalandelsfond (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEKAP</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">119</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalkapitalande_5" model="account.report.line">
+            <field name="name">Ökning (minskning) av kapitalandelsfond vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALKAPITALANDE_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">120</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalreservfondf_4" model="account.report.line">
+            <field name="name">Ökning (minskning) av kapitalandelsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALRESERVFONDF_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">121</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_kapitalandelsfond" model="account.report.line">
+            <field name="name">Kapitalandelsfond</field>
+            <field name="code">KAPITALANDELSFOND</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">122</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl" model="account.report.line">
+            <field name="name">Förändringar av fond för utvecklingsutgifter i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">123</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalutvecklings" model="account.report.line">
+            <field name="name">Justering av ingående balans för fond utvecklingsutgifter (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALUTVECKLINGS</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">125</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för utvecklingsutgifter vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">126</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för utvecklingsutgifter vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">127</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradfon" model="account.report.line">
+            <field name="name">Justerad ingående balans för fond för utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADFON</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">128</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendefon" model="account.report.line">
+            <field name="name">Specifikation av förändringar av fond för utvecklingsutgifter (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEFON</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">129</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl_4" model="account.report.line">
+            <field name="name">Minskning av fond för utvecklingsutgifter vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">130</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl_5" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för utvecklingsutgifter vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">131</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl_6" model="account.report.line">
+            <field name="name">Minskning av fond för utvecklingsutgifter vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">132</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl_7" model="account.report.line">
+            <field name="name">Ökning av fond för utvecklingsutgifter vid aktivering av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">133</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondutveckl_8" model="account.report.line">
+            <field name="name">Minskning av fond för utvecklingsutgifter vid upplösning</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDUTVECKL_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">134</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_fondutvecklingsutgifter" model="account.report.line">
+            <field name="name">Fond för utvecklingsutgifter</field>
+            <field name="code">FONDUTVECKLINGSUTGIFTER</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">135</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig" model="account.report.line">
+            <field name="name">Förändringar av fond för verkligt värde i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">136</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för fond för verkligt värde (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">138</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">139</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_4" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">140</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradfon_2" model="account.report.line">
+            <field name="name">Justerad ingående balans för fond för verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADFON_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">141</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendefon_2" model="account.report.line">
+            <field name="name">Specifikation av förändringar av fond för verkligt värde (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEFON_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">142</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_5" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">143</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_6" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">144</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_7" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde vid säkring av framtida kassaflöde</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">145</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_8" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde vid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">146</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_9" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde vid säkring av nettoinvesteringar i utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_9</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">147</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalfondverklig_10" model="account.report.line">
+            <field name="name">Ökning (minskning) av fond för verkligt värde till följd av skatteeffekt vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALFONDVERKLIG_10</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">148</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_fondverkligtvarde" model="account.report.line">
+            <field name="name">Fond för verkligt värde</field>
+            <field name="code">FONDVERKLIGTVARDE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">149</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd" model="account.report.line">
+            <field name="name">Förändringar av omräkningsdifferens valuta i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">150</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för omräkningsdifferens valuta (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">152</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferens valuta vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">153</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_4" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferens valuta vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">154</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradomr" model="account.report.line">
+            <field name="name">Justerad ingående balans för omräkningsdifferens valuta</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADOMR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">155</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendeomr" model="account.report.line">
+            <field name="name">Specifikation av förändringar av omräkningsdifferens valuta (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEOMR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">156</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_5" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferens valuta vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">157</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_6" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferenser valuta vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">158</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_7" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferenser valuta vid säkring av framtida kassaflöde</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">159</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_8" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferenser valuta vid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">160</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_9" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferenser valuta vid säkring av nettoinvesteringar i utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_9</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">161</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalomrakningsd_10" model="account.report.line">
+            <field name="name">Ökning (minskning) av omräkningsdifferenser valuta till följd av skatteeffekt</field>
+            <field name="code">FORANDRINGEGETKAPITALOMRAKNINGSD_10</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">162</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_omrakningsdifferensegetkapital" model="account.report.line">
+            <field name="name">Omräkningsdifferenser valuta i eget kapital</field>
+            <field name="code">OMRAKNINGSDIFFERENSEGETKAPITAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">163</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr" model="account.report.line">
+            <field name="name">Förändringar av balanserat resultat inklusive periodens resultat i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">164</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för balanserat resultat inklusive periodens resultat (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">166</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">167</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_4" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">168</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradbal" model="account.report.line">
+            <field name="name">Justerad ingående balans för balanserat resultat inklusive periodens resultat</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADBAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">169</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendebal" model="account.report.line">
+            <field name="name">Specifikation av förändringar av balanserat resultat inklusive periodens resultat (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEBAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">170</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_5" model="account.report.line">
+            <field name="name">Minskning av balanserat resultat inklusive periodens resultat vid utdelning</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">171</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_6" model="account.report.line">
+            <field name="name">Minskning av balanserat resultat inklusive periodens resultat vid återbetalning av aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">172</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_7" model="account.report.line">
+            <field name="name">Minskning av balanserat resultat inklusive periodens resultat vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">173</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_8" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat för utgifter hänförliga till emission</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">174</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_9" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_9</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">175</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_10" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid orealiserad internvinst</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_10</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">176</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_11" model="account.report.line">
+            <field name="name">Ökning av balanserat resultat inklusive periodens resultat vid minskning av aktiekapital</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_11</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">177</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_12" model="account.report.line">
+            <field name="name">Ökning av balanserat resultat inklusive periodens resultat vid minskning av bunden överkursfond</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_12</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">178</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_13" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid förändring av reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_13</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">179</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_14" model="account.report.line">
+            <field name="name">Ökning av balanserat resultat inklusive periodens resultat vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_14</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">180</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_15" model="account.report.line">
+            <field name="name">Minskning av balanserat resultat inklusive periodens resultat vid förvärv av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_15</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">181</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_16" model="account.report.line">
+            <field name="name">Ökning av balanserat resultat inklusive periodens resultat vid överlåtelse av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_16</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">182</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_17" model="account.report.line">
+            <field name="name">Minskning av balanserat resultat inklusive periodens resultat vid aktivering av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_17</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">183</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_18" model="account.report.line">
+            <field name="name">Ökning av balanserat resultat inklusive periodens resultat vid upplösning av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_18</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">184</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_19" model="account.report.line">
+            <field name="name">Ökning av balanserat resultat inklusive periodens resultat vid upplösning av uppskrivningsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_19</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">185</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_20" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_20</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">186</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_21" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat till följd av skatteeffekt</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_21</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">187</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_22" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid omvärdering av pensionsskuld</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_22</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">188</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_23" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid aktierelaterade ersättningar</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_23</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">189</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_24" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid förändring av kapitalandelsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_24</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">190</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_25" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid fusionsdifferens</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_25</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">191</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalbalanseratr_26" model="account.report.line">
+            <field name="name">Ökning (minskning) av balanserat resultat inklusive periodens resultat vid periodens resultat</field>
+            <field name="code">FORANDRINGEGETKAPITALBALANSERATR_26</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">192</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_balanseratresultatinklusiveperio" model="account.report.line">
+            <field name="name">Balanserat resultat inklusive periodens resultat</field>
+            <field name="code">BALANSERATRESULTATINKLUSIVEPERIO</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">193</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm" model="account.report.line">
+            <field name="name">Förändringar av eget kapital hänförligt till moderföretagets ägare i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">194</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för eget kapital hänförligt till moderföretagets ägare (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">196</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">197</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_4" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">198</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradhan" model="account.report.line">
+            <field name="name">Justerad ingående balans för eget kapital hänförligt till moderföretagets ägare</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADHAN</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">199</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendehan" model="account.report.line">
+            <field name="name">Specifikation av förändringar av eget kapital hänförligt till moderföretagets ägare (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEHAN</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">200</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_5" model="account.report.line">
+            <field name="name">Minskning av eget kapital hänförligt till moderföretagets aktieägare vid utdelning</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">201</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_6" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till moderföretagets aktieägare vid erhållna aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">202</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_7" model="account.report.line">
+            <field name="name">Minskning av eget kapital hänförligt till moderföretagets aktieägare vid återbetalning av aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">203</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_8" model="account.report.line">
+            <field name="name">Förändring inom eget kapital hänförligt till moderföretagets aktieägare vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">204</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_9" model="account.report.line">
+            <field name="name">Ökning av eller förändring inom eget kapital hänförligt till moderföretagets aktieägare vid nyemission</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_9</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">205</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_10" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets aktieägare för utgifter hänförliga till emission</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_10</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">206</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_11" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_11</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">207</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_12" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid orealiserad internvinst</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_12</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">208</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_13" model="account.report.line">
+            <field name="name">Förändring inom eller minskning av eget kapital hänförligt till moderföretagets aktieägare vid minskning av aktiekapital</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_13</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">209</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_14" model="account.report.line">
+            <field name="name">Förändring inom eller minskning av eget kapital hänförligt till moderföretagets aktieägare vid minskning av bunden överkursfond</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_14</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">210</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_15" model="account.report.line">
+            <field name="name">Förändring inom eller minskning av eget kapital hänförligt till moderföretagets aktieägare vid förändring av reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_15</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">211</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_16" model="account.report.line">
+            <field name="name">Förändring inom eget kapital hänförligt till moderföretagets ägare vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_16</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">212</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_17" model="account.report.line">
+            <field name="name">Minskning av eget kapital hänförligt till moderföretagets aktieägare vid förvärv av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_17</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">213</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_18" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till moderföretagets aktieägare vid överlåtelse av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_18</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">214</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_19" model="account.report.line">
+            <field name="name">Förändring inom eget kapital hänförligt till moderföretagets ägare vid aktivering av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_19</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">215</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_20" model="account.report.line">
+            <field name="name">Förändring inom eget kapital hänförligt till moderföretagets ägare vid upplösning av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_20</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">216</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_21" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till moderföretagets ägare vid uppskrivning av anläggningstillgång</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_21</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">217</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_22" model="account.report.line">
+            <field name="name">Förändring inom eget kapital hänförligt till moderföretagets ägare vid upplösning av uppskrivningsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_22</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">218</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_23" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_23</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">219</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_24" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid säkring av framtida kassaflöde</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_24</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">220</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_25" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_25</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">221</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_26" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid säkring av nettoinvesteringar i utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_26</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">222</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_27" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare till följd av skatteeffekt</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_27</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">223</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_28" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid omvärdering av pensionsskuld</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_28</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">224</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_29" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets aktieägare vid aktierelaterade ersättningar</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_29</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">225</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_30" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till moderföretagets aktieägare vid konvertibla skuldebrev eget kapitalandel</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_30</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">226</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_31" model="account.report.line">
+            <field name="name">Förändring inom eget kapital hänförligt till moderföretagets ägare vid förändring av kapitalandelsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_31</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">227</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_32" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid fusionsdifferens</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_32</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">228</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligtm_33" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till moderföretagets ägare vid periodens resultat</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTM_33</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">229</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_egetkapitalhanforligtmoderforeta" model="account.report.line">
+            <field name="name">Eget kapital hänförligt till moderföretagets ägare</field>
+            <field name="code">EGETKAPITALHANFORLIGTMODERFORETA</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">230</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti" model="account.report.line">
+            <field name="name">Förändringar av eget kapital hänförligt till innehav utan bestämmande inflytande i specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">231</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_2" model="account.report.line">
+            <field name="name">Justering av ingående balans för eget kapital hänförligt till innehav utan bestämmande inflytande (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">233</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">234</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_4" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">235</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradhan_2" model="account.report.line">
+            <field name="name">Justerad ingående balans för eget kapital hänförligt till innehav utan bestämmande inflytande</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADHAN_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">236</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendehan_2" model="account.report.line">
+            <field name="name">Specifikation av förändringar av eget kapital hänförligt till innehav utan bestämmande inflytande (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDEHAN_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">237</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_5" model="account.report.line">
+            <field name="name">Minskning av eget kapital hänförligt till innehav utan bestämmande inflytande vid utdelning</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_5</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">238</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_6" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till innehav utan bestämmande inflytande vid erhållna aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_6</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">239</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_7" model="account.report.line">
+            <field name="name">Minskning av eget kapital hänförligt till innehav utan bestämmande inflytande vid återbetalning av aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_7</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">240</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_8" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till innehav utan bestämmande inflytande vid nyemission</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_8</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">241</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_9" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande för utgifter hänförliga till emission</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_9</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">242</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_10" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_10</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">243</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_11" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid orealiserad internvinst</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_11</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">244</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_12" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till innehav utan bestämmande inflytande vid uppskrivning av anläggningstillgång</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_12</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">245</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_13" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_13</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">246</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_14" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid säkring av framtida kassaflöde</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_14</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">247</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_15" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytandevid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_15</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">248</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_16" model="account.report.line">
+            <field name="name">Ökning (minskning) av innehav utan bestämmande inflytande vid säkring av nettoinvesteringar i utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_16</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">249</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_17" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande till följd av skatteeffekt</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_17</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">250</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_18" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid omvärdering av pensionsskuld</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_18</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">251</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_19" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid aktierelaterade ersättningar</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_19</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">252</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_20" model="account.report.line">
+            <field name="name">Ökning av eget kapital hänförligt till innehav utan bestämmande inflytande vid konvertibla skuldebrev eget kapitalandel</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_20</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">253</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_21" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid fusionsdifferens</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_21</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">254</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalhanforligti_22" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital hänförligt till innehav utan bestämmande inflytande vid periodens resultat</field>
+            <field name="code">FORANDRINGEGETKAPITALHANFORLIGTI_22</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">255</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_egetkapitalhanforligtinnehavareu" model="account.report.line">
+            <field name="name">Eget kapital hänförligt till innehavare utan bestämmande inflytande</field>
+            <field name="code">EGETKAPITALHANFORLIGTINNEHAVAREU</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">256</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltabstr" model="account.report.line">
+            <field name="name">Total för specifikationen av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTABSTR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">257</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltjuste" model="account.report.line">
+            <field name="name">Justering av ingående balans för eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTJUSTE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">259</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotalteffek" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid byte av redovisningsprincip</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTEFFEK</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">260</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotalteffek_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid rättelse av fel</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTEFFEK_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">261</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaljusteradtot" model="account.report.line">
+            <field name="name">Justerad ingående balans för eget kapital</field>
+            <field name="code">FORANDRINGEGETKAPITALJUSTERADTOT</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">262</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalingaendetot" model="account.report.line">
+            <field name="name">Specifikation av förändringar i eget kapital (Presentation)</field>
+            <field name="code">FORANDRINGEGETKAPITALINGAENDETOT</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">263</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltutdel" model="account.report.line">
+            <field name="name">Minskning av eget kapital vid utdelning</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTUTDEL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">264</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotalterhal" model="account.report.line">
+            <field name="name">Ökning av eget kapital vid erhållna aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTERHAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">265</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltaterb" model="account.report.line">
+            <field name="name">Minskning av eget kapital vid återbetalning av aktieägartillskott</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTATERB</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">266</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltfonde" model="account.report.line">
+            <field name="name">Förändring inom eget kapital vid fondemission</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTFONDE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">267</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltnyemi" model="account.report.line">
+            <field name="name">Ökning av eller förändring inom eget kapital vid nyemission</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTNYEMI</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">268</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltutgif" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital till följd av utgifter hänförliga till emission</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTUTGIF</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">269</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltforan" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid förändring av andel i dotterföretag</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTFORAN</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">270</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltoreal" model="account.report.line">
+            <field name="name">Förändring inom eget kapital vid orealiserad internvinst</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTOREAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">271</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltminsk" model="account.report.line">
+            <field name="name">Förändring inom eller minskning av eget kapital vid minskat aktiekapital</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTMINSK</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">272</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltminsk_2" model="account.report.line">
+            <field name="name">Förändring inom eller minskning av eget kapital vid minskning av bunden överkursfond</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTMINSK_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">273</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltforan_2" model="account.report.line">
+            <field name="name">Förändring inom eller minskning av eget kapital vid förändring av reservfond</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTFORAN_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">274</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotalttackn" model="account.report.line">
+            <field name="name">Förändring inom eget kapital vid täckning av förlust</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTTACKN</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">275</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltforan_3" model="account.report.line">
+            <field name="name">Minskning av eget kapital vid förvärv av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTFORAN_3</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">276</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltoverl" model="account.report.line">
+            <field name="name">Ökning av eget kapital vid överlåtelse av egna aktier</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTOVERL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">277</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltaktiv" model="account.report.line">
+            <field name="name">Förändring inom eget kapital vid aktivering av utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTAKTIV</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">278</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltupplo" model="account.report.line">
+            <field name="name">Förändring inom eget kapital vid upplösning av fond för utvecklingsutgifter</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTUPPLO</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">279</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltuppsk" model="account.report.line">
+            <field name="name">Ökning av eget kapital vid uppskrivning av anläggningstillgång</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTUPPSK</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">280</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltupplo_2" model="account.report.line">
+            <field name="name">Förändring inom eget kapital vid upplösning av uppskrivningsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTUPPLO_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">281</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltvarde" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid värdering till verkligt värde</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTVARDE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">282</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltsakri" model="account.report.line">
+            <field name="name">Ökning (minskning) eget kapital vid säkring av framtida kassaflöde</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTSAKRI</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">283</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltomrak" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid omräkning av utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTOMRAK</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">284</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltsakri_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid säkring av nettoinvesteringar i utlandsverksamhet</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTSAKRI_2</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">285</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltskatt" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital till följd av skatteeffekter</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTSKATT</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">286</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltomvar" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid omvärdering av pensionsskuld</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTOMVAR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">287</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltaktie" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital vid aktierelaterade ersättningar</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTAKTIE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">288</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltkonve" model="account.report.line">
+            <field name="name">Ökning av eget kapital vid emission av konvertibla skuldebrev</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTKONVE</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">289</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltforan_4" model="account.report.line">
+            <field name="name">Förändring inom eget kapital vid förändring av kapitalandelsfond</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTFORAN_4</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">290</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltfusio" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital till följd av fusionsdifferens</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTFUSIO</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">291</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitaltotaltarets" model="account.report.line">
+            <field name="name">Ökning (minskning) av eget kapital till följd av periodens resultat</field>
+            <field name="code">FORANDRINGEGETKAPITALTOTALTARETS</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">292</field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_egetkapital" model="account.report.line">
+            <field name="name">Eget kapital</field>
+            <field name="code">EGETKAPITAL</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">293</field>
+            <field name="expression_ids">
+                <record id="ar_report_equity_koncern_k3_line_egetkapital_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050,2051,2052,2053,2054,2055,2056,2057,2058,2059,2060,2061,2062,2063,2064,2065,2066,2067,2068,2069,2070,2071,2072,2073,2074,2075,2076,2077,2078,2079,2080,2083,2084,2088,2090,2092</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_equity_koncern_k3_line_forandringegetkapitalkommentar" model="account.report.line">
+            <field name="name">Kommentar till förändringar i eget kapital</field>
+            <field name="code">FORANDRINGEGETKAPITALKOMMENTAR</field>
+            <field name="report_id" ref="ar_report_equity_koncern_k3"/>
+            <field name="sequence">294</field>
+        </record>
+    </data>
+</odoo>

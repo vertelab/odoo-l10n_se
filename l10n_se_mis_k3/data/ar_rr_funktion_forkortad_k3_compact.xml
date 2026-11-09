@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact" model="account.report">
+            <field name="name">Förkortad resultaträkning funktionsindelad K3 (kompakt)</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="column_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_col_balance" model="account.report.column">
+                    <field name="name">Balance</field>
+                    <field name="expression_label">balance</field>
+                    <field name="figure_type">monetary</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_rorelseresultatabstract" model="account.report.line">
+            <field name="name">Rörelseresultat (Presentation)</field>
+            <field name="code">RORELSERESULTATABSTRACT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_bruttoresultatforkortadfunktions" model="account.report.line">
+            <field name="name">Bruttoresultat i förkortad funktionsindelad resultaträkning</field>
+            <field name="code">BRUTTORESULTATFORKORTADFUNKTIONS</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">2</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_bruttoresultatforkortadfunktions_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78%</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_funktionermmabstract" model="account.report.line">
+            <field name="name">Funktioner m.m. (Presentation)</field>
+            <field name="code">FUNKTIONERMMABSTRACT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">3</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forsaljningskostnader" model="account.report.line">
+            <field name="name">Försäljningskostnader</field>
+            <field name="code">FORSALJNINGSKOSTNADER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">4</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_administrationskostnader" model="account.report.line">
+            <field name="name">Administrationskostnader</field>
+            <field name="code">ADMINISTRATIONSKOSTNADER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">5</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forskningsutvecklingskostnader" model="account.report.line">
+            <field name="name">Forsknings- och utvecklingskostnader</field>
+            <field name="code">FORSKNINGSUTVECKLINGSKOSTNADER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">6</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigarorelsekostnaderfunktionsi" model="account.report.line">
+            <field name="name">Övriga rörelsekostnader i funktionsindelad resultaträkning</field>
+            <field name="code">OVRIGARORELSEKOSTNADERFUNKTIONSI</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">7</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigarorelsekostnaderfunktionsi_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">7900,7901,7902,7903,7904,7905,7906,7907,7908,7909</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_funktionermm" model="account.report.line">
+            <field name="name">Funktioner m.m.</field>
+            <field name="code">FUNKTIONERMM</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">8</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_funktionermm_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">FORSALJNINGSKOSTNADER.balance + ADMINISTRATIONSKOSTNADER.balance + FORSKNINGSUTVECKLINGSKOSTNADER.balance + OVRIGARORELSEKOSTNADERFUNKTIONSI.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_rorelseresultat" model="account.report.line">
+            <field name="name">Rörelseresultat</field>
+            <field name="code">RORELSERESULTAT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">9</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_rorelseresultat_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-7910,7911,7912,7913,7914,7915,7916,7917,7918,7919,7920,7921,7922,7923,7924,7925,7926,7927,7928,7929,7930,7931,7932,7933,7934,7935,7936,7937,7938,7939,7940,7941,7942,7943,7944,7945,7946,7947,7948,7949,7950,7951,7952,7953,7954,7955,7956,7957,7958,7959,7960,7961,7962,7963,7964,7965,7966,7967,7968,7969,7970,7971,7972,7973,7974,7975,7976,7977,7978,7979,7980,7981,7982,7983,7984,7985,7986,7987,7988,7989,7990,7991,7992,7993,7994,7995,7996,7997,7998,7999</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_finansiellaposterabstract" model="account.report.line">
+            <field name="name">Resultat från finansiella poster (Presentation)</field>
+            <field name="code">FINANSIELLAPOSTERABSTRACT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_finansiellaposternedskrivningege" model="account.report.line">
+            <field name="name">Resultat från finansiella poster med nedskrivningar i egen post (Presentation)</field>
+            <field name="code">FINANSIELLAPOSTERNEDSKRIVNINGEGE</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">11</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatandelarkoncernforetag" model="account.report.line">
+            <field name="name">Resultat från andelar i koncernföretag exklusive nedskrivningar</field>
+            <field name="code">RESULTATANDELARKONCERNFORETAG</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">12</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatandelarkoncernforetag_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8010,8011,8012,8013,8014,8015,8016,8017,8018,8019,8020,8021,8022,8023,8024,8025,8026,8027,8028,8029,8030,8031,8032,8033,8034,8035,8036,8037,8038,8039</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatandelarintresseforetagge" model="account.report.line">
+            <field name="name">Resultat från andelar i intresseföretag och gemensamt styrda företag exklusive nedskrivningar</field>
+            <field name="code">RESULTATANDELARINTRESSEFORETAGGE</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">13</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatandelarintresseforetagge_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8111,8112,8116,8117,8121,8122,8131,8132</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatovrigaforetagagarintress" model="account.report.line">
+            <field name="name">Resultat från övriga företag som det finns ett ägarintresse i exklusive nedskrivningar</field>
+            <field name="code">RESULTATOVRIGAFORETAGAGARINTRESS</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">14</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatovrigaforetagagarintress_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8113,8118,8123,8133</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatovrigafinansiellaanlaggn" model="account.report.line">
+            <field name="name">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar exklusive nedskrivningar</field>
+            <field name="code">RESULTATOVRIGAFINANSIELLAANLAGGN</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">15</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatovrigafinansiellaanlaggn_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8210,8211,8212,8213,8214,8215,8216,8217,8218,8219,8220,8221,8222,8223,8224,8225,8226,8227,8228,8229,8230,8231,8232,8233,8234,8235,8236,8237,8238,8239,8240,8241,8242,8243,8244,8245,8246,8247,8248,8249,8250,8251,8252,8253,8254,8255,8256,8257,8258,8259,8260,8261,8262,8263,8264,8265,8266,8267,8268,8269,8290,8291,8292,8293,8294,8295,8296,8297,8298,8299</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigaranteintakterliknanderesul" model="account.report.line">
+            <field name="name">Övriga ränteintäkter och liknande resultatposter exklusive nedskrivningar</field>
+            <field name="code">OVRIGARANTEINTAKTERLIKNANDERESUL</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">16</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigaranteintakterliknanderesul_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8310,8311,8312,8313,8314,8315,8316,8317,8318,8319,8320,8321,8322,8323,8324,8325,8326,8327,8328,8329,8330,8331,8332,8333,8334,8335,8336,8337,8338,8339,8340,8341,8342,8343,8344,8345,8346,8347,8348,8349,8350,8351,8352,8353,8354,8355,8356,8357,8358,8359,8360,8361,8362,8363,8364,8365,8366,8367,8368,8369,8390,8391,8392,8393,8394,8395,8396,8397,8398,8399</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_nedskrivningarfinansiellaanlaggn" model="account.report.line">
+            <field name="name">Nedskrivningar av finansiella anläggningstillgångar och kortfristiga placeringar</field>
+            <field name="code">NEDSKRIVNINGARFINANSIELLAANLAGGN</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">17</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_nedskrivningarfinansiellaanlaggn_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">8070,8071,8072,8073,8074,8075,8076,8077,8078,8079,8080,8081,8082,8083,8084,8085,8086,8087,8088,8089,8170,8171,8172,8173,8174,8175,8176,8177,8178,8179,8180,8181,8182,8183,8184,8185,8186,8187,8188,8189,8270,8271,8272,8273,8274,8275,8276,8277,8278,8279,8280,8281,8282,8283,8284,8285,8286,8287,8288,8289,8370,8371,8372,8373,8374,8375,8376,8377,8378,8379,8380,8381,8382,8383,8384,8385,8386,8387,8388,8389</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_finansiellaposternedskrivningres" model="account.report.line">
+            <field name="name">Resultat från finansiella poster med nedskrivningar i respektive post (Presentation)</field>
+            <field name="code">FINANSIELLAPOSTERNEDSKRIVNINGRES</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">19</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatandelarkoncernforetagink" model="account.report.line">
+            <field name="name">Resultat från andelar i koncernföretag inklusive nedskrivningar</field>
+            <field name="code">RESULTATANDELARKONCERNFORETAGINK</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">20</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatandelarkoncernforetagink_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8010,8011,8012,8013,8014,8015,8016,8017,8018,8019,8020,8021,8022,8023,8024,8025,8026,8027,8028,8029,8030,8031,8032,8033,8034,8035,8036,8037,8038,8039,8040,8041,8042,8043,8044,8045,8046,8047,8048,8049,8050,8051,8052,8053,8054,8055,8056,8057,8058,8059,8060,8061,8062,8063,8064,8065,8066,8067,8068,8069,8070,8071,8072,8073,8074,8075,8076,8077,8078,8079,8080,8081,8082,8083,8084,8085,8086,8087,8088,8089,8090,8091,8092,8093,8094,8095,8096,8097,8098,8099</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatandelarintresseforetagge_2" model="account.report.line">
+            <field name="name">Resultat från andelar i intresseföretag och gemensamt styrda företag inklusive nedskrivningar</field>
+            <field name="code">RESULTATANDELARINTRESSEFORETAGGE_2</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">21</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatovrigaforetagagarintress_2" model="account.report.line">
+            <field name="name">Resultat från övriga företag som det finns ett ägarintresse i inklusive nedskrivningar</field>
+            <field name="code">RESULTATOVRIGAFORETAGAGARINTRESS_2</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">22</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatovrigafinansiellaanlaggn_2" model="account.report.line">
+            <field name="name">Resultat från övriga värdepapper och fordringar som är anläggningstillgångar inklusive nedskrivningar</field>
+            <field name="code">RESULTATOVRIGAFINANSIELLAANLAGGN_2</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">23</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatovrigafinansiellaanlaggn_2_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8111,8112,8116,8117,8121,8122,8131,8132,8171,8172,8173,8174,8181,8182,8183,8184</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigaranteintakterliknanderesul_2" model="account.report.line">
+            <field name="name">Övriga ränteintäkter och liknande resultatposter inklusive nedskrivningar</field>
+            <field name="code">OVRIGARANTEINTAKTERLIKNANDERESUL_2</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">24</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigaranteintakterliknanderesul_2_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8310,8311,8312,8313,8314,8315,8316,8317,8318,8319,8320,8321,8322,8323,8324,8325,8326,8327,8328,8329,8330,8331,8332,8333,8334,8335,8336,8337,8338,8339,8340,8341,8342,8343,8344,8345,8346,8347,8348,8349,8350,8351,8352,8353,8354,8355,8356,8357,8358,8359,8360,8361,8362,8363,8364,8365,8366,8367,8368,8369,8370,8371,8372,8373,8374,8375,8376,8377,8378,8379,8380,8381,8382,8383,8384,8385,8386,8387,8388,8389,8390,8391,8392,8393,8394,8395,8396,8397,8398,8399</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_rantekostnaderliknanderesultatpo" model="account.report.line">
+            <field name="name">Räntekostnader och liknande resultatposter</field>
+            <field name="code">RANTEKOSTNADERLIKNANDERESULTATPO</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">25</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_rantekostnaderliknanderesultatpo_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">8400,8401,8402,8403,8404,8405,8406,8407,8408,8409</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_finansiellaposter" model="account.report.line">
+            <field name="name">Resultat från finansiella poster</field>
+            <field name="code">FINANSIELLAPOSTER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">26</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_finansiellaposter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">-BRUTTORESULTATFORKORTADFUNKTIONS.balance-FUNKTIONERMM.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatefterfinansiellaposter" model="account.report.line">
+            <field name="name">Resultat efter finansiella poster</field>
+            <field name="code">RESULTATEFTERFINANSIELLAPOSTER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">27</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatefterfinansiellaposter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">-BRUTTORESULTATFORKORTADFUNKTIONS.balance-FUNKTIONERMM.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_bokslutsdispositionerabstract" model="account.report.line">
+            <field name="name">Bokslutsdispositioner (Presentation)</field>
+            <field name="code">BOKSLUTSDISPOSITIONERABSTRACT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">28</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_erhallnakoncernbidrag" model="account.report.line">
+            <field name="name">Erhållna koncernbidrag</field>
+            <field name="code">ERHALLNAKONCERNBIDRAG</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">29</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_erhallnakoncernbidrag_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8820,8821,8822,8823,8824,8825,8826,8827,8828,8829</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_lamnadekoncernbidrag" model="account.report.line">
+            <field name="name">Lämnade koncernbidrag</field>
+            <field name="code">LAMNADEKONCERNBIDRAG</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">30</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_lamnadekoncernbidrag_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">8830,8831,8832,8833,8834,8835,8836,8837,8838,8839</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forandringperiodiseringsfond" model="account.report.line">
+            <field name="name">Förändring av periodiseringsfonder</field>
+            <field name="code">FORANDRINGPERIODISERINGSFOND</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">31</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forandringperiodiseringsfond_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8810,8811,8812,8813,8814,8815,8816,8817,8818,8819</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forandringoveravskrivningar" model="account.report.line">
+            <field name="name">Förändring av överavskrivningar</field>
+            <field name="code">FORANDRINGOVERAVSKRIVNINGAR</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">32</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forandringoveravskrivningar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8850,8851,8852,8853,8854,8855,8856,8857,8858,8859</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forandringersattningsfond" model="account.report.line">
+            <field name="name">Förändring av ersättningsfonder</field>
+            <field name="code">FORANDRINGERSATTNINGSFOND</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">33</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_forandringersattningsfond_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8860,8861,8862,8863,8864,8865,8866,8867,8868,8869</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_andrabokslutsdispositioner" model="account.report.line">
+            <field name="name">Andra bokslutsdispositioner än koncernbidrag, förändring av periodiseringsfonder, förändring av överavskrivningar och förändring av ersättningsfonder</field>
+            <field name="code">ANDRABOKSLUTSDISPOSITIONER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">34</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_andrabokslutsdispositioner_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8890,8891,8892,8893,8894,8895,8896,8897,8898,8899</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_bokslutsdispositioner" model="account.report.line">
+            <field name="name">Bokslutsdispositioner</field>
+            <field name="code">BOKSLUTSDISPOSITIONER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">35</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_bokslutsdispositioner_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">-BRUTTORESULTATFORKORTADFUNKTIONS.balance-FUNKTIONERMM.balance-ERHALLNAKONCERNBIDRAG.balance-LAMNADEKONCERNBIDRAG.balance-FORANDRINGPERIODISERINGSFOND.balance-FORANDRINGOVERAVSKRIVNINGAR.balance-FORANDRINGERSATTNINGSFOND.balance-ANDRABOKSLUTSDISPOSITIONER.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatforeskatt" model="account.report.line">
+            <field name="name">Resultat före skatt</field>
+            <field name="code">RESULTATFORESKATT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">36</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_resultatforeskatt_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">-BRUTTORESULTATFORKORTADFUNKTIONS.balance-FUNKTIONERMM.balance-ERHALLNAKONCERNBIDRAG.balance-LAMNADEKONCERNBIDRAG.balance-FORANDRINGPERIODISERINGSFOND.balance-FORANDRINGOVERAVSKRIVNINGAR.balance-FORANDRINGERSATTNINGSFOND.balance-ANDRABOKSLUTSDISPOSITIONER.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_skatterabstract" model="account.report.line">
+            <field name="name">Skatter (Presentation)</field>
+            <field name="code">SKATTERABSTRACT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">37</field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_skattaretsresultat" model="account.report.line">
+            <field name="name">Skatt på periodens resultat</field>
+            <field name="code">SKATTARETSRESULTAT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">38</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_skattaretsresultat_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">8910,8911,8912,8913,8914,8915,8916,8917,8918,8919,8920,8921,8922,8923,8924,8925,8926,8927,8928,8929,8930,8931,8932,8933,8934,8935,8936,8937,8938,8939,8940,8941,8942,8943,8944,8945,8946,8947,8948,8949</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigaskatter" model="account.report.line">
+            <field name="name">Övriga skattekostnader</field>
+            <field name="code">OVRIGASKATTER</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">39</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_ovrigaskatter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">8980,8981,8982,8983,8984,8985,8986,8987,8988,8989</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_funktion_forkortad_k3_compact_line_aretsresultat" model="account.report.line">
+            <field name="name">Periodens resultat</field>
+            <field name="code">ARETSRESULTAT</field>
+            <field name="report_id" ref="ar_report_rr_funktion_forkortad_k3_compact"/>
+            <field name="sequence">40</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_funktion_forkortad_k3_compact_line_aretsresultat_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-8990,8991,8992,8993,8994,8995,8996,8997,8998,8999</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+    </data>
+</odoo>

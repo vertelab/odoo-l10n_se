@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Box code -> eSKD element name.
+
+    The eSKD XML used to be built from ``row.kpi.name`` (the MIS Builder KPI
+    name was literally the Skatteverket element name. That coupling is exactly
+    what this change removes: the report now identifies a box by its ``code``
+    (se_05, se_10, ...), and this table maps that code to the element name the
+    DTD expects.
+
+    Keeping it as data means:
+      * the XML export has no knowledge of MIS or of Swedish box numbering,
+      * a Skatteverket DTD revision is a data change, not a code change,
+      * the 29 boxes are auditable in one place.
+
+    Element names verified against the eSKD Upload DTD 6.0 and against the
+    element names the previous implementation emitted (they were the MIS KPI
+    names, which had been chosen to match the DTD).
+-->
+<odoo>
+    <data noupdate="1">
+        <record id="eskd_se_05" model="l10n.se.eskd.mapping">
+            <field name="code">se_05</field>
+            <field name="eskd_tag">ForsMomsEjAnnan</field>
+            <field name="description">Momspliktig försäljning som inte ingår i annan ruta</field>
+        </record>
+        <record id="eskd_se_06" model="l10n.se.eskd.mapping">
+            <field name="code">se_06</field>
+            <field name="eskd_tag">UttagMoms</field>
+            <field name="description">Momspliktiga uttag</field>
+        </record>
+        <record id="eskd_se_07" model="l10n.se.eskd.mapping">
+            <field name="code">se_07</field>
+            <field name="eskd_tag">UlagMargbesk</field>
+            <field name="description">Beskattningsunderlag vid vinstmarginalbeskattning</field>
+        </record>
+        <record id="eskd_se_08" model="l10n.se.eskd.mapping">
+            <field name="code">se_08</field>
+            <field name="eskd_tag">HyrinkomstFriv</field>
+            <field name="description">Hyresinkomster vid frivillig skattskyldighet</field>
+        </record>
+        <record id="eskd_se_10" model="l10n.se.eskd.mapping">
+            <field name="code">se_10</field>
+            <field name="eskd_tag">MomsUtgHog</field>
+            <field name="description">Utgående moms 25 %</field>
+        </record>
+        <record id="eskd_se_11" model="l10n.se.eskd.mapping">
+            <field name="code">se_11</field>
+            <field name="eskd_tag">MomsUtgMedel</field>
+            <field name="description">Utgående moms 12 %</field>
+        </record>
+        <record id="eskd_se_12" model="l10n.se.eskd.mapping">
+            <field name="code">se_12</field>
+            <field name="eskd_tag">MomsUtgLag</field>
+            <field name="description">Utgående moms 6 %</field>
+        </record>
+        <record id="eskd_se_20" model="l10n.se.eskd.mapping">
+            <field name="code">se_20</field>
+            <field name="eskd_tag">InkopVaruAnnatEg</field>
+            <field name="description">Inköp av varor från annat EU-land</field>
+        </record>
+        <record id="eskd_se_21" model="l10n.se.eskd.mapping">
+            <field name="code">se_21</field>
+            <field name="eskd_tag">InkopTjnAnnatEg</field>
+            <field name="description">Inköp av tjänster från annat EU-land</field>
+        </record>
+        <record id="eskd_se_22" model="l10n.se.eskd.mapping">
+            <field name="code">se_22</field>
+            <field name="eskd_tag">InkopTjnUtomEg</field>
+            <field name="description">Inköp av tjänster från land utanför EU</field>
+        </record>
+        <record id="eskd_se_23" model="l10n.se.eskd.mapping">
+            <field name="code">se_23</field>
+            <field name="eskd_tag">InkopVaruSverige</field>
+            <field name="description">Inköp av varor i Sverige</field>
+        </record>
+        <record id="eskd_se_24" model="l10n.se.eskd.mapping">
+            <field name="code">se_24</field>
+            <field name="eskd_tag">InkopTjanstSverige</field>
+            <field name="description">Inköp av tjänster i Sverige</field>
+        </record>
+        <record id="eskd_se_30" model="l10n.se.eskd.mapping">
+            <field name="code">se_30</field>
+            <field name="eskd_tag">MomsInkopUtgHog</field>
+            <field name="description">Utgående moms omvänd skattskyldighet 25 %</field>
+        </record>
+        <record id="eskd_se_31" model="l10n.se.eskd.mapping">
+            <field name="code">se_31</field>
+            <field name="eskd_tag">MomsInkopUtgMedel</field>
+            <field name="description">Utgående moms omvänd skattskyldighet 12 %</field>
+        </record>
+        <record id="eskd_se_32" model="l10n.se.eskd.mapping">
+            <field name="code">se_32</field>
+            <field name="eskd_tag">MomsInkopUtgLag</field>
+            <field name="description">Utgående moms omvänd skattskyldighet 6 %</field>
+        </record>
+        <record id="eskd_se_35" model="l10n.se.eskd.mapping">
+            <field name="code">se_35</field>
+            <field name="eskd_tag">ForsVaruAnnatEg</field>
+            <field name="description">Försäljning av varor till annat EU-land</field>
+        </record>
+        <record id="eskd_se_36" model="l10n.se.eskd.mapping">
+            <field name="code">se_36</field>
+            <field name="eskd_tag">ForsVaruUtomEg</field>
+            <field name="description">Försäljning av varor utanför EU</field>
+        </record>
+        <record id="eskd_se_37" model="l10n.se.eskd.mapping">
+            <field name="code">se_37</field>
+            <field name="eskd_tag">InkopVaruMellan3p</field>
+            <field name="description">Mellanmans inköp av varor vid trepartshandel</field>
+        </record>
+        <record id="eskd_se_38" model="l10n.se.eskd.mapping">
+            <field name="code">se_38</field>
+            <field name="eskd_tag">ForsVaruMellan3p</field>
+            <field name="description">Mellanmans försäljning av varor vid trepartshandel</field>
+        </record>
+        <record id="eskd_se_39" model="l10n.se.eskd.mapping">
+            <field name="code">se_39</field>
+            <field name="eskd_tag">ForsTjSkskAnnatEg</field>
+            <field name="description">Försäljning av tjänster när köparen är skattskyldig i annat EU-land</field>
+        </record>
+        <record id="eskd_se_40" model="l10n.se.eskd.mapping">
+            <field name="code">se_40</field>
+            <field name="eskd_tag">ForsTjOvrUtomEg</field>
+            <field name="description">Övrig försäljning av tjänster omsatta utom landet</field>
+        </record>
+        <record id="eskd_se_41" model="l10n.se.eskd.mapping">
+            <field name="code">se_41</field>
+            <field name="eskd_tag">ForsKopareSkskSverige</field>
+            <field name="description">Försäljning när köparen är skattskyldig i Sverige</field>
+        </record>
+        <record id="eskd_se_42" model="l10n.se.eskd.mapping">
+            <field name="code">se_42</field>
+            <field name="eskd_tag">ForsOvrigt</field>
+            <field name="description">Övrig försäljning m.m.</field>
+        </record>
+        <record id="eskd_se_48" model="l10n.se.eskd.mapping">
+            <field name="code">se_48</field>
+            <field name="eskd_tag">MomsIngAvdr</field>
+            <field name="description">Ingående moms att dra av</field>
+        </record>
+        <record id="eskd_se_49" model="l10n.se.eskd.mapping">
+            <field name="code">se_49</field>
+            <field name="eskd_tag">MomsBetala</field>
+            <field name="description">Moms att betala eller få tillbaka (summary row)</field>
+        </record>
+        <record id="eskd_se_50" model="l10n.se.eskd.mapping">
+            <field name="code">se_50</field>
+            <field name="eskd_tag">MomsUlagImport</field>
+            <field name="description">Beskattningsunderlag vid import</field>
+        </record>
+        <record id="eskd_se_60" model="l10n.se.eskd.mapping">
+            <field name="code">se_60</field>
+            <field name="eskd_tag">MomsImportUtgHog</field>
+            <field name="description">Utgående moms vid import 25 %</field>
+        </record>
+        <record id="eskd_se_61" model="l10n.se.eskd.mapping">
+            <field name="code">se_61</field>
+            <field name="eskd_tag">MomsImportUtgMedel</field>
+            <field name="description">Utgående moms vid import 12 %</field>
+        </record>
+        <record id="eskd_se_62" model="l10n.se.eskd.mapping">
+            <field name="code">se_62</field>
+            <field name="eskd_tag">MomsImportUtgLag</field>
+            <field name="description">Utgående moms vid import 6 %</field>
+        </record>
+    </data>
+</odoo>

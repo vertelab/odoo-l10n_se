@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_ar_balance_sheet" model="ir.actions.act_window">
+            <field name="name">Balansräkning</field>
+            <field name="res_model">account.report</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <record id="action_ar_profit_and_loss" model="ir.actions.act_window">
+            <field name="name">Resultaträkning</field>
+            <field name="res_model">account.report</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem id="menu_ar_balance_sheet"
+                  name="Balansräkning"
+                  parent="account.menu_finance_reports"
+                  action="action_ar_balance_sheet"
+                  sequence="10"/>
+
+        <menuitem id="menu_ar_profit_and_loss"
+                  name="Resultaträkning"
+                  parent="account.menu_finance_reports"
+                  action="action_ar_profit_and_loss"
+                  sequence="11"/>
+    </data>
+</odoo>

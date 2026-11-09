@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Handels- och kommanditbolag)',
-    'version': '18.0.1.0.0',
+    'version': '18.0.2.0.0',
     'summary': 'Swedish MIS-reports for Handels- och kommanditbolag enligt K2 (BFNAR 2016:10).',
     'category': 'Accounting/Localizations',
     'description': '''
@@ -40,22 +40,22 @@ Based on l10n_se_mis but adapted to the K2 framework (BFNAR 2016:10).
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'],
-    'depends': ['mis_builder', 'mis_builder_budget', 'l10n_se_mis'],
+    'depends': ['account', 'account_dynamic_reports', 'l10n_se_mis'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
-    'data': [
+        'data': [
         'security/security.xml',
-        'data/mis_balansrakning_k2.xml',
-        'data/mis_balansrakning_k2_compact.xml',
-        'data/mis_balansrakning_forkortad_k2.xml',
-        'data/mis_balansrakning_forkortad_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2_compact.xml',
-        'data/mis_kassaflodesanalys_k2.xml',
-        'data/mis_kassaflodesanalys_k2_compact.xml',
+        'data/ar_br_hbkb_forkortad_k2.xml',
+        'data/ar_br_hbkb_forkortad_k2_compact.xml',
+        'data/ar_br_hbkb_k2.xml',
+        'data/ar_br_hbkb_k2_compact.xml',
+        'data/ar_kf_hbkb_indirekt_k2.xml',
+        'data/ar_kf_hbkb_indirekt_k2_compact.xml',
+        'data/ar_rr_hbkb_kostnadsslag_forkortad_k2.xml',
+        'data/ar_rr_hbkb_kostnadsslag_forkortad_k2_compact.xml',
+        'data/ar_rr_hbkb_kostnadsslag_k2.xml',
+        'data/ar_rr_hbkb_kostnadsslag_k2_compact.xml',
     ],
     'installable': 'True',
     'application': 'False',

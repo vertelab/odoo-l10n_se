@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ar_report_rr" model="account.report">
+            <field name="name">Resultaträkning</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="column_ids">
+                <record id="ar_report_rr_col_balance" model="account.report.column">
+                    <field name="name">Balance</field>
+                    <field name="expression_label">balance</field>
+                    <field name="figure_type">monetary</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_verksamhetensintakter" model="account.report.line">
+            <field name="name">Verksamhetens intäkter</field>
+            <field name="code">VERKSAMHETENSINTAKTER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">1</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_verksamhetensintakter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">3</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_verksamhetenskostnader" model="account.report.line">
+            <field name="name">Verksamhetens kostnader</field>
+            <field name="code">VERKSAMHETENSKOSTNADER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">2</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_verksamhetenskostnader_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">4,5,6,71,72,73,74,75,76,77,78</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_avskrivningar" model="account.report.line">
+            <field name="name">Avskrivningar</field>
+            <field name="code">AVSKRIVNINGAR</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">3</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_avskrivningar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">79</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_verksamhetensnettokostnader" model="account.report.line">
+            <field name="name">Verksamhetens nettokostnader</field>
+            <field name="code">VERKSAMHETENSNETTOKOSTNADER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">4</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_verksamhetensnettokostnader_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">VERKSAMHETENSINTAKTER.balance + VERKSAMHETENSKOSTNADER.balance + AVSKRIVNINGAR.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_skatteintakter" model="account.report.line">
+            <field name="name">Skatteintäkter</field>
+            <field name="code">SKATTEINTAKTER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">5</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_skatteintakter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">80</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_generellastatsbidrag" model="account.report.line">
+            <field name="name">Generella statsbidrag och utjämning</field>
+            <field name="code">GENERELLASTATSBIDRAG</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">6</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_generellastatsbidrag_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">82,83</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_verksamhetensresultat" model="account.report.line">
+            <field name="name">Verksamhetens resultat</field>
+            <field name="code">VERKSAMHETENSRESULTAT</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">7</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_verksamhetensresultat_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">VERKSAMHETENSNETTOKOSTNADER.balance + SKATTEINTAKTER.balance + GENERELLASTATSBIDRAG.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_finansiellaintakter" model="account.report.line">
+            <field name="name">Finansiella intäkter</field>
+            <field name="code">FINANSIELLAINTAKTER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">8</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_finansiellaintakter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">84</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_finansiellakostnader" model="account.report.line">
+            <field name="name">Finansiella kostnader</field>
+            <field name="code">FINANSIELLAKOSTNADER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">9</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_finansiellakostnader_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">85</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_resultatefterfinansiellaposter" model="account.report.line">
+            <field name="name">Resultat efter finansiella poster</field>
+            <field name="code">RESULTATEFTERFINANSIELLAPOSTER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">10</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_resultatefterfinansiellaposter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">VERKSAMHETENSRESULTAT.balance + FINANSIELLAINTAKTER.balance + FINANSIELLAKOSTNADER.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_extraordinaraposter" model="account.report.line">
+            <field name="name">Extraordinära poster</field>
+            <field name="code">EXTRAORDINARAPOSTER</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">11</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_extraordinaraposter_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">87,88</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_rr_line_aretsresultat" model="account.report.line">
+            <field name="name">Årets resultat</field>
+            <field name="code">ARETSRESULTAT</field>
+            <field name="report_id" ref="ar_report_rr"/>
+            <field name="sequence">12</field>
+            <field name="expression_ids">
+                <record id="ar_report_rr_line_aretsresultat_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">RESULTATEFTERFINANSIELLAPOSTER.balance + EXTRAORDINARAPOSTER.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+    </data>
+</odoo>

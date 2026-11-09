@@ -24,3 +24,6 @@ from . import wizard
 from . import controllers
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+# Migration helpers are intentionally NOT imported at module load:
+# they run from the Odoo shell, not as part of the addon.

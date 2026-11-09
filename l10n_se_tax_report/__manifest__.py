@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Account Tax Report',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.5.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Sweden - Account Tax Report',
     'category': 'Accounting',
@@ -60,7 +60,7 @@ External Dependencies
   determine VAT declaration deadlines. Install: pip3 install workalendar
      """,
 
-    'depends': ['calendar', 'mis_builder','l10n_se_mis', 'account_fiscal_year_vrtl', 'l10n_se_account_fiscal_year', 'l10n_se_skatteverket_api'],
+    'depends': ['calendar', 'mis_builder', 'account_fiscal_year_vrtl', 'l10n_se_account_fiscal_year', 'l10n_se_skatteverket_api', 'account_dynamic_reports'],
 
     'external_dependencies': {
         'python': ['workalendar'],
@@ -69,7 +69,9 @@ External Dependencies
     'data': [
         'data/account_data.xml',
         'data/cron_data.xml',
-        'data/mis_report_instances.xml',
+        'data/tax_report_handler.xml',
+        'data/eskd_moms_mapping.xml',
+        'data/periodic_compilation_report.xml',
         'views/account_view.xml',
         'views/res_config_view.xml',
         'views/moms_report.xml',
