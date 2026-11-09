@@ -450,10 +450,6 @@ class account_vat_declaration(models.Model):
         xml_byte_string = xml.encode('ISO-8859-1')
         self.eskd_file_mis = base64.b64encode(xml_byte_string)
         
-    def show_mis_report(self):
-        action_context = {'active_id': self.generated_mis_report_id.id, 'active_model': self.generated_mis_report_id._name}
-        return self.generated_mis_report_id.with_context(action_context).preview()
-
     # ~ @api.multi
     # KPI name -> report line code, so callers that still speak MIS keep working.
     KPI_TO_CODE = {
