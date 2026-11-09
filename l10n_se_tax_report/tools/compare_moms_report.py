@@ -299,14 +299,27 @@ def compare(env, date_from, date_to, company=None, tol=DEFAULT_TOLERANCE):
     print("-" * 92)
 
     rows = []
+    seen_boxes = set()
     for kpi_name, code in sorted(BOX_BY_KPI.items(), key=lambda kv: kv[1]):
-        if kpi_name not in mis and code not in new and code not in core:
+        # Box 06 has two KPI names depending on data version; report it once.
+        if code in seen_boxes:
+            continue
+        seen_boxes.add(code)
+        # The generated report keeps the MIS KPI name as its line code
+        # (FORSMOMSEJANNAN), while core uses se_NN. Look up both ways --
+        # otherwise every generated amount reads as 0.
+        new_val = new.get(kpi_name)
+        if new_val is None:
+            new_val = new.get(kpi_name.upper())
+        if new_val is None:
+            new_val = new.get(code)
+        if kpi_name not in mis and new_val is None and code not in core:
             continue
         row = {
             'box': code.replace('se_', ''),
             'kpi': kpi_name,
             'mis': round(mis.get(kpi_name, 0.0), 2),
-            'new': round(new.get(code, 0.0), 2),
+            'new': round(new_val or 0.0, 2),
             'core': round(core.get(code, 0.0), 2),
         }
         row['diff'] = round(row['new'] - row['mis'], 2)
