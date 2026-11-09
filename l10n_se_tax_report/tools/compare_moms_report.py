@@ -473,8 +473,9 @@ def benchmark(env, date_from, date_to, company=None, samples=5, unfold=True,
     if mis_report:
         try:
             _mis_amounts(env, date_from, date_to, company)
+            used = _pick_mis_report(env, company) or mis_report
             instance = env['mis.report.instance'].search([
-                ('report_id', '=', mis_report.id),
+                ('report_id', '=', used.id),
                 ('company_id', '=', company.id)], limit=1)
             if instance:
                 targets.append(('Momsdeklaration', 'gammal (sparad)', instance))
