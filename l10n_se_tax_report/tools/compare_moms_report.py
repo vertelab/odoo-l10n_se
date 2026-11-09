@@ -111,11 +111,32 @@ def _count_posted_lines(env, date_from, date_to, company):
     ])
 
 
+def _pick_mis_report(env, company):
+    """Which MIS report the customer actually declares from.
+
+    ``l10n_se_mis.report_md`` is the shipped default, but a customer may run
+    their own copy (SFA runs "Momsdeklaration SFA"). The declaration
+    instances point at the one in use, so prefer the report that actually has
+    instances over the module default.
+    """
+    instances = env['mis.report.instance'].search([
+        ('company_id', '=', company.id),
+        ('report_id', '!=', False),
+    ])
+    if instances:
+        # The most-used report is the one the customer declares from.
+        counts = {}
+        for inst in instances:
+            counts[inst.report_id] = counts.get(inst.report_id, 0) + 1
+        return max(counts, key=counts.get)
+    return env.ref('l10n_se_mis.report_md', raise_if_not_found=False)
+
+
 def _mis_amounts(env, date_from, date_to, company):
     """Per-KPI amounts from the old MIS declaration report."""
-    mis_report = env.ref('l10n_se_mis.report_md', raise_if_not_found=False)
+    mis_report = _pick_mis_report(env, company)
     if not mis_report:
-        return {}, 'l10n_se_mis.report_md not found'
+        return {}, 'ingen MIS-rapport hittad'
 
     instance = env['mis.report.instance'].search([
         ('report_id', '=', mis_report.id),
