@@ -178,8 +178,19 @@ def _source_report(env):
     ], limit=1)
 
 
-def _generated_report(env, kind='md'):
-    """A report generated from MIS by the bridge's data files."""
+def _generated_report(env, kind='md', mis_report=None):
+    """The account.report generated from a given MIS report.
+
+    A customer may run their own copy of the declaration ("Momsdeklaration
+    SFA"), and that copy is generated as a separate account.report. Comparing
+    against the standard when the customer uses a variant compares the wrong
+    thing -- so when the MIS report is known, match on its name.
+    """
+    if mis_report is not None:
+        exact = env['account.report'].search(
+            [('name', '=', mis_report.name)], limit=1)
+        if exact:
+            return exact
     names = {
         'md': ['Momsdeklaration'],
         'br': ['Balansräkning'],
@@ -281,9 +292,12 @@ def compare(env, date_from, date_to, company=None, tol=DEFAULT_TOLERANCE):
         print("En tom mätning bevisar ingenting — välj en period med data.")
         return []
 
+    mis_report = _pick_mis_report(env, company)
     mis, mis_error = _mis_amounts(env, date_from, date_to, company)
     if mis_error:
         print("MIS: %s" % mis_error)
+    if mis_report:
+        print("MIS-källa: %s" % mis_report.name)
 
     core_report = _source_report(env)
     if not core_report:
@@ -292,11 +306,12 @@ def compare(env, date_from, date_to, company=None, tol=DEFAULT_TOLERANCE):
     else:
         core = _lines_to_amounts(core_report, _options(env, date_from, date_to, True))
 
-    generated = _generated_report(env, 'md')
+    generated = _generated_report(env, 'md', mis_report=mis_report)
     if not generated:
-        print("Ny rapport: ingen 'Momsdeklaration' hittad")
+        print("Ny rapport: ingen genererad motsvarighet hittad")
         new = {}
     else:
+        print("Ny rapport: %s" % generated.name)
         new = _lines_to_amounts(generated, _options(env, date_from, date_to, True))
 
     ctx = _credit_note_context(env, date_from, date_to, company)
