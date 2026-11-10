@@ -41,7 +41,13 @@ class account_declaration_line(models.Model):
     is_r = fields.Boolean(string='Är Resultaträkning')
     sru_declaration_id = fields.Many2one(comodel_name='account.sru.declaration')
     afr_id = fields.Many2one(comodel_name='account.financial.report', string='Finansiella rapporter ID')
-    sign = fields.Selection([(1, '+'), (-1, '-')], string='Sign', default=1, help='Visar balans resultat positiv eller negativ, är INTE samma sign som på finansiella rapport.')
+    # Odoo 18 kräver strängnycklar i selection — se account.financial.report.sign.
+    sign = fields.Selection([('1', '+'), ('-1', '-')], string='Sign', default='1', help='Visar balans resultat positiv eller negativ, är INTE samma sign som på finansiella rapport.')
+
+    @property
+    def sign_int(self):
+        self.ensure_one()
+        return int(self.sign or '1')
     
     @api.onchange('afr_id')
     def afr_onchange(self):
@@ -405,7 +411,7 @@ class account_sru_declaration(models.Model):
                     'sru_declaration_id': dec.id,
                     'afr_id': line.id,
                     'balance': int(abs(balance)),
-                    'sign': 1 if balance >= 0.0 else -1,
+                    'sign': '1' if balance >= 0.0 else '-1',
                     'name': line.name,
                     'level': line.level,
                     'move_line_ids': [(6, 0, move_line_ids.mapped('id'))],
@@ -414,10 +420,10 @@ class account_sru_declaration(models.Model):
                 })
                 # take care of 3.26 and 3.27
                 if line.sru == '3.26': # vinst rad
-                    if sru_line.sign == -1: # är förlust, vinst rad ska vara 0
+                    if sru_line.sign_int == -1: # är förlust, vinst rad ska vara 0
                         sru_line.balance = 0
                 if line.sru == '3.27': # förlust rad
-                    if sru_line.sign == 1: # är vinst, förlust rad ska vara 0
+                    if sru_line.sign_int == 1: # är vinst, förlust rad ska vara 0
                         sru_line.balance = 0
             return ml
         if b_afr:
@@ -466,7 +472,7 @@ class account_sru_declaration(models.Model):
             u = []
             for l in declaration_line_ids:
                 if l.balance:
-                    if l.sign == 1:
+                    if l.sign_int == 1:
                         u.append('#UPPGIFT %s %s' %(l.afr_id.field_code, l.balance))
                     else:
                         if l.afr_id.field_code_neg:
