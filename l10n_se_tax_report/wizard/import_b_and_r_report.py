@@ -224,7 +224,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 'parent_id': parent.id,
                 'type': 'accounts',
                 'sequence': sequence,
-                'sign': -1 if (values['code'] in self.resultatrakning_neg_sign) else 1,
+                'sign': '-1' if (values['code'] in self.resultatrakning_neg_sign) else '1',
                 'sru': values['code'],
                 'display_detail': 'no_detail',
                 'account_ids': [(6, 0, [a.id for a in accounts])],
@@ -242,7 +242,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 'parent_id': parent.id,
                 'type': 'sum',
                 'sequence': sequence,
-                'sign': 1,
+                'sign': '1',
             })
             i = 0
             for child in values['children']:
@@ -255,7 +255,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
             'name': '%s - %s' % (name, year),
             'type': 'sum',
             'sequence': 0,
-            'sign': 1,
+            'sign': '1',
         })
         i = 0
         for values in res:

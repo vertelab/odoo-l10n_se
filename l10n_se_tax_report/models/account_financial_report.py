@@ -57,13 +57,24 @@ class AccountFinancialReport(models.Model):
         help='"Accounts" is a leaf that holds accounts; "sum" is a heading '
              'whose value comes from its children.',
     )
+    # Odoo 18 rejects non-string selection keys ("innehåller ett icke
+    # str-värde/etikett i urvalet"). The legacy model used (1, -1) ints;
+    # keep the ints in the code that reads this field and store them as
+    # strings here. sru.py compares against 1/-1, so `sign_int` is what it
+    # should use — see the helper below.
     sign = fields.Selection(
-        selection=[(1, 'Positive'), (-1, 'Negative')],
+        selection=[('1', 'Positive'), ('-1', 'Negative')],
         string='Sign',
-        default=1,
+        default='1',
         required=True,
         help='Whether this line adds to or subtracts from its parent.',
     )
+
+    @property
+    def sign_int(self):
+        """The sign as the int sru.py compares against."""
+        self.ensure_one()
+        return int(self.sign or '1')
     sequence = fields.Integer(default=10)
     level = fields.Integer(
         string='Level',

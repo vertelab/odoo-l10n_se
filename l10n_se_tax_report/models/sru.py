@@ -49,7 +49,7 @@ class account_declaration_line(models.Model):
     
     # ~ @api.multi
     def report_adl_get_balance(self):
-        return self.balance * (1 if self.afr_id.sign == 1 else -1)
+        return self.balance * (1 if self.afr_id.sign_int == 1 else -1)
 
 class account_sru_declaration(models.Model):
     _name = 'account.sru.declaration'
@@ -226,9 +226,9 @@ class account_sru_declaration(models.Model):
                 else: # read value from lines
                     sum_arets_intakt = sum_arets_kostnad = 0
                     for li in r_lines.with_context(r_afr=r_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('r_afr') and l.afr_id.sru not in ['3.24', '3.26', '3.27']):
-                        if li.afr_id.sign == 1:
+                        if li.afr_id.sign_int == 1:
                             sum_arets_intakt += li.balance
-                        if li.afr_id.sign == -1:
+                        if li.afr_id.sign_int == -1:
                             sum_arets_kostnad += li.balance
                     self.arets_resultat = sum_arets_intakt - sum_arets_kostnad
 
@@ -326,9 +326,9 @@ class account_sru_declaration(models.Model):
                 else: # read value from lines
                     sum_tillgangar = sum_eget_kapital_skulder = 0
                     for li in b_lines.with_context(b_afr=b_afr).filtered(lambda l: l.afr_id.parent_id == l._context.get('b_afr')):
-                        if li.afr_id.sign == 1:
+                        if li.afr_id.sign_int == 1:
                             sum_tillgangar += li.balance
-                        if li.afr_id.sign == -1:
+                        if li.afr_id.sign_int == -1:
                             sum_eget_kapital_skulder += li.balance
                     self.fritt_eget_kapital = sum_tillgangar - sum_eget_kapital_skulder
 
@@ -479,7 +479,7 @@ class account_sru_declaration(models.Model):
             skott = 0
             for l in declaration_line_ids:
                 if l.balance:
-                    if l.afr_id.sign == 1:
+                    if l.afr_id.sign_int == 1:
                         skott += l.balance
                     else:
                         skott -= l.balance
@@ -655,7 +655,7 @@ class account_sru_declaration(models.Model):
     # ~ @api.multi
     def report_sum_resultatrakning(self, name):
         self.ensure_one()
-        s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in self.report_resultatrakning(name)])
+        s = sum([line.balance * (1 if line.afr_id.sign_int == 1 else -1) for line in self.report_resultatrakning(name)])
         return s if s != 0 else ''
 
     @api.model
@@ -689,7 +689,7 @@ class account_sru_declaration(models.Model):
         if parent_afr:
             children_afr_lines = self.env['account.financial.report'].search([('id', 'child_of', parent_afr.id)])
             lines = self.b_line_ids.with_context(children_afr_lines=children_afr_lines).filtered(lambda l: l.afr_id in l._context.get('children_afr_lines') and l.balance != 0)
-            s = sum([line.balance * (1 if line.afr_id.sign == 1 else -1) for line in lines])
+            s = sum([line.balance * (1 if line.afr_id.sign_int == 1 else -1) for line in lines])
             return s if s != 0 else ''
 
     # ~ @api.multi
