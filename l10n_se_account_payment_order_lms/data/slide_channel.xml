@@ -5,6 +5,12 @@
     <!-- ═══════════════════════════════════════════════════════════
          Betalorder och Pending-state — Utbildning
          5 sektioner, 20+ slides
+
+         AVPUBLICERAD 2026-11-12 (T/10526): denna kurs är generation 1 och
+         ersätts av account_payment_order_autogiro_lms (generisk) +
+         sfa_payment_training_lms (SFA-tillägg). Kanalen och alla slides är
+         satta is_published=False så att de inte visas på /slides. Modulen
+         behålls installerad som referens — avinstalleras inte.
          ═══════════════════════════════════════════════════════════ -->
 
     <record id="slide_channel_payment_pending" model="slide.channel">
@@ -16,7 +22,7 @@ och praktisk konfiguration av betalmetoder och betalsätt.
         </field>
         <field name="channel_type">training</field>
         <field name="enroll">public</field>
-        <field name="is_published" eval="True"/>
+        <field name="is_published" eval="False"/>
     </record>
 
     </data>

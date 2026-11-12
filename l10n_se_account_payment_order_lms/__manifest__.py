@@ -3,7 +3,7 @@
 
 {
     'name': 'l10n_se: Betalorder och Pending-state — Utbildning (LMS)',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'summary': 'Svensk utbildning om betalorder, pending-state och bankavstämning via website_slides',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
