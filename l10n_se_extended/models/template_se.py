@@ -18,9 +18,19 @@ class AccountChartTemplate(models.AbstractModel):
             'property_account_payable_id': 'a2440',
             'property_account_expense_categ_id': 'a4001',
             'property_account_income_categ_id': 'a3001',
+            # 4960 is "Förändring av lager av handelsvaror" — an expense account
+            # for the stock *movement*, which is what Odoo expects for the
+            # input/output counterparts. It did not exist in extended_se and
+            # the mapping therefore resolved to nothing.
             'property_stock_account_input_categ_id': 'a4960',
             'property_stock_account_output_categ_id': 'a4960',
+            # The stock valuation account must be an asset. 1410 is
+            # "Lager av råvaror" in extended_se but was typed
+            # expense_direct_cost, so it could not hold a stock value.
             'property_stock_valuation_account_id': 'a1410',
+            # 2650 "Redovisningskonto för moms" is a short-term liability; it
+            # was typed liability_non_current, which put the VAT debt in the
+            # wrong section of the balance sheet.
             'property_tax_payable_account_id': 'a2650',
             'property_tax_receivable_account_id': 'a1650',
             'code_digits': '4',
@@ -31,11 +41,15 @@ class AccountChartTemplate(models.AbstractModel):
         return {
             self.env.company.id: {
                 'account_fiscal_country_id': 'base.se',
-                'bank_account_code_prefix': 'K2513',
-                'cash_account_code_prefix': 'K2516',
-                'transfer_account_code_prefix': 'K2517',
-                'account_default_pos_receivable_account_id': 'a1910',
-                'income_currency_exchange_account_id': 'a1910', #??
+                'bank_account_code_prefix': '1930',
+                'cash_account_code_prefix': '1910',
+                'transfer_account_code_prefix': '1955',
+                # A POS receivable must be a receivable, not the cash account.
+                'account_default_pos_receivable_account_id': 'a1510',
+                # Currency exchange gains belong on an income account. This
+                # pointed at a1910 (Kassa, asset_cash) — the value was never
+                # verified, as the "#??" comment in the original line hinted.
+                'income_currency_exchange_account_id': 'a3960',
             },
         }
     

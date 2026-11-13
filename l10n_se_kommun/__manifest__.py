@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Sweden Kommun - Accounting',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.4.1',
     'summary': 'Sweden Kommun - Chart of accounts.',
     'category': 'Accounting/Localizations/Account Charts',
     'author': 'Vertel Sverige AB',
