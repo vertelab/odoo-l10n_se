@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Use case B: repo_apply of a fresh demo database (accounting_full.repo).
+
+    Goal: the main company ends up with the Swedish K2 chart, SEK, and
+    Swedish accounting demo data.
+
+    The trap this file has to avoid
+    ===============================
+    ``account.chart.template._load()`` contains::
+
+        reload_template = template_code == company.chart_template
+        ...
+        if reload_template:
+            self._pre_reload_data(...)
+            install_demo = False
+
+    So calling ``try_loading('extended_se_K2', company, install_demo=True)``
+    on a company that *already* has ``extended_se_K2`` silently discards the
+    demo data.  On a fresh database the chart comes from ``l10n_se`` (core),
+    not from us, so ``reload_template`` is False and ``install_demo`` is
+    honoured — but only if the chart has not already been loaded by another
+    module's demo file first.
+
+    Ordering
+    ========
+    ``l10n_se`` (core) ships ``demo/demo_company.xml`` which creates a second
+    company ("SE Company") with chart ``se``.  That is not the chart we want.
+    We therefore switch the *main* company to the Swedish K2 chart, and we
+    rely on ``l10n_se_extended`` being installed (it is a hard dependency of
+    this module) so ``extended_se_K2`` is a registered template.
+
+    Idempotency
+    ===========
+    ``try_loading`` is guarded: on a second run ``reload_template`` is True,
+    the chart data is not recreated, and ``install_demo`` is dropped.  That
+    is fine — the demo data is already there.  To re-run the demo data on an
+    existing database use the "Install Swedish demo data" button in Settings
+    instead, which calls ``_install_demo()`` directly.
+-->
+<odoo>
+    <data noupdate="1">
+
+        <!-- 1. Main company: Sweden + SEK.  Must happen before the chart is
+                loaded, because ``_pre_load_data`` only sets the currency when
+                the company has no journal items yet. -->
+        <function model="res.company" name="write">
+            <value model="res.company" eval="obj().env.ref('base.main_company').ids"/>
+            <value eval="{'country_id': ref('base.se').id, 'currency_id': ref('base.SEK').id}"/>
+        </function>
+
+        <!-- 2. Activate SEK so it is selectable in the UI. -->
+        <function model="res.currency" name="write">
+            <value model="res.currency" eval="obj().env.ref('base.SEK').ids"/>
+            <value eval="{'active': True}"/>
+        </function>
+
+        <!-- 3. Activate Swedish.  ``install_lang`` takes no argument (it reads
+                ``tools.config``), so we use ``_activate_lang`` directly. -->
+        <function model="res.lang" name="_activate_lang">
+            <value>sv_SE</value>
+        </function>
+
+        <!-- 4. Load the Swedish K2 chart with demo data.  Because the main
+                company has no chart yet, ``reload_template`` is False and
+                ``install_demo=True`` reaches ``_get_demo_data()``, which our
+                override replaces with Swedish data. -->
+        <function model="account.chart.template" name="try_loading">
+            <value eval="[]"/>
+            <value>extended_se_K2</value>
+            <value model="res.company" eval="obj().env.ref('base.main_company')"/>
+            <value name="install_demo" eval="True"/>
+        </function>
+
+        <!-- 5. Default language for new partners = Swedish. -->
+        <function model="ir.default" name="set">
+            <value>res.partner</value>
+            <value>lang</value>
+            <value>sv_SE</value>
+        </function>
+
+    </data>
+</odoo>
