@@ -65,7 +65,7 @@ K2 and K3 rule sets supported for annual reports.
         'l10n_se_extended',
         'project',
         'account_fiscal_year_vrtl',
-        'l10n_se_account_fiscal_year',
+        'l10n_se_date_ranges',
     ],
 
     'data': [
