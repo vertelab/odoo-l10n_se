@@ -4,3 +4,11 @@ requests_pkcs12
 openupgradelib
 pandas
 workalendar
+
+# ── Saknade beroenden — inventering 2026-11-13 ──────────────────────────────
+# Se /srv/salt/odoo/REQUIREMENTS-AUDIT-2026-11-13.md.
+#
+# l10n_se_mis — importerar openpyxl (export) och click (CLI-hjälp för
+# MIS-generering) på modulnivå.
+openpyxl
+click
