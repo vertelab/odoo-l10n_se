@@ -455,22 +455,45 @@ class AccountBankStatement(models.Model):
     end_balance_calc = fields.Float(compute='_start_end_balance')
 
     def _start_end_balance(self):
-        # period_id removed in Odoo 18 — use simple date-based calc
-        if self.line_ids and len(self.line_ids) > 0:
-            lines_sorted = self.line_ids.sorted(key=lambda l: l.date)
+        """Compute the statement's opening and closing balance.
+
+        The balance is read from the journal's own liquidity account
+        (``default_account_id``) — the account the bank statement lines are
+        actually booked against.
+
+        The previous implementation read ``journal_id.payment_debit_account_id``.
+        That field no longer exists in Odoo 18 (it was removed from
+        ``account.journal``), so the compute raised ``AttributeError``. It was
+        also the wrong account in principle: the interim account is only a
+        staging account on the way to the bank, and with the
+        ``pending_until_reconciliation`` strategy it is never written to at
+        all — the balance would always have been zero.
+        """
+        for statement in self:
+            if not statement.line_ids:
+                statement.start_balance_calc = 0
+                statement.end_balance_calc = 0
+                continue
+
+            lines_sorted = statement.line_ids.sorted(key=lambda l: l.date)
             statement_start_date = lines_sorted[0].date
             statement_end_date = lines_sorted[-1].date
-            self.start_balance_calc = 0
-            self.end_balance_calc = sum(
-                self.env['account.move.line'].search([
+
+            liquidity_account = statement.journal_id.default_account_id
+            if not liquidity_account:
+                statement.start_balance_calc = 0
+                statement.end_balance_calc = 0
+                continue
+
+            statement.start_balance_calc = 0
+            statement.end_balance_calc = sum(
+                statement.env['account.move.line'].search([
                     ('date', '>=', statement_start_date),
                     ('date', '<=', statement_end_date),
-                    ('account_id', '=', self.journal_id.payment_debit_account_id.id),
+                    ('account_id', '=', liquidity_account.id),
+                    ('parent_state', '=', 'posted'),
                 ]).mapped('balance')
             )
-        else:
-            self.start_balance_calc = 0
-            self.end_balance_calc = 0
 
     bg_serial_number = fields.Char(string='BG serial number')
 

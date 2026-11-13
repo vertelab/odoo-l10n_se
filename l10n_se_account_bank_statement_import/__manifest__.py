@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish Account Bank Statement Import',
-    'version': '18.0.1.0.1',
+    'version': '18.0.1.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Base Module for Import of Swedish Account Bank Statements.',
     'category': 'Accounting',
