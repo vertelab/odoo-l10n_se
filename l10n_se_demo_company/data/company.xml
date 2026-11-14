@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================ -->
+        <!-- Demo company                                                 -->
+        <!--                                                              -->
+        <!-- The company both demo data sources write to. Deliberately    -->
+        <!-- fictional: the name, org number, VAT number and address are  -->
+        <!-- invented. Data is taken from the payroll demo (Tiichri),     -->
+        <!-- which is course material and stays untouched.                -->
+        <!-- ============================================================ -->
+
+        <record id="company_partner" model="res.partner">
+            <field name="company_type">company</field>
+            <field name="name">Aronssons Montage AB</field>
+            <field name="street">Rosersbergsvägen 5</field>
+            <field name="zip">192 00</field>
+            <field name="city">Rosersberg</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="email">info@aronssons.se</field>
+            <field name="phone">07</field>
+            <field name="website">http://www.aronssons.se</field>
+        </record>
+
+        <record id="company" model="res.company">
+            <field name="name">Aronssons Montage AB</field>
+            <field name="street">Rosersbergsvägen 5</field>
+            <field name="zip">192 00</field>
+            <field name="city">Rosersberg</field>
+            <field name="vat">SE123456789701</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="company_registry">556060-0000</field>
+            <field name="currency_id" ref="base.SEK"/>
+            <field name="email">info@aronssons.se</field>
+            <field name="website">http://www.aronssons.se</field>
+            <field name="partner_id" ref="company_partner"/>
+        </record>
+
+    </data>
+</odoo>
