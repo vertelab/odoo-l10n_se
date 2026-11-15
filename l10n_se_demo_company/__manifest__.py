@@ -28,6 +28,8 @@ Features:
         'data/company.xml',
         'data/partners.xml',
         'data/employees.xml',
+        'data/demo_datasets.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [],
     'post_init_hook': 'post_init_hook',
