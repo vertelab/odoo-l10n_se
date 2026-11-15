@@ -20,6 +20,15 @@ JOURNALS = [
     ('journal_purchase', 'Inköp', 'purchase', 'BILL'),
     ('journal_bank', 'Företagskonto', 'bank', 'BNK1'),
     ('journal_payroll', 'Lönejournal', 'general', 'LÖN'),
+    # Source journals from SFA that the demo data references
+    ('journal_stock', 'Lagerjournal', 'general', 'STJ'),
+    ('journal_misc', 'Diverse', 'general', 'MISC'),
+    ('journal_deferred', 'Periodisering', 'general', 'DEF'),
+    ('journal_exchange', 'Valutadifferens', 'general', 'EXCH'),
+    ('journal_tax', 'Momsjournal', 'general', 'MOMS'),
+    ('journal_assets', 'Anläggningstillgångar', 'general', 'ASS'),
+    ('journal_cash', 'Kassa', 'cash', 'CSH1'),
+    ('journal_warranty', 'Garantidelar', 'general', 'WAR1'),
 ]
 
 

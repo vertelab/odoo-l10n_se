@@ -33,8 +33,9 @@ STATES = [
     ('unreconciled', 'Unreconciled'),
 ]
 
-# 2024Q1 .. 2027Q4
-QUARTERS = [
+# 2023Q4 .. 2027Q4. SFA's accounting data starts 2023-10-31, so the
+# dataset starts there: 2022 and earlier 2023 do not exist in the source.
+QUARTERS = [(2023, 4)] + [
     (year, quarter)
     for year in (2024, 2025, 2026, 2027)
     for quarter in (1, 2, 3, 4)
@@ -42,8 +43,10 @@ QUARTERS = [
 
 
 def sequence_of(year, quarter):
-    """1-based position of a quarter in the 2024Q1..2027Q4 line."""
-    return (year - 2024) * 4 + quarter
+    """1-based position in the 2023Q4..2027Q4 line. 2023Q4 is 1."""
+    if (year, quarter) == (2023, 4):
+        return 1
+    return 1 + (year - 2024) * 4 + quarter
 
 
 def kind_of(year, quarter):
@@ -68,7 +71,7 @@ class DemoDataset(models.Model):
     )
     sequence = fields.Integer(
         required=True,
-        help='Position in the 2024Q1..2027Q4 line. 2024Q1 is 1, 2027Q4 is 16.',
+        help='Position in the 2023Q4..2027Q4 line. 2023Q4 is 1, 2027Q4 is 17.',
     )
     source = fields.Selection(SOURCES, required=True, index=True)
     kind = fields.Selection(KINDS, required=True, default='reconciled')
