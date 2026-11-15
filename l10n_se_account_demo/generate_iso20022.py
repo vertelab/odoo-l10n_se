@@ -25,7 +25,6 @@ import json
 import os
 import sys
 from collections import OrderedDict
-from datetime import datetime
 
 from lxml import etree
 
@@ -79,12 +78,16 @@ def load_quarter(year, quarter):
 
 
 def move_amount(move):
-    """The amount of a payment move — the receivable/payable side."""
+    """The cash amount of a payment move — the bank line.
+
+    A batch payment settles several invoices and has one bank line plus
+    one receivable/payable line per invoice. Taking the first
+    receivable/payable line would report a single invoice instead of the
+    whole transaction.
+    """
     for line in move['line_ids']:
-        if line['account_code'] == RECEIVABLE and line['credit']:
-            return round(line['credit'], 2)
-        if line['account_code'] == PAYABLE and line['debit']:
-            return round(line['debit'], 2)
+        if line['account_code'] in BANK_ACCOUNTS:
+            return round(line['debit'] or line['credit'], 2)
     return 0.0
 
 
@@ -98,16 +101,17 @@ def invoice_items(move):
     """
     items = []
     for line in move['line_ids']:
-        if line['account_code'] == RECEIVABLE and line['credit']:
-            items.append({
-                'amount': round(line['credit'], 2),
-                'reference': (line['name'] or '').strip(),
-            })
-        elif line['account_code'] == PAYABLE and line['debit']:
-            items.append({
-                'amount': round(line['debit'], 2),
-                'reference': (line['name'] or '').strip(),
-            })
+        if line['account_code'] not in (RECEIVABLE, PAYABLE):
+            continue
+        # A batch can contain credit notes, so a receivable line may be a
+        # debit. Keep the sign; the entry total is what must add up.
+        amount = round((line['debit'] or 0) - (line['credit'] or 0), 2)
+        if not amount:
+            continue
+        items.append({
+            'amount': amount,
+            'reference': (line['name'] or '').strip(),
+        })
     return items
 
 
@@ -301,7 +305,8 @@ def build_camt(year, month, moves, opening_balance):
     opening = el(stmt, 'Bal')
     opening_type = el(opening, 'Tp')
     el(el(opening_type, 'CdOrPrtry'), 'Cd', 'OPBD')
-    el(opening, 'Amt', f'{opening_balance:.2f}', Ccy='SEK')
+    # Amt is positive in camt.053; CdtDbtInd carries the sign.
+    el(opening, 'Amt', f'{abs(opening_balance):.2f}', Ccy='SEK')
     el(opening, 'CdtDbtInd', 'CRDT' if opening_balance >= 0 else 'DBIT')
     opening_date = el(opening, 'Dt')
     el(opening_date, 'Dt', month_bounds(year, month)[0])
@@ -309,14 +314,35 @@ def build_camt(year, month, moves, opening_balance):
     closing = el(stmt, 'Bal')
     closing_type = el(closing, 'Tp')
     el(el(closing_type, 'CdOrPrtry'), 'Cd', 'CLBD')
-    el(closing, 'Amt', f'{balance:.2f}', Ccy='SEK')
+    el(closing, 'Amt', f'{abs(balance):.2f}', Ccy='SEK')
     el(closing, 'CdtDbtInd', 'CRDT' if balance >= 0 else 'DBIT')
     closing_date = el(closing, 'Dt')
     el(closing_date, 'Dt', month_bounds(year, month)[1])
 
-    for position, move in enumerate(ordered, 1):
-        amount = move_amount(move)
+    # A batch can contain a credit note. camt.053 has no sign on the
+    # transaction detail and Amt must be positive, so a negative detail is
+    # split into its own entry with the opposite CdtDbtInd.
+    entry_plan = []
+    for move in ordered:
+        items = invoice_items(move)
+        positive = [i for i in items if i['amount'] > 0]
+        negative = [i for i in items if i['amount'] < 0]
         credit = is_customer_payment(move)
+        if positive:
+            entry_plan.append((move, positive, credit))
+        elif not items:
+            # No receivable/payable line to split on (bank fees, tax
+            # payments). One detail carrying the whole amount.
+            entry_plan.append((move, [{'amount': move_amount(move),
+                                       'reference': move.get('payment_reference') or ''}],
+                               credit))
+        if negative:
+            entry_plan.append((move, negative, not credit))
+
+    for position, (move, items, credit) in enumerate(entry_plan, 1):
+        amount = round(sum(abs(i['amount']) for i in items), 2)
+        if not items:
+            amount = move_amount(move)
         balance = round(balance + (amount if credit else -amount), 2)
 
         entry = el(stmt, 'Ntry')
@@ -338,7 +364,7 @@ def build_camt(year, month, moves, opening_balance):
         el(family, 'SubFmlyCd', 'ESCT')
 
         details = el(entry, 'NtryDtls')
-        for item in invoice_items(move):
+        for item in items:
             tx = el(details, 'TxDtls')
             refs = el(tx, 'Refs')
             # AcctSvcrRef comes before EndToEndId in TransactionReferences2.
@@ -353,7 +379,10 @@ def build_camt(year, month, moves, opening_balance):
             # bare Amt.
             amt_dtls = el(tx, 'AmtDtls')
             tx_amount = el(amt_dtls, 'TxAmt')
-            el(tx_amount, 'Amt', f'{item["amount"]:.2f}', Ccy='SEK')
+            # Amt is positive in camt.053; the sign lives on the entry's
+            # CdtDbtInd. A credit note inside a batch therefore gets its
+            # own entry (see the split above).
+            el(tx_amount, 'Amt', f'{abs(item["amount"]):.2f}', Ccy='SEK')
             # EntryTransaction2 has no CdtDbtInd — the sign comes from the
             # entry the detail belongs to.
             parties = el(tx, 'RltdPties')
@@ -366,7 +395,7 @@ def build_camt(year, month, moves, opening_balance):
             if item['reference']:
                 rmt = el(tx, 'RmtInf')
                 el(rmt, 'Ustrd', f'OCR {item["reference"]}'[:140])
-        reference = payment_reference(move, invoice_items(move))
+        reference = payment_reference(move, items)
         if reference:
             el(entry, 'AddtlNtryInf', reference)
     return root
@@ -494,7 +523,9 @@ def check_camt_coverage(path, moves):
     ns = {'c': CAMT_NS}
     entries = tree.findall('.//c:Ntry', ns)
     bank_moves = [m for m in moves if is_bank_move(m)]
-    assert len(entries) == len(bank_moves), (
+    # A batch that contains a credit note is split into two entries, so
+    # there are at least as many entries as bank moves.
+    assert len(entries) >= len(bank_moves), (
         f'{path}: {len(entries)} entries, {len(bank_moves)} bank moves')
     multi = 0
     for entry in entries:
