@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K3 (Koncern)',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Swedish MIS-reports for koncernredovisning enligt K3 (BFNAR 2012:1).',
     'category': 'Accounting/Localizations',
     'description': '''

@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Account Financial Report',
-    'version': '18.0.0.0.0',
+    'version': '0.0.0',
     'summary': 'Sweden - Account Financial Report.',
     'category': 'Accounting',
     #'sequence': '1',

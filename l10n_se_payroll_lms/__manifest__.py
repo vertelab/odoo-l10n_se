@@ -8,7 +8,7 @@
 
 {
     'name': 'l10n_se: Swedish Payroll Training (LMS)',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Swedish payroll education — system-independent theory with Odoo practice guides.',
     'category': 'Payroll/Training',
     'author': 'Vertel Sverige AB',

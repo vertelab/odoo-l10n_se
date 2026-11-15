@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Bokslut och Årsredovisning',
-    'version': '18.0.0.0.1',
+    'version': '0.0.1',
     'summary': 'Sweden - Year-End Closing and Annual Report.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',

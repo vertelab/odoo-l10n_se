@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Handels- och kommanditbolag)',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Swedish MIS-reports for Handels- och kommanditbolag enligt K2 (BFNAR 2016:10).',
     'category': 'Accounting/Localizations',
     'description': '''

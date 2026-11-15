@@ -1,6 +1,6 @@
 {
     'name': 'l10n_se Date Ranges',
-    'version': '18.0.1.1.0',
+    'version': '1.1.0',
     'category': 'Accounting/Localizations',
     'summary': 'Provides fiscal year, quarter, and month date range types for Swedish localization.',
     'description': '''
