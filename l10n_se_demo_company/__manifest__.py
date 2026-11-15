@@ -23,9 +23,11 @@ Features:
     # l10n_se_extended applies se_K2 in its post_init_hook and unlinks
     # every journal of a company without existing accounting. Depend on it
     # so our own hook runs after the chart is in place.
-    'depends': ['account', 'l10n_se', 'l10n_se_extended'],
+    'depends': ['account', 'l10n_se', 'l10n_se_extended', 'hr'],
     'data': [
         'data/company.xml',
+        'data/partners.xml',
+        'data/employees.xml',
     ],
     'demo': [],
     'post_init_hook': 'post_init_hook',
