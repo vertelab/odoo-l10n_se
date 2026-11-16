@@ -100,3 +100,53 @@ once against the external Tiichri facit in
 `openspec/changes/l10n-se-demo-datasets/design.md`: the dates shift by
 whole weeks to keep the weekday, and each employee has their own mix of
 part-day and whole-day leaves that the shift moves differently.
+
+## Currency revaluation
+
+`l10n_se_currency_revaluation` revalues open monetary items in foreign
+currency at the closing rate and posts the difference, with the reversal
+created at the same time.
+
+K2 (BFNAR 2016:10) and K3 (BFNAR 2012:1, ch. 30) require monetary items in
+foreign currency to be translated at the closing rate. Odoo core handles
+realised differences only; the unrealised report lives in Enterprise
+`account_reports`, which we do not run.
+
+### What is revalued
+
+Only monetary items: open customer receivables and supplier payables.
+Inventory, fixed assets and prepayments stay at their historical rate.
+
+### Configuration
+
+Accounting → Configuration → Settings → Currency Revaluation:
+
+| Field | Default |
+|---|---|
+| Journal | first general journal |
+| Gain account | 3960 |
+| Loss account | 7960 |
+| Create reversal | on |
+
+3960 and 7960 are the BAS mirror pair for operating receivables and
+payables. They are set on first use, because `l10n_se_extended` applies
+the chart in its own `post_init_hook`, which runs after ours.
+
+### Using it
+
+Accounting → Accounting → Currency Revaluation. Pick a date; the wizard
+shows the open items per partner and currency with the historical rate,
+the closing rate and the difference. Nothing is booked until you press
+Post.
+
+The entry and its reversal are created together, the reversal dated the
+first day after the revaluation date. Without the reversal the difference
+would be counted twice when the invoice is eventually settled.
+
+A revaluation for a given date can only exist once.
+
+### Rate direction
+
+`res.currency.rate` stores the inverse — how many foreign units one
+company unit buys. The module divides by it. Reading it directly gives a
+difference off by a factor of the rate squared.
