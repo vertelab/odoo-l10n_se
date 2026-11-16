@@ -169,6 +169,23 @@ class AccountMove(models.Model):
                     '%s lines)', vals.get('name'), net, len(vals['line_ids']))
                 skipped += 1
                 continue
+            if (vals['move_type'] in ('out_invoice', 'in_invoice',
+                                      'out_refund', 'in_refund')
+                    and not vals.get('partner_id')):
+                # Odoo requires a partner on invoices and refunds. Nine SFA
+                # credit notes carry none on any line; they cannot be posted.
+                _logger.info(
+                    'account_demo: skipping %s without partner',
+                    vals.get('name'))
+                skipped += 1
+                continue
+            if not vals['line_ids']:
+                # A move where every line has a zero amount cannot be
+                # posted. SFA has 34 such leftovers; they carry nothing.
+                _logger.info(
+                    'account_demo: skipping empty move %s', vals.get('name'))
+                skipped += 1
+                continue
             move = self.with_context(check_move_validity=False).create(vals)
             for ml in move.line_ids:
                 if ml.display_type == 'product':
@@ -177,10 +194,26 @@ class AccountMove(models.Model):
                     ).mapped('tax_line_id').ids
                     if tax_ids:
                         ml.write({'tax_ids': [(6, 0, tax_ids)]})
+            # The demo data must be posted: a draft entry is invisible to
+            # every report — balance sheet, P&L, VAT, aged lists.
+            move.action_post()
             count += 1
         _logger.info('account_demo: %s loaded, %s moves, %s skipped',
                      dataset.name, count, skipped)
         return count
+
+    @api.model
+    def _account_demo_first_line_partner(self, move_data):
+        """The partner of the first line that has one.
+
+        SFA leaves the partner empty on some credit notes; the receivable
+        or payable line still carries it, and Odoo requires a partner on
+        invoices and refunds.
+        """
+        for line in move_data.get('line_ids', []):
+            if line.get('partner_ref'):
+                return self._account_demo_partner_by_ref(line['partner_ref'])
+        return False
 
     @api.model
     def _account_demo_prepare_move(self, move_data):
@@ -194,8 +227,9 @@ class AccountMove(models.Model):
             'move_type': move_data.get('move_type'),
             'journal_id': journal.id if journal else False,
             'company_id': self._account_demo_company().id,
-            'partner_id': self._account_demo_partner_by_ref(
-                move_data.get('partner_ref')),
+            'partner_id': (self._account_demo_partner_by_ref(
+                move_data.get('partner_ref'))
+                or self._account_demo_first_line_partner(move_data)),
             'currency_id': self.env.ref('base.SEK').id,
             'invoice_date': move_data.get('invoice_date'),
             'invoice_date_due': move_data.get('invoice_date_due'),

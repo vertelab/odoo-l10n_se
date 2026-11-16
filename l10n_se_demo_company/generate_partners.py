@@ -146,17 +146,17 @@ QUERY = """
                (SELECT count(*) FROM account_move am
                   WHERE am.partner_id = rp.id
                     AND am.move_type = 'out_invoice'
-                    AND am.date >= '2024-01-01' AND am.date < '2028-01-01') AS n_customer,
+                    AND am.date >= '2023-10-01' AND am.date < '2028-01-01') AS n_customer,
                (SELECT count(*) FROM account_move am
                   WHERE am.partner_id = rp.id
                     AND am.move_type = 'in_invoice'
-                    AND am.date >= '2024-01-01' AND am.date < '2028-01-01') AS n_supplier
+                    AND am.date >= '2023-10-01' AND am.date < '2028-01-01') AS n_supplier
         FROM res_partner rp
         WHERE rp.id IN (
             SELECT DISTINCT partner_id FROM account_move
             WHERE move_type IN ('out_invoice', 'in_invoice')
               AND partner_id IS NOT NULL
-              AND date >= '2024-01-01' AND date < '2028-01-01')
+              AND date >= '2023-10-01' AND date < '2028-01-01')
         ORDER BY rp.id
 """
 
