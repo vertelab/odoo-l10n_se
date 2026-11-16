@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data>
         <record id="ar_report_br_k2" model="account.report">
             <field name="name">Balansräkning K2</field>
-            <field name="country_id" ref="base.se"/>
+            <field name="country_id" ref="base.se" />
             <field name="column_ids">
                 <record id="ar_report_br_k2_col_balance" model="account.report.column">
                     <field name="name">Balance</field>
@@ -15,13 +15,13 @@
         <record id="ar_report_br_k2_line_tillgangarabstract" model="account.report.line">
             <field name="name">Tillgångar</field>
             <field name="code">TILLGANGARABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">1</field>
         </record>
         <record id="ar_report_br_k2_line_tecknatejinbetaltkapital" model="account.report.line">
             <field name="name">Tecknat men ej inbetalt kapital</field>
             <field name="code">TECKNATEJINBETALTKAPITAL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">2</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_tecknatejinbetaltkapital_expr" model="account.report.expression">
@@ -35,19 +35,19 @@
         <record id="ar_report_br_k2_line_anlaggningstillgangarabstract" model="account.report.line">
             <field name="name">Anläggningstillgångar</field>
             <field name="code">ANLAGGNINGSTILLGANGARABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">3</field>
         </record>
         <record id="ar_report_br_k2_line_immateriellaanlaggningstillganga" model="account.report.line">
             <field name="name">Immateriella anläggningstillgångar</field>
             <field name="code">IMMATERIELLAANLAGGNINGSTILLGANGA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">4</field>
         </record>
         <record id="ar_report_br_k2_line_koncessionerpatentlicenservaruma" model="account.report.line">
             <field name="name">Koncessioner, patent, licenser, varumärken samt liknande rättigheter</field>
             <field name="code">KONCESSIONERPATENTLICENSERVARUMA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">5</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_koncessionerpatentlicenservaruma_expr" model="account.report.expression">
@@ -61,7 +61,7 @@
         <record id="ar_report_br_k2_line_hyresratterliknanderattigheter" model="account.report.line">
             <field name="name">Hyresrätter och liknande rättigheter</field>
             <field name="code">HYRESRATTERLIKNANDERATTIGHETER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">6</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_hyresratterliknanderattigheter_expr" model="account.report.expression">
@@ -75,7 +75,7 @@
         <record id="ar_report_br_k2_line_goodwill" model="account.report.line">
             <field name="name">Goodwill</field>
             <field name="code">GOODWILL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">7</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_goodwill_expr" model="account.report.expression">
@@ -89,7 +89,7 @@
         <record id="ar_report_br_k2_line_forskottimmateriellaanlaggningst" model="account.report.line">
             <field name="name">Förskott avseende immateriella anläggningstillgångar</field>
             <field name="code">FORSKOTTIMMATERIELLAANLAGGNINGST</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">8</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_forskottimmateriellaanlaggningst_expr" model="account.report.expression">
@@ -103,7 +103,7 @@
         <record id="ar_report_br_k2_line_immateriellaanlaggningstillganga_2" model="account.report.line">
             <field name="name">Immateriella anläggningstillgångar</field>
             <field name="code">IMMATERIELLAANLAGGNINGSTILLGANGA_2</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">9</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_immateriellaanlaggningstillganga_2_expr" model="account.report.expression">
@@ -117,13 +117,13 @@
         <record id="ar_report_br_k2_line_materiellaanlaggningstillgangara" model="account.report.line">
             <field name="name">Materiella anläggningstillgångar</field>
             <field name="code">MATERIELLAANLAGGNINGSTILLGANGARA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">10</field>
         </record>
         <record id="ar_report_br_k2_line_byggnadermark" model="account.report.line">
             <field name="name">Byggnader och mark</field>
             <field name="code">BYGGNADERMARK</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">11</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_byggnadermark_expr" model="account.report.expression">
@@ -137,7 +137,7 @@
         <record id="ar_report_br_k2_line_maskinerandratekniskaanlaggninga" model="account.report.line">
             <field name="name">Maskiner och andra tekniska anläggningar</field>
             <field name="code">MASKINERANDRATEKNISKAANLAGGNINGA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">12</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_maskinerandratekniskaanlaggninga_expr" model="account.report.expression">
@@ -151,7 +151,7 @@
         <record id="ar_report_br_k2_line_inventarierverktyginstallationer" model="account.report.line">
             <field name="name">Inventarier, verktyg och installationer</field>
             <field name="code">INVENTARIERVERKTYGINSTALLATIONER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">13</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_inventarierverktyginstallationer_expr" model="account.report.expression">
@@ -165,7 +165,7 @@
         <record id="ar_report_br_k2_line_forbattringsutgifterannansfastig" model="account.report.line">
             <field name="name">Förbättringsutgifter på annans fastighet</field>
             <field name="code">FORBATTRINGSUTGIFTERANNANSFASTIG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">14</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_forbattringsutgifterannansfastig_expr" model="account.report.expression">
@@ -179,7 +179,7 @@
         <record id="ar_report_br_k2_line_ovrigamateriellaanlaggningstillg" model="account.report.line">
             <field name="name">Övriga materiella anläggningstillgångar</field>
             <field name="code">OVRIGAMATERIELLAANLAGGNINGSTILLG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">15</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigamateriellaanlaggningstillg_expr" model="account.report.expression">
@@ -193,7 +193,7 @@
         <record id="ar_report_br_k2_line_pagaendenyanlaggningarforskottma" model="account.report.line">
             <field name="name">Pågående nyanläggningar och förskott avseende materiella anläggningstillgångar</field>
             <field name="code">PAGAENDENYANLAGGNINGARFORSKOTTMA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">16</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_pagaendenyanlaggningarforskottma_expr" model="account.report.expression">
@@ -207,19 +207,19 @@
         <record id="ar_report_br_k2_line_materiellaanlaggningstillgangar" model="account.report.line">
             <field name="name">Materiella anläggningstillgångar</field>
             <field name="code">MATERIELLAANLAGGNINGSTILLGANGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">17</field>
         </record>
         <record id="ar_report_br_k2_line_finansiellaanlaggningstillgangar" model="account.report.line">
             <field name="name">Finansiella anläggningstillgångar</field>
             <field name="code">FINANSIELLAANLAGGNINGSTILLGANGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">18</field>
         </record>
         <record id="ar_report_br_k2_line_andelarkoncernforetag" model="account.report.line">
             <field name="name">Andelar i koncernföretag</field>
             <field name="code">ANDELARKONCERNFORETAG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">19</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_andelarkoncernforetag_expr" model="account.report.expression">
@@ -233,7 +233,7 @@
         <record id="ar_report_br_k2_line_fordringarkoncernforetaglangfris" model="account.report.line">
             <field name="name">Långfristiga fordringar hos koncernföretag</field>
             <field name="code">FORDRINGARKONCERNFORETAGLANGFRIS</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">20</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_fordringarkoncernforetaglangfris_expr" model="account.report.expression">
@@ -247,7 +247,7 @@
         <record id="ar_report_br_k2_line_andelarintresseforetaggemensamts" model="account.report.line">
             <field name="name">Andelar i intresseföretag och gemensamt styrda företag</field>
             <field name="code">ANDELARINTRESSEFORETAGGEMENSAMTS</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">21</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_andelarintresseforetaggemensamts_expr" model="account.report.expression">
@@ -261,7 +261,7 @@
         <record id="ar_report_br_k2_line_fordringarintresseforetaggemensa" model="account.report.line">
             <field name="name">Långfristiga fordringar hos intresseföretag och gemensamt styrda företag</field>
             <field name="code">FORDRINGARINTRESSEFORETAGGEMENSA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">22</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_fordringarintresseforetaggemensa_expr" model="account.report.expression">
@@ -275,7 +275,7 @@
         <record id="ar_report_br_k2_line_agarintressenovrigaforetag" model="account.report.line">
             <field name="name">Ägarintressen i övriga företag</field>
             <field name="code">AGARINTRESSENOVRIGAFORETAG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">23</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_agarintressenovrigaforetag_expr" model="account.report.expression">
@@ -289,7 +289,7 @@
         <record id="ar_report_br_k2_line_fordringarovrigaforetagagarintre" model="account.report.line">
             <field name="name">Långfristiga fordringar hos övriga företag som det finns ägarintresse i</field>
             <field name="code">FORDRINGAROVRIGAFORETAGAGARINTRE</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">24</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_fordringarovrigaforetagagarintre_expr" model="account.report.expression">
@@ -303,7 +303,7 @@
         <record id="ar_report_br_k2_line_andralangfristigavardepappersinn" model="account.report.line">
             <field name="name">Andra långfristiga värdepappersinnehav</field>
             <field name="code">ANDRALANGFRISTIGAVARDEPAPPERSINN</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">25</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_andralangfristigavardepappersinn_expr" model="account.report.expression">
@@ -317,7 +317,7 @@
         <record id="ar_report_br_k2_line_landelagarenarstaende" model="account.report.line">
             <field name="name">Långfristiga lån till delägare eller närstående</field>
             <field name="code">LANDELAGARENARSTAENDE</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">26</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_landelagarenarstaende_expr" model="account.report.expression">
@@ -331,7 +331,7 @@
         <record id="ar_report_br_k2_line_andralangfristigafordringar" model="account.report.line">
             <field name="name">Andra långfristiga fordringar</field>
             <field name="code">ANDRALANGFRISTIGAFORDRINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">27</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_andralangfristigafordringar_expr" model="account.report.expression">
@@ -345,7 +345,7 @@
         <record id="ar_report_br_k2_line_finansiellaanlaggningstillgangar_2" model="account.report.line">
             <field name="name">Finansiella anläggningstillgångar</field>
             <field name="code">FINANSIELLAANLAGGNINGSTILLGANGAR_2</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">28</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_finansiellaanlaggningstillgangar_2_expr" model="account.report.expression">
@@ -359,7 +359,7 @@
         <record id="ar_report_br_k2_line_anlaggningstillgangar" model="account.report.line">
             <field name="name">Anläggningstillgångar</field>
             <field name="code">ANLAGGNINGSTILLGANGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">29</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_anlaggningstillgangar_expr" model="account.report.expression">
@@ -373,19 +373,19 @@
         <record id="ar_report_br_k2_line_omsattningstillgangarabstract" model="account.report.line">
             <field name="name">Omsättningstillgångar</field>
             <field name="code">OMSATTNINGSTILLGANGARABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">30</field>
         </record>
         <record id="ar_report_br_k2_line_varulagermmabstract" model="account.report.line">
             <field name="name">Varulager m.m.</field>
             <field name="code">VARULAGERMMABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">31</field>
         </record>
         <record id="ar_report_br_k2_line_lagerravarorfornodenheter" model="account.report.line">
             <field name="name">Lager av råvaror och förnödenheter</field>
             <field name="code">LAGERRAVARORFORNODENHETER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">32</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_lagerravarorfornodenheter_expr" model="account.report.expression">
@@ -399,7 +399,7 @@
         <record id="ar_report_br_k2_line_lagervarorundertillverkning" model="account.report.line">
             <field name="name">Lager av varor under tillverkning</field>
             <field name="code">LAGERVARORUNDERTILLVERKNING</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">33</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_lagervarorundertillverkning_expr" model="account.report.expression">
@@ -413,7 +413,7 @@
         <record id="ar_report_br_k2_line_lagerfardigavarorhandelsvaror" model="account.report.line">
             <field name="name">Lager av färdiga egentillverkade varor samt varor som har köpts för vidareförsäljning</field>
             <field name="code">LAGERFARDIGAVARORHANDELSVAROR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">34</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_lagerfardigavarorhandelsvaror_expr" model="account.report.expression">
@@ -427,7 +427,7 @@
         <record id="ar_report_br_k2_line_ovrigalagertillgangar" model="account.report.line">
             <field name="name">Övriga lagertillgångar</field>
             <field name="code">OVRIGALAGERTILLGANGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">35</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigalagertillgangar_expr" model="account.report.expression">
@@ -441,7 +441,7 @@
         <record id="ar_report_br_k2_line_pagaendearbetenannansrakningomsa" model="account.report.line">
             <field name="name">Pågående arbete för annans räkning, tillgång</field>
             <field name="code">PAGAENDEARBETENANNANSRAKNINGOMSA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">36</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_pagaendearbetenannansrakningomsa_expr" model="account.report.expression">
@@ -455,7 +455,7 @@
         <record id="ar_report_br_k2_line_forskotttillleverantorer" model="account.report.line">
             <field name="name">Förskott till leverantörer</field>
             <field name="code">FORSKOTTTILLLEVERANTORER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">37</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_forskotttillleverantorer_expr" model="account.report.expression">
@@ -469,19 +469,19 @@
         <record id="ar_report_br_k2_line_varulagermm" model="account.report.line">
             <field name="name">Varulager m.m.</field>
             <field name="code">VARULAGERMM</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">38</field>
         </record>
         <record id="ar_report_br_k2_line_kortfristigafordringarabstract" model="account.report.line">
             <field name="name">Kortfristiga fordringar</field>
             <field name="code">KORTFRISTIGAFORDRINGARABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">39</field>
         </record>
         <record id="ar_report_br_k2_line_kundfordringar" model="account.report.line">
             <field name="name">Kundfordringar</field>
             <field name="code">KUNDFORDRINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">40</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_kundfordringar_expr" model="account.report.expression">
@@ -495,7 +495,7 @@
         <record id="ar_report_br_k2_line_fordringarkoncernforetagkortfris" model="account.report.line">
             <field name="name">Kortfristiga fordringar hos koncernföretag</field>
             <field name="code">FORDRINGARKONCERNFORETAGKORTFRIS</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">41</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_fordringarkoncernforetagkortfris_expr" model="account.report.expression">
@@ -509,7 +509,7 @@
         <record id="ar_report_br_k2_line_fordringarintresseforetaggemensa_2" model="account.report.line">
             <field name="name">Kortfristiga fordringar hos intresseföretag och gemensamt styrda företag</field>
             <field name="code">FORDRINGARINTRESSEFORETAGGEMENSA_2</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">42</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_fordringarintresseforetaggemensa_2_expr" model="account.report.expression">
@@ -523,7 +523,7 @@
         <record id="ar_report_br_k2_line_fordringarovrigaforetagagarintre_2" model="account.report.line">
             <field name="name">Kortfristiga fordringar hos övriga företag som det finns ett ägarintresse i</field>
             <field name="code">FORDRINGAROVRIGAFORETAGAGARINTRE_2</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">43</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_fordringarovrigaforetagagarintre_2_expr" model="account.report.expression">
@@ -537,7 +537,7 @@
         <record id="ar_report_br_k2_line_ovrigafordringarkortfristiga" model="account.report.line">
             <field name="name">Övriga kortfristiga fordringar</field>
             <field name="code">OVRIGAFORDRINGARKORTFRISTIGA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">44</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigafordringarkortfristiga_expr" model="account.report.expression">
@@ -551,7 +551,7 @@
         <record id="ar_report_br_k2_line_upparbetadejfaktureradintakt" model="account.report.line">
             <field name="name">Upparbetad men ej fakturerad intäkt</field>
             <field name="code">UPPARBETADEJFAKTURERADINTAKT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">45</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_upparbetadejfaktureradintakt_expr" model="account.report.expression">
@@ -565,7 +565,7 @@
         <record id="ar_report_br_k2_line_forutbetaldakostnaderupplupnaint" model="account.report.line">
             <field name="name">Förutbetalda kostnader och upplupna intäkter</field>
             <field name="code">FORUTBETALDAKOSTNADERUPPLUPNAINT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">46</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_forutbetaldakostnaderupplupnaint_expr" model="account.report.expression">
@@ -579,7 +579,7 @@
         <record id="ar_report_br_k2_line_kortfristigafordringar" model="account.report.line">
             <field name="name">Kortfristiga fordringar</field>
             <field name="code">KORTFRISTIGAFORDRINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">47</field>
         
             <field name="expression_ids">
@@ -593,13 +593,13 @@
         <record id="ar_report_br_k2_line_kortfristigaplaceringarabstract" model="account.report.line">
             <field name="name">Kortfristiga placeringar</field>
             <field name="code">KORTFRISTIGAPLACERINGARABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">48</field>
         </record>
         <record id="ar_report_br_k2_line_andelarkoncernforetagkortfristig" model="account.report.line">
             <field name="name">Kortfristiga andelar i koncernföretag</field>
             <field name="code">ANDELARKONCERNFORETAGKORTFRISTIG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">49</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_andelarkoncernforetagkortfristig_expr" model="account.report.expression">
@@ -613,7 +613,7 @@
         <record id="ar_report_br_k2_line_ovrigakortfristigaplaceringar" model="account.report.line">
             <field name="name">Övriga kortfristiga placeringar</field>
             <field name="code">OVRIGAKORTFRISTIGAPLACERINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">50</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigakortfristigaplaceringar_expr" model="account.report.expression">
@@ -627,19 +627,19 @@
         <record id="ar_report_br_k2_line_kortfristigaplaceringar" model="account.report.line">
             <field name="name">Kortfristiga placeringar</field>
             <field name="code">KORTFRISTIGAPLACERINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">51</field>
         </record>
         <record id="ar_report_br_k2_line_kassabankabstract" model="account.report.line">
             <field name="name">Kassa och bank</field>
             <field name="code">KASSABANKABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">52</field>
         </record>
         <record id="ar_report_br_k2_line_kassabankexklredovisningsmedel" model="account.report.line">
             <field name="name">Kassa och bank exklusive redovisningsmedel</field>
             <field name="code">KASSABANKEXKLREDOVISNINGSMEDEL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">53</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_kassabankexklredovisningsmedel_expr" model="account.report.expression">
@@ -653,7 +653,7 @@
         <record id="ar_report_br_k2_line_redovisningsmedel" model="account.report.line">
             <field name="name">Redovisningsmedel</field>
             <field name="code">REDOVISNINGSMEDEL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">54</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_redovisningsmedel_expr" model="account.report.expression">
@@ -667,13 +667,13 @@
         <record id="ar_report_br_k2_line_kassabank" model="account.report.line">
             <field name="name">Kassa och bank</field>
             <field name="code">KASSABANK</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">55</field>
         </record>
         <record id="ar_report_br_k2_line_omsattningstillgangar" model="account.report.line">
             <field name="name">Omsättningstillgångar</field>
             <field name="code">OMSATTNINGSTILLGANGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">56</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_omsattningstillgangar_expr" model="account.report.expression">
@@ -687,7 +687,7 @@
         <record id="ar_report_br_k2_line_tillgangar" model="account.report.line">
             <field name="name">Tillgångar</field>
             <field name="code">TILLGANGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">57</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_tillgangar_expr" model="account.report.expression">
@@ -701,25 +701,25 @@
         <record id="ar_report_br_k2_line_egetkapitalskulderabstract" model="account.report.line">
             <field name="name">Eget kapital och skulder</field>
             <field name="code">EGETKAPITALSKULDERABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">58</field>
         </record>
         <record id="ar_report_br_k2_line_egetkapitalabstract" model="account.report.line">
             <field name="name">Eget kapital</field>
             <field name="code">EGETKAPITALABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">59</field>
         </record>
         <record id="ar_report_br_k2_line_bundetegetkapitalabstract" model="account.report.line">
             <field name="name">Bundet eget kapital</field>
             <field name="code">BUNDETEGETKAPITALABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">60</field>
         </record>
         <record id="ar_report_br_k2_line_aktiekapital" model="account.report.line">
             <field name="name">Aktiekapital</field>
             <field name="code">AKTIEKAPITAL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">61</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_aktiekapital_expr" model="account.report.expression">
@@ -733,7 +733,7 @@
         <record id="ar_report_br_k2_line_ejregistrerataktiekapital" model="account.report.line">
             <field name="name">Ej registrerat aktiekapital vid pågående ny- och fondemission</field>
             <field name="code">EJREGISTRERATAKTIEKAPITAL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">62</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ejregistrerataktiekapital_expr" model="account.report.expression">
@@ -747,7 +747,7 @@
         <record id="ar_report_br_k2_line_overkursfondbunden" model="account.report.line">
             <field name="name">Bunden överkursfond</field>
             <field name="code">OVERKURSFONDBUNDEN</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">63</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_overkursfondbunden_expr" model="account.report.expression">
@@ -761,7 +761,7 @@
         <record id="ar_report_br_k2_line_uppskrivningsfond" model="account.report.line">
             <field name="name">Uppskrivningsfond</field>
             <field name="code">UPPSKRIVNINGSFOND</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">64</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_uppskrivningsfond_expr" model="account.report.expression">
@@ -775,7 +775,7 @@
         <record id="ar_report_br_k2_line_reservfond" model="account.report.line">
             <field name="name">Reservfond</field>
             <field name="code">RESERVFOND</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">65</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_reservfond_expr" model="account.report.expression">
@@ -789,7 +789,7 @@
         <record id="ar_report_br_k2_line_bundetegetkapital" model="account.report.line">
             <field name="name">Bundet eget kapital</field>
             <field name="code">BUNDETEGETKAPITAL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">66</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_bundetegetkapital_expr" model="account.report.expression">
@@ -803,13 +803,13 @@
         <record id="ar_report_br_k2_line_frittegetkapitalabstract" model="account.report.line">
             <field name="name">Fritt eget kapital</field>
             <field name="code">FRITTEGETKAPITALABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">67</field>
         </record>
         <record id="ar_report_br_k2_line_overkursfond" model="account.report.line">
             <field name="name">Fri överkursfond</field>
             <field name="code">OVERKURSFOND</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">68</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_overkursfond_expr" model="account.report.expression">
@@ -823,7 +823,7 @@
         <record id="ar_report_br_k2_line_balanseratresultat" model="account.report.line">
             <field name="name">Balanserat resultat</field>
             <field name="code">BALANSERATRESULTAT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">69</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_balanseratresultat_expr" model="account.report.expression">
@@ -837,7 +837,7 @@
         <record id="ar_report_br_k2_line_aretsresultategetkapital" model="account.report.line">
             <field name="name">Periodens resultat i eget kapital</field>
             <field name="code">ARETSRESULTATEGETKAPITAL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">70</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_aretsresultategetkapital_expr" model="account.report.expression">
@@ -851,7 +851,7 @@
         <record id="ar_report_br_k2_line_frittegetkapital" model="account.report.line">
             <field name="name">Fritt eget kapital</field>
             <field name="code">FRITTEGETKAPITAL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
+            <field name="report_id" ref="ar_report_br_k2" />
             <field name="sequence">71</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_frittegetkapital_expr" model="account.report.expression">
@@ -862,16 +862,16 @@
                 </record>
             </field>
         </record>
-        <record id="ar_report_br_k2_line_egetkapital" model="account.report.line">
+        <record id="ar_report_br_k2_line_obokfortresultat" model="account.report.line"><field name="name">Obokfört resultat</field><field name="code">OBOKFORTRESULTAT</field><field name="sequence">72</field><field name="report_id" ref="ar_report_br_k2" /><field name="expression_ids"><record id="ar_report_br_k2_line_obokfortresultat_expr" model="account.report.expression"><field name="label">balance</field><field name="engine">account_codes</field><field name="formula">-3%,-4%,-5%,-6%,-7%,-8%</field><field name="date_scope">from_beginning</field></record></field></record><record id="ar_report_br_k2_line_egetkapital" model="account.report.line">
             <field name="name">Eget kapital</field>
             <field name="code">EGETKAPITAL</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">72</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">73</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_egetkapital_expr" model="account.report.expression">
                     <field name="label">balance</field>
                     <field name="engine">account_codes</field>
-                    <field name="formula">-2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2020,2021,2022,2023,2024,2025,2026,2027,2028,2030,2031,2032,2033,2034,2035,2036,2037,2038,2040,2041,2042,2043,2044,2045,2046,2047,2048,2050,2051,2052,2053,2054,2055,2056,2057,2058,2059,2060,2061,2062,2063,2064,2065,2066,2067,2068,2069,2070,2071,2072,2073,2074,2075,2076,2077,2078,2079</field>
+                    <field name="formula">-20%</field>
                     <field name="date_scope">from_beginning</field>
                 </record>
             </field>
@@ -879,14 +879,14 @@
         <record id="ar_report_br_k2_line_obeskattadereserverabstract" model="account.report.line">
             <field name="name">Obeskattade reserver</field>
             <field name="code">OBESKATTADERESERVERABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">73</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">74</field>
         </record>
         <record id="ar_report_br_k2_line_periodiseringsfonder" model="account.report.line">
             <field name="name">Periodiseringsfonder</field>
             <field name="code">PERIODISERINGSFONDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">74</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">75</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_periodiseringsfonder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -899,8 +899,8 @@
         <record id="ar_report_br_k2_line_ackumuleradeoveravskrivningar" model="account.report.line">
             <field name="name">Ackumulerade överavskrivningar</field>
             <field name="code">ACKUMULERADEOVERAVSKRIVNINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">75</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">76</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ackumuleradeoveravskrivningar_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -913,8 +913,8 @@
         <record id="ar_report_br_k2_line_ovrigaobeskattadereserver" model="account.report.line">
             <field name="name">Övriga obeskattade reserver</field>
             <field name="code">OVRIGAOBESKATTADERESERVER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">76</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">77</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigaobeskattadereserver_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -927,13 +927,13 @@
         <record id="ar_report_br_k2_line_obeskattadereserver" model="account.report.line">
             <field name="name">Obeskattade reserver</field>
             <field name="code">OBESKATTADERESERVER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">77</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">78</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_obeskattadereserver_expr" model="account.report.expression">
                     <field name="label">balance</field>
                     <field name="engine">aggregation</field>
-                    <field name="formula">-BUNDETEGETKAPITAL.balance-FRITTEGETKAPITAL.balance-PERIODISERINGSFONDER.balance-ACKUMULERADEOVERAVSKRIVNINGAR.balance-OVRIGAOBESKATTADERESERVER.balance</field>
+                    <field name="formula">-PERIODISERINGSFONDER.balance-ACKUMULERADEOVERAVSKRIVNINGAR.balance-OVRIGAOBESKATTADERESERVER.balance</field>
                     <field name="date_scope">from_beginning</field>
                 </record>
             </field>
@@ -941,14 +941,14 @@
         <record id="ar_report_br_k2_line_avsattningarabstract" model="account.report.line">
             <field name="name">Avsättningar</field>
             <field name="code">AVSATTNINGARABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">78</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">79</field>
         </record>
         <record id="ar_report_br_k2_line_avsattningarpensionerliknandefor" model="account.report.line">
             <field name="name">Avsättningar för pensioner och liknande förpliktelser enligt lagen om tryggande av pensionsutfästelse m.m.</field>
             <field name="code">AVSATTNINGARPENSIONERLIKNANDEFOR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">79</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">80</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_avsattningarpensionerliknandefor_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -961,8 +961,8 @@
         <record id="ar_report_br_k2_line_ovrigaavsattningarpensionerlikna" model="account.report.line">
             <field name="name">Övriga avsättningar för pensioner och liknande förpliktelser exklusive avsättningar enligt tryggandelagen</field>
             <field name="code">OVRIGAAVSATTNINGARPENSIONERLIKNA</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">80</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">81</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigaavsattningarpensionerlikna_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -975,8 +975,8 @@
         <record id="ar_report_br_k2_line_ovrigaavsattningar" model="account.report.line">
             <field name="name">Övriga avsättningar</field>
             <field name="code">OVRIGAAVSATTNINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">81</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">82</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigaavsattningar_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -989,8 +989,8 @@
         <record id="ar_report_br_k2_line_avsattningar" model="account.report.line">
             <field name="name">Avsättningar</field>
             <field name="code">AVSATTNINGAR</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">82</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">83</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_avsattningar_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1003,14 +1003,14 @@
         <record id="ar_report_br_k2_line_langfristigaskulderabstract" model="account.report.line">
             <field name="name">Långfristiga skulder</field>
             <field name="code">LANGFRISTIGASKULDERABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">83</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">84</field>
         </record>
         <record id="ar_report_br_k2_line_obligationslan" model="account.report.line">
             <field name="name">Obligationslån</field>
             <field name="code">OBLIGATIONSLAN</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">84</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">85</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_obligationslan_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1023,8 +1023,8 @@
         <record id="ar_report_br_k2_line_checkrakningskreditlangfristig" model="account.report.line">
             <field name="name">Långfristig checkräkningskredit</field>
             <field name="code">CHECKRAKNINGSKREDITLANGFRISTIG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">85</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">86</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_checkrakningskreditlangfristig_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1037,8 +1037,8 @@
         <record id="ar_report_br_k2_line_ovrigalangfristigaskulderkrediti" model="account.report.line">
             <field name="name">Övriga långfristiga skulder till kreditinstitut</field>
             <field name="code">OVRIGALANGFRISTIGASKULDERKREDITI</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">86</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">87</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigalangfristigaskulderkrediti_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1051,8 +1051,8 @@
         <record id="ar_report_br_k2_line_skulderkoncernforetaglangfristig" model="account.report.line">
             <field name="name">Långfristiga skulder till koncernföretag</field>
             <field name="code">SKULDERKONCERNFORETAGLANGFRISTIG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">87</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">88</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_skulderkoncernforetaglangfristig_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1065,8 +1065,8 @@
         <record id="ar_report_br_k2_line_skulderintresseforetaggemensamts" model="account.report.line">
             <field name="name">Långfristiga skulder till intresseföretag och gemensamt styrda företag</field>
             <field name="code">SKULDERINTRESSEFORETAGGEMENSAMTS</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">88</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">89</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_skulderintresseforetaggemensamts_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1079,8 +1079,8 @@
         <record id="ar_report_br_k2_line_skulderovrigaforetagagarintresse" model="account.report.line">
             <field name="name">Långfristiga skulder till övriga företag som det finns ett ägarintresse i</field>
             <field name="code">SKULDEROVRIGAFORETAGAGARINTRESSE</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">89</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">90</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_skulderovrigaforetagagarintresse_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1093,8 +1093,8 @@
         <record id="ar_report_br_k2_line_ovrigalangfristigaskulder" model="account.report.line">
             <field name="name">Övriga långfristiga skulder</field>
             <field name="code">OVRIGALANGFRISTIGASKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">90</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">91</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigalangfristigaskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1107,8 +1107,8 @@
         <record id="ar_report_br_k2_line_langfristigaskulder" model="account.report.line">
             <field name="name">Långfristiga skulder</field>
             <field name="code">LANGFRISTIGASKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">91</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">92</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_langfristigaskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1121,14 +1121,14 @@
         <record id="ar_report_br_k2_line_kortfristigaskulderabstract" model="account.report.line">
             <field name="name">Kortfristiga skulder</field>
             <field name="code">KORTFRISTIGASKULDERABSTRACT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">92</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">93</field>
         </record>
         <record id="ar_report_br_k2_line_checkrakningskreditkortfristig" model="account.report.line">
             <field name="name">Kortfristig checkräkningskredit</field>
             <field name="code">CHECKRAKNINGSKREDITKORTFRISTIG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">93</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">94</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_checkrakningskreditkortfristig_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1141,8 +1141,8 @@
         <record id="ar_report_br_k2_line_ovrigakortfristigaskulderkrediti" model="account.report.line">
             <field name="name">Övriga kortfristiga skulder till kreditinstitut</field>
             <field name="code">OVRIGAKORTFRISTIGASKULDERKREDITI</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">94</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">95</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigakortfristigaskulderkrediti_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1155,8 +1155,8 @@
         <record id="ar_report_br_k2_line_forskottfrankunder" model="account.report.line">
             <field name="name">Förskott från kunder</field>
             <field name="code">FORSKOTTFRANKUNDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">95</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">96</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_forskottfrankunder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1169,8 +1169,8 @@
         <record id="ar_report_br_k2_line_pagaendearbetenannansrakningkort" model="account.report.line">
             <field name="name">Pågående arbete för annans räkning, skuld</field>
             <field name="code">PAGAENDEARBETENANNANSRAKNINGKORT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">96</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">97</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_pagaendearbetenannansrakningkort_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1183,8 +1183,8 @@
         <record id="ar_report_br_k2_line_faktureradejupparbetadintakt" model="account.report.line">
             <field name="name">Fakturerad men ej upparbetad intäkt</field>
             <field name="code">FAKTURERADEJUPPARBETADINTAKT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">97</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">98</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_faktureradejupparbetadintakt_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1197,8 +1197,8 @@
         <record id="ar_report_br_k2_line_leverantorsskulder" model="account.report.line">
             <field name="name">Leverantörsskulder</field>
             <field name="code">LEVERANTORSSKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">98</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">99</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_leverantorsskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1211,8 +1211,8 @@
         <record id="ar_report_br_k2_line_vaxelskulder" model="account.report.line">
             <field name="name">Växelskulder</field>
             <field name="code">VAXELSKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">99</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">100</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_vaxelskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1225,8 +1225,8 @@
         <record id="ar_report_br_k2_line_skulderkoncernforetagkortfristig" model="account.report.line">
             <field name="name">Kortfristiga skulder till koncernföretag</field>
             <field name="code">SKULDERKONCERNFORETAGKORTFRISTIG</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">100</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">101</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_skulderkoncernforetagkortfristig_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1239,8 +1239,8 @@
         <record id="ar_report_br_k2_line_skulderintresseforetaggemensamts_2" model="account.report.line">
             <field name="name">Kortfristiga skulder till intresseföretag och gemensamt styrda företag</field>
             <field name="code">SKULDERINTRESSEFORETAGGEMENSAMTS_2</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">101</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">102</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_skulderintresseforetaggemensamts_2_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1253,8 +1253,8 @@
         <record id="ar_report_br_k2_line_skulderovrigaforetagagarintresse_2" model="account.report.line">
             <field name="name">Kortfristiga skulder till övriga företag som det finns ett ägarintresse i</field>
             <field name="code">SKULDEROVRIGAFORETAGAGARINTRESSE_2</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">102</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">103</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_skulderovrigaforetagagarintresse_2_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1267,8 +1267,8 @@
         <record id="ar_report_br_k2_line_skatteskulder" model="account.report.line">
             <field name="name">Skatteskulder</field>
             <field name="code">SKATTESKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">103</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">104</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_skatteskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1281,8 +1281,8 @@
         <record id="ar_report_br_k2_line_ovrigakortfristigaskulder" model="account.report.line">
             <field name="name">Övriga kortfristiga skulder</field>
             <field name="code">OVRIGAKORTFRISTIGASKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">104</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">105</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_ovrigakortfristigaskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1295,8 +1295,8 @@
         <record id="ar_report_br_k2_line_upplupnakostnaderforutbetaldaint" model="account.report.line">
             <field name="name">Upplupna kostnader och förutbetalda intäkter</field>
             <field name="code">UPPLUPNAKOSTNADERFORUTBETALDAINT</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">105</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">106</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_upplupnakostnaderforutbetaldaint_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1309,8 +1309,8 @@
         <record id="ar_report_br_k2_line_kortfristigaskulder" model="account.report.line">
             <field name="name">Kortfristiga skulder</field>
             <field name="code">KORTFRISTIGASKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">106</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">107</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_kortfristigaskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
@@ -1323,13 +1323,13 @@
         <record id="ar_report_br_k2_line_egetkapitalskulder" model="account.report.line">
             <field name="name">Eget kapital och skulder</field>
             <field name="code">EGETKAPITALSKULDER</field>
-            <field name="report_id" ref="ar_report_br_k2"/>
-            <field name="sequence">107</field>
+            <field name="report_id" ref="ar_report_br_k2" />
+            <field name="sequence">108</field>
             <field name="expression_ids">
                 <record id="ar_report_br_k2_line_egetkapitalskulder_expr" model="account.report.expression">
                     <field name="label">balance</field>
                     <field name="engine">aggregation</field>
-                    <field name="formula">-EGETKAPITAL.balance-OBESKATTADERESERVER.balance-AVSATTNINGAR.balance-LANGFRISTIGASKULDER.balance-KORTFRISTIGASKULDER.balance</field>
+                    <field name="formula">-EGETKAPITAL.balance-OBOKFORTRESULTAT.balance-OBESKATTADERESERVER.balance-AVSATTNINGAR.balance-LANGFRISTIGASKULDER.balance-KORTFRISTIGASKULDER.balance</field>
                     <field name="date_scope">from_beginning</field>
                 </record>
             </field>
