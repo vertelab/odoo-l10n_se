@@ -19,69 +19,58 @@
 <odoo>
     <data>
         <!-- Box 05: base amount of taxable domestic sales -->
-        <record id="l10n_se.tax_report_line_05_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval_base</field>
-            <field name="subformula">se_05</field>
-        </record>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_05_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval_base', 'subformula': 'se_05'}"/>
+        </function>
 
         <!-- Box 10 / 11 / 12: outgoing VAT 25 / 12 / 6 % -->
-        <record id="l10n_se.tax_report_line_10_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_10</field>
-        </record>
-        <record id="l10n_se.tax_report_line_11_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_11</field>
-        </record>
-        <record id="l10n_se.tax_report_line_12_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_12</field>
-        </record>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_10_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_10'}"/>
+        </function>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_11_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_11'}"/>
+        </function>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_12_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_12'}"/>
+        </function>
 
         <!-- Box 30 / 31 / 32: outgoing VAT, reverse charge -->
-        <record id="l10n_se.tax_report_line_30_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_30</field>
-        </record>
-        <record id="l10n_se.tax_report_line_31_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_31</field>
-        </record>
-        <record id="l10n_se.tax_report_line_32_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_32</field>
-        </record>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_30_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_30'}"/>
+        </function>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_31_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_31'}"/>
+        </function>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_32_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_32'}"/>
+        </function>
 
         <!-- Box 48: incoming VAT, including the extended chart I/I6/IVIS/ITIS taxes -->
-        <record id="l10n_se.tax_report_line_48_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_48</field>
-        </record>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_48_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_48'}"/>
+        </function>
 
         <!-- Box 60 / 61 / 62: import VAT -->
-        <record id="l10n_se.tax_report_line_60_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_60</field>
-        </record>
-        <record id="l10n_se.tax_report_line_61_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_61</field>
-        </record>
-        <record id="l10n_se.tax_report_line_62_tag" model="account.report.expression">
-            <field name="engine">custom</field>
-            <field name="formula">_custom_expression_eval</field>
-            <field name="subformula">se_62</field>
-        </record>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_60_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_60'}"/>
+        </function>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_61_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_61'}"/>
+        </function>
+        <function model="account.report.expression" name="write">
+            <value model="account.report.expression" search="[('id', '=', ref('l10n_se.tax_report_line_62_tag'))]"/>
+            <value eval="{'engine': 'custom', 'formula': '_custom_expression_eval', 'subformula': 'se_62'}"/>
+        </function>
 
         <!-- Put the handler on the core report so expressions can find it. -->
         <record id="l10n_se.tax_report" model="account.report">
