@@ -26,5 +26,6 @@ class AccountChartTemplate(models.AbstractModel):
                 # and it does not exist in this chart at all. Currency
                 # exchange gains belong on 3960.
                 'income_currency_exchange_account_id': 'a3960',
+                'expense_currency_exchange_account_id': 'a7960',
             },
         }

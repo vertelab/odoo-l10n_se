@@ -1,5 +1,5 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import models, api
+from odoo import models
 from odoo.addons.account.models.chart_template import template
 
 
@@ -26,5 +26,6 @@ class AccountChartTemplate(models.AbstractModel):
                 # and it does not exist in this chart at all. Currency
                 # exchange gains belong on 3960.
                 'income_currency_exchange_account_id': 'a3960',
+                'expense_currency_exchange_account_id': 'a7960',
             },
         }

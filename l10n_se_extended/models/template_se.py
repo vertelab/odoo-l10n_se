@@ -50,6 +50,7 @@ class AccountChartTemplate(models.AbstractModel):
                 # pointed at a1910 (Kassa, asset_cash) — the value was never
                 # verified, as the "#??" comment in the original line hinted.
                 'income_currency_exchange_account_id': 'a3960',
+                'expense_currency_exchange_account_id': 'a7960',
             },
         }
     
