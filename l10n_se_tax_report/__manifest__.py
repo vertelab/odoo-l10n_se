@@ -83,7 +83,7 @@ Account Tax Report
         'views/moms_report.xml',
         'views/periodic_compilation.xml',
         'report/report.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'security/security.xml',
         'views/mis_report_view.xml',
         'views/account_fiscalyear_views.xml',

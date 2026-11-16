@@ -55,7 +55,7 @@ Mynt
     'init_xml': [],
     'data': [
         'data/ir_seq_mynt.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/account_journal_dashboard_views.xml',
         'views/account_move_view.xml',
     ],

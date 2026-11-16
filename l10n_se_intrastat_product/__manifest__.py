@@ -16,7 +16,7 @@
         "l10n_se_tax_report",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/intrastat_transaction.xml",
         "data/intrastat_transport_mode.xml",
         "data/intrastat_region.xml",

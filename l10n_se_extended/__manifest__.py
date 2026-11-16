@@ -92,7 +92,7 @@ Sweden - Accounting
         'data/custom_address_formats.xml',
         # 'data/tax_partner.xml',
         # 'wizard/merge_chart_wizard.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/res_config_settings_views.xml',
 
     ],

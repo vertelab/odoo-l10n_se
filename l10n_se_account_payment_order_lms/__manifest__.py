@@ -41,7 +41,7 @@ Betalorder och Pending-state — Utbildning (LMS)
         'website_slides',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/slide_channel.xml',
         'data/slide_slides_s1.xml',
         'data/slide_slides_s2.xml',

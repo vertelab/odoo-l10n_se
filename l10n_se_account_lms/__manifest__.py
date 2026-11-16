@@ -49,7 +49,7 @@ Swedish Accounting Training (LMS)
         'mail',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/training_categories.xml',
         'data/training_lessons_basics.xml',
         'data/training_lessons_vat.xml',

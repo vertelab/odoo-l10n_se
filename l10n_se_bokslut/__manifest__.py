@@ -72,7 +72,7 @@ Bokslut och Årsredovisning
     ],
 
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/bokslut_task_stages.xml',
         'data/bokslut_task_data.xml',
         'data/cron_data.xml',

@@ -46,7 +46,7 @@ Account Financial Report
     'author': 'Vertel AB',
     'depends': ['l10n_se_extended'],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/financial_reports_line_view.xml',
         'views/financial_reports_line_results_view.xml',
         'views/financial_reports_instance_view.xml',

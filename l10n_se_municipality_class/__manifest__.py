@@ -52,7 +52,7 @@ Municipality Swedish Municipalities
     'init_xml': [],
     'data': [
         'data/res.country.municipality.csv',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/municipality_views.xml',
         'views/partner_views.xml',
         ],

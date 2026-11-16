@@ -46,7 +46,7 @@ Fiscal Position
     'data': [
         #'views/res_bank_view.xml',
         #'data/fiscal_position_data.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
     ],
     'installable': 'True',
     'application': 'False',

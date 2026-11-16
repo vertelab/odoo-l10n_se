@@ -57,7 +57,7 @@ AGI — Individual Information (Individuppgifter) + KU
         'hr',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/agi_declaration_views.xml',
         'views/res_config_view.xml',
         'data/agi_cron_data.xml',

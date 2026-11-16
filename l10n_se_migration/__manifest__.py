@@ -43,7 +43,7 @@ Migration from competitors
         'account',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/migration_wizard_views.xml',
         'views/migration_menus.xml',
     ],

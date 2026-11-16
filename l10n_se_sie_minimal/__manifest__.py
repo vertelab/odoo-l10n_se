@@ -50,7 +50,7 @@ SIE-import
 		'data/l10n_se_sie_view.xml',
                 'views/account_view.xml',
                 'data/l10n_se_sie_data.xml',
-                'security/ir.model.access.csv',
+                'security/ir.access.csv',
     ],
     'excludes': ['l10n_se_sie'],
     # 'demo': ['l10n_se_sie_demo.xml'],

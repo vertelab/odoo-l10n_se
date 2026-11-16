@@ -51,7 +51,7 @@ SIE-import
                 'views/account_view.xml',
                 'views/account_journal_view.xml',
                 'data/l10n_se_sie_data.xml',
-                'security/ir.model.access.csv',
+                'security/ir.access.csv',
     ],
   
     # 'demo': ['l10n_se_sie_demo.xml'],

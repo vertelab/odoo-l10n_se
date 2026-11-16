@@ -40,7 +40,7 @@ Skatteverket API
         'python': ['requests'],
     },
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/res_config_view.xml',
     ],
     'demo': [],

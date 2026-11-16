@@ -46,7 +46,7 @@ Export/Import
     'license': 'AGPL-3',
     'depends': ['mis_builder', 'l10n_se_mis'],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizards/mis_export_import_wizard_views.xml",
     ],
     "installable": True,

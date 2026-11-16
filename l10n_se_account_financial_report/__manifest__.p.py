@@ -1,0 +1,60 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+{
+    'name': 'l10n_se: Account Financial Report',
+    'version': '0.0.0',
+    'summary': 'Sweden - Account Financial Report.',
+    'category': 'Accounting',
+    #'sequence': '1',
+    'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_financial_report',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'description': '''
+Account Financial Report
+========================
+
+    Sweden - Account Financial Report.
+
+    Features:
+
+        - UI Integration: Extends 3 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on financial.reports, financial.reports.instance, financial.reports.line, financial.reports.line.results.
+    ''',
+    'author': 'Vertel AB',
+    'depends': ['l10n_se_extended'],
+    'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
+        'security/ir.model.access.csv',
+        # #endif
+        'views/financial_reports_line_view.xml',
+        'views/financial_reports_line_results_view.xml',
+        'views/financial_reports_instance_view.xml',
+        'data/finacial_reports.xml',
+    ],
+    'installable': 'True',
+}

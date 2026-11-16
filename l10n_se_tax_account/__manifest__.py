@@ -74,7 +74,7 @@ Tax Account
     },
     'data': [
         'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/res_config_view.xml',
         'views/partner_views.xml',
         'views/journal_views.xml',
