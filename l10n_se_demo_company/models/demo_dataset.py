@@ -193,6 +193,94 @@ class DemoDataset(models.Model):
         self.ensure_one()
 
     # ------------------------------------------------------------------
+    # Reconciling again
+    # ------------------------------------------------------------------
+
+    def action_reconcile(self):
+        """Reconcile an unreconciled quarter from its statement files."""
+        for rec in self:
+            if rec.state != 'unreconciled':
+                raise UserError(_(
+                    '%(name)s is not unreconciled.', name=rec.name))
+            rec._reconcile_data()
+            rec.write({'state': 'loaded'})
+        return True
+
+    def _reconcile_data(self):
+        """Hook for the module that owns this source. No-op by default."""
+        self.ensure_one()
+
+    # ------------------------------------------------------------------
+    # Plain methods for callers without a web interface
+    # ------------------------------------------------------------------
+
+    @api.model
+    def action_load_by_name(self, name, source=None):
+        """Load a quarter by name. Returns a result dict.
+
+        Used by AI agents and tests: no wizard, no web interface.
+        """
+        rec = self._by_name(name, source)
+        rec.action_load()
+        return {
+            'quarter': rec.name,
+            'source': rec.source,
+            'state': rec.state,
+            'loaded_through': self.search([
+                ('source', '=', rec.source),
+                ('state', '!=', 'empty'),
+            ], order='sequence desc', limit=1).name,
+        }
+
+    @api.model
+    def action_remove_by_name(self, name, source=None):
+        """Remove a quarter and everything above it. Returns what went."""
+        rec = self._by_name(name, source)
+        doomed = self.search([
+            ('source', '=', rec.source),
+            ('sequence', '>=', rec.sequence),
+            ('state', '!=', 'empty'),
+        ], order='sequence')
+        names = doomed.mapped('name')
+        rec.action_remove()
+        return {
+            'removed': names,
+            'loaded_through': self.search([
+                ('source', '=', rec.source),
+                ('state', '!=', 'empty'),
+            ], order='sequence desc', limit=1).name or False,
+        }
+
+    @api.model
+    def action_unreconcile_by_name(self, name, source=None):
+        """Make a quarter unreconciled. Returns the new state."""
+        rec = self._by_name(name, source)
+        rec.action_unreconcile()
+        return {'quarter': rec.name, 'state': rec.state}
+
+    @api.model
+    def action_reconcile_by_name(self, name, source=None):
+        """Reconcile a quarter again. Returns the new state."""
+        rec = self._by_name(name, source)
+        rec.action_reconcile()
+        return {'quarter': rec.name, 'state': rec.state}
+
+    @api.model
+    def _by_name(self, name, source=None):
+        """Find one dataset by name, optionally scoped to a source."""
+        domain = [('name', '=', name)]
+        if source:
+            domain.append(('source', '=', source))
+        matches = self.search(domain)
+        if not matches:
+            raise UserError(_('No demo dataset named %s.', name))
+        if len(matches) > 1:
+            raise UserError(_(
+                '%s exists for several sources (%s) — pass source.',
+                name, ', '.join(matches.mapped('source'))))
+        return matches
+
+    # ------------------------------------------------------------------
     # Divergence between sources
     # ------------------------------------------------------------------
 

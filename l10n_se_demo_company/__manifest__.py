@@ -30,6 +30,7 @@ Features:
         'data/employees.xml',
         'data/demo_datasets.xml',
         'security/ir.model.access.csv',
+        'views/demo_data_wizard_views.xml',
     ],
     'demo': [],
     'post_init_hook': 'post_init_hook',

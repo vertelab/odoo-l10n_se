@@ -62,5 +62,29 @@ class DemoCompanyJournal(models.Model):
                 'noupdate': True,
             })
             created += 1
+
+        # The payroll journal needs a default account: OCA's payroll_account
+        # uses it for the balancing line when the salary rules do not add up
+        # exactly, and raises if it is missing. 7090 is the salary account
+        # group's balancing account in se_K2.
+        payroll = self.search([
+            ('code', '=', 'LÖN'),
+            ('company_id', '=', company.id),
+        ], limit=1)
+        if payroll and not payroll.default_account_id:
+            self.env.cr.execute("""
+                SELECT aa.id FROM account_account aa
+                  JOIN account_account_res_company_rel rel
+                    ON rel.account_account_id = aa.id
+                 WHERE rel.res_company_id = %s
+                   AND EXISTS (
+                       SELECT 1 FROM jsonb_each_text(aa.code_store) AS kv(k, v)
+                        WHERE kv.v = '7090')
+                 LIMIT 1
+            """, (company.id,))
+            row = self.env.cr.fetchone()
+            if row:
+                payroll.default_account_id = row[0]
+
         _logger.info('l10n_se_demo_company: %s journals created', created)
         return created
