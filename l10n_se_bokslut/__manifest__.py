@@ -78,6 +78,7 @@ K2 and K3 rule sets supported for annual reports.
         'data/cron_data.xml',
         'views/bokslut_planning_views.xml',
         'views/bokslut_currency_views.xml',
+        'views/bokslut_consolidation_views.xml',
         'views/bokslut_adjustment_views.xml',
         'views/project_task_views.xml',
         'views/project_project_views.xml',

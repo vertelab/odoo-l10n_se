@@ -6,3 +6,4 @@ from . import res_config
 from . import periodization_fund
 from . import excess_depreciation
 from . import bokslut_k3
+from . import bokslut_consolidation
