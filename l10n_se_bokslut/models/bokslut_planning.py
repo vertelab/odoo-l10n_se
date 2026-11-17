@@ -384,6 +384,11 @@ class AccountBokslut(models.Model):
         if not konto_8999 or not konto_2099:
             raise UserError(_('Accounts 8999 and 2099 must exist.'))
 
+        # Adjustments get their own entries, created here so action_book()
+        # can post them. Without this the loop over adjustment_ids in
+        # action_book() was dead code.
+        self._generate_adjustment_moves(journal)
+
         resultat = abs(self.arets_resultat)
         is_profit = self.arets_resultat >= 0
 
@@ -419,6 +424,64 @@ class AccountBokslut(models.Model):
             self.state = 'confirmed'
             # Tag the move with bokslut context
             self.move_id.write({'ref': _('Bokslut (Preliminary) %s') % self.fiscalyear_id.name})
+
+    def _generate_adjustment_moves(self, journal):
+        """Create one verification per temporary adjustment.
+
+        A permanent difference only affects the tax calculation and must not
+        reach the books — `is_permanent` says which. A temporary adjustment
+        gets an entry on its own account with 8999/2099 as the counter, so
+        the closing balances without changing the result twice.
+
+        Idempotent: an existing entry is reused and its lines rewritten.
+        """
+        self.ensure_one()
+        for adj in self.adjustment_ids:
+            if adj.is_permanent or not adj.amount:
+                continue
+            if not adj.account_id:
+                _logger.warning(
+                    'bokslut: adjustment %s has no account, skipped', adj.name)
+                continue
+            entry = adj.move_id
+            if not entry:
+                entry = self.env['account.move'].create({
+                    'journal_id': journal.id,
+                    'date': self.period_stop.date_stop,
+                    'ref': _('Bokslut adjustment: %s') % adj.name,
+                    'move_type': 'entry',
+                })
+                adj.move_id = entry.id
+            entry.line_ids.unlink()
+            amount = abs(adj.amount)
+            debit_side = adj.amount > 0
+            self.env['account.move.line'].create([
+                {
+                    'move_id': entry.id,
+                    'name': adj.name,
+                    'account_id': adj.account_id.id,
+                    'debit': amount if debit_side else 0.0,
+                    'credit': 0.0 if debit_side else amount,
+                },
+                {
+                    'move_id': entry.id,
+                    'name': adj.name,
+                    'account_id': self._result_account().id,
+                    'debit': 0.0 if debit_side else amount,
+                    'credit': amount if debit_side else 0.0,
+                },
+            ])
+
+    def _result_account(self):
+        """8999, the account the closing books the year's result on."""
+        self.ensure_one()
+        account = self.env['account.account'].search([
+            ('code', '=', '8999'),
+            ('company_id', '=', self.company_id.id),
+        ], limit=1)
+        if not account:
+            raise UserError(_('Account 8999 must exist.'))
+        return account
 
     def action_book(self):
         """Final booking of all verifications."""
