@@ -111,6 +111,14 @@ class AccountBokslut(models.Model):
         comodel_name='res.currency',
         related='company_id.currency_id',
     )
+    currency_revaluation_id = fields.Many2one(
+        comodel_name='l10n_se.currency.revaluation',
+        string='Currency Revaluation',
+        readonly=True,
+        copy=False,
+        help='The revaluation of open monetary items in foreign currency '
+             'for the closing date.',
+    )
 
     @api.onchange('fiscalyear_id')
     def _onchange_fiscalyear_id(self):
@@ -415,6 +423,7 @@ class AccountBokslut(models.Model):
     def action_book(self):
         """Final booking of all verifications."""
         self.ensure_one()
+        self._warn_on_unrevalued_currency()
         self.generate_verifications()
         if self.move_id and self.move_id.state == 'draft':
             self.move_id.action_post()
@@ -423,6 +432,106 @@ class AccountBokslut(models.Model):
             if adj.move_id and adj.move_id.state == 'draft':
                 adj.move_id.action_post()
         self.state = 'done'
+
+    # ------------------------------------------------------------------
+    # Currency (BFNAR 2016:10, BFNAR 2012:1 ch. 30)
+    # ------------------------------------------------------------------
+
+    def _currency_revaluation(self):
+        """The revaluation for the closing date, if one has been made."""
+        self.ensure_one()
+        if self.currency_revaluation_id:
+            return self.currency_revaluation_id
+        if not self.period_stop:
+            return self.env['l10n_se.currency.revaluation']
+        # A revaluation made from the currency menu for the same day counts
+        # as well — the date is what decides, not who made it.
+        return self.env['l10n_se.currency.revaluation'].search([
+            ('company_id', '=', self.company_id.id),
+            ('date', '=', self.period_stop.date_stop),
+        ], limit=1)
+
+    def _open_currency_items(self):
+        """Open monetary items in foreign currency on the closing date."""
+        self.ensure_one()
+        if not self.period_stop:
+            return self.env['account.move.line']
+        return self.env['l10n_se.currency.revaluation']._monetary_open_items(
+            self.company_id, self.period_stop.date_stop)
+
+    def _warn_on_unrevalued_currency(self):
+        """Warn in the chatter when currency items are left unrevalued.
+
+        A warning, not a blocker: a company without foreign currency items
+        must be able to close its books without ticking anything. The items
+        are translated at the closing rate only when someone asks for it.
+        """
+        self.ensure_one()
+        if self._currency_revaluation():
+            return
+        items = self._open_currency_items()
+        if not items:
+            return
+        currencies = ', '.join(sorted(items.mapped('currency_id.name')))
+        self.message_post(body=_(
+            'Unrealised currency differences are not booked. There are %(count)s '
+            'open monetary items in %(currencies)s on %(date)s, and no '
+            'revaluation has been made for that date. K2 (BFNAR 2016:10) and '
+            'K3 (BFNAR 2012:1 ch. 30) require monetary items in foreign '
+            'currency to be translated at the closing rate. Use '
+            '"Revalue Currency" before the closing is signed.',
+            count=len(items),
+            currencies=currencies,
+            date=self.period_stop.date_stop,
+        ))
+
+    def action_revalue_currency(self):
+        """Revalue the open foreign currency items at the closing date.
+
+        Posts the revaluation and its reversal. A revaluation per date is
+        created once: pressing the button a second time reports that it is
+        already booked rather than posting the difference twice.
+        """
+        self.ensure_one()
+        if not self.period_stop:
+            raise UserError(_('Set the end period before revaluing currency.'))
+        revaluation = self._currency_revaluation()
+        if revaluation:
+            if revaluation.move_id:
+                raise UserError(_(
+                    'The currency revaluation for %s is already booked.',
+                    self.period_stop.date_stop))
+            revaluation.action_create_move()
+            self.currency_revaluation_id = revaluation.id
+        else:
+            R = self.env['l10n_se.currency.revaluation']
+            if not R._compute_lines(self.company_id,
+                                    self.period_stop.date_stop):
+                # Nothing to revalue is not an error in the closing flow.
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'type': 'info',
+                        'message': _(
+                            'No open monetary items in foreign currency on '
+                            '%s, nothing to revalue.',
+                            self.period_stop.date_stop),
+                        'sticky': False,
+                    },
+                }
+            revaluation = R.create_for_date(
+                self.company_id, self.period_stop.date_stop)
+            revaluation.action_create_move()
+            self.currency_revaluation_id = revaluation.id
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Currency Revaluation'),
+            'res_model': 'l10n_se.currency.revaluation',
+            'res_id': revaluation.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
 
     def action_generate_annual_report(self):
         """Generate the annual report from this closing."""

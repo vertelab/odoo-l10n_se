@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The currency step of the closing. A button, not a check box: the
+         revaluation is posted only when someone asks for it. -->
+    <record id="view_bokslut_form_currency" model="ir.ui.view">
+        <field name="name">account.bokslut.form.currency</field>
+        <field name="model">account.bokslut</field>
+        <field name="inherit_id" ref="l10n_se_bokslut.view_bokslut_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_book']" position="before">
+                <button name="action_revalue_currency" type="object"
+                        string="Revalue Currency"
+                        invisible="not period_stop"/>
+            </xpath>
+            <xpath expr="//page[@name='verifications']/group" position="inside">
+                <field name="currency_revaluation_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

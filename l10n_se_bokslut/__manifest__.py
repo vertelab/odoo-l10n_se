@@ -66,6 +66,9 @@ K2 and K3 rule sets supported for annual reports.
         'project',
         'account_fiscal_year_vrtl',
         'l10n_se_date_ranges',
+        # The closing revalues open monetary items in foreign currency
+        # before it is booked (BFNAR 2016:10, BFNAR 2012:1 ch. 30).
+        'l10n_se_currency_revaluation',
     ],
 
     'data': [
@@ -74,6 +77,7 @@ K2 and K3 rule sets supported for annual reports.
         'data/bokslut_task_data.xml',
         'data/cron_data.xml',
         'views/bokslut_planning_views.xml',
+        'views/bokslut_currency_views.xml',
         'views/bokslut_adjustment_views.xml',
         'views/project_task_views.xml',
         'views/project_project_views.xml',

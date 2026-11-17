@@ -64,7 +64,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Verifikationer">
+                        <page string="Verifikationer" name="verifications">
                             <group>
                                 <field name="move_id" readonly="1"/>
                             </group>
