@@ -26,6 +26,7 @@ Features:
     'depends': ['account', 'l10n_se', 'l10n_se_extended', 'hr'],
     'data': [
         'data/company.xml',
+        'data/journals.xml',
         'data/partners.xml',
         'data/employees.xml',
         'data/demo_datasets.xml',
