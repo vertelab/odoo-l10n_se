@@ -20,6 +20,10 @@ JOURNALS = [
     ('journal_purchase', 'Inköp', 'purchase', 'BILL'),
     ('journal_bank', 'Företagskonto', 'bank', 'BNK1'),
     ('journal_payroll', 'Lönejournal', 'general', 'LÖN'),
+    # The payroll demo pays wages from its own bank journal. Sharing BNK1
+    # with the accounting demo made the two sources collide on the move
+    # name sequence, so payroll could not be loaded after accounting.
+    ('journal_payroll_bank', 'Löneutbetalningar', 'bank', 'LÖNB'),
     # Source journals from SFA that the demo data references
     ('journal_stock', 'Lagerjournal', 'general', 'STJ'),
     ('journal_misc', 'Diverse', 'general', 'MISC'),
@@ -67,6 +71,19 @@ class DemoCompanyJournal(models.Model):
         # uses it for the balancing line when the salary rules do not add up
         # exactly, and raises if it is missing. 7090 is the salary account
         # group's balancing account in se_K2.
+        # The payroll bank journal shares BNK1's account, so reconciling
+        # against the bank works the same way; only the sequence differs.
+        bank = self.search([
+            ('code', '=', 'BNK1'),
+            ('company_id', '=', company.id),
+        ], limit=1)
+        payroll_bank = self.search([
+            ('code', '=', 'LÖNB'),
+            ('company_id', '=', company.id),
+        ], limit=1)
+        if bank and payroll_bank and not payroll_bank.default_account_id:
+            payroll_bank.default_account_id = bank.default_account_id
+
         payroll = self.search([
             ('code', '=', 'LÖN'),
             ('company_id', '=', company.id),
