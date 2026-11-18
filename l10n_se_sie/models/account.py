@@ -50,10 +50,10 @@ class account_account(models.Model):
         
         
 class account_fiscalyear(models.Model):
-    _inherit = 'account.fiscalyear'
+    _inherit = 'account.fiscal.year'
     
     def export_sie(self):
-        #fiscal_year_ids = self.env['account.fiscalyear'].browse(ids)
+        #fiscal_year_ids = self.env['account.fiscal.year'].browse(ids)
         ver_ids = self.env['account.move'].search([]).filtered(lambda ver: ver.period_id.fiscalyear_id.id in self.ids)
         #_logger.warning('\n\nfiscal_year\n%s'%ver_ids)
         return self.env['account.sie'].export_sie(ver_ids)
@@ -65,7 +65,7 @@ class account_fiscalyear(models.Model):
         while True:            
             if rar < -10 or rar > 10:
                 break
-            if d.strftime('%Y-%m-%s') >= fiscalyear.date_start and d.strftime('%Y-%m-%s') <= fiscalyear.date_stop:
+            if d.strftime('%Y-%m-%s') >= fiscalyear.date_from and d.strftime('%Y-%m-%s') <= fiscalyear.date_to:
                 break
             
             d -= datetime.timedelta(days=365)

@@ -28,11 +28,11 @@ _logger = logging.getLogger(__name__)
 
 class AccountBokslut(models.Model):
     _name = 'account.bokslut'
-    _inherit = ['account.declaration']
+    _inherit = ['account.declaration', 'mail.activity.mixin']
     _description = 'Year-End Closing'
 
     fiscalyear_id = fields.Many2one(
-        comodel_name='account.fiscalyear',
+        comodel_name='account.fiscal.year',
         string='Fiscal Year',
         required=True,
     )

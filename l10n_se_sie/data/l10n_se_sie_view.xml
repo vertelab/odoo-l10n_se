@@ -27,7 +27,7 @@
     <!--account_period-->
     <record model="ir.actions.server" id="dropdown_export_period">
       <field name="name">Export SIE</field>
-      <field name="model_id" ref="account_period_vrtl.model_account_period" />
+      <field name="model_id" ref="account_fiscal_year_vrtl.model_account_period" />
       <field name="state">code</field>
       <field name="code">action = records.export_sie()</field>
     </record>
@@ -44,7 +44,7 @@
     <!--account_fiscal_year-->
     <record model="ir.actions.server" id="dropdown_export_fiscalyear">
       <field name="name">Export SIE</field>
-      <field name="model_id" ref="account_period_vrtl.model_account_fiscalyear" />
+      <field name="model_id" ref="account_fiscal_year_vrtl.model_account_fiscal_year" />
       <field name="state">code</field>
       <field name="code">action = records.export_sie()</field>
     </record>

@@ -82,8 +82,8 @@ class account_sie(models.TransientModel):
     # ~ include_res = fields.Boolean("Include Res Balans")
 
     def _get_default_current_fiscalyear(self):
-        return self.env['account.fiscalyear'].search(
-            [('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today()),
+        return self.env['account.fiscal.year'].search(
+            [('date_from', '<=', fields.Date.today()), ('date_to', '>=', fields.Date.today()),
              ('company_id', '=', self.env.company.id)], limit=1)
 
     def _set_period_fiscal_domain(self):
@@ -92,12 +92,12 @@ class account_sie(models.TransientModel):
     def _set_account_domain(self):
         return [('company_ids', 'in', [self.env.company.id])]
 
-    current_transaction_year = fields.Many2one(comodel_name="account.fiscalyear", string="Current Fiscal Year",
+    current_transaction_year = fields.Many2one(comodel_name="account.fiscal.year", string="Current Fiscal Year",
                                                help="Posts are relative to this year",
                                                domain=_set_period_fiscal_domain,
                                                default=_get_default_current_fiscalyear)
                                                
-    fiscalyear_4e_ids = fields.Many2many(comodel_name="account.fiscalyear",
+    fiscalyear_4e_ids = fields.Many2many(comodel_name="account.fiscal.year",
                                          string="Fiscal years for #IB/#UB/#RES",
                                          domain=_set_period_fiscal_domain)
     #### 
@@ -107,7 +107,7 @@ class account_sie(models.TransientModel):
     period_ids = fields.Many2many(comodel_name="account.period",
                                   string="Periods", domain=_set_period_fiscal_domain)
 
-    fiscalyear_ids = fields.Many2one(comodel_name="account.fiscalyear", string="Fiscal Year",
+    fiscalyear_ids = fields.Many2one(comodel_name="account.fiscal.year", string="Fiscal Year",
                                      help="Moves in this fiscal years", domain=_set_period_fiscal_domain)
     journal_ids = fields.Many2many(comodel_name="account.journal", string="Journal",
                                    help="Moves with this type of journals")
@@ -192,7 +192,7 @@ class account_sie(models.TransientModel):
 
     def _get_rar_code(self, fiscalyear):
     
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
+        all_fiscal_years = self.env['account.fiscal.year'].search([('company_id', '=', self.env.company.id)],
                                                                  order='date_start ASC')
         current_fiscalyear_index = next(
             (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)
@@ -413,9 +413,9 @@ class account_sie(models.TransientModel):
                 search = []
                 search.append(('state', '=', 'posted'))
                 search.append(('company_id.id', '=', self.env.company.id))
-                if self.date_start:
-                    search.append(('date', '>=', self.date_start))
-                    search.append(('date', '<=', self.date_stop))
+                if self.date_from:
+                    search.append(('date', '>=', self.date_from))
+                    search.append(('date', '<=', self.date_to))
                 if self.fiscalyear_ids:
                     search.append(('period_id', 'in', [p.id for p in self.fiscalyear_ids.period_ids]))
                 if self.period_ids:
@@ -470,7 +470,7 @@ class account_sie(models.TransientModel):
 
     def get_sie_value_dict(self, accounts, include_current_year=False, just_current_year=False):#Not done yet
         self.ensure_one()
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)], order='date_start ASC')
+        all_fiscal_years = self.env['account.fiscal.year'].search([('company_id', '=', self.env.company.id)], order='date_start ASC')
         current_fiscalyear_index = self._get_fiscalyear_index(self.current_transaction_year, all_fiscal_years)
         formated_result = []
         for fiscalyear in self.fiscalyear_4e_ids:
@@ -648,8 +648,8 @@ class account_sie(models.TransientModel):
         return s.replace('\n', ' ').replace('\\', '\\\\').replace('"', '\\"')
         
     def _get_accountfiscalyear_from_index(self, index):
-        # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscalyear to return.
-        all_fiscal_years = self.env['account.fiscalyear'].search([('company_id', '=', self.env.company.id)],
+        # When given an index it will use the Current Fiscal Year set and the index to figure out an account.fiscal.year to return.
+        all_fiscal_years = self.env['account.fiscal.year'].search([('company_id', '=', self.env.company.id)],
                                                                  order='date_start ASC')
         current_fiscalyear_index = next(
             (index for index, fy in enumerate(all_fiscal_years) if fy.id == self.current_transaction_year.id), 0)

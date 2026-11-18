@@ -12,7 +12,7 @@
                     <button name="action_book" type="object" string="Bokför" class="btn-primary"/>
                     <button name="action_create_checklist_project" type="object" string="Skapa checklista"/>
                     <button name="action_open_checklist" type="object" string="Öppna checklista" class="btn-secondary"/>
-                    <button name="action_generate_annual_report" type="object" string="Årsredovisning" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                    <button name="action_generate_annual_report" type="object" string="Årsredovisning" invisible="state != 'done'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
                 </header>
                 <sheet>
@@ -40,14 +40,14 @@
                         </page>
                         <page string="Justeringar">
                             <field name="adjustment_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
                                     <field name="type"/>
                                     <field name="account_id"/>
                                     <field name="amount" widget="monetary"/>
                                     <field name="is_permanent"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Skatteberäkning">
@@ -57,11 +57,11 @@
                                 <field name="arets_resultat" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
                             </group>
                             <field name="tax_calculation_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="sequence"/>
                                     <field name="name"/>
                                     <field name="amount" widget="monetary"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Verifikationer">
@@ -74,19 +74,19 @@
                                 <field name="schablonintakt" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
                             </group>
                             <field name="periodization_fund_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="year"/>
                                     <field name="amount" widget="monetary"/>
                                     <field name="reversal_amount" widget="monetary"/>
                                     <field name="remaining" widget="monetary"/>
                                     <field name="is_mandatory_reversal" widget="boolean_toggle"/>
                                     <field name="state"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Överavskrivningar">
                             <field name="excess_depreciation_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
                                     <field name="asset_category"/>
@@ -94,7 +94,7 @@
                                     <field name="book_depreciation" widget="monetary"/>
                                     <field name="planned_depreciation" widget="monetary"/>
                                     <field name="excess_depreciation" widget="monetary" sum="Summa"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -113,14 +113,14 @@
         <field name="name">account.bokslut.tree</field>
         <field name="model">account.bokslut</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="fiscalyear_id"/>
                 <field name="company_id"/>
                 <field name="state"/>
                 <field name="arets_resultat" widget="monetary"/>
                 <field name="date"/>
-            </tree>
+            </list>
         </field>
     </record>
 

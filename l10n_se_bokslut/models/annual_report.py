@@ -24,7 +24,7 @@ class AccountAnnualReport(models.Model):
         default=lambda self: _('Annual Report'),
     )
     fiscalyear_id = fields.Many2one(
-        comodel_name='account.fiscalyear',
+        comodel_name='account.fiscal.year',
         string='Fiscal Year',
         related='bokslut_id.fiscalyear_id',
         store=True,
