@@ -70,3 +70,73 @@ def _generate_swedish_date_ranges(env):
                 start = date(year, 1, 1)
 
             date_range_type.generate_full_year(year, date_start=start)
+
+
+def _adopt_types_from_retired_modules(env):
+    """Pre-init hook: adopt Quarter and Week from whichever module owns them.
+
+    ``date.range.type`` has a unique constraint on ``(name, company_id)``, so
+    the data file cannot simply create the two types on a database where a
+    previous owner already did. ``_load_records`` looks the record up by xmlid;
+    when the xmlid belongs to another module it finds nothing and tries to
+    create a second row -- and the constraint fires:
+
+        duplicate key value violates unique constraint
+        "date_range_type_date_range_type_uniq"
+
+    This runs *before* the data file is loaded, so re-pointing the
+    ``ir.model.data`` row is enough: ``_load_records`` then finds the existing
+    record and updates it in place. Moving the row (not the record) keeps
+    ``res_id`` intact, so every ``date.range.type_id`` keeps pointing at the
+    same record.
+
+    Why a pre-init hook *and* a migration script: ``pre_init_hook`` runs only
+    on install, ``migrations/`` only on upgrade. A database can arrive in
+    either state -- staging had this module uninstalled while the retired
+    bridge module still owned the types, which is exactly the install case.
+
+    ``l10n_se_account_fiscal_year`` is the retired bridge (2026-10-30 to
+    2026-11-13). It is kept in the list because databases that installed it
+    still carry its xmlids.
+    """
+    legacy_modules = (
+        'l10n_se_account_fiscal_year',
+        'l10n_se_date_ranges',
+    )
+    owned = (
+        'date_range_type_quarter',
+        'date_range_type_week',
+    )
+
+    Imd = env['ir.model.data'].sudo()
+    adopted = 0
+    for name in owned:
+        already = Imd.search([
+            ('module', '=', 'l10n_se_date_ranges'),
+            ('name', '=', name),
+            ('model', '=', 'date.range.type'),
+        ], limit=1)
+        if already:
+            continue
+
+        for legacy_module in legacy_modules:
+            legacy = Imd.search([
+                ('module', '=', legacy_module),
+                ('name', '=', name),
+                ('model', '=', 'date.range.type'),
+            ], limit=1)
+            if not legacy:
+                continue
+            legacy.write({'module': 'l10n_se_date_ranges'})
+            adopted += 1
+            _logger.info(
+                'Adopted date range type %s from %s (res_id %s).',
+                name, legacy_module, legacy.res_id,
+            )
+            break
+
+    if adopted:
+        _logger.info(
+            'l10n_se_date_ranges: adopted %d date range type(s) from %s.',
+            adopted, ', '.join(legacy_modules),
+        )
