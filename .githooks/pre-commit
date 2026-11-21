@@ -12,13 +12,13 @@
 # Utgåvorna som matchas sätts av Salt vid deploy (PFILES_EDITIONS nedan).
 set -e
 
-PFILES_EDITIONS="17.0,18.0,19.0"
+PFILES_EDITIONS="17.0,18.0,19.0,20.0"
 
 V="${GEANY_PFILES_VERSION:-}"
 if [ -z "$V" ]; then
     b=$(git symbolic-ref --short -q HEAD || true)
     case "$b" in
-    17.0|18.0|19.0) V="$b" ;;
+    17.0|18.0|19.0|20.0) V="$b" ;;
     esac
 fi
 if [ -z "$V" ]; then
@@ -38,6 +38,7 @@ files=$(git diff --cached --name-only --diff-filter=ACM \
     | grep -E '\.p\.(py|js|csv|xml|sh|html|htm|kpf|xul)$' || true)
 [ -n "$files" ] || exit 0
 
+failed=0
 printf '%s\n' "$files" | while IFS= read -r f; do
     [ -f "$f" ] || continue
     o=$(printf '%s' "$f" | sed 's/\.p\././')
@@ -45,4 +46,31 @@ printf '%s\n' "$files" | while IFS= read -r f; do
     git add "$o"
     echo "pfiles: $f -> $o (VERSION=$V)"
 done
+
+# Expansionen kan ga igenom och anda ge ogiltig kod for utgaVan -- t.ex. en
+# 20.0-modul vars manifest laddar en security-CSV i gammalt format. Hooken
+# verifierade tidigare bara att preprocess returnerade 0, vilket inte sager
+# nagot om resultatet. Kor darfor repots egen grind for DEN har utgaVan och
+# namnge utgaVan i felet, sa att den som committar ser vilken utgaVa som brast
+# innan andringen nar CI.
+# Grinden finns antingen lokalt i repot (.github/pfiles-check.py) eller hamtas
+# delat (se docs/pfiles-ci.md). CI hamtar alltid den delade — ar den lokala
+# kopian kvar ar den aldre an sanningen. Valj den lokala nar den finns, sa att
+# ett repo som inte migrerat an grinden inte faller pa en grind den inte har.
+CHECK=""
+for c in .github/pfiles-check.py /usr/local/share/pfiles-ci/pfiles-check.py; do
+    [ -x "$c" ] && { CHECK="$c"; break; }
+done
+if [ -n "$CHECK" ] && command -v python3 >/dev/null 2>&1; then
+    if ! python3 "$CHECK" --version "$V" -q . >/tmp/pfiles-check.$$ 2>&1; then
+        echo "" >&2
+        echo "pfiles: utgaVan $V ar inte giltig for den har andringen:" >&2
+        grep -E '^\s*[x\u2717]' /tmp/pfiles-check.$$ >&2 || cat /tmp/pfiles-check.$$ >&2
+        rm -f /tmp/pfiles-check.$$
+        echo "" >&2
+        echo "pfiles: rattta felet ovan, eller kor med --no-verify om du vet vad du gor." >&2
+        exit 1
+    fi
+    rm -f /tmp/pfiles-check.$$
+fi
 exit 0
