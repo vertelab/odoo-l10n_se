@@ -238,11 +238,11 @@ def clean_text(text: str) -> str:
 def description(manifest: dict) -> str:
     summary = clean_text(manifest.get("summary") or "")
     if summary and len(summary) > 12:
-        return summary
+        return _clip(summary, DESC_MAX)
     desc = clean_text(manifest.get("description") or "")
     if desc:
-        return desc
-    return "(ingen beskrivning i manifestet)"
+        return _clip(desc, DESC_MAX)
+    return "(no description in manifest)"
 
 
 def blocker_text(module: str, edition: str) -> str:
@@ -256,21 +256,94 @@ def blocker_text(module: str, edition: str) -> str:
     return f"`{module}` ({repo}; saknas i {edition})"
 
 
-def _pf_text(pf: int) -> str:
-    return f"{pf} p-fil" if pf == 1 else f"{pf} p-filer"
+REPO_TYPES = (("odooext-OCA-", "OCA"), ("odoo-", "Vertel"))
+REASON_MAX = 55
+DESC_MAX = 80
 
 
-def status_cell(module: str, edition: str, manifest: dict, pf: int) -> str:
-    """De fyra fälten i fast ordning: finns · version · installerbar · p-filer."""
-    version = manifest.get("version", "?")
+def _clip(text: str, limit: int) -> str:
+    """Klipp en mening vid ordgräns — tabellen ska rymmas på en skärm."""
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit].rsplit(" ", 1)[0]
+    return cut.rstrip(".,;:") + " …"
+
+
+def repo_type(repo: str) -> str:
+    """Repo-typ för läsaren: OCA, Vertel eller core — inte fullt repnamn (D2)."""
+    if repo in ("kärnan", "core", ""):
+        return "core"
+    for prefix, label in REPO_TYPES:
+        if repo.startswith(prefix):
+            return label
+    return "Vertel"
+
+
+def blocked_by(dep: str, edition: str) -> str:
+    """`<modul> (<repo-typ>)` för ett saknat beroende (design D2)."""
+    klass, repo = classify(dep, edition)
+    if not klass:
+        return f"{dep} (?)"
+    return f"{dep} ({repo_type(repo)})"
+
+
+REASON_CODES = (
+    ("DEPRECATED", "deprecated"),
+    ("INTE PORTBAR", "unported"),
+    ("NOT PORTABLE", "unported"),
+    ("BLOCKERAD", "broken"),
+    ("BLOCKED", "broken"),
+)
+
+
+def disabled_reason(module: str, ref: str = "HEAD") -> str:
+    """Läs orsaken ur kommentarerna ovanför 'installable': False (design D3)."""
+    ref = _resolve_ref(ref)
+    src = git("show", f"{ref}:{module}/__manifest__.py")
+    lines = src.splitlines()
+    for i, line in enumerate(lines):
+        if re.search(r"'installable':\s*False", line):
+            inline = line.split("#", 1)[1].strip() if "#" in line else ""
+            above = []
+            j = i - 1
+            while j >= 0:
+                stripped = lines[j].strip()
+                if not stripped.startswith("#"):
+                    break
+                above.insert(0, stripped.lstrip("#").strip())
+                j -= 1
+            text = " ".join(above + ([inline] if inline else []))
+            text = re.sub(r"\s+", " ", text).strip()
+            if not text:
+                return "disabled: no reason in manifest"
+            code = "disabled"
+            for keyword, label in REASON_CODES:
+                if keyword in text.upper():
+                    code = label
+                    break
+            if ":" in text:
+                head, tail = text.split(":", 1)
+                tail = tail.strip()
+                if tail:
+                    return f"{code}: {_clip(tail, REASON_MAX)}"
+            return f"{code}: {_clip(text, REASON_MAX)}"
+    return "disabled: no reason in manifest"
+
+
+def status_cell(module: str, edition: str, manifest: dict) -> str:
+    """Ett värde: `ok` eller `blocked by <orsak>` (design D1)."""
     if manifest.get("installable", True) is False:
-        return f"✓ `{version}` avstängd · {_pf_text(pf)}"
+        return f"blocked by {disabled_reason(module)}"
 
     missing = [d for d in manifest.get("depends", []) if d not in edition_modules(edition)]
-    if missing:
-        blockers = "<br>".join(blocker_text(d, edition) for d in missing)
-        return f"✓ `{version}` ✗ · {_pf_text(pf)}<br>⚠ {blockers}"
-    return f"✓ `{version}` install · {_pf_text(pf)}"
+    if not missing:
+        return "ok"
+    parts = [blocked_by(d, edition) for d in missing]
+    if len(parts) > 2:
+        rest = len(parts) - 2
+        parts = parts[:2] + [f"+{rest} more"]
+    return "blocked by " + "; ".join(parts)
 
 
 def render(edition: str) -> str:
@@ -283,12 +356,12 @@ def render(edition: str) -> str:
         "",
         "Genererad av `scripts/porting-status.py` — handredigera inte.",
         "",
-        "| Modul | Funktionsbeskrivning | Porteringsstatus |",
+        "| Modul | Beskrivning | Porteringsstatus |",
         "|---|---|---|",
     ]
     for mod in mods:
         manifest = read_manifest(mod)
-        cell = status_cell(mod, edition, manifest, pfile_count(mod))
+        cell = status_cell(mod, edition, manifest)
         lines.append(f"| `{mod}` | {description(manifest)} | {cell} |")
     return "\n".join(lines) + "\n"
 
@@ -330,6 +403,31 @@ def write_section(path: str, body: str) -> None:
         fh.write(text)
 
 
+# ------------------------------------------------------------------- drift
+
+
+def check_drift(edition: str) -> int:
+    """Jämför summary för varje modul mellan utgåvorna (design D4)."""
+    editions = ("18.0", "19.0", "20.0")
+    drift = 0
+    for mod in module_dirs(edition):
+        texts = {}
+        for ed in editions:
+            try:
+                man = read_manifest(mod, ed)
+            except RuntimeError:
+                continue
+            texts[ed] = clean_text(man.get("summary") or "")
+        present = {k: v for k, v in texts.items() if v}
+        if len(set(present.values())) > 1:
+            drift += 1
+            print(f"DRIFT {mod}")
+            for ed, text in present.items():
+                print(f"  {ed}: {text}")
+    print(f"{edition}: {drift} avvikelser över {', '.join(editions)}")
+    return 1 if drift else 0
+
+
 # ------------------------------------------------------------------------- CLI
 
 
@@ -341,6 +439,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--deps", metavar="UTGÅVA", help="räkna moduler utan saknade beroenden")
     parser.add_argument("--blockers", metavar="UTGÅVA", help="lista unika blockerare")
     parser.add_argument("--markdown", action="store_true", help="skriv tabellen")
+    parser.add_argument("--check-drift", action="store_true",
+                        help="jämför summary mellan 18.0/19.0/20.0")
     parser.add_argument("--write", action="store_true", help="skriv om README.md")
     parser.add_argument("--edition", help="överstyr utgåvan (annars ur grennamnet)")
     args = parser.parse_args(argv)
@@ -403,6 +503,9 @@ def main(argv: list[str] | None = None) -> int:
             return 0
 
         body = render(edition)
+        if args.check_drift:
+            return check_drift(edition)
+
         if args.markdown:
             print(body)
             return 0

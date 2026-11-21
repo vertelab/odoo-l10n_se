@@ -42,45 +42,45 @@ Den här grenen är Odoo 20.0. Tabellen beskriver bara 20.0.
 
 Genererad av `scripts/porting-status.py` — handredigera inte.
 
-| Modul | Funktionsbeskrivning | Porteringsstatus |
+| Modul | Beskrivning | Porteringsstatus |
 |---|---|---|
-| `bank_statment_import_id` | Prevent duplicate bank statement imports by adding unique_import_id to CAMT parsers. | ✓ `1.0.0` ✗ · 0 p-filer<br>⚠ `account_statement_import_camt` (odooext-OCA-bank-statement-import; 20.0-grenen är tom) |
-| `l10n_se_account_bank_statement_import` | Base Module for Import of Swedish Account Bank Statements. | ✓ `1.0.1` ✗ · 0 p-filer<br>⚠ `account_statement_import_file` (odooext-OCA-bank-statement-import; 20.0-grenen är tom) |
-| `l10n_se_account_demo` | Swedish demo accounting data — journal entries, invoices, partners from Scalinq AB. | ✓ `2.8.0` install · 0 p-filer |
-| `l10n_se_account_financial_report` | Sweden - Account Financial Report. | ✓ `0.0.0` install · 1 p-fil |
-| `l10n_se_account_lms` | Swedish accounting education — system-independent theory with Odoo practice guides. | ✓ `1.0.3` install · 1 p-fil |
-| `l10n_se_account_payment_order` | Swedish Payment Order Configuration. | ✓ `1.0.0` ✗ · 0 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `l10n_se_account_payment_order_lms` | Svensk utbildning om betalorder, pending-state och bankavstämning via website_slides | ✓ `1.1.0` install · 1 p-fil |
-| `l10n_se_agi` | Swedish AGI (Arbetsgivardeklaration individuppgifter) and KU (Kontrolluppgifter) generation. | ✓ `1.0.1` install · 1 p-fil |
-| `l10n_se_bank` | Adds support for swedish bank account formats. | ✓ `0.1.0` install · 0 p-filer |
-| `l10n_se_bokslut` | Sweden - Year-End Closing and Annual Report. | ✓ `0.0.1` install · 1 p-fil |
-| `l10n_se_credit_transfer` | Generate ISO 20022 XML payment files for Swedish domestic credit transfers (SEK) | ✓ `1.0.0` ✗ · 1 p-fil<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom)<br>`account_banking_pain_base` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `l10n_se_date_ranges` | Provides fiscal year, quarter, and month date range types for Swedish localization. | ✓ `1.1.0` ✗ · 0 p-filer<br>⚠ `date_range` (odooext-OCA-server-ux; 20.0-grenen är tom) |
-| `l10n_se_extended` | Sweden - Chart of accounts. | ✓ `1.0.1` install · 1 p-fil |
-| `l10n_se_fiscal_position` | Adds support for Big Business around the globe!. | ✓ `0.1.0` install · 1 p-fil |
-| `l10n_se_intrastat_product` | Swedish Intrastat Product Declaration (SCB EDAS XML) | ✓ `1.0.0` ✗ · 1 p-fil<br>⚠ `intrastat_product` (finns inte i något addons-repo) |
-| `l10n_se_kommun` | Sweden Kommun - Chart of accounts. | ✓ `1.0.0` install · 0 p-filer |
-| `l10n_se_migration` | Migrate accounting data from Fortnox, Visma, Bokio to Odoo. | ✓ `1.0.4` install · 1 p-fil |
-| `l10n_se_mis` | Create Swedish MIS-reports. | ✓ `1.9.0` install · 1 p-fil |
-| `l10n_se_mis_k2` | Swedish MIS-reports for Aktiebolag enligt K2 (BFNAR 2016:10). | ✓ `1.4.0` install · 1 p-fil |
-| `l10n_se_mis_k2_filial` | Swedish MIS-reports for Filial till utländskt företag enligt K2 (BFNAR 2016:10) | ✓ `1.0.0` install · 1 p-fil |
-| `l10n_se_mis_k2_forening` | Swedish MIS-reports for Ekonomisk förening enligt K2 (BFNAR 2016:10) | ✓ `1.0.0` install · 1 p-fil |
-| `l10n_se_mis_k2_handelsbolag` | Swedish MIS-reports for Handels- och kommanditbolag enligt K2 (BFNAR 2016:10). | ✓ `1.0.0` install · 1 p-fil |
-| `l10n_se_mis_k3` | Swedish MIS-reports for Aktiebolag enligt K3 (BFNAR 2012:1). | ✓ `1.0.0` install · 1 p-fil |
-| `l10n_se_mis_k3_koncern` | Swedish MIS-reports for koncernredovisning enligt K3 (BFNAR 2012:1). | ✓ `1.0.0` install · 1 p-fil |
-| `l10n_se_mis_kommun` | Svenska Kommun MIS-reports. | ✓ `1.0.0` install · 0 p-filer |
-| `l10n_se_municipality_class` | A list of Swedish Municipalities. | ✓ `0.1.0` install · 1 p-fil |
-| `l10n_se_mynt` | Handles Mynt Transactions. | ✓ `1.0.0` ✗ · 1 p-fil<br>⚠ `account_statement_import_file` (odooext-OCA-bank-statement-import; 20.0-grenen är tom) |
-| `l10n_se_ocr` | Adds Swedish OCR number support with configurable control levels. | ✓ `1.0.0` install · 1 p-fil |
-| `l10n_se_ocr_reconcile` | Bridge module to match Swedish OCR numbers from bank feeds with invoices via OCA reconciliation. | ✓ `1.0.2` ✗ · 0 p-filer<br>⚠ `account_reconcile_oca` (odooext-OCA-account-reconcile; 20.0-grenen är tom) |
-| `l10n_se_payroll_lms` | Swedish payroll education — system-independent theory with Odoo practice guides. | ✓ `1.0.0` install · 0 p-filer |
-| `l10n_se_sie` | Module for importing SIE-files. | ✓ `1.0.0` install · 2 p-filer |
-| `l10n_se_sie_minimal` | Module for importing SIE-files. | ✓ `1.0.0` install · 2 p-filer |
-| `l10n_se_skatteverket_api` | Sweden - Shared Skatteverket API module. | ✓ `1.0.0` install · 1 p-fil |
-| `l10n_se_tax_account` | Sweden - Tax Account Reconciliation (Skattekontoavstämning) | ✓ `2.0.0` ✗ · 2 p-filer<br>⚠ `account_reconcile_oca` (odooext-OCA-account-reconcile; 20.0-grenen är tom)<br>`account_statement_reconcile_status` (odooext-OCA-account-reconcile; 20.0-grenen är tom) |
-| `l10n_se_tax_display_name` | Show tax description instead of name in selection fields and dropdowns. | ✓ `1.0.0` install · 0 p-filer |
-| `l10n_se_tax_report` | Sweden - Account Tax Report. | ✓ `0.0.0` install · 2 p-filer |
-| `l10n_se_tax_report_payment_order` | Payment order support for tax declarations. | ✓ `1.0.0` ✗ · 0 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `mis_builder_fixes` | Collection of fixes for mis_builder bugs. | ✓ `1.0.0` install · 0 p-filer |
-| `mis_cash_flow` | MIS Cash flow template. | ✓ `1.1.0` ✗ · 0 p-filer<br>⚠ `mis_builder_cash_flow` (odooext-OCA-account-financial-reporting; 20.0-grenen är tom) |
-| `mis_export_import` | Export and Import MIS Report templates with all related data (KPIs, Styles, Queries, etc.). | ✓ `0.0.0` install · 1 p-fil |
+| `bank_statment_import_id` | Prevent duplicate bank statement imports by adding unique_import_id to CAMT … | blocked by account_statement_import_camt (OCA) |
+| `l10n_se_account_bank_statement_import` | Base Module for Import of Swedish Account Bank Statements. | blocked by account_statement_import_file (OCA) |
+| `l10n_se_account_demo` | Swedish demo accounting data — journal entries, invoices, partners from Scalinq … | ok |
+| `l10n_se_account_financial_report` | Sweden - Account Financial Report. | ok |
+| `l10n_se_account_lms` | Swedish accounting education — system-independent theory with Odoo practice … | ok |
+| `l10n_se_account_payment_order` | Swedish Payment Order Configuration. | blocked by account_payment_order (OCA) |
+| `l10n_se_account_payment_order_lms` | Svensk utbildning om betalorder, pending-state och bankavstämning via … | ok |
+| `l10n_se_agi` | Swedish AGI (Arbetsgivardeklaration individuppgifter) and KU … | ok |
+| `l10n_se_bank` | Adds support for swedish bank account formats. | ok |
+| `l10n_se_bokslut` | Sweden - Year-End Closing and Annual Report. | ok |
+| `l10n_se_credit_transfer` | Generate ISO 20022 XML payment files for Swedish domestic credit transfers (SEK) | blocked by account_payment_order (OCA); account_banking_pain_base (OCA) |
+| `l10n_se_date_ranges` | Provides fiscal year, quarter, and month date range types for Swedish … | ok |
+| `l10n_se_extended` | Sweden - Chart of accounts. | ok |
+| `l10n_se_fiscal_position` | Adds support for Big Business around the globe!. | ok |
+| `l10n_se_intrastat_product` | Swedish Intrastat Product Declaration (SCB EDAS XML) | blocked by intrastat_product (core) |
+| `l10n_se_kommun` | Sweden Kommun - Chart of accounts. | ok |
+| `l10n_se_migration` | Migrate accounting data from Fortnox, Visma, Bokio to Odoo. | ok |
+| `l10n_se_mis` | Create Swedish MIS-reports. | ok |
+| `l10n_se_mis_k2` | Swedish MIS-reports for Aktiebolag enligt K2 (BFNAR 2016:10). | ok |
+| `l10n_se_mis_k2_filial` | Swedish MIS-reports for Filial till utländskt företag enligt K2 (BFNAR 2016:10) | ok |
+| `l10n_se_mis_k2_forening` | Swedish MIS-reports for Ekonomisk förening enligt K2 (BFNAR 2016:10) | ok |
+| `l10n_se_mis_k2_handelsbolag` | Swedish MIS-reports for Handels- och kommanditbolag enligt K2 (BFNAR 2016:10). | ok |
+| `l10n_se_mis_k3` | Swedish MIS-reports for Aktiebolag enligt K3 (BFNAR 2012:1). | ok |
+| `l10n_se_mis_k3_koncern` | Swedish MIS-reports for koncernredovisning enligt K3 (BFNAR 2012:1). | ok |
+| `l10n_se_mis_kommun` | Svenska Kommun MIS-reports. | ok |
+| `l10n_se_municipality_class` | A list of Swedish Municipalities. | ok |
+| `l10n_se_mynt` | Handles Mynt Transactions. | blocked by account_statement_import_file (OCA) |
+| `l10n_se_ocr` | Adds Swedish OCR number support with configurable control levels. | ok |
+| `l10n_se_ocr_reconcile` | Bridge module to match Swedish OCR numbers from bank feeds with invoices via … | blocked by account_reconcile_oca (OCA) |
+| `l10n_se_payroll_lms` | Swedish payroll education — system-independent theory with Odoo practice guides. | ok |
+| `l10n_se_sie` | Module for importing SIE-files. | ok |
+| `l10n_se_sie_minimal` | Module for importing SIE-files. | ok |
+| `l10n_se_skatteverket_api` | Sweden - Shared Skatteverket API module. | ok |
+| `l10n_se_tax_account` | Sweden - Tax Account Reconciliation (Skattekontoavstämning) | blocked by account_reconcile_oca (OCA); account_statement_reconcile_status (OCA) |
+| `l10n_se_tax_display_name` | Show tax description instead of name in selection fields and dropdowns. | ok |
+| `l10n_se_tax_report` | Sweden - Account Tax Report. | ok |
+| `l10n_se_tax_report_payment_order` | Payment order support for tax declarations. | blocked by account_payment_order (OCA) |
+| `mis_builder_fixes` | Collection of fixes for mis_builder bugs. | ok |
+| `mis_cash_flow` | MIS Cash flow template. | blocked by mis_builder_cash_flow (OCA) |
+| `mis_export_import` | Export and Import MIS Report templates with all related data (KPIs, Styles … | ok |
