@@ -173,6 +173,7 @@ Genererad av `scripts/porting-status.py` — handredigera inte.
 | `l10n_se_bokslut` | Sweden - Year-End Closing and Annual Report | ok |
 | `l10n_se_credit_transfer` | Generate ISO 20022 XML payment files for Swedish domestic credit transfers (SEK) | ok |
 | `l10n_se_currency_revaluation` | Unrealised revaluation of open monetary items in foreign currency. | ok |
+| `l10n_se_currency_riksbank` | Exchange rates from Sveriges Riksbank (REST API). | ok |
 | `l10n_se_date_ranges` | Swedish quarter and week date range types for account_fiscal_year_vrtl. | ok |
 | `l10n_se_default_k2` | Satt Vertels K2-kontoplan som standard for svenska foretag. | ok |
 | `l10n_se_default_k3` | Satt BAS K3-kontoplan som standard for svenska foretag. | ok |
