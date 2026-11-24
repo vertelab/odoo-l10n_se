@@ -45,8 +45,8 @@
                     </setting>
                     <setting id="intrastat_accessory_costs_se"
                              string="Inkludera biförkostnader"
-                             help="I Sverige ska frakt och försäkring ingå i det statistiska värdet.">
-                        <field name="intrastat_accessory_costs"/>
+                             help="Frakt, emballage och försäkring som säljs tillsammans med varorna ska alltid ingå i det statistiska värdet enligt svensk regel (SCB Handledning 2026, avsnitt 7). Inställningen slås på automatiskt och kan inte stängas av.">
+                        <field name="intrastat_accessory_costs" readonly="1"/>
                     </setting>
                     <setting id="intrastat_contact_se"
                              string="Kontaktperson för Intrastat"

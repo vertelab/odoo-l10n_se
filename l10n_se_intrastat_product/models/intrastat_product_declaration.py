@@ -62,6 +62,99 @@ class IntrastatProductDeclaration(models.Model):
         return domain
 
     # ----------------------------------------------------------
+    # Swedish reporting rules
+    # ----------------------------------------------------------
+
+    def _check_se_period(self):
+        """SCB collects Intrastat monthly — a declaration covers one calendar
+        month. Reject anything else before lines are gathered.
+        """
+        self.ensure_one()
+        if not self.year or not self.month:
+            raise UserError(
+                _("Both year and month must be set on the Intrastat declaration.")
+            )
+        try:
+            month = int(self.month)
+        except (TypeError, ValueError):
+            raise UserError(
+                _("The month '%(month)s' is not a valid month.", month=self.month)
+            )
+        if not 1 <= month <= 12:
+            raise UserError(
+                _("The month '%(month)s' is not a valid month.", month=self.month)
+            )
+
+    def action_gather(self):
+        """Validate the reporting period before gathering invoice lines."""
+        self._check_se_period()
+        return super().action_gather()
+
+    def draft2confirmed(self):
+        """Validate the reporting period before generating declaration lines."""
+        self._check_se_period()
+        return super().draft2confirmed()
+
+    def _gather_invoices(self, notedict):
+        """Swedish override: accessory costs are always included.
+
+        The OCA base reads company_id.intrastat_accessory_costs and, when that
+        flag is off, silently skips the freight/packaging/insurance lines
+        instead of folding them into the statistical value. In Sweden that is
+        not optional — the statistical value is the market value of the goods
+        at the Swedish border, delivery costs included (SCB Handledning 2026,
+        section 7).
+
+        The flag is a stored user setting on res.company. The Swedish rule has
+        no "off" position, so it is switched on here when it has been turned
+        off, and stays on. The post_init_hook sets it on install so this is
+        normally a no-op.
+        """
+        if not self.company_id.intrastat_accessory_costs:
+            self.company_id.intrastat_accessory_costs = True
+        return super()._gather_invoices(notedict)
+
+    def _handle_invoice_accessory_cost(
+        self,
+        invoice,
+        lines_current_invoice,
+        total_inv_accessory_costs_cc,
+        total_inv_product_cc,
+        total_inv_weight,
+    ):
+        """Distribute accessory costs pro-rata over the goods lines.
+
+        Only services flagged is_accessory_cost (freight, packaging,
+        insurance) reach this method — see _gather_invoices. A service that is
+        NOT flagged (consulting, travel, rebates, ...) is never part of the
+        goods value and must not be reported to Intrastat at all.
+        """
+        if not total_inv_accessory_costs_cc or not lines_current_invoice:
+            return
+
+        if total_inv_product_cc:
+            # pro-rata of the value
+            for ac_line_vals in lines_current_invoice:
+                ac_line_vals["amount_accessory_cost_company_currency"] = (
+                    total_inv_accessory_costs_cc
+                    * ac_line_vals["amount_company_currency"]
+                    / total_inv_product_cc
+                )
+        elif total_inv_weight:
+            # pro-rata of the weight
+            for ac_line_vals in lines_current_invoice:
+                ac_line_vals["amount_accessory_cost_company_currency"] = (
+                    total_inv_accessory_costs_cc
+                    * ac_line_vals["weight"]
+                    / total_inv_weight
+                )
+        else:
+            for ac_line_vals in lines_current_invoice:
+                ac_line_vals["amount_accessory_cost_company_currency"] = (
+                    total_inv_accessory_costs_cc / len(lines_current_invoice)
+                )
+
+    # ----------------------------------------------------------
     # Swedish region codes (län)
     # ----------------------------------------------------------
 

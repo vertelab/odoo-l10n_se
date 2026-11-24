@@ -3,10 +3,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import os
+from unittest.mock import patch
 
 from lxml import etree
 
 from odoo.tests import tagged
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
@@ -90,3 +92,90 @@ class TestIntrastatXml(TransactionCase):
         self.declaration.write({"declaration_type": "arrivals"})
         doc = etree.fromstring(self.declaration._generate_xml())
         self.assertEqual(doc.findtext(".//flowCode"), "A")
+
+
+@tagged("post_install", "-at_install")
+class TestSwedishRules(TransactionCase):
+    """Swedish reporting rules: monthly period and accessory costs."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.company
+        cls.declaration = cls.env["intrastat.product.declaration"].create(
+            {
+                "company_id": cls.company.id,
+                "declaration_type": "dispatches",
+                "year": 2026,
+                "month": "10",
+                "reporting_level": "standard",
+                "action": "replace",
+            }
+        )
+
+    def test_period_requires_year(self):
+        """year has no default and can be empty; the guard must catch it."""
+        with patch.object(type(self.declaration), "year", False):
+            with self.assertRaises(UserError):
+                self.declaration._check_se_period()
+
+    def test_period_rejects_invalid_month(self):
+        """month is a selection, so an invalid value can only arrive through
+        a bad import or a direct SQL write. _check_se_period must still guard.
+        """
+        self.declaration.month = "10"
+        with patch.object(
+            type(self.declaration), "month", "13"
+        ):
+            with self.assertRaises(UserError):
+                self.declaration._check_se_period()
+
+    def test_period_accepts_valid_month(self):
+        for month in ("01", "06", "12"):
+            self.declaration.month = month
+            self.declaration._check_se_period()  # must not raise
+
+    def test_accessory_costs_always_enabled(self):
+        """The Swedish rule has no off position — gathering forces it on."""
+        self.company.intrastat_accessory_costs = False
+        self.declaration._gather_invoices(
+            {"product": {}, "invoice": {}, "inv_origin": "", "invline_origin": ""}
+        )
+        self.assertTrue(
+            self.company.intrastat_accessory_costs,
+            "Accessory costs must be enabled for Swedish Intrastat",
+        )
+
+    def test_accessory_cost_distributed_pro_rata(self):
+        lines = [
+            {"amount_company_currency": 100.0, "weight": 10.0,
+             "amount_accessory_cost_company_currency": 0.0},
+            {"amount_company_currency": 300.0, "weight": 30.0,
+             "amount_accessory_cost_company_currency": 0.0},
+        ]
+        self.declaration._handle_invoice_accessory_cost(
+            self.env["account.move"], lines, 40.0, 400.0, 40.0
+        )
+        self.assertAlmostEqual(lines[0]["amount_accessory_cost_company_currency"], 10.0)
+        self.assertAlmostEqual(lines[1]["amount_accessory_cost_company_currency"], 30.0)
+
+    def test_accessory_cost_falls_back_to_weight(self):
+        lines = [
+            {"amount_company_currency": 0.0, "weight": 10.0,
+             "amount_accessory_cost_company_currency": 0.0},
+            {"amount_company_currency": 0.0, "weight": 30.0,
+             "amount_accessory_cost_company_currency": 0.0},
+        ]
+        self.declaration._handle_invoice_accessory_cost(
+            self.env["account.move"], lines, 40.0, 0.0, 40.0
+        )
+        self.assertAlmostEqual(lines[0]["amount_accessory_cost_company_currency"], 10.0)
+        self.assertAlmostEqual(lines[1]["amount_accessory_cost_company_currency"], 30.0)
+
+    def test_no_accessory_cost_is_noop(self):
+        lines = [{"amount_company_currency": 100.0, "weight": 10.0,
+                  "amount_accessory_cost_company_currency": 0.0}]
+        self.declaration._handle_invoice_accessory_cost(
+            self.env["account.move"], lines, 0.0, 100.0, 10.0
+        )
+        self.assertEqual(lines[0]["amount_accessory_cost_company_currency"], 0.0)
