@@ -220,6 +220,8 @@ class ResCurrencyRateProviderRiksbank(models.Model):
                 )
             return response.json()
 
+        # ``last_error`` is a Response, not an exception, so it cannot be
+        # chained with ``from``. Put the last status in the message instead.
         raise UserError(
             _(
                 "Riksbank kept answering 429 Too Many Requests for %(url)s "
@@ -227,7 +229,7 @@ class ResCurrencyRateProviderRiksbank(models.Model):
                 url=url,
                 attempts=RIKSBANK_MAX_ATTEMPTS,
             )
-        ) from last_error
+        )
 
     def _get_riksbank_retry_delay(self, response, attempt):
         """Seconds to wait: the hint in the 429 body, else a growing wait."""

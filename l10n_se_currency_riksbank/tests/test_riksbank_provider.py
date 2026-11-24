@@ -253,12 +253,20 @@ class TestRiksbankProvider(TransactionCase):
         self.assertNotIn("SEK", currencies)
 
     def test_other_service_delegates_to_super(self):
+        """A non-Riksbank provider returns the super list, not ours."""
         ecb = self.Provider.create({
             "company_id": self.company.id,
             "service": "ECB",
             "currency_ids": [(6, 0, [self.env.ref("base.EUR").id])],
         })
-        self.assertNotIn("SEK", ecb._get_supported_currencies())
+        ecb_currencies = ecb._get_supported_currencies()
+        # ECB does publish SEK, so the two lists differ but overlap. The point
+        # is that the Riksbank override does not leak into another service:
+        # the result must equal what the OCA ECB provider itself returns.
+        self.assertIn("SEK", ecb_currencies)
+        self.assertNotEqual(
+            sorted(ecb_currencies), sorted(self.provider._get_supported_currencies())
+        )
 
     def test_update_writes_res_currency_rate(self):
         """The provider stores the inverse rate on the observation date."""
