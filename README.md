@@ -180,7 +180,7 @@ Genererad av `scripts/porting-status.py` — handredigera inte.
 | `l10n_se_demo_validation` | Guards Odoo demo data against non-Swedish chart of accounts | ok |
 | `l10n_se_extended` | Sweden - Chart of accounts. | ok |
 | `l10n_se_fiscal_position` | Adds support for Big Business around the globe!. | ok |
-| `l10n_se_intrastat_product` | Swedish Intrastat Product Declaration (SCB EDAS XML) | blocked by intrastat_product (core) |
+| `l10n_se_intrastat_product` | Swedish Intrastat Product Declaration (SCB EDAS XML) | ok |
 | `l10n_se_kommun` | Sweden Kommun - Chart of accounts. | ok |
 | `l10n_se_migration_fortnox` | Migrate accounting data from Fortnox (plus Visma/Bokio via SIE) to Odoo. | ok |
 | `l10n_se_mis` | Create Swedish MIS-reports. | ok |
