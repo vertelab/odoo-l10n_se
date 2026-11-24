@@ -1,0 +1,236 @@
+<?xml version = "1.0" encoding = "ISO-8859-1"?>
+<xsd:schema xmlns:xsd = "http://www.w3.org/2001/XMLSchema">
+   <xsd:element name = "INSTAT">
+      <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref = "Envelope"/>
+          </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name = "Envelope">
+      <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref = "envelopeId"/>
+            <xsd:element ref = "DateTime"/>
+            <xsd:element ref = "Party" maxOccurs = "unbounded"/>
+            <xsd:element ref = "acknowlegementRequest" minOccurs = "0"/>
+            <xsd:element ref = "authentication" minOccurs = "0"/>
+            <xsd:element ref = "testIndicator" minOccurs = "0"/>
+            <xsd:element ref = "applicationReference" minOccurs = "0"/>
+            <xsd:element ref = "softwareUsed" minOccurs = "0"/>
+            <xsd:element ref = "Declaration" maxOccurs = "unbounded"/>
+            <xsd:element ref = "numberOfDeclarations" minOccurs = "0"/>
+          </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name = "envelopeId" type = "xsd:string"/>
+   <xsd:element name = "DateTime">
+      <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref = "date"/>
+            <xsd:element ref = "time" minOccurs = "0"/>
+          </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name = "Party">
+      <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref = "partyId"/>
+            <xsd:element ref = "partyName" minOccurs = "0"/>
+            <xsd:element ref = "interchangeAgreementId" minOccurs = "0"/>
+            <xsd:element ref = "password" minOccurs = "0"/>
+            <xsd:element ref = "Address" minOccurs = "0"/>
+            <xsd:element ref = "ContactPerson" minOccurs = "0"/>
+          </xsd:sequence>
+          <xsd:attribute name = "partyType" use = "required">
+            <xsd:simpleType>
+                <xsd:restriction base = "xsd:NMTOKEN">
+                     <xsd:enumeration value = "PSI"/>
+                     <xsd:enumeration value = "TDP"/>
+                     <xsd:enumeration value = "CC"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+          <xsd:attribute name = "partyRole" use = "required">
+            <xsd:simpleType>
+                <xsd:restriction base = "xsd:NMTOKEN">
+                     <xsd:enumeration value = "sender"/>
+                     <xsd:enumeration value = "receiver"/>
+                     <xsd:enumeration value = "PSI"/>
+                 </xsd:restriction>
+             </xsd:simpleType>
+           </xsd:attribute>
+       </xsd:complexType>
+     </xsd:element>
+     <xsd:element name = "partyId" type = "xsd:string"/>
+     <xsd:element name = "partyName" type = "xsd:string"/>
+     <xsd:element name = "interchangeAgreementId" type = "xsd:string"/>
+     <xsd:element name = "password" type = "xsd:string"/>
+     <xsd:element name = "Address">
+       <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element ref = "streetName" minOccurs = "0"/>
+             <xsd:element ref = "streetNumber" minOccurs = "0"/>
+             <xsd:element ref = "postalCode" minOccurs = "0"/>
+             <xsd:element ref = "cityName" minOccurs = "0"/>
+             <xsd:element ref = "countryName" minOccurs = "0"/>
+             <xsd:element ref = "phoneNumber" minOccurs = "0"/>
+             <xsd:element ref = "faxNumber" minOccurs = "0"/>
+             <xsd:element ref = "e-mail" minOccurs = "0"/>
+             <xsd:element ref = "URL" minOccurs = "0"/>
+           </xsd:sequence>
+       </xsd:complexType>
+     </xsd:element>
+     <xsd:element name = "streetName" type = "xsd:string"/>
+     <xsd:element name = "streetNumber" type = "xsd:string"/>
+     <xsd:element name = "postalCode" type = "xsd:string"/>
+     <xsd:element name = "cityName" type = "xsd:string"/>
+     <xsd:element name = "countryName" type = "xsd:string"/>
+     <xsd:element name = "phoneNumber" type = "xsd:string"/>
+     <xsd:element name = "faxNumber" type = "xsd:string"/>
+     <xsd:element name = "e-mail" type = "xsd:string"/>
+     <xsd:element name = "URL" type = "xsd:anyURI"/>
+     <xsd:element name = "ContactPerson">
+       <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element ref = "contactPersonName"/>
+             <xsd:element ref = "Address" minOccurs = "0"/>
+           </xsd:sequence>
+       </xsd:complexType>
+     </xsd:element>
+     <xsd:element name = "contactPersonName" type = "xsd:string"/>
+     <xsd:element name = "numberOfDeclarations" type = "xsd:integer"/>
+     <xsd:element name = "acknowlegementRequest" type = "xsd:boolean"/>
+     <xsd:element name = "authentication" type = "xsd:string"/>
+     <xsd:element name = "testIndicator" type = "xsd:boolean"/>
+     <xsd:element name = "applicationReference" type = "xsd:string"/>
+     <xsd:element name = "softwareUsed" type = "xsd:string"/>
+     <xsd:element name = "Declaration">
+       <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element ref = "declarationId"/>
+             <xsd:element ref = "DateTime" minOccurs = "0"/>
+             <xsd:element ref = "referencePeriod"/>
+             <xsd:element ref = "PSIId"/>
+             <xsd:element ref = "Function"/>
+             <xsd:element ref = "declarationTypeCode"/>
+             <xsd:element ref = "flowCode"/>
+             <xsd:element ref = "currencyCode"/>
+             <xsd:element ref = "firstLast" minOccurs = "0"/>
+             <xsd:element ref = "totalNetMass" minOccurs = "0"/>
+           <xsd:element ref = "totalInvoicedAmount" minOccurs = "0"/>
+           <xsd:element ref = "totalStatisticalValue" minOccurs = "0"/>
+           <xsd:element ref = "Item" minOccurs = "0" maxOccurs = "unbounded"/>
+           <xsd:element ref = "totalNumberLines" minOccurs = "0"/>
+           <xsd:element ref = "totalNumberDetailedLines" minOccurs = "0"/>
+         </xsd:sequence>
+     </xsd:complexType>
+   </xsd:element>
+   <xsd:element name = "declarationId" type = "xsd:string"/>
+   <xsd:element name = "referencePeriod" type = "xsd:string"/>
+   <xsd:element name = "PSIId" type = "xsd:string"/>
+   <xsd:element name = "Function">
+     <xsd:complexType>
+         <xsd:sequence>
+           <xsd:element ref = "functionCode"/>
+           <xsd:element ref = "previousDeclarationId" minOccurs = "0"/>
+         </xsd:sequence>
+     </xsd:complexType>
+   </xsd:element>
+   <xsd:element name = "functionCode" type = "xsd:string"/>
+   <xsd:element name = "previousDeclarationId" type = "xsd:string"/>
+   <xsd:element name = "declarationTypeCode" type = "xsd:string"/>
+   <xsd:element name = "flowCode" type = "xsd:string"/>
+   <xsd:element name = "currencyCode" type = "xsd:string"/>
+   <xsd:element name = "firstLast" type = "xsd:string"/>
+   <xsd:element name = "totalNumberLines" type = "xsd:integer"/>
+   <xsd:element name = "totalNetMass" type = "xsd:integer"/>
+   <xsd:element name = "totalInvoicedAmount" type = "xsd:decimal"/>
+   <xsd:element name = "totalStatisticalValue" type = "xsd:decimal"/>
+   <xsd:element name = "Item">
+     <xsd:complexType>
+         <xsd:sequence>
+           <xsd:element ref = "itemNumber"/>
+           <xsd:element ref = "CN8" minOccurs = "0"/>
+           <xsd:element ref = "goodsDescription" minOccurs = "0"/>
+           <xsd:element ref = "MSConsDestCode" minOccurs = "0"/>
+           <xsd:element ref = "countryOfOriginCode" minOccurs = "0"/>
+           <xsd:element ref = "netMass" minOccurs = "0"/>
+           <xsd:element ref = "quantityInSU" minOccurs = "0"/>
+           <xsd:element ref = "invoicedAmount" minOccurs = "0" maxOccurs = "2"/>
+           <xsd:element ref = "statisticalValue" minOccurs = "0"/>
+           <xsd:element ref = "invoiceNumber" minOccurs = "0"/>
+           <xsd:element ref = "partnerId" minOccurs = "0"/>
+           <xsd:element ref = "statisticalProcedureCode" minOccurs = "0"/>
+           <xsd:element ref = "NatureOfTransaction" minOccurs = "0"/>
+           <xsd:element ref = "modeOfTransportCode" minOccurs = "0"/>
+           <xsd:element ref = "regionCode" minOccurs = "0"/>
+           <xsd:element ref = "portAirportInlandportCode" minOccurs = "0"/>
+           <xsd:element ref = "DeliveryTerms" minOccurs = "0"/>
+           <xsd:element ref = "numberOfConsignments" minOccurs = "0"/>
+         </xsd:sequence>
+     </xsd:complexType>
+   </xsd:element>
+   <xsd:element name = "itemNumber" type = "xsd:integer"/>
+   <xsd:element name = "CN8">
+     <xsd:complexType>
+         <xsd:sequence>
+           <xsd:element ref = "CN8Code"/>
+           <xsd:element ref = "SUCode" minOccurs = "0"/>
+           <xsd:element ref = "additionalGoodsCode" minOccurs = "0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    <xsd:element name = "CN8Code" type = "xsd:string"/>
+    <xsd:element name = "SUCode" type = "xsd:string"/>
+    <xsd:element name = "additionalGoodsCode" type = "xsd:string"/>
+    <xsd:element name = "goodsDescription" type = "xsd:string"/>
+    <xsd:element name = "MSConsDestCode" type = "xsd:string"/>
+    <xsd:element name = "countryOfOriginCode" type = "xsd:string"/>
+    <xsd:element name = "netMass" type = "xsd:integer"/>
+    <xsd:element name = "quantityInSU" type = "xsd:integer"/>
+    <xsd:element name = "invoicedAmount">
+      <xsd:complexType>
+          <xsd:simpleContent>
+            <xsd:extension base = "xsd:decimal">
+                <xsd:attribute name = "currencyCode" use = "optional" type = "xsd:string"/>
+            </xsd:extension>
+          </xsd:simpleContent>
+      </xsd:complexType>
+    </xsd:element>
+    <xsd:element name = "statisticalValue" type = "xsd:decimal"/>
+    <xsd:element name = "invoiceNumber" type = "xsd:string"/>
+    <xsd:element name = "partnerId" type = "xsd:string"/>
+    <xsd:element name = "statisticalProcedureCode" type = "xsd:string"/>
+    <xsd:element name = "NatureOfTransaction">
+      <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref = "natureOfTransactionACode"/>
+            <xsd:element ref = "natureOfTransactionBCode" minOccurs = "0"/>
+          </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    <xsd:element name = "natureOfTransactionACode" type = "xsd:string"/>
+    <xsd:element name = "natureOfTransactionBCode" type = "xsd:string"/>
+    <xsd:element name = "modeOfTransportCode" type = "xsd:string"/>
+    <xsd:element name = "regionCode" type = "xsd:string"/>
+    <xsd:element name = "portAirportInlandportCode" type = "xsd:string"/>
+    <xsd:element name = "DeliveryTerms">
+      <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref = "TODCode"/>
+            <xsd:element ref = "locationCode" minOccurs = "0"/>
+            <xsd:element ref = "TODPlace" minOccurs = "0"/>
+            <xsd:element ref = "TODDetails" minOccurs = "0"/>
+          </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    <xsd:element name = "TODCode" type = "xsd:string"/>
+    <xsd:element name = "locationCode" type = "xsd:string"/>
+    <xsd:element name = "TODPlace" type = "xsd:string"/>
+    <xsd:element name = "TODDetails" type = "xsd:string"/>
+    <xsd:element name = "numberOfConsignments" type = "xsd:integer"/>
+    <xsd:element name = "totalNumberDetailedLines" type = "xsd:integer"/>
+    <xsd:element name = "date" type = "xsd:date"/>
+    <xsd:element name = "time" type = "xsd:time"/>
+</xsd:schema>

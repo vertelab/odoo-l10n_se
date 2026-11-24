@@ -95,128 +95,195 @@ class IntrastatProductDeclaration(models.Model):
             )
 
     def _generate_xml(self):
-        """Generate the SCB EDAS Intrastat XML file.
+        """Generate the SCB Intrastat XML file (INSTAT/XML version 6.2).
 
-        NOTE: the schema used here is the SCB EDAS Intrastat format, NOT the
-        Swedish Customs (Tullverket) WCO declaration schema. The previous
-        implementation emitted the customs schema, which SCB cannot read.
-        The element names below must be verified against the current SCB
-        "Intrastat - teknisk beskrivning" before the file is sent in.
+        Format: INSTAT/XML 6.2, the Eurostat Message Implementation Guideline
+        that SCB uses for Intrastat file transfer. The schema is instat62.xsd
+        and the envelope/declaration/item structure below follows it.
+
+        Reference: SCB "Bilaga 1: Riktlinjer for implementering av XML i
+        Intrastat" (static/spec/ in this module).
+
+        Note that SCB only accepts files from software certified by SCB
+        (Bilaga 2). Generating a well-formed file is not the same as being
+        cleared for submission.
         """
         self.ensure_one()
         company = self.company_id
         partner = company.partner_id
 
-        decl_date = fields.Date.context_today(self)
+        now = fields.Datetime.now()
+        org_nr = self._se_clean_org_nr()
 
-        root = etree.Element("IntrastatDeclaration")
+        root = etree.Element("INSTAT")
+        envelope = etree.SubElement(root, "Envelope")
 
-        # Reporting period and flow
-        etree.SubElement(root, "Period").text = f"{self.year}{int(self.month):02d}"
-        etree.SubElement(root, "Flow").text = (
-            "Arrivals" if self.declaration_type == "arrivals" else "Dispatches"
+        # --- Envelope -------------------------------------------------
+        etree.SubElement(envelope, "envelopeId").text = self._se_envelope_id()
+
+        dt = etree.SubElement(envelope, "DateTime")
+        etree.SubElement(dt, "date").text = now.date().isoformat()
+        etree.SubElement(dt, "time").text = now.strftime("%H:%M:%S")
+
+        # Sender: the declaring party (PSI = Party responsible for providing
+        # Statistical Information).
+        sender = etree.SubElement(envelope, "Party", partyType="PSI", partyRole="sender")
+        etree.SubElement(sender, "partyId").text = org_nr
+        etree.SubElement(sender, "partyName").text = company.name
+        if company.intrastat_contact_name or company.intrastat_contact_email:
+            contact = etree.SubElement(sender, "ContactPerson")
+            etree.SubElement(contact, "contactPersonName").text = (
+                company.intrastat_contact_name or company.name
+            )
+            if company.intrastat_contact_phone or company.intrastat_contact_email:
+                caddr = etree.SubElement(contact, "Address")
+                if company.intrastat_contact_phone:
+                    etree.SubElement(caddr, "phoneNumber").text = (
+                        company.intrastat_contact_phone
+                    )
+                if company.intrastat_contact_email:
+                    etree.SubElement(caddr, "e-mail").text = (
+                        company.intrastat_contact_email
+                    )
+
+        # Receiver: the collecting centre (SCB).
+        receiver = etree.SubElement(
+            envelope, "Party", partyType="CC", partyRole="receiver"
+        )
+        etree.SubElement(receiver, "partyId").text = "SCB"
+        etree.SubElement(receiver, "partyName").text = (
+            "Statistiska centralbyran (SCB)"
         )
 
-        # Declaring party
-        etree.SubElement(root, "ReportingEntityId").text = self._se_clean_org_nr()
-        etree.SubElement(root, "ReportingEntityName").text = company.name
-        if company.intrastat_contact_name:
-            etree.SubElement(root, "ContactPersonName").text = (
-                company.intrastat_contact_name
-            )
-        if company.intrastat_contact_phone:
-            etree.SubElement(root, "ContactPersonPhone").text = (
-                company.intrastat_contact_phone
-            )
-        if company.intrastat_contact_email:
-            etree.SubElement(root, "ContactPersonEmail").text = (
-                company.intrastat_contact_email
-            )
+        etree.SubElement(envelope, "softwareUsed").text = (
+            "SW=Odoo;l10n_se_intrastat_product;OS=Linux"
+        )
 
-        # Submission metadata
-        etree.SubElement(root, "DeclarationId").text = self._se_generate_declaration_id()
-        etree.SubElement(root, "SubmissionDate").text = decl_date.isoformat()
-        etree.SubElement(root, "ActionCode").text = (self.action or "replace").upper()
-        etree.SubElement(root, "RevisionNumber").text = str(self.revision)
+        # --- Declaration ----------------------------------------------
+        decl = etree.SubElement(envelope, "Declaration")
+        etree.SubElement(decl, "declarationId").text = self._se_generate_declaration_id()
+        etree.SubElement(decl, "referencePeriod").text = (
+            f"{self.year}-{int(self.month):02d}"
+        )
+        etree.SubElement(decl, "PSIId").text = org_nr
 
-        # Country of consignment / destination is the partner country per line
-        etree.SubElement(root, "CountryOfOrigin").text = "SE"
+        function = etree.SubElement(decl, "Function")
+        etree.SubElement(function, "functionCode").text = self._se_function_code()
 
-        # Declaration lines
-        items = etree.SubElement(root, "Items")
+        # 1 = full (detailed) declaration, 2 = simplified
+        etree.SubElement(decl, "declarationTypeCode").text = (
+            "1" if self.reporting_level == "extended" else "2"
+        )
+
+        # A = arrival, D = dispatch
+        etree.SubElement(decl, "flowCode").text = (
+            "A" if self.declaration_type == "arrivals" else "D"
+        )
+        etree.SubElement(decl, "currencyCode").text = "SEK"
+
+        # Declaration totals. instat62.xsd fixes the order:
+        # totalNetMass, totalInvoicedAmount, totalStatisticalValue, Item*,
+        # totalNumberLines, totalNumberDetailedLines.
+        etree.SubElement(decl, "totalNetMass").text = str(
+            int(round(sum(self.declaration_line_ids.mapped("weight"))))
+        )
+        etree.SubElement(decl, "totalStatisticalValue").text = "{:.2f}".format(
+            sum(self.declaration_line_ids.mapped("amount_company_currency"))
+        )
+
+        # --- Items ----------------------------------------------------
         for decl_line in self.declaration_line_ids:
-            item = etree.SubElement(items, "Item")
+            item = etree.SubElement(decl, "Item")
+            etree.SubElement(item, "itemNumber").text = str(decl_line.line_number)
 
-            etree.SubElement(item, "SequenceNumber").text = str(
-                decl_line.line_number
-            )
-
-            # Commodity code (CN8)
-            etree.SubElement(item, "CommodityCode").text = self._se_get_cn_code(
-                decl_line
-            )
-
-            # Partner member state
-            etree.SubElement(item, "PartnerCountry").text = (
-                decl_line.src_dest_country_code or ""
-            )
-
-            # Country of origin (arrivals only, extended reporting)
-            if decl_line.product_origin_country_code:
-                etree.SubElement(item, "CountryOfOrigin").text = (
-                    decl_line.product_origin_country_code
-                )
-
-            # Nature of transaction (EU two-digit code, e.g. "11")
-            etree.SubElement(item, "NatureOfTransaction").text = (
-                self._se_get_transaction_code(decl_line)
-            )
-
-            # Transport mode
-            if decl_line.transport_id:
-                etree.SubElement(item, "ModeOfTransport").text = (
-                    decl_line.transport_id.code or "9"
-                )
-
-            # Region of origin / destination (län) — company default,
-            # since the declaration line has no region field of its own.
-            if company.intrastat_region_id:
-                etree.SubElement(item, "RegionOfOrigin").text = (
-                    company.intrastat_region_id.code
-                )
-
-            # Statistical value in SEK, whole kronor, no currency element
-            etree.SubElement(item, "StatisticalValue").text = "{:.0f}".format(
-                decl_line.amount_company_currency
-            )
-
-            # Net mass in kg, with decimals
-            etree.SubElement(item, "NetMass").text = "{:.3f}".format(
-                decl_line.weight or 0.0
-            )
-
-            # Supplementary units
-            if decl_line.intrastat_unit_id and decl_line.suppl_unit_qty:
-                etree.SubElement(item, "SupplementaryQuantity").text = str(
-                    decl_line.suppl_unit_qty
-                )
-                etree.SubElement(item, "SupplementaryUnit").text = (
+            cn8 = etree.SubElement(item, "CN8")
+            etree.SubElement(cn8, "CN8Code").text = self._se_get_cn_code(decl_line)
+            if decl_line.intrastat_unit_id:
+                etree.SubElement(cn8, "SUCode").text = (
                     decl_line.intrastat_unit_id.name or ""
                 )
 
-            # Partner VAT number (dispatches)
-            if self.declaration_type == "dispatches" and decl_line.vat:
-                etree.SubElement(item, "PartnerVatNumber").text = decl_line.vat
+            # Partner member state
+            etree.SubElement(item, "MSConsDestCode").text = (
+                decl_line.src_dest_country_code or ""
+            )
 
-        tree = etree.ElementTree(root)
+            # Country of origin — arrivals only per the MIG
+            if (
+                self.declaration_type == "arrivals"
+                and decl_line.product_origin_country_code
+            ):
+                etree.SubElement(item, "countryOfOriginCode").text = (
+                    decl_line.product_origin_country_code
+                )
+
+            # netMass is xsd:integer in instat62.xsd — whole kilograms
+            etree.SubElement(item, "netMass").text = str(
+                int(round(decl_line.weight or 0.0))
+            )
+
+            if decl_line.intrastat_unit_id and decl_line.suppl_unit_qty:
+                etree.SubElement(item, "quantityInSU").text = str(
+                    int(round(decl_line.suppl_unit_qty))
+                )
+
+            etree.SubElement(item, "statisticalValue").text = "{:.2f}".format(
+                decl_line.amount_company_currency
+            )
+
+            nature = etree.SubElement(item, "NatureOfTransaction")
+            etree.SubElement(nature, "natureOfTransactionACode").text = (
+                self._se_get_transaction_code(decl_line)
+            )
+
+            if decl_line.transport_id:
+                etree.SubElement(item, "modeOfTransportCode").text = (
+                    decl_line.transport_id.code or "9"
+                )
+
+            if company.intrastat_region_id:
+                etree.SubElement(item, "regionCode").text = (
+                    company.intrastat_region_id.code
+                )
+
+            if decl_line.vat:
+                etree.SubElement(item, "partnerId").text = decl_line.vat
+
+        etree.SubElement(decl, "totalNumberLines").text = str(
+            len(self.declaration_line_ids)
+        )
+        etree.SubElement(decl, "totalNumberDetailedLines").text = str(
+            len(self.computation_line_ids)
+        )
+
+        etree.SubElement(envelope, "numberOfDeclarations").text = "1"
+
+        # ISO 8859-1 is what SCB specifies for the character representation.
         xml_bytes = BytesIO()
-        tree.write(
+        etree.ElementTree(root).write(
             xml_bytes,
-            encoding="UTF-8",
+            encoding="ISO-8859-1",
             xml_declaration=True,
             pretty_print=True,
         )
         return xml_bytes.getvalue()
+
+    def _se_envelope_id(self):
+        """Envelope identifier, AA followed by a sequence number."""
+        return "AA{:06d}".format(self.id or 0)
+
+    def _se_function_code(self):
+        """Map the OCA declaration action onto the INSTAT functionCode.
+
+        O = original, N = nil return, D = delete, R = replace, M = modify.
+        """
+        mapping = {
+            "replace": "R",
+            "append": "O",
+            "nihil": "N",
+            "delete": "D",
+        }
+        return mapping.get(self.action or "", "O")
 
     def _se_get_cn_code(self, decl_line):
         """Return the 8-digit CN commodity code, padded if short."""
