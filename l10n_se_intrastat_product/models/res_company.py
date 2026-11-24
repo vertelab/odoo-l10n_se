@@ -54,6 +54,15 @@ class ResCompany(models.Model):
         string="Intrastat Contact Email",
         help="Email for SCB Intrastat enquiries.",
     )
+    intrastat_remind_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        relation="res_company_intrastat_remind_user_rel",
+        column1="company_id",
+        column2="user_id",
+        string="Intrastat Reminder Users",
+        help="Users who are reminded when the Intrastat declaration for the "
+        "month is not yet done.",
+    )
 
     @api.model
     def _get_intrastat_arrivals_threshold(self):

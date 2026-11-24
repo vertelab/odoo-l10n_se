@@ -5,59 +5,53 @@
 -->
 <odoo>
 
-    <!-- Extend company settings with Swedish Intrastat fields -->
+    <!--
+      Swedish Intrastat settings block.
+
+      IMPORTANT: anchor on block[@name='default_taxes_setting_container'], which
+      exists in Odoo 18 account.res_config_settings_view_form. The previous
+      anchor (block[@id='storno']) does not exist in 18.0 and made the whole
+      view fail to apply, which is why the module could never be installed.
+    -->
     <record id="view_intrastat_res_config_settings_se" model="ir.ui.view">
         <field name="name">intrastat.res.config.settings.form.se</field>
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="account.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <block id="storno" position="after">
-                <block id="intrastat_se" title="Intrastat (SCB)">
-                    <setting id="intrastat_arrivals">
-                        <div class="content-group">
-                            <div class="row mt16">
-                                <label for="intrastat_arrivals" class="col-lg-5 o_light_label"/>
-                                <field name="intrastat_arrivals"/>
-                            </div>
-                        </div>
+            <xpath expr="//block[@name='default_taxes_setting_container']" position="after">
+                <block title="Intrastat (SCB)" id="intrastat_se" groups="account.group_account_user">
+                    <div class="text-muted mb16">
+                        Månadsvis rapportering till SCB via EDAS XML.
+                    </div>
+                    <setting id="intrastat_arrivals_se"
+                             string="Införsel (Arrivals)"
+                             help="Tröskelvärde för införsel: standard ≥ 12 MSEK, utökad ≥ 550 MSEK.">
+                        <field name="intrastat_arrivals"/>
                     </setting>
-                    <setting id="intrastat_dispatches">
-                        <div class="content-group">
-                            <div class="row mt16">
-                                <label for="intrastat_dispatches" class="col-lg-5 o_light_label"/>
-                                <field name="intrastat_dispatches"/>
-                            </div>
-                        </div>
+                    <setting id="intrastat_dispatches_se"
+                             string="Utförsel (Dispatches)"
+                             help="Tröskelvärde för utförsel: standard ≥ 5 MSEK, utökad ≥ 275 MSEK.">
+                        <field name="intrastat_dispatches"/>
                     </setting>
-                    <setting id="intrastat_region">
-                        <div class="content-group">
-                            <div class="row mt16">
-                                <label for="intrastat_region_id" class="col-lg-5 o_light_label"/>
-                                <field name="intrastat_region_id"/>
-                            </div>
-                        </div>
+                    <setting id="intrastat_region_se"
+                             string="Region (Län)"
+                             help="Standardlän som används när ingen region kan härledas från order eller lagerställe.">
+                        <field name="intrastat_region_id"/>
                     </setting>
-                    <setting id="intrastat_transport">
-                        <div class="content-group">
-                            <div class="row mt16">
-                                <label for="intrastat_transport_id" class="col-lg-5 o_light_label"/>
-                                <field name="intrastat_transport_id"/>
-                            </div>
-                        </div>
+                    <setting id="intrastat_transport_se"
+                             string="Transportsätt"
+                             help="Standardtransportsätt för deklarationen.">
+                        <field name="intrastat_transport_id"/>
                     </setting>
-                    <setting id="intrastat_accessory_costs_se">
-                        <div class="content-group">
-                            <div class="row mt16">
-                                <label for="intrastat_accessory_costs" class="col-lg-5 o_light_label"/>
-                                <field name="intrastat_accessory_costs"/>
-                            </div>
-                        </div>
+                    <setting id="intrastat_accessory_costs_se"
+                             string="Inkludera biförkostnader"
+                             help="I Sverige ska frakt och försäkring ingå i det statistiska värdet.">
+                        <field name="intrastat_accessory_costs"/>
                     </setting>
-                    <setting id="intrastat_contact_se">
+                    <setting id="intrastat_contact_se"
+                             string="Kontaktperson för Intrastat"
+                             help="Kontaktuppgifter som SCB kan använda vid frågor om deklarationen. E-post krävs för att kunna generera XML-filen.">
                         <div class="content-group">
-                            <div class="row mt16">
-                                <h3>Kontaktperson för Intrastat</h3>
-                            </div>
                             <div class="row mt16">
                                 <label for="intrastat_contact_name" class="col-lg-5 o_light_label"/>
                                 <field name="intrastat_contact_name"/>
@@ -72,33 +66,19 @@
                             </div>
                         </div>
                     </setting>
-                    <setting id="intrastat_remind_users_se">
-                        <div class="content-group">
-                            <div class="row mt16">
-                                <label for="intrastat_remind_user_ids" class="col-lg-5 o_light_label"/>
-                                <field name="intrastat_remind_user_ids" widget="many2many_tags"/>
-                            </div>
-                        </div>
+                    <setting id="intrastat_remind_users_se"
+                             string="Påminnelseanvändare"
+                             help="Användare som får påminnelse när deklarationen för månaden inte är klar.">
+                        <field name="intrastat_remind_user_ids" widget="many2many_tags"/>
                     </setting>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Tröskelvärden för Intrastat:</strong><br/>
+                        Införsel: Standard ≥ 12 MSEK, Utökad ≥ 550 MSEK<br/>
+                        Utförsel: Standard ≥ 5 MSEK, Utökad ≥ 275 MSEK<br/>
+                        Rapportering sker månadsvis till SCB via EDAS XML.
+                    </div>
                 </block>
-            </block>
-        </field>
-    </record>
-
-    <!-- Add threshold info to settings -->
-    <record id="view_intrastat_res_config_settings_info" model="ir.ui.view">
-        <field name="name">intrastat.res.config.settings.info.se</field>
-        <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
-        <field name="arch" type="xml">
-            <block id="intrastat_se" position="inside">
-                <div class="alert alert-info" role="alert">
-                    <strong>Tröskelvärden för Intrastat 2024:</strong><br/>
-                    Införsel: Standard ≥ 12 MSEK, Utökad ≥ 550 MSEK<br/>
-                    Utförsel: Standard ≥ 5 MSEK, Utökad ≥ 275 MSEK<br/>
-                    Rapportering sker månadsvis till SCB via EDAS XML.
-                </div>
-            </block>
+            </xpath>
         </field>
     </record>
 
