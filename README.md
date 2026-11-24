@@ -161,7 +161,7 @@ Genererad av `scripts/porting-status.py` — handredigera inte.
 |---|---|---|
 | `bank_statment_import_id` | Prevent duplicate bank statement imports by adding unique_import_id to CAMT … | ok |
 | `l10n_se_account_bank_statement_import` | Base Module for Import of Swedish Account Bank Statements. | ok |
-| `l10n_se_account_closing` | Swedish K2 closing template for OCA account_fiscal_year_closing | blocked by account_fiscal_year_closing (core) |
+| `l10n_se_account_closing` | Swedish K2 closing template for OCA account_fiscal_year_closing | ok |
 | `l10n_se_account_demo` | Swedish demo accounting data — journal entries, invoices, partners from Scalinq … | ok |
 | `l10n_se_account_financial_report` | Sweden - Account Financial Report | ok |
 | `l10n_se_account_lms` | Swedish accounting education — system-independent theory with Odoo practice … | ok |
