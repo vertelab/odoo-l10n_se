@@ -486,8 +486,18 @@ class AccountDeclarationLine(models.Model):
         help='Value of services supplied')
     pc_purchasers_vat = fields.Char(
         string='Skatt / VAT', related='partner_id.vat')
+    # The buyer name must come from the commercial entity, never from the raw
+    # ``name`` of the partner on the invoice.
+    #
+    # An invoice/delivery address (``res.partner.type`` in invoice, delivery,
+    # other) carries no name of its own by design: Odoo's
+    # ``_get_complete_name()`` composes "Company, Invoice Address" from the
+    # parent. Reading ``partner_id.name`` therefore yields an empty string for
+    # every invoice addressed to such a contact, while ``partner_id.vat`` is
+    # inherited and does show -- the declaration line then prints a VAT number
+    # with no buyer name (T/12519).
     pc_name = fields.Char(
-        string='Name', related='partner_id.name')
+        string='Name', related='partner_id.commercial_partner_id.name')
 
     def show_invoice_lines(self):
         """Show invoice lines for this partner within the PC period.
@@ -504,7 +514,9 @@ class AccountDeclarationLine(models.Model):
             ('partner_id', '=', self.partner_id.id),
         ])
         action.update({
-            'display_name': _('Verifikat - %s') % self.partner_id.name,
+            'display_name': _('Verifikat - %s')
+            % (self.partner_id.commercial_partner_id.name
+               or self.partner_id.display_name),
             'domain': [('move_id', 'in', moves.ids)],
             'context': {
                 'group_by': ['partner_id'],

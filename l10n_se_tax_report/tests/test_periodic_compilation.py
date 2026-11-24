@@ -483,3 +483,49 @@ class TestPeriodicCompilation(common.TransactionCase):
         self.assertEqual(
             pc.line_ids.pc_supplied_goods, 10000.0,
             "Should not double-count: 10*1000 = 10000, not 20000")
+
+    def test_pc_name_shows_buyer_company_for_invoice_address(self):
+        """T/12519 — the buyer name must not be empty for an invoice address.
+
+        An invoice address (``type='invoice'``) carries no ``name`` of its own:
+        Odoo composes "Company, Invoice Address" in ``complete_name``. Reading
+        the raw ``partner_id.name`` therefore printed a VAT number with no
+        buyer name. ``pc_name`` must resolve through the commercial entity.
+        """
+        company = self.Partner.create({
+            'name': 'DANSK VVS Import A/S',
+            'is_company': True,
+            'country_id': self.env.ref('base.dk').id,
+            'vat': 'DK73184517',
+        })
+        invoice_address = self.Partner.create({
+            'parent_id': company.id,
+            'type': 'invoice',
+            'country_id': self.env.ref('base.dk').id,
+        })
+        # The premise of the bug: the address itself has no name, but does
+        # inherit the VAT number.
+        self.assertFalse(invoice_address.name)
+        self.assertEqual(invoice_address.vat, 'DK73184517')
+
+        prod = self._create_product('EU Goods', self.taxes['vteu'])
+        self._create_invoice(
+            invoice_address, 'out_invoice', prod, 10, 1000,
+            account=self.income_account,
+        )
+
+        pc = self.PeriodicCompilation.create({
+            'name': 'Invoice Address Name',
+            'date_start': date(TEST_YEAR, 6, 1),
+            'date_stop': date(TEST_YEAR, 6, 30),
+        })
+        pc.calculate()
+        self.assertEqual(len(pc.line_ids), 1)
+        line = pc.line_ids
+        self.assertEqual(
+            line.pc_name, 'DANSK VVS Import A/S',
+            "pc_name must fall back to the commercial entity when the "
+            "invoice address has no name of its own")
+        self.assertEqual(
+            line.pc_purchasers_vat, 'DK73184517',
+            "the VAT number must still be shown")
