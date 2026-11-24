@@ -8,7 +8,7 @@ from io import BytesIO
 from lxml import etree
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, release
 from odoo.exceptions import RedirectWarning, UserError
 
 _logger = logging.getLogger(__name__)
@@ -248,9 +248,7 @@ class IntrastatProductDeclaration(models.Model):
             "Statistiska centralbyran (SCB)"
         )
 
-        etree.SubElement(envelope, "softwareUsed").text = (
-            "SW=Odoo;l10n_se_intrastat_product;OS=Linux"
-        )
+        etree.SubElement(envelope, "softwareUsed").text = self._se_software_used()
 
         # --- Declaration ----------------------------------------------
         decl = etree.SubElement(envelope, "Declaration")
@@ -377,6 +375,16 @@ class IntrastatProductDeclaration(models.Model):
             "delete": "D",
         }
         return mapping.get(self.action or "", "O")
+
+    def _se_software_used(self):
+        """Return the softwareUsed string in the format SCB requires.
+
+        Bilaga 2 fixes the format as SW=softwarename;VER=softwareversion, and
+        the string in the file must match the one the certification was
+        granted for. The version is read from the running Odoo series so the
+        same code produces the right string on 18.0, 19.0 and 20.0.
+        """
+        return f"SW=Odoo;VER={release.series}"
 
     def _se_get_cn_code(self, decl_line):
         """Return the 8-digit CN commodity code, padded if short."""

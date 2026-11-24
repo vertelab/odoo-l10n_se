@@ -88,6 +88,18 @@ class TestIntrastatXml(TransactionCase):
         doc = etree.fromstring(self.declaration._generate_xml())
         self.assertEqual(doc.findtext(".//natureOfTransactionACode"), "11")
 
+    def test_software_used_matches_bilaga2_format(self):
+        """SCB certifies the softwareUsed string — it must follow
+        SW=softwarename;VER=softwareversion (Bilaga 2) and carry the running
+        Odoo series, so 18.0/19.0/20.0 each produce their own string.
+        """
+        from odoo import release
+
+        doc = etree.fromstring(self.declaration._generate_xml())
+        value = doc.findtext(".//softwareUsed")
+        self.assertEqual(value, f"SW=Odoo;VER={release.series}")
+        self.assertRegex(value, r"^SW=[^;]+;VER=\d+\.\d+$")
+
     def test_arrivals_flow_code(self):
         self.declaration.write({"declaration_type": "arrivals"})
         doc = etree.fromstring(self.declaration._generate_xml())
