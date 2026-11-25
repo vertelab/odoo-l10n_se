@@ -73,24 +73,31 @@ class TestTaxAccountTransfer(common.TransactionCase):
             lambda line: line.account_id == account).mapped('balance'))
 
     def test_vat_debt_moves_to_tax_account(self):
-        """VAT to pay: 2650 is credited, 1630 is debited."""
+        """VAT to pay: the debt leaves 2650 and lands on 1630.
+
+        The settlement entry credits 2650 (liability grows), so the transfer
+        must debit it again to clear it, and credit 1630. Measured against
+        the entries already posted in production.
+        """
         declaration = self._declaration(10000)
         declaration._create_tax_account_transfer()
 
         self.assertTrue(declaration.skattekonto_move_id,
                         'A transfer entry must be created')
-        # 2650 is a liability: credit -> negative balance
-        self.assertEqual(self._balance(self.vat_debt, declaration), -10000)
-        # 1630 is a liability: debit -> positive balance
-        self.assertEqual(self._balance(self.tax_account, declaration), 10000)
+        # 2650 is cleared: debit -> positive balance
+        self.assertEqual(self._balance(self.vat_debt, declaration), 10000)
+        # 1630 carries the debt: credit -> negative balance
+        self.assertEqual(self._balance(self.tax_account, declaration), -10000)
 
     def test_refund_moves_to_vat_receivable(self):
-        """VAT refund: 1650 is debited, 1630 is credited."""
+        """VAT refund: the receivable leaves 2650 for the tax account."""
         declaration = self._declaration(-5000)
         declaration._create_tax_account_transfer()
 
-        self.assertEqual(self._balance(self.vat_receivable, declaration), 5000)
-        self.assertEqual(self._balance(self.tax_account, declaration), -5000)
+        # 2650 carries a receivable: credit -> negative balance
+        self.assertEqual(self._balance(self.vat_receivable, declaration), -5000)
+        # 1630 is debited: positive balance
+        self.assertEqual(self._balance(self.tax_account, declaration), 5000)
 
     def test_transfer_is_idempotent(self):
         """Calling the transfer twice must not double-book."""
@@ -100,7 +107,7 @@ class TestTaxAccountTransfer(common.TransactionCase):
         declaration._create_tax_account_transfer()
 
         self.assertEqual(declaration.skattekonto_move_id, first_move)
-        self.assertEqual(self._balance(self.tax_account, declaration), 10000)
+        self.assertEqual(self._balance(self.tax_account, declaration), -10000)
 
     def test_zero_vat_creates_no_transfer(self):
         """Nothing to pay and nothing to reclaim -> no entry."""

@@ -75,147 +75,213 @@ class account_vat_declaration(models.Model):
                 decl.vat_momsingavdr = abs(int(round(amounts.get('se_48', 0.0))))
                 decl.vat_momsbetala = decl.vat_momsutg - decl.vat_momsingavdr
 
+    # The VAT boxes that make up the settlement entry. Each entry is
+    # (report line code, sign) where sign +1 means the box is a credit
+    # (output VAT, i.e. a liability) and -1 means a debit (input VAT).
+    #
+    # The report is the single source of truth: the same account.report line
+    # that renders the box on screen also produces the move line, so the
+    # declaration and the journal entry can never disagree.
+    SETTLEMENT_BOXES = (
+        ('se_10', 1),   # Utgående moms 25 %
+        ('se_11', 1),   # Utgående moms 12 %
+        ('se_12', 1),   # Utgående moms 6 %
+        ('se_30', 1),   # Utgående moms omvänd skattskyldighet 25 %
+        ('se_31', 1),   # Utgående moms omvänd skattskyldighet 12 %
+        ('se_32', 1),   # Utgående moms omvänd skattskyldighet 6 %
+        ('se_48', -1),  # Ingående moms att dra av
+    )
+
+    def _get_settlement_lines(self):
+        """{report line code: (account, amount)} for the settlement entry.
+
+        Reads the boxes straight from the Swedish tax report (account.report),
+        so no KPI translation layer is involved. Amounts are signed the way
+        they belong in the journal entry: positive = credit.
+        """
+        self.ensure_one()
+        report = self._get_tax_report()
+        options = {
+            'date': {
+                'date_from': fields.Date.to_string(self.date_start) if self.date_start else None,
+                'date_to': fields.Date.to_string(self.date_stop) if self.date_stop else None,
+            },
+            'company_ids': [self.company_id.id],
+            'unfold_all': True,
+        }
+        warnings = {}
+        amounts = {}
+        for line in report._get_lines(options, warnings=warnings):
+            code = line.get('code')
+            if not code:
+                continue
+            columns = line.get('columns') or []
+            if columns:
+                amounts[code] = float(columns[0].get('no_format') or 0.0)
+        return amounts
+
     def calculate(self):
         if self.state not in ['draft']:
             raise UserError(_("Du kan inte beräkna i denna status, ändra till utkast."))
-        if self.state in ['draft']:
-            self.state = 'confirmed'
+        self.state = 'confirmed'
 
         if not self.env.company.vat_declaration_frequency:
             raise UserError(_(
                 "VAT declaration frequency is not configured. "
                 "Set it in Accounting → Configuration → Settings."))
-#            self.generated_mis_report_id.active = True
 
-        # ~ mark moves used to build the mis report, i should probebly save the moves on the report somewhere at some. Not a problem atm.
-        move_line_recordset= self.get_move_line_recordset([])
+        # Tag every move that contributes to this declaration, so the
+        # drill-down and the declaration stay linked.
+        move_line_recordset = self.get_move_line_recordset([])
         move_recordset = self.get_move_recordset_from_line_recordset(move_line_recordset)
         for move in move_recordset:
-            if not move.vat_declaration_id :
+            if not move.vat_declaration_id:
                 move.vat_declaration_id = self.id
             else:
-                _logger.warn(_('Move %s is already assigned to %s' % (move.name, move.vat_declaration_id.name) ))
-        
+                _logger.warning(
+                    'Move %s is already assigned to %s',
+                    move.name, move.vat_declaration_id.name)
+
         for move in self.move_ids:
-            move.full_reconcile_id = move.line_ids.mapped('full_reconcile_id')[0].id if len(move.line_ids.mapped('full_reconcile_id')) > 0 else None
-        
+            reconcile = move.line_ids.mapped('full_reconcile_id')
+            move.full_reconcile_id = reconcile[0].id if reconcile else None
+
         self.create_eskd_xml_file()
 
-        moms_journal = self.env['account.journal'].search([('company_id','=',self.company_id.id),('name','=','Momsjournal'),('type','=','general'),('code','=','MOMS')])
+        moms_journal = self.env['account.journal'].search([
+            ('company_id', '=', self.company_id.id),
+            ('name', '=', 'Momsjournal'),
+            ('type', '=', 'general'),
+            ('code', '=', 'MOMS'),
+        ], limit=1)
         if not moms_journal:
-            raise UserError('Configure your tax declaration journal! It needs to be named Tax Journal, be of the general/miscellaneous type, and have TAX as the code.')
-        else:
-            # ~ moms_journal = self.env['account.journal'].browse(int(moms_journal_id))
-            momsskuld = moms_journal.default_credit_account_id
-            momsfordran = moms_journal.default_debit_account_id
-            if momsskuld and momsfordran:
-                entry = self.env['account.move'].create({
-                    'journal_id': moms_journal.id,
-                    #'period_id': self.period_start.id,
-                    # Book on the last day of the declared period, not on the
-                    # day the button was clicked. Posting on today() put the
-                    # whole VAT settlement in the wrong month whenever a
-                    # declaration was calculated after the period closed.
-                    'date': self.date_stop or fields.Date.today(),
-                    'ref': u'Momsdeklaration',
-                    'partner_id': self.env.ref(
-                        'l10n_se_tax_report.res_partner-SKV').id,
+            raise UserError(_(
+                'Configure your tax declaration journal! It needs to be named '
+                'Momsjournal, be of the general/miscellaneous type, and have '
+                'MOMS as the code.'))
+        momsskuld = moms_journal.default_credit_account_id
+        momsfordran = moms_journal.default_debit_account_id
+        if not (momsskuld and momsfordran):
+            raise UserError(_(
+                'You are missing either a credit account or a debit account on '
+                'the VAT journal, please add these'))
+
+        amounts = self._get_settlement_lines()
+
+        # One move line per account behind the boxes. A box may be fed by
+        # several accounts (reverse charge posts to 2614/2624/2634), so the
+        # lines are grouped by account and rounded per account, which is what
+        # the declaration itself does.
+        per_account = {}
+        # A reverse-charge tax posts on both 2614 and 2645, and the same move
+        # line can therefore be reached from more than one box (se_30 output
+        # side, se_48 input side). Counting it twice doubled the amount.
+        seen_lines = set()
+        for code, sign in self.SETTLEMENT_BOXES:
+            box_amount = amounts.get(code, 0.0)
+            if round(box_amount, 2) == 0:
+                continue
+            for line in self._get_lines_for_box(code):
+                if not line.account_id:
+                    continue
+                if line.id in seen_lines:
+                    continue
+                seen_lines.add(line.id)
+                key = line.account_id.id
+                per_account.setdefault(key, {
+                    'account': line.account_id,
+                    'name': line.account_id.name,
+                    'balance': 0.0,
                 })
-                if entry:
-                    move_line_list = []
-                    moms_diff = 0.0
-                    rounding_diff = 0.0
-                    all_lines_dict = {}
+                # credit - debit gives the natural sign of the line on that
+                # account.
+                per_account[key]['balance'] += (line.credit - line.debit)
 
-                    # Process Input VAT (MomsIngAvdr) - Reversal as Credits
-                    momsIngMovesRecordSet = self.get_move_line_recordset(['MomsIngAvdr'])
-                    
-                    # Process Output VAT - Reversal as Debits
-                    vat_momsutg_list = ['MomsUtgHog','MomsUtgMedel','MomsUtgLag','MomsInkopUtgHog','MomsInkopUtgMedel','MomsInkopUtgLag','MomsImportUtgHog','MomsImportUtgMedel','MomsImportUtgLag']
-                    momsUtgMovesRecordSet = self.get_move_line_recordset(vat_momsutg_list)
-                    
-                    # Deduplicate: tax lines (e.g. TFEU/VFEU/TFFU on 2614/2624/2634)
-                    # appear in both MomsIngAvdr and MomsInkopUtg* KPI groups.
-                    # Only process them once to avoid double-counting in the journal entry.
-                    moms_ing_line_ids = set(momsIngMovesRecordSet.ids)
-                    moms_utg_line_ids = set(momsUtgMovesRecordSet.ids)
-                    overlap_ids = moms_ing_line_ids & moms_utg_line_ids
-                    
-                    for line in momsIngMovesRecordSet:
-                        if line.id in overlap_ids:
-                            continue  # Skip: will be processed in output VAT loop
-                        acc_id = line.account_id.id
-                        if acc_id not in all_lines_dict:
-                            all_lines_dict[acc_id] = {'name': line.account_id.name, 'balance': 0.0}
-                        # Input VAT is usually Debit, so balance (credit - debit) will be negative
-                        all_lines_dict[acc_id]['balance'] += (line.credit - line.debit)
-                    
-                    for line in momsUtgMovesRecordSet:
-                        acc_id = line.account_id.id
-                        if acc_id not in all_lines_dict:
-                            all_lines_dict[acc_id] = {'name': line.account_id.name, 'balance': 0.0}
-                        # Output VAT is usually Credit, so balance (credit - debit) will be positive
-                        all_lines_dict[acc_id]['balance'] += (line.credit - line.debit)
+        move_lines = []
+        moms_diff = 0.0
+        rounding_diff = 0.0
+        for vals in per_account.values():
+            balance = vals['balance']
+            rounded = int(round(balance))
+            if rounded == 0:
+                continue
+            move_lines.append((0, 0, {
+                'name': vals['name'],
+                'account_id': vals['account'].id,
+                'debit': rounded if rounded > 0 else 0.0,
+                'credit': -rounded if rounded < 0 else 0.0,
+            }))
+            moms_diff += rounded
+            rounding_diff += balance - rounded
 
-                    # Convert aggregated dictionary to move lines, rounded to integers
-                    for acc_id, vals in all_lines_dict.items():
-                        balance = vals['balance']
-                        if round(balance, 2) == 0: continue
-                        rounded = int(round(balance))
-                        if rounded == 0: continue
-                        move_line_list.append((0, 0, {
-                            'name': vals['name'],
-                            'account_id': acc_id,
-                            'debit': rounded if rounded > 0 else 0.0,
-                            'credit': -rounded if rounded < 0 else 0.0,
-                            'move_id': entry.id,
-                        }))
-                        moms_diff += rounded
-                        rounding_diff += balance - rounded
+        # Öresavrundning (3740) absorbs the öre left over from rounding the
+        # tax lines to whole kronor.
+        if round(rounding_diff, 2) != 0.0:
+            rounding_account = self.env['account.account'].search(
+                [('code', '=', '3740')], limit=1)
+            if rounding_account:
+                move_lines.append((0, 0, {
+                    'name': _('Öresavrundning'),
+                    'account_id': rounding_account.id,
+                    'debit': abs(rounding_diff) if rounding_diff < 0.0 else 0.0,
+                    'credit': rounding_diff if rounding_diff > 0.0 else 0.0,
+                }))
+                moms_diff -= rounding_diff
 
-                    # Add öresavrundning line if there is a rounding difference
-                    rounding_account = self.env['account.account'].search(
-                        [('code', '=', '3740')], limit=1)
-                    if rounding_account and round(rounding_diff, 2) != 0.0:
-                        move_line_list.append((0, 0, {
-                            'name': u'Öresavrundning',
-                            'account_id': rounding_account.id,
-                            'debit': abs(rounding_diff) if rounding_diff < 0.0 else 0.0,
-                            'credit': rounding_diff if rounding_diff > 0.0 else 0.0,
-                            'move_id': entry.id,
-                        }))
-                        moms_diff -= rounding_diff
+        # Swedish standard (BAS): the net VAT (Ruta 49) is cleared against
+        # 2650 "Redovisningskonto för moms" — NOT directly against 1630
+        # "Skattekonto". The transfer to the tax account is a separate step,
+        # see _create_tax_account_transfer().
+        if moms_diff != 0.0:
+            settlement_account = momsskuld if moms_diff > 0.0 else momsfordran
+            move_lines.append((0, 0, {
+                'name': settlement_account.name,
+                'account_id': settlement_account.id,
+                'partner_id': self.env.ref(
+                    'l10n_se_tax_report.res_partner-SKV').id,
+                'debit': abs(moms_diff) if moms_diff < 0.0 else 0.0,
+                'credit': moms_diff if moms_diff > 0.0 else 0.0,
+            }))
 
-                    # Settlement logic: use moms_diff (net of all reversed tax lines)
-                    # as the balancing line against the VAT settlement account.
-                    #
-                    # Swedish standard (BAS): the net VAT (Ruta 49) is cleared
-                    # against 2650 "Redovisningskonto för moms" — NOT directly
-                    # against 1630 "Skattekonto". The transfer to the tax account
-                    # is a separate step, see _create_tax_account_transfer().
-                    if moms_diff != 0.0:
-                        settlement_account = (
-                            momsskuld if moms_diff > 0.0 else momsfordran)
-                        move_line_list.append((0, 0, {
-                            'name': settlement_account.name,
-                            'account_id': settlement_account.id,
-                            'partner_id': self.env.ref(
-                                'l10n_se_tax_report.res_partner-SKV').id,
-                            'debit': abs(moms_diff) if moms_diff < 0.0 else 0.0,
-                            'credit': moms_diff if moms_diff > 0.0 else 0.0,
-                            'move_id': entry.id,
-                        }))
-                    entry.write({
-                        'line_ids': move_line_list,
-                    })
-                    self.write({'move_id': entry.id})
-                    entry.vat_declaration_id = self.id
-            else:
-                raise UserError(_('You are missing either a credit account or a debit account on the VAT journal, please add these'))
+        if not move_lines:
+            # Nothing to settle (no VAT in the period). Do not leave an empty
+            # draft entry behind — that is what produced the 87 orphaned
+            # entries found in production.
+            return
+
+        entry = self.env['account.move'].create({
+            'journal_id': moms_journal.id,
+            # Book on the last day of the declared period, not on the day the
+            # button was clicked.
+            'date': self.date_stop or fields.Date.today(),
+            'ref': _('Momsdeklaration'),
+            'partner_id': self.env.ref('l10n_se_tax_report.res_partner-SKV').id,
+            'line_ids': move_lines,
+        })
+        entry.action_post()
+        self.write({'move_id': entry.id})
+        entry.vat_declaration_id = self.id
 
         # Step 2: move the VAT debt from 2650 to the tax account (1630).
-        # Runs automatically when the declaration is confirmed (calculate()).
         self._create_tax_account_transfer()
+
+    def _get_lines_for_box(self, code):
+        """The move lines behind one report box, via the report's drill-down."""
+        self.ensure_one()
+        report = self._get_tax_report()
+        line = report.line_ids.filtered(lambda l: l.code == code)
+        if not line:
+            _logger.warning(
+                'VAT declaration: no report line with code %s', code)
+            return self.env['account.move.line']
+        options = {
+            'date': {
+                'date_from': fields.Date.to_string(self.date_start) if self.date_start else None,
+                'date_to': fields.Date.to_string(self.date_stop) if self.date_stop else None,
+            },
+            'company_ids': [self.company_id.id],
+        }
+        return report._get_line_drilldown_lines(line, options)
 
     def _create_tax_account_transfer(self):
         """Move the net VAT from 2650 to 1630 (Skattekonto).
@@ -274,13 +340,16 @@ class account_vat_declaration(models.Model):
             })
 
             if amount > 0:
-                # VAT to pay: debt moves 2650 -> 1630
-                vat_debit, vat_credit = 0.0, amount
-                tax_debit, tax_credit = amount, 0.0
+                # VAT to pay: the debt leaves 2650 and lands on the tax
+                # account. 2650 is credited by the settlement entry, so the
+                # transfer must DEBIT it, and CREDIT 1630.
+                vat_debit, vat_credit = amount, 0.0
+                tax_debit, tax_credit = 0.0, amount
             else:
-                # VAT refund: receivable moves 1630 -> 1650
-                vat_debit, vat_credit = abs(amount), 0.0
-                tax_debit, tax_credit = 0.0, abs(amount)
+                # VAT refund: the receivable moves from 2650 to the tax
+                # account, i.e. DEBIT 1630 and CREDIT 2650.
+                vat_debit, vat_credit = 0.0, abs(amount)
+                tax_debit, tax_credit = abs(amount), 0.0
 
             entry.write({'line_ids': [
                 (0, 0, {
@@ -300,6 +369,9 @@ class account_vat_declaration(models.Model):
                     'move_id': entry.id,
                 }),
             ]})
+            # Post it: an entry left in draft has no name and carries no
+            # balance, so the tax account would never show the debt.
+            entry.action_post()
             entry.vat_declaration_id = rec.id
             rec.skattekonto_move_id = entry.id
 
