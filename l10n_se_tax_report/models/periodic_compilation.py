@@ -187,9 +187,13 @@ class account_periodic_compilation(models.Model):
             rec.line_ids.unlink()
             rec.invoice_ids = [(5,)]
 
-            # --- Part 1: EU goods via the report's drill-down (3106/3108) ---
-            # This catches ALL entries on those accounts, including manual
-            # journal entries that a purely invoice-based approach would miss.
+            # --- Part 1: EU goods via the report's drill-down ---
+            # The drill-down follows report line se_35, which is fed by the
+            # VTEU/VTEU3 tax codes (see BOX_TAXES). It is NOT a filter on
+            # accounts 3106/3108: that was the pre-migration behaviour and it
+            # also swept up domestic 25 % sales booked on 3106. A manual entry
+            # on 3106 without a tax code is therefore not picked up here either
+            # -- account.move._post() warns about that case instead.
             goods_move_lines = rec._get_move_lines_for_kpi('ForsVaruAnnatEg')
 
             # --- Part 2: EU services & goods via invoice iteration ---

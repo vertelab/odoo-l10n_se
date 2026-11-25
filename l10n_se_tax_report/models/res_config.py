@@ -34,6 +34,12 @@ class Company(models.Model):
             [('country_id.code', '=', 'SE'),
              ('name', '=', 'Periodisk sammanställning')], limit=1).id,
         help="The account.report used for Periodic Compilation (EU sales list).")
+    pc_warn_supplied_goods_without_tax = fields.Boolean(
+        string='Varna vid försäljning EU utan momskod',
+        default=True,
+        help="Varna när en rad krediterar 3106/3108 utan momskod. "
+             "Fält 35 i periodisk sammanställning definieras av momskoden "
+             "VTEU — en rad utan momskod kan aldrig hamna i deklarationen.")
 
     # All SKV API fields moved to l10n_se_skatteverket_api/models/res_company.py
 
@@ -66,4 +72,12 @@ class ResConfigSettings(models.TransientModel):
         string='Periodic Compilation Report Template',
         help="Report used for Periodic Compilation (EU sales list).",
         related='company_id.pc_report_template_id',
+        readonly=False)
+
+    pc_warn_supplied_goods_without_tax = fields.Boolean(
+        string='Varna vid försäljning EU utan momskod',
+        help="Varna när en rad krediterar 3106/3108 utan momskod. "
+             "Fält 35 i periodisk sammanställning definieras av momskoden "
+             "VTEU — en rad utan momskod kan aldrig hamna i deklarationen.",
+        related='company_id.pc_warn_supplied_goods_without_tax',
         readonly=False)
