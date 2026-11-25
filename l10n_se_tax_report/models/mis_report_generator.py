@@ -112,7 +112,11 @@ class account_vat_declaration(models.Model):
                 entry = self.env['account.move'].create({
                     'journal_id': moms_journal.id,
                     #'period_id': self.period_start.id,
-                    'date': fields.Date.today(),
+                    # Book on the last day of the declared period, not on the
+                    # day the button was clicked. Posting on today() put the
+                    # whole VAT settlement in the wrong month whenever a
+                    # declaration was calculated after the period closed.
+                    'date': self.date_stop or fields.Date.today(),
                     'ref': u'Momsdeklaration',
                     'partner_id': self.env.ref(
                         'l10n_se_tax_report.res_partner-SKV').id,
@@ -262,7 +266,9 @@ class account_vat_declaration(models.Model):
 
             entry = self.env['account.move'].create({
                 'journal_id': moms_journal.id,
-                'date': fields.Date.today(),
+                # Same reason as the settlement entry above: the transfer
+                # belongs to the declared period, not to the day it was run.
+                'date': rec.date_stop or fields.Date.today(),
                 'ref': _('Momsdeklaration - överföring till skattekonto'),
                 'partner_id': skv_partner.id,
             })
