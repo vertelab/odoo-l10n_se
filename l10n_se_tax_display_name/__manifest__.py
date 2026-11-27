@@ -1,6 +1,6 @@
 {
     'name': 'l10n_se: Tax Display Name',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Show tax description instead of name in selection fields and dropdowns.',
     'category': 'Accounting/Localizations',
     'description': '''

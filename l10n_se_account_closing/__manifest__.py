@@ -1,6 +1,6 @@
 {
     "name": "l10n_se: Account Closing",
-    "version": "18.0.1.0.0",
+    "version": "1.0.0",
     "category": "Accounting/Localizations",
     "summary": "Swedish K2 closing template for OCA account_fiscal_year_closing",
     "description": """

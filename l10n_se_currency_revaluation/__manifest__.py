@@ -1,6 +1,6 @@
 {
     'name': 'l10n_se: Currency Revaluation',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Unrealised revaluation of open monetary items in foreign currency.',
     'category': 'Accounting/Localization',
     'author': 'Vertel Sverige AB',

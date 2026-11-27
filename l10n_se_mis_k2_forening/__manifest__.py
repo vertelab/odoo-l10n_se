@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Ekonomisk förening)',
-    'version': '18.0.2.0.0',
+    'version': '2.0.0',
     'summary': 'Swedish MIS-reports for Ekonomisk förening enligt K2 (BFNAR 2016:10)',
     'category': 'Accounting/Localizations',
     'description': '''

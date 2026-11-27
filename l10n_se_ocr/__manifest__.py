@@ -1,6 +1,6 @@
 {
     'name': 'l10n_se: OCR Documents for Invoices',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'category': 'Accounting',
     'summary': 'Adds Swedish OCR number support with configurable control levels.',
     'description': '''

@@ -2,7 +2,7 @@
     'name': 'l10n_se: Account Demo Data',
 'author': 'Vertel Sverige AB',
 'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_demo',
-    'version': '18.0.2.8.0',
+    'version': '2.8.0',
     'category': 'Accounting/Localization',
     'license': 'AGPL-3',
     'summary': 'Swedish demo accounting data — journal entries, invoices, partners from Scalinq AB.',

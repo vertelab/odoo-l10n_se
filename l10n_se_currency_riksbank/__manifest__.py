@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     'name': 'l10n_se: Currency Riksbank',
-    'version': '18.0.1.0.1',
+    'version': '1.0.1',
     'summary': 'Exchange rates from Sveriges Riksbank (REST API).',
     'category': 'Accounting/Localizations',
     'author': 'Vertel Sverige AB',

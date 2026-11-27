@@ -1,6 +1,6 @@
 {
     'name': 'MIS Builder fixes',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Collection of fixes for mis_builder bugs.',
     'category': 'Technical',
     'description': '''
