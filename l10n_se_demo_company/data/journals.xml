@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            The payroll bank journal. Declared in data as well as created by
+            the post_init_hook, because the hook only runs on install — an
+            upgraded database would otherwise never get it.
+
+            It has its own move name sequence. Sharing BNK1 with the
+            accounting demo made the two sources collide on that sequence,
+            so payroll could not be loaded after accounting.
+        -->
+        <record id="journal_payroll_bank" model="account.journal">
+            <field name="name">Löneutbetalningar</field>
+            <field name="type">bank</field>
+            <field name="code">LÖNB</field>
+            <field name="company_id" ref="company"/>
+        </record>
+    </data>
+</odoo>

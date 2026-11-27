@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Uppskjuten skatt -->
+        <record id="view_bokslut_deferred_tax_list" model="ir.ui.view">
+            <field name="name">account.bokslut.deferred.tax.list</field>
+            <field name="model">account.bokslut.deferred.tax</field>
+            <field name="arch" type="xml">
+                <list string="Deferred Tax" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="difference_type"/>
+                    <field name="book_value"/>
+                    <field name="tax_value"/>
+                    <field name="temporary_difference" sum="Temporary Difference"/>
+                    <field name="tax_rate"/>
+                    <field name="deferred_tax" sum="Deferred Tax"/>
+                    <field name="currency_id" column_invisible="True"/>
+                    <field name="move_id" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_bokslut_component_list" model="ir.ui.view">
+            <field name="name">account.bokslut.component.list</field>
+            <field name="model">account.bokslut.component</field>
+            <field name="arch" type="xml">
+                <list string="Components" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="asset_account_id"/>
+                    <field name="acquisition_value"/>
+                    <field name="acquisition_date"/>
+                    <field name="useful_life_years"/>
+                    <field name="residual_value"/>
+                    <field name="annual_depreciation" sum="Annual Depreciation"/>
+                    <field name="currency_id" column_invisible="True"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_bokslut_contract_progress_list" model="ir.ui.view">
+            <field name="name">account.bokslut.contract.progress.list</field>
+            <field name="model">account.bokslut.contract.progress</field>
+            <field name="arch" type="xml">
+                <list string="Contract Progress" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="project_id" optional="show"/>
+                    <field name="contract_value"/>
+                    <field name="estimated_cost"/>
+                    <field name="cost_to_date"/>
+                    <field name="completion_percentage"/>
+                    <field name="revenue_to_recognize"/>
+                    <field name="invoiced_amount"/>
+                    <field name="accrued_revenue" sum="Accrued Revenue"/>
+                    <field name="expected_loss" sum="Expected Loss"/>
+                    <field name="currency_id" column_invisible="True"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- K3-flikar pa bokslutet -->
+        <record id="view_bokslut_form_k3" model="ir.ui.view">
+            <field name="name">account.bokslut.form.k3</field>
+            <field name="model">account.bokslut</field>
+            <field name="inherit_id" ref="l10n_se_bokslut.view_bokslut_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="K3 Valuation" name="k3_valuation">
+                        <group>
+                            <group>
+                                <field name="total_deferred_tax"/>
+                            </group>
+                            <group>
+                                <field name="total_accrued_revenue"/>
+                            </group>
+                        </group>
+                        <separator string="Deferred Tax (BFNAR 2012:1 kap. 29)"/>
+                        <field name="deferred_tax_ids">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="difference_type"/>
+                                <field name="book_value"/>
+                                <field name="tax_value"/>
+                                <field name="temporary_difference" sum="Temporary Difference"/>
+                                <field name="tax_rate"/>
+                                <field name="deferred_tax" sum="Deferred Tax"/>
+                                <field name="currency_id" column_invisible="True"/>
+                                <field name="move_id" optional="show"/>
+                            </list>
+                        </field>
+                        <separator string="Components (BFNAR 2012:1 kap. 17.4)"/>
+                        <field name="component_ids">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="asset_account_id"/>
+                                <field name="acquisition_value"/>
+                                <field name="acquisition_date"/>
+                                <field name="useful_life_years"/>
+                                <field name="residual_value"/>
+                                <field name="annual_depreciation" sum="Annual Depreciation"/>
+                                <field name="currency_id" column_invisible="True"/>
+                            </list>
+                        </field>
+                        <separator string="Contract Progress (BFNAR 2012:1 kap. 23)"/>
+                        <field name="contract_progress_ids">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="project_id" optional="show"/>
+                                <field name="contract_value"/>
+                                <field name="estimated_cost"/>
+                                <field name="cost_to_date"/>
+                                <field name="completion_percentage"/>
+                                <field name="revenue_to_recognize"/>
+                                <field name="invoiced_amount"/>
+                                <field name="accrued_revenue" sum="Accrued Revenue"/>
+                                <field name="expected_loss" sum="Expected Loss"/>
+                                <field name="currency_id" column_invisible="True"/>
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

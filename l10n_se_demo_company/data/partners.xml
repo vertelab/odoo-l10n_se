@@ -802,6 +802,19 @@
             <field name="supplier_rank">1</field>
         </record>
 
+        <record id="partner_496" model="res.partner">
+            <field name="name">Bredvik AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Smedjegatan 78</field>
+            <field name="zip">211 20</field>
+            <field name="city">Malmö</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556343218501</field>
+            <field name="company_registry">556343-2185</field>
+            <field name="ref">DEMO-496</field>
+            <field name="supplier_rank">1</field>
+        </record>
+
         <record id="partner_497" model="res.partner">
             <field name="name">Ytterby Partner AB</field>
             <field name="company_type">company</field>
@@ -1045,6 +1058,17 @@
             <field name="customer_rank">1</field>
         </record>
 
+        <record id="partner_673" model="res.partner">
+            <field name="name">Tore Åkerlind</field>
+            <field name="company_type">person</field>
+            <field name="street">Storgatan 98</field>
+            <field name="zip">111 20</field>
+            <field name="city">Stockholm</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-673</field>
+            <field name="customer_rank">1</field>
+        </record>
+
         <record id="partner_674" model="res.partner">
             <field name="name">Nils Hedberg</field>
             <field name="company_type">person</field>
@@ -1185,6 +1209,17 @@
             <field name="city">Karlstad</field>
             <field name="country_id" ref="base.se"/>
             <field name="ref">DEMO-710</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_713" model="res.partner">
+            <field name="name">Elin Nordström</field>
+            <field name="company_type">person</field>
+            <field name="street">Järnvägsgatan 173</field>
+            <field name="zip">721 30</field>
+            <field name="city">Västerås</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-713</field>
             <field name="customer_rank">1</field>
         </record>
 
@@ -1531,6 +1566,78 @@
             <field name="supplier_rank">1</field>
         </record>
 
+        <record id="partner_866" model="res.partner">
+            <field name="name">Beata Jernberg</field>
+            <field name="company_type">person</field>
+            <field name="street">Verkstadsgatan 153</field>
+            <field name="zip">651 80</field>
+            <field name="city">Karlstad</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-866</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_874" model="res.partner">
+            <field name="name">Kristina Ahlberg</field>
+            <field name="company_type">person</field>
+            <field name="street">Sjövägen 101</field>
+            <field name="zip">302 30</field>
+            <field name="city">Halmstad</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-874</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_879" model="res.partner">
+            <field name="name">Örjan Qvist</field>
+            <field name="company_type">person</field>
+            <field name="street">Björkallén 105</field>
+            <field name="zip">753 20</field>
+            <field name="city">Uppsala</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-879</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_886" model="res.partner">
+            <field name="name">Björkdal AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Smedjegatan 3</field>
+            <field name="zip">903 20</field>
+            <field name="city">Umeå</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556154738001</field>
+            <field name="company_registry">556154-7380</field>
+            <field name="ref">DEMO-886</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_887" model="res.partner">
+            <field name="name">Havsörn Sverige AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Verkstadsgatan 52</field>
+            <field name="zip">302 30</field>
+            <field name="city">Halmstad</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556987056001</field>
+            <field name="company_registry">556987-0560</field>
+            <field name="ref">DEMO-887</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_888" model="res.partner">
+            <field name="name">Cederskog Teknik AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Norra Strandgatan 79</field>
+            <field name="zip">553 20</field>
+            <field name="city">Jönköping</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556187987401</field>
+            <field name="company_registry">556187-9874</field>
+            <field name="ref">DEMO-888</field>
+            <field name="customer_rank">1</field>
+        </record>
+
         <record id="partner_889" model="res.partner">
             <field name="name">Åkerslund AB</field>
             <field name="company_type">company</field>
@@ -1557,6 +1664,116 @@
             <field name="supplier_rank">1</field>
         </record>
 
+        <record id="partner_892" model="res.partner">
+            <field name="name">Lovisa Qvist</field>
+            <field name="company_type">person</field>
+            <field name="street">Bergsgatan 14</field>
+            <field name="zip">582 20</field>
+            <field name="city">Linköping</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-892</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_893" model="res.partner">
+            <field name="name">Alva Udd</field>
+            <field name="company_type">person</field>
+            <field name="street">Norra Strandgatan 80</field>
+            <field name="zip">501 10</field>
+            <field name="city">Borås</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-893</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_896" model="res.partner">
+            <field name="name">Yngve Ängqvist</field>
+            <field name="company_type">person</field>
+            <field name="street">Smedjegatan 86</field>
+            <field name="zip">852 30</field>
+            <field name="city">Sundsvall</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-896</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_898" model="res.partner">
+            <field name="name">Bengt Ytterberg</field>
+            <field name="company_type">person</field>
+            <field name="street">Järnvägsgatan 147</field>
+            <field name="zip">602 20</field>
+            <field name="city">Norrköping</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-898</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_899" model="res.partner">
+            <field name="name">Bengt Malmberg</field>
+            <field name="company_type">person</field>
+            <field name="street">Handelsvägen 37</field>
+            <field name="zip">221 00</field>
+            <field name="city">Lund</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-899</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_919" model="res.partner">
+            <field name="name">Lovisa Olausson</field>
+            <field name="company_type">person</field>
+            <field name="street">Södra Esplanaden 58</field>
+            <field name="zip">721 30</field>
+            <field name="city">Västerås</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-919</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_923" model="res.partner">
+            <field name="name">Tobias Isaksson</field>
+            <field name="company_type">person</field>
+            <field name="street">Skolgatan 84</field>
+            <field name="zip">802 50</field>
+            <field name="city">Gävle</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-923</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_928" model="res.partner">
+            <field name="name">Ines Ängqvist</field>
+            <field name="company_type">person</field>
+            <field name="street">Ekvägen 101</field>
+            <field name="zip">702 10</field>
+            <field name="city">Örebro</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-928</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_935" model="res.partner">
+            <field name="name">Olga Wahlgren</field>
+            <field name="company_type">person</field>
+            <field name="street">Björkallén 108</field>
+            <field name="zip">553 20</field>
+            <field name="city">Jönköping</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-935</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_936" model="res.partner">
+            <field name="name">Dagny Qvist</field>
+            <field name="company_type">person</field>
+            <field name="street">Skolgatan 171</field>
+            <field name="zip">211 20</field>
+            <field name="city">Malmö</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-936</field>
+            <field name="customer_rank">1</field>
+        </record>
+
         <record id="partner_938" model="res.partner">
             <field name="name">Ebba Sandberg</field>
             <field name="company_type">person</field>
@@ -1566,6 +1783,39 @@
             <field name="country_id" ref="base.se"/>
             <field name="ref">DEMO-938</field>
             <field name="supplier_rank">1</field>
+        </record>
+
+        <record id="partner_941" model="res.partner">
+            <field name="name">Dan Isaksson</field>
+            <field name="company_type">person</field>
+            <field name="street">Bergsgatan 51</field>
+            <field name="zip">211 20</field>
+            <field name="city">Malmö</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-941</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_942" model="res.partner">
+            <field name="name">Wilma Gustafsson</field>
+            <field name="company_type">person</field>
+            <field name="street">Björkallén 79</field>
+            <field name="zip">553 20</field>
+            <field name="city">Jönköping</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-942</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_943" model="res.partner">
+            <field name="name">Valter Thorsell</field>
+            <field name="company_type">person</field>
+            <field name="street">Kontorsvägen 69</field>
+            <field name="zip">221 00</field>
+            <field name="city">Lund</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-943</field>
+            <field name="customer_rank">1</field>
         </record>
 
         <record id="partner_944" model="res.partner">
@@ -1592,6 +1842,17 @@
             <field name="customer_rank">1</field>
         </record>
 
+        <record id="partner_947" model="res.partner">
+            <field name="name">Petra Kvarnström</field>
+            <field name="company_type">person</field>
+            <field name="street">Handelsvägen 19</field>
+            <field name="zip">352 30</field>
+            <field name="city">Växjö</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-947</field>
+            <field name="customer_rank">1</field>
+        </record>
+
         <record id="partner_951" model="res.partner">
             <field name="name">Ärling Qvist</field>
             <field name="company_type">person</field>
@@ -1612,6 +1873,19 @@
             <field name="country_id" ref="base.se"/>
             <field name="ref">DEMO-953</field>
             <field name="supplier_rank">1</field>
+        </record>
+
+        <record id="partner_956" model="res.partner">
+            <field name="name">Vallmo Nordic AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Industrivägen 155</field>
+            <field name="zip">221 00</field>
+            <field name="city">Lund</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556218466201</field>
+            <field name="company_registry">556218-4662</field>
+            <field name="ref">DEMO-956</field>
+            <field name="customer_rank">1</field>
         </record>
 
         <record id="partner_957" model="res.partner">
@@ -1635,6 +1909,30 @@
             <field name="vat">SE556069382101</field>
             <field name="company_registry">556069-3821</field>
             <field name="ref">DEMO-960</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_963" model="res.partner">
+            <field name="name">Furuvik Partner AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Parkvägen 77</field>
+            <field name="zip">903 20</field>
+            <field name="city">Umeå</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556954624401</field>
+            <field name="company_registry">556954-6244</field>
+            <field name="ref">DEMO-963</field>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_964" model="res.partner">
+            <field name="name">Ylva Udd</field>
+            <field name="company_type">person</field>
+            <field name="street">Järnvägsgatan 105</field>
+            <field name="zip">721 30</field>
+            <field name="city">Västerås</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="ref">DEMO-964</field>
             <field name="customer_rank">1</field>
         </record>
 
@@ -1686,6 +1984,19 @@
             <field name="supplier_rank">1</field>
         </record>
 
+        <record id="partner_980" model="res.partner">
+            <field name="name">Lillhamra Gruppen AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Kontorsvägen 66</field>
+            <field name="zip">151 20</field>
+            <field name="city">Södertälje</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556591622701</field>
+            <field name="company_registry">556591-6227</field>
+            <field name="ref">DEMO-980</field>
+            <field name="supplier_rank">1</field>
+        </record>
+
         <record id="partner_981" model="res.partner">
             <field name="name">Låglanda Sverige AB</field>
             <field name="company_type">company</field>
@@ -1710,6 +2021,19 @@
             <field name="company_registry">556185-7557</field>
             <field name="ref">DEMO-984</field>
             <field name="customer_rank">1</field>
+        </record>
+
+        <record id="partner_988" model="res.partner">
+            <field name="name">Björkdal Nordic AB</field>
+            <field name="company_type">company</field>
+            <field name="street">Hantverkargatan 117</field>
+            <field name="zip">852 30</field>
+            <field name="city">Sundsvall</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="vat">SE556601726401</field>
+            <field name="company_registry">556601-7264</field>
+            <field name="ref">DEMO-988</field>
+            <field name="supplier_rank">1</field>
         </record>
 
         <record id="partner_991" model="res.partner">
@@ -1831,7 +2155,7 @@
         </record>
 
         <record id="partner_1016" model="res.partner">
-            <field name="name">Bredvik AB</field>
+            <field name="name">Hedlunda Industri AB</field>
             <field name="company_type">company</field>
             <field name="street">Sjövägen 3</field>
             <field name="zip">302 30</field>
@@ -4542,7 +4866,7 @@
         </record>
 
         <record id="partner_1529" model="res.partner">
-            <field name="name">Kristina Ahlberg</field>
+            <field name="name">Ines Nyström</field>
             <field name="company_type">person</field>
             <field name="street">Björkallén 9</field>
             <field name="zip">302 30</field>
@@ -5198,7 +5522,7 @@
         </record>
 
         <record id="partner_1625" model="res.partner">
-            <field name="name">Örjan Qvist</field>
+            <field name="name">Sara Nyström</field>
             <field name="company_type">person</field>
             <field name="street">Skolgatan 101</field>
             <field name="zip">753 20</field>
@@ -6154,7 +6478,7 @@
         </record>
 
         <record id="partner_1777" model="res.partner">
-            <field name="name">Björkdal AB</field>
+            <field name="name">Isdala Industri AB</field>
             <field name="company_type">company</field>
             <field name="street">Skolgatan 76</field>
             <field name="zip">151 20</field>
@@ -6998,7 +7322,7 @@
         </record>
 
         <record id="partner_1963" model="res.partner">
-            <field name="name">Lovisa Qvist</field>
+            <field name="name">Ärling Bäckman</field>
             <field name="company_type">person</field>
             <field name="street">Bergsgatan 159</field>
             <field name="zip">111 20</field>

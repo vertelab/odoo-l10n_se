@@ -386,24 +386,39 @@
             <field name="kpi_id" ref="report_br_forkortad_k2_compact_FrittEgetKapital"/>
             <field name="name">bal[2090, 2092] * -1</field>
         </record>
+
+        <record id="report_br_forkortad_k2_compact_IckeBokfordVinstForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_br_forkortad_k2_compact"/>
+            <field name="name">IckeBokfordVinstForlust</field>
+            <field name="description">Obokfört resultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">30</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_br_forkortad_k2_compact_IckeBokfordVinstForlust" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_forkortad_k2_compact_IckeBokfordVinstForlust"/>
+            <field name="name">bal[3%,4%,5%,6%,7%,8%] * -1</field>
+        </record>
         <record id="report_br_forkortad_k2_compact_EgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2_compact"/>
             <field name="name">EgetKapital</field>
             <field name="description">Eget kapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">30</field>
+            <field name="sequence">31</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_forkortad_k2_compact_EgetKapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_compact_EgetKapital"/>
-            <field name="name">bal[2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, 2070, 2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079] * -1</field>
+            <field name="name">bal[20%] * -1</field>
         </record>
         <record id="report_br_forkortad_k2_compact_ObeskattadeReserver" model="mis.report.kpi">
             <field name="report_id" ref="report_br_forkortad_k2_compact"/>
             <field name="name">ObeskattadeReserver</field>
             <field name="description">Obeskattade reserver</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">31</field>
+            <field name="sequence">32</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_forkortad_k2_compact_ObeskattadeReserver" model="mis.report.kpi.expression">
@@ -415,7 +430,7 @@
             <field name="name">AvsattningarForkortad</field>
             <field name="description">Andra avsättningar än avsättningar för pensioner och liknande förpliktelser enligt tryggandelagen</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">32</field>
+            <field name="sequence">33</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_forkortad_k2_compact_AvsattningarForkortad" model="mis.report.kpi.expression">
@@ -427,7 +442,7 @@
             <field name="name">AvsattningarPensionerLiknandeForpliktelserEnligtLag</field>
             <field name="description">Avsättningar för pensioner och liknande förpliktelser enligt lagen om tryggande av pensionsutfästelse m.m.</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">33</field>
+            <field name="sequence">34</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_forkortad_k2_compact_AvsattningarPensionerLiknandeForpliktelserEnligtLag" model="mis.report.kpi.expression">
@@ -439,7 +454,7 @@
             <field name="name">LangfristigaSkulder</field>
             <field name="description">Långfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">34</field>
+            <field name="sequence">35</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_forkortad_k2_compact_LangfristigaSkulder" model="mis.report.kpi.expression">
@@ -451,7 +466,7 @@
             <field name="name">KortfristigaSkulder</field>
             <field name="description">Kortfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">35</field>
+            <field name="sequence">36</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_forkortad_k2_compact_KortfristigaSkulder" model="mis.report.kpi.expression">
@@ -463,12 +478,12 @@
             <field name="name">EgetKapitalSkulder</field>
             <field name="description">Eget kapital och skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">36</field>
+            <field name="sequence">37</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_forkortad_k2_compact_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_forkortad_k2_compact_EgetKapitalSkulder"/>
-            <field name="name">sum([EgetKapital, ObeskattadeReserver, AvsattningarForkortad, AvsattningarPensionerLiknandeForpliktelserEnligtLag, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
+            <field name="name">sum([EgetKapital, IckeBokfordVinstForlust, ObeskattadeReserver, AvsattningarForkortad, AvsattningarPensionerLiknandeForpliktelserEnligtLag, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
         </record>
     </data>
 </odoo>

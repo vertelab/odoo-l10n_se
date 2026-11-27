@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_periodic_compilation" model="ir.ui.view">
+            <field name="name">periodic.compilation.form</field>
+            <field name="model">account.periodic.compilation</field>
+            <field name="arch" type="xml">
+                <form string="Periodisk sammanställning">
+                    <header>
+                        <button class="oe_highlight" invisible="state not in ['draft']" name="calculate" string="Beräkna" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['confirmed','done'] or skv_api_status not in ['draft','error']" name="action_send_to_skv" string="Skicka till Skatteverket" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['done','confirmed','canceled']" name="do_draft" string="Draft" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['confirmed']" name="do_done" string="Done" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['confirmed','done']" name="do_cancel" string="Cancel" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                        <field name="skv_api_status" invisible="skv_api_status == 'draft'" widget="badge" decoration-success="skv_api_status == 'accepted'" decoration-danger="skv_api_status == 'error'" decoration-warning="skv_api_status == 'submitted'"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-level-up" name="show_invoice_lines" type="object" title="Visa fakturarader">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value"><field name="move_line_ids_count"/></span>
+                                    <span class="o_stat_text">Fakturarader</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-file" name="show_invoices" type="object" title="Visa fakturor">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value"><field name="invoice_ids_count"/></span>
+                                    <span class="o_stat_text">Fakturor</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-download" name="action_download_pc_file" type="object" string="Ladda ner" invisible="state == 'draft' or not pc_file" help="Ladda ner periodisk sammanställning (eSKD XML)"/>
+                            <button class="oe_stat_button" icon="fa-calendar" name="action_open_calendar_event" type="object" string="Kalender" invisible="not event_id" help="Öppna kalenderhändelsen för deklarationsdatum"/>
+                        </div>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="date_start" string="Period fr.o.m." widget="daterange" options="{'end_date_field': 'date_stop'}" readonly="not state"/>
+                                <field name="date_stop" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Rader">
+                                <field name="line_ids" nolabel="1">
+                                    <list create="0" delete="0" edit="0" editable="top">
+                                        <field name="pc_name"/>
+                                        <field name="pc_purchasers_vat"/>
+                                        <field name="pc_supplied_goods" sum="Total"/>
+                                        <field name="pc_triangulation" sum="Total"/>
+                                        <field name="pc_services_supplied" sum="Total"/>
+                                        <button class="oe_highlight" help="Show Invoice Lines" icon="fa-level-up" name="show_invoice_lines" title="Show Invoice Lines" type="object"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Upplysningstext">
+                                <field name="free_text" nolabel="1" readonly="not state"/>
+                            </page>
+                            <page string="Inställningar">
+                                <group>
+                                    <group string="Allmänt">
+                                        <field name="company_id" groups="base.group_multi_company"/>
+                                        <field name="target_move" readonly="not state"/>
+                                    </group>
+                                    <field name="pc_file" filename="pc_file_name" invisible="1"/>
+                                    <field name="pc_file_name" invisible="1"/>
+                                </group>
+                            </page>
+                            <page string="Skatteverket API" invisible="skv_api_status == 'draft' and not skv_response">
+                                <group>
+                                    <field name="skv_api_status"/>
+                                    <field name="skv_submitted_date"/>
+                                    <field name="skv_response" nolabel="1" invisible="skv_api_status != 'error'"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_periodic_filter" model="ir.ui.view">
+            <field name="name">account.periodic.compilation.filter</field>
+            <field name="model">account.periodic.compilation</field>
+            <field name="arch" type="xml">
+                <search string="Search Periodic Compilation">
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="date" string="Deadline"/>
+                    <field name="state" string="State"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter context="{'group_by': 'state'}" name="State" string="State"/>
+                        <filter context="{'group_by': 'date_start'}" name="Period" string="Period"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_periodic_tree" model="ir.ui.view">
+            <field name="name">account.periodic.compilation.tree</field>
+            <field name="model">account.periodic.compilation</field>
+            <field name="arch" type="xml">
+                <list string="Periodisk sammanställning">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="company_id"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="state"/>
+                    <field name="skv_api_status" widget="badge" decoration-success="skv_api_status == 'accepted'" decoration-danger="skv_api_status == 'error'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_periodic_calendar" model="ir.ui.view">
+            <field name="name">account.periodic.compilation.calendar</field>
+            <field name="model">account.periodic.compilation</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date" string="Periodisk sammanställning">
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="action_account_periodic_compilation" model="ir.actions.act_window">
+            <field name="name">Periodisk sammanställning</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.periodic.compilation</field>
+            <field name="view_mode">list,form,calendar</field>
+            <field name="search_view_id" ref="view_periodic_filter"/>
+        </record>
+
+        <menuitem action="action_account_periodic_compilation"
+                  id="menu_report_periodic_compilation"
+                  name="Periodisk sammanställning"
+                  parent="menu_report_authorities"/>
+
+        <record id="view_move_line_tree" model="ir.ui.view">
+            <field name="name">account.move.line.tree.pc</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <list string="Invoice Line">
+                    <field name="partner_id"/>
+                    <field name="name"/>
+                    <field name="pc_vat"/>
+                    <field name="quantity" sum="Total"/>
+                    <field name="price_unit"/>
+                    <field name="balance" sum="Total" string="Belopp"/>
+                    <field name="company_currency_id" invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_invoice_line" model="ir.actions.act_window">
+            <field name="name">Invoice Lines</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_move_line_tree"/>
+            <field name="context">{'group_by': ['partner_id']}</field>
+        </record>
+    </data>
+</odoo>

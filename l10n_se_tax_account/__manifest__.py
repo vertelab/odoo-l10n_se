@@ -23,7 +23,7 @@
 #
 {
     'name': 'l10n_se: Tax Account',
-    'version': '18.0.2.0.0',
+    'version': '2.0.0',
     'summary': 'Sweden - Tax Account Reconciliation (Skattekontoavst\u00e4mning)',
     'category': 'Accounting',
     'description': '''

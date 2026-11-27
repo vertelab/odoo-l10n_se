@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Demo data validation (Swedish chart of accounts)',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Guards Odoo demo data against non-Swedish chart of accounts',
     'category': 'Accounting/Localizations/Account Charts',
     'author': 'Vertel AB',

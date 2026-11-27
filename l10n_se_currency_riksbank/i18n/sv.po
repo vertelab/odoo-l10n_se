@@ -1,0 +1,72 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_se_currency_riksbank
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 16:35+0000\n"
+"PO-Revision-Date: 2026-11-24 16:35+0100\n"
+"Last-Translator: Vertel Sverige AB\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_se_currency_riksbank
+#: model:ir.model.fields,field_description:l10n_se_currency_riksbank.field_res_currency_rate_provider__service
+msgid "Provider"
+msgstr "Leverantör"
+
+#. module: l10n_se_currency_riksbank
+#: model:ir.model.fields.selection,name:l10n_se_currency_riksbank.selection__res_currency_rate_provider__service__riksbank
+msgid "Riksbank Sweden"
+msgstr "Riksbanken"
+
+#. module: l10n_se_currency_riksbank
+#: model:ir.model,name:l10n_se_currency_riksbank.model_res_currency_rate_provider
+msgid "Currency Rates Provider"
+msgstr "Leverantör av valutakurser"
+
+#. module: l10n_se_currency_riksbank
+#: code:addons/l10n_se_currency_riksbank/models/res_currency_rate_provider_riksbank.py:0
+#, python-format
+msgid ""
+"Riksbank does not publish a rate for the company currency %(currency)s. "
+"Set up the provider on a company whose currency is SEK, or pick another "
+"provider."
+msgstr ""
+"Riksbanken publicerar ingen kurs för företagets valuta %(currency)s. Sätt "
+"upp leverantören på ett företag med SEK som valuta, eller välj en annan "
+"leverantör."
+
+#. module: l10n_se_currency_riksbank
+#: code:addons/l10n_se_currency_riksbank/models/res_currency_rate_provider_riksbank.py:0
+#, python-format
+msgid "Invalid Riksbank series name: %(series)s"
+msgstr "Ogiltigt serienamn från Riksbanken: %(series)s"
+
+#. module: l10n_se_currency_riksbank
+#: code:addons/l10n_se_currency_riksbank/models/res_currency_rate_provider_riksbank.py:0
+#, python-format
+msgid "Could not reach Riksbank: %(error)s"
+msgstr "Kunde inte nå Riksbanken: %(error)s"
+
+#. module: l10n_se_currency_riksbank
+#: code:addons/l10n_se_currency_riksbank/models/res_currency_rate_provider_riksbank.py:0
+#, python-format
+msgid "Riksbank answered %(status)s for %(url)s"
+msgstr "Riksbanken svarade %(status)s för %(url)s"
+
+#. module: l10n_se_currency_riksbank
+#: code:addons/l10n_se_currency_riksbank/models/res_currency_rate_provider_riksbank.py:0
+#, python-format
+msgid ""
+"Riksbank kept answering 429 Too Many Requests for %(url)s after %(attempts)s "
+"attempts. Try again later."
+msgstr ""
+"Riksbanken svarade fortsatt 429 Too Many Requests för %(url)s efter "
+"%(attempts)s försök. Försök igen senare."

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_config_settings" model="ir.ui.view">
+            <field name="name">res.config.settings.inherit.skatteverket.api</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//block[@name='default_taxes_setting_container']" position="after">
+                    <block title="Skatteverket API" id="skv_api_block" groups="account.group_account_user">
+                        <setting id="skv_env_auth">
+                            <h4>Miljö &amp; autentisering</h4>
+                            <div class="content-group">
+                                <div class="row mt8">
+                                    <label for="skv_test_mode" string="Test Mode" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_test_mode" widget="boolean_toggle"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="skv_auth_method" string="Auth Method" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_auth_method"/>
+                                </div>
+                                <div class="row mt8" invisible="skv_auth_method == 'e_id'">
+                                    <label for="skv_certificate" string="Certificate" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_certificate" filename="skv_certificate" password="skv_certificate_pin"/>
+                                </div>
+                                <div class="row mt8" invisible="skv_auth_method == 'e_id'">
+                                    <label for="skv_certificate_pin" string="Certificate PIN" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_certificate_pin"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="skv_oauth">
+                            <h4>OAuth2</h4>
+                            <div class="content-group">
+                                <div class="row mt8">
+                                    <label for="skv_oauth_client_id" string="Client ID" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_oauth_client_id"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="skv_oauth_secret" string="Client Secret" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_oauth_secret"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="skv_auth_url" string="Auth URL" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_auth_url" placeholder="https://test.peroauth2.skatteverket.se/oauth2/v1/org/authorize"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="skv_token_url" string="Token URL" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_token_url" placeholder="https://test.peroauth2.skatteverket.se/oauth2/v1/org/token"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="skv_endpoints">
+                            <h4>API-endpoints</h4>
+                            <div class="content-group">
+                                <div class="row mt8">
+                                    <label for="skv_api_base_url" string="Bas-URL" class="col-lg-4 o_light_label"/>
+                                    <field name="skv_api_base_url" placeholder="https://test.api.skatteverket.se"/>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-lg-4"/>
+                                    <span class="text-muted small">
+                                        Moms: <field name="company_id" invisible="1"/>skv_api_base_url + /moms/v2/deklaration
+                                    </span>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -64,7 +64,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Verifikationer">
+                        <page string="Verifikationer" name="verifications">
                             <group>
                                 <field name="move_id" readonly="1"/>
                             </group>
@@ -128,7 +128,7 @@
     <record id="action_bokslut" model="ir.actions.act_window">
         <field name="name">Bokslut</field>
         <field name="res_model">account.bokslut</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Menu -->

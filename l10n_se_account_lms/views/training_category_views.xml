@@ -101,7 +101,7 @@
     <record id="action_training_category" model="ir.actions.act_window">
         <field name="name">Training Categories</field>
         <field name="res_model">l10n_se.training.category</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
     </record>
 
 </odoo>

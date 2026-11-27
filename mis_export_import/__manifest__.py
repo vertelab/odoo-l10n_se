@@ -21,7 +21,7 @@
 
 {
     'name': 'MIS Report: Export/Import',
-    'version': '18.0.0.0.0',
+    'version': '0.0.0',
     'summary': 'Export and Import MIS Report templates with all related data (KPIs, Styles, Queries, etc.).',
     'category': 'Accounting',
     'description': '''

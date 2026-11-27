@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>DEMO-CAMT-202612</MsgId>
+      <CreDtTm>2026-12-28T23:59:59</CreDtTm>
+      <AddtlInf>Kontoutdrag 5051-2345</AddtlInf>
+    </GrpHdr>
+    <Stmt>
+      <Id>DEMO-CAMT-202612</Id>
+      <CreDtTm>2026-12-28T23:59:59</CreDtTm>
+      <Acct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+        <Ccy>SEK</Ccy>
+        <Ownr>
+          <Nm>Aronssons Montage AB</Nm>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>5560600000</Id>
+                <SchmeNm>
+                  <Cd>CUST</Cd>
+                </SchmeNm>
+              </Othr>
+            </OrgId>
+          </Id>
+        </Ownr>
+        <Svcr>
+          <FinInstnId>
+            <BIC>ESSESESS</BIC>
+          </FinInstnId>
+        </Svcr>
+      </Acct>
+      <Bal>
+        <Tp>
+          <CdOrPrtry>
+            <Cd>OPBD</Cd>
+          </CdOrPrtry>
+        </Tp>
+        <Amt Ccy="SEK">9508226.33</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Dt>
+          <Dt>2026-12-01</Dt>
+        </Dt>
+      </Bal>
+      <Bal>
+        <Tp>
+          <CdOrPrtry>
+            <Cd>CLBD</Cd>
+          </CdOrPrtry>
+        </Tp>
+        <Amt Ccy="SEK">9510618.81</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Dt>
+          <Dt>2027-01-01</Dt>
+        </Dt>
+      </Bal>
+      <Ntry>
+        <NtryRef>505123452026120001</NtryRef>
+        <Amt Ccy="SEK">494.31</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-12-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-12-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026120001</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026120001</AcctSvcrRef>
+              <EndToEndId>T12417 E2E prod-kopia</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">494.31</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Vindskydd AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR T12417 E2E prod-kopia</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>T12417 E2E prod-kopia</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026120002</NtryRef>
+        <Amt Ccy="SEK">494.31</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-12-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-12-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026120002</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026120002</AcctSvcrRef>
+              <EndToEndId>BILL/2026/11/0008</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">494.31</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Kvarnvik Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR BILL/2026/11/0008</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>BILL/2026/11/0008</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026120003</NtryRef>
+        <Amt Ccy="SEK">494.31</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-12-04</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-12-04</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026120003</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026120003</AcctSvcrRef>
+              <EndToEndId>Manual: BILL/2026/11/0002</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">494.31</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Västanvik Gruppen AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: BILL/2026/11/0002</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: BILL/2026/11/0002</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026120004</NtryRef>
+        <Amt Ccy="SEK">494.30</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-12-04</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-12-04</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026120004</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026120004</AcctSvcrRef>
+              <EndToEndId>Manual: BILL/2026/11/0004</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">494.30</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Norrsken Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: BILL/2026/11/0004</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: BILL/2026/11/0004</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026120005</NtryRef>
+        <Amt Ccy="SEK">494.31</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-12-19</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-12-19</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026120005</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026120005</AcctSvcrRef>
+              <EndToEndId>Manual: BILL/2026/11/0001</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">494.31</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Norrsken Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: BILL/2026/11/0001</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: BILL/2026/11/0001</AddtlNtryInf>
+      </Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>

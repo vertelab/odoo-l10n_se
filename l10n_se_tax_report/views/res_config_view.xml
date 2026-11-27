@@ -26,6 +26,11 @@
                                  title="PC Report Template">
                             <field name="pc_report_template_id"/>
                         </setting>
+                        <setting id="pc_warn_supplied_goods_without_tax"
+                                 help="Warn when a line credits 3106/3108 without a tax code. Box 35 of the periodic compilation is defined by the VTEU tax code, so such a line can never reach the declaration."
+                                 title="Warn on EU goods without tax code">
+                            <field name="pc_warn_supplied_goods_without_tax"/>
+                        </setting>
                     </block>
                 </xpath>
             </field>

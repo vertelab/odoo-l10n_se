@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_l10n_se_demo" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.l10n.se.demo</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='accounting_reports']" position="after">
+                <block title="Swedish demo data" id="l10n_se_demo_validation_block"
+                       groups="base.group_system">
+                    <setting id="l10n_se_demo_validation_info"
+                             help="Creates demo journal entries using this company's own accounts.">
+                        <div class="content-group">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-muted">Chart template</span>
+                                    <field name="chart_template" readonly="1"/>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-muted">Currency</span>
+                                    <field name="currency_id" readonly="1"/>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <button name="%(action_l10n_se_demo_wizard)d"
+                                            type="action"
+                                            string="Install Swedish demo data"
+                                            class="btn-link"
+                                            icon="fa-download"/>
+                                </div>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

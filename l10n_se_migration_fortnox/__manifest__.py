@@ -8,7 +8,7 @@
 
 {
     'name': 'l10n_se: Fortnox Migration (accounting data)',
-    'version': '18.0.1.3.0',
+    'version': '1.3.0',
     'summary': 'Migrate accounting data from Fortnox (plus Visma/Bokio via SIE) to Odoo.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',

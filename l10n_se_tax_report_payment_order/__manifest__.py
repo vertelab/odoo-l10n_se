@@ -3,7 +3,7 @@
 
 {
     'name': 'l10n_se: Tax Report Payment Order',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Payment order support for tax declarations.',
     'description': '''
 Tax Report Payment Order

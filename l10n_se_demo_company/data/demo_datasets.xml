@@ -5,16 +5,26 @@
         <!-- ============================================================ -->
         <!-- Demo datasets — one row per quarter and source               -->
         <!--                                                              -->
-        <!-- 2024Q1..2026Q1 reconciled, 2026Q2..Q4 unreconciled,          -->
-        <!-- 2027 future. The sequence rule lives in the model.           -->
+        <!-- 2023Q4..2026Q1 reconciled, 2026Q2..Q4 unreconciled,          -->
+        <!-- 2027 future. SFA accounting data starts 2023-10-31, which    -->
+        <!-- is why the line starts at 2023Q4. The sequence rule lives    -->
+        <!-- in the model.                                                -->
         <!-- ============================================================ -->
 
         <!-- account -->
+        <record id="ds_account_2023q4" model="demo.dataset">
+            <field name="name">2023Q4</field>
+            <field name="year">2023</field>
+            <field name="quarter">4</field>
+            <field name="sequence">1</field>
+            <field name="source">account</field>
+            <field name="kind">reconciled</field>
+        </record>
         <record id="ds_account_2024q1" model="demo.dataset">
             <field name="name">2024Q1</field>
             <field name="year">2024</field>
             <field name="quarter">1</field>
-            <field name="sequence">1</field>
+            <field name="sequence">2</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -22,7 +32,7 @@
             <field name="name">2024Q2</field>
             <field name="year">2024</field>
             <field name="quarter">2</field>
-            <field name="sequence">2</field>
+            <field name="sequence">3</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -30,7 +40,7 @@
             <field name="name">2024Q3</field>
             <field name="year">2024</field>
             <field name="quarter">3</field>
-            <field name="sequence">3</field>
+            <field name="sequence">4</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -38,7 +48,7 @@
             <field name="name">2024Q4</field>
             <field name="year">2024</field>
             <field name="quarter">4</field>
-            <field name="sequence">4</field>
+            <field name="sequence">5</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -46,7 +56,7 @@
             <field name="name">2025Q1</field>
             <field name="year">2025</field>
             <field name="quarter">1</field>
-            <field name="sequence">5</field>
+            <field name="sequence">6</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -54,7 +64,7 @@
             <field name="name">2025Q2</field>
             <field name="year">2025</field>
             <field name="quarter">2</field>
-            <field name="sequence">6</field>
+            <field name="sequence">7</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -62,7 +72,7 @@
             <field name="name">2025Q3</field>
             <field name="year">2025</field>
             <field name="quarter">3</field>
-            <field name="sequence">7</field>
+            <field name="sequence">8</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -70,7 +80,7 @@
             <field name="name">2025Q4</field>
             <field name="year">2025</field>
             <field name="quarter">4</field>
-            <field name="sequence">8</field>
+            <field name="sequence">9</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -78,7 +88,7 @@
             <field name="name">2026Q1</field>
             <field name="year">2026</field>
             <field name="quarter">1</field>
-            <field name="sequence">9</field>
+            <field name="sequence">10</field>
             <field name="source">account</field>
             <field name="kind">reconciled</field>
         </record>
@@ -86,7 +96,7 @@
             <field name="name">2026Q2</field>
             <field name="year">2026</field>
             <field name="quarter">2</field>
-            <field name="sequence">10</field>
+            <field name="sequence">11</field>
             <field name="source">account</field>
             <field name="kind">unreconciled</field>
         </record>
@@ -94,7 +104,7 @@
             <field name="name">2026Q3</field>
             <field name="year">2026</field>
             <field name="quarter">3</field>
-            <field name="sequence">11</field>
+            <field name="sequence">12</field>
             <field name="source">account</field>
             <field name="kind">unreconciled</field>
         </record>
@@ -102,7 +112,7 @@
             <field name="name">2026Q4</field>
             <field name="year">2026</field>
             <field name="quarter">4</field>
-            <field name="sequence">12</field>
+            <field name="sequence">13</field>
             <field name="source">account</field>
             <field name="kind">unreconciled</field>
         </record>
@@ -110,7 +120,7 @@
             <field name="name">2027Q1</field>
             <field name="year">2027</field>
             <field name="quarter">1</field>
-            <field name="sequence">13</field>
+            <field name="sequence">14</field>
             <field name="source">account</field>
             <field name="kind">future</field>
         </record>
@@ -118,7 +128,7 @@
             <field name="name">2027Q2</field>
             <field name="year">2027</field>
             <field name="quarter">2</field>
-            <field name="sequence">14</field>
+            <field name="sequence">15</field>
             <field name="source">account</field>
             <field name="kind">future</field>
         </record>
@@ -126,7 +136,7 @@
             <field name="name">2027Q3</field>
             <field name="year">2027</field>
             <field name="quarter">3</field>
-            <field name="sequence">15</field>
+            <field name="sequence">16</field>
             <field name="source">account</field>
             <field name="kind">future</field>
         </record>
@@ -134,17 +144,25 @@
             <field name="name">2027Q4</field>
             <field name="year">2027</field>
             <field name="quarter">4</field>
-            <field name="sequence">16</field>
+            <field name="sequence">17</field>
             <field name="source">account</field>
             <field name="kind">future</field>
         </record>
 
         <!-- payroll -->
+        <record id="ds_payroll_2023q4" model="demo.dataset">
+            <field name="name">2023Q4</field>
+            <field name="year">2023</field>
+            <field name="quarter">4</field>
+            <field name="sequence">1</field>
+            <field name="source">payroll</field>
+            <field name="kind">reconciled</field>
+        </record>
         <record id="ds_payroll_2024q1" model="demo.dataset">
             <field name="name">2024Q1</field>
             <field name="year">2024</field>
             <field name="quarter">1</field>
-            <field name="sequence">1</field>
+            <field name="sequence">2</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -152,7 +170,7 @@
             <field name="name">2024Q2</field>
             <field name="year">2024</field>
             <field name="quarter">2</field>
-            <field name="sequence">2</field>
+            <field name="sequence">3</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -160,7 +178,7 @@
             <field name="name">2024Q3</field>
             <field name="year">2024</field>
             <field name="quarter">3</field>
-            <field name="sequence">3</field>
+            <field name="sequence">4</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -168,7 +186,7 @@
             <field name="name">2024Q4</field>
             <field name="year">2024</field>
             <field name="quarter">4</field>
-            <field name="sequence">4</field>
+            <field name="sequence">5</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -176,7 +194,7 @@
             <field name="name">2025Q1</field>
             <field name="year">2025</field>
             <field name="quarter">1</field>
-            <field name="sequence">5</field>
+            <field name="sequence">6</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -184,7 +202,7 @@
             <field name="name">2025Q2</field>
             <field name="year">2025</field>
             <field name="quarter">2</field>
-            <field name="sequence">6</field>
+            <field name="sequence">7</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -192,7 +210,7 @@
             <field name="name">2025Q3</field>
             <field name="year">2025</field>
             <field name="quarter">3</field>
-            <field name="sequence">7</field>
+            <field name="sequence">8</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -200,7 +218,7 @@
             <field name="name">2025Q4</field>
             <field name="year">2025</field>
             <field name="quarter">4</field>
-            <field name="sequence">8</field>
+            <field name="sequence">9</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -208,7 +226,7 @@
             <field name="name">2026Q1</field>
             <field name="year">2026</field>
             <field name="quarter">1</field>
-            <field name="sequence">9</field>
+            <field name="sequence">10</field>
             <field name="source">payroll</field>
             <field name="kind">reconciled</field>
         </record>
@@ -216,7 +234,7 @@
             <field name="name">2026Q2</field>
             <field name="year">2026</field>
             <field name="quarter">2</field>
-            <field name="sequence">10</field>
+            <field name="sequence">11</field>
             <field name="source">payroll</field>
             <field name="kind">unreconciled</field>
         </record>
@@ -224,7 +242,7 @@
             <field name="name">2026Q3</field>
             <field name="year">2026</field>
             <field name="quarter">3</field>
-            <field name="sequence">11</field>
+            <field name="sequence">12</field>
             <field name="source">payroll</field>
             <field name="kind">unreconciled</field>
         </record>
@@ -232,7 +250,7 @@
             <field name="name">2026Q4</field>
             <field name="year">2026</field>
             <field name="quarter">4</field>
-            <field name="sequence">12</field>
+            <field name="sequence">13</field>
             <field name="source">payroll</field>
             <field name="kind">unreconciled</field>
         </record>
@@ -240,7 +258,7 @@
             <field name="name">2027Q1</field>
             <field name="year">2027</field>
             <field name="quarter">1</field>
-            <field name="sequence">13</field>
+            <field name="sequence">14</field>
             <field name="source">payroll</field>
             <field name="kind">future</field>
         </record>
@@ -248,7 +266,7 @@
             <field name="name">2027Q2</field>
             <field name="year">2027</field>
             <field name="quarter">2</field>
-            <field name="sequence">14</field>
+            <field name="sequence">15</field>
             <field name="source">payroll</field>
             <field name="kind">future</field>
         </record>
@@ -256,7 +274,7 @@
             <field name="name">2027Q3</field>
             <field name="year">2027</field>
             <field name="quarter">3</field>
-            <field name="sequence">15</field>
+            <field name="sequence">16</field>
             <field name="source">payroll</field>
             <field name="kind">future</field>
         </record>
@@ -264,7 +282,7 @@
             <field name="name">2027Q4</field>
             <field name="year">2027</field>
             <field name="quarter">4</field>
-            <field name="sequence">16</field>
+            <field name="sequence">17</field>
             <field name="source">payroll</field>
             <field name="kind">future</field>
         </record>

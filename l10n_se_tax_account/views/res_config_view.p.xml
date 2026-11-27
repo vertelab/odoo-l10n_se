@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Tax Account settings — own block, separate from Skatteverket API connection -->
+    <record id="res_config_settings_view_form_inherit_tax_account" model="ir.ui.view">
+      <field name="name">res.config.settings.view.form.inherit.tax.account</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id"
+             ref="l10n_se_skatteverket_api.view_account_config_settings"/>
+      <field name="arch" type="xml">
+        <xpath expr="//block[@id='skv_api_block']" position="after">
+          <block title="Tax Account" id="tax_account_settings_block" groups="account.group_account_user">
+            <setting id="skv_match_tolerance_setting"
+                     string="Auto-match Tolerance"
+                     help="Number of days difference allowed when auto-matching tax account transactions with booked entries.">
+              <div class="content-group">
+                <div class="row mt8">
+                  <label for="skv_match_tolerance_days"
+                         string="Tolerance"
+                         class="col-lg-4 o_light_label"/>
+                  <field name="skv_match_tolerance_days"/> days
+                </div>
+              </div>
+            </setting>
+          </block>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>

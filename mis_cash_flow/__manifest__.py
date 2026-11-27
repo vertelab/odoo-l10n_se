@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: MIS Cash Flow',
-    'version': '18.0.1.1.0',
+    'version': '1.1.0',
     'summary': 'MIS Cash flow template.',
     'category': 'Accounting',
     'description': '''

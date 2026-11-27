@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- AGI — Lessons (moved from account LMS to payroll LMS)        -->
+    <!-- ============================================================ -->
+
+    <!-- Lesson: AGI ruta för ruta -->
+    <record id="lesson_agi_boxes" model="l10n_se.training.lesson">
+        <field name="name">AGI — Individuppgifter ruta för ruta (50-82)</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_employer"/>
+        <field name="difficulty">intermediate</field>
+        <field name="estimated_minutes">30</field>
+        <field name="skv_boxes">50,51,52,55,56,57,58,59,60,61,62,81,82</field>
+        <field name="legal_basis">Skatteförfarandelagen 26 kap.</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Arbetsgivardeklarationens individuppgifter (AGI) rapporteras månadsvis till Skatteverket. Varje anställd har en rad med specificerade belopp för bruttolön, förmåner, avdrag, arbetsgivaravgifter och avdragen skatt.</p>
+            <p><strong>AGI ≠ AGD:</strong> AGD (arbetsgivardeklaration) är själva blanketten. AGI (individuppgifter) är den detaljerade redovisningen per anställd.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>AGI-rutorna — komplett genomgång</h3>
+
+            <h4>Ruta 50-52: Lön, förmåner och avdrag</h4>
+            <table border="1" cellpadding="5">
+            <tr><th>Ruta</th><th>Innehåll</th><th>Exempel</th></tr>
+            <tr><td>50</td><td>Avgiftspliktig bruttolön</td><td>35 000</td></tr>
+            <tr><td>51</td><td>Avgiftspliktiga förmåner</td><td>3 500 (bilförmån)</td></tr>
+            <tr><td>52</td><td>Avdrag för utgifter i arbetet</td><td>0</td></tr>
+            </table>
+
+            <h4>Ruta 55-56: Full arbetsgivaravgift (under 66 år)</h4>
+            <ul>
+                <li><strong>Ruta 55:</strong> Underlag = ruta 50 + 51 - 52</li>
+                <li><strong>Ruta 56:</strong> 31,42% av ruta 55</li>
+            </ul>
+
+            <h4>Ruta 57-58: Växa-stöd (första anställd, 10,21%)</h4>
+            <ul>
+                <li><strong>Ruta 57:</strong> Underlag växa-stöd</li>
+                <li><strong>Ruta 58:</strong> 10,21% av ruta 57</li>
+            </ul>
+
+            <h4>Ruta 59-60: Ålderspensionsavgift (66-79 år, 16,36%)</h4>
+
+            <h4>Ruta 61-62: Särskild löneskatt (80+ år, 6,15%)</h4>
+
+            <h4>Ruta 81-82: Skatteavdrag</h4>
+            <ul>
+                <li><strong>Ruta 81:</strong> Underlag för skatteavdrag (samma som ruta 50+51-52)</li>
+                <li><strong>Ruta 82:</strong> Avdragen preliminärskatt (enligt skattetabell)</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="odoo_guide">
+            <![CDATA[
+            <h3>I Odoo (modul: l10n_se_agi):</h3>
+            <ol>
+              <li>Gå till <strong>Bokföring → Myndighetsrapportering → AGI (Individuppgifter)</strong></li>
+              <li>Koppla en lönekörning (hr.payslip.run) till AGI-deklarationen</li>
+              <li>Klicka <strong>Beräkna</strong> — systemet aggregerar lönerader per anställd</li>
+              <li>Kontrollera ålderskategorierna (systemet beräknar automatiskt)</li>
+              <li>Klicka <strong>Generera XML</strong> — skapar eSKD-fil (DTD 6.0)</li>
+              <li>Klicka <strong>Skicka till Skatteverket</strong></li>
+              <li>Klart! Du kan också generera KU10 från samma data.</li>
+            </ol>
+            ]]>
+        </field>
+        <field name="common_mistakes">
+            <![CDATA[
+            <p><strong>Vanliga fel:</strong></p>
+            <ul>
+              <li>Fel ålderskategori → fel procentsats → fel avgift</li>
+              <li>Glömma att rapportera förmåner (ruta 51)</li>
+              <li>Rapportera samma person med två olika avgiftskategorier (kan inte kombineras per månad)</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="skv_reference">SKV — Arbetsgivardeklaration individuppgifter</field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/arbetsgivare/arbetsgivardeklaration/individuppgifter</field>
+    </record>
+
+    <!-- Lesson: KU10 -->
+    <record id="lesson_ku10" model="l10n_se.training.lesson">
+        <field name="name">KU10 — Kontrolluppgift lön</field>
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_employer"/>
+        <field name="difficulty">intermediate</field>
+        <field name="estimated_minutes">15</field>
+        <field name="overview">
+            <![CDATA[
+            <p>KU10 är kontrolluppgiften för lön. Den lämnas årligen till Skatteverket och visar total utbetald lön, förmåner och avdragen skatt per anställd under året.</p>
+            <p>KU10-data aggregeras från de månatliga AGI-deklarationerna.</p>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

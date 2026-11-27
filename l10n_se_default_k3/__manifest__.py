@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'l10n_se: Default K3 Chart of Accounts',
-    'version': '18.0.1.1.0',
+    'version': '1.1.0',
     'summary': 'Satt BAS K3-kontoplan som standard for svenska foretag.',
     'category': 'Accounting/Localizations/Account Charts',
     'author': 'Vertel Sverige AB',

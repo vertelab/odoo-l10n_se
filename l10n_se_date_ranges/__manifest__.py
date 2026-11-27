@@ -1,6 +1,6 @@
 {
     'name': 'l10n_se Date Ranges',
-    'version': '18.0.1.2.0',
+    'version': '1.2.0',
     'category': 'Accounting/Localizations',
     'summary': 'Swedish quarter and week date range types for account_fiscal_year_vrtl.',
     'description': '''

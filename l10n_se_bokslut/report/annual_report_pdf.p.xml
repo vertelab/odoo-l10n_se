@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_annual_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <!-- Cover page -->
+                <div class="page cover">
+                    <h1>Årsredovisning</h1>
+                    <h2 t-esc="doc.company_id.name"/>
+                    <p>Org.nr: <t t-esc="doc.company_id.company_registry"/></p>
+                    <p>Räkenskapsår: <t t-esc="doc.fiscalyear_id.name"/></p>
+                    <p>Regelverk: <t t-esc="doc.rule_set"/></p>
+                    <p>Upprättad: <t t-esc="doc.create_date"/></p>
+                </div>
+
+                <!-- Management report -->
+                <div class="page">
+                    <h2>Förvaltningsberättelse</h2>
+                    <p>Styrelsen för <t t-esc="doc.company_id.name"/> avger härmed årsredovisning för räkenskapsåret <t t-esc="doc.fiscalyear_id.name"/>.</p>
+                    <p t-if="doc.management_report"><t t-esc="doc.management_report"/></p>
+                </div>
+
+                <!-- Income Statement -->
+                <div class="page">
+                    <h2>Resultaträkning</h2>
+                    <p>
+                        Årets resultat: <t t-esc="doc.bokslut_id.arets_resultat"/><br/>
+                        Årets skattekostnad: <t t-esc="doc.bokslut_id.arets_skattekostnad"/>
+                    </p>
+                    <p><em>Detaljerad resultaträkning finns i SRU-rapporten.</em></p>
+                </div>
+
+                <!-- Balance Sheet -->
+                <div class="page">
+                    <h2>Balansräkning</h2>
+                    <p><em>Detaljerad balansräkning finns i SRU-rapporten.</em></p>
+                </div>
+
+                <!-- Notes -->
+                <div class="page">
+                    <h2>Noter</h2>
+                    <h3>Redovisningsprinciper</h3>
+                    <p>Årsredovisningen är upprättad enligt <t t-esc="doc.rule_set"/> från Bokföringsnämnden.</p>
+                    <p t-if="doc.notes"><t t-esc="doc.notes"/></p>
+                </div>
+
+                <!-- Signatures -->
+                <div class="page">
+                    <h2>Underskrifter</h2>
+                    <p>Ort och datum: ________________________________</p>
+                    <br/>
+                    <t t-foreach="range(3)" t-as="i">
+                        <p>________________________________</p>
+                        <p>Namnförtydligande</p>
+                        <br/>
+                    </t>
+                    <h3>Revisorspåskrift</h3>
+                    <p>Min revisionsberättelse har lämnats:</p>
+                    <p>________________________________</p>
+                    <p>Revisor</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_annual_report_report" model="ir.actions.report">
+        <field name="name">Årsredovisning</field>
+        <field name="model">account.annual.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_se_bokslut.report_annual_report</field>
+        <field name="report_file">l10n_se_bokslut.report_annual_report</field>
+        <field name="print_report_name">'Arsredovisning - %s' % object.company_id.name</field>
+    </record>
+</odoo>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================ -->
+        <!-- Employees                                                    -->
+        <!--                                                              -->
+        <!-- The seven employees from the payroll demo (Tiichri). Names,  -->
+        <!-- personal numbers and addresses are kept — they are already   -->
+        <!-- invented. Employment periods follow the timeline in          -->
+        <!-- l10n-se-demo-datasets design D-timeline:                     -->
+        <!--                                                              -->
+        <!--   2024  seven employees, one hired in Q3                     -->
+        <!--   2025  one hired in Q1, one leaves in Q4 (retirement)       -->
+        <!--   2026  one leaves in Q2 (resignation)                       -->
+        <!--   2027  seven employees                                      -->
+        <!--                                                              -->
+        <!-- Contracts are not created here — they belong to the payroll  -->
+        <!-- demo, which owns the wage data. This module only guarantees   -->
+        <!-- that the people exist and have a bank account.               -->
+        <!-- ============================================================ -->
+
+        <record id="work_location_main" model="hr.work.location">
+            <field name="name">Rosersberg, HK</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="location_type">office</field>
+        </record>
+
+        <record id="job_president" model="hr.job">
+            <field name="name">VD och försäljningschef</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="job_purchaser" model="hr.job">
+            <field name="name">Inköpare</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="job_payroll" model="hr.job">
+            <field name="name">Lönekonsult</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="job_logistics" model="hr.job">
+            <field name="name">Logistikansvarig</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="job_assembler" model="hr.job">
+            <field name="name">Montör</field>
+            <field name="company_id" ref="company"/>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- The seven original employees                                 -->
+        <!-- ============================================================ -->
+
+        <record id="emp_asse_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Asse Aronsson</field>
+            <field name="street">Tjädervägen 23</field>
+            <field name="zip">175 00</field>
+            <field name="city">Järfälla</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="mobile">073-500000</field>
+            <field name="function">VD och försäljningschef</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_asse_bank" model="res.partner.bank">
+            <field name="acc_number">4333-44444433</field>
+            <field name="partner_id" ref="emp_asse_partner"/>
+        </record>
+        <record id="emp_asse" model="hr.employee">
+            <field name="name">Asse Aronsson</field>
+            <field name="birthday">1965-10-31</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_phone">073-400000</field>
+            <field name="work_email">asse.aronsson@aronssons.se</field>
+            <field name="identification_id">651031-3114</field>
+            <field name="job_title">VD och försäljningschef</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_asse_partner"/>
+        </record>
+
+        <record id="emp_camilla_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Camilla Cobolt</field>
+            <field name="street">Sveavägen 7</field>
+            <field name="zip">112 00</field>
+            <field name="city">Stockholm</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="mobile">073-980001</field>
+            <field name="function">Logistikansvarig</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_camilla_bank" model="res.partner.bank">
+            <field name="acc_number">4132-123123</field>
+            <field name="partner_id" ref="emp_camilla_partner"/>
+        </record>
+        <record id="emp_camilla" model="hr.employee">
+            <field name="name">Camilla Cobolt</field>
+            <field name="birthday">1971-10-02</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">camilla.cobolt@aronssons.se</field>
+            <field name="identification_id">711002-1834</field>
+            <field name="job_title">Logistikansvarig</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_camilla_partner"/>
+        </record>
+
+        <record id="emp_doris_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Doris Dahlin</field>
+            <field name="street">Kungsgatan 12</field>
+            <field name="zip">411 03</field>
+            <field name="city">Göteborg</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="function">Lönekonsult</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_doris_bank" model="res.partner.bank">
+            <field name="acc_number">4132-556677</field>
+            <field name="partner_id" ref="emp_doris_partner"/>
+        </record>
+        <record id="emp_doris" model="hr.employee">
+            <field name="name">Doris Dahlin</field>
+            <field name="birthday">1992-02-17</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">doris.dahlin@aronssons.se</field>
+            <field name="identification_id">920217-2384</field>
+            <field name="job_title">Lönekonsult</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_doris_partner"/>
+        </record>
+
+        <record id="emp_frans_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Frans Filipsson</field>
+            <field name="street">Storgatan 44</field>
+            <field name="zip">753 20</field>
+            <field name="city">Uppsala</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="function">Inköpare</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_frans_bank" model="res.partner.bank">
+            <field name="acc_number">4132-998877</field>
+            <field name="partner_id" ref="emp_frans_partner"/>
+        </record>
+        <record id="emp_frans" model="hr.employee">
+            <field name="name">Frans Filipsson</field>
+            <field name="birthday">1946-05-07</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">frans.filipsson@aronssons.se</field>
+            <field name="identification_id">460507-6738</field>
+            <field name="job_title">Inköpare</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_frans_partner"/>
+        </record>
+
+        <record id="emp_gustav_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Gustav Groth</field>
+            <field name="street">Verkstadsgatan 8</field>
+            <field name="zip">721 30</field>
+            <field name="city">Västerås</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="function">Montör</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_gustav_bank" model="res.partner.bank">
+            <field name="acc_number">4132-445566</field>
+            <field name="partner_id" ref="emp_gustav_partner"/>
+        </record>
+        <record id="emp_gustav" model="hr.employee">
+            <field name="name">Gustav Groth</field>
+            <field name="birthday">1979-01-24</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">gustav.groth@aronssons.se</field>
+            <field name="identification_id">790124-0207</field>
+            <field name="job_title">Montör</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_gustav_partner"/>
+        </record>
+
+        <record id="emp_helmer_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Helmer Henriksson</field>
+            <field name="street">Fabriksgatan 21</field>
+            <field name="zip">702 10</field>
+            <field name="city">Örebro</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="function">Montör</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_helmer_bank" model="res.partner.bank">
+            <field name="acc_number">4132-112233</field>
+            <field name="partner_id" ref="emp_helmer_partner"/>
+        </record>
+        <record id="emp_helmer" model="hr.employee">
+            <field name="name">Helmer Henriksson</field>
+            <field name="birthday">1968-05-22</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">helmer.henriksson@aronssons.se</field>
+            <field name="identification_id">680522-9272</field>
+            <field name="job_title">Montör</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_helmer_partner"/>
+        </record>
+
+        <record id="emp_karin_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Karin Kullberg</field>
+            <field name="street">Lagervägen 3</field>
+            <field name="zip">582 20</field>
+            <field name="city">Linköping</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="function">Montör</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_karin_bank" model="res.partner.bank">
+            <field name="acc_number">4132-778899</field>
+            <field name="partner_id" ref="emp_karin_partner"/>
+        </record>
+        <record id="emp_karin" model="hr.employee">
+            <field name="name">Karin Kullberg</field>
+            <field name="birthday">1989-12-08</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">karin.kullberg@aronssons.se</field>
+            <field name="identification_id">891208-2396</field>
+            <field name="job_title">Montör</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_karin_partner"/>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Hired along the timeline                                     -->
+        <!-- ============================================================ -->
+
+        <!-- Hired 2024 Q3: assembler -->
+        <record id="emp_oskar_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Oskar Lindvall</field>
+            <field name="street">Smedjegatan 15</field>
+            <field name="zip">632 20</field>
+            <field name="city">Eskilstuna</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="function">Montör</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_oskar_bank" model="res.partner.bank">
+            <field name="acc_number">4132-334455</field>
+            <field name="partner_id" ref="emp_oskar_partner"/>
+        </record>
+        <record id="emp_oskar" model="hr.employee">
+            <field name="name">Oskar Lindvall</field>
+            <field name="birthday">1995-03-11</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">oskar.lindvall@aronssons.se</field>
+            <field name="identification_id">950311-4417</field>
+            <field name="job_title">Montör</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_oskar_partner"/>
+        </record>
+
+        <!-- Hired 2025 Q1: payroll consultant -->
+        <record id="emp_petra_partner" model="res.partner">
+            <field name="company_type">person</field>
+            <field name="name">Petra Sandell</field>
+            <field name="street">Parkvägen 9</field>
+            <field name="zip">221 00</field>
+            <field name="city">Lund</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="function">Lönekonsult</field>
+            <field name="company_id" ref="company"/>
+        </record>
+        <record id="emp_petra_bank" model="res.partner.bank">
+            <field name="acc_number">4132-667788</field>
+            <field name="partner_id" ref="emp_petra_partner"/>
+        </record>
+        <record id="emp_petra" model="hr.employee">
+            <field name="name">Petra Sandell</field>
+            <field name="birthday">1988-07-19</field>
+            <field name="work_location_id" ref="work_location_main"/>
+            <field name="work_email">petra.sandell@aronssons.se</field>
+            <field name="identification_id">880719-5523</field>
+            <field name="job_title">Lönekonsult</field>
+            <field name="tz">Europe/Stockholm</field>
+            <field name="address_id" ref="company_partner"/>
+            <field name="company_id" ref="company"/>
+            <field name="work_contact_id" ref="emp_petra_partner"/>
+        </record>
+
+    </data>
+</odoo>

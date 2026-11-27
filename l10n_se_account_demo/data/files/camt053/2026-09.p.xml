@@ -1,0 +1,4586 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>DEMO-CAMT-202609</MsgId>
+      <CreDtTm>2026-09-28T23:59:59</CreDtTm>
+      <AddtlInf>Kontoutdrag 5051-2345</AddtlInf>
+    </GrpHdr>
+    <Stmt>
+      <Id>DEMO-CAMT-202609</Id>
+      <CreDtTm>2026-09-28T23:59:59</CreDtTm>
+      <Acct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+        <Ccy>SEK</Ccy>
+        <Ownr>
+          <Nm>Aronssons Montage AB</Nm>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>5560600000</Id>
+                <SchmeNm>
+                  <Cd>CUST</Cd>
+                </SchmeNm>
+              </Othr>
+            </OrgId>
+          </Id>
+        </Ownr>
+        <Svcr>
+          <FinInstnId>
+            <BIC>ESSESESS</BIC>
+          </FinInstnId>
+        </Svcr>
+      </Acct>
+      <Bal>
+        <Tp>
+          <CdOrPrtry>
+            <Cd>OPBD</Cd>
+          </CdOrPrtry>
+        </Tp>
+        <Amt Ccy="SEK">4578732.54</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Dt>
+          <Dt>2026-09-01</Dt>
+        </Dt>
+      </Bal>
+      <Bal>
+        <Tp>
+          <CdOrPrtry>
+            <Cd>CLBD</Cd>
+          </CdOrPrtry>
+        </Tp>
+        <Amt Ccy="SEK">8746790.20</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Dt>
+          <Dt>2026-10-01</Dt>
+        </Dt>
+      </Bal>
+      <Ntry>
+        <NtryRef>505123452026090001</NtryRef>
+        <Amt Ccy="SEK">49994.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090001</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090001</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">49994.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090002</NtryRef>
+        <Amt Ccy="SEK">7215.98</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090002</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090002</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">7215.98</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090003</NtryRef>
+        <Amt Ccy="SEK">7215.98</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090003</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090003</AcctSvcrRef>
+              <EndToEndId>Manual: 903131358926</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">7215.98</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903131358926</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903131358926</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090004</NtryRef>
+        <Amt Ccy="SEK">11500.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090004</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090004</AcctSvcrRef>
+              <EndToEndId>Manual: 756131082</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">11500.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ytterby Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 756131082</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 756131082</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090005</NtryRef>
+        <Amt Ccy="SEK">12601.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090005</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090005</AcctSvcrRef>
+              <EndToEndId>Manual: 756131090</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">12601.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ytterby Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 756131090</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 756131090</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090006</NtryRef>
+        <Amt Ccy="SEK">13344.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090006</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090006</AcctSvcrRef>
+              <EndToEndId>Manual: 756131108</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">13344.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ytterby Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 756131108</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 756131108</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090007</NtryRef>
+        <Amt Ccy="SEK">12549.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-01</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-01</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090007</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090007</AcctSvcrRef>
+              <EndToEndId>Manual: 756131116</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">12549.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ytterby Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 756131116</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 756131116</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090008</NtryRef>
+        <Amt Ccy="SEK">613.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-02</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-02</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090008</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090008</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">613.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090009</NtryRef>
+        <Amt Ccy="SEK">302.40</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-02</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-02</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090009</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090009</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">302.40</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090010</NtryRef>
+        <Amt Ccy="SEK">550.13</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-02</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-02</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090010</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090010</AcctSvcrRef>
+              <EndToEndId>205757</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">550.13</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 205757</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>205757</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090011</NtryRef>
+        <Amt Ccy="SEK">15494.42</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-02</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-02</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090011</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090011</AcctSvcrRef>
+              <EndToEndId>PO01011 Marko Manninen - 218750</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">15494.42</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR PO01011 Marko Manninen - 218750</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>PO01011 Marko Manninen - 218750</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090012</NtryRef>
+        <Amt Ccy="SEK">613.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-02</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-02</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090012</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090012</AcctSvcrRef>
+              <EndToEndId>Manual: 22792186233140</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">613.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Norrgården Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 22792186233140</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 22792186233140</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090013</NtryRef>
+        <Amt Ccy="SEK">302.40</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-02</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-02</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090013</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090013</AcctSvcrRef>
+              <EndToEndId>Manual: 889864661</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">302.40</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Norrsken Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 889864661</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 889864661</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090014</NtryRef>
+        <Amt Ccy="SEK">11512.42</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-03</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-03</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090014</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090014</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">11512.42</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090015</NtryRef>
+        <Amt Ccy="SEK">1120.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-03</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-03</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090015</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090015</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1120.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090016</NtryRef>
+        <Amt Ccy="SEK">11512.42</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-03</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-03</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090016</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090016</AcctSvcrRef>
+              <EndToEndId>Manual: 903131840329</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">11512.42</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903131840329</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903131840329</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090017</NtryRef>
+        <Amt Ccy="SEK">1120.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-03</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-03</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090017</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090017</AcctSvcrRef>
+              <EndToEndId>Manual: 903133841424</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1120.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903133841424</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903133841424</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090018</NtryRef>
+        <Amt Ccy="SEK">4414.51</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-06</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-06</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090018</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090018</AcctSvcrRef>
+              <EndToEndId>Manual: 903132385027</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">4414.51</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903132385027</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903132385027</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090019</NtryRef>
+        <Amt Ccy="SEK">4414.51</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-07</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-07</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090019</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090019</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">4414.51</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090020</NtryRef>
+        <Amt Ccy="SEK">781433.84</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-07</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-07</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090020</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090020</AcctSvcrRef>
+              <EndToEndId>6658752. Sandra Eerola - 222042</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">754105.91</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 6658752. Sandra Eerola - 222042</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090020</AcctSvcrRef>
+              <EndToEndId>6658751. Sandra Eerola - 222059</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">20375.09</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 6658751. Sandra Eerola - 222059</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090020</AcctSvcrRef>
+              <EndToEndId>56EF8240082. Evelina Fränden - 2220</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">756.25</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 56EF8240082. Evelina Fränden - 222067</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090020</AcctSvcrRef>
+              <EndToEndId>8239815. Patrik Grotmark - 222075</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">871.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 8239815. Patrik Grotmark - 222075</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090020</AcctSvcrRef>
+              <EndToEndId>84UA-8238789 Ulrika Askljung - 2220</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5325.59</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 84UA-8238789 Ulrika Askljung - 222083</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>6658752. Sandra Eerola - 222042 665</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090021</NtryRef>
+        <Amt Ccy="SEK">3754.79</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-08</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-08</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090021</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090021</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">3754.79</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090022</NtryRef>
+        <Amt Ccy="SEK">416434.88</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-08</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-08</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090022</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090022</AcctSvcrRef>
+              <EndToEndId>536329. Mats F - 227207</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">97096.56</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 536329. Mats F - 227207</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090022</AcctSvcrRef>
+              <EndToEndId>232731. Mats F - 227223</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">112175.50</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 232731. Mats F - 227223</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090022</AcctSvcrRef>
+              <EndToEndId>714466. Mats F - 227249</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">142233.94</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 714466. Mats F - 227249</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090022</AcctSvcrRef>
+              <EndToEndId>266945. Mats F - 227363</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">45205.19</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 266945. Mats F - 227363</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090022</AcctSvcrRef>
+              <EndToEndId>125922. Fredrik Eklund - 227405</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">19723.69</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 125922. Fredrik Eklund - 227405</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>536329. Mats F - 227207 232731. Mat</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090023</NtryRef>
+        <Amt Ccy="SEK">55672.63</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-08</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-08</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090023</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090023</AcctSvcrRef>
+              <EndToEndId>098897. Mats F - 227173</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">55672.63</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 098897. Mats F - 227173</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>098897. Mats F - 227173</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090024</NtryRef>
+        <Amt Ccy="SEK">46103.06</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-08</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-08</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090024</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090024</AcctSvcrRef>
+              <EndToEndId>062209. Mats F - 227231</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">46103.06</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 062209. Mats F - 227231</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>062209. Mats F - 227231</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090025</NtryRef>
+        <Amt Ccy="SEK">3754.79</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-08</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-08</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090025</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090025</AcctSvcrRef>
+              <EndToEndId>Manual: 903132812228</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">3754.79</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903132812228</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903132812228</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090026</NtryRef>
+        <Amt Ccy="SEK">1705.81</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090026</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090026</AcctSvcrRef>
+              <EndToEndId>Robin Öhrn - 227181</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1705.81</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Robin Öhrn - 227181</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Robin Öhrn - 227181</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090027</NtryRef>
+        <Amt Ccy="SEK">730.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090027</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090027</AcctSvcrRef>
+              <EndToEndId>Älva. Odd - 227454</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">730.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Älva. Odd - 227454</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Älva. Odd - 227454</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090028</NtryRef>
+        <Amt Ccy="SEK">8439.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090028</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090028</AcctSvcrRef>
+              <EndToEndId>Älvan. Sören - 227397</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">8439.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Älvan. Sören - 227397</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Älvan. Sören - 227397</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090029</NtryRef>
+        <Amt Ccy="SEK">31549.38</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090029</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090029</AcctSvcrRef>
+              <EndToEndId>36351176-220. Daniel Oskarsson - 22</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">31549.38</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 36351176-220. Daniel Oskarsson - 227124</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>36351176-220. Daniel Oskarsson - 22</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090030</NtryRef>
+        <Amt Ccy="SEK">1593.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090030</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090030</AcctSvcrRef>
+              <EndToEndId>36553667-606. Nina Nestor - 227157</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1593.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 36553667-606. Nina Nestor - 227157</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>36553667-606. Nina Nestor - 227157</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090031</NtryRef>
+        <Amt Ccy="SEK">956.25</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090031</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090031</AcctSvcrRef>
+              <EndToEndId>36556817-207. Marie Jideklev - 2271</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">956.25</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 36556817-207. Marie Jideklev - 227199</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>36556817-207. Marie Jideklev - 2271</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090032</NtryRef>
+        <Amt Ccy="SEK">887.50</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090032</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090032</AcctSvcrRef>
+              <EndToEndId>36549600-300. Lars-Göran Andersson </EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">887.50</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 36549600-300. Lars-Göran Andersson - 227215</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>36549600-300. Lars-Göran Andersson </AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090033</NtryRef>
+        <Amt Ccy="SEK">247100.81</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090033</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090033</AcctSvcrRef>
+              <EndToEndId>36552028-002. Elin Thörner - 227355</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">247100.81</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 36552028-002. Elin Thörner - 227355</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>36552028-002. Elin Thörner - 227355</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090034</NtryRef>
+        <Amt Ccy="SEK">9900.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090034</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090034</AcctSvcrRef>
+              <EndToEndId>36553412-707. Andreas Pelli - 22737</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">9900.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 36553412-707. Andreas Pelli - 227371</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>36553412-707. Andreas Pelli - 22737</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090035</NtryRef>
+        <Amt Ccy="SEK">852.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090035</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090035</AcctSvcrRef>
+              <EndToEndId>36568113-141. Lisa Rasmussen - 2274</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">852.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 36568113-141. Lisa Rasmussen - 227421</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>36568113-141. Lisa Rasmussen - 2274</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090036</NtryRef>
+        <Amt Ccy="SEK">2555.53</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090036</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090036</AcctSvcrRef>
+              <EndToEndId>501306. Robert Olsson - 227348</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">2555.53</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 501306. Robert Olsson - 227348</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>501306. Robert Olsson - 227348</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090037</NtryRef>
+        <Amt Ccy="SEK">9300.50</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090037</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090037</AcctSvcrRef>
+              <EndToEndId>Andreas Helltorn - 227165</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">9300.50</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Tornfallet Handel AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Andreas Helltorn - 227165</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Andreas Helltorn - 227165</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090038</NtryRef>
+        <Amt Ccy="SEK">4932.69</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090038</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090038</AcctSvcrRef>
+              <EndToEndId>32600130164. Marcus Forsman - 22743</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">4932.69</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Rimforsa Nordic AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 32600130164. Marcus Forsman - 227439</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>32600130164. Marcus Forsman - 22743</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090039</NtryRef>
+        <Amt Ccy="SEK">450.31</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-09</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-09</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090039</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090039</AcctSvcrRef>
+              <EndToEndId>3260130156. Peter Nilsson - 227140</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">450.31</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Rimforsa Nordic AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 3260130156. Peter Nilsson - 227140</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>3260130156. Peter Nilsson - 227140</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090040</NtryRef>
+        <Amt Ccy="SEK">7539.73</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090040</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090040</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">7539.73</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090041</NtryRef>
+        <Amt Ccy="SEK">560.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090041</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090041</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">560.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090042</NtryRef>
+        <Amt Ccy="SEK">2000.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090042</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090042</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">2000.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090043</NtryRef>
+        <Amt Ccy="SEK">10858.08</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090043</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090043</AcctSvcrRef>
+              <EndToEndId>10248401-002. Heidi Aarvold - 22731</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1188.31</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 10248401-002. Heidi Aarvold - 227314</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090043</AcctSvcrRef>
+              <EndToEndId>10236551-002. Heidi Aarvold - 22730</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">9669.77</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 10236551-002. Heidi Aarvold - 227306</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>10248401-002. Heidi Aarvold - 22731</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090044</NtryRef>
+        <Amt Ccy="SEK">346.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090044</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090044</AcctSvcrRef>
+              <EndToEndId>Jan Kumlien - 236992</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">346.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Jan Kumlien - 236992</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Jan Kumlien - 236992</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090045</NtryRef>
+        <Amt Ccy="SEK">7539.73</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090045</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090045</AcctSvcrRef>
+              <EndToEndId>Manual: 903133313226</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">7539.73</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903133313226</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903133313226</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090046</NtryRef>
+        <Amt Ccy="SEK">560.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090046</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090046</AcctSvcrRef>
+              <EndToEndId>Manual: 903138583724</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">560.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903138583724</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903138583724</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090047</NtryRef>
+        <Amt Ccy="SEK">2000.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-10</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-10</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090047</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090047</AcctSvcrRef>
+              <EndToEndId>Manual: Healthcare 2026</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">2000.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Wilma Malmberg</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: Healthcare 2026</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: Healthcare 2026</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090048</NtryRef>
+        <Amt Ccy="SEK">2523.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-13</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-13</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090048</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090048</AcctSvcrRef>
+              <EndToEndId>Manual: 63876</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">2523.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Mossberg Sverige AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 63876</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 63876</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090049</NtryRef>
+        <Amt Ccy="SEK">5905.08</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-13</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-13</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090049</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090049</AcctSvcrRef>
+              <EndToEndId>Manual: 903133797022</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5905.08</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903133797022</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903133797022</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090050</NtryRef>
+        <Amt Ccy="SEK">941645.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-14</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-14</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090050</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090050</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">941645.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090051</NtryRef>
+        <Amt Ccy="SEK">5905.08</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-14</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-14</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090051</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090051</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5905.08</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090052</NtryRef>
+        <Amt Ccy="SEK">145381.22</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-14</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-14</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090052</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090052</AcctSvcrRef>
+              <EndToEndId>6659499. Sandra Eerola - 223875</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">63029.70</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 6659499. Sandra Eerola - 223875</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090052</AcctSvcrRef>
+              <EndToEndId>6659500. Sandra Eerola - 223883</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">50785.71</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 6659500. Sandra Eerola - 223883</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090052</AcctSvcrRef>
+              <EndToEndId>6658753. Sandra Eerola - 223891</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">19795.06</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 6658753. Sandra Eerola - 223891</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090052</AcctSvcrRef>
+              <EndToEndId>6658753. Sandra Eerola - 223909</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">11770.75</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 6658753. Sandra Eerola - 223909</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>6659499. Sandra Eerola - 223875 665</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090053</NtryRef>
+        <Amt Ccy="SEK">9383.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-14</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-14</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090053</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090053</AcctSvcrRef>
+              <EndToEndId>Manual: 163387287</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">9383.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Storfors Nordic AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 163387287</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 163387287</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090054</NtryRef>
+        <Amt Ccy="SEK">1500001.50</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090054</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090054</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1500001.50</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090055</NtryRef>
+        <Amt Ccy="SEK">766673.35</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090055</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090055</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">766673.35</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090056</NtryRef>
+        <Amt Ccy="SEK">54579.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090056</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090056</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">54579.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090057</NtryRef>
+        <Amt Ccy="SEK">9470.04</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090057</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090057</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">9470.04</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090058</NtryRef>
+        <Amt Ccy="SEK">3424.62</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090058</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090058</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">3424.62</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090059</NtryRef>
+        <Amt Ccy="SEK">22289.06</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090059</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090059</AcctSvcrRef>
+              <EndToEndId>194pb- 8241467. Peter Bengtsson - 2</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">649.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 194pb- 8241467. Peter Bengtsson - 224709</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090059</AcctSvcrRef>
+              <EndToEndId>194pb-8241591. Peter Bengtsson - 22</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1845.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 194pb-8241591. Peter Bengtsson - 224733</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090059</AcctSvcrRef>
+              <EndToEndId>6659948. Sandra Eerola - 225144</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">19795.06</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 6659948. Sandra Eerola - 225144</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>194pb- 8241467. Peter Bengtsson - 2</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090060</NtryRef>
+        <Amt Ccy="SEK">9470.04</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090060</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090060</AcctSvcrRef>
+              <EndToEndId>Manual: 903134237523</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">9470.04</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903134237523</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903134237523</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090061</NtryRef>
+        <Amt Ccy="SEK">60377.65</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090061</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090061</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">60377.65</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ödeshög Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090062</NtryRef>
+        <Amt Ccy="SEK">2206294.20</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090062</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090062</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">2206294.20</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ödeshög Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090063</NtryRef>
+        <Amt Ccy="SEK">52437.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090063</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090063</AcctSvcrRef>
+              <EndToEndId>Manual: 1260466204</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">52437.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Vindskydd Gruppen AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 1260466204</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 1260466204</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090064</NtryRef>
+        <Amt Ccy="SEK">2142.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090064</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090064</AcctSvcrRef>
+              <EndToEndId>Manual: 33143312115</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">2142.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ytterby AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 33143312115</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 33143312115</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090065</NtryRef>
+        <Amt Ccy="SEK">3424.62</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-15</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090065</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090065</AcctSvcrRef>
+              <EndToEndId>Manual: 15922662414</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">3424.62</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Solvik Teknik AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 15922662414</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 15922662414</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090066</NtryRef>
+        <Amt Ccy="SEK">130974.56</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-16</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-16</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090066</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090066</AcctSvcrRef>
+              <EndToEndId>232761. Mats F - 231647</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">50827.81</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 232761. Mats F - 231647</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090066</AcctSvcrRef>
+              <EndToEndId>669389. Richard Gode - 231654</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5757.19</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 669389. Richard Gode - 231654</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090066</AcctSvcrRef>
+              <EndToEndId>125958. Victor Häggblom - 231670</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">598.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 125958. Victor Häggblom - 231670</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090066</AcctSvcrRef>
+              <EndToEndId>125953. Victor Häggblom - 231753</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">8294.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 125953. Victor Häggblom - 231753</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090066</AcctSvcrRef>
+              <EndToEndId>146813 Joakim Bergström - 231837</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">492.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 146813 Joakim Bergström - 231837</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090066</AcctSvcrRef>
+              <EndToEndId>536423 Mats Fredriksson - 231902</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">65005.56</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 536423 Mats Fredriksson - 231902</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>232761. Mats F - 231647 669389. Ric</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090067</NtryRef>
+        <Amt Ccy="SEK">3971.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-16</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-16</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090067</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090067</AcctSvcrRef>
+              <EndToEndId>368134. Kasper Persson - 231688</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">3971.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 368134. Kasper Persson - 231688</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>368134. Kasper Persson - 231688</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090068</NtryRef>
+        <Amt Ccy="SEK">6994.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-16</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-16</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090068</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090068</AcctSvcrRef>
+              <EndToEndId>069688. Tim Hansson - 231704</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">6994.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 069688. Tim Hansson - 231704</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>069688. Tim Hansson - 231704</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090069</NtryRef>
+        <Amt Ccy="SEK">1214.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-16</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-16</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090069</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090069</AcctSvcrRef>
+              <EndToEndId>062311. Helena Skaremo - 232140</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1214.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR 062311. Helena Skaremo - 232140</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>062311. Helena Skaremo - 232140</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090070</NtryRef>
+        <Amt Ccy="SEK">6609.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-16</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-16</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090070</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090070</AcctSvcrRef>
+              <EndToEndId>P22855. Billig El &amp; VVS - 232124</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">6609.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR P22855. Billig El &amp; VVS - 232124</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>P22855. Billig El &amp; VVS - 232124</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090071</NtryRef>
+        <Amt Ccy="SEK">6609.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-16</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-16</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090071</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090071</AcctSvcrRef>
+              <EndToEndId>P22810. Billig El &amp; VVS - 231894</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">6609.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Okänd mottagare</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR P22810. Billig El &amp; VVS - 231894</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>P22810. Billig El &amp; VVS - 231894</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090072</NtryRef>
+        <Amt Ccy="SEK">524.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-16</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-16</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090072</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090072</AcctSvcrRef>
+              <EndToEndId>Manual: 74479676269</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">524.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ängsmark Nordic AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 74479676269</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 74479676269</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090073</NtryRef>
+        <Amt Ccy="SEK">7216.88</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-17</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-17</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090073</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090073</AcctSvcrRef>
+              <EndToEndId>Manual: 903135871023</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">7216.88</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903135871023</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903135871023</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090074</NtryRef>
+        <Amt Ccy="SEK">358.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-17</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-17</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090074</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090074</AcctSvcrRef>
+              <EndToEndId>Manual: 40004495722</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">358.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Solvik Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 40004495722</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 40004495722</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090075</NtryRef>
+        <Amt Ccy="SEK">300.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-18</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-18</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090075</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090075</AcctSvcrRef>
+              <EndToEndId>Manual: 390526</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">300.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Grankulla Service AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 390526</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 390526</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090076</NtryRef>
+        <Amt Ccy="SEK">9806.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-19</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-19</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090076</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090076</AcctSvcrRef>
+              <EndToEndId>Manual: 2002593548</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">9806.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Kilfors AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 2002593548</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 2002593548</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090077</NtryRef>
+        <Amt Ccy="SEK">139.25</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-20</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-20</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090077</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090077</AcctSvcrRef>
+              <EndToEndId>Manual: 903136872228</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">139.25</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903136872228</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903136872228</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090078</NtryRef>
+        <Amt Ccy="SEK">5979.49</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-20</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-20</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090078</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090078</AcctSvcrRef>
+              <EndToEndId>Manual: 903138332924</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5979.49</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903138332924</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903138332924</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090079</NtryRef>
+        <Amt Ccy="SEK">8535.44</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-21</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-21</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090079</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090079</AcctSvcrRef>
+              <EndToEndId>Manual: 17/08/2026 - 04/09/2026</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">8535.44</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ärling Jernberg</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 17/08/2026 - 04/09/2026</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 17/08/2026 - 04/09/2026</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090080</NtryRef>
+        <Amt Ccy="SEK">5451.63</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-22</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-22</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090080</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090080</AcctSvcrRef>
+              <EndToEndId>Manual: 903139576628</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5451.63</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903139576628</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903139576628</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090081</NtryRef>
+        <Amt Ccy="SEK">4750.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-23</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-23</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090081</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090081</AcctSvcrRef>
+              <EndToEndId>Manual: 2904373</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">4750.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Sjöhaga Sverige AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 2904373</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 2904373</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090082</NtryRef>
+        <Amt Ccy="SEK">4270.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-24</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-24</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090082</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090082</AcctSvcrRef>
+              <EndToEndId>Manual: 526781646629</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">4270.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Kvarnvik Partner AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 526781646629</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 526781646629</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090083</NtryRef>
+        <Amt Ccy="SEK">14976.74</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-24</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-24</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090083</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090083</AcctSvcrRef>
+              <EndToEndId>Manual: 903140049623</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">14976.74</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903140049623</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903140049623</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090084</NtryRef>
+        <Amt Ccy="SEK">4990.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-25</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-25</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090084</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090084</AcctSvcrRef>
+              <EndToEndId>Manual: 7656592</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">4990.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Älvdal AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 7656592</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 7656592</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090085</NtryRef>
+        <Amt Ccy="SEK">7855.99</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-25</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-25</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090085</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090085</AcctSvcrRef>
+              <EndToEndId>Manual: 26/08/2026 - 14/09/2026</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">7855.99</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Joakim Sandberg</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 26/08/2026 - 14/09/2026</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 26/08/2026 - 14/09/2026</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090086</NtryRef>
+        <Amt Ccy="SEK">11694.58</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-26</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-26</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090086</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090086</AcctSvcrRef>
+              <EndToEndId>Manual: 23/08/2026 - 15/09/2026</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">11694.58</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Dan Cronvall</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 23/08/2026 - 15/09/2026</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 23/08/2026 - 15/09/2026</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090087</NtryRef>
+        <Amt Ccy="SEK">1204.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-26</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-26</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090087</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090087</AcctSvcrRef>
+              <EndToEndId>Manual: September</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1204.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ebba Rydell</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: September</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: September</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090088</NtryRef>
+        <Amt Ccy="SEK">5535.95</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-27</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-27</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090088</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090088</AcctSvcrRef>
+              <EndToEndId>Manual: 903140518320</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5535.95</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Östanfors Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 903140518320</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 903140518320</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090089</NtryRef>
+        <Amt Ccy="SEK">5183.92</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-28</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-28</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090089</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090089</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">5183.92</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Solvik Service AB</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090090</NtryRef>
+        <Amt Ccy="SEK">811.99</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-28</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-28</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090090</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090090</AcctSvcrRef>
+              <EndToEndId>Manual: 53300512267345</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">811.99</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Ulvsjö Nordic AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 53300512267345</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 53300512267345</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090091</NtryRef>
+        <Amt Ccy="SEK">184.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-30</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-30</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090091</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090091</AcctSvcrRef>
+              <EndToEndId>Manual: 18187111089662078</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">184.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Nordkap Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 18187111089662078</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 18187111089662078</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090092</NtryRef>
+        <Amt Ccy="SEK">2748.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-30</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-30</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090092</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090092</AcctSvcrRef>
+              <EndToEndId>Manual: 2500764499585364</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">2748.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Vallmo Service AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 2500764499585364</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 2500764499585364</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090093</NtryRef>
+        <Amt Ccy="SEK">1063.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-30</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-30</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090093</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090093</AcctSvcrRef>
+              <EndToEndId>Manual: 2500764499585760</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1063.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Vallmo Service AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 2500764499585760</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 2500764499585760</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090094</NtryRef>
+        <Amt Ccy="SEK">1374.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-30</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-30</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090094</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090094</AcctSvcrRef>
+              <EndToEndId>Manual: 2500764499589069</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">1374.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Vallmo Service AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 2500764499589069</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 2500764499589069</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090095</NtryRef>
+        <Amt Ccy="SEK">176029.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-30</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-30</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090095</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090095</AcctSvcrRef>
+              <EndToEndId>Manual: 2500764502448360</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">176029.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Mossberg AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 2500764502448360</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 2500764502448360</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090096</NtryRef>
+        <Amt Ccy="SEK">766.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-30</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-30</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090096</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090096</AcctSvcrRef>
+              <EndToEndId>Manual: 5378351000</EndToEndId>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">766.00</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Mittåsen Industri AB</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>OCR Manual: 5378351000</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Manual: 5378351000</AddtlNtryInf>
+      </Ntry>
+      <Ntry>
+        <NtryRef>505123452026090097</NtryRef>
+        <Amt Ccy="SEK">45868.95</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2026-09-30</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2026-09-30</Dt>
+        </ValDt>
+        <AcctSvcrRef>505123452026090097</AcctSvcrRef>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>505123452026090097</AcctSvcrRef>
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="SEK">45868.95</Amt>
+              </TxAmt>
+            </AmtDtls>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Kilfors Teknik AB</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>

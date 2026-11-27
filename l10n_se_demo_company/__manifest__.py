@@ -2,7 +2,7 @@
     'name': 'l10n_se: Demo Company',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_demo_company',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'category': 'Accounting/Localization',
     'license': 'AGPL-3',
     'summary': 'Shared demo company for accounting and payroll demo data.',

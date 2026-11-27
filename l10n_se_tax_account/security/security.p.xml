@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Company isolation for tax account reconciliation -->
+    <record id="tax_account_reconciliation_company_rule"
+            model="ir.rule">
+      <field name="name">
+        Tax Account Reconciliation: multi-company
+      </field>
+      <field name="model_id"
+             ref="model_tax_account_reconciliation"/>
+      <field name="domain_force">
+        [('company_id', 'in', company_ids)]
+      </field>
+    </record>
+
+    <record id="tax_account_reconciliation_booked_line_company_rule"
+            model="ir.rule">
+      <field name="name">
+        Tax Account Reconciliation Booked Line: multi-company
+      </field>
+      <field name="model_id"
+             ref="model_tax_account_reconciliation_booked_line"/>
+      <field name="domain_force">
+        [('reconciliation_id.company_id', 'in', company_ids)]
+      </field>
+    </record>
+
+    <record id="tax_account_reconciliation_imported_line_company_rule"
+            model="ir.rule">
+      <field name="name">
+        Tax Account Reconciliation Imported Line: multi-company
+      </field>
+      <field name="model_id"
+             ref="model_tax_account_reconciliation_imported_line"/>
+      <field name="domain_force">
+        [('reconciliation_id.company_id', 'in', company_ids)]
+      </field>
+    </record>
+
+  </data>
+</odoo>
