@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2026 Vertel Sverige AB (https://vertel.se)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <!--
+          Swedish names for the OCA transport modes.
+          The xmlids live in module intrastat_product (id without module prefix).
+          The codes are the EU Intrastat transport mode codes and are unchanged.
+        -->
+        <record id="intrastat_product.intrastat_transport_1" model="intrastat.transport_mode">
+            <field name="name">Sjötransport</field>
+        </record>
+        <record id="intrastat_product.intrastat_transport_2" model="intrastat.transport_mode">
+            <field name="name">Järnvägstransport</field>
+        </record>
+        <record id="intrastat_product.intrastat_transport_3" model="intrastat.transport_mode">
+            <field name="name">Vägtransport</field>
+        </record>
+        <record id="intrastat_product.intrastat_transport_4" model="intrastat.transport_mode">
+            <field name="name">Lufttransport</field>
+        </record>
+        <record id="intrastat_product.intrastat_transport_5" model="intrastat.transport_mode">
+            <field name="name">Postförsändelse</field>
+        </record>
+        <record id="intrastat_product.intrastat_transport_7" model="intrastat.transport_mode">
+            <field name="name">Fast installation (rörledning/elkabel)</field>
+        </record>
+        <record id="intrastat_product.intrastat_transport_8" model="intrastat.transport_mode">
+            <field name="name">Transport på inre vattenvägar</field>
+        </record>
+        <record id="intrastat_product.intrastat_transport_9" model="intrastat.transport_mode">
+            <field name="name">Egen framdrivning</field>
+        </record>
+
+    </data>
+</odoo>

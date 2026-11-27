@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Förmåner & Löneväxling — Lessons                             -->
+    <!-- ============================================================ -->
+
+    <!-- Lesson: Bilförmån -->
+    <record id="lesson_car_benefit" model="l10n_se.training.lesson">
+        <field name="name">Bilförmån — beräkning och rapportering</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_benefits"/>
+        <field name="difficulty">intermediate</field>
+        <field name="estimated_minutes">25</field>
+        <field name="overview">
+            <![CDATA[
+            <p>När en anställd använder företagets bil privat uppstår en bilförmån — en skattepliktig förmån som ska tas upp i AGI och påverka den anställdes preliminärskatt.</p>
+            <p>Förmånsvärdet beräknas enligt Skatteverkets schablonregler och är oberoende av den faktiska privata körningen.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Så beräknas förmånsvärdet</h3>
+            <p>Förmånsvärdet består av tre delar:</p>
+            <ol>
+              <li><strong>Grundbelopp:</strong> 9% av bilens nybilspris (max 37 000 kr för 2024)</li>
+              <li><strong>Ränterelaterat belopp:</strong> 75% av statslåneräntan × nybilspriset</li>
+              <li><strong>Prisrelaterat belopp:</strong> 13% av prisbasbeloppet (om bilen kostar > 7,5 prisbasbelopp)</li>
+            </ol>
+            <p>Exempel: Bil med nybilspris 350 000 kr, statslåneränta 2,5%:</p>
+            <ul>
+              <li>Grundbelopp: 9% × 350 000 = 31 500</li>
+              <li>Räntedel: 75% × 2,5% × 350 000 = 6 563</li>
+              <li><strong>Totalt förmånsvärde: 38 063 kr/år ≈ 3 172 kr/mån</strong></li>
+            </ul>
+            <p>Förmånsvärdet läggs ovanpå bruttolönen vid skatteberäkning men betalas inte ut till den anställde.</p>
+            ]]>
+        </field>
+        <field name="odoo_guide">
+            <![CDATA[
+            <h3>I Odoo (modul: l10n_se_hr_payroll_benefits):</h3>
+            <ol>
+              <li>Registrera förmånsbil på den anställde: <strong>Lön → Anställda → Förmåner</strong></li>
+              <li>Ange bilens nybilspris, drivmedel, miljöklass</li>
+              <li>Systemet beräknar automatiskt månatligt förmånsvärde</li>
+              <li>Förmånsvärdet syns på lönespecen och rapporteras i AGI (ruta 51)</li>
+            </ol>
+            <p><em>Tips: Använd SKV:s API för bilförmån för att hämta aktuella schablonbelopp automatiskt.</em></p>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Lesson: Traktamente -->
+    <record id="lesson_traktamente" model="l10n_se.training.lesson">
+        <field name="name">Traktamente och reseersättning</field>
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_benefits"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">15</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Vid tjänsteresor kan arbetsgivaren betala skattefritt traktamente och reseersättning enligt Skatteverkets schablonbelopp. Traktamente täcker ökade levnadskostnader vid övernattning på annan ort.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Skattefria schablonbelopp 2024</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Typ</th><th>Heldag</th><th>Halvdag</th></tr>
+            <tr><td>Inrikes (normalort)</td><td>260 kr</td><td>130 kr</td></tr>
+            <tr><td>Inrikes (övrig ort)</td><td>260 kr</td><td>130 kr</td></tr>
+            <tr><td>Utrikes</td><td colspan="2">Varierar per land (SKV normbelopp)</td></tr>
+            </table>
+            <p>Utöver traktamente kan arbetsgivaren betala:</p>
+            <ul>
+              <li><strong>Logi:</strong> Faktisk kostnad (skattefritt)</li>
+              <li><strong>Resekostnader:</strong> Faktisk kostnad (skattefritt)</li>
+              <li><strong>Milersättning egen bil:</strong> 25 kr/mil (skattefritt), överskjutande del är skattepliktig</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

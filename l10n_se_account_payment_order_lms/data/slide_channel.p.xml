@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         Betalorder och Pending-state — Utbildning
+         5 sektioner, 20+ slides
+
+         AVPUBLICERAD 2026-11-12 (T/10526): denna kurs är generation 1 och
+         ersätts av account_payment_order_autogiro_lms (generisk) +
+         sfa_payment_training_lms (SFA-tillägg). Kanalen och alla slides är
+         satta is_published=False så att de inte visas på /slides. Modulen
+         behålls installerad som referens — avinstalleras inte.
+         ═══════════════════════════════════════════════════════════ -->
+
+    <record id="slide_channel_payment_pending" model="slide.channel">
+        <field name="name">Betalorder och Pending-state — så fungerar betalningar i Odoo</field>
+        <field name="description">
+Utbildning om betalorder i Odoo med svenska betalsätt (IBAN, Bankgiro, Autogiro).
+Omfattar: betalorderns livscykel, pending-state (in_payment), bankavstämning,
+och praktisk konfiguration av betalmetoder och betalsätt.
+        </field>
+        <field name="channel_type">training</field>
+        <field name="enroll">public</field>
+        <field name="is_published" eval="False"/>
+    </record>
+
+    </data>
+</odoo>

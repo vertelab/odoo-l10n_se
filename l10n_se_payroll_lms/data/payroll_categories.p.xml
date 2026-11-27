@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Payroll Training Categories                                  -->
+    <!-- ============================================================ -->
+
+    <!-- 1. Löneadministration -->
+    <record id="cat_salary_basics" model="l10n_se.training.category">
+        <field name="name">Löneadministration</field>
+        <field name="sequence">10</field>
+        <field name="icon">fa-calculator</field>
+        <field name="color">1</field>
+        <field name="description">
+            <![CDATA[
+            <p>Grunderna i svensk lönehantering — systemoberoende:</p>
+            <ul>
+                <li>Lönearter: månadslön, timlön, övertid, OB, traktamente</li>
+                <li>Lönekörningens livscykel: skapa → beräkna → granska → betala → bokför</li>
+                <li>Anställningsformer: tillsvidare, visstid, timanställd</li>
+                <li>Personnummer och skatteuppgifter</li>
+                <li>Arbetsgivaravgifter: full (31,42%), ålderspension (16,36%), särskild löneskatt (6,15%)</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/arbetsgivare</field>
+    </record>
+
+    <!-- 2. Skattetabeller & Preliminärskatt -->
+    <record id="cat_tax_tables" model="l10n_se.training.category">
+        <field name="name">Skattetabeller &amp; Preliminärskatt</field>
+        <field name="sequence">20</field>
+        <field name="icon">fa-landmark</field>
+        <field name="color">2</field>
+        <field name="description">
+            <![CDATA[
+            <p>Hur preliminärskatt beräknas och dras från lönen:</p>
+            <ul>
+                <li>Skattetabeller från Skatteverket — hur de fungerar</li>
+                <li>Huvudtabell vs tabell för högre skatt (jämkning)</li>
+                <li>Kolumnval baserat på kommunalskatt</li>
+                <li>Engångsskatt på engångsbelopp</li>
+                <li>SINK-skatt (särskild inkomstskatt för utomlands bosatta)</li>
+                <li>Fråga om skatteavdrag via SKV API</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/arbetsgivare/skatt</field>
+    </record>
+
+    <!-- 3. Semester & Semesterlöneskuld -->
+    <record id="cat_holidays" model="l10n_se.training.category">
+        <field name="name">Semester &amp; Semesterlöneskuld</field>
+        <field name="sequence">30</field>
+        <field name="icon">fa-book</field>
+        <field name="color">3</field>
+        <field name="description">
+            <![CDATA[
+            <p>Svensk semesterhantering enligt Semesterlagen:</p>
+            <ul>
+                <li>Semesterrätt: 25 dagar (minimum, kan vara fler i kollektivavtal)</li>
+                <li>Semesterår och intjänandeår</li>
+                <li>Semesterlön: 12% av semesterlönegrundande lön (sammalöneregistret)</li>
+                <li>Semesterlöneskuld — bokföring och periodisering</li>
+                <li>Outtagen semester: spara dagar (max 5 år)</li>
+                <li>Semesterersättning vid anställningens slut</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 4. Sjuklön, VAB & Föräldraledighet -->
+    <record id="cat_absence" model="l10n_se.training.category">
+        <field name="name">Sjuklön, VAB &amp; Föräldraledighet</field>
+        <field name="sequence">40</field>
+        <field name="icon">fa-book</field>
+        <field name="color">4</field>
+        <field name="description">
+            <![CDATA[
+            <p>Hantering av frånvaro och ersättning från Försäkringskassan:</p>
+            <ul>
+                <li>Sjuklön: dag 1 (karensavdrag), dag 2-14 (arbetsgivaren betalar 80%)</li>
+                <li>Sjuklön efter dag 14: FK tar över, arbetsgivaren rapporterar</li>
+                <li>VAB (vård av barn): ersättning från FK</li>
+                <li>Föräldraledighet: föräldrapenning från FK, ev. föräldralön från AG</li>
+                <li>Smittbärarpenning, närståendepenning</li>
+                <li>Återkrav och avstämning mot FK-beslut</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.forsakringskassan.se/arbetsgivare</field>
+    </record>
+
+    <!-- 5. Kollektivavtal -->
+    <record id="cat_collective" model="l10n_se.training.category">
+        <field name="name">Kollektivavtal</field>
+        <field name="sequence">50</field>
+        <field name="icon">fa-balance-scale</field>
+        <field name="color">5</field>
+        <field name="description">
+            <![CDATA[
+            <p>Hur kollektivavtal påverkar lönehanteringen:</p>
+            <ul>
+                <li>Vad är ett kollektivavtal och varför påverkar det lönen?</li>
+                <li>Olika avtalsområden: IF Metall, Kommunal, Unionen, Byggnads, etc.</li>
+                <li>Avtalspension (ITP, SAF-LO, AKAP-KL)</li>
+                <li>Försäkringar (TGL, TFA, AGS, AGB)</li>
+                <li>OB-tillägg, övertidsersättning, beredskap</li>
+                <li>Avtalsförhandlingar och löneökningar</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 6. Förmåner & Löneväxling -->
+    <record id="cat_benefits" model="l10n_se.training.category">
+        <field name="name">Förmåner &amp; Löneväxling</field>
+        <field name="sequence">60</field>
+        <field name="icon">fa-file-invoice</field>
+        <field name="color">6</field>
+        <field name="description">
+            <![CDATA[
+            <p>Skattepliktiga och skattefria förmåner:</p>
+            <ul>
+                <li>Bilförmån — beräkning av förmånsvärde (SKV API)</li>
+                <li>Kostförmån, bostadsförmån, ränteförmån</li>
+                <li>Friskvårdsbidrag (skattefritt upp till 5 000 kr)</li>
+                <li>Traktamente och reseersättning</li>
+                <li>Löneväxling: bruttolöneavdrag mot pension eller bil</li>
+                <li>Personalrabatter</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/arbetsgivare/formaner</field>
+    </record>
+
+    <!-- 7. Arbetsgivardeklaration AGI — moved from account LMS -->
+    <record id="cat_employer" model="l10n_se.training.category">
+        <field name="name">Arbetsgivardeklaration (AGI)</field>
+        <field name="sequence">70</field>
+        <field name="icon">fa-landmark</field>
+        <field name="color">7</field>
+        <field name="description">
+            <![CDATA[
+            <p>Månatlig rapportering av anställdas löner och skatter till Skatteverket:</p>
+            <ul>
+                <li>AGI vs AGD — vad är skillnaden?</li>
+                <li>Individuppgifter — ruta för ruta (50-82)</li>
+                <li>Åldersbaserade arbetsgivaravgifter (31,42% / 16,36% / 6,15%)</li>
+                <li>Växa-stöd — lägre avgift för första anställd</li>
+                <li>KU10 — kontrolluppgifter</li>
+            </ul>
+            <p><strong>Källa:</strong> Skatteverket Rättslig vägledning Arbetsgivardeklaration</p>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.skatteverket.se/foretag/arbetsgivare/arbetsgivardeklaration</field>
+    </record>
+
+    <!-- 8. FORA & Tjänstepension -->
+    <record id="cat_fora" model="l10n_se.training.category">
+        <field name="name">FORA &amp; Tjänstepension</field>
+        <field name="sequence">80</field>
+        <field name="icon">fa-landmark</field>
+        <field name="color">8</field>
+        <field name="description">
+            <![CDATA[
+            <p>Rapportering av kollektivavtalade försäkringar och pensioner till FORA:</p>
+            <ul>
+                <li>Vad är FORA och vem måste rapportera?</li>
+                <li>Försäkringar: TGL, TFA, AGS, AGB</li>
+                <li>Tjänstepension: SAF-LO, ITP1, ITP2, AKAP-KL</li>
+                <li>Premieberäkning per anställd och avtal</li>
+                <li>FORA-XML generering och inlämning</li>
+                <li>Årlig slutlikvid (avstämning)</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="skv_url">https://www.fora.se/</field>
+    </record>
+
+    <!-- 9. Arbetsgivarintyg -->
+    <record id="cat_employment_cert" model="l10n_se.training.category">
+        <field name="name">Arbetsgivarintyg</field>
+        <field name="sequence">90</field>
+        <field name="icon">fa-file-invoice</field>
+        <field name="color">9</field>
+        <field name="description">
+            <![CDATA[
+            <p>Digitala arbetsgivarintyg enligt svensk standard:</p>
+            <ul>
+                <li>När behövs ett arbetsgivarintyg?</li>
+                <li>Vilka uppgifter ska intyget innehålla?</li>
+                <li>Digital signering och inlämning via arbetsgivarintyg.nu</li>
+                <li>Tidsfrister och rättsliga krav</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+    <!-- 10. Tidrapportering & SCB -->
+    <record id="cat_time" model="l10n_se.training.category">
+        <field name="name">Tidrapportering &amp; SCB</field>
+        <field name="sequence">100</field>
+        <field name="icon">fa-chart-line</field>
+        <field name="color">10</field>
+        <field name="description">
+            <![CDATA[
+            <p>Tidrapportering och statistik till SCB:</p>
+            <ul>
+                <li>Kontering av arbetstid (TiiChri-integration)</li>
+                <li>SCB:s lönerapportering — vilka uppgifter efterfrågas?</li>
+                <li>Medelantal anställda — beräkning och rapportering</li>
+                <li>Flextidsavstämning</li>
+            </ul>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

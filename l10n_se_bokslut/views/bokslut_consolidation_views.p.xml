@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_bokslut_form_consolidation" model="ir.ui.view">
+        <field name="name">account.bokslut.form.consolidation</field>
+        <field name="model">account.bokslut</field>
+        <field name="inherit_id" ref="view_bokslut_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Group Consolidation (IAS 21)" colspan="2">
+                    <field name="consolidation_currency_id"/>
+                    <button name="action_export_consolidation_json"
+                            type="object" string="Export JSON"
+                            class="btn-link" icon="fa-download"
+                            invisible="not consolidation_currency_id"/>
+                    <button name="action_export_consolidation_csv"
+                            type="object" string="Export CSV"
+                            class="btn-link" icon="fa-download"
+                            invisible="not consolidation_currency_id"/>
+                    <div class="text-muted" colspan="2">
+                        Assets and liabilities at the closing rate, income
+                        and expenses at the average rate. The translation
+                        difference belongs in the group's equity and is
+                        not booked here.
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

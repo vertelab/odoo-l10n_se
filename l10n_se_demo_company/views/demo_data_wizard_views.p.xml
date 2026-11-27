@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_demo_data_wizard_form" model="ir.ui.view">
+        <field name="name">demo.data.wizard.form</field>
+        <field name="model">demo.data.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Demo data">
+                <group>
+                    <group>
+                        <field name="source"/>
+                        <field name="action"/>
+                        <field name="quarter"
+                               invisible="action == 'load'"
+                               required="action != 'load'"/>
+                        <field name="confirm_remove"
+                               invisible="action != 'remove'"/>
+                    </group>
+                    <group>
+                        <field name="loaded_through"/>
+                        <field name="next_quarter"/>
+                        <field name="divergence"
+                               invisible="not divergence"/>
+                    </group>
+                </group>
+                <field name="removal_preview"
+                       invisible="not removal_preview"/>
+                <field name="line_ids" nolabel="1">
+                    <list>
+                        <field name="name"/>
+                        <field name="kind"/>
+                        <field name="state" decoration-success="state == 'loaded'"
+                               decoration-warning="state == 'unreconciled'"/>
+                        <field name="loaded_at"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_run" type="object"
+                            string="Run" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_demo_data_wizard" model="ir.actions.act_window">
+        <field name="name">Demo data</field>
+        <field name="res_model">demo.data.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_demo_data"
+              name="Demo data"
+              parent="account.menu_finance_configuration"
+              action="action_demo_data_wizard"
+              sequence="90"/>
+</odoo>

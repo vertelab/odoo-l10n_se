@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_agi_declaration,account.agi.declaration,model_account_agi_declaration,account.group_account_manager,1,1,1,1
+access_account_agi_declaration_line,account.agi.declaration.line,model_account_agi_declaration_line,account.group_account_manager,1,1,1,1
+access_account_agi_declaration_user,account.agi.declaration,model_account_agi_declaration,account.group_account_user,1,0,0,0
+access_account_agi_declaration_line_user,account.agi.declaration.line,model_account_agi_declaration_line,account.group_account_user,1,0,0,0

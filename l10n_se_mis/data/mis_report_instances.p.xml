@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Moved to l10n_se_tax_report to fix UniqueViolation on module upgrade -->
+    <data noupdate="1"/>
+</odoo>

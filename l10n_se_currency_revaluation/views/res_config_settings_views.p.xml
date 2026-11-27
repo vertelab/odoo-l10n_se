@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form.currency.revaluation</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="Currency Revaluation">
+                    <setting id="currency_revaluation_setting"
+                             help="Accounts and journal for unrealised currency revaluation">
+                        <field name="currency_revaluation_journal_id"/>
+                        <field name="currency_revaluation_gain_account_id"/>
+                        <field name="currency_revaluation_loss_account_id"/>
+                        <field name="currency_revaluation_reverse"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

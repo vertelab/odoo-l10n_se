@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_config_settings" model="ir.ui.view">
+            <field name="name">account settings.inherited.l10n_se_tax_report</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="l10n_se_skatteverket_api.view_account_config_settings" />
+            <field name="arch" type="xml">
+                <xpath expr="//block[@id='skv_api_block']" position="after">
+                    <block title="Deklarationsinställningar" id="declaration_settings_block" groups="account.group_account_user">
+                        <setting id="tax_frequency" help="Select the VAT declaration frequency"
+                                 title="VAT Declaration Frequency">
+                            <field name="vat_declaration_frequency"/>
+                        </setting>
+                        <setting id="accounting_method" help="Select the accounting method for VAT"
+                                 title="Redovisningsmetod">
+                            <field name="accounting_method"/>
+                        </setting>
+                        <setting id="vat_report_template_id"
+                                 help="Report used for VAT declarations"
+                                 title="VAT Report Template">
+                            <field name="vat_report_template_id"/>
+                        </setting>
+                        <setting id="pc_report_template_id"
+                                 help="MIS report template used for Periodic Compilation (EU sales list)"
+                                 title="PC Report Template">
+                            <field name="pc_report_template_id"/>
+                        </setting>
+                        <setting id="pc_warn_supplied_goods_without_tax"
+                                 help="Warn when a line credits 3106/3108 without a tax code. Box 35 of the periodic compilation is defined by the VTEU tax code, so such a line can never reach the declaration."
+                                 title="Warn on EU goods without tax code">
+                            <field name="pc_warn_supplied_goods_without_tax"/>
+                        </setting>
+                    </block>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">add_arbetsgivare</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="ag_contact"/>
+                    <field name="agd_journal"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

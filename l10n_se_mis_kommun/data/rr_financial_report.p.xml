@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Report Definition -->
+        <record id="report_rr" model="mis.report">
+            <field name="name">Resultaträkning</field>
+        </record>
+
+        <!-- Verksamhetens intäkter (30-39) -->
+        <record id="report_rr_VerksamhetensIntakter" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">VerksamhetensIntakter</field>
+            <field name="description">Verksamhetens intäkter</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">1</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_VerksamhetensIntakter" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_VerksamhetensIntakter"/>
+            <field name="name">bal[3%]</field>
+        </record>
+
+        <!-- Verksamhetens kostnader (40-78) -->
+        <record id="report_rr_VerksamhetensKostnader" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">VerksamhetensKostnader</field>
+            <field name="description">Verksamhetens kostnader</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">2</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_VerksamhetensKostnader" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_VerksamhetensKostnader"/>
+            <field name="name">bal[4%,5%,6%,71%,72%,73%,74%,75%,76%,77%,78%]</field>
+        </record>
+
+        <!-- Avskrivningar (79) -->
+        <record id="report_rr_Avskrivningar" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">Avskrivningar</field>
+            <field name="description">Avskrivningar</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">3</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_Avskrivningar" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_Avskrivningar"/>
+            <field name="name">bal[79%]</field>
+        </record>
+
+        <!-- Verksamhetens nettokostnader -->
+        <record id="report_rr_VerksamhetensNettokostnader" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">VerksamhetensNettokostnader</field>
+            <field name="description">Verksamhetens nettokostnader</field>
+            <field name="style_id" ref="report_style_3"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_VerksamhetensNettokostnader" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_VerksamhetensNettokostnader"/>
+            <field name="name">VerksamhetensIntakter + VerksamhetensKostnader + Avskrivningar</field>
+        </record>
+
+        <!-- Skatteintäkter (80) -->
+        <record id="report_rr_Skatteintakter" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">Skatteintakter</field>
+            <field name="description">Skatteintäkter</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">5</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_Skatteintakter" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_Skatteintakter"/>
+            <field name="name">bal[80%]</field>
+        </record>
+
+        <!-- Generella statsbidrag och utjämning (82-83) -->
+        <record id="report_rr_GenerellaStatsbidrag" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">GenerellaStatsbidrag</field>
+            <field name="description">Generella statsbidrag och utjämning</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">6</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_GenerellaStatsbidrag" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_GenerellaStatsbidrag"/>
+            <field name="name">bal[82%,83%]</field>
+        </record>
+
+        <!-- Verksamhetens resultat -->
+        <record id="report_rr_VerksamhetensResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">VerksamhetensResultat</field>
+            <field name="description">Verksamhetens resultat</field>
+            <field name="style_id" ref="report_style_3"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">7</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_VerksamhetensResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_VerksamhetensResultat"/>
+            <field name="name">VerksamhetensNettokostnader + Skatteintakter + GenerellaStatsbidrag</field>
+        </record>
+
+        <!-- Finansiella intäkter (84) -->
+        <record id="report_rr_FinansiellaIntakter" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">FinansiellaIntakter</field>
+            <field name="description">Finansiella intäkter</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">8</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_FinansiellaIntakter" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_FinansiellaIntakter"/>
+            <field name="name">bal[84%]</field>
+        </record>
+
+        <!-- Finansiella kostnader (85) -->
+        <record id="report_rr_FinansiellaKostnader" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">FinansiellaKostnader</field>
+            <field name="description">Finansiella kostnader</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">9</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_FinansiellaKostnader" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_FinansiellaKostnader"/>
+            <field name="name">bal[85%]</field>
+        </record>
+
+        <!-- Resultat efter finansiella poster -->
+        <record id="report_rr_ResultatEfterFinansiellaposter" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">ResultatEfterFinansiellaposter</field>
+            <field name="description">Resultat efter finansiella poster</field>
+            <field name="style_id" ref="report_style_3"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_ResultatEfterFinansiellaposter" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_ResultatEfterFinansiellaposter"/>
+            <field name="name">VerksamhetensResultat + FinansiellaIntakter + FinansiellaKostnader</field>
+        </record>
+
+        <!-- Extraordinära poster (87-88) -->
+        <record id="report_rr_ExtraordinaraPoster" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">ExtraordinaraPoster</field>
+            <field name="description">Extraordinära poster</field>
+            <field name="style_id" ref="report_style_1"/>
+            <field name="sequence">11</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_2"/>
+            <field name="budgetable">True</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_ExtraordinaraPoster" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_ExtraordinaraPoster"/>
+            <field name="name">bal[87%,88%]</field>
+        </record>
+
+        <!-- Årets resultat -->
+        <record id="report_rr_AretsResultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_rr"/>
+            <field name="name">AretsResultat</field>
+            <field name="description">Årets resultat</field>
+            <field name="style_id" ref="report_style_3"/>
+            <field name="type">num</field>
+            <field name="budgetable">True</field>
+            <field name="sequence">12</field>
+        </record>
+
+        <record id="kpi_expr_report_rr_AretsResultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_rr_AretsResultat"/>
+            <field name="name">ResultatEfterFinansiellaposter + ExtraordinaraPoster</field>
+        </record>
+
+    </data>
+</odoo>

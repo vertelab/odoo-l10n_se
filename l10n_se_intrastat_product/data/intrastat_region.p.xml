@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Swedish Regions (Län) for Intrastat -->
+        <record id="intrastat_region_AB" model="intrastat.region">
+            <field name="code">AB</field>
+            <field name="name">Stockholms län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_C" model="intrastat.region">
+            <field name="code">C</field>
+            <field name="name">Uppsala län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_D" model="intrastat.region">
+            <field name="code">D</field>
+            <field name="name">Södermanlands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_E" model="intrastat.region">
+            <field name="code">E</field>
+            <field name="name">Östergötlands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_F" model="intrastat.region">
+            <field name="code">F</field>
+            <field name="name">Jönköpings län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_G" model="intrastat.region">
+            <field name="code">G</field>
+            <field name="name">Kronobergs län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_H" model="intrastat.region">
+            <field name="code">H</field>
+            <field name="name">Kalmar län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_I" model="intrastat.region">
+            <field name="code">I</field>
+            <field name="name">Gotlands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_K" model="intrastat.region">
+            <field name="code">K</field>
+            <field name="name">Blekinge län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_M" model="intrastat.region">
+            <field name="code">M</field>
+            <field name="name">Skåne län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_N" model="intrastat.region">
+            <field name="code">N</field>
+            <field name="name">Hallands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_O" model="intrastat.region">
+            <field name="code">O</field>
+            <field name="name">Västra Götalands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_S" model="intrastat.region">
+            <field name="code">S</field>
+            <field name="name">Värmlands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_T" model="intrastat.region">
+            <field name="code">T</field>
+            <field name="name">Örebro län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_U" model="intrastat.region">
+            <field name="code">U</field>
+            <field name="name">Västmanlands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_W" model="intrastat.region">
+            <field name="code">W</field>
+            <field name="name">Dalarnas län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_X" model="intrastat.region">
+            <field name="code">X</field>
+            <field name="name">Gävleborgs län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_Y" model="intrastat.region">
+            <field name="code">Y</field>
+            <field name="name">Västernorrlands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_Z" model="intrastat.region">
+            <field name="code">Z</field>
+            <field name="name">Jämtlands län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_AC" model="intrastat.region">
+            <field name="code">AC</field>
+            <field name="name">Västerbottens län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+        <record id="intrastat_region_BD" model="intrastat.region">
+            <field name="code">BD</field>
+            <field name="name">Norrbottens län</field>
+            <field name="country_id" ref="base.se"/>
+        </record>
+
+    </data>
+</odoo>

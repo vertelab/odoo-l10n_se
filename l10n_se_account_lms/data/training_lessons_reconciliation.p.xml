@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Bankavstämning — Lessons                                     -->
+    <!-- ============================================================ -->
+
+    <!-- Lesson: Bankavstämning teori -->
+    <record id="lesson_reconciliation_theory" model="l10n_se.training.lesson">
+        <field name="name">Bankavstämning — teori och metod</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_reconciliation"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">20</field>
+        <field name="bas_accounts">1930</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Bankavstämning (att "pricka banken") innebär att du jämför bankens kontoutdrag med företagets bokförda transaktioner på konto 1930 (Bankkonto). Syftet är att hitta differenser — transaktioner som banken har men inte du, eller tvärtom.</p>
+            <p>Detta är <strong>systemoberoende</strong> — du kan göra det med papper och penna, i Excel, eller i Odoo.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Varför uppstår differenser?</h3>
+            <ol>
+              <li><strong>Tidsskillnad:</strong> Du bokför en betalning den 30:e, banken registrerar den den 1:a.</li>
+              <li><strong>Glömda transaktioner:</strong> Bankavgifter, räntor, autogiro som du inte bokfört.</li>
+              <li><strong>Felaktiga belopp:</strong> Du bokförde 5 000, banken drog 5 001.</li>
+              <li><strong>Dubbelbokföring:</strong> Samma transaktion bokförd två gånger.</li>
+            </ol>
+
+            <h3>Avstämningsprocessen</h3>
+            <ol>
+              <li>Hämta bankens kontoutdrag för perioden</li>
+              <li>Jämför varje banktransaktion mot bokförda verifikationer på 1930</li>
+              <li>Markera matchade transaktioner (avprickning)</li>
+              <li>Identifiera omatchade poster (differenser)</li>
+              <li>Utred och åtgärda differenser</li>
+              <li>Dokumentera avstämningen</li>
+            </ol>
+            ]]>
+        </field>
+        <field name="procedure">
+            <![CDATA[
+            <h3>4-pass matchningslogik (generisk)</h3>
+            <p>Detta är en beprövad metod för att systematiskt matcha banktransaktioner mot bokföringen, baserad på Accounted (erp-mafia/accounted):</p>
+
+            <table border="1" cellpadding="5">
+            <tr><th>Pass</th><th>Regel</th><th>Träffsäkerhet</th></tr>
+            <tr><td>1</td><td>Exakt belopp + exakt datum</td><td>95% — i stort sett alltid korrekt</td></tr>
+            <tr><td>2</td><td>Exakt belopp + OCR-referens inom ±90 dagar</td><td>90% — OCR är unik identifierare</td></tr>
+            <tr><td>3</td><td>Exakt belopp + datum inom ±3 dagar</td><td>85% — bankfördröjning är vanligt</td></tr>
+            <tr><td>4</td><td>Fuzzy belopp (±0,01) + exakt datum</td><td>75% — avrundningsdifferenser</td></tr>
+            </table>
+
+            <p><strong>Greedy matching:</strong> Kör passen i ordning. När en transaktion matchas, ta bort den från poolen så den inte matchas igen.</p>
+            ]]>
+        </field>
+        <field name="odoo_guide">
+            <![CDATA[
+            <h3>I Odoo:</h3>
+            <ol>
+              <li>Gå till <strong>Bokföring → Bank → Bankavstämning</strong></li>
+              <li>Klicka <strong>4-Pass Auto-Reconcile</strong> för automatisk matchning</li>
+              <li>Granska matchningar med hög konfidens (≥90%) — dessa är nästan alltid korrekta</li>
+              <li>Granska matchningar med lägre konfidens manuellt</li>
+              <li>Skapa manuella matchningar för kvarvarande differenser</li>
+            </ol>
+            <p><em>Modul: l10n_se_ocr_reconcile — använder OCR-extrahering från banktransaktioner för att automatiskt matcha mot fakturor.</em></p>
+            ]]>
+        </field>
+        <field name="common_mistakes">
+            <![CDATA[
+            <p><strong>Vanliga fel:</strong></p>
+            <ul>
+              <li>Matcha på beskrivning istället för OCR — ger falska träffar på återkommande betalningar</li>
+              <li>Inte kontrollera riktning — en insättning (debet 1930) matchar inte en utbetalning</li>
+              <li>Matcha transaktioner över årsskiften utan att kontrollera datum-intervall</li>
+            </ul>
+            ]]>
+        </field>
+        <field name="skv_reference">Skatteverket — Löpande bokföring och avstämning</field>
+    </record>
+
+</odoo>

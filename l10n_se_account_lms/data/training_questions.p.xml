@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Diagnostiska frågor — Account LMS                            -->
+    <!-- ============================================================ -->
+
+    <!-- Grundläggande bokföring -->
+    <record id="q_basics_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_basics"/>
+        <field name="lesson_id" ref="lesson_double_entry"/>
+        <field name="difficulty">easy</field>
+        <field name="question_text">
+            <![CDATA[<p>Vad innebär dubbel bokföring?</p>]]>
+        </field>
+        <field name="answer_a">Varje transaktion bokförs på minst två konton — ett debiteras och ett krediteras</field>
+        <field name="answer_b">Alla transaktioner bokförs två gånger för säkerhets skull</field>
+        <field name="answer_c">Man använder två olika bokföringsprogram parallellt</field>
+        <field name="answer_d">Både företaget och Skatteverket bokför samma transaktion</field>
+        <field name="correct_answer">a</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: A.</strong> Dubbel bokföring betyder att varje affärshändelse bokförs på minst två konton. Summan av debet måste alltid vara lika med summan av kredit. Detta är grunden för all modern redovisning och regleras i Bokföringslagen (1999:1078) 4 kap. 4 §.</p>
+            ]]>
+        </field>
+    </record>
+
+    <record id="q_basics_2" model="l10n_se.training.question">
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_basics"/>
+        <field name="difficulty">easy</field>
+        <field name="question_text">
+            <![CDATA[<p>Ett företag köper kontorsmaterial för 1 250 kr inklusive moms (25%). Vilket konto krediteras?</p>]]>
+        </field>
+        <field name="answer_a">1930 Bankkonto (1 250 kr)</field>
+        <field name="answer_b">5410 Förbrukningsinventarier (1 000 kr)</field>
+        <field name="answer_c">2640 Ingående moms (250 kr)</field>
+        <field name="answer_d">2610 Utgående moms (250 kr)</field>
+        <field name="correct_answer">a</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: A.</strong> Vid kontant inköp krediteras 1930 Bankkonto (utbetalning). Hela konteringen: 5410 debet 1 000 + 2640 debet 250 = 1930 kredit 1 250.</p>
+            ]]>
+        </field>
+    </record>
+
+    <record id="q_basics_3" model="l10n_se.training.question">
+        <field name="sequence">30</field>
+        <field name="category_id" ref="cat_basics"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>Du har bokfört en felaktig verifikation. Vad är det korrekta sättet att rätta felet?</p>]]>
+        </field>
+        <field name="answer_a">Radera verifikationen och skapa en ny korrekt</field>
+        <field name="answer_b">Ändra beloppen direkt i den befintliga verifikationen</field>
+        <field name="answer_c">Skapa en storno-verifikation som reverserar felet, och en ny korrekt verifikation</field>
+        <field name="answer_d">Kontakta Skatteverket för tillstånd att ändra</field>
+        <field name="correct_answer">c</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: C.</strong> En bokförd verifikation får aldrig raderas eller ändras (BFL 5 kap). Korrigering görs via storno — en ny verifikation som reverserar den felaktiga, följt av en ny korrekt verifikation. Detta bevarar full revisionsspårbarhet.</p>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Momsredovisning -->
+    <record id="q_vat_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_vat"/>
+        <field name="difficulty">easy</field>
+        <field name="question_text">
+            <![CDATA[<p>Vilken momssats gäller för böcker och tidningar i Sverige?</p>]]>
+        </field>
+        <field name="answer_a">25%</field>
+        <field name="answer_b">12%</field>
+        <field name="answer_c">6%</field>
+        <field name="answer_d">0% (momsfritt)</field>
+        <field name="correct_answer">c</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: C (6%).</strong> Böcker, tidningar, persontransport och viss kultur omfattas av den lägsta momssatsen 6%. Livsmedel har 12% och de flesta övriga varor/tjänster har 25%.</p>]]>
+        </field>
+    </record>
+
+    <record id="q_vat_2" model="l10n_se.training.question">
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_vat"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>Vad är skillnaden mellan kontantmetoden och fakturametoden för moms?</p>]]>
+        </field>
+        <field name="answer_a">Kontantmetoden redovisar moms när fakturan skickas, fakturametoden när betalning sker</field>
+        <field name="answer_b">Fakturametoden redovisar moms när fakturan skickas, kontantmetoden när betalning sker</field>
+        <field name="answer_c">Det är samma sak — bara olika namn</field>
+        <field name="answer_d">Kontantmetoden gäller endast för kontantbetalningar</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: B.</strong> Fakturametoden (huvudregel) redovisar moms vid fakturatillfället oavsett betalning. Kontantmetoden (undantag, måste ansökas) redovisar moms först när betalning sker. OBS: I bokslutsperioden ska även kontantmetod-företag redovisa moms på obetalda fakturor enligt fakturametoden.</p>
+            ]]>
+        </field>
+    </record>
+
+    <record id="q_vat_3" model="l10n_se.training.question">
+        <field name="sequence">30</field>
+        <field name="category_id" ref="cat_vat"/>
+        <field name="difficulty">hard</field>
+        <field name="question_text">
+            <![CDATA[<p>Ruta 49 i momsdeklarationen visar "Moms att betala eller få tillbaka". Hur beräknas den?</p>]]>
+        </field>
+        <field name="answer_a">Ruta 49 = Ruta 10 + 11 + 12 − Ruta 48</field>
+        <field name="answer_b">Ruta 49 = Ruta 10+11+12+30+31+32+60+61+62 − Ruta 48</field>
+        <field name="answer_c">Ruta 49 = Ruta 05 × 25% − Ruta 48</field>
+        <field name="answer_d">Ruta 49 fylls i manuellt av företaget</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: B.</strong> Ruta 49 är summan av all utgående moms (10+11+12 från svensk försäljning, 30+31+32 från EU-inköp, 60+61+62 från import) minus ingående moms (48). Den beräknas automatiskt — den fylls inte i manuellt.</p>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Bankavstämning -->
+    <record id="q_recon_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_reconciliation"/>
+        <field name="difficulty">easy</field>
+        <field name="question_text">
+            <![CDATA[<p>Vad är syftet med bankavstämning?</p>]]>
+        </field>
+        <field name="answer_a">Att kontrollera att banken inte gör fel</field>
+        <field name="answer_b">Att jämföra bankens kontoutdrag med bokförda transaktioner och identifiera differenser</field>
+        <field name="answer_c">Att beräkna räntan på bankkontot</field>
+        <field name="answer_d">Att skicka in kontoutdrag till Skatteverket</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: B.</strong> Bankavstämning innebär att jämföra bankens kontoutdrag med företagets bokförda transaktioner på konto 1930. Syftet är att hitta differenser — transaktioner som banken har men inte du, eller tvärtom.</p>]]>
+        </field>
+    </record>
+
+    <record id="q_recon_2" model="l10n_se.training.question">
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_reconciliation"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>I 4-pass bankavstämning — vilket pass har högst konfidens (95%)?</p>]]>
+        </field>
+        <field name="answer_a">Fuzzy belopp (±0,01) + exakt datum</field>
+        <field name="answer_b">Exakt belopp + OCR-referens inom ±90 dagar</field>
+        <field name="answer_c">Exakt belopp + exakt datum</field>
+        <field name="answer_d">Exakt belopp + datum inom ±3 dagar</field>
+        <field name="correct_answer">c</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: C.</strong> Pass 1 (exakt belopp + exakt datum) har 95% konfidens. Detta är den säkraste matchningen — samma belopp samma dag. Pass 2 (OCR inom ±90 dagar) har 90%, Pass 3 (datum ±3 dagar) har 85%, och Pass 4 (fuzzy ±0,01) har 75%.</p>]]>
+        </field>
+    </record>
+
+    <!-- Bokslut -->
+    <record id="q_yearend_1" model="l10n_se.training.question">
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_year_end"/>
+        <field name="difficulty">medium</field>
+        <field name="question_text">
+            <![CDATA[<p>Vad är den aktuella bolagsskattesatsen i Sverige (2024)?</p>]]>
+        </field>
+        <field name="answer_a">22,0%</field>
+        <field name="answer_b">20,6%</field>
+        <field name="answer_c">25,0%</field>
+        <field name="answer_d">18,5%</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[<p><strong>Rätt svar: B (20,6%).</strong> Bolagsskatten sänktes från 22% till 20,6% 2021. Den beräknas på det skattepliktiga resultatet efter bokslutsdispositioner.</p>]]>
+        </field>
+    </record>
+
+    <record id="q_yearend_2" model="l10n_se.training.question">
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_year_end"/>
+        <field name="difficulty">hard</field>
+        <field name="question_text">
+            <![CDATA[<p>Ett företag har resultat före bokslutsdispositioner på 500 000 kr. De har en periodiseringsfond på 200 000 kr från förra året som måste återföras. Hur stor avsättning till periodiseringsfond kan de göra i år?</p>]]>
+        </field>
+        <field name="answer_a">125 000 kr (25% av 500 000)</field>
+        <field name="answer_b">175 000 kr (25% av 700 000 efter återföring)</field>
+        <field name="answer_c">200 000 kr</field>
+        <field name="answer_d">500 000 kr</field>
+        <field name="correct_answer">b</field>
+        <field name="explanation">
+            <![CDATA[
+            <p><strong>Rätt svar: B.</strong> Efter återföring av periodiseringsfonden blir resultatet 500 000 + 200 000 = 700 000 kr. Max avsättning är 25% av detta = 175 000 kr. Periodiseringsfond måste återföras senast år 6 och schablonintäkt beräknas på kvarvarande belopp.</p>
+            ]]>
+        </field>
+    </record>
+
+</odoo>
