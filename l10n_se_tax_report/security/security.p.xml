@@ -1,5 +1,4 @@
 <odoo>
-    <!-- #if VERSION <= "19.0" -->
     <data>
         <record id="l10n_se_tax_report_company_rule" model="ir.rule">
             <field name="name">account_vat_declaration: Account VAT Declaration</field>
@@ -8,5 +7,4 @@
         </record>
 
     </data>
-    <!-- #endif -->
 </odoo>

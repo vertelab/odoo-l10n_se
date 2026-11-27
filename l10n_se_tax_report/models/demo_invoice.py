@@ -210,7 +210,13 @@ class account_invoice(models.Model):
     _inherit = 'account.move'
     
     @api.model
-    def demo_add_tax_lines(self):
+    def demo_add_tax_lines(self, invoice_ref_id):
+        """Run the line onchange on the invoice behind an xmlid.
+
+        invoice_ref_id was an undeclared name, so the method raised
+        NameError whenever it was called. It takes the xmlid as an
+        argument now.
+        """
         record = self.env.ref(invoice_ref_id)
         record._onchange_invoice_line_ids()
         

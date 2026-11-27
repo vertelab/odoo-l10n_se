@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ar_report_br" model="account.report">
+            <field name="name">Balansräkning</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="column_ids">
+                <record id="ar_report_br_col_balance" model="account.report.column">
+                    <field name="name">Balance</field>
+                    <field name="expression_label">balance</field>
+                    <field name="figure_type">monetary</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_anlaggningstillgangar" model="account.report.line">
+            <field name="name">A. Anläggningstillgångar</field>
+            <field name="code">ANLAGGNINGSTILLGANGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="ar_report_br_line_immateriellaanlaggningstillganga" model="account.report.line">
+            <field name="name">I. Immateriella anläggningstillgångar</field>
+            <field name="code">IMMATERIELLAANLAGGNINGSTILLGANGA</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">2</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_immateriellaanlaggningstillganga_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">10</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_materiellaanlaggningstillgangar" model="account.report.line">
+            <field name="name">II. Materiella anläggningstillgångar</field>
+            <field name="code">MATERIELLAANLAGGNINGSTILLGANGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">3</field>
+        </record>
+        <record id="ar_report_br_line_markbyggnader" model="account.report.line">
+            <field name="name">1. Mark, byggnader och tekniska anläggningar</field>
+            <field name="code">MARKBYGGNADER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">4</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_markbyggnader_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">11</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_maskinerinventarier" model="account.report.line">
+            <field name="name">2. Maskiner och inventarier</field>
+            <field name="code">MASKINERINVENTARIER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">5</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_maskinerinventarier_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">12</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_ovrigamateriellaanlaggningstillg" model="account.report.line">
+            <field name="name">3. Övriga materiella anläggningstillgångar</field>
+            <field name="code">OVRIGAMATERIELLAANLAGGNINGSTILLG</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">6</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_ovrigamateriellaanlaggningstillg_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula"></field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_finansiellaanlaggningstillgangar" model="account.report.line">
+            <field name="name">III. Finansiella anläggningstillgångar</field>
+            <field name="code">FINANSIELLAANLAGGNINGSTILLGANGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">7</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_finansiellaanlaggningstillgangar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">130,131,132,133,134,135,136,137,138</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_summaanlaggningstillgangar" model="account.report.line">
+            <field name="name">Summa anläggningstillgångar</field>
+            <field name="code">SUMMAANLAGGNINGSTILLGANGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">8</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_summaanlaggningstillgangar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">IMMATERIELLAANLAGGNINGSTILLGANGA.balance + MARKBYGGNADER.balance + MASKINERINVENTARIER.balance + OVRIGAMATERIELLAANLAGGNINGSTILLG.balance + FINANSIELLAANLAGGNINGSTILLGANGAR.balance</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_bidraginfrastruktur" model="account.report.line">
+            <field name="name">B. Bidrag till infrastruktur</field>
+            <field name="code">BIDRAGINFRASTRUKTUR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">9</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_bidraginfrastruktur_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">139</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_omsattningstillgangar" model="account.report.line">
+            <field name="name">C. Omsättningstillgångar</field>
+            <field name="code">OMSATTNINGSTILLGANGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ar_report_br_line_forrad" model="account.report.line">
+            <field name="name">I. Förråd m.m.</field>
+            <field name="code">FORRAD</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">11</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_forrad_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">14</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_fordringar" model="account.report.line">
+            <field name="name">II. Fordringar</field>
+            <field name="code">FORDRINGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">12</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_fordringar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">15,16,17</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_kortfristigaplaceringar" model="account.report.line">
+            <field name="name">III. Kortfristiga placeringar</field>
+            <field name="code">KORTFRISTIGAPLACERINGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">13</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_kortfristigaplaceringar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">18</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_kassabank" model="account.report.line">
+            <field name="name">IV. Kassa och bank</field>
+            <field name="code">KASSABANK</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">14</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_kassabank_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">19</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_summaomsattningstillgangar" model="account.report.line">
+            <field name="name">Summa omsättningstillgångar</field>
+            <field name="code">SUMMAOMSATTNINGSTILLGANGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">15</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_summaomsattningstillgangar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">FORRAD.balance + FORDRINGAR.balance + KORTFRISTIGAPLACERINGAR.balance + KASSABANK.balance</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_summatillgangar" model="account.report.line">
+            <field name="name">Summa tillgångar</field>
+            <field name="code">SUMMATILLGANGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">16</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_summatillgangar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">SUMMAANLAGGNINGSTILLGANGAR.balance + BIDRAGINFRASTRUKTUR.balance + SUMMAOMSATTNINGSTILLGANGAR.balance</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_egetkapitalskulder" model="account.report.line">
+            <field name="name">EGET KAPITAL, AVSÄTTNINGAR OCH SKULDER</field>
+            <field name="code">EGETKAPITALSKULDER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">17</field>
+        </record>
+        <record id="ar_report_br_line_egetkapital" model="account.report.line">
+            <field name="name">A. Eget kapital</field>
+            <field name="code">EGETKAPITAL</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">18</field>
+        </record>
+        <record id="ar_report_br_line_aretsresultat" model="account.report.line">
+            <field name="name">I. Årets resultat</field>
+            <field name="code">ARETSRESULTAT</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">19</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_aretsresultat_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">202</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_resultatutjamningsreserv" model="account.report.line">
+            <field name="name">II. Resultatutjämningsreserv</field>
+            <field name="code">RESULTATUTJAMNINGSRESERV</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">20</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_resultatutjamningsreserv_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula"></field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_ovrigtegetkapital" model="account.report.line">
+            <field name="name">III. Övrigt eget kapital</field>
+            <field name="code">OVRIGTEGETKAPITAL</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">21</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_ovrigtegetkapital_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">20%] - bal[202</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_summaegetkapital" model="account.report.line">
+            <field name="name">Summa eget kapital</field>
+            <field name="code">SUMMAEGETKAPITAL</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">22</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_summaegetkapital_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">ARETSRESULTAT.balance + RESULTATUTJAMNINGSRESERV.balance + OVRIGTEGETKAPITAL.balance</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_avsattningar" model="account.report.line">
+            <field name="name">B. Avsättningar</field>
+            <field name="code">AVSATTNINGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">23</field>
+        </record>
+        <record id="ar_report_br_line_avsattningarpensioner" model="account.report.line">
+            <field name="name">I. Avsättningar för pensioner och liknande förplikt</field>
+            <field name="code">AVSATTNINGARPENSIONER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">24</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_avsattningarpensioner_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">221,222,225</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_andraavsattningar" model="account.report.line">
+            <field name="name">II. Andra avsättningar</field>
+            <field name="code">ANDRAAVSATTNINGAR</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">25</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_andraavsattningar_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">228</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_skulder" model="account.report.line">
+            <field name="name">C. Skulder</field>
+            <field name="code">SKULDER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">26</field>
+        </record>
+        <record id="ar_report_br_line_langfristigaskulder" model="account.report.line">
+            <field name="name">I. Långfristiga skulder</field>
+            <field name="code">LANGFRISTIGASKULDER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">27</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_langfristigaskulder_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">23</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_kortfristigaskulder" model="account.report.line">
+            <field name="name">II. Kortfristiga skulder</field>
+            <field name="code">KORTFRISTIGASKULDER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">28</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_kortfristigaskulder_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">24,25,26,27,28,29</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_summaegetkapitalavsattningarskul" model="account.report.line">
+            <field name="name">Summa eget kapital, avsättningar och skulder</field>
+            <field name="code">SUMMAEGETKAPITALAVSATTNINGARSKUL</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">29</field>
+            <field name="expression_ids">
+                <record id="ar_report_br_line_summaegetkapitalavsattningarskul_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">SUMMAEGETKAPITAL.balance + AVSATTNINGARPENSIONER.balance + ANDRAAVSATTNINGAR.balance + LANGFRISTIGASKULDER.balance + KORTFRISTIGASKULDER.balance</field>
+                    <field name="date_scope">from_beginning</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_br_line_panter" model="account.report.line">
+            <field name="name">PANTER OCH ANSVARSFÖRBINDELSER</field>
+            <field name="code">PANTER</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ar_report_br_line_leasing" model="account.report.line">
+            <field name="name">Leasing</field>
+            <field name="code">LEASING</field>
+            <field name="report_id" ref="ar_report_br"/>
+            <field name="sequence">31</field>
+        </record>
+    </data>
+</odoo>

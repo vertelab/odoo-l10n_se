@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2022- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -44,9 +44,13 @@ Export/Import
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/mis_export_import',
     'license': 'AGPL-3',
-    'depends': ['mis_builder', 'l10n_se_mis'],
+    'depends': ['mis_builder'],
     "data": [
         # #if VERSION >= "20.0"
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer.
         "security/ir.access.csv",
         # #else
         "security/ir.model.access.csv",

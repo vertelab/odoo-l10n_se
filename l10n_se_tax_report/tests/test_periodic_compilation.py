@@ -1,5 +1,6 @@
 from odoo.tests import common, tagged
 from odoo import fields
+from odoo.exceptions import UserError
 from datetime import date, timedelta
 
 TEST_YEAR = 2099  # Far future year to avoid conflicts with existing data
@@ -15,7 +16,7 @@ class TestPeriodicCompilation(common.TransactionCase):
         cls.Partner = cls.env['res.partner']
         cls.AccountMove = cls.env['account.move']
         cls.AccountTax = cls.env['account.tax']
-        cls.AccountFiscalyear = cls.env['account.fiscalyear']
+        cls.AccountFiscalyear = cls.env['account.fiscal.year']
         cls.PeriodicCompilation = cls.env['account.periodic.compilation']
         cls.VatDeclaration = cls.env['account.vat.declaration']
 
@@ -73,9 +74,8 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         cls.fiscalyear = cls.AccountFiscalyear.create({
             'name': 'Test Fiscal Year %d' % TEST_YEAR,
-            'code': str(TEST_YEAR),
-            'date_start': date(TEST_YEAR, 1, 1),
-            'date_stop': date(TEST_YEAR, 12, 31),
+            'date_from': date(TEST_YEAR, 1, 1),
+            'date_to': date(TEST_YEAR, 12, 31),
             'company_id': cls.env.company.id,
         })
 
@@ -159,7 +159,6 @@ class TestPeriodicCompilation(common.TransactionCase):
     def test_create_periodic(self):
         pc = self.PeriodicCompilation.create({
             'name': 'Test PC',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 1, 1),
             'date_stop': date(TEST_YEAR, 1, 31),
         })
@@ -180,7 +179,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'EU Goods Test',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -197,7 +195,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'EU Service Test',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -226,7 +223,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Group By Partner',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -246,7 +242,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Non-EU excluded',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -263,7 +258,6 @@ class TestPeriodicCompilation(common.TransactionCase):
 
         pc = self.PeriodicCompilation.create({
             'name': 'Draft Reset',
-            'fiscalyear_id': self.fiscalyear.id,
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -274,14 +268,19 @@ class TestPeriodicCompilation(common.TransactionCase):
         self.assertEqual(len(pc.line_ids), 0,
                          "Lines should be cleared after do_draft")
 
-    def test_manual_entry_on_3106_caught_by_mis(self):
-        """Manual journal entry on account 3106 should be caught by MIS
-        drilldown, even though there is no invoice line with VTEU tax.
-        This is the core fix for the reported bug."""
+    def test_manual_entry_on_3106_without_tax_warns(self):
+        """A manual entry crediting 3106 without a tax code must be refused
+        at posting time.
+
+        Box 35 of the periodic compilation is defined by the VTEU/VTEU3 tax
+        codes, not by the account. A line on 3106 with no tax at all is
+        therefore undefined for the report and would silently drop out of the
+        declaration. The guard lives in account.move._post() so the mistake is
+        caught where it is made.
+        """
         if not self.eu_goods_account or not self.general_journal:
             self.skipTest("Missing account 3106 or general journal")
 
-        # Create a manual journal entry: debit 1510, credit 3106
         manual_move = self.AccountMove.create({
             'move_type': 'entry',
             'partner_id': self.eu_partner.id,
@@ -289,14 +288,14 @@ class TestPeriodicCompilation(common.TransactionCase):
             'date': date(TEST_YEAR, 6, 20),
             'line_ids': [
                 (0, 0, {
-                    'name': 'EU goods via manual entry',
+                    'name': 'EU goods via manual entry, no tax',
                     'account_id': self.receivable_account.id,
                     'debit': 15000.0,
                     'credit': 0.0,
                     'partner_id': self.eu_partner.id,
                 }),
                 (0, 0, {
-                    'name': 'EU goods via manual entry',
+                    'name': 'EU goods via manual entry, no tax',
                     'account_id': self.eu_goods_account.id,
                     'debit': 0.0,
                     'credit': 15000.0,
@@ -304,41 +303,25 @@ class TestPeriodicCompilation(common.TransactionCase):
                 }),
             ],
         })
-        manual_move.action_post()
+        with self.assertRaises(UserError):
+            manual_move.action_post()
 
-        pc = self.PeriodicCompilation.create({
-            'name': 'Manual Entry Test',
-            'fiscalyear_id': self.fiscalyear.id,
-            'date_start': date(TEST_YEAR, 6, 1),
-            'date_stop': date(TEST_YEAR, 6, 30),
-        })
-        pc.calculate()
-        self.assertEqual(pc.state, 'confirmed')
-        self.assertGreater(
-            len(pc.line_ids), 0,
-            "Periodic compilation should have lines for the manual entry")
-        line = pc.line_ids.filtered(lambda l: l.partner_id == self.eu_partner)
-        self.assertEqual(len(line), 1)
-        self.assertGreater(
-            line.pc_supplied_goods, 0,
-            "Manual entry on 3106 should be included in pc_supplied_goods")
-
-    def test_mis_catches_both_invoice_and_manual(self):
-        """Periodic compilation should include both invoice-based VTEU
-        goods and manual entries on account 3106, giving the same total
-        as the VAT report's Ruta 35 (ForsVaruAnnatEg)."""
+    def test_manual_entry_on_3106_with_vteu_is_caught(self):
+        """A manual entry on 3106 carrying VTEU must reach box 35, and must be
+        summed with invoice-based VTEU goods on the same account."""
         if not self.eu_goods_account or not self.general_journal:
             self.skipTest("Missing account 3106 or general journal")
 
+        vteu = self.taxes['vteu']
+
         # Invoice-based VTEU goods on 3106
-        income_account_3106 = self.eu_goods_account
-        prod = self._create_product('EU Goods', self.taxes['vteu'])
+        prod = self._create_product('EU Goods', vteu)
         self._create_invoice(
             self.eu_partner, 'out_invoice', prod, 10, 1000,
-            account=income_account_3106,
+            account=self.eu_goods_account,
         )
 
-        # Manual entry on 3106 (no VTEU tax)
+        # Manual entry on 3106, WITH VTEU
         manual_move = self.AccountMove.create({
             'move_type': 'entry',
             'partner_id': self.eu_partner.id,
@@ -346,26 +329,26 @@ class TestPeriodicCompilation(common.TransactionCase):
             'date': date(TEST_YEAR, 6, 20),
             'line_ids': [
                 (0, 0, {
-                    'name': 'Manual EU goods',
+                    'name': 'Manual EU goods with VTEU',
                     'account_id': self.receivable_account.id,
                     'debit': 5000.0,
                     'credit': 0.0,
                     'partner_id': self.eu_partner.id,
                 }),
                 (0, 0, {
-                    'name': 'Manual EU goods',
+                    'name': 'Manual EU goods with VTEU',
                     'account_id': self.eu_goods_account.id,
                     'debit': 0.0,
                     'credit': 5000.0,
                     'partner_id': self.eu_partner.id,
+                    'tax_ids': [(6, 0, vteu.ids)],
                 }),
             ],
         })
         manual_move.action_post()
 
         pc = self.PeriodicCompilation.create({
-            'name': 'Combined Test',
-            'fiscalyear_id': self.fiscalyear.id,
+            'name': 'Manual Entry With VTEU',
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
@@ -376,7 +359,42 @@ class TestPeriodicCompilation(common.TransactionCase):
         # 10 * 1000 (invoice) + 5000 (manual) = 15000
         self.assertEqual(
             line.pc_supplied_goods, 15000.0,
-            "Both invoice-based and manual entries on 3106 should be summed")
+            "Invoice-based and manual VTEU entries on 3106 should be summed")
+
+    def test_manual_entry_on_3106_without_tax_allowed_when_disabled(self):
+        """The guard is per company and can be switched off, so a company that
+        deliberately posts corrections on 3106 without a tax code is not
+        blocked."""
+        if not self.eu_goods_account or not self.general_journal:
+            self.skipTest("Missing account 3106 or general journal")
+
+        self.env.company.pc_warn_supplied_goods_without_tax = False
+
+        manual_move = self.AccountMove.create({
+            'move_type': 'entry',
+            'partner_id': self.eu_partner.id,
+            'journal_id': self.general_journal.id,
+            'date': date(TEST_YEAR, 6, 20),
+            'line_ids': [
+                (0, 0, {
+                    'name': 'Correction on 3106, no tax',
+                    'account_id': self.receivable_account.id,
+                    'debit': 1000.0,
+                    'credit': 0.0,
+                    'partner_id': self.eu_partner.id,
+                }),
+                (0, 0, {
+                    'name': 'Correction on 3106, no tax',
+                    'account_id': self.eu_goods_account.id,
+                    'debit': 0.0,
+                    'credit': 1000.0,
+                    'partner_id': self.eu_partner.id,
+                }),
+            ],
+        })
+        # Must not raise
+        manual_move.action_post()
+        self.assertEqual(manual_move.state, 'posted')
 
     def test_mis_kpi_consistency_with_vat(self):
         """Periodic compilation should agree with the VAT report's Ruta 35
@@ -419,6 +437,7 @@ class TestPeriodicCompilation(common.TransactionCase):
                     'debit': 0.0,
                     'credit': 3000.0,
                     'partner_id': self.eu_partner.id,
+                    'tax_ids': [(6, 0, self.taxes['vteu'].ids)],
                 }),
             ],
         })
@@ -439,46 +458,40 @@ class TestPeriodicCompilation(common.TransactionCase):
             'date_stop': date_stop,
         })
 
-        # Get VAT report KPI value for ForsVaruAnnatEg
-        if vat_decl.generated_mis_report_id:
-            matrix = vat_decl.generated_mis_report_id._compute_matrix()
-            vat_goods_value = 0.0
-            for row in matrix.iter_rows():
-                if row.kpi.name == 'ForsVaruAnnatEg':
-                    vals = [c.val for c in row.iter_cells()]
-                    if isinstance(vals[0], (float, int)):
-                        vat_goods_value = abs(vals[0])
+        # Get the VAT report's box 35 value.
+        amounts = vat_decl._get_box_amounts()
+        vat_goods_value = abs(amounts.get('se_35', 0.0))
 
-            # PC total goods should match VAT Ruta 35
-            pc_goods_total = sum(pc.line_ids.mapped('pc_supplied_goods'))
-            self.assertAlmostEqual(
-                pc_goods_total, vat_goods_value, delta=1.0,
-                msg="PC total goods should match VAT Ruta 35 (ForsVaruAnnatEg)")
+        # PC total goods should match VAT box 35
+        pc_goods_total = sum(pc.line_ids.mapped('pc_supplied_goods'))
+        self.assertAlmostEqual(
+            pc_goods_total, vat_goods_value, delta=1.0,
+            msg="PC total goods should match VAT box 35")
 
-    def test_mis_instance_created(self):
-        """A MIS report instance should be automatically created when
-        the periodic compilation is created."""
+    def test_report_created(self):
+        """The periodic compilation points at an account.report.
+
+        Before the migration it auto-created a MIS Builder instance. That
+        instance is gone; the compilation now references the report it is
+        computed from, and the period comes from the compilation's own dates.
+        """
         pc = self.PeriodicCompilation.create({
-            'name': 'MIS Instance Test',
+            'name': 'Report Test',
             'date_start': date(TEST_YEAR, 6, 1),
             'date_stop': date(TEST_YEAR, 6, 30),
         })
         self.assertTrue(
+            pc.generated_report_id,
+            "The compilation should reference an account.report")
+        self.assertEqual(pc.generated_report_id._name, 'account.report')
+        self.assertFalse(
             pc.generated_mis_report_id,
-            "A MIS report instance should be auto-created")
-        self.assertEqual(
-            pc.generated_mis_report_id.period_ids[0].manual_date_from,
-            date(TEST_YEAR, 6, 1),
-        )
-        self.assertEqual(
-            pc.generated_mis_report_id.period_ids[0].manual_date_to,
-            date(TEST_YEAR, 6, 30),
-        )
+            "No MIS instance should be created any more")
 
-    def test_same_data_via_invoice_and_mis(self):
+    def test_same_data_via_invoice_and_report(self):
         """When EU goods are on account 3106 with VTEU tax, they should
-        appear only ONCE in the PC (not double-counted via both MIS
-        drilldown and invoice iteration)."""
+        appear only ONCE in the PC (not double-counted via both the report
+        drill-down and the invoice iteration)."""
         if not self.eu_goods_account:
             self.skipTest("Missing account 3106")
 
@@ -498,3 +511,49 @@ class TestPeriodicCompilation(common.TransactionCase):
         self.assertEqual(
             pc.line_ids.pc_supplied_goods, 10000.0,
             "Should not double-count: 10*1000 = 10000, not 20000")
+
+    def test_pc_name_shows_buyer_company_for_invoice_address(self):
+        """T/12519 — the buyer name must not be empty for an invoice address.
+
+        An invoice address (``type='invoice'``) carries no ``name`` of its own:
+        Odoo composes "Company, Invoice Address" in ``complete_name``. Reading
+        the raw ``partner_id.name`` therefore printed a VAT number with no
+        buyer name. ``pc_name`` must resolve through the commercial entity.
+        """
+        company = self.Partner.create({
+            'name': 'DANSK VVS Import A/S',
+            'is_company': True,
+            'country_id': self.env.ref('base.dk').id,
+            'vat': 'DK73184517',
+        })
+        invoice_address = self.Partner.create({
+            'parent_id': company.id,
+            'type': 'invoice',
+            'country_id': self.env.ref('base.dk').id,
+        })
+        # The premise of the bug: the address itself has no name, but does
+        # inherit the VAT number.
+        self.assertFalse(invoice_address.name)
+        self.assertEqual(invoice_address.vat, 'DK73184517')
+
+        prod = self._create_product('EU Goods', self.taxes['vteu'])
+        self._create_invoice(
+            invoice_address, 'out_invoice', prod, 10, 1000,
+            account=self.income_account,
+        )
+
+        pc = self.PeriodicCompilation.create({
+            'name': 'Invoice Address Name',
+            'date_start': date(TEST_YEAR, 6, 1),
+            'date_stop': date(TEST_YEAR, 6, 30),
+        })
+        pc.calculate()
+        self.assertEqual(len(pc.line_ids), 1)
+        line = pc.line_ids
+        self.assertEqual(
+            line.pc_name, 'DANSK VVS Import A/S',
+            "pc_name must fall back to the commercial entity when the "
+            "invoice address has no name of its own")
+        self.assertEqual(
+            line.pc_purchasers_vat, 'DK73184517',
+            "the VAT number must still be shown")

@@ -1,0 +1,23 @@
+id,name,model_id,group_id/id,operation,domain
+access_tax_account_transaction_wizard,access_tax_account_transaction_wizard,tax_account.transaction.wizard,account.group_account_user,crud,
+access_tax_account_reconciliation_user,tax.account.reconciliation.user,tax.account.reconciliation,account.group_account_user,crud,
+access_tax_account_reconciliation_manager,tax.account.reconciliation.manager,tax.account.reconciliation,account.group_account_manager,crud,
+tax_account_reconciliation_company_rule,"
+        Tax Account Reconciliation: multi-company
+      ",tax.account.reconciliation,,crud,"
+        [('company_id', 'in', company_ids)]
+      "
+access_tax_account_reconciliation_booked_line_user,tax.account.reconciliation.booked.line.user,tax.account.reconciliation.booked.line,account.group_account_user,crud,
+access_tax_account_reconciliation_booked_line_manager,tax.account.reconciliation.booked.line.manager,tax.account.reconciliation.booked.line,account.group_account_manager,crud,
+tax_account_reconciliation_booked_line_company_rule,"
+        Tax Account Reconciliation Booked Line: multi-company
+      ",tax.account.reconciliation.booked.line,,crud,"
+        [('reconciliation_id.company_id', 'in', company_ids)]
+      "
+access_tax_account_reconciliation_imported_line_user,tax.account.reconciliation.imported.line.user,tax.account.reconciliation.imported.line,account.group_account_user,crud,
+access_tax_account_reconciliation_imported_line_manager,tax.account.reconciliation.imported.line.manager,tax.account.reconciliation.imported.line,account.group_account_manager,crud,
+tax_account_reconciliation_imported_line_company_rule,"
+        Tax Account Reconciliation Imported Line: multi-company
+      ",tax.account.reconciliation.imported.line,,crud,"
+        [('reconciliation_id.company_id', 'in', company_ids)]
+      "

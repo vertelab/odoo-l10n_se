@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_inherit_swedish_ocr" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.swedish.ocr</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="ocr_number" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_invoice_tree_inherit_swedish_ocr" model="ir.ui.view">
+        <field name="name">account.invoice.tree.inherit.swedish.ocr</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="ocr_number" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter_inherit_swedish_ocr" model="ir.ui.view">
+        <field name="name">account.invoice.filter.inherit.swedish.ocr</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">[
+                    '|', '|', '|', '|', '|',
+                    ('name', 'ilike', self), ('invoice_origin', 'ilike', self),
+                    ('ref', 'ilike', self), ('payment_reference', 'ilike', self),
+                    ('partner_id', 'child_of', self), ('ocr_number', 'ilike', self)]
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_mis_report_export_import,mis.report.export.import,mis.report.export.import,base.group_user,crud,

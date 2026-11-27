@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2017- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2017- Vertel Sverige AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -143,6 +143,12 @@ class account_declaration(models.Model):
     free_text = fields.Text(string='Upplysningstext')
     report_file = fields.Binary(string="Report-file", readonly=True)
     move_id = fields.Many2one(comodel_name='account.move', string='Verifikat', readonly=True)
+    skattekonto_move_id = fields.Many2one(
+        comodel_name='account.move', string='Verifikat skattekonto',
+        readonly=True, copy=False,
+        help="Verifikat som flyttar momsskulden från 2650 "
+             "(Redovisningskonto för moms) till 1630 (Skattekonto). "
+             "Skapas automatiskt när deklarationen beräknas/bekräftas.")
     event_id = fields.Many2one(comodel_name='calendar.event', readonly=True)
 
     # --- Skatteverket API fields (shared across all declaration types) ---
@@ -393,11 +399,17 @@ class account_vat_declaration(models.Model):
         if existing:
             return False
 
-        report = self.env.company.vat_report_template_id or self.env.ref('l10n_se_mis.report_md')
+        # The declaration is computed from the Swedish account.report, not
+        # from a MIS Builder template. vat_report_template_id is kept for
+        # configurations that pointed at a customer-specific MIS report.
+        report = self.env['account.report'].search(
+            [('country_id.code', '=', 'SE'), ('name', '=', 'skatterapport')],
+            limit=1)
 
-        fiscalyear = self.env['account.fiscalyear'].search([
-            ('date_start', '<=', date_start),
-            ('date_stop', '>=', date_stop),
+        # Ported 2026-10-30: account.fiscalyear -> account.fiscal.year.
+        fiscalyear = self.env['account.fiscal.year'].search([
+            ('date_from', '<=', date_start),
+            ('date_to', '>=', date_stop),
         ], limit=1)
 
         name = '%s %s - %s' % (self._report_name, date_start, date_stop)
@@ -406,8 +418,8 @@ class account_vat_declaration(models.Model):
             'date_start': fields.Date.to_string(date_start),
             'date_stop': fields.Date.to_string(date_stop),
             'date': fields.Date.to_string(date_deadline),
-            'report_id': report.id,
-            'accounting_yearend': fiscalyear and date_stop >= fiscalyear.date_stop,
+            'generated_report_id': report.id,
+            'accounting_yearend': fiscalyear and date_stop >= fiscalyear.date_to,
         })
 
         if declaration:

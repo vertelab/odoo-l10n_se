@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Löneadministration — Lessons                                 -->
+    <!-- ============================================================ -->
+
+    <!-- Lesson: Lönekörningens livscykel -->
+    <record id="lesson_salary_lifecycle" model="l10n_se.training.lesson">
+        <field name="name">Lönekörningens livscykel</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_salary_basics"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">25</field>
+        <field name="bas_accounts">7000-7199, 2700-2799</field>
+        <field name="legal_basis">Skatteförfarandelagen (2011:1244), LAS (1982:80)</field>
+        <field name="overview">
+            <![CDATA[
+            <p>En lönekörning är processen att beräkna och betala ut lön till anställda. Processen är densamma oavsett bokföringsprogram — endast verktygen skiljer sig. Här går vi igenom hela flödet från anställningsregistrering till bokförd lön.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Lönekörningens faser</h3>
+            <ol>
+              <li><strong>Registrera anställd:</strong> Personnummer, skattetabell, anställningsform, lön</li>
+              <li><strong>Samla underlag:</strong> Tidrapporter, frånvaro, övertid, reseräkningar</li>
+              <li><strong>Skapa lönekörning:</strong> En lönekörning per månad och företag</li>
+              <li><strong>Beräkna lön:</strong> Bruttolön → skatt → netto. Kontrollera mot skattetabell</li>
+              <li><strong>Granska:</strong> Kontroll mot föregående månad, orimliga avvikelser</li>
+              <li><strong>Betala:</strong> Skicka betalfil till banken (löneutbetalning + skatteinbetalning)</li>
+              <li><strong>Bokför:</strong> Kontera lönekostnader, skatteskulder, arbetsgivaravgifter</li>
+              <li><strong>Rapportera:</strong> AGI till Skatteverket, FORA-premier, SCB-statistik</li>
+            </ol>
+
+            <h3>Arbetsgivaravgifter — åldersbaserat</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Ålder</th><th>Avgift</th><th>%</th></tr>
+            <tr><td>&lt;66 år</td><td>Full arbetsgivaravgift</td><td>31,42%</td></tr>
+            <tr><td>&lt;66 år (Växa-stöd)</td><td>Ålderspension endast</td><td>10,21%</td></tr>
+            <tr><td>66-79 år</td><td>Ålderspensionsavgift</td><td>16,36%</td></tr>
+            <tr><td>≥80 år</td><td>Särskild löneskatt</td><td>6,15%</td></tr>
+            </table>
+            ]]>
+        </field>
+        <field name="odoo_guide">
+            <![CDATA[
+            <h3>I Odoo (modul: l10n_se_hr_payroll):</h3>
+            <ol>
+              <li>Gå till <strong>Lön → Lönekörningar → Skapa</strong></li>
+              <li>Välj period (månad)</li>
+              <li>Klicka <strong>Generera lönespecar</strong> — systemet skapar en per anställd</li>
+              <li>Granska varje lönespec: bruttolön, skatteavdrag, netto</li>
+              <li>Klicka <strong>Beräkna</strong> — preliminärskatt hämtas från skattetabell</li>
+              <li>Klicka <strong>Godkänn</strong></li>
+              <li>Klicka <strong>Skapa betalfil</strong> — ISO 20022 till banken</li>
+              <li>Klicka <strong>Bokför</strong> — skapar verifikationer i bokföringen</li>
+            </ol>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Lesson: Arbetsgivaravgifter -->
+    <record id="lesson_employer_fees" model="l10n_se.training.lesson">
+        <field name="name">Arbetsgivaravgifter — åldersbaserat system</field>
+        <field name="sequence">20</field>
+        <field name="category_id" ref="cat_salary_basics"/>
+        <field name="difficulty">beginner</field>
+        <field name="estimated_minutes">20</field>
+        <field name="skv_boxes">55-62</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Arbetsgivaravgiften är den skatt arbetsgivaren betalar på anställdas löner. Till skillnad från preliminärskatten (som dras från den anställdes lön) är arbetsgivaravgiften en kostnad för arbetsgivaren.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Räkneexempel</h3>
+            <p>Anställd, 35 år, månadslön 35 000 kr:</p>
+            <table border="1" cellpadding="5">
+            <tr><td>Bruttolön</td><td>35 000 kr</td></tr>
+            <tr><td>Arbetsgivaravgift (31,42%)</td><td>10 997 kr</td></tr>
+            <tr><td>Preliminärskatt (tabell 32, kol 1)</td><td>~9 500 kr</td></tr>
+            <tr><td><strong>Nettolön till anställd</strong></td><td><strong>~25 500 kr</strong></td></tr>
+            <tr><td><strong>Total kostnad för AG</strong></td><td><strong>45 997 kr</strong></td></tr>
+            </table>
+
+            <h3>Bokföring av lönekörning</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+            <tr><td>7010 Löner</td><td>35 000</td><td></td></tr>
+            <tr><td>7510 Arbetsgivaravgifter</td><td>10 997</td><td></td></tr>
+            <tr><td>2710 Personalens källskatt</td><td></td><td>9 500</td></tr>
+            <tr><td>2730 Lagstadgade sociala avgifter</td><td></td><td>10 997</td></tr>
+            <tr><td>1930 Bankkonto</td><td></td><td>25 500</td></tr>
+            </table>
+            <p>Debet: 45 997 = Kredit: 45 997 ✓</p>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

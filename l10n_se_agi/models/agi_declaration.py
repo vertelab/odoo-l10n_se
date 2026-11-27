@@ -2,11 +2,12 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<http://vertel.se>).
 #
 ##############################################################################
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 from lxml import etree
 import base64
 import logging

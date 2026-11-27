@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_l10n_se_demo_wizard_form" model="ir.ui.view">
+        <field name="name">l10n.se.demo.wizard.form</field>
+        <field name="model">l10n.se.demo.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Install Swedish demo data">
+                <group>
+                    <field name="company_id" readonly="1"/>
+                    <field name="chart_template"/>
+                    <field name="currency_id"/>
+                    <field name="is_compatible" invisible="1"/>
+                </group>
+                <div class="alert alert-warning" role="alert" invisible="is_compatible">
+                    This company does not use a Swedish chart of accounts.
+                    Install a Swedish chart (extended_se_K2 / extended_se_K3)
+                    before loading Swedish demo data.
+                </div>
+                <div class="alert alert-info" role="alert" invisible="not is_compatible">
+                    Creates demo journal entries (customer invoice, vendor bill,
+                    bank fee, rent) using this company's own accounts.
+                    Running it twice is safe — existing entries are skipped.
+                </div>
+                <footer>
+                    <button name="action_install" string="Install demo data"
+                            type="object" class="btn-primary"
+                            invisible="not is_compatible"/>
+                    <button special="cancel" string="Cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_se_demo_wizard" model="ir.actions.act_window">
+        <field name="name">Install Swedish demo data</field>
+        <field name="res_model">l10n.se.demo.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

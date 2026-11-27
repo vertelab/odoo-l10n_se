@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ar_report_kf_indirekt_k2" model="account.report">
+            <field name="name">Kassaflödesanalys indirekt metod K2</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="column_ids">
+                <record id="ar_report_kf_indirekt_k2_col_balance" model="account.report.column">
+                    <field name="name">Balance</field>
+                    <field name="expression_label">balance</field>
+                    <field name="figure_type">monetary</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kassaflodesanalyslopandeverksamh" model="account.report.line">
+            <field name="name">Den löpande verksamheten</field>
+            <field name="code">KASSAFLODESANALYSLOPANDEVERKSAMH</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_rorelseresultat" model="account.report.line">
+            <field name="name">Rörelseresultat</field>
+            <field name="code">RORELSERESULTAT</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">2</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_rorelseresultat_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">account_codes</field>
+                    <field name="formula">-30%,31%,32%,33%,34%,35%,36%,37%,38%,39%,40%,41%,42%,43%,44%,45%,46%,47%,48%,49%,50%,51%,52%,53%,54%,55%,56%,57%,58%,59%,60%,61%,62%,63%,64%,65%,66%,67%,68%,69%,70%,71%,72%,73%,74%,75%,76%,77%,78%,79%</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_justeringposterinteingarkassaflo" model="account.report.line">
+            <field name="name">Justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="code">JUSTERINGPOSTERINTEINGARKASSAFLO</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">3</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_justeringposterinteingarkassaflo_2" model="account.report.line">
+            <field name="name">Avskrivningar och nedskrivningar inklusive (återföringar) vid justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="code">JUSTERINGPOSTERINTEINGARKASSAFLO_2</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">4</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_realisationsvinstforlustrorelser" model="account.report.line">
+            <field name="name">Realisationsförlust (realisationsvinst) som ingår i rörelseresultatet</field>
+            <field name="code">REALISATIONSVINSTFORLUSTRORELSER</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">5</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_justeringposterinteingarkassaflo_3" model="account.report.line">
+            <field name="name">Valutakursförlust (valutakursvinst) i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="code">JUSTERINGPOSTERINTEINGARKASSAFLO_3</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">6</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_justeringposterinteingarkassaflo_4" model="account.report.line">
+            <field name="name">Avsättning (återföring av avsättning) för pensioner i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="code">JUSTERINGPOSTERINTEINGARKASSAFLO_4</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">7</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_justeringposterinteingarkassaflo_5" model="account.report.line">
+            <field name="name">Avsättning (återföring av avsättning) för garantier i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="code">JUSTERINGPOSTERINTEINGARKASSAFLO_5</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">8</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_justeringposterinteingarkassaflo_6" model="account.report.line">
+            <field name="name">Avsättning (återföring av avsättning) för omstrukturering i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="code">JUSTERINGPOSTERINTEINGARKASSAFLO_6</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">9</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_erhallenranta" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid erhållen ränta</field>
+            <field name="code">ERHALLENRANTA</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">10</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_erhallenranta_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">JUSTERINGPOSTERINTEINGARKASSAFLO_2.balance + REALISATIONSVINSTFORLUSTRORELSER.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_3.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_4.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_5.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_6.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_erhallenutdelning" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid erhållen utdelning</field>
+            <field name="code">ERHALLENUTDELNING</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">11</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_erhallenutdelning_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">JUSTERINGPOSTERINTEINGARKASSAFLO_2.balance + REALISATIONSVINSTFORLUSTRORELSER.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_3.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_4.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_5.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_6.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_erlagdranta" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid erlagd ränta</field>
+            <field name="code">ERLAGDRANTA</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">12</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_erlagdranta_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">JUSTERINGPOSTERINTEINGARKASSAFLO_2.balance + REALISATIONSVINSTFORLUSTRORELSER.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_3.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_4.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_5.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_6.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_betaldskatt" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid betald inkomstskatt</field>
+            <field name="code">BETALDSKATT</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">13</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_betaldskatt_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">JUSTERINGPOSTERINTEINGARKASSAFLO_2.balance + REALISATIONSVINSTFORLUSTRORELSER.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_3.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_4.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_5.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_6.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kassaflodelopandeverksamhetenfor" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde från den löpande verksamheten före förändringar av rörelsekapital</field>
+            <field name="code">KASSAFLODELOPANDEVERKSAMHETENFOR</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">14</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_kassaflodelopandeverksamhetenfor_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">JUSTERINGPOSTERINTEINGARKASSAFLO_2.balance + REALISATIONSVINSTFORLUSTRORELSER.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_3.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_4.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_5.balance + JUSTERINGPOSTERINTEINGARKASSAFLO_6.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassafloderorelsekapit" model="account.report.line">
+            <field name="name">Kassaflöde från förändringar i rörelsekapital</field>
+            <field name="code">FORANDRINGKASSAFLODERORELSEKAPIT</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">15</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodevarulagerpag" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde vid förändring av varulager och pågående arbeten</field>
+            <field name="code">FORANDRINGKASSAFLODEVARULAGERPAG</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">16</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodekundfordring" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde vid förändring av kundfordringar</field>
+            <field name="code">FORANDRINGKASSAFLODEKUNDFORDRING</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">17</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodeovrigakortfr" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde vid förändring av övriga kortfristiga fordringar</field>
+            <field name="code">FORANDRINGKASSAFLODEOVRIGAKORTFR</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">18</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodeleverantorss" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde vid förändring av leverantörsskulder</field>
+            <field name="code">FORANDRINGKASSAFLODELEVERANTORSS</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">19</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodeovrigakortfr_2" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde vid förändring av övriga kortfristiga skulder</field>
+            <field name="code">FORANDRINGKASSAFLODEOVRIGAKORTFR_2</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">20</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kassaflodelopandeverksamheten" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde från den löpande verksamheten</field>
+            <field name="code">KASSAFLODELOPANDEVERKSAMHETEN</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">21</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_kassaflodelopandeverksamheten_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">RORELSERESULTAT.balance + ERHALLENRANTA.balance + ERHALLENUTDELNING.balance + ERLAGDRANTA.balance + BETALDSKATT.balance + KASSAFLODELOPANDEVERKSAMHETENFOR.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kassaflodesanalysinvesteringsver" model="account.report.line">
+            <field name="name">Investeringsverksamheten</field>
+            <field name="code">KASSAFLODESANALYSINVESTERINGSVER</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">22</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_lamnadekapitaltillskottinvesteri" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid lämnade tillskott</field>
+            <field name="code">LAMNADEKAPITALTILLSKOTTINVESTERI</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">23</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_lamnadekoncernbidraginvesterings" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid lämnade koncernbidrag i investeringsverksamheten</field>
+            <field name="code">LAMNADEKONCERNBIDRAGINVESTERINGS</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">24</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_investeringimmateriellaanlaggnin" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid förvärv av immateriella anläggningstillgångar</field>
+            <field name="code">INVESTERINGIMMATERIELLAANLAGGNIN</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">25</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forsaljningimmateriellaanlaggnin" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid avyttring av immateriella anläggningstillgångar</field>
+            <field name="code">FORSALJNINGIMMATERIELLAANLAGGNIN</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">26</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_investeringmateriellaanlaggnings" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid förvärv av materiella anläggningstillgångar</field>
+            <field name="code">INVESTERINGMATERIELLAANLAGGNINGS</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">27</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forsaljningmateriellaanlaggnings" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid avyttring av materiella anläggningstillgångar</field>
+            <field name="code">FORSALJNINGMATERIELLAANLAGGNINGS</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">28</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_investeringfinansiellaanlaggning" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid förvärv av finansiella anläggningstillgångar</field>
+            <field name="code">INVESTERINGFINANSIELLAANLAGGNING</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">29</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forsaljningfinansiellaanlaggning" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid avyttring eller amortering av finansiella anläggningstillgångar</field>
+            <field name="code">FORSALJNINGFINANSIELLAANLAGGNING</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodeovrigakortfr_3" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde vid förändring av kortfristiga placeringar</field>
+            <field name="code">FORANDRINGKASSAFLODEOVRIGAKORTFR_3</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">31</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kassaflodeinvesteringsverksamhet" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde från investeringsverksamheten</field>
+            <field name="code">KASSAFLODEINVESTERINGSVERKSAMHET</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">32</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_kassaflodeinvesteringsverksamhet_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">RORELSERESULTAT.balance + ERHALLENRANTA.balance + ERHALLENUTDELNING.balance + ERLAGDRANTA.balance + BETALDSKATT.balance + KASSAFLODELOPANDEVERKSAMHETENFOR.balance + LAMNADEKAPITALTILLSKOTTINVESTERI.balance + LAMNADEKONCERNBIDRAGINVESTERINGS.balance + INVESTERINGIMMATERIELLAANLAGGNIN.balance + FORSALJNINGIMMATERIELLAANLAGGNIN.balance + INVESTERINGMATERIELLAANLAGGNINGS.balance + FORSALJNINGMATERIELLAANLAGGNINGS.balance + INVESTERINGFINANSIELLAANLAGGNING.balance + FORSALJNINGFINANSIELLAANLAGGNING.balance + FORANDRINGKASSAFLODEOVRIGAKORTFR_3.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kassaflodesanalysfinansieringsve" model="account.report.line">
+            <field name="name">Finansieringsverksamheten</field>
+            <field name="code">KASSAFLODESANALYSFINANSIERINGSVE</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">33</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_nyemissionkassaflode" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid nyemission</field>
+            <field name="code">NYEMISSIONKASSAFLODE</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">34</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_erhallnaaktieagartillskottkassaf" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid erhållna tillskott</field>
+            <field name="code">ERHALLNAAKTIEAGARTILLSKOTTKASSAF</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">35</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodeerhallnakonc" model="account.report.line">
+            <field name="name">Ökning av kassaflöde vid erhållna koncernbidrag</field>
+            <field name="code">FORANDRINGKASSAFLODEERHALLNAKONC</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">36</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_forandringkassaflodelamnadekonce" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid lämnade koncernbidrag i finansieringsverksamheten</field>
+            <field name="code">FORANDRINGKASSAFLODELAMNADEKONCE</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">37</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_upptagnalan" model="account.report.line">
+            <field name="name">Ökning av kassaflöde till följd av upptagna lån</field>
+            <field name="code">UPPTAGNALAN</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">38</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_amorteringskuld" model="account.report.line">
+            <field name="name">Minskning av kassaflöde vid amortering av skuld</field>
+            <field name="code">AMORTERINGSKULD</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">39</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kortfristigafinansiellaskulder" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde vid förändring av kortfristiga finansiella skulder</field>
+            <field name="code">KORTFRISTIGAFINANSIELLASKULDER</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">40</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_utbetaldutdelningkassaflode" model="account.report.line">
+            <field name="name">Minskning av kassaflöde till följd av utbetald utdelning</field>
+            <field name="code">UTBETALDUTDELNINGKASSAFLODE</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">41</field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_kassaflodefinansieringsverksamhe" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde från finansieringsverksamheten</field>
+            <field name="code">KASSAFLODEFINANSIERINGSVERKSAMHE</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">42</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_kassaflodefinansieringsverksamhe_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">RORELSERESULTAT.balance + ERHALLENRANTA.balance + ERHALLENUTDELNING.balance + ERLAGDRANTA.balance + BETALDSKATT.balance + KASSAFLODELOPANDEVERKSAMHETENFOR.balance + LAMNADEKAPITALTILLSKOTTINVESTERI.balance + LAMNADEKONCERNBIDRAGINVESTERINGS.balance + INVESTERINGIMMATERIELLAANLAGGNIN.balance + FORSALJNINGIMMATERIELLAANLAGGNIN.balance + INVESTERINGMATERIELLAANLAGGNINGS.balance + FORSALJNINGMATERIELLAANLAGGNINGS.balance + INVESTERINGFINANSIELLAANLAGGNING.balance + FORSALJNINGFINANSIELLAANLAGGNING.balance + FORANDRINGKASSAFLODEOVRIGAKORTFR_3.balance + NYEMISSIONKASSAFLODE.balance + ERHALLNAAKTIEAGARTILLSKOTTKASSAF.balance + FORANDRINGKASSAFLODEERHALLNAKONC.balance + FORANDRINGKASSAFLODELAMNADEKONCE.balance + UPPTAGNALAN.balance + AMORTERINGSKULD.balance + KORTFRISTIGAFINANSIELLASKULDER.balance + UTBETALDUTDELNINGKASSAFLODE.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_aretskassaflode" model="account.report.line">
+            <field name="name">Ökning (minskning) av kassaflöde</field>
+            <field name="code">ARETSKASSAFLODE</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">43</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_aretskassaflode_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">RORELSERESULTAT.balance + ERHALLENRANTA.balance + ERHALLENUTDELNING.balance + ERLAGDRANTA.balance + BETALDSKATT.balance + KASSAFLODELOPANDEVERKSAMHETENFOR.balance + LAMNADEKAPITALTILLSKOTTINVESTERI.balance + LAMNADEKONCERNBIDRAGINVESTERINGS.balance + INVESTERINGIMMATERIELLAANLAGGNIN.balance + FORSALJNINGIMMATERIELLAANLAGGNIN.balance + INVESTERINGMATERIELLAANLAGGNINGS.balance + FORSALJNINGMATERIELLAANLAGGNINGS.balance + INVESTERINGFINANSIELLAANLAGGNING.balance + FORSALJNINGFINANSIELLAANLAGGNING.balance + FORANDRINGKASSAFLODEOVRIGAKORTFR_3.balance + NYEMISSIONKASSAFLODE.balance + ERHALLNAAKTIEAGARTILLSKOTTKASSAF.balance + FORANDRINGKASSAFLODEERHALLNAKONC.balance + FORANDRINGKASSAFLODELAMNADEKONCE.balance + UPPTAGNALAN.balance + AMORTERINGSKULD.balance + KORTFRISTIGAFINANSIELLASKULDER.balance + UTBETALDUTDELNINGKASSAFLODE.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_likvidamedelkursdifferens" model="account.report.line">
+            <field name="name">Ökning (minskning) av likvida medel vid kursdifferenser</field>
+            <field name="code">LIKVIDAMEDELKURSDIFFERENS</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">45</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_likvidamedelkursdifferens_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">RORELSERESULTAT.balance + ERHALLENRANTA.balance + ERHALLENUTDELNING.balance + ERLAGDRANTA.balance + BETALDSKATT.balance + KASSAFLODELOPANDEVERKSAMHETENFOR.balance + LAMNADEKAPITALTILLSKOTTINVESTERI.balance + LAMNADEKONCERNBIDRAGINVESTERINGS.balance + INVESTERINGIMMATERIELLAANLAGGNIN.balance + FORSALJNINGIMMATERIELLAANLAGGNIN.balance + INVESTERINGMATERIELLAANLAGGNINGS.balance + FORSALJNINGMATERIELLAANLAGGNINGS.balance + INVESTERINGFINANSIELLAANLAGGNING.balance + FORSALJNINGFINANSIELLAANLAGGNING.balance + FORANDRINGKASSAFLODEOVRIGAKORTFR_3.balance + NYEMISSIONKASSAFLODE.balance + ERHALLNAAKTIEAGARTILLSKOTTKASSAF.balance + FORANDRINGKASSAFLODEERHALLNAKONC.balance + FORANDRINGKASSAFLODELAMNADEKONCE.balance + UPPTAGNALAN.balance + AMORTERINGSKULD.balance + KORTFRISTIGAFINANSIELLASKULDER.balance + UTBETALDUTDELNINGKASSAFLODE.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+        <record id="ar_report_kf_indirekt_k2_line_likvidamedel" model="account.report.line">
+            <field name="name">Likvida medel</field>
+            <field name="code">LIKVIDAMEDEL</field>
+            <field name="report_id" ref="ar_report_kf_indirekt_k2"/>
+            <field name="sequence">46</field>
+            <field name="expression_ids">
+                <record id="ar_report_kf_indirekt_k2_line_likvidamedel_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">aggregation</field>
+                    <field name="formula">RORELSERESULTAT.balance + ERHALLENRANTA.balance + ERHALLENUTDELNING.balance + ERLAGDRANTA.balance + BETALDSKATT.balance + KASSAFLODELOPANDEVERKSAMHETENFOR.balance + LAMNADEKAPITALTILLSKOTTINVESTERI.balance + LAMNADEKONCERNBIDRAGINVESTERINGS.balance + INVESTERINGIMMATERIELLAANLAGGNIN.balance + FORSALJNINGIMMATERIELLAANLAGGNIN.balance + INVESTERINGMATERIELLAANLAGGNINGS.balance + FORSALJNINGMATERIELLAANLAGGNINGS.balance + INVESTERINGFINANSIELLAANLAGGNING.balance + FORSALJNINGFINANSIELLAANLAGGNING.balance + FORANDRINGKASSAFLODEOVRIGAKORTFR_3.balance + NYEMISSIONKASSAFLODE.balance + ERHALLNAAKTIEAGARTILLSKOTTKASSAF.balance + FORANDRINGKASSAFLODEERHALLNAKONC.balance + FORANDRINGKASSAFLODELAMNADEKONCE.balance + UPPTAGNALAN.balance + AMORTERINGSKULD.balance + KORTFRISTIGAFINANSIELLASKULDER.balance + UTBETALDUTDELNINGKASSAFLODE.balance</field>
+                    <field name="date_scope">strict_range</field>
+                </record>
+            </field>
+        </record>
+    </data>
+</odoo>

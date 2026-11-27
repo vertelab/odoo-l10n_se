@@ -6,9 +6,9 @@
         <record id="chart_template_general" model="account.chart.template">
           <field name="name">Generel Konto Plan med dem gemensamma kontona</field>
           <field name="currency_id" ref="base.SEK"/>
-          <field name="bank_account_code_prefix">K2513</field>
-          <field name="cash_account_code_prefix">K2516</field>
-          <field name="transfer_account_code_prefix">K2517</field>
+          <field name="bank_account_code_prefix">1930</field>
+          <field name="cash_account_code_prefix">1910</field>
+          <field name="transfer_account_code_prefix">1955</field>
           <field name="code_digits">4</field>
         </record>
         

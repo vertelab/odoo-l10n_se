@@ -1,0 +1,2234 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.09">
+  <CstmrCdtTrfInitn>
+    <GrpHdr>
+      <MsgId>DEMO-PAIN-202607</MsgId>
+      <CreDtTm>2026-07-01T06:00:00</CreDtTm>
+      <NbOfTxs>53</NbOfTxs>
+      <CtrlSum>376250.79</CtrlSum>
+      <InitgPty>
+        <Nm>Aronssons Montage AB</Nm>
+        <Id>
+          <OrgId>
+            <Othr>
+              <Id>5560600000</Id>
+              <SchmeNm>
+                <Cd>CUST</Cd>
+              </SchmeNm>
+            </Othr>
+          </OrgId>
+        </Id>
+      </InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-01</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>8</NbOfTxs>
+      <CtrlSum>65430.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-01</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00320-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">4105.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Junibacken Sverige AB</Nm>
+          <PstlAdr>
+            <StrtNm>Kontorsvägen 94</StrtNm>
+            <PstCd>302 30</PstCd>
+            <TwnNm>Halmstad</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>3074-1852</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00321-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">5294.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Norrgården Nordic AB</Nm>
+          <PstlAdr>
+            <StrtNm>Järnvägsgatan 156</StrtNm>
+            <PstCd>903 20</PstCd>
+            <TwnNm>Umeå</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00322-03</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">1955.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Berglind Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 69</StrtNm>
+            <PstCd>211 20</PstCd>
+            <TwnNm>Malmö</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>0741-8529</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00323-04</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">4544.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Berglind Service AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 122</StrtNm>
+            <PstCd>721 30</PstCd>
+            <TwnNm>Västerås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>9630-7418</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00324-05</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">11405.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00325-06</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">12441.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00326-07</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">13241.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00327-08</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">12445.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-02</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>20096.63</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-02</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00328-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">1225.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Norrgården Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Parkvägen 130</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00339-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">18871.63</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-03</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>3750.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-03</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00329-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">3750.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Björkdal Service AB</Nm>
+          <PstlAdr>
+            <StrtNm>Verkstadsgatan 4</StrtNm>
+            <PstCd>501 10</PstCd>
+            <TwnNm>Borås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>8529-6307</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-04</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>3062.20</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-04</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00314-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">3062.20</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ebba Rydell</Nm>
+          <PstlAdr>
+            <StrtNm>Skolgatan 178</StrtNm>
+            <PstCd>582 20</PstCd>
+            <TwnNm>Linköping</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>1852-9630</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-05</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>17392.39</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-08</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00330-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">6363.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Stenbro Sverige AB</Nm>
+          <PstlAdr>
+            <StrtNm>Södra Esplanaden 155</StrtNm>
+            <PstCd>221 00</PstCd>
+            <TwnNm>Lund</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>9630-7418</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00340-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">11029.39</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-06</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>5209.61</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-09</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00341-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">5209.61</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-07</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>2615.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-10</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00343-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">838.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Dan Cronvall</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 77</StrtNm>
+            <PstCd>753 20</PstCd>
+            <TwnNm>Uppsala</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>6307-4185</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00344-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">1777.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ebba Rydell</Nm>
+          <PstlAdr>
+            <StrtNm>Skolgatan 178</StrtNm>
+            <PstCd>582 20</PstCd>
+            <TwnNm>Linköping</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>1852-9630</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-08</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>666.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-12</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00331-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">666.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Grankulla Service AB</Nm>
+          <PstlAdr>
+            <StrtNm>Handelsvägen 74</StrtNm>
+            <PstCd>903 20</PstCd>
+            <TwnNm>Umeå</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>9630-7418</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-09</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>4</NbOfTxs>
+      <CtrlSum>15310.93</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-13</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00342-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">6885.08</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00345-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">2909.85</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ärling Jernberg</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 43</StrtNm>
+            <PstCd>501 10</PstCd>
+            <TwnNm>Borås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>8529-6307</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00346-03</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">3052.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Pilgård Teknik AB</Nm>
+          <PstlAdr>
+            <StrtNm>Skolgatan 7</StrtNm>
+            <PstCd>753 20</PstCd>
+            <TwnNm>Uppsala</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>8529-6307</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00347-04</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">2464.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Pilgård Teknik AB</Nm>
+          <PstlAdr>
+            <StrtNm>Skolgatan 7</StrtNm>
+            <PstCd>753 20</PstCd>
+            <TwnNm>Uppsala</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>8529-6307</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-10</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>4</NbOfTxs>
+      <CtrlSum>72039.12</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-15</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00348-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">52412.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Vindskydd Gruppen AB</Nm>
+          <PstlAdr>
+            <StrtNm>Hantverkargatan 110</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00349-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">2523.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Mossberg Sverige AB</Nm>
+          <PstlAdr>
+            <StrtNm>Ekvägen 128</StrtNm>
+            <PstCd>753 20</PstCd>
+            <TwnNm>Uppsala</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00376-03</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">3228.10</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Solvik Teknik AB</Nm>
+          <PstlAdr>
+            <StrtNm>Fabriksgatan 111</StrtNm>
+            <PstCd>501 10</PstCd>
+            <TwnNm>Borås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>6307-4185</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00377-04</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">13876.02</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-11</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>7643.11</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-16</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00378-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">7643.11</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-12</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>371.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-17</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00371-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">371.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Solvik Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Lagervägen 14</StrtNm>
+            <PstCd>802 50</PstCd>
+            <TwnNm>Gävle</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>0741-8529</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-13</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>7028.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-20</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00379-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">7028.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-14</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>16390.81</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-22</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00350-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">415.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ängsmark Nordic AB</Nm>
+          <PstlAdr>
+            <StrtNm>Lagervägen 146</StrtNm>
+            <PstCd>602 20</PstCd>
+            <TwnNm>Norrköping</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>0741-8529</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00380-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">15975.81</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-15</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>4262.06</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-23</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00381-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">4262.06</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-16</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>4247.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-25</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00351-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">4247.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Kvarnvik Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Järnvägsgatan 100</StrtNm>
+            <PstCd>211 20</PstCd>
+            <TwnNm>Malmö</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>6307-4185</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-17</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>3144.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-26</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00352-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">3144.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Tornfallet Handel AB</Nm>
+          <PstlAdr>
+            <StrtNm>Smedjegatan 30</StrtNm>
+            <PstCd>252 20</PstCd>
+            <TwnNm>Helsingborg</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>3074-1852</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-18</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>4290.30</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-27</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00382-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">4290.30</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-19</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>776.63</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-28</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00353-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">776.63</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ulvsjö Nordic AB</Nm>
+          <PstlAdr>
+            <StrtNm>Parkvägen 73</StrtNm>
+            <PstCd>632 20</PstCd>
+            <TwnNm>Eskilstuna</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>7418-5296</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-20</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>1120.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-29</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00386-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">1120.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Östanfors Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 168</StrtNm>
+            <PstCd>111 20</PstCd>
+            <TwnNm>Stockholm</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>5296-3074</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-21</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>3</NbOfTxs>
+      <CtrlSum>64474.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-30</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00354-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">21875.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Björkdal AB</Nm>
+          <PstlAdr>
+            <StrtNm>Skolgatan 76</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00355-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">10000.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Isdala Teknik AB</Nm>
+          <PstlAdr>
+            <StrtNm>Smedjegatan 139</StrtNm>
+            <PstCd>252 20</PstCd>
+            <TwnNm>Helsingborg</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>0741-8529</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00383-03</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">32599.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Björkdal AB</Nm>
+          <PstlAdr>
+            <StrtNm>Skolgatan 76</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202607-22</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>13</NbOfTxs>
+      <CtrlSum>56932.00</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-07-31</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00356-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">4139.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Junibacken Sverige AB</Nm>
+          <PstlAdr>
+            <StrtNm>Kontorsvägen 94</StrtNm>
+            <PstCd>302 30</PstCd>
+            <TwnNm>Halmstad</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>3074-1852</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00357-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">188.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Nordkap Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Sjövägen 174</StrtNm>
+            <PstCd>651 80</PstCd>
+            <TwnNm>Karlstad</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>4185-2963</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00358-03</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">91.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Nordkap Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Sjövägen 174</StrtNm>
+            <PstCd>651 80</PstCd>
+            <TwnNm>Karlstad</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>4185-2963</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00359-04</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">44.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Nordkap Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Sjövägen 174</StrtNm>
+            <PstCd>651 80</PstCd>
+            <TwnNm>Karlstad</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>4185-2963</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00360-05</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">8.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Låglanda Sverige AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 164</StrtNm>
+            <PstCd>501 10</PstCd>
+            <TwnNm>Borås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>0741-8529</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00361-06</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">1063.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Vallmo Service AB</Nm>
+          <PstlAdr>
+            <StrtNm>Ekvägen 32</StrtNm>
+            <PstCd>501 10</PstCd>
+            <TwnNm>Borås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>4185-2963</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00362-07</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">938.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Berglind Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 69</StrtNm>
+            <PstCd>211 20</PstCd>
+            <TwnNm>Malmö</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>0741-8529</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00363-08</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">734.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Mittåsen Industri AB</Nm>
+          <PstlAdr>
+            <StrtNm>Lagervägen 21</StrtNm>
+            <PstCd>602 20</PstCd>
+            <TwnNm>Norrköping</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>4185-2963</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00364-09</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">11426.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00365-10</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">12462.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00366-11</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">13265.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00367-12</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">12469.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>PBNK1/2026/00368-13</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">105.00</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Västanvik Gruppen AB</Nm>
+          <PstlAdr>
+            <StrtNm>Norra Strandgatan 132</StrtNm>
+            <PstCd>721 30</PstCd>
+            <TwnNm>Västerås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>6307-4185</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+  </CstmrCdtTrfInitn>
+</Document>

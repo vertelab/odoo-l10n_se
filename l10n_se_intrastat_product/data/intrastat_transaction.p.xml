@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2026 Vertel Sverige AB (https://vertel.se)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <!--
+          Swedish descriptions for the OCA transaction codes.
+
+          The xmlids live in module intrastat_product WITHOUT the module prefix
+          in the id attribute (e.g. id="intrastat_transaction_11" in that
+          module). Referencing them as "intrastat_product.intrastat_transaction_11"
+          from here is correct, but the id must NOT repeat the module prefix.
+
+          The OCA codes are the EU two-digit "nature of transaction" codes and
+          are what SCB expects, so only the descriptions are translated.
+        -->
+        <record id="intrastat_product.intrastat_transaction_11" model="intrastat.transaction">
+            <field name="description">Köp/försäljning mellan företag (B2B)</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_12" model="intrastat.transaction">
+            <field name="description">Köp/försäljning till/från privatperson (B2C, inkl. distansförsäljning)</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_21" model="intrastat.transaction">
+            <field name="description">Retur av varor (kostnadsfri)</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_22" model="intrastat.transaction">
+            <field name="description">Ersättning för returnerade varor (kostnadsfri)</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_23" model="intrastat.transaction">
+            <field name="description">Ersättning (t.ex. garanti) för varor som inte returneras</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_31" model="intrastat.transaction">
+            <field name="description">Förflyttning till/från lager (exkl. call-off och konsignationslager)</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_32" model="intrastat.transaction">
+            <field name="description">Leverans för försäljning på prov (inkl. call-off och konsignationslager)</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_33" model="intrastat.transaction">
+            <field name="description">Finansiell leasing</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_34" model="intrastat.transaction">
+            <field name="description">Transaktioner med ägarövergång utan finansiell ersättning</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_41" model="intrastat.transaction">
+            <field name="description">Varor för bearbetning enligt avtal (inget ägarbyte) — varorna väntas återvända</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_42" model="intrastat.transaction">
+            <field name="description">Varor för bearbetning enligt avtal (inget ägarbyte) — varorna väntas inte återvända</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_51" model="intrastat.transaction">
+            <field name="description">Varor efter bearbetning enligt avtal (inget ägarbyte) — återvänder</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_52" model="intrastat.transaction">
+            <field name="description">Varor efter bearbetning enligt avtal (inget ägarbyte) — återvänder inte</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_71" model="intrastat.transaction">
+            <field name="description">Övergång till fri omsättning i en medlemsstat med efterföljande export till en annan</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_72" model="intrastat.transaction">
+            <field name="description">Transport av varor mellan medlemsstater för att läggas under exportförfarande</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_80" model="intrastat.transaction">
+            <field name="description">Byggmaterial och teknisk utrustning under entreprenad där varorna inte faktureras separat</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_91" model="intrastat.transaction">
+            <field name="description">Hyra, lån och operationell leasing längre än 24 månader</field>
+        </record>
+
+        <record id="intrastat_product.intrastat_transaction_99" model="intrastat.transaction">
+            <field name="description">Övrigt</field>
+        </record>
+
+    </data>
+</odoo>

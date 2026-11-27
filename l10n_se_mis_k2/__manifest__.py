@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Aktiebolag)',
-    'version': '1.4.0',
+    'version': '2.0.2',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Swedish MIS-reports for Aktiebolag enligt K2 (BFNAR 2016:10).',
     'category': 'Accounting/Localizations',
@@ -38,10 +38,10 @@ Contains balance sheet and income statement (cost of sales method).
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k2',
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder', 'mis_builder_budget', 'l10n_se_mis'],
+    'depends': ['account', 'account_dynamic_reports', 'l10n_se_mis'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
@@ -50,16 +50,16 @@ Contains balance sheet and income statement (cost of sales method).
         # Odoo 20: ir.rule blev en ir.access-post. security.p.xml genererar
         # regeln bara för <= 19.0; på 20.0 bär den här filen den.
         'security/ir.access.csv',
-        'data/mis_balansrakning_k2.xml',
-        'data/mis_balansrakning_k2_compact.xml',
-        'data/mis_balansrakning_forkortad_k2.xml',
-        'data/mis_balansrakning_forkortad_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2_compact.xml',
-        'data/mis_kassaflodesanalys_k2.xml',
-        'data/mis_kassaflodesanalys_k2_compact.xml',
+        'data/ar_balansrakning_k2.xml',
+        'data/ar_balansrakning_k2_compact.xml',
+        'data/ar_balansrakning_forkortad_k2.xml',
+        'data/ar_balansrakning_forkortad_k2_compact.xml',
+        'data/ar_resultatrakning_kostnadsslag_k2.xml',
+        'data/ar_resultatrakning_kostnadsslag_k2_compact.xml',
+        'data/ar_resultatrakning_kostnadsslag_forkortad_k2.xml',
+        'data/ar_resultatrakning_kostnadsslag_forkortad_k2_compact.xml',
+        'data/ar_kassaflodesanalys_k2.xml',
+        'data/ar_kassaflodesanalys_k2_compact.xml',
     ],
     'installable': 'True',
     'application': 'False',

@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel AB (https://vertel.se)
+# Copyright 2026 Vertel Sverige AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import re
@@ -27,11 +27,6 @@ def check_luhn(s):
 def validate_bgnr(bgnr):
     if not bgnr:
         raise ValidationError(_("There is no Bankgiro Number."))
-
-    if bgnr.find("-") not in range(3, 5):
-        raise ValidationError(
-            _("There is no dash in position 3 or 4 in the Number.")
-        )
 
     bgnr = normalize_bgnr(bgnr)
 

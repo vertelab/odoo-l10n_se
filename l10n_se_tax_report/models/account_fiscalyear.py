@@ -5,12 +5,12 @@ from dateutil.relativedelta import relativedelta
 
 
 class AccountFiscalYear(models.Model):
-    _inherit = "account.fiscalyear"
+    _inherit = "account.fiscal.year"
 
     def action_generate_tax_declaration(self):
         self.ensure_one()
 
-        if not self.date_start or not self.date_stop:
+        if not self.date_from or not self.date_to:
             raise UserError(_("Fiscal year must have start and end dates."))
 
         freq_str = self.company_id.vat_declaration_frequency
@@ -26,22 +26,22 @@ class AccountFiscalYear(models.Model):
         else:
             declaration_date_day = 12
 
-        total_months = (self.date_stop.year - self.date_start.year) * 12 + \
-                       (self.date_stop.month - self.date_start.month) + 1
+        total_months = (self.date_to.year - self.date_from.year) * 12 + \
+                       (self.date_to.month - self.date_from.month) + 1
         num_periods = total_months // frequency
 
         declarations = []
-        current_start = self.date_start
+        current_start = self.date_from
 
         for period_num in range(num_periods):
             period_end = current_start + relativedelta(months=frequency, days=-1)
 
-            if period_end > self.date_stop:
-                period_end = self.date_stop
+            if period_end > self.date_to:
+                period_end = self.date_to
 
             declaration_date = period_end + relativedelta(months=1, day=declaration_date_day)
 
-            is_yearend = period_end >= self.date_stop
+            is_yearend = period_end >= self.date_to
 
             if not self.company_id.accounting_method:
                 raise UserError(_(

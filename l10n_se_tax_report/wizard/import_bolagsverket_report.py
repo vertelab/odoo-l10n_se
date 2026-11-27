@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution, third party addon
-#    Copyright (C) 2004-2018 Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2004-2018 Vertel Sverige AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,6 +24,9 @@ from tempfile import TemporaryFile
 import base64
 import sys
 import traceback
+import logging
+_logger = logging.getLogger(__name__)
+
 try:
     from xlrd import open_workbook
     import xml.etree.cElementTree as ET
@@ -31,8 +34,6 @@ try:
 except ImportError:
     _logger.info('project_task_planned_vehicle_import requires xlrd (pip install xlrd)')
 
-import logging
-_logger = logging.getLogger(__name__)
 
 class ImportBolagsverketReports(models.TransientModel):
     _name = 'account.financial.report.bolagsverket.import'
@@ -53,7 +54,6 @@ class ImportBolagsverketReports(models.TransientModel):
     # ~ @api.multi
     def get_workbook_sheet_index(self, name):
         workbook = self.get_workbook(self.data)
-        sheets = []
         for index in range(0, len(workbook.sheets())):
             if workbook.sheet_by_index(index).name == name:
                 return index
@@ -94,7 +94,6 @@ class ImportBolagsverketReports(models.TransientModel):
                     break
             return sign
 
-        parent = ''
         def read_sheet(sheet=None, element_name=0, title=0, account_type=0, parents={}, credit_debit=1, lst=None):
             for row in range(1, sheet.nrows):
                 if sheet.cell(row, account_type).value == 'BFNAR' or sheet.cell(row, account_type).value == '':
@@ -113,7 +112,6 @@ class ImportBolagsverketReports(models.TransientModel):
                     account = account_type
                     if sheet.cell(row, element_name).value == 'OvrigaKortfristigaSkulder':
                         account += 16
-                    domain = get_range_domain(get_account_range(sheet, account, row))
                     lst.append({
                         'name': sheet.cell(row, title).value,
                         'version_name': file_name,
@@ -130,7 +128,6 @@ class ImportBolagsverketReports(models.TransientModel):
             if mode == 'complete':
                 r_element_name = 8
                 r_title = 10
-                r_sign = 11
                 r_credit_debit = 13
                 r_account_type = 50
                 # all rows without accounts
@@ -154,7 +151,6 @@ class ImportBolagsverketReports(models.TransientModel):
             else:
                 r_element_name = 7
                 r_title = 9
-                r_sign = 10
                 r_credit_debit = 12
                 r_account_type = 41
                 # all rows without accounts
@@ -178,7 +174,6 @@ class ImportBolagsverketReports(models.TransientModel):
         def get_balansrakning_list(mode):
             b_element_name = 9
             b_title = 11
-            b_sign = 12
             b_credit_debit = 14
             b_account_type = 43
             if mode == 'complete':

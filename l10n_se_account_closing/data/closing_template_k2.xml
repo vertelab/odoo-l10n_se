@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        K2 closing template (BFNAR 2016:10) for the OCA
+        account_fiscal_year_closing wizard.
+
+        Account numbers follow BAS 2024. The template is a *template*: it
+        creates no moves by itself. A company opens a closing, loads this
+        template, adjusts the mappings to its own chart and posts.
+
+        Mapping groups, in posting order (sequence):
+          10  Resultatdisposition  — 3xxx-8xxx  -> 2099
+          20  Periodiseringsfond   — 21xx       -> 8811 / 8850
+          30  Överavskrivningar    — 2150       -> 8850
+          40  Skatteberäkning      — 8910       -> 2512
+
+        `dest_account` left empty means "remove the balance on the source
+        accounts with a counterpart on the same account" — that is how the
+        result is zeroed out of the P&L.
+    -->
+    <record id="closing_template_k2" model="account.fiscalyear.closing.template">
+        <field name="name">K2 (BFNAR 2016:10)</field>
+        <field name="chart_template">se</field>
+    </record>
+
+    <!-- 10. Resultatdisposition -->
+    <record id="closing_config_k2_result" model="account.fiscalyear.closing.config.template">
+        <field name="template_id" ref="closing_template_k2"/>
+        <field name="code">RESULT</field>
+        <field name="name">Resultatdisposition</field>
+        <field name="sequence">10</field>
+        <field name="move_date">last_ending</field>
+        <field name="closing_type_default">balance</field>
+    </record>
+
+    <record id="closing_mapping_k2_result_pl" model="account.fiscalyear.closing.mapping.template">
+        <field name="template_config_id" ref="closing_config_k2_result"/>
+        <field name="name">Resultaträkningens konton (3xxx-8xxx) → 2099</field>
+        <field name="src_accounts">3%,4%,5%,6%,7%,8%</field>
+        <field name="dest_account">2099</field>
+    </record>
+
+    <record id="closing_mapping_k2_result_2099" model="account.fiscalyear.closing.mapping.template">
+        <field name="template_config_id" ref="closing_config_k2_result"/>
+        <field name="name">Årets resultat (2099) → 2098/2091 enligt bolagsstämma</field>
+        <field name="src_accounts">2099</field>
+        <field name="dest_account">2098</field>
+    </record>
+
+    <!-- 20. Periodiseringsfond -->
+    <record id="closing_config_k2_periodiseringsfond" model="account.fiscalyear.closing.config.template">
+        <field name="template_id" ref="closing_template_k2"/>
+        <field name="code">PERIODFOND</field>
+        <field name="name">Periodiseringsfond</field>
+        <field name="sequence">20</field>
+        <field name="move_date">last_ending</field>
+        <field name="closing_type_default">balance</field>
+    </record>
+
+    <record id="closing_mapping_k2_periodfond_avsatt" model="account.fiscalyear.closing.mapping.template">
+        <field name="template_config_id" ref="closing_config_k2_periodiseringsfond"/>
+        <field name="name">Avsättning till periodiseringsfond (21xx) mot 8811</field>
+        <field name="src_accounts">2110,2120,2130,2140,2150,2160</field>
+        <field name="dest_account">8811</field>
+    </record>
+
+    <record id="closing_mapping_k2_periodfond_skatt" model="account.fiscalyear.closing.mapping.template">
+        <field name="template_config_id" ref="closing_config_k2_periodiseringsfond"/>
+        <field name="name">Schablonintäkt på periodiseringsfond (8850)</field>
+        <field name="src_accounts">8850</field>
+    </record>
+
+    <!-- 30. Överavskrivningar -->
+    <record id="closing_config_k2_overavskrivning" model="account.fiscalyear.closing.config.template">
+        <field name="template_id" ref="closing_template_k2"/>
+        <field name="code">OVERAVSKR</field>
+        <field name="name">Överavskrivningar</field>
+        <field name="sequence">30</field>
+        <field name="move_date">last_ending</field>
+        <field name="closing_type_default">balance</field>
+    </record>
+
+    <record id="closing_mapping_k2_overavskrivning_2150" model="account.fiscalyear.closing.mapping.template">
+        <field name="template_config_id" ref="closing_config_k2_overavskrivning"/>
+        <field name="name">Ackumulerade överavskrivningar (2150) mot 8850</field>
+        <field name="src_accounts">2150</field>
+        <field name="dest_account">8850</field>
+    </record>
+
+    <!-- 40. Skatteberäkning -->
+    <record id="closing_config_k2_skatt" model="account.fiscalyear.closing.config.template">
+        <field name="template_id" ref="closing_template_k2"/>
+        <field name="code">SKATT</field>
+        <field name="name">Skatteberäkning</field>
+        <field name="sequence">40</field>
+        <field name="move_date">last_ending</field>
+        <field name="closing_type_default">balance</field>
+    </record>
+
+    <record id="closing_mapping_k2_skatt_2512" model="account.fiscalyear.closing.mapping.template">
+        <field name="template_config_id" ref="closing_config_k2_skatt"/>
+        <field name="name">Beräknad inkomstskatt (2512) mot 8910</field>
+        <field name="src_accounts">2512</field>
+        <field name="dest_account">8910</field>
+    </record>
+</odoo>

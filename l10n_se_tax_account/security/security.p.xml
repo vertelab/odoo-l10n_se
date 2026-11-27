@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- #if VERSION <= "19.0" -->
   <data>
 
     <!-- Company isolation for tax account reconciliation -->
@@ -41,5 +40,4 @@
     </record>
 
   </data>
-    <!-- #endif -->
 </odoo>

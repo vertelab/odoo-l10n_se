@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Bokslut & Årsredovisning — Lessons                           -->
+    <!-- ============================================================ -->
+
+    <!-- Lesson: Bokslutsprocessen -->
+    <record id="lesson_year_end_process" model="l10n_se.training.lesson">
+        <field name="name">Bokslutsprocessen steg för steg</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="cat_year_end"/>
+        <field name="difficulty">intermediate</field>
+        <field name="estimated_minutes">35</field>
+        <field name="bas_accounts">2099, 8999, 3000-8999</field>
+        <field name="legal_basis">ÅRL (1995:1554), BFNAR 2016:10 (K2)</field>
+        <field name="overview">
+            <![CDATA[
+            <p>Bokslutet är den process där företaget stänger räkenskapsårets bokföring och sammanställer resultat- och balansräkning. Detta görs efter räkenskapsårets slut och innefattar flera viktiga moment.</p>
+            <p>Processen är <strong>systemoberoende</strong> — samma steg gäller oavsett bokföringsprogram.</p>
+            ]]>
+        </field>
+        <field name="theory">
+            <![CDATA[
+            <h3>Bokslutsprocessens faser</h3>
+            <ol>
+              <li><strong>Avstämning:</strong> Bank, kundreskontra, leverantörsreskontra, moms, löner</li>
+              <li><strong>Periodisering:</strong> Upplupna intäkter/kostnader, förutbetalda intäkter/kostnader</li>
+              <li><strong>Inventering:</strong> Varulager, anläggningstillgångar</li>
+              <li><strong>Avskrivningar:</strong> Planenliga avskrivningar på anläggningstillgångar</li>
+              <li><strong>Bokslutsdispositioner:</strong> Periodiseringsfonder, överavskrivningar</li>
+              <li><strong>Skatteberäkning:</strong> 20,6% bolagsskatt på skattepliktigt resultat</li>
+              <li><strong>Bokslutsverifikationer:</strong> Årets resultat omförs till eget kapital</li>
+              <li><strong>Årsredovisning:</strong> Förvaltningsberättelse, BR, RR, noter</li>
+            </ol>
+            ]]>
+        </field>
+        <field name="procedure">
+            <![CDATA[
+            <h3>Skatteberäkningskedjan</h3>
+            <pre>
+Resultat före bokslutsdispositioner   (3000-8999)
++ Ej avdragsgilla kostnader
+- Ej skattepliktiga intäkter
++ Schablonintäkt periodiseringsfond   (statslåneränta × p-fonder)
+- Återföring av periodiseringsfond
++ Avsättning till periodiseringsfond  (max 25% av vinst)
+- Överavskrivningar                   (huvudregel: 30%)
+= Skattepliktigt resultat
+× 20,6%
+= Årets skattekostnad
+            </pre>
+
+            <h3>Bokslutsverifikation</h3>
+            <table border="1" cellpadding="5">
+            <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+            <tr><td>8999 Årets resultat</td><td>Resultat</td><td></td></tr>
+            <tr><td>2099 Årets resultat (EK)</td><td></td><td>Resultat</td></tr>
+            </table>
+            ]]>
+        </field>
+        <field name="odoo_guide">
+            <![CDATA[
+            <h3>I Odoo (modul: l10n_se_bokslut):</h3>
+            <ol>
+              <li>Gå till <strong>Bokföring → Myndighetsrapportering → Bokslut</strong></li>
+              <li>Skapa ett nytt bokslut för räkenskapsåret</li>
+              <li>Klicka <strong>Skapa checklista</strong> — en Kanban-tavla med bokslutspunkter skapas</li>
+              <li>Arbeta igenom checklistan punkt för punkt</li>
+              <li>Lägg till bokslutsjusteringar (periodiseringsfonder, överavskrivningar)</li>
+              <li>Klicka <strong>Beräkna skatt</strong> — systemet räknar ut skattekostnaden</li>
+              <li>Generera bokslutsverifikationer</li>
+              <li>Generera årsredovisning (BR, RR, noter, förvaltningsberättelse)</li>
+            </ol>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

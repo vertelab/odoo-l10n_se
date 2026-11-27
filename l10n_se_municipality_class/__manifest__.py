@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2021- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -45,13 +45,18 @@ Municipality Swedish Municipalities
 	'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_municipality_class',
     'license': 'AGPL-3',
 	'contributor': '',
-	'maintainer': 'Vertel AB',
+	'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'images': ['static/description/banner.png'], # 560x280 px.
     'depends': ['contacts'],
     'init_xml': [],
     'data': [
         'data/res.country.municipality.csv',
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
         'security/ir.access.csv',
         'views/municipality_views.xml',
         'views/partner_views.xml',

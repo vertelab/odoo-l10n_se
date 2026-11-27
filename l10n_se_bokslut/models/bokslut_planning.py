@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -32,7 +32,7 @@ class AccountBokslut(models.Model):
     _description = 'Year-End Closing'
 
     fiscalyear_id = fields.Many2one(
-        comodel_name='account.fiscalyear',
+        comodel_name='account.fiscal.year',
         string='Fiscal Year',
         required=True,
     )
@@ -111,14 +111,23 @@ class AccountBokslut(models.Model):
         comodel_name='res.currency',
         related='company_id.currency_id',
     )
+    currency_revaluation_id = fields.Many2one(
+        comodel_name='l10n_se.currency.revaluation',
+        string='Currency Revaluation',
+        readonly=True,
+        copy=False,
+        help='The revaluation of open monetary items in foreign currency '
+             'for the closing date.',
+    )
 
     @api.onchange('fiscalyear_id')
     def _onchange_fiscalyear_id(self):
         """Set period_start/period_stop from fiscal year."""
         if self.fiscalyear_id:
+            # Ported 2026-10-30: the new account.period has no 'special'
+            # flag (no opening-balance period).
             periods = self.env['account.period'].search([
                 ('fiscalyear_id', '=', self.fiscalyear_id.id),
-                ('special', '=', False),
             ], order='date_start asc')
             if periods:
                 self.period_start = periods[0]
@@ -375,6 +384,11 @@ class AccountBokslut(models.Model):
         if not konto_8999 or not konto_2099:
             raise UserError(_('Accounts 8999 and 2099 must exist.'))
 
+        # Adjustments get their own entries, created here so action_book()
+        # can post them. Without this the loop over adjustment_ids in
+        # action_book() was dead code.
+        self._generate_adjustment_moves(journal)
+
         resultat = abs(self.arets_resultat)
         is_profit = self.arets_resultat >= 0
 
@@ -411,9 +425,68 @@ class AccountBokslut(models.Model):
             # Tag the move with bokslut context
             self.move_id.write({'ref': _('Bokslut (Preliminary) %s') % self.fiscalyear_id.name})
 
+    def _generate_adjustment_moves(self, journal):
+        """Create one verification per temporary adjustment.
+
+        A permanent difference only affects the tax calculation and must not
+        reach the books — `is_permanent` says which. A temporary adjustment
+        gets an entry on its own account with 8999/2099 as the counter, so
+        the closing balances without changing the result twice.
+
+        Idempotent: an existing entry is reused and its lines rewritten.
+        """
+        self.ensure_one()
+        for adj in self.adjustment_ids:
+            if adj.is_permanent or not adj.amount:
+                continue
+            if not adj.account_id:
+                _logger.warning(
+                    'bokslut: adjustment %s has no account, skipped', adj.name)
+                continue
+            entry = adj.move_id
+            if not entry:
+                entry = self.env['account.move'].create({
+                    'journal_id': journal.id,
+                    'date': self.period_stop.date_stop,
+                    'ref': _('Bokslut adjustment: %s') % adj.name,
+                    'move_type': 'entry',
+                })
+                adj.move_id = entry.id
+            entry.line_ids.unlink()
+            amount = abs(adj.amount)
+            debit_side = adj.amount > 0
+            self.env['account.move.line'].create([
+                {
+                    'move_id': entry.id,
+                    'name': adj.name,
+                    'account_id': adj.account_id.id,
+                    'debit': amount if debit_side else 0.0,
+                    'credit': 0.0 if debit_side else amount,
+                },
+                {
+                    'move_id': entry.id,
+                    'name': adj.name,
+                    'account_id': self._result_account().id,
+                    'debit': 0.0 if debit_side else amount,
+                    'credit': amount if debit_side else 0.0,
+                },
+            ])
+
+    def _result_account(self):
+        """8999, the account the closing books the year's result on."""
+        self.ensure_one()
+        account = self.env['account.account'].search([
+            ('code', '=', '8999'),
+            ('company_id', '=', self.company_id.id),
+        ], limit=1)
+        if not account:
+            raise UserError(_('Account 8999 must exist.'))
+        return account
+
     def action_book(self):
         """Final booking of all verifications."""
         self.ensure_one()
+        self._warn_on_unrevalued_currency()
         self.generate_verifications()
         if self.move_id and self.move_id.state == 'draft':
             self.move_id.action_post()
@@ -422,6 +495,106 @@ class AccountBokslut(models.Model):
             if adj.move_id and adj.move_id.state == 'draft':
                 adj.move_id.action_post()
         self.state = 'done'
+
+    # ------------------------------------------------------------------
+    # Currency (BFNAR 2016:10, BFNAR 2012:1 ch. 30)
+    # ------------------------------------------------------------------
+
+    def _currency_revaluation(self):
+        """The revaluation for the closing date, if one has been made."""
+        self.ensure_one()
+        if self.currency_revaluation_id:
+            return self.currency_revaluation_id
+        if not self.period_stop:
+            return self.env['l10n_se.currency.revaluation']
+        # A revaluation made from the currency menu for the same day counts
+        # as well — the date is what decides, not who made it.
+        return self.env['l10n_se.currency.revaluation'].search([
+            ('company_id', '=', self.company_id.id),
+            ('date', '=', self.period_stop.date_stop),
+        ], limit=1)
+
+    def _open_currency_items(self):
+        """Open monetary items in foreign currency on the closing date."""
+        self.ensure_one()
+        if not self.period_stop:
+            return self.env['account.move.line']
+        return self.env['l10n_se.currency.revaluation']._monetary_open_items(
+            self.company_id, self.period_stop.date_stop)
+
+    def _warn_on_unrevalued_currency(self):
+        """Warn in the chatter when currency items are left unrevalued.
+
+        A warning, not a blocker: a company without foreign currency items
+        must be able to close its books without ticking anything. The items
+        are translated at the closing rate only when someone asks for it.
+        """
+        self.ensure_one()
+        if self._currency_revaluation():
+            return
+        items = self._open_currency_items()
+        if not items:
+            return
+        currencies = ', '.join(sorted(items.mapped('currency_id.name')))
+        self.message_post(body=_(
+            'Unrealised currency differences are not booked. There are %(count)s '
+            'open monetary items in %(currencies)s on %(date)s, and no '
+            'revaluation has been made for that date. K2 (BFNAR 2016:10) and '
+            'K3 (BFNAR 2012:1 ch. 30) require monetary items in foreign '
+            'currency to be translated at the closing rate. Use '
+            '"Revalue Currency" before the closing is signed.',
+            count=len(items),
+            currencies=currencies,
+            date=self.period_stop.date_stop,
+        ))
+
+    def action_revalue_currency(self):
+        """Revalue the open foreign currency items at the closing date.
+
+        Posts the revaluation and its reversal. A revaluation per date is
+        created once: pressing the button a second time reports that it is
+        already booked rather than posting the difference twice.
+        """
+        self.ensure_one()
+        if not self.period_stop:
+            raise UserError(_('Set the end period before revaluing currency.'))
+        revaluation = self._currency_revaluation()
+        if revaluation:
+            if revaluation.move_id:
+                raise UserError(_(
+                    'The currency revaluation for %s is already booked.',
+                    self.period_stop.date_stop))
+            revaluation.action_create_move()
+            self.currency_revaluation_id = revaluation.id
+        else:
+            R = self.env['l10n_se.currency.revaluation']
+            if not R._compute_lines(self.company_id,
+                                    self.period_stop.date_stop):
+                # Nothing to revalue is not an error in the closing flow.
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'type': 'info',
+                        'message': _(
+                            'No open monetary items in foreign currency on '
+                            '%s, nothing to revalue.',
+                            self.period_stop.date_stop),
+                        'sticky': False,
+                    },
+                }
+            revaluation = R.create_for_date(
+                self.company_id, self.period_stop.date_stop)
+            revaluation.action_create_move()
+            self.currency_revaluation_id = revaluation.id
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Currency Revaluation'),
+            'res_model': 'l10n_se.currency.revaluation',
+            'res_id': revaluation.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
 
     def action_generate_annual_report(self):
         """Generate the annual report from this closing."""

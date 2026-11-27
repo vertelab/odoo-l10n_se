@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_currency_revaluation_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_se.currency.revaluation.wizard.form</field>
+        <field name="model">l10n_se.currency.revaluation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Currency Revaluation">
+                <group>
+                    <field name="date"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="line_count"/>
+                    <field name="total"/>
+                </group>
+                <field name="preview" nolabel="1" colspan="2"/>
+                <footer>
+                    <button name="action_post" type="object"
+                            string="Post with Reversal" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_currency_revaluation_form" model="ir.ui.view">
+        <field name="name">l10n_se.currency.revaluation.form</field>
+        <field name="model">l10n_se.currency.revaluation</field>
+        <field name="arch" type="xml">
+            <form string="Currency Revaluation">
+                <header>
+                    <button name="action_create_move" type="object"
+                            string="Post with Reversal" class="btn-primary"
+                            invisible="move_id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="total_amount"/>
+                    </group>
+                    <group>
+                        <field name="move_id"/>
+                        <field name="reversal_move_id"/>
+                    </group>
+                    <field name="line_ids" nolabel="1">
+                        <list>
+                            <field name="partner_id"/>
+                            <field name="currency_id"/>
+                            <field name="amount_currency"/>
+                            <field name="balance"/>
+                            <field name="historical_rate"/>
+                            <field name="closing_rate"/>
+                            <field name="closing_value"/>
+                            <field name="difference" sum="Total"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_currency_revaluation_list" model="ir.ui.view">
+        <field name="name">l10n_se.currency.revaluation.list</field>
+        <field name="model">l10n_se.currency.revaluation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="move_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_currency_revaluation_wizard" model="ir.actions.act_window">
+        <field name="name">Currency Revaluation</field>
+        <field name="res_model">l10n_se.currency.revaluation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_currency_revaluation" model="ir.actions.act_window">
+        <field name="name">Currency Revaluations</field>
+        <field name="res_model">l10n_se.currency.revaluation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_currency_revaluation"
+              name="Currency Revaluation"
+              parent="account.menu_finance_entries"
+              action="action_currency_revaluation"
+              sequence="90"/>
+</odoo>

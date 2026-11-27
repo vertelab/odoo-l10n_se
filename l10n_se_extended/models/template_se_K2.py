@@ -1,5 +1,5 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import models, api
+from odoo import models
 from odoo.addons.account.models.chart_template import template
 
 
@@ -19,9 +19,13 @@ class AccountChartTemplate(models.AbstractModel):
         return {
             self.env.company.id: {
                 'account_fiscal_country_id': 'base.se',
-                'bank_account_code_prefix': 'K2513',
-                'cash_account_code_prefix': 'K2516',
-                'transfer_account_code_prefix': 'K2517',
-                'income_currency_exchange_account_id': 'a7500',
+                'bank_account_code_prefix': '1930',
+                'cash_account_code_prefix': '1910',
+                'transfer_account_code_prefix': '1955',
+                # 7500 is "Sociala och andra avgifter" — an expense account —
+                # and it does not exist in this chart at all. Currency
+                # exchange gains belong on 3960.
+                'income_currency_exchange_account_id': 'a3960',
+                'expense_currency_exchange_account_id': 'a7960',
             },
         }

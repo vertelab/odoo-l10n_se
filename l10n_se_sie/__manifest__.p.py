@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2021- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,7 @@
     'name': 'l10n_se: SIE-import',
     'version': '1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    # 'version': '14.0.0.0.1' reimplementing  base functionality lost in the porting process.
+    # 'version': '0.0.1' reimplementing  base functionality lost in the porting process.
     'summary': 'Module for importing SIE-files.',
     'category': 'Accounting',
     'description': '''
@@ -43,19 +43,24 @@ SIE-import
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'depends': ['account_period_vrtl', 'l10n_se'],
+    'depends': ['account_fiscal_year_vrtl', 'l10n_se_date_ranges', 'l10n_se'],
     'data': [
 		'data/l10n_se_sie_view.xml',
                 'views/account_view.xml',
                 'views/account_journal_view.xml',
                 'data/l10n_se_sie_data.xml',
-                # #if VERSION >= "20.0"
-                'security/ir.access.csv',
-                # #else
+		# #if VERSION >= "20.0"
+		# Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+		# (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+		# modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+		# ligger i security/; manifestet väljer. Att lista den andras fil är
+		# ett fel, inte bara överflödigt.
+		'security/ir.access.csv',
+		# #else
                 'security/ir.model.access.csv',
-                # #endif
+		# #endif
     ],
   
     # 'demo': ['l10n_se_sie_demo.xml'],

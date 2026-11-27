@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2026 Vertel AB (https://vertel.se)
+# Copyright 2026 Vertel Sverige AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
@@ -53,6 +53,15 @@ class ResCompany(models.Model):
     intrastat_contact_email = fields.Char(
         string="Intrastat Contact Email",
         help="Email for SCB Intrastat enquiries.",
+    )
+    intrastat_remind_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        relation="res_company_intrastat_remind_user_rel",
+        column1="company_id",
+        column2="user_id",
+        string="Intrastat Reminder Users",
+        help="Users who are reminded when the Intrastat declaration for the "
+        "month is not yet done.",
     )
 
     @api.model

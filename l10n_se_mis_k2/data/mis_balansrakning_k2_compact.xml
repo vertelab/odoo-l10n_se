@@ -849,24 +849,39 @@
             <field name="kpi_id" ref="report_br_k2_compact_FrittEgetKapital"/>
             <field name="name">bal[2090, 2092] * -1</field>
         </record>
+
+        <record id="report_br_k2_compact_IckeBokfordVinstForlust" model="mis.report.kpi">
+            <field name="report_id" ref="report_br_k2_compact"/>
+            <field name="name">IckeBokfordVinstForlust</field>
+            <field name="description">Obokfört resultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">72</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_br_k2_compact_IckeBokfordVinstForlust" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_br_k2_compact_IckeBokfordVinstForlust"/>
+            <field name="name">bal[3%,4%,5%,6%,7%,8%] * -1</field>
+        </record>
         <record id="report_br_k2_compact_EgetKapital" model="mis.report.kpi">
             <field name="report_id" ref="report_br_k2_compact"/>
             <field name="name">EgetKapital</field>
             <field name="description">Eget kapital</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">72</field>
+            <field name="sequence">73</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_EgetKapital" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_k2_compact_EgetKapital"/>
-            <field name="name">bal[2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, 2070, 2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079] * -1</field>
+            <field name="name">bal[20%] * -1</field>
         </record>
         <record id="report_br_k2_compact_ObeskattadeReserverAbstract" model="mis.report.kpi">
             <field name="report_id" ref="report_br_k2_compact"/>
             <field name="name">ObeskattadeReserverAbstract</field>
             <field name="description">Obeskattade reserver</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">73</field>
+            <field name="sequence">74</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -875,7 +890,7 @@
             <field name="name">Periodiseringsfonder</field>
             <field name="description">Periodiseringsfonder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">74</field>
+            <field name="sequence">75</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_Periodiseringsfonder" model="mis.report.kpi.expression">
@@ -887,7 +902,7 @@
             <field name="name">AckumuleradeOveravskrivningar</field>
             <field name="description">Ackumulerade överavskrivningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">75</field>
+            <field name="sequence">76</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_AckumuleradeOveravskrivningar" model="mis.report.kpi.expression">
@@ -899,7 +914,7 @@
             <field name="name">OvrigaObeskattadeReserver</field>
             <field name="description">Övriga obeskattade reserver</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">76</field>
+            <field name="sequence">77</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_OvrigaObeskattadeReserver" model="mis.report.kpi.expression">
@@ -911,7 +926,7 @@
             <field name="name">ObeskattadeReserver</field>
             <field name="description">Obeskattade reserver</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">77</field>
+            <field name="sequence">78</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_ObeskattadeReserver" model="mis.report.kpi.expression">
@@ -923,7 +938,7 @@
             <field name="name">AvsattningarAbstract</field>
             <field name="description">Avsättningar</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">78</field>
+            <field name="sequence">79</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -932,7 +947,7 @@
             <field name="name">AvsattningarPensionerLiknandeForpliktelserEnligtLag</field>
             <field name="description">Avsättningar för pensioner och liknande förpliktelser enligt lagen om tryggande av pensionsutfästelse m.m.</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">79</field>
+            <field name="sequence">80</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_AvsattningarPensionerLiknandeForpliktelserEnligtLag" model="mis.report.kpi.expression">
@@ -944,7 +959,7 @@
             <field name="name">OvrigaAvsattningarPensionerLiknandeForpliktelser</field>
             <field name="description">Övriga avsättningar för pensioner och liknande förpliktelser exklusive avsättningar enligt tryggandelagen</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">80</field>
+            <field name="sequence">81</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_OvrigaAvsattningarPensionerLiknandeForpliktelser" model="mis.report.kpi.expression">
@@ -956,7 +971,7 @@
             <field name="name">OvrigaAvsattningar</field>
             <field name="description">Övriga avsättningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">81</field>
+            <field name="sequence">82</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_OvrigaAvsattningar" model="mis.report.kpi.expression">
@@ -968,7 +983,7 @@
             <field name="name">Avsattningar</field>
             <field name="description">Avsättningar</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">82</field>
+            <field name="sequence">83</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_Avsattningar" model="mis.report.kpi.expression">
@@ -980,7 +995,7 @@
             <field name="name">LangfristigaSkulderAbstract</field>
             <field name="description">Långfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">83</field>
+            <field name="sequence">84</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -989,7 +1004,7 @@
             <field name="name">Obligationslan</field>
             <field name="description">Obligationslån</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">84</field>
+            <field name="sequence">85</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_Obligationslan" model="mis.report.kpi.expression">
@@ -1001,7 +1016,7 @@
             <field name="name">CheckrakningskreditLangfristig</field>
             <field name="description">Långfristig checkräkningskredit</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">85</field>
+            <field name="sequence">86</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_CheckrakningskreditLangfristig" model="mis.report.kpi.expression">
@@ -1013,7 +1028,7 @@
             <field name="name">OvrigaLangfristigaSkulderKreditinstitut</field>
             <field name="description">Övriga långfristiga skulder till kreditinstitut</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">86</field>
+            <field name="sequence">87</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_OvrigaLangfristigaSkulderKreditinstitut" model="mis.report.kpi.expression">
@@ -1025,7 +1040,7 @@
             <field name="name">SkulderKoncernforetagLangfristiga</field>
             <field name="description">Långfristiga skulder till koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">87</field>
+            <field name="sequence">88</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_SkulderKoncernforetagLangfristiga" model="mis.report.kpi.expression">
@@ -1037,7 +1052,7 @@
             <field name="name">SkulderIntresseforetagGemensamtStyrdaForetagLangfristiga</field>
             <field name="description">Långfristiga skulder till intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">88</field>
+            <field name="sequence">89</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_SkulderIntresseforetagGemensamtStyrdaForetagLangfristiga" model="mis.report.kpi.expression">
@@ -1049,7 +1064,7 @@
             <field name="name">SkulderOvrigaForetagAgarintresseLangfristiga</field>
             <field name="description">Långfristiga skulder till övriga företag som det finns ett ägarintresse i</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">89</field>
+            <field name="sequence">90</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_SkulderOvrigaForetagAgarintresseLangfristiga" model="mis.report.kpi.expression">
@@ -1061,7 +1076,7 @@
             <field name="name">OvrigaLangfristigaSkulder</field>
             <field name="description">Övriga långfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">90</field>
+            <field name="sequence">91</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_OvrigaLangfristigaSkulder" model="mis.report.kpi.expression">
@@ -1073,7 +1088,7 @@
             <field name="name">LangfristigaSkulder</field>
             <field name="description">Långfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">91</field>
+            <field name="sequence">92</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_LangfristigaSkulder" model="mis.report.kpi.expression">
@@ -1085,7 +1100,7 @@
             <field name="name">KortfristigaSkulderAbstract</field>
             <field name="description">Kortfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_4"/>
-            <field name="sequence">92</field>
+            <field name="sequence">93</field>
             <field name="type">str</field>
             <field name="budgetable">False</field>
         </record>
@@ -1094,7 +1109,7 @@
             <field name="name">CheckrakningskreditKortfristig</field>
             <field name="description">Kortfristig checkräkningskredit</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">93</field>
+            <field name="sequence">94</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_CheckrakningskreditKortfristig" model="mis.report.kpi.expression">
@@ -1106,7 +1121,7 @@
             <field name="name">OvrigaKortfristigaSkulderKreditinstitut</field>
             <field name="description">Övriga kortfristiga skulder till kreditinstitut</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">94</field>
+            <field name="sequence">95</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_OvrigaKortfristigaSkulderKreditinstitut" model="mis.report.kpi.expression">
@@ -1118,7 +1133,7 @@
             <field name="name">ForskottFranKunder</field>
             <field name="description">Förskott från kunder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">95</field>
+            <field name="sequence">96</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_ForskottFranKunder" model="mis.report.kpi.expression">
@@ -1130,7 +1145,7 @@
             <field name="name">PagaendeArbetenAnnansRakningKortfristigaSkulder</field>
             <field name="description">Pågående arbete för annans räkning, skuld</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">96</field>
+            <field name="sequence">97</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_PagaendeArbetenAnnansRakningKortfristigaSkulder" model="mis.report.kpi.expression">
@@ -1142,7 +1157,7 @@
             <field name="name">FaktureradEjUpparbetadIntakt</field>
             <field name="description">Fakturerad men ej upparbetad intäkt</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">97</field>
+            <field name="sequence">98</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_FaktureradEjUpparbetadIntakt" model="mis.report.kpi.expression">
@@ -1154,7 +1169,7 @@
             <field name="name">Leverantorsskulder</field>
             <field name="description">Leverantörsskulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">98</field>
+            <field name="sequence">99</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_Leverantorsskulder" model="mis.report.kpi.expression">
@@ -1166,7 +1181,7 @@
             <field name="name">Vaxelskulder</field>
             <field name="description">Växelskulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">99</field>
+            <field name="sequence">100</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_Vaxelskulder" model="mis.report.kpi.expression">
@@ -1178,7 +1193,7 @@
             <field name="name">SkulderKoncernforetagKortfristiga</field>
             <field name="description">Kortfristiga skulder till koncernföretag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">100</field>
+            <field name="sequence">101</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_SkulderKoncernforetagKortfristiga" model="mis.report.kpi.expression">
@@ -1190,7 +1205,7 @@
             <field name="name">SkulderIntresseforetagGemensamtStyrdaForetagKortfristiga</field>
             <field name="description">Kortfristiga skulder till intresseföretag och gemensamt styrda företag</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">101</field>
+            <field name="sequence">102</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_SkulderIntresseforetagGemensamtStyrdaForetagKortfristiga" model="mis.report.kpi.expression">
@@ -1202,7 +1217,7 @@
             <field name="name">SkulderOvrigaForetagAgarintresseKortfristiga</field>
             <field name="description">Kortfristiga skulder till övriga företag som det finns ett ägarintresse i</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">102</field>
+            <field name="sequence">103</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_SkulderOvrigaForetagAgarintresseKortfristiga" model="mis.report.kpi.expression">
@@ -1214,7 +1229,7 @@
             <field name="name">Skatteskulder</field>
             <field name="description">Skatteskulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">103</field>
+            <field name="sequence">104</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_Skatteskulder" model="mis.report.kpi.expression">
@@ -1226,7 +1241,7 @@
             <field name="name">OvrigaKortfristigaSkulder</field>
             <field name="description">Övriga kortfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">104</field>
+            <field name="sequence">105</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_OvrigaKortfristigaSkulder" model="mis.report.kpi.expression">
@@ -1238,7 +1253,7 @@
             <field name="name">UpplupnaKostnaderForutbetaldaIntakter</field>
             <field name="description">Upplupna kostnader och förutbetalda intäkter</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">105</field>
+            <field name="sequence">106</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_UpplupnaKostnaderForutbetaldaIntakter" model="mis.report.kpi.expression">
@@ -1250,7 +1265,7 @@
             <field name="name">KortfristigaSkulder</field>
             <field name="description">Kortfristiga skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">106</field>
+            <field name="sequence">107</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_KortfristigaSkulder" model="mis.report.kpi.expression">
@@ -1262,12 +1277,12 @@
             <field name="name">EgetKapitalSkulder</field>
             <field name="description">Eget kapital och skulder</field>
             <field name="style_id" ref="report_style_k2_1"/>
-            <field name="sequence">107</field>
+            <field name="sequence">108</field>
             <field name="budgetable">True</field>
         </record>
         <record id="kpi_report_br_k2_compact_EgetKapitalSkulder" model="mis.report.kpi.expression">
             <field name="kpi_id" ref="report_br_k2_compact_EgetKapitalSkulder"/>
-            <field name="name">sum([EgetKapital, ObeskattadeReserver, Avsattningar, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
+            <field name="name">sum([EgetKapital, IckeBokfordVinstForlust, ObeskattadeReserver, Avsattningar, LangfristigaSkulder, KortfristigaSkulder]) * -1</field>
         </record>
     </data>
 </odoo>

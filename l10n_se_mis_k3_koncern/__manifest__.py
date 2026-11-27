@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K3 (Koncern)',
-    'version': '1.0.0',
+    'version': '2.0.0',
     'summary': 'Swedish MIS-reports for koncernredovisning enligt K3 (BFNAR 2012:1).',
     'category': 'Accounting/Localizations',
     'description': '''
@@ -37,10 +37,10 @@ Based on l10n_se_mis but adapted to the K3 framework (BFNAR 2012:1).
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k3_koncern',
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'],
-    'depends': ['mis_builder', 'mis_builder_budget', 'l10n_se_mis'],
+    'depends': ['account', 'account_dynamic_reports', 'l10n_se_mis'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
@@ -49,16 +49,16 @@ Based on l10n_se_mis but adapted to the K3 framework (BFNAR 2012:1).
         # Odoo 20: ir.rule blev en ir.access-post. security.p.xml genererar
         # regeln bara för <= 19.0; på 20.0 bär den här filen den.
         'security/ir.access.csv',
-        'data/mis_koncern_balansrakning_k3.xml',
-        'data/mis_koncern_balansrakning_k3_compact.xml',
-        'data/mis_koncern_resultatrakning_kostnadsslag_k3.xml',
-        'data/mis_koncern_resultatrakning_kostnadsslag_k3_compact.xml',
-        'data/mis_koncern_resultatrakning_funktion_k3.xml',
-        'data/mis_koncern_resultatrakning_funktion_k3_compact.xml',
-        'data/mis_koncern_kassaflodesanalys_k3.xml',
-        'data/mis_koncern_kassaflodesanalys_k3_compact.xml',
-        'data/mis_koncern_eget_kapital_k3.xml',
-        'data/mis_koncern_eget_kapital_k3_compact.xml',
+        'data/ar_br_koncern_k3.xml',
+        'data/ar_br_koncern_k3_compact.xml',
+        'data/ar_rr_koncern_k3.xml',
+        'data/ar_rr_koncern_k3_compact.xml',
+        'data/ar_rr_koncern_funktion_k3.xml',
+        'data/ar_rr_koncern_funktion_k3_compact.xml',
+        'data/ar_kf_koncern_k3.xml',
+        'data/ar_kf_koncern_k3_compact.xml',
+        'data/ar_equity_koncern_k3.xml',
+        'data/ar_equity_koncern_k3_compact.xml',
     ],
     'installable': 'True',
     'application': 'False',

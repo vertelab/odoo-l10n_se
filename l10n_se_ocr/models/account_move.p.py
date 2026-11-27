@@ -76,25 +76,13 @@ class AccountMove(models.Model):
         return (10 - (total % 10)) % 10
 
     @api.model
-    # #if VERSION >= "19.0"
-    def _name_search(self, name, domain=None, operator='ilike', limit=100, order=None):
-    # #else
     def _name_search(self, name, args=None, operator='ilike', limit=100, order=None):
-    # #endif
         """Extends search to match OCR numbers alongside standard fields
         in Kanban, List, Many2one, and Reconciliation views."""
-        # #if VERSION >= "19.0"
-        args = list(domain or [])
-        # #else
         args = list(args or [])
-        # #endif
         if name:
             ocr_domain = [('ocr_number', operator, name)]
             ocr_ids = self.search(ocr_domain + args, limit=limit).ids
             if ocr_ids:
                 return ocr_ids
-        # #if VERSION >= "19.0"
         return super()._name_search(name, args, operator, limit, order)
-        # #else
-        return super()._name_search(name, args, operator, limit, order)
-        # #endif

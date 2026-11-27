@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.09">
+  <CstmrCdtTrfInitn>
+    <GrpHdr>
+      <MsgId>DEMO-PAIN-202611</MsgId>
+      <CreDtTm>2026-11-01T06:00:00</CreDtTm>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>670.63</CtrlSum>
+      <InitgPty>
+        <Nm>Aronssons Montage AB</Nm>
+        <Id>
+          <OrgId>
+            <Othr>
+              <Id>5560600000</Id>
+              <SchmeNm>
+                <Cd>CUST</Cd>
+              </SchmeNm>
+            </Othr>
+          </OrgId>
+        </Id>
+      </InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>DEMO-PAIN-202611-01</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>670.63</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>NURG</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>
+        <Dt>2026-11-25</Dt>
+      </ReqdExctnDt>
+      <Dbtr>
+        <Nm>Aronssons Montage AB</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>50512345</Id>
+            <SchmeNm>
+              <Prtry>BGNR</Prtry>
+            </SchmeNm>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>ESSESESS</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>BNK1/2026/01009-01</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">501.78</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Ytterby Partner AB</Nm>
+          <PstlAdr>
+            <StrtNm>Storgatan 50</StrtNm>
+            <PstCd>151 20</PstCd>
+            <TwnNm>Södertälje</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>2963-0741</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>BNK1/2026/01010-02</InstrId>
+          <EndToEndId>NOTPROVIDED</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="SEK">168.85</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Kilfors AB</Nm>
+          <PstlAdr>
+            <StrtNm>Bergsgatan 160</StrtNm>
+            <PstCd>721 30</PstCd>
+            <TwnNm>Västerås</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>8529-6307</Id>
+              <SchmeNm>
+                <Prtry>BGNR</Prtry>
+              </SchmeNm>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+  </CstmrCdtTrfInitn>
+</Document>

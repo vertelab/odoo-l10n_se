@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="report_style_k2_1" model="mis.report.style">
+            <field name="name">Style for money K2</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+            <field eval="False" name="dp_inherit"/>
+            <field name="dp">0</field>
+            <field eval="False" name="indent_level_inherit"/>
+            <field name="indent_level">2</field>
+        </record>
+        <record id="report_style_k2_2" model="mis.report.style">
+            <field name="name">Style account K2</field>
+            <field eval="False" name="indent_level_inherit"/>
+            <field name="indent_level">4</field>
+            <field eval="False" name="font_style_inherit"/>
+            <field name="font_style">italic</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+        <record id="report_style_k2_3" model="mis.report.style">
+            <field name="name">Style total K2</field>
+            <field eval="False" name="background_color_inherit"/>
+            <field name="background_color">#967C8B</field>
+            <field eval="False" name="color_inherit"/>
+            <field name="color">#FFFFFF</field>
+            <field eval="False" name="font_weight_inherit"/>
+            <field name="font_weight">bold</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+        <record id="report_style_k2_4" model="mis.report.style">
+            <field name="name">Style bold K2</field>
+            <field eval="False" name="font_weight_inherit"/>
+            <field name="indent_level">0</field>
+            <field name="font_weight">bold</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field eval="False" name="suffix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+        <record id="report_style_k2_5" model="mis.report.style">
+            <field name="name">Style bold sum K2</field>
+            <field eval="False" name="font_weight_inherit"/>
+            <field name="indent_level">0</field>
+            <field name="font_weight">bold</field>
+            <field eval="False" name="font_size_inherit"/>
+            <field name="font_size">medium</field>
+            <field eval="False" name="prefix_inherit"/>
+            <field name="suffix">SEK</field>
+        </record>
+    </data>
+    <data noupdate="0">
+        <record id="report_kf_filial_indirekt_k2" model="mis.report">
+            <field name="name">Kassaflödesanalys indirekt metod K2</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KassaflodesanalysLopandeVerksamhetenAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KassaflodesanalysLopandeVerksamhetenAbstract</field>
+            <field name="description">Den löpande verksamheten (Presentation)</field>
+            <field name="style_id" ref="report_style_k2_3"/>
+            <field name="sequence">1</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_Rorelseresultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">Rorelseresultat</field>
+            <field name="description">Rörelseresultat</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">2</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_Rorelseresultat" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_Rorelseresultat"/>
+            <field name="name">bal[30%%, 31%%, 32%%, 33%%, 34%%, 35%%, 36%%, 37%%, 38%%, 39%%, 40%%, 41%%, 42%%, 43%%, 44%%, 45%%, 46%%, 47%%, 48%%, 49%%, 50%%, 51%%, 52%%, 53%%, 54%%, 55%%, 56%%, 57%%, 58%%, 59%%, 60%%, 61%%, 62%%, 63%%, 64%%, 65%%, 66%%, 67%%, 68%%, 69%%, 70%%, 71%%, 72%%, 73%%, 74%%, 75%%, 76%%, 77%%, 78%%, 79%%] * -1</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_JusteringPosterInteIngarKassaflodeAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">JusteringPosterInteIngarKassaflodeAbstract</field>
+            <field name="description">Justering för poster som inte ingår i kassaflödet m.m. (Presentation)</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">3</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar</field>
+            <field name="description">Avskrivningar och nedskrivningar inklusive (återföringar) vid justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">4</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_RealisationsVinstForlustRorelseresultat" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">RealisationsVinstForlustRorelseresultat</field>
+            <field name="description">Realisationsförlust (realisationsvinst) som ingår i rörelseresultatet</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">5</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_JusteringPosterInteIngarKassaflodeValutakursdifferenser" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">JusteringPosterInteIngarKassaflodeValutakursdifferenser</field>
+            <field name="description">Valutakursförlust (valutakursvinst) i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">6</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_JusteringPosterInteIngarKassaflodeAvsattningPensioner" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">JusteringPosterInteIngarKassaflodeAvsattningPensioner</field>
+            <field name="description">Avsättning (återföring av avsättning) för pensioner i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">7</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_JusteringPosterInteIngarKassaflodeAvsattningGarantier" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">JusteringPosterInteIngarKassaflodeAvsattningGarantier</field>
+            <field name="description">Avsättning (återföring av avsättning) för garantier i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">8</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering</field>
+            <field name="description">Avsättning (återföring av avsättning) för omstrukturering i justering för poster som inte ingår i kassaflödet m.m.</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">9</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ErhallenRanta" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ErhallenRanta</field>
+            <field name="description">Ökning av kassaflöde vid erhållen ränta</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">10</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_ErhallenRanta" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_ErhallenRanta"/>
+            <field name="name">sum([JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar, RealisationsVinstForlustRorelseresultat, JusteringPosterInteIngarKassaflodeValutakursdifferenser, JusteringPosterInteIngarKassaflodeAvsattningPensioner, JusteringPosterInteIngarKassaflodeAvsattningGarantier, JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ErhallenUtdelning" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ErhallenUtdelning</field>
+            <field name="description">Ökning av kassaflöde vid erhållen utdelning</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">11</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_ErhallenUtdelning" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_ErhallenUtdelning"/>
+            <field name="name">sum([JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar, RealisationsVinstForlustRorelseresultat, JusteringPosterInteIngarKassaflodeValutakursdifferenser, JusteringPosterInteIngarKassaflodeAvsattningPensioner, JusteringPosterInteIngarKassaflodeAvsattningGarantier, JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ErlagdRanta" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ErlagdRanta</field>
+            <field name="description">Minskning av kassaflöde vid erlagd ränta</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">12</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_ErlagdRanta" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_ErlagdRanta"/>
+            <field name="name">sum([JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar, RealisationsVinstForlustRorelseresultat, JusteringPosterInteIngarKassaflodeValutakursdifferenser, JusteringPosterInteIngarKassaflodeAvsattningPensioner, JusteringPosterInteIngarKassaflodeAvsattningGarantier, JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_BetaldSkatt" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">BetaldSkatt</field>
+            <field name="description">Minskning av kassaflöde vid betald inkomstskatt</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">13</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_BetaldSkatt" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_BetaldSkatt"/>
+            <field name="name">sum([JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar, RealisationsVinstForlustRorelseresultat, JusteringPosterInteIngarKassaflodeValutakursdifferenser, JusteringPosterInteIngarKassaflodeAvsattningPensioner, JusteringPosterInteIngarKassaflodeAvsattningGarantier, JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital</field>
+            <field name="description">Ökning (minskning) av kassaflöde från den löpande verksamheten före förändringar av rörelsekapital</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">14</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital"/>
+            <field name="name">sum([JusteringPosterInteIngarKassaflodeAvskrivningarNedskrivningar, RealisationsVinstForlustRorelseresultat, JusteringPosterInteIngarKassaflodeValutakursdifferenser, JusteringPosterInteIngarKassaflodeAvsattningPensioner, JusteringPosterInteIngarKassaflodeAvsattningGarantier, JusteringPosterInteIngarKassaflodeAvsattningOmstrukturering])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForandringKassaflodeRorelsekapitaletAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForandringKassaflodeRorelsekapitaletAbstract</field>
+            <field name="description">Kassaflöde från förändringar i rörelsekapital (Presentation)</field>
+            <field name="style_id" ref="report_style_k2_4"/>
+            <field name="sequence">15</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForandringKassaflodeVarulagerPagaendeArbeten" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForandringKassaflodeVarulagerPagaendeArbeten</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av varulager och pågående arbeten</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">16</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForandringKassaflodeKundfordringar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForandringKassaflodeKundfordringar</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av kundfordringar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">17</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForandringKassaflodeOvrigaKortfristigaFordringar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForandringKassaflodeOvrigaKortfristigaFordringar</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av övriga kortfristiga fordringar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">18</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForandringKassaflodeLeverantorsskulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForandringKassaflodeLeverantorsskulder</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av leverantörsskulder</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">19</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForandringKassaflodeOvrigaKortfristigaSkulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForandringKassaflodeOvrigaKortfristigaSkulder</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av övriga kortfristiga skulder</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">20</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KassaflodeLopandeVerksamheten" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KassaflodeLopandeVerksamheten</field>
+            <field name="description">Ökning (minskning) av kassaflöde från den löpande verksamheten</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">21</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_KassaflodeLopandeVerksamheten" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_KassaflodeLopandeVerksamheten"/>
+            <field name="name">sum([Rorelseresultat, ErhallenRanta, ErhallenUtdelning, ErlagdRanta, BetaldSkatt, KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KassaflodesanalysInvesteringsverksamhetenAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KassaflodesanalysInvesteringsverksamhetenAbstract</field>
+            <field name="description">Investeringsverksamheten (Presentation)</field>
+            <field name="style_id" ref="report_style_k2_3"/>
+            <field name="sequence">22</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_LamnadeKapitaltillskottInvesteringsverksamheten" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">LamnadeKapitaltillskottInvesteringsverksamheten</field>
+            <field name="description">Minskning av kassaflöde vid lämnade tillskott</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">23</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_LamnadeKoncernbidragInvesteringsverksamheten" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">LamnadeKoncernbidragInvesteringsverksamheten</field>
+            <field name="description">Minskning av kassaflöde vid lämnade koncernbidrag i investeringsverksamheten</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">24</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_InvesteringImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">InvesteringImmateriellaAnlaggningstillgangar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av immateriella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">25</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForsaljningImmateriellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForsaljningImmateriellaAnlaggningstillgangar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av immateriella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">26</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_InvesteringMateriellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">InvesteringMateriellaAnlaggningstillgangar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av materiella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">27</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForsaljningMateriellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForsaljningMateriellaAnlaggningstillgangar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring av materiella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">28</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_InvesteringFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">InvesteringFinansiellaAnlaggningstillgangar</field>
+            <field name="description">Minskning av kassaflöde vid förvärv av finansiella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">29</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForsaljningFinansiellaAnlaggningstillgangar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForsaljningFinansiellaAnlaggningstillgangar</field>
+            <field name="description">Ökning av kassaflöde vid avyttring eller amortering av finansiella anläggningstillgångar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">30</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_ForandringKassaflodeOvrigaKortfristigaPlaceringar" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">ForandringKassaflodeOvrigaKortfristigaPlaceringar</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av kortfristiga placeringar</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">31</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KassaflodeInvesteringsverksamheten" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KassaflodeInvesteringsverksamheten</field>
+            <field name="description">Ökning (minskning) av kassaflöde från investeringsverksamheten</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">32</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_KassaflodeInvesteringsverksamheten" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_KassaflodeInvesteringsverksamheten"/>
+            <field name="name">sum([Rorelseresultat, ErhallenRanta, ErhallenUtdelning, ErlagdRanta, BetaldSkatt, KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital, LamnadeKapitaltillskottInvesteringsverksamheten, LamnadeKoncernbidragInvesteringsverksamheten, InvesteringImmateriellaAnlaggningstillgangar, ForsaljningImmateriellaAnlaggningstillgangar, InvesteringMateriellaAnlaggningstillgangar, ForsaljningMateriellaAnlaggningstillgangar, InvesteringFinansiellaAnlaggningstillgangar, ForsaljningFinansiellaAnlaggningstillgangar, ForandringKassaflodeOvrigaKortfristigaPlaceringar])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KassaflodesanalysFinansieringsverksamhetenAbstract" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KassaflodesanalysFinansieringsverksamhetenAbstract</field>
+            <field name="description">Finansieringsverksamheten (Presentation)</field>
+            <field name="style_id" ref="report_style_k2_3"/>
+            <field name="sequence">33</field>
+            <field name="type">str</field>
+            <field name="budgetable">False</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_UpptagnaLan" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">UpptagnaLan</field>
+            <field name="description">Ökning av kassaflöde till följd av upptagna lån</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">34</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_AmorteringSkuld" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">AmorteringSkuld</field>
+            <field name="description">Minskning av kassaflöde vid amortering av skuld</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">35</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KortfristigaFinansiellaSkulder" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KortfristigaFinansiellaSkulder</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid förändring av kortfristiga finansiella skulder</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">36</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_InsattningarUttagKassaflode" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">InsattningarUttagKassaflode</field>
+            <field name="description">Ökning (minskning) av kassaflöde vid insättningar/uttag</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">37</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_KassaflodeFinansieringsverksamheten" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">KassaflodeFinansieringsverksamheten</field>
+            <field name="description">Ökning (minskning) av kassaflöde från finansieringsverksamheten</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">38</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_KassaflodeFinansieringsverksamheten" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_KassaflodeFinansieringsverksamheten"/>
+            <field name="name">sum([Rorelseresultat, ErhallenRanta, ErhallenUtdelning, ErlagdRanta, BetaldSkatt, KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital, LamnadeKapitaltillskottInvesteringsverksamheten, LamnadeKoncernbidragInvesteringsverksamheten, InvesteringImmateriellaAnlaggningstillgangar, ForsaljningImmateriellaAnlaggningstillgangar, InvesteringMateriellaAnlaggningstillgangar, ForsaljningMateriellaAnlaggningstillgangar, InvesteringFinansiellaAnlaggningstillgangar, ForsaljningFinansiellaAnlaggningstillgangar, ForandringKassaflodeOvrigaKortfristigaPlaceringar, UpptagnaLan, AmorteringSkuld, KortfristigaFinansiellaSkulder, InsattningarUttagKassaflode])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_AretsKassaflode" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">AretsKassaflode</field>
+            <field name="description">Ökning (minskning) av kassaflöde</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">39</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_AretsKassaflode" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_AretsKassaflode"/>
+            <field name="name">sum([Rorelseresultat, ErhallenRanta, ErhallenUtdelning, ErlagdRanta, BetaldSkatt, KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital, LamnadeKapitaltillskottInvesteringsverksamheten, LamnadeKoncernbidragInvesteringsverksamheten, InvesteringImmateriellaAnlaggningstillgangar, ForsaljningImmateriellaAnlaggningstillgangar, InvesteringMateriellaAnlaggningstillgangar, ForsaljningMateriellaAnlaggningstillgangar, InvesteringFinansiellaAnlaggningstillgangar, ForsaljningFinansiellaAnlaggningstillgangar, ForandringKassaflodeOvrigaKortfristigaPlaceringar, UpptagnaLan, AmorteringSkuld, KortfristigaFinansiellaSkulder, InsattningarUttagKassaflode])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_LikvidaMedel" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">LikvidaMedel</field>
+            <field name="description">Likvida medel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">40</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_LikvidaMedel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_LikvidaMedel"/>
+            <field name="name">sum([Rorelseresultat, ErhallenRanta, ErhallenUtdelning, ErlagdRanta, BetaldSkatt, KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital, LamnadeKapitaltillskottInvesteringsverksamheten, LamnadeKoncernbidragInvesteringsverksamheten, InvesteringImmateriellaAnlaggningstillgangar, ForsaljningImmateriellaAnlaggningstillgangar, InvesteringMateriellaAnlaggningstillgangar, ForsaljningMateriellaAnlaggningstillgangar, InvesteringFinansiellaAnlaggningstillgangar, ForsaljningFinansiellaAnlaggningstillgangar, ForandringKassaflodeOvrigaKortfristigaPlaceringar, UpptagnaLan, AmorteringSkuld, KortfristigaFinansiellaSkulder, InsattningarUttagKassaflode])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_LikvidaMedelKursdifferens" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">LikvidaMedelKursdifferens</field>
+            <field name="description">Ökning (minskning) av likvida medel vid kursdifferenser</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">41</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_LikvidaMedelKursdifferens" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_LikvidaMedelKursdifferens"/>
+            <field name="name">sum([Rorelseresultat, ErhallenRanta, ErhallenUtdelning, ErlagdRanta, BetaldSkatt, KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital, LamnadeKapitaltillskottInvesteringsverksamheten, LamnadeKoncernbidragInvesteringsverksamheten, InvesteringImmateriellaAnlaggningstillgangar, ForsaljningImmateriellaAnlaggningstillgangar, InvesteringMateriellaAnlaggningstillgangar, ForsaljningMateriellaAnlaggningstillgangar, InvesteringFinansiellaAnlaggningstillgangar, ForsaljningFinansiellaAnlaggningstillgangar, ForandringKassaflodeOvrigaKortfristigaPlaceringar, UpptagnaLan, AmorteringSkuld, KortfristigaFinansiellaSkulder, InsattningarUttagKassaflode])</field>
+        </record>
+        <record id="report_kf_filial_indirekt_k2_LikvidaMedel" model="mis.report.kpi">
+            <field name="report_id" ref="report_kf_filial_indirekt_k2"/>
+            <field name="name">LikvidaMedel</field>
+            <field name="description">Likvida medel</field>
+            <field name="style_id" ref="report_style_k2_1"/>
+            <field name="sequence">42</field>
+            <field name="budgetable">True</field>
+            <field name="auto_expand_accounts">True</field>
+            <field name="auto_expand_accounts_style_id" ref="report_style_k2_2"/>
+        </record>
+        <record id="kpi_report_kf_filial_indirekt_k2_LikvidaMedel" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_kf_filial_indirekt_k2_LikvidaMedel"/>
+            <field name="name">sum([Rorelseresultat, ErhallenRanta, ErhallenUtdelning, ErlagdRanta, BetaldSkatt, KassaflodeLopandeVerksamhetenForeForandringarRorelsekapital, LamnadeKapitaltillskottInvesteringsverksamheten, LamnadeKoncernbidragInvesteringsverksamheten, InvesteringImmateriellaAnlaggningstillgangar, ForsaljningImmateriellaAnlaggningstillgangar, InvesteringMateriellaAnlaggningstillgangar, ForsaljningMateriellaAnlaggningstillgangar, InvesteringFinansiellaAnlaggningstillgangar, ForsaljningFinansiellaAnlaggningstillgangar, ForandringKassaflodeOvrigaKortfristigaPlaceringar, UpptagnaLan, AmorteringSkuld, KortfristigaFinansiellaSkulder, InsattningarUttagKassaflode])</field>
+        </record>
+    </data>
+</odoo>

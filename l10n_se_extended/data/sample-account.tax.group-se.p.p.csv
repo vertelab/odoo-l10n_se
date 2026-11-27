@@ -1,0 +1,6 @@
+id,name
+tax_group_hr,HR
+tax_group_25,VAT 25%
+tax_group_12,VAT 12%
+tax_group_6,VAT 6%
+tax_group_0,VAT 0%

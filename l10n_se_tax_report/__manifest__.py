@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2021- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,9 +21,9 @@
 
 {
     'name': 'l10n_se: Account Tax Report',
-    'version': '0.0.0',
+    'version': '1.6.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Sweden - Account Tax Report.',
+    'summary': 'Sweden - Account Tax Report',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
@@ -31,44 +31,39 @@
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
-    'description': '''
-Account Tax Report
-==================
+    'description': """
+Swedish accounting Tax Report
+=============================
+Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
 
-    Adds some Swedish tax and employer reports (Momsdeklaration, Arbetsgivardeklaration)
+Skatteverket API Integration
+----------------------------
+- Submit VAT declarations directly to Skatteverket via API
+- Supports certificate (cert) and e-identification (e_id) authentication
+- Test/live mode toggle with configurable endpoints
+- Calendar integration showing submission deadlines
 
-    Skatteverket API Integration
-    - Submit VAT declarations directly to Skatteverket via API
-    - Supports certificate (cert) and e-identification (e_id) authentication
-    - Test/live mode toggle with configurable endpoints
-    - Calendar integration showing submission deadlines
+Company Settings (res.company)
+-------------------------------
+- vat_declaration_frequency: Declaration period (month/quarter/year)
+- accounting_method: Kontantmetoden or Fakturametoden
+- vat_report_template_id: MIS report template for VAT declarations (default: Momsdeklaration)
+- skv_test_mode: Use Skatteverket test or production API
+- skv_auth_method: Authentication method (cert/e_id)
+- skv_api_url, skv_auth_url, skv_token_url: Configurable API endpoints
 
-    Company Settings (res.company)
-    - vat_declaration_frequency: Declaration period (month/quarter/year)
-    - accounting_method: Kontantmetoden or Fakturametoden
-    - vat_report_template_id: MIS report template for VAT declarations (default: Momsdeklaration)
-    - skv_test_mode: Use Skatteverket test or production API
-    - skv_auth_method: Authentication method (cert/e_id)
-    - skv_api_url, skv_auth_url, skv_token_url: Configurable API endpoints
+External Dependencies
+---------------------
+- workalendar: Used for Swedish public holiday calculation to correctly
+  determine VAT declaration deadlines. Install: pip3 install workalendar
+     """,
 
-    External Dependencies
-    - workalendar: Used for Swedish public holiday calculation to correctly
-      determine VAT declaration deadlines. Install: pip3 install workalendar
-
-    Features:
-
-        - Web integration: Exposes HTTP endpoints for external systems.
-        - Automation: Scheduled jobs: VAT Declaration: create next period, Periodisk sammanställning: create next period.
-        - Guided Wizards: Step-by-step dialogs for data entry.
-        - Reports: Adds printable reports.
-        - UI Integration: Extends 7 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.account, account.declaration, account.declaration.line, account.declaration.line.id.
-    ''',
-    'author': 'Vertel AB',
-
-    'depends': ['calendar', 'mis_builder','l10n_se_mis', 'account_period_vrtl', 'l10n_se_skatteverket_api'],
+    # l10n_se is required: tax_report_handler.xml writes to the VAT box
+    # expressions that l10n_se defines (l10n_se.tax_report_line_*_tag).
+    # Without the dependency the install fails with 'External ID not found'.
+    'depends': ['calendar', 'mis_builder', 'account_fiscal_year_vrtl', 'l10n_se_date_ranges', 'l10n_se_skatteverket_api', 'account_dynamic_reports', 'l10n_se'],
 
     'external_dependencies': {
         'python': ['workalendar'],
@@ -77,12 +72,19 @@ Account Tax Report
     'data': [
         'data/account_data.xml',
         'data/cron_data.xml',
-        'data/mis_report_instances.xml',
+        'data/tax_report_handler.xml',
+        'data/eskd_moms_mapping.xml',
+        'data/periodic_compilation_report.xml',
         'views/account_view.xml',
         'views/res_config_view.xml',
         'views/moms_report.xml',
         'views/periodic_compilation.xml',
         'report/report.xml',
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
         'security/ir.access.csv',
         'security/security.xml',
         'views/mis_report_view.xml',

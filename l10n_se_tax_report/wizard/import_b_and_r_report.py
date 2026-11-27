@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution, third party addon
-#    Copyright (C) 2004-2018 Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2004-2018 Vertel Sverige AB (<http://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,13 +24,14 @@ from tempfile import TemporaryFile
 import base64
 import sys
 import traceback
+import logging
+_logger = logging.getLogger(__name__)
+
 try:
     from xlrd import open_workbook
 except ImportError:
     _logger.info('project_task_planned_vehicle_import requires xlrd (pip install xlrd)')
 
-import logging
-_logger = logging.getLogger(__name__)
 
 class ImportBalanceAndResultReports(models.TransientModel):
     _name = 'account.financial.report.balance_result.import'
@@ -126,7 +127,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 for sep in separators:
                     txt = txt.replace(sep, ' %s ' % sep)
                 return sign, [('code', 'in', parse_domain(txt.split()))], None
-            except:
+            except Exception:
                 error_info = sys.exc_info()
                 _logger.warn('\n' + ''.join(traceback.format_exception(error_info[0], error_info[1], error_info[2])))
                 return None, [], "Couldn't parse domain: %s" % text
@@ -223,7 +224,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 'parent_id': parent.id,
                 'type': 'accounts',
                 'sequence': sequence,
-                'sign': -1 if (values['code'] in self.resultatrakning_neg_sign) else 1,
+                'sign': '-1' if (values['code'] in self.resultatrakning_neg_sign) else '1',
                 'sru': values['code'],
                 'display_detail': 'no_detail',
                 'account_ids': [(6, 0, [a.id for a in accounts])],
@@ -233,7 +234,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                     vals['field_code'] = str(code['code'])
                 elif code['sign'] == '-':
                     vals['field_code_neg'] = str(code['code'])
-            account = self.env['account.financial.report'].create(vals)
+            self.env['account.financial.report'].create(vals)
 
         def create_heading(values, parent, sequence):
             heading = self.env['account.financial.report'].create({
@@ -241,7 +242,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
                 'parent_id': parent.id,
                 'type': 'sum',
                 'sequence': sequence,
-                'sign': 1,
+                'sign': '1',
             })
             i = 0
             for child in values['children']:
@@ -254,7 +255,7 @@ class ImportBalanceAndResultReports(models.TransientModel):
             'name': '%s - %s' % (name, year),
             'type': 'sum',
             'sequence': 0,
-            'sign': 1,
+            'sign': '1',
         })
         i = 0
         for values in res:

@@ -75,6 +75,11 @@ Tax Account
     'data': [
         'security/security.xml',
         # #if VERSION >= "20.0"
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
         'security/ir.access.csv',
         # #else
         'security/ir.model.access.csv',

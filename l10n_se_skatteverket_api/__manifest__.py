@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2026 Vertel AB
+# Copyright (C) 2026 Vertel Sverige AB
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
@@ -40,6 +40,11 @@ Skatteverket API
         'python': ['requests'],
     },
     'data': [
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
         'security/ir.access.csv',
         'views/res_config_view.xml',
     ],

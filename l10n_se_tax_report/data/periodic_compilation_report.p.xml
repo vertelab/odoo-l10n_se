@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Periodic compilation (periodisk sammanställning) as an account.report.
+
+    The eight boxes are the same eight the Swedish VAT report already computes
+    (35-42), so the report reuses those codes instead of inventing a parallel
+    PC_* numbering. That keeps one source of truth for what box 35 means.
+
+    Previously these eight boxes lived in l10n_se_mis as report_pc, which is
+    why l10n_se_tax_report had to depend on MIS Builder at all.
+-->
+<odoo>
+    <data>
+        <record id="periodic_compilation_report" model="account.report">
+            <field name="name">Periodisk sammanställning</field>
+            <field name="country_id" ref="base.se"/>
+            <field name="custom_handler_model_id"
+                   ref="model_account_se_tax_report_handler"/>
+            <field name="column_ids">
+                <record id="periodic_compilation_report_col_balance" model="account.report.column">
+                    <field name="name">Belopp</field>
+                    <field name="expression_label">balance</field>
+                    <field name="figure_type">monetary</field>
+                    <field name="sequence">1</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_35" model="account.report.line">
+            <field name="name">Fält 35 – Försäljning av varor till annat EU-land</field>
+            <field name="code">se_35</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">10</field>
+            <field name="expression_ids">
+                <record id="pc_line_35_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_35</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_36" model="account.report.line">
+            <field name="name">Fält 36 – Försäljning av varor utanför EU</field>
+            <field name="code">se_36</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">20</field>
+            <field name="expression_ids">
+                <record id="pc_line_36_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_36</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_37" model="account.report.line">
+            <field name="name">Fält 37 – Mellanmans inköp av varor vid trepartshandel</field>
+            <field name="code">se_37</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">30</field>
+            <field name="expression_ids">
+                <record id="pc_line_37_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_37</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_38" model="account.report.line">
+            <field name="name">Fält 38 – Mellanmans försäljning av varor vid trepartshandel</field>
+            <field name="code">se_38</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">40</field>
+            <field name="expression_ids">
+                <record id="pc_line_38_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_38</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_39" model="account.report.line">
+            <field name="name">Fält 39 – Försäljning av tjänster när köparen är skattskyldig i annat EU-land</field>
+            <field name="code">se_39</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">50</field>
+            <field name="expression_ids">
+                <record id="pc_line_39_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_39</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_40" model="account.report.line">
+            <field name="name">Fält 40 – Övrig försäljning av tjänster omsatta utom landet</field>
+            <field name="code">se_40</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">60</field>
+            <field name="expression_ids">
+                <record id="pc_line_40_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_40</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_41" model="account.report.line">
+            <field name="name">Fält 41 – Försäljning när köparen är skattskyldig i Sverige</field>
+            <field name="code">se_41</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">70</field>
+            <field name="expression_ids">
+                <record id="pc_line_41_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_41</field>
+                </record>
+            </field>
+        </record>
+
+        <record id="pc_line_42" model="account.report.line">
+            <field name="name">Fält 42 – Övrig försäljning m.m.</field>
+            <field name="code">se_42</field>
+            <field name="report_id" ref="periodic_compilation_report"/>
+            <field name="sequence">80</field>
+            <field name="expression_ids">
+                <record id="pc_line_42_expr" model="account.report.expression">
+                    <field name="label">balance</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_custom_expression_eval</field>
+                    <field name="subformula">se_42</field>
+                </record>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,241 @@
+id,name,description,invoice_label,amount,type_tax_use,tax_group_id/id,repartition_line_ids/repartition_type,repartition_line_ids/document_type,repartition_line_ids/tag_ids,repartition_line_ids/account_id,repartition_line_ids/factor_percent
+mp1,MP1,Försäljning 25%,,25,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2610 Utgående moms, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2610 Utgående moms, 25 %",100
+i,I,Inköp 25%,,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,2640 Ingående moms,100
+mp1i,MP1i,Försäljning 25% (ink),,25,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2610 Utgående moms, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2610 Utgående moms, 25 %",100
+mp2,MP2,Försäljning 12%,,12,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2620 Utgående moms, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2620 Utgående moms, 12 %",100
+mp2i,MP2i,Försäljning 12% (ink),,12,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2620 Utgående moms, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2620 Utgående moms, 12 %",100
+mp3,MP3,Försäljning 6%,,6,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2630 Utgående moms, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2630 Utgående moms, 6 %",100
+mp3i,MP3i,Försäljning 6% (ink),,6,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2630 Utgående moms, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2630 Utgående moms, 6 %",100
+mu1,MU1,Momspliktiga uttag 25%,,25,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+mu2,MU2,Momspliktiga uttag 12%,,12,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,invoice,,,100
+mu3,MU3,Momspliktiga uttag 6%,,6,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+mbbu,MBBU,Beskattningsunderlag vid vinstmarginalbeskattning,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+mpff,MPFF,Hyresinkomster vid frivillig skattskyldighet,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+u1,U1,Utgående moms 25%,,25,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2610 Utgående moms, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2610 Utgående moms, 25 %",100
+u2,U2,Utgående moms 12%,,12,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2620 Utgående moms, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2620 Utgående moms, 12 %",100
+u3,U3,Utgående moms 6%,,6,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2630 Utgående moms, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"2630 Utgående moms, 6 %",100
+vfeu,VFEU,"Inköp av varor från annat EU-land, 25%",,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2614 Utgående moms omvänd skattskyldighet, 25 %",100
+,,,,,,,tax,refund,,"2614 Utgående moms omvänd skattskyldighet, 25 %",100
+vfeu12,VFEU12,"Inköp av varor från annat EU-land, 12%",,12,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2624 Utgående moms omvänd skattskyldighet, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,refund,,"2624 Utgående moms omvänd skattskyldighet, 12 %",100
+vfeu6,VFEU6,"Inköp av varor från annat EU-land, 6%",,6,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2634 Utgående moms omvänd skattskyldighet, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,refund,,"2634 Utgående moms omvänd skattskyldighet, 6 %",100
+tfeu,TFEU,"Inköp av tjänster från annat EU-land enligt huvudregeln, 25%",,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2614 Utgående moms omvänd skattskyldighet, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,refund,,,100
+tfeu12,TFEU12,"Inköp av tjänster från annat EU-land enligt huvudregeln, 12%",,12,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2624 Utgående moms omvänd skattskyldighet, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,refund,,,100
+tfeu6,TFEU6,"Inköp av tjänster från annat EU-land enligt huvudregeln, 6%",,6,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2634 Utgående moms omvänd skattskyldighet, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,refund,,,100
+rtfeu,RTFEU,"(Utgående moms) Inköp av tjänster från annat EU-land enligt huvudregeln, 25%",,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2614 Utgående moms omvänd skattskyldighet, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+rtfeu12,RTFEU12,"(Utgående moms) Inköp av tjänster från annat EU-land enligt huvudregeln, 12%",,12,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2624 Utgående moms omvänd skattskyldighet, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+rtfeu6,RTFEU6,"(Utgående moms) Inköp av tjänster från annat EU-land enligt huvudregeln, 6%",,6,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2634 Utgående moms omvänd skattskyldighet, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+tffu,TFFU,Inköp av tjänster från ett land utanför EU,,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2614 Utgående moms omvänd skattskyldighet, 25 %",100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,refund,,,100
+ivis,IVIS,Inköp av varor i Sverige,,0,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+itts,ITIS,Övriga inköp av tjänster,,0,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+u1mi,U1MI,"Utgående moms omvänd skattskyldighet, 25%",,25,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2614 Utgående moms omvänd skattskyldighet, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+u2mi,U2MI,"Utgående moms omvänd skattskyldighet, 12%",,12,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2624 Utgående moms omvänd skattskyldighet, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+u3mi,U3MI,"Utgående moms omvänd skattskyldighet, 6%",,6,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2634 Utgående moms omvänd skattskyldighet, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+mbbui1,MBBUI1,"Beskattningsunderlag vid import, 25%",,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2615 Utgående moms import av varor, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,refund,,,100
+mbbui2,MBBUI2,"Beskattningsunderlag vid import, 12%",,12,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2625 Utgående moms import av varor, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,refund,,,100
+mbbui3,MBBUI3,"Beskattningsunderlag vid import, 6%",,6,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2645 Beräknad ingående moms på förvärv från utlandet,100
+,,,,,,,tax,invoice,,"2635 Utgående moms import av varor, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+,,,,,,,tax,refund,,,100
+u1mbbui,U1MBBUI,Utgående moms 25%,,25,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2615 Utgående moms import av varor, 25 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+u2mbbui,U2MBBUI,Utgående moms 12%,,12,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2625 Utgående moms import av varor, 12 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+u3mbbui,U3MBBUI,Utgående moms 6%,,6,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"2635 Utgående moms import av varor, 6 %",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+vteu,VTEU,Försäljning av varor till annat EU-land,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+e,E,Försäljning av varor till utanför EU,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+3veu,3VEU,Mellanmans inköp av varor vid trepartshandel,,0,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+3feu,3FEU,Mellanmans försäljning av varor vid trepartshandel,,0,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+fteu,FTEU,Försäjning av tjänster när köparen är skatteskyldig i EG,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+ottu,OTTU,Övrig försäljning av tjänster omsatta i utlandet,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+omss,OMSS,Försäljning när köparen är skatteskyldig i Sverige,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+mf,MF,Momsfri försäljning,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,"3004 Försäljning inom Sverige, momsfri",100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,"3004 Försäljning inom Sverige, momsfri",100
+it,IT,"Inköp av tjänst, 25%",,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+ii,Ii,Inköp 25% (ink),,25,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+i12,I12,Inköp 12%,,12,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+it12,IT12,"Inköp av tjänst, 12%",,12,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+i12i,I12i,Inköp 12% (ink),,12,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+i6,I6,Inköp 6%,,6,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+it6,IT6,"Inköp av tjänst, 6%",,6,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+i6i,I6i,Inköp 6% (ink),,6,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,2640 Ingående moms,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+MomsBetala,MomsBetala,Moms att betala(+) eller få tillbaka(-),,0,none,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+MomsIngAvdr,MomsIngAvdr,Ingående moms att dra av,,0,purchase,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100
+MomsUtg,MomsUtg,Summering av utgående moms,,0,sale,l10n_se_extended.tax_group_25,base,invoice,,,100
+,,,,,,,tax,invoice,,,100
+,,,,,,,base,refund,,,100
+,,,,,,,tax,refund,,,100

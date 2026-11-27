@@ -228,6 +228,7 @@ a1912,1912,Kassa 2,asset_cash,False,Kassa 2
 a1913,1913,Kassa 3,asset_cash,False,Kassa 3
 a1940,1940,Övriga bankkonton,asset_cash,False,Övriga bankkonton
 a1950,1950,Bankcertifikat,asset_cash,False,Bankcertifikat
+a1955,1955,Bank transfer,asset_current,True,Bank transfer
 a1960,1960,Koncernkonto moderföretag,asset_cash,False,Koncernkonto moderföretag
 a1970,1970,Särskilda bankkonton,asset_cash,False,Särskilda bankkonton
 a1972,1972,Upphovsmannakonto,asset_cash,False,Upphovsmannakonto

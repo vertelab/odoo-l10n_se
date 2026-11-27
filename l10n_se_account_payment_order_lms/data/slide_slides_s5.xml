@@ -21,7 +21,7 @@
         <field name="sequence">220</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
-        <field name="is_published" eval="True"/>
+        <field name="is_published" eval="False"/>
         <field name="is_preview" eval="True"/>
         <field name="completion_time">0.25</field>
         <field name="html_content" type="html">
@@ -93,7 +93,7 @@
         <field name="sequence">230</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
-        <field name="is_published" eval="True"/>
+        <field name="is_published" eval="False"/>
         <field name="is_preview" eval="True"/>
         <field name="completion_time">0.25</field>
         <field name="html_content" type="html">
@@ -134,7 +134,7 @@
         <field name="sequence">240</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
-        <field name="is_published" eval="True"/>
+        <field name="is_published" eval="False"/>
         <field name="is_preview" eval="True"/>
         <field name="completion_time">0.15</field>
         <field name="html_content" type="html">
@@ -179,7 +179,7 @@
         <field name="sequence">250</field>
         <field name="slide_category">quiz</field>
         <field name="channel_id" ref="l10n_se_account_payment_order_lms.slide_channel_payment_pending"/>
-        <field name="is_published" eval="True"/>
+        <field name="is_published" eval="False"/>
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.25</field>
         <field name="quiz_first_attempt_reward">100</field>

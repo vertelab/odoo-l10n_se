@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Quiz Attempt Form -->
+    <record id="view_quiz_attempt_form" model="ir.ui.view">
+        <field name="name">l10n_se.training.quiz_attempt.form</field>
+        <field name="model">l10n_se.training.quiz_attempt</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start_quiz" string="Start Quiz"
+                            type="object" class="btn-primary"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_complete_quiz" string="Finish Quiz"
+                            type="object" class="btn-success"
+                            invisible="state != 'in_progress'"
+                            confirm="Are you sure you want to finish? Unanswered questions will count as wrong."/>
+                    <button name="action_retake" string="Retake Quiz"
+                            type="object" class="btn-secondary"
+                            invisible="state != 'completed'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="category_id"/>
+                            <span> — Diagnostic Quiz</span>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="date_started"/>
+                            <field name="date_completed"
+                                   invisible="not date_completed"/>
+                        </group>
+                        <group>
+                            <field name="question_count"/>
+                            <field name="score" widget="badge"
+                                   decoration-success="percentage &gt;= 80"
+                                   decoration-warning="percentage &gt;= 50 and percentage &lt; 80"
+                                   decoration-danger="percentage &lt; 50"/>
+                            <field name="percentage" widget="percentage"/>
+                        </group>
+                    </group>
+
+                    <group string="Questions" colspan="4">
+                        <field name="line_ids" nolabel="1">
+                            <list editable="bottom" decoration-success="is_correct == True" decoration-danger="is_correct == False">
+                                <field name="question_id" readonly="1"/>
+                                <field name="answer_given" widget="badge"
+                                       decoration-info="answer_given == 'a'"
+                                       decoration-primary="answer_given == 'b'"
+                                       decoration-warning="answer_given == 'c'"
+                                       decoration-danger="answer_given == 'd'"/>
+                                <field name="is_correct" widget="boolean_toggle" readonly="1"/>
+                                <field name="answered_at" optional="show"/>
+                            </list>
+                            <form>
+                                <group>
+                                    <field name="question_id" readonly="1"/>
+                                    <field name="question_text" readonly="1" nolabel="1"/>
+                                </group>
+                                <group string="Your Answer">
+                                    <field name="answer_given" widget="radio"
+                                           readonly="answered_at != False"/>
+                                </group>
+                                <group string="Explanation"
+                                       invisible="not answer_given">
+                                    <field name="explanation" readonly="1" nolabel="1"/>
+                                    <field name="is_correct" invisible="1"/>
+                                    <field name="correct_answer" invisible="1"/>
+                                    <div class="alert alert-success"
+                                         invisible="not is_correct">
+                                        ✅ Correct!
+                                    </div>
+                                    <div class="alert alert-danger"
+                                         invisible="is_correct">
+                                        ❌ Incorrect — correct answer was:
+                                        <field name="answer_a" invisible="correct_answer != 'a'"/>
+                                        <field name="answer_b" invisible="correct_answer != 'b'"/>
+                                        <field name="answer_c" invisible="correct_answer != 'c'"/>
+                                        <field name="answer_d" invisible="correct_answer != 'd'"/>
+                                    </div>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Quiz Attempt Tree -->
+    <record id="view_quiz_attempt_tree" model="ir.ui.view">
+        <field name="name">l10n_se.training.quiz_attempt.tree</field>
+        <field name="model">l10n_se.training.quiz_attempt</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="category_id"/>
+                <field name="user_id"/>
+                <field name="date_started"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'in_progress'"
+                       decoration-success="state == 'completed'"/>
+                <field name="score"/>
+                <field name="percentage" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Quiz Attempt Search -->
+    <record id="view_quiz_attempt_search" model="ir.ui.view">
+        <field name="name">l10n_se.training.quiz_attempt.search</field>
+        <field name="model">l10n_se.training.quiz_attempt</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="category_id"/>
+                <field name="user_id"/>
+                <filter name="in_progress" string="In Progress"
+                        domain="[('state', '=', 'in_progress')]"/>
+                <filter name="completed" string="Completed"
+                        domain="[('state', '=', 'completed')]"/>
+                <filter name="passed" string="Passed (&gt;=80%)"
+                        domain="[('percentage', '&gt;=', 80)]"/>
+                <filter name="failed" string="Failed (&lt;50%)"
+                        domain="[('percentage', '&lt;', 50)]"/>
+                <separator/>
+                <filter name="my_attempts" string="My Attempts"
+                        domain="[('user_id', '=', uid)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Question Tree -->
+    <record id="view_question_tree" model="ir.ui.view">
+        <field name="name">l10n_se.training.question.tree</field>
+        <field name="model">l10n_se.training.question</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="difficulty" widget="badge"
+                       decoration-success="difficulty == 'easy'"
+                       decoration-warning="difficulty == 'medium'"
+                       decoration-danger="difficulty == 'hard'"/>
+                <field name="correct_answer"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Question Form -->
+    <record id="view_question_form" model="ir.ui.view">
+        <field name="name">l10n_se.training.question.form</field>
+        <field name="model">l10n_se.training.question</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="lesson_id"/>
+                            <field name="difficulty"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Question">
+                        <field name="question_text" nolabel="1"/>
+                    </group>
+                    <group string="Answers">
+                        <group>
+                            <field name="answer_a"/>
+                            <field name="answer_b"/>
+                        </group>
+                        <group>
+                            <field name="answer_c"/>
+                            <field name="answer_d"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="correct_answer" widget="radio"/>
+                    </group>
+                    <group string="Explanation (shown after answering)">
+                        <field name="explanation" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_quiz_attempt" model="ir.actions.act_window">
+        <field name="name">Diagnostic Quizzes</field>
+        <field name="res_model">l10n_se.training.quiz_attempt</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_my_attempts': 1}</field>
+    </record>
+
+    <record id="action_question" model="ir.actions.act_window">
+        <field name="name">Quiz Questions</field>
+        <field name="res_model">l10n_se.training.question</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

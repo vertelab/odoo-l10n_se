@@ -1,5 +1,4 @@
 <odoo>
-    <!-- #if VERSION <= "19.0" -->
     <data>
         <record id="mis_report_instance_company_rule_k2_handelsbolag" model="ir.rule">
             <field name="name">mis_report_instance: MIS Report multi-company (k2_handelsbolag)</field>
@@ -7,5 +6,4 @@
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
     </data>
-    <!-- #endif -->
 </odoo>

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports',
-    'version': '1.9.0',
+    'version': '2.0.9',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Create Swedish MIS-reports.',
     'category': 'Accounting',
@@ -38,21 +38,24 @@ adjust according to the applicable accounting guidelines.
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis',
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'], # 560x280 px.
-    'depends': ['mis_builder', 'mis_builder_budget'],
+    'depends': ['account', 'account_dynamic_reports', 'l10n_se_tax_report'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
     'data': [
-        'data/mis_financial_report.xml',
-        'data/mis_financial_report_compact.xml',
-        'data/mis_report_instances.xml',
-        'data/mis_momsdeklaration_report.xml',
-        'data/periodic_compilation.xml',
-        'data/mis_data_file_2026-05-22.xml',
-        'data/mis_arbetsgivardeklaration_report.xml',
+        # The reports are now account.report definitions, generated from the
+        # old MIS Builder data files by account_report_mis_import and reviewed
+        # row by row (see the change's tasks.md section 7.10).
+        'data/ar_balance_sheet.xml',
+        'data/ar_profit_and_loss.xml',
+        'data/ar_momsdeklaration.xml',
+        # SFA runs their own VAT report, already tag-based. Kept as data so a
+        # customer variant does not force the standard to change.
+        'data/ar_momsdeklaration_sfa.xml',
+        'views/ar_report_actions.xml',
         'security/security.xml',
         # Odoo 20: ir.rule blev en ir.access-post. security.p.xml genererar
         # regeln bara för <= 19.0; på 20.0 bär den här filen den.

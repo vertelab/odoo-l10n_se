@@ -2,19 +2,19 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<http://vertel.se>).
 #
 ##############################################################################
 
 {
     'name': 'l10n_se: Swedish Accounting Training (LMS)',
-    'version': '1.0.3',
+    'version': '1.0.7',
     'summary': 'Swedish accounting education — system-independent theory with Odoo practice guides.',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_lms',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_se',
     'description': '''
 Swedish Accounting Training (LMS)
@@ -43,6 +43,10 @@ Swedish Accounting Training (LMS)
         - Extends Odoo: Builds on lesson_id, mail.thread.
     ''',
     'depends': [
+        # account_accountant_ce renames the core "Invoicing" root to
+        # "Accounting" (account.menu_finance); the training menu must hang
+        # under that root, not under the deleted legacy one.
+        'account_accountant_ce',
         'l10n_se_extended',
         'l10n_se_tax_report',
         'hr',
@@ -50,6 +54,11 @@ Swedish Accounting Training (LMS)
     ],
     'data': [
         # #if VERSION >= "20.0"
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
         'security/ir.access.csv',
         # #else
         'security/ir.model.access.csv',

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 
 {
     'name': 'l10n_se: Swedish MIS-reports K2 (Filial)',
-    'version': '1.0.0',
+    'version': '2.0.0',
     'summary': 'Swedish MIS-reports for Filial till utländskt företag enligt K2 (BFNAR 2016:10)',
     'category': 'Accounting/Localizations',
     'description': '''
@@ -36,10 +36,10 @@ Based on l10n_se_mis but adapted to the K2 framework (BFNAR 2016:10).
     'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mis_k2_filial',
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-l10n_Se',
     'images': ['static/description/banner.png'],
-    'depends': ['mis_builder', 'mis_builder_budget', 'l10n_se_mis'],
+    'depends': ['account', 'account_dynamic_reports', 'l10n_se_mis'],
     'external_dependencies': {
         'python': ['xlrd'],
     },
@@ -48,16 +48,16 @@ Based on l10n_se_mis but adapted to the K2 framework (BFNAR 2016:10).
         # Odoo 20: ir.rule blev en ir.access-post. security.p.xml genererar
         # regeln bara för <= 19.0; på 20.0 bär den här filen den.
         'security/ir.access.csv',
-        'data/mis_balansrakning_k2.xml',
-        'data/mis_balansrakning_k2_compact.xml',
-        'data/mis_balansrakning_forkortad_k2.xml',
-        'data/mis_balansrakning_forkortad_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_k2_compact.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2.xml',
-        'data/mis_resultatrakning_kostnadsslag_forkortad_k2_compact.xml',
-        'data/mis_kassaflodesanalys_k2.xml',
-        'data/mis_kassaflodesanalys_k2_compact.xml',
+        'data/ar_br_filial_forkortad_k2.xml',
+        'data/ar_br_filial_forkortad_k2_compact.xml',
+        'data/ar_br_filial_k2.xml',
+        'data/ar_br_filial_k2_compact.xml',
+        'data/ar_kf_filial_indirekt_k2.xml',
+        'data/ar_kf_filial_indirekt_k2_compact.xml',
+        'data/ar_rr_filial_kostnadsslag_forkortad_k2.xml',
+        'data/ar_rr_filial_kostnadsslag_forkortad_k2_compact.xml',
+        'data/ar_rr_filial_kostnadsslag_k2.xml',
+        'data/ar_rr_filial_kostnadsslag_k2_compact.xml',
     ],
     'installable': 'True',
     'application': 'False',

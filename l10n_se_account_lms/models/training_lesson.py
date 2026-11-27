@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<http://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<http://vertel.se>).
 #
 ##############################################################################
 

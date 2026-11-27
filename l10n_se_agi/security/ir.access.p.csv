@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_agi_declaration,account.agi.declaration,account.agi.declaration,account.group_account_manager,crud,
+access_account_agi_declaration_user,account.agi.declaration,account.agi.declaration,account.group_account_user,r,
+access_account_agi_declaration_line,account.agi.declaration.line,account.agi.declaration.line,account.group_account_manager,crud,
+access_account_agi_declaration_line_user,account.agi.declaration.line,account.agi.declaration.line,account.group_account_user,r,
