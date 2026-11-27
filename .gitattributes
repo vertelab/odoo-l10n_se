@@ -4,3 +4,9 @@
 *.p.xml linguist-language=XML        text eol=lf
 *.p.csv linguist-language=CSV        text eol=lf
 # <<< geany-pfiles <<<
+# Genererad utdata från preprocess skrivs alltid med LF. Utan detta blir
+# utdata STALE direkt efter commit för de filer som låg med CRLF.
+*.py   text eol=lf
+*.xml  text eol=lf
+*.csv  text eol=lf
+*.js   text eol=lf
