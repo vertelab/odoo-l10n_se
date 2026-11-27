@@ -8,6 +8,7 @@ Kontrollerar en modulkatalog (eller ett helt repo) och rapporterar:
   MANUAL_PFILE    p-fil, men ingen genererad fil  (FEL)
   ORPHAN_PFILE    .p-fil utan giltig utdata  (FEL)
   UNEXPLAINED     källfil utan p-motsvarighet och inte vitlistad (FEL)
+  EDITION_PREFIX  manifestet i en p-fil-modul bär utgåveprefix (FEL)
   PAIRED          .p.x + x finns — OK
   ALLOWED         vitlistad — OK
   NOT_APPLICABLE  saknar stöd för preprocess — OK
@@ -27,6 +28,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -89,6 +91,61 @@ def find_roots(paths, explicit):
                 roots.append(dirpath)
                 dirnames[:] = []   # moduler ligger inte inuti moduler
     return roots
+
+
+MANIFEST = "__manifest__.py"
+MANIFEST_P = "__manifest__.p.py"
+VERSION_RE = re.compile(r"""^\s*['"]version['"]\s*:\s*['"]([^'"]*)['"]""", re.MULTILINE)
+# Bara en RIKTIG Odoo-serie räknas som prefix: 14.0, 16.0, 17.0, 18.0, 19.0,
+# 20.0. Ett modulversionsnummer som '1.0.0' är inte en serie — annars skulle
+# varje vanlig version fällas.
+ODOO_SERIES = {"14.0", "15.0", "16.0", "17.0", "18.0", "19.0", "20.0"}
+EDITION_PREFIX_RE = re.compile(r"^(\d{1,2}\.0)\.")
+
+
+def _manifest_text(path):
+    """Läs manifestet som TEXT — aldrig som Python.
+
+    Ett manifest får referera __file__ eller bygga strängar; en krasch i
+    tolkningen får inte bli ett falskt EDITION_PREFIX.
+    """
+    try:
+        with open(path, encoding="utf-8", errors="ignore") as fh:
+            return fh.read()
+    except OSError:
+        return ""
+
+
+def edition_prefix_finding(root):
+    """EDITION_PREFIX om ett manifest i en p-fil-modul namnger en utgåva.
+
+    Regeln (odoo-pfiles § "Manifestet i en p-fil-modul"): p-filen är
+    versionsagnostisk och får inte bära '18.0.'-prefix. Odoo lägger själv på
+    serien via adapt_version(). Med prefix blir versionen oförändrad på 19/20,
+    check_version() kastar ValueError, och modulen hamnar som 'uninstallable'
+    i ir_module_module — utan ett ord i loggen.
+
+    Ett manifest utan p-källa granskas inte: där är prefixet rätt.
+    """
+    if not os.path.isfile(os.path.join(root, MANIFEST_P)):
+        return None
+    text = _manifest_text(os.path.join(root, MANIFEST))
+    if not text:
+        return (ERR, "EDITION_PREFIX", MANIFEST,
+                f"{MANIFEST} saknas men {MANIFEST_P} finns")
+    m = VERSION_RE.search(text)
+    if not m:
+        return (ERR, "EDITION_PREFIX", MANIFEST,
+                "ingen version i manifestet — Odoo antar då 1.0")
+    value = m.group(1)
+    prefix = EDITION_PREFIX_RE.match(value)
+    if prefix and prefix.group(1) in ODOO_SERIES:
+        return (ERR, "EDITION_PREFIX", MANIFEST,
+                (f"version '{value}' bär utgåveprefix '{prefix.group(1)}.' — "
+                 f"p-filens manifest ska vara editionsfritt ('1.0'), annars "
+                 f"returnerar adapt_version() den oförändrad på 19.0/20.0 och "
+                 f"modulen blir uninstallable utan logg"))
+    return (OK, "EDITION_PREFIX", MANIFEST, f"version '{value}' är editionsfri")
 
 
 def load_allow(root):
@@ -158,6 +215,10 @@ def check_root(root, version, exclude_allow, preprocess, tmpdir):
     allow, allow_src = load_allow(root)
     findings, cache = [], {}
 
+    prefix_finding = edition_prefix_finding(root)
+    if prefix_finding is not None:
+        findings.append(prefix_finding)
+
     # Samla alla filer
     files = []
     for dirpath, dirnames, filenames in os.walk(root):
@@ -203,7 +264,6 @@ def check_root(root, version, exclude_allow, preprocess, tmpdir):
             if exclude_allow:
                 continue        # p-filen rapporterar redan PARED/STALE
             try:
-                same = open(f, "rb").read() == open(source, "rb").read()
                 findings.append((OK, "PAIRED", rel(root, f), "identisk med p-filen"))
             except OSError as exc:
                 findings.append((ERR, "STALE", rel(root, f), str(exc)))

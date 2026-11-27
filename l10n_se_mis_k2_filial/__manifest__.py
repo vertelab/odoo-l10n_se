@@ -45,6 +45,9 @@ Based on l10n_se_mis but adapted to the K2 framework (BFNAR 2016:10).
     },
     'data': [
         'security/security.xml',
+        # Odoo 20: ir.rule blev en ir.access-post. security.p.xml genererar
+        # regeln bara för <= 19.0; på 20.0 bär den här filen den.
+        'security/ir.access.csv',
         'data/mis_balansrakning_k2.xml',
         'data/mis_balansrakning_k2_compact.xml',
         'data/mis_balansrakning_forkortad_k2.xml',

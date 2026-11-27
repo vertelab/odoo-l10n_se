@@ -47,6 +47,9 @@ Contains balance sheet and income statement (cost of sales method).
     },
     'data': [
         'security/security.xml',
+        # Odoo 20: ir.rule blev en ir.access-post. security.p.xml genererar
+        # regeln bara för <= 19.0; på 20.0 bär den här filen den.
+        'security/ir.access.csv',
         'data/mis_balansrakning_k2.xml',
         'data/mis_balansrakning_k2_compact.xml',
         'data/mis_balansrakning_forkortad_k2.xml',

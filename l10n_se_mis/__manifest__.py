@@ -54,6 +54,9 @@ adjust according to the applicable accounting guidelines.
         'data/mis_data_file_2026-05-22.xml',
         'data/mis_arbetsgivardeklaration_report.xml',
         'security/security.xml',
+        # Odoo 20: ir.rule blev en ir.access-post. security.p.xml genererar
+        # regeln bara för <= 19.0; på 20.0 bär den här filen den.
+        'security/ir.access.csv',
     ],
     'installable': 'True',
     'application': 'False',

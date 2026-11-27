@@ -14,7 +14,6 @@ l10n_se_account_financial_report/models/financial_reports_instance.py
 l10n_se_account_financial_report/models/financial_reports_line.py
 l10n_se_account_financial_report/models/financial_reports_line_results.py
 l10n_se_account_financial_report/security/ir.access.csv
-l10n_se_account_financial_report/security/ir.model.access.csv
 l10n_se_account_financial_report/static/description/index.html
 l10n_se_account_financial_report/views/financial_reports_instance_view.xml
 l10n_se_account_financial_report/views/financial_reports_line_results_view.xml
@@ -29,7 +28,6 @@ l10n_se_account_lms/models/training_category.py
 l10n_se_account_lms/models/training_lesson.py
 l10n_se_account_lms/models/training_quiz.py
 l10n_se_account_lms/security/ir.access.csv
-l10n_se_account_lms/security/ir.model.access.csv
 l10n_se_account_lms/static/description/index.html
 l10n_se_account_lms/views/training_category_views.xml
 l10n_se_account_lms/views/training_lesson_views.xml
@@ -43,14 +41,12 @@ l10n_se_account_payment_order_lms/data/slide_slides_s2.xml
 l10n_se_account_payment_order_lms/data/slide_slides_s3.xml
 l10n_se_account_payment_order_lms/data/slide_slides_s4.xml
 l10n_se_account_payment_order_lms/data/slide_slides_s5.xml
-l10n_se_account_payment_order_lms/security/ir.model.access.csv
 l10n_se_account_payment_order_lms/static/description/index.html
 l10n_se_agi/data/agi_cron_data.xml
 l10n_se_agi/demo/agi_demo.xml
 l10n_se_agi/models/agi_declaration.py
 l10n_se_agi/models/res_config.py
 l10n_se_agi/security/ir.access.csv
-l10n_se_agi/security/ir.model.access.csv
 l10n_se_agi/static/description/index.html
 l10n_se_agi/views/agi_declaration_views.xml
 l10n_se_agi/views/res_config_view.xml
@@ -71,7 +67,6 @@ l10n_se_bokslut/models/res_config.py
 l10n_se_bokslut/report/annual_report_pdf.xml
 l10n_se_bokslut/report/bokslut_dokumentation_pdf.xml
 l10n_se_bokslut/security/ir.access.csv
-l10n_se_bokslut/security/ir.model.access.csv
 l10n_se_bokslut/static/description/index.html
 l10n_se_bokslut/views/bokslut_adjustment_views.xml
 l10n_se_bokslut/views/bokslut_planning_views.xml
@@ -133,7 +128,6 @@ l10n_se_extended/old-data/fiscal_position_data.xml
 l10n_se_extended/old-data/l10n_se_account_chart_post_data.xml
 l10n_se_extended/old-data/l10n_se_account_chart_template.xml
 l10n_se_extended/security/ir.access.csv
-l10n_se_extended/security/ir.model.access.csv
 l10n_se_extended/static/description/index.html
 l10n_se_extended/static/doc/10-MODUL.py
 l10n_se_extended/views/res_config_settings_views.xml
@@ -142,7 +136,6 @@ l10n_se_extended/wizard/merge_chart_wizard.xml
 l10n_se_fiscal_position/data/fiscal_position_data.xml
 l10n_se_fiscal_position/models/fiscal_position.py
 l10n_se_fiscal_position/security/ir.access.csv
-l10n_se_fiscal_position/security/ir.model.access.csv
 l10n_se_fiscal_position/static/description/index.html
 l10n_se_intrastat_product/data/intrastat_region.xml
 l10n_se_intrastat_product/data/intrastat_transaction.xml
@@ -150,7 +143,6 @@ l10n_se_intrastat_product/data/intrastat_transport_mode.xml
 l10n_se_intrastat_product/models/intrastat_product_declaration.py
 l10n_se_intrastat_product/models/res_company.py
 l10n_se_intrastat_product/security/ir.access.csv
-l10n_se_intrastat_product/security/ir.model.access.csv
 l10n_se_intrastat_product/static/description/index.html
 l10n_se_intrastat_product/views/intrastat_product_declaration.xml
 l10n_se_intrastat_product/views/res_config_settings.xml
@@ -163,7 +155,6 @@ l10n_se_kommun/data/template/account.tax.group-kommun_bas_se.csv
 l10n_se_kommun/models/template_se.py
 l10n_se_kommun/static/description/index.html
 l10n_se_migration/security/ir.access.csv
-l10n_se_migration/security/ir.model.access.csv
 l10n_se_migration/static/description/index.html
 l10n_se_migration/views/migration_menus.xml
 l10n_se_migration/views/migration_wizard_views.xml
@@ -279,14 +270,12 @@ l10n_se_municipality_class/data/res.country.municipality.csv
 l10n_se_municipality_class/models/municipality.py
 l10n_se_municipality_class/models/partner.py
 l10n_se_municipality_class/security/ir.access.csv
-l10n_se_municipality_class/security/ir.model.access.csv
 l10n_se_municipality_class/static/description/index.html
 l10n_se_municipality_class/views/municipality_views.xml
 l10n_se_municipality_class/views/partner_views.xml
 l10n_se_mynt/data/ir_seq_mynt.xml
 l10n_se_mynt/models/account_move.py
 l10n_se_mynt/security/ir.access.csv
-l10n_se_mynt/security/ir.model.access.csv
 l10n_se_mynt/static/description/index.html
 l10n_se_mynt/views/account_journal_dashboard_views.xml
 l10n_se_mynt/views/account_move_view.xml
@@ -312,7 +301,6 @@ l10n_se_sie/data/l10n_se_sie_view.xml
 l10n_se_sie/models/account.py
 l10n_se_sie/models/l10n_se_sie.py
 l10n_se_sie/security/ir.access.csv
-l10n_se_sie/security/ir.model.access.csv
 l10n_se_sie/static/description/index.html
 l10n_se_sie/views/account_journal_view.xml
 l10n_se_sie_minimal/data/l10n_se_sie_data.xml
@@ -321,7 +309,6 @@ l10n_se_sie_minimal/data/l10n_se_sie_view.xml
 l10n_se_sie_minimal/models/account.py
 l10n_se_sie_minimal/models/l10n_se_sie.py
 l10n_se_sie_minimal/security/ir.access.csv
-l10n_se_sie_minimal/security/ir.model.access.csv
 l10n_se_sie_minimal/static/description/index.html
 l10n_se_skatteverket_api/controllers/skatteverket_auth.py
 l10n_se_skatteverket_api/data/data.xml
@@ -329,7 +316,6 @@ l10n_se_skatteverket_api/models/res_company.py
 l10n_se_skatteverket_api/models/res_config.py
 l10n_se_skatteverket_api/models/skatteverket_api.py
 l10n_se_skatteverket_api/security/ir.access.csv
-l10n_se_skatteverket_api/security/ir.model.access.csv
 l10n_se_skatteverket_api/static/description/index.html
 l10n_se_skatteverket_api/views/res_config_view.xml
 l10n_se_tax_account/controllers/skatteverket_auth.py
@@ -342,7 +328,6 @@ l10n_se_tax_account/models/res_company.py
 l10n_se_tax_account/models/res_config.py
 l10n_se_tax_account/models/tax_account_reconciliation.py
 l10n_se_tax_account/security/ir.access.csv
-l10n_se_tax_account/security/ir.model.access.csv
 l10n_se_tax_account/static/description/index.html
 l10n_se_tax_account/views/account_bank_statement_views.xml
 l10n_se_tax_account/views/journal_views.xml
@@ -373,7 +358,6 @@ l10n_se_tax_report/models/res_config.py
 l10n_se_tax_report/models/sru.py
 l10n_se_tax_report/report/report.xml
 l10n_se_tax_report/security/ir.access.csv
-l10n_se_tax_report/security/ir.model.access.csv
 l10n_se_tax_report/static/description/index.html
 l10n_se_tax_report/tests/test_periodic_compilation.py
 l10n_se_tax_report/views/account_fiscalyear_views.xml
@@ -397,7 +381,7 @@ mis_builder_fixes/static/description/index.html
 mis_cash_flow/data/mis_report.xml
 mis_cash_flow/static/description/index.html
 mis_export_import/security/ir.access.csv
-mis_export_import/security/ir.model.access.csv
 mis_export_import/static/description/index.html
 mis_export_import/wizards/mis_export_import_wizard.py
 mis_export_import/wizards/mis_export_import_wizard_views.xml
+l10n_se_account_payment_order_lms/security/ir.access.csv
