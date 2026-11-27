@@ -4,7 +4,7 @@
 
 {
     "name": "Sweden - Intrastat Product Declaration",
-    "version": "1.0.0",
+    "version": "1.4.0",
     "category": "Reporting",
     "license": "AGPL-3",
     "summary": "Swedish Intrastat Product Declaration (SCB EDAS XML)",
@@ -24,6 +24,7 @@
         "views/intrastat_product_declaration.xml",
     ],
     "demo": [],
+    "post_init_hook": "post_init_hook",
     "installable": True,
     "application": False,
     "auto_install": False,

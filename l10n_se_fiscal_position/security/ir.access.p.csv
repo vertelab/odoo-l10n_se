@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+account_fiscal_position_tax_balance_user,account_fiscal_position_tax_balance_user_user,account.fiscal.position.tax.balance,account.group_account_user,r,
+account_fiscal_position_tax_balance_manager,account_fiscal_position_tax_balance_user_manager,account.fiscal.position.tax.balance,account.group_account_manager,crud,
+account_fiscal_position_tax_balance_template_user,account_fiscal_position_tax_balance_template_user,account.fiscal.position.tax.balance.template,account.group_account_user,r,

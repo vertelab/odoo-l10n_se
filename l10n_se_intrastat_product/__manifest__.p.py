@@ -1,0 +1,39 @@
+# -*- coding: utf-8 -*-
+# Copyright 2026 Vertel Sverige AB (https://vertel.se)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+{
+    "name": "Sweden - Intrastat Product Declaration",
+    "version": "1.4.0",
+    "category": "Reporting",
+    "license": "AGPL-3",
+    "summary": "Swedish Intrastat Product Declaration (SCB EDAS XML)",
+    "author": "Vertel Sverige AB, Odoo Community Association (OCA)",
+    "maintainers": [],
+    "website": "https://vertel.se/apps/odoo-l10n_se/l10n_se_intrastat_product",
+    "depends": [
+        "intrastat_product",
+        "l10n_se_tax_report",
+    ],
+    "data": [
+        # #if VERSION >= "20.0"
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer.
+        "security/ir.access.csv",
+        # #else
+        "security/ir.model.access.csv",
+        # #endif
+        "data/intrastat_transaction.xml",
+        "data/intrastat_transport_mode.xml",
+        "data/intrastat_region.xml",
+        "views/res_config_settings.xml",
+        "views/intrastat_product_declaration.xml",
+    ],
+    "demo": [],
+    "post_init_hook": "post_init_hook",
+    "installable": True,
+    "application": False,
+    "auto_install": False,
+}

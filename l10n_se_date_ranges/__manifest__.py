@@ -22,6 +22,7 @@ l10n_se Date Ranges
     'data': [
         'data/date_range_type_data.xml',
     ],
+    'pre_init_hook': '_adopt_types_from_retired_modules',
     'post_init_hook': '_generate_swedish_date_ranges',
     'installable': True,
     'application': False,

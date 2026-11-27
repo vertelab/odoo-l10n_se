@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="report_pc" model="mis.report">
+            <field name="name">Periodisk sammanställning</field>
+        </record>
+
+        <!-- #35: Försäljning av varor till annat EU-land -->
+        <record id="report_pc_ForsVaruAnnatEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">ForsVaruAnnatEg</field>
+            <field name="description">#35: Försäljning av varor till annat EU-land</field>
+            <field name="sequence">2</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_ForsVaruAnnatEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_ForsVaruAnnatEg"/>
+            <field name="name">crd[3106,3108]</field>
+        </record>
+
+        <!-- #36: Försäljning av varor utanför EU -->
+        <record id="report_pc_ForsVaruUtomEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">ForsVaruUtomEg</field>
+            <field name="description">#36: Försäljning av varor utanför EU</field>
+            <field name="sequence">3</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_ForsVaruUtomEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_ForsVaruUtomEg"/>
+            <field name="name">crd[3105]</field>
+        </record>
+
+        <!-- #37: Mellanmans inköp av varor vid trepartshandel -->
+        <record id="report_pc_InkopVaruMellan3p" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">InkopVaruMellan3p</field>
+            <field name="description">#37: Mellanmans inköp av varor vid trepartshandel</field>
+            <field name="sequence">4</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_InkopVaruMellan3p" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_InkopVaruMellan3p"/>
+            <field name="name">crd[][('tax_line_id.name', '=', '3VEU')]</field>
+        </record>
+
+        <!-- #38: Mellanmans försäljning av varor vid trepartshandel -->
+        <record id="report_pc_ForsVaruMellan3p" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">ForsVaruMellan3p</field>
+            <field name="description">#38: Mellanmans försäljning av varor vid trepartshandel</field>
+            <field name="sequence">5</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_ForsVaruMellan3p" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_ForsVaruMellan3p"/>
+            <field name="name">crd[][('tax_line_id.name', '=', '3FEU')]</field>
+        </record>
+
+        <!-- #39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land -->
+        <record id="report_pc_ForsTjSkskAnnatEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">ForsTjSkskAnnatEg</field>
+            <field name="description">#39: Försäljning av tjänster när köparen är skattskyldig i annat EU-land</field>
+            <field name="sequence">6</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_ForsTjSkskAnnatEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_ForsTjSkskAnnatEg"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'FTEU')]</field>
+        </record>
+
+        <!-- #40: Övrig försäljning av tjänster omsatta utom landet -->
+        <record id="report_pc_ForsTjOvrUtomEg" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">ForsTjOvrUtomEg</field>
+            <field name="description">#40: Övrig försäljning av tjänster omsatta utom landet</field>
+            <field name="sequence">7</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_ForsTjOvrUtomEg" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_ForsTjOvrUtomEg"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'OTTU')]</field>
+        </record>
+
+        <!-- #41: Försäljning när köparen är skattskyldig i Sverige -->
+        <record id="report_pc_ForsKopareSkskSverige" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">ForsKopareSkskSverige</field>
+            <field name="description">#41: Försäljning när köparen är skattskyldig i Sverige</field>
+            <field name="sequence">8</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_ForsKopareSkskSverige" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_ForsKopareSkskSverige"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'OMSS')]</field>
+        </record>
+
+        <!-- #42: Övrig försäljning m.m. -->
+        <record id="report_pc_ForsOvrigt" model="mis.report.kpi">
+            <field name="report_id" ref="report_pc"/>
+            <field name="name">ForsOvrigt</field>
+            <field name="description">#42: Övrig försäljning m.m.</field>
+            <field name="sequence">9</field>
+            <field name="budgetable">True</field>
+        </record>
+        <record id="kpi_report_pc_ForsOvrigt" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="report_pc_ForsOvrigt"/>
+            <field name="name">crd[][('tax_line_id.name', '=', 'MF')]</field>
+        </record>
+    </data>
+</odoo>

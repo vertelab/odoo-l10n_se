@@ -1,0 +1,81 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Odoo, Open Source Enterprise Management Solution, third party addon
+#    Copyright (C) 2024- Vertel Sverige AB (<http://vertel.se>).
+#
+##############################################################################
+
+{
+    'name': 'l10n_se: Swedish Accounting Training (LMS)',
+    'version': '1.0.7',
+    'summary': 'Swedish accounting education — system-independent theory with Odoo practice guides.',
+    'category': 'Accounting/Training',
+    'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_account_lms',
+    'license': 'AGPL-3',
+    'maintainer': 'Vertel Sverige AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'description': '''
+Swedish Accounting Training (LMS)
+=================================
+
+    System-independent training in Swedish accounting concepts and procedures,
+    with Odoo-specific practice guides.
+
+    Content structured around Swedish accounting standards (BAS, BFNAR, K2/K3)
+    and Skatteverket's reporting requirements.
+
+    Topics covered:
+    - Grundläggande bokföring (Basic accounting principles)
+    - Kundreskontra & Leverantörsreskontra (AR/AP ledgers)
+    - Bankavstämning (Bank reconciliation)
+    - Momsredovisning (VAT declaration)
+    - Arbetsgivardeklaration AGI (Employer declaration)
+    - Periodisk sammanställning (EU sales listing)
+    - Bokslut & Årsredovisning (Year-end closing & annual report)
+    - SIE import/export
+    - Skattekontoavstämning (Tax account reconciliation)
+
+    Features:
+
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on lesson_id, mail.thread.
+    ''',
+    'depends': [
+        # account_accountant_ce renames the core "Invoicing" root to
+        # "Accounting" (account.menu_finance); the training menu must hang
+        # under that root, not under the deleted legacy one.
+        'account_accountant_ce',
+        'l10n_se_extended',
+        'l10n_se_tax_report',
+        'hr',
+        'mail',
+    ],
+    'data': [
+        # #if VERSION >= "20.0"
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
+        'security/ir.access.csv',
+        # #else
+        'security/ir.model.access.csv',
+        # #endif
+        'data/training_categories.xml',
+        'data/training_lessons_basics.xml',
+        'data/training_lessons_vat.xml',
+        'data/training_lessons_reconciliation.xml',
+        'data/training_lessons_year_end.xml',
+        'data/training_questions.xml',
+        'views/training_category_views.xml',
+        'views/training_lesson_views.xml',
+        'views/training_quiz_views.xml',
+        'views/training_menus.xml',
+    ],
+    'demo': [],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

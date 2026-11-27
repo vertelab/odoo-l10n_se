@@ -1,0 +1,75 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+{
+    'name': 'l10n_se: Mynt',
+    'version': '1.0.1',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'Handles Mynt Transactions.',
+    'category': 'Accounting',
+    'description': '''
+Mynt
+====
+
+    Handles Mynt Transactions.
+
+    Features:
+
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move, mynt.account.move.reconcile.wizard.
+    ''',
+    'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_mynt',
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel Sverige AB',
+    'repository': 'https://github.com/vertelab/odoo-l10n_se',
+    'images': ['static/description/banner.png'],  # 560x280 px.
+    'depends': [
+        'account',
+        'account_fiscal_year_vrtl',
+        'mail',
+        # 'l10n_se_account_bank_statement_import',
+        'account_journal_card_type',
+        'account_statement_import_file'
+    ],
+    'init_xml': [],
+    'data': [
+        'data/ir_seq_mynt.xml',
+        # #if VERSION >= "20.0"
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
+        'security/ir.access.csv',
+        # #else
+        'security/ir.model.access.csv',
+        # #endif
+        'views/account_journal_dashboard_views.xml',
+        'views/account_move_view.xml',
+    ],
+    'demo': [
+        #'demo/load_account_chart_template_data.xml',
+    ],
+    'installable': 'True',
+}

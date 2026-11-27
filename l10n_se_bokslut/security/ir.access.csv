@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_bokslut,account.bokslut,account.bokslut,account.group_account_user,crud,
+access_account_bokslut_adjustment,account.bokslut.adjustment,account.bokslut.adjustment,account.group_account_user,crud,
+access_account_bokslut_tax_calc,account.bokslut.tax.calc,account.bokslut.tax.calc,account.group_account_user,crud,
+access_account_annual_report,account.annual.report,account.annual.report,account.group_account_user,crud,
+access_account_periodization_fund,account.periodization.fund,account.periodization.fund,account.group_account_user,crud,
+access_account_excess_depreciation,account.excess.depreciation,account.excess.depreciation,account.group_account_user,crud,

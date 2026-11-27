@@ -1,0 +1,59 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2026 Vertel Sverige AB
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+{
+    'name': 'l10n_se: Skatteverket API',
+    'version': '1.0.0',
+    'summary': 'Sweden - Shared Skatteverket API module.',
+    'category': 'Accounting',
+    'description': '''
+Skatteverket API
+================
+
+    Shared Skatteverket API authentication and helpers for
+    l10n_se_tax_report (VAT/PC declarations) and
+    l10n_se_tax_account (tax account reconciliation).
+
+    Features:
+    - Certificate-based OAuth2 authentication
+    - E-identification OAuth2 flow with callback
+    - Computed API URLs per service type (moms, PC, skattekonto)
+    - Shared helper methods for API calls
+    - Company-level API configuration
+    - SKV partner with certificate and token storage
+
+    Features:
+
+        - Web integration: Exposes HTTP endpoints for external systems.
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on skatteverket.api.
+    ''',
+    'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-l10n_se/l10n_se_skatteverket_api',
+    'license': 'AGPL-3',
+    'depends': [
+        'account',
+        'contacts',
+    ],
+    'external_dependencies': {
+        'python': ['requests'],
+    },
+    'data': [
+        # #if VERSION >= "20.0"
+        # Odoo 20 bytte form på ir.model.access: filnamnet bestämmer modellen
+        # (ir.access.csv, inte ir.model.access.csv), model_id är ett bart
+        # modellnamn, och perm_* ersatts av operation + domain. Båda filerna
+        # ligger i security/; manifestet väljer. Att lista den andras fil är
+        # ett fel, inte bara överflödigt.
+        'security/ir.access.csv',
+        # #else
+        'security/ir.model.access.csv',
+        # #endif
+        'views/res_config_view.xml',
+    ],
+    'demo': [],
+    'application': False,
+    'installable': True,
+    'auto_install': False,
+}

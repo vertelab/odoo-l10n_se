@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+financial_report,financial_reports,financial.reports,account.group_account_manager,crud,
+financial_reports_line,financial_reports_line,financial.reports.line,account.group_account_manager,crud,
+financial_reports_instance,financial_reports_instance,financial.reports.instance,account.group_account_manager,crud,
+access_financial_reports_line_results,access_financial_reports_line_results,financial.reports.line.results,base.group_user,crud,

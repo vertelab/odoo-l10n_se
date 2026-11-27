@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_mynt_account_move_reconcile_wizard,access_mynt_account_move_reconcile_wizard,mynt.account.move.reconcile.wizard,base.group_user,crud,

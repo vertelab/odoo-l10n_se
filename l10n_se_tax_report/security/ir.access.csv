@@ -1,0 +1,12 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_vat_declaration_user,account.vat_declaration_user,account.vat.declaration,account.group_account_user,crud,
+access_account_vat_declaration_manager,account.vat_declaration_manager,account.vat.declaration,account.group_account_manager,crud,
+l10n_se_tax_report_company_rule,account_vat_declaration: Account VAT Declaration,account.vat.declaration,,crud,"[('company_id', 'in', company_ids)]"
+access_account_declaration_line_user,account.declaration_line_user,account.declaration.line,account.group_account_user,crud,
+access_account_declaration_line_manager,account.declaration_line_manager,account.declaration.line,account.group_account_manager,crud,
+access_account_declaration_line_id_user,account.declaration_line_id_user,account.declaration.line.id,account.group_account_user,crud,
+access_account_declaration_line_id_manager,account.declaration_line_id_manager,account.declaration.line.id,account.group_account_manager,crud,
+access_account_periodic_compilation_user,account.periodic.compilation_user,account.periodic.compilation,account.group_account_user,crud,
+access_account_periodic_compilation_manager,account.periodic.compilation_manager,account.periodic.compilation,account.group_account_manager,crud,
+account_payment_line_user,account.payment.line_user,account_payment_order.model_account_payment_line,account.group_account_user,r,
+account_payment_line_manager,account.payment.line_manager,account_payment_order.model_account_payment_line,account.group_account_manager,crud,

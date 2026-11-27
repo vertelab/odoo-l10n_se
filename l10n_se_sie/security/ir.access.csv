@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+account_sie_wizard,access_account_sie_wizard,account.sie,base.group_user,crud,
+account_sie_account_model,access_account_sie_account_model,account.sie.account,base.group_user,crud,
+account_sie_serie_to_journal,account_sie_serie_to_journal,account.sie.serie.to.journal,base.group_user,crud,
+account_serie_to_journal,account_sie_serie_to_journal,serie.to.journal,base.group_user,crud,

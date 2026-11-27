@@ -259,7 +259,16 @@ class IntrastatProductDeclaration(models.Model):
         etree.SubElement(decl, "PSIId").text = org_nr
 
         function = etree.SubElement(decl, "Function")
-        etree.SubElement(function, "functionCode").text = self._se_function_code()
+        function_code = self._se_function_code()
+        etree.SubElement(function, "functionCode").text = function_code
+        # previousDeclarationId is required by the MIG whenever the function
+        # is D (delete), R (replace) or M (modify) — the correction has to
+        # point at the declaration it supersedes. The SCB declaration id is
+        # stored on the record, so use it when it has been entered.
+        if function_code in ("D", "R", "M") and self.swedish_declaration_id:
+            etree.SubElement(function, "previousDeclarationId").text = (
+                self.swedish_declaration_id
+            )
 
         # 1 = full (detailed) declaration, 2 = simplified
         etree.SubElement(decl, "declarationTypeCode").text = (
@@ -322,6 +331,16 @@ class IntrastatProductDeclaration(models.Model):
                 decl_line.amount_company_currency
             )
 
+            # partnerId must be written BEFORE NatureOfTransaction: the order
+            # in instat62.xsd is Item/(statisticalValue, invoiceNumber,
+            # partnerId, statisticalProcedureCode, NatureOfTransaction, ...).
+            # Writing it last made every dispatch line that carries a VAT
+            # number invalid ("Element 'partnerId': This element is not
+            # expected"), which only shows up when validating against the
+            # schema.
+            if decl_line.vat:
+                etree.SubElement(item, "partnerId").text = decl_line.vat
+
             nature = etree.SubElement(item, "NatureOfTransaction")
             etree.SubElement(nature, "natureOfTransactionACode").text = (
                 self._se_get_transaction_code(decl_line)
@@ -332,13 +351,17 @@ class IntrastatProductDeclaration(models.Model):
                     decl_line.transport_id.code or "9"
                 )
 
-            if company.intrastat_region_id:
-                etree.SubElement(item, "regionCode").text = (
-                    company.intrastat_region_id.code
-                )
-
-            if decl_line.vat:
-                etree.SubElement(item, "partnerId").text = decl_line.vat
+            # The region belongs to the line (it is part of the grouping
+            # key). Falling back to the company default only when the line
+            # carries no region of its own — otherwise a company with more
+            # than one warehouse reports every line as the default län.
+            region_code = decl_line.region_code or (
+                company.intrastat_region_id.code
+                if company.intrastat_region_id
+                else False
+            )
+            if region_code:
+                etree.SubElement(item, "regionCode").text = region_code
 
         etree.SubElement(decl, "totalNumberLines").text = str(
             len(self.declaration_line_ids)

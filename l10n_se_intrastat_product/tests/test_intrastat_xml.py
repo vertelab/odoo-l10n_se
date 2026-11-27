@@ -105,6 +105,60 @@ class TestIntrastatXml(TransactionCase):
         doc = etree.fromstring(self.declaration._generate_xml())
         self.assertEqual(doc.findtext(".//flowCode"), "A")
 
+    def test_partner_id_precedes_nature_of_transaction(self):
+        """partnerId must be written before NatureOfTransaction.
+
+        instat62.xsd fixes the order of the Item children: statisticalValue,
+        invoiceNumber, partnerId, statisticalProcedureCode,
+        NatureOfTransaction, modeOfTransportCode, regionCode, ... Writing
+        partnerId last made every dispatch line that carries a VAT number
+        invalid ("Element 'partnerId': This element is not expected"), which
+        is invisible until the file is validated against the schema.
+        """
+        line = self.declaration.declaration_line_ids
+        line.write({"vat": "DE554854973", "hs_code_id": self._hs_code().id})
+        doc = etree.fromstring(self.declaration._generate_xml())
+        item = doc.find(".//Item")
+        tags = [child.tag for child in item]
+        self.assertIn("partnerId", tags)
+        self.assertLess(
+            tags.index("partnerId"),
+            tags.index("NatureOfTransaction"),
+            f"partnerId must come before NatureOfTransaction, got {tags}",
+        )
+        self.assertTrue(self._schema().validate(doc))
+
+    def test_region_code_comes_from_the_line(self):
+        """The region belongs to the line — not to the company default.
+
+        A company with more than one warehouse reports each line with its own
+        län; falling back to the company default for every line would report
+        the wrong region for all but one warehouse.
+        """
+        self.declaration.declaration_line_ids.write({"region_code": "M"})
+        doc = etree.fromstring(self.declaration._generate_xml())
+        self.assertEqual(doc.findtext(".//regionCode"), "M")
+
+    def test_previous_declaration_id_on_replacement(self):
+        """A replacement must point at the declaration it supersedes."""
+        self.declaration.write(
+            {"action": "replace", "swedish_declaration_id": "U2026105562193051"}
+        )
+        doc = etree.fromstring(self.declaration._generate_xml())
+        self.assertEqual(doc.findtext(".//functionCode"), "R")
+        self.assertEqual(
+            doc.findtext(".//previousDeclarationId"), "U2026105562193051"
+        )
+
+    def _hs_code(self):
+        HSCode = self.env["hs.code"]
+        code = HSCode.search([("local_code", "=", "84137081")], limit=1)
+        if not code:
+            code = HSCode.create(
+                {"local_code": "84137081", "description": "Pumps (test)"}
+            )
+        return code
+
 
 @tagged("post_install", "-at_install")
 class TestSwedishRules(TransactionCase):

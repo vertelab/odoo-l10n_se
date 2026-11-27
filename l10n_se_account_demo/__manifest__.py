@@ -26,12 +26,11 @@ Account Demo Data
 
         - Extends Odoo: Builds on account.move.
     ''',
-    'depends': ['account', 'l10n_se'],
+    'depends': ['account', 'l10n_se', 'l10n_se_demo_company'],
     'data': [
         'data/account_demo.xml',
     ],
     'demo': [],
-    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': False,
     'auto_install': False,
